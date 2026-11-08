@@ -1,0 +1,5 @@
+# downloaded by bootstrap_stack.py (ensure_olist_archive)
+singlestore/olist_archive/
+# GitLab OAuth client id/secret for Airflow SSO, written by bootstrap_stack.py
+compose/.env
+__pycache__/

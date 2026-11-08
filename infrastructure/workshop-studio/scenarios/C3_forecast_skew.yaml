@@ -1,0 +1,32 @@
+id: C3_forecast_skew
+layer: consumers
+status: narrative
+title: "Management forecast skewed by late data"
+summary: "Late payments make the forecast look like a slump. Depends on S1."
+depends_on: S1_kafka_late
+focus: [exposure.management_kpi_forecast, consumer.management]
+detect: "Forecast deviation banner."
+inject:
+  narrative: "The forecast was computed while payments were still missing (see S1): it predicts a 38% revenue drop."
+  sim:
+    exposure.management_kpi_forecast: {health: fail, note: "forecast deviates -38%"}
+    consumer.management: {health: warn, note: "asks why revenue collapses"}
+    landing.raw_olist_order_payments: {health: warn, note: "late"}
+impact:
+  - {node: consumer.finance, health: warn}
+steps:
+  - title: "Freshness SLA in the exposure"
+    explain: "The exposure declares which sources it needs fresh (meta.freshness_sla). A forecast job that checks the source status first would have published nothing instead of something wrong."
+    code: |
+      exposures:
+        - name: management_kpi_forecast
+          depends_on: [source('raw_olist','raw_olist_order_payments')]
+    zoom: consumers
+    highlight: [exposure.management_kpi_forecast]
+  - title: "Forecast waits for green sources"
+    explain: "The forecast task runs after `dbt source freshness` passes; Management sees 'data pending' rather than a false slump."
+    sim:
+      exposure.management_kpi_forecast: {health: ok, note: ""}
+      consumer.management: {health: ok, note: ""}
+      consumer.finance: {health: ok}
+      landing.raw_olist_order_payments: {health: ok, note: ""}

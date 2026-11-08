@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: dim_olist_customers
+    description: "Olist Customer Dimension in im_dimensional."
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - customer_hkey
+    columns:
+      - name: customer_hkey
+        description: "MD5 hash key of customer_id."
+      - name: customer_id
+        description: "Order-scoped customer identifier."
+      - name: customer_unique_id
+        description: "Master customer identifier across multiple orders."
+      - name: customer_city
+      - name: customer_state
+
+  - name: fct_olist_orders
+    description: "Central Olist Orders Fact Table joining customers, VDAB datum dimension, and domain hash keys."
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - order_hkey
+    columns:
+      - name: order_hkey
+        description: "MD5 hash key of order_id."
+      - name: order_id
+        description: "Natural order identifier."
+      - name: customer_hkey
+        description: "Foreign hash key to dim_olist_customers."
+      - name: x_bestel_datum_dakey
+        description: "Foreign key to im_dimensional.datum (YYYYMMDD)."
+      - name: order_status
+      - name: levertermijn_dagen

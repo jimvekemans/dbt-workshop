@@ -1,0 +1,104 @@
+id: H0_happy_sprint
+layer: all
+title: "Happy sprint: one feature from MR to the CFO's report"
+summary: "10 working days end to end. Data arrives on time, tests pass, features flow feature -> MR -> dev -> release/2026-Q1 -> main -> PRD."
+star: true
+focus: [git.feature, git.dev, git.release, git.main, airflow.release, exposure.finance_revenue_report]
+detect: "All green."
+# Live: the steps wait for the tags CI creates next (v1.1.0, 2026-Q1.0) - those names must still be free
+requires:
+  - {action: check_gitlab_baseline, hint: "GitLab must be at the baseline (dev = v1.0.0, main = 2026_DROP1.0): press Reset first"}
+inject:
+  narrative: "Nothing goes wrong. Use the timeline (▶ Next day) to animate the sprint; use this playbook to run the real release flow for Domain A (payments) in Live mode. Live mode checks that GitLab is at the baseline (press Reset after another live scenario)."
+  sim: {}
+impact: []
+steps:
+  - title: "Trickle the day's data and run the daily load"
+    explain: "Each sprint day lands one trickle batch from the three channels. dbt_daily_load builds staging, core and domain models on LDV."
+    code: |
+      CALL analytics_dev.sp_trickle_olist_batch(1, 1);
+      airflow dags trigger dbt_daily_load --conf '{"manual_run_override": true}'
+    zoom: sources
+    highlight: [channel.webapp, channel.kafka, channel.drive, airflow.daily_load]
+    sim:
+      landing.raw_olist_orders: {health: ok}
+      airflow.daily_load: {health: ok}
+    live:
+      - {action: trickle, env: both, days: 1}
+      - {action: airflow_trigger, env: dev, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+  - title: "Domain A squad opens a feature MR; CI verifies; squash-merge to dev"
+    explain: "feature/domain-a-payments branches from dev, the squad commits stg/dim payments + the payment-performance mart, verify_feature_to_dev builds `state:modified+`, and the MR is squash-merged."
+    code: |
+      git checkout -b feature/domain-a-payments origin/dev
+      # commit: stg_olist_payments, dim_olist_payments, mart_olist_payment_performance, tests
+      # MR -> dev (verify_feature_to_dev: dbt build --select state:modified+ --defer), squash merge
+    zoom: platform
+    highlight: [git.feature, git.dev, ci.verify, team.domain_a]
+    sim:
+      git.feature: {health: ok}
+      git.dev: {health: ok}
+      ci.verify: {health: ok}
+    live:
+      - {action: gitlab_branch, name: feature/domain-a-payments, ref: dev}
+      - {action: gitlab_commit_patch, patch: feature-domain-a-payments, branch: feature/domain-a-payments}
+      - {action: gitlab_mr_merge, source: feature/domain-a-payments, target: dev, patch: feature-domain-a-payments}
+  - title: "tag_dev tags the squash commit"
+    explain: "A push to dev runs tag_dev: a `feat(...)` commit bumps the minor version (v1.0.0 -> v1.1.0). publish_dev_artifacts syncs LDV."
+    code: "git describe --tags dev   # v1.1.0"
+    highlight: [git.dev, db.dev]
+    sim:
+      db.dev: {health: ok, metrics.tag: v1.1.0}
+    live:
+      - {action: gitlab_tag_wait, tag: v1.1.0, ref: dev}
+  - title: "Cut release/2026-Q1 and verify it on CBT"
+    explain: "The quarterly release branch is cut from dev. verify_release_branch runs the full `dbt build --target=ci --fail-fast`."
+    code: |
+      git checkout -b release/2026-Q1 origin/dev && git push -u origin release/2026-Q1
+      # verify_release_branch: dbt build --target=ci --fail-fast
+    highlight: [git.release, ci.verify]
+    sim:
+      git.release: {health: ok}
+      ci.verify: {health: ok}
+    live:
+      - {action: gitlab_branch, name: release/2026-Q1, ref: dev}
+      - {action: gitlab_pipeline_wait, ref: release/2026-Q1, expect: success}
+    expect: {node: ci.verify, health: ok}
+  - title: "Promote to main and tag 2026-Q1.0"
+    explain: "Always the same sequence: reset main to the merge-base with the release branch, merge --no-ff, force-push. tag_main then creates 2026-Q1.0."
+    code: |
+      git checkout -B main origin/main
+      git reset --hard $(git merge-base main release/2026-Q1)
+      git merge --no-ff release/2026-Q1 -m "Merge branch 'release/2026-Q1' into 'main'"
+      git push --force origin main
+    highlight: [git.main]
+    sim:
+      git.main: {health: ok, metrics.tag: 2026-Q1.0}
+    live:
+      - {action: git_script, script: promote_release, branch: release/2026-Q1}
+      - {action: gitlab_tag_wait, tag: 2026-Q1.0, ref: main}
+  - title: "Deploy to PRD and run dbt_release"
+    explain: "deploy_prd_manual publishes the release tag to PRD; dbt_release pauses the daily load, builds the release in steps with accumulated state and unpauses."
+    code: |
+      # GitLab: play manual job deploy_prd_manual on main
+      airflow dags trigger dbt_release
+    zoom: platform
+    highlight: [airflow.release, db.prod]
+    sim:
+      airflow.release: {health: ok}
+      db.prod: {health: ok}
+    live:
+      - {action: gitlab_job_play, ref: main, job: deploy_prd_manual}
+      - {action: airflow_trigger, env: prod, dag: dbt_release, unpause_also: [dbt_reload], timeout: 1800}
+    expect: {node: airflow.release, health: ok}
+  - title: "Reports, metrics and forecasts are refreshed"
+    explain: "The exposures depend on green sources and passing tests. Finance, Marketing and Management read fresh numbers."
+    code: "dbt build --select +exposure:*"
+    zoom: consumers
+    highlight: [exposure.finance_revenue_report, exposure.marketing_nps_dashboard, exposure.management_kpi_forecast]
+    sim:
+      exposure.finance_revenue_report: {health: ok}
+      exposure.marketing_nps_dashboard: {health: ok}
+      exposure.management_kpi_forecast: {health: ok}
+      consumer.finance: {health: ok}
+      consumer.marketing: {health: ok}
+      consumer.management: {health: ok}

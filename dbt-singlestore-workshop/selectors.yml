@@ -1,0 +1,88 @@
+# ==============================================================================
+# dbt Selectors Configuration (selectors.yml)
+#
+# Focuses exclusively on purposeful operational pipeline scenarios across
+# Airflow DAGs (daily, ad-hoc, release), eliminating CLI argument complexity.
+# Standard tasks use native dbt commands (dbt test, dbt run, --select path/).
+# ==============================================================================
+
+selectors:
+  - name: critical_tests
+    description: >
+      Executes only the critical unique_combination_of_columns tests.
+      This is the exact test scope enforced during daily production runs.
+    default: false
+    definition:
+      union:
+        - method: test_name
+          value: unique_combination_of_columns
+        - method: test_name
+          value: dbt_utils.unique_combination_of_columns
+        # tests that opt in with `tags: [critical]` (release gates, reconciliations, source contracts)
+        - method: tag
+          value: critical
+
+  - name: non_critical_tests
+    description: >
+      Executes all tests except unique_combination_of_columns.
+      Used for ad-hoc quality audits in dbt_vdp or CI without duplicating daily tests.
+    default: false
+    definition:
+      union:
+        - method: resource_type
+          value: test
+          indirect_selection: empty
+        - exclude:
+            - method: test_name
+              value: unique_combination_of_columns
+            - method: test_name
+              value: dbt_utils.unique_combination_of_columns
+            - method: tag
+              value: critical
+
+  - name: daily_load
+    description: >
+      Standard daily production pipeline. 
+      Builds all models with indirect test selection disabled
+      Excludes models tagged 'on-demand' and 'monthly'
+      Runs every critical test - also the ones on sources (source contracts, delivery guards): indirect
+      selection only reaches tests whose parents are all selected models, so source tests need the explicit tag.
+    default: true
+    definition:
+      union:
+        - method: resource_type
+          value: model
+          indirect_selection: buildable
+        - method: resource_type
+          value: seed
+          indirect_selection: buildable
+        - method: tag
+          value: critical
+        - exclude:
+            - method: tag
+              value: on-demand
+            - method: tag
+              value: monthly
+            - method: selector
+              value: non_critical_tests
+
+  - name: daily_load_monthly
+    description: >
+      First-of-month daily production pipeline.
+      Builds all models including 'monthly' tagged models, excluding 'on-demand'.
+    default: false
+    definition:
+      union:
+        - method: resource_type
+          value: model
+          indirect_selection: buildable
+        - method: resource_type
+          value: seed
+          indirect_selection: buildable
+        - method: tag
+          value: critical
+        - exclude:
+            - method: tag
+              value: on-demand
+            - method: selector
+              value: non_critical_tests

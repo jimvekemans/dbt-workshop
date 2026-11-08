@@ -1,0 +1,4 @@
+# Keep build output and git metadata of the submodules out of the build context.
+src/*/target
+src/*/.git
+src/**/node_modules

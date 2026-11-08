@@ -1,0 +1,3 @@
+title: 'Fix finance grain: aggregate payments to order grain first'
+message: 'fix(finance): aggregate payments to order grain before joining the fact'
+branch: bugfix/finance-grain

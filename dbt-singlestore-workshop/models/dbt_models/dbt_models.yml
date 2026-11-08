@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: dbt_models
+    description: |
+      This view contains the list of dbt models in the project.
+    config:
+      materialized: table
+    columns:
+      - name: table_schema
+        description: "Database of the object"
+      - name: table_name
+        description: "Name of the object"

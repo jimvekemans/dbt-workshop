@@ -1,0 +1,129 @@
+# Macro Documentation
+
+macros:
+  - name: perform_database_maintenance
+    description: |
+      Automates database maintenance by revoking all grants and dropping orphaned objects (tables/views) created by dbt for a specified database.
+
+      Parameters:
+        - database_name (required): The name of the database to maintain.
+        - dry_run (optional, default: False): If True, logs actions without executing them.
+
+      Functionality:
+        1. Finds all objects created by target.user in the specified database.
+        2. Identifies objects not present in the dbt manifest (orphaned).
+        3. Collects all grants on these orphaned objects.
+        4. Generates and executes (or logs) REVOKE statements for each grant.
+        5. Generates and executes (or logs) DROP statements for each orphaned object.
+        6. Logs the number of grants revoked and objects dropped.
+
+      Usage Example:
+        dbt run-operation perform_database_maintenance --args \'{"database_name": "my_db", "dry_run": true}\'
+
+  - name: sync_grants_with_singlestore
+    description: |
+      Synchronizes database grants for dbt models with the project configuration, revoking any grants present in the database but not in the project.
+
+      Parameters:
+        - dry_run (optional, default: False): If True, logs actions without executing them.
+
+      Functionality:
+        1. Collects grants from dbt model configs and from the database.
+        2. Compares project grants with database grants.
+        3. Identifies grants in the database that are not in the project config.
+        4. Generates and executes (or logs) REVOKE statements for these extra grants.
+        5. Logs the number of grants revoked.
+
+      Usage Example:
+        dbt run-operation sync_grants_with_singlestore --args \'{"dry_run": true}\'
+
+  - name: import_dependencies
+    description: |
+      # Hoofdmacro om upstream afhankelijkheden (ref en source) in een model te importeren.
+
+      Genereert een set import CTE's voor gebruik bovenaan het model (inclusief 'with' en scheidingskommas).
+
+      # Argument
+      Een array van afhankelijkheden:
+        * een string -> eenvoudige ref met modelnaam als alias, materialize-hint staat aan
+        * een dictionary:
+          * `dependency`: naam van de afhankelijkheid (standaard ref met identieke naam voor de CTE)
+          * `source` (optioneel): de brondatabank van een source afhankelijkheid
+          * `alias` (optioneel): de naam van de CTE
+          * `materialize_off` (optioneel, default `true`): zet op `false` om de `with (materialize = off)`-hint voor deze dependency uit te schakelen (bv. voor complexe views)
+          * `respect_empty` (optioneel, default `true`): zet op `false` om bij `dbt build --empty` de `limit 0`-subquery rond de ref/source te vermijden (`ref().render()`). Gebruik dit enkel wanneer het model met `--empty` faalt op SingleStore-fout 1749 (complex join waarvan de linkerkant geen gesharde tabel is)
+
+      # Voorbeeld
+      ```
+      {% raw %}
+      {{ import_dependencies(
+          [
+              "leeftijd",
+              {"dependency": "datum"},
+              {"dependency": "da_datum", "alias": "andere_datum"},
+              {"dependency": "hub_burger", "source": "edw_dv_rdv"},
+              {"dependency": "hub_organisatie", "source": "edw_dv_rdv", "alias": "organisatie"},
+              {"dependency": "da_organisatie", "materialize_off": false},
+          ]
+      ) }}
+      {% endraw %}
+      select * from andere_datum
+      ```
+
+      ## Genereerde SQL
+
+      ```
+      with
+      leeftijd as       ( select with (materialize = off) * from `edw_dv_bdv`.`leeftijd` )
+      , datum as        ( select with (materialize = off) * from `edw_dv_bdv`.`datum` )
+      , andere_datum as ( select with (materialize = off) * from `im_dimensional`.`da_datum` )
+      , hub_burger as   ( select with (materialize = off) * from `edw_dv_rdv`.`hub_burger` )
+      , organisatie as  ( select with (materialize = off) * from `edw_dv_rdv`.`hub_organisatie` )
+      , da_organisatie as ( select * from `im_dimensional`.`da_organisatie` )
+      select count(*)
+      from andere_datum
+      ```
+
+  - name: import_generate_cte
+    description: |
+      Genereert één import CTE voor een upstream afhankelijkheid (ref of source).
+
+      Dit gebeurt hoofdzakelijk via macro 'import_dependencies', maar kan onafhankelijk aangeroepen worden indien meer controle per dependency nodig is (bv. om de materialize-hint selectief uit te schakelen).
+
+      We zetten standaard "with (materialize = off)" om te vermijden dat SingleStore onnodig volledige brontabellen materialiseert.
+
+      # Argument
+      Eén afhankelijkheid (`item`):
+        * een string -> eenvoudige ref met modelnaam als alias, materialize-hint staat aan
+        * een dictionary:
+          * `dependency`: naam van de afhankelijkheid (standaard ref met identieke naam voor de CTE)
+          * `source` (optioneel): de brondatabank van een source afhankelijkheid
+          * `alias` (optioneel): de naam van de CTE
+          * `materialize_off` (optioneel, default `true`): zet op `false` om de `with (materialize = off)`-hint voor deze dependency uit te schakelen (bv. voor complexe views)
+          * `respect_empty` (optioneel, default `true`): zet op `false` om bij `dbt build --empty` de `limit 0`-subquery rond de ref/source te vermijden (`ref().render()`). Gebruik dit enkel wanneer het model met `--empty` faalt op SingleStore-fout 1749 (complex join waarvan de linkerkant geen gesharde tabel is)
+
+      # Voorbeeld
+      ```
+      {% raw %}
+      {{ import_generate_cte("leeftijd") }}
+      , {{ import_generate_cte({"dependency": "hub_burger", "source": "edw_dv_rdv"}) }}
+      , {{ import_generate_cte({"dependency": "da_organisatie", "materialize_off": false}) }}
+      {% endraw %}
+      ```
+
+      ## Genereerde SQL
+
+      ```
+      leeftijd as          ( select with (materialize = off) * from `edw_dv_bdv`.`leeftijd` )
+      , hub_burger as      ( select with (materialize = off) * from `edw_dv_rdv`.`hub_burger` )
+      , da_organisatie as  ( select * from `im_dimensional`.`da_organisatie` )
+      ```
+
+  - name: cleanup_user_models
+    description: |
+      This macro cleans the models created during development (pu-prefixed objects).
+      Call the macro with the run-operation command:
+      `$ dbt run-operation cleanup_user_models`
+
+      If you want to keep your recent pu-models and drop old models then use this command:
+      `$ dbt run-operation cleanup_user_models --args \'{keep_younger_than_days: 7}\'`

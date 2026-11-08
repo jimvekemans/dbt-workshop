@@ -1,0 +1,11 @@
+title: 'Domain A: payments + payment performance mart'
+message: 'feat(domain-a): stg/dim payments, payment performance mart'
+branch: feature/domain-a-payments
+# fct_olist_orders.sql is an insert, not a full-file copy: it applies on whatever `dev` holds.
+# - dev at the baseline (H0): only domain_a_hkey is added.
+# - Domain B already merged (E1): domain_a_hkey lands right above B's domain_b_hkey (adjacent lines), so
+#   `git revert` of Domain B on the release branch conflicts - the point of the exercise.
+ops:
+  - path: models/im_dimensional/fct_olist_orders.sql
+    find: "        o.order_hkey,\n        o.order_id,\n"
+    replace: "        o.order_hkey,\n        o.order_id,\n        md5(o.order_id) as domain_a_hkey,\n"

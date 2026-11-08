@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: fct_olist_deliveries
+    description: "One row per shipped order: pick-up, delivery and current parcel status (from the carrier scans)."
+    config:
+      meta:
+        owner_team: core
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [order_hkey]
+    columns:
+      - name: order_hkey
+        description: "MD5 hash key of order_id (joins fct_olist_orders)."
+      - name: current_status
+        description: "Status of the most recently received scan."
+      - name: delivered_at
+        description: "Delivery scan time (local business time)."

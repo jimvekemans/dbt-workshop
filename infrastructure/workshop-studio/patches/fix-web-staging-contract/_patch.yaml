@@ -1,0 +1,7 @@
+title: 'Web staging: explicit column contract (traffic_source -> referrer)'
+message: 'fix(web): stg_web_events selects explicit columns and maps the renamed traffic_source back to referrer'
+branch: bugfix/web-staging-contract
+ops:
+  - path: models/edw_dv_bdv/web/sources_web.yml
+    find: "          - name: referrer\n            description: \"Traffic source of the visit (google, direct, newsletter, instagram, comparison_site).\"\n"
+    replace: "          - name: traffic_source\n            description: \"Traffic source of the visit (renamed from `referrer` by the web-analytics team).\"\n"

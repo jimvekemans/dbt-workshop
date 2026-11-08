@@ -1,0 +1,129 @@
+id: E10_prd_hotfix_drift
+layer: engineering
+title: "A hotfix nobody committed, a grant nobody copied"
+summary: "Two changes made by hand in PRD: an on-call hotfix that the next build silently erases, and a security hardening of the PRD service account that LDV and CI never see. A drift audit compares the live warehouse with Git - before the build erases the evidence, and before the release touches anything."
+star: true
+focus: [db.prod, dbt.fct_olist_orders, airflow.release]
+detect: "audit_environment_drift: '[changed outside dbt] im_dimensional.fct_olist_orders' in the PRD daily load (report only), '[missing grant] svc_prd_dbt lacks DROP, ALTER on im_dimensional' at the dbt_release gate."
+requires:
+  - {action: check_sql, env: prod, statement: "SELECT COUNT(*) FROM information_schema.USERS_GROUPS WHERE `USER` LIKE '%svc_prd_dbt%' AND `GROUP` = 'grp_admin'", expect: 1, hint: "the PRD service account is not in grp_admin (E10 left it hardened): press Reset first"}
+  - {action: check_sql, env: prod, statement: "SELECT COUNT(*) FROM information_schema.ROLES WHERE `ROLE` = 'role_svc_prd'", expect: 0, hint: "role_svc_prd from an earlier E10 run still exists: clear the scenario or press Reset first"}
+  - {action: check_sql, env: prod, statement: "SELECT COUNT(*) FROM information_schema.columns WHERE table_schema = 'im_dimensional' AND table_name = 'fct_olist_orders' AND column_name = 'levertermijn_uren'", expect: 0, hint: "fct_olist_orders still has the hand-made column: run a daily load or press Reset first"}
+inject:
+  narrative: "02:10, PRD. Management's delivery-SLA dashboard needs the lead time in hours by 08:00. The on-call engineer adds a column to fct_olist_orders by hand, fills it, and builds a small view for the dashboard. It works, the ticket is closed - and none of it went through Git."
+  sim:
+    db.prod: {health: warn, note: "fct_olist_orders altered by root (levertermijn_uren); view v_delivery_sla_hotfix"}
+    dbt.fct_olist_orders: {health: warn, note: "PRD table no longer matches the model"}
+    exposure.management_kpi_forecast: {health: ok, note: "SLA dashboard reads a hand-made view"}
+  live:
+    - {action: sql, env: prod, statement: "ALTER TABLE im_dimensional.fct_olist_orders ADD COLUMN levertermijn_uren INT"}
+    - {action: sql, env: prod, statement: "UPDATE im_dimensional.fct_olist_orders SET levertermijn_uren = TIMESTAMPDIFF(HOUR, order_purchase_timestamp, order_delivered_customer_date)"}
+    - {action: sql, env: prod, statement: "CREATE VIEW im_dimensional.v_delivery_sla_hotfix AS SELECT order_id, customer_state, levertermijn_uren FROM im_dimensional.fct_olist_orders WHERE levertermijn_uren > 240", undo: "DROP VIEW IF EXISTS im_dimensional.v_delivery_sla_hotfix"}
+impact:
+  - {node: dbt.fct_olist_orders, health: warn, note: "changed outside dbt"}
+  - {node: exposure.management_kpi_forecast, health: warn, note: "depends on a column dbt does not build"}
+  - {node: consumer.management, health: warn}
+steps:
+  - title: "Tonight: the daily load erases the hotfix - and stays green"
+    explain: "The PRD daily load first runs the drift audit (report only, it never stops the load): fct_olist_orders altered by root, a view nobody declared. Then dbt_build recreates fct_olist_orders from Git - success, and levertermijn_uren is gone. The hand-made view now fails, so at 08:00 Management's dashboard breaks while every DAG is green. After the build the audit can no longer see the change: the table is dbt's again. That is why it runs BEFORE the build."
+    code: |
+      audit_environment_drift  (dbt_daily_load, report only)
+        [changed outside dbt] im_dimensional.fct_olist_orders: base table altered by root at 02:10:41:
+                              the next build recreates it from Git and the manual change is lost
+        [created outside dbt] im_dimensional.v_delivery_sla_hotfix: view created by root at 02:10:41:
+                              not in the project, nobody rebuilds, tests or documents it
+      dbt_build   Succeeded model fct_olist_orders (table)
+      SELECT * FROM im_dimensional.v_delivery_sla_hotfix;
+      -- ERROR 1054: Unknown column 'fct_olist_orders.levertermijn_uren' in 'field list'
+    zoom: platform
+    highlight: [airflow.daily_load, dbt.fct_olist_orders, db.prod]
+    sim:
+      airflow.daily_load: {health: ok, note: "PRD: success - the drift audit warned first"}
+      dbt.fct_olist_orders: {health: ok, note: "rebuilt from Git: levertermijn_uren gone"}
+      exposure.management_kpi_forecast: {health: fail, note: "SLA view: Unknown column levertermijn_uren"}
+      consumer.management: {health: fail}
+    live:
+      - {action: airflow_trigger, env: prod, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+    expect: {node: airflow.daily_load, health: ok}
+  - title: "Where the fix belongs: Git"
+    explain: "The 02:10 change was a fine stopgap. The follow-up is not 'add it again', it is 'put it in the project before the next build': the column goes into the model through a branch, an MR, dev and the release, the view becomes a model (or the dashboard reads the mart). The audit lists exactly what to port - every '[changed outside dbt]' and '[created outside dbt]' line. The hand-made view goes."
+    code: |
+      -- models/im_dimensional/fct_olist_orders.sql (feature branch -> MR -> dev -> release)
+              datediff(o.order_delivered_customer_date, o.order_purchase_timestamp) as levertermijn_dagen,
+      +       timestampdiff(hour, o.order_purchase_timestamp, o.order_delivered_customer_date) as levertermijn_uren,
+      DROP VIEW im_dimensional.v_delivery_sla_hotfix;   -- replaced by a model / the mart
+    zoom: platform
+    highlight: [git.feature, git.dev, dbt.fct_olist_orders]
+    sim:
+      git.feature: {health: ok, note: "feature/levertermijn-uren"}
+      db.prod: {health: ok, note: "hand-made view dropped"}
+      exposure.management_kpi_forecast: {health: warn, note: "back once the release ships the column"}
+    live:
+      - {action: sql, env: prod, statement: "DROP VIEW IF EXISTS im_dimensional.v_delivery_sla_hotfix"}
+  - title: "Wednesday: security hardens the PRD service account - by hand"
+    explain: "A security review: 'svc_prd_dbt is admin on everything'. The DBA moves it, directly in PRD, to a least-privilege group: full rights on staging and the run log, read on the PRD landing database, and in im_dimensional everything except DROP and ALTER - 'a service account does not drop presentation tables'. svc_ldv_dbt and svc_ci_dbt are untouched, so LDV and every CI pipeline stay green. Nobody notices until the next build in PRD replaces a table."
+    code: |
+      CREATE ROLE 'role_svc_prd';  CREATE GROUP 'grp_svc_prd';  GRANT ROLE 'role_svc_prd' TO 'grp_svc_prd';
+      GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, INDEX, CREATE VIEW, SHOW VIEW
+            ON edw_dv_rdv.* / edw_dv_bdv.* / vdp_mgmt.* TO ROLE 'role_svc_prd';
+      GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, INDEX, CREATE VIEW, SHOW VIEW   -- no DROP, no ALTER
+            ON im_dimensional.* TO ROLE 'role_svc_prd';
+      GRANT SELECT, SHOW VIEW ON analytics_prod.* TO ROLE 'role_svc_prd';
+      GRANT GROUP 'grp_svc_prd' TO 'svc_prd_dbt'@'%';  REVOKE GROUP 'grp_admin' FROM 'svc_prd_dbt'@'%';
+    zoom: platform
+    highlight: [db.prod, ci.verify, airflow.release]
+    sim:
+      db.prod: {health: warn, note: "svc_prd_dbt: no DROP/ALTER on im_dimensional (set by hand)"}
+      ci.verify: {health: ok, note: "green: CI runs as svc_ci_dbt"}
+    live:
+      - {action: sql, env: prod, statement: "CREATE ROLE 'role_svc_prd'", undo: "DROP ROLE 'role_svc_prd'", undo_ignore_errors: [1919]}
+      - {action: sql, env: prod, statement: "CREATE GROUP 'grp_svc_prd'", undo: "DROP GROUP 'grp_svc_prd'", undo_ignore_errors: [1918]}
+      - {action: sql, env: prod, statement: "GRANT ROLE 'role_svc_prd' TO 'grp_svc_prd'"}
+      - {action: sql, env: prod, statement: "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, INDEX, CREATE VIEW, SHOW VIEW ON edw_dv_rdv.* TO ROLE 'role_svc_prd'"}
+      - {action: sql, env: prod, statement: "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, INDEX, CREATE VIEW, SHOW VIEW ON edw_dv_bdv.* TO ROLE 'role_svc_prd'"}
+      - {action: sql, env: prod, statement: "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, INDEX, CREATE VIEW, SHOW VIEW ON vdp_mgmt.* TO ROLE 'role_svc_prd'"}
+      - {action: sql, env: prod, statement: "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, INDEX, CREATE VIEW, SHOW VIEW ON im_dimensional.* TO ROLE 'role_svc_prd'"}
+      - {action: sql, env: prod, statement: "GRANT SELECT, SHOW VIEW ON analytics_prod.* TO ROLE 'role_svc_prd'"}
+      - {action: sql, env: prod, statement: "GRANT GROUP 'grp_svc_prd' TO 'svc_prd_dbt'@'%'"}
+      - {action: sql, env: prod, statement: "REVOKE GROUP 'grp_admin' FROM 'svc_prd_dbt'@'%'", undo: "GRANT GROUP 'grp_admin' TO 'svc_prd_dbt'@'%'", undo_ignore_errors: [1917]}
+  - title: "Release night: stopped at the gate, nothing touched"
+    explain: "dbt_release starts with the same audit, as a gate: svc_prd_dbt lacks DROP and ALTER on im_dimensional. The release fails before it pauses the daily load or rebuilds a single model. Without the gate, build__datum_and_staging succeeds and build__core_dimensions_and_fact dies on 'ALTER command denied ... fct_olist_orders' - half a release in PRD, at night. svc_prd_dbt only sees its own grants; an admin account (CI's svc_ci_dbt) can audit it next to LDV's and show the exact gap."
+    code: |
+      audit_environment_drift  (dbt_release gate)
+        [missing grant] im_dimensional.*: svc_prd_dbt lacks DROP, ALTER on im_dimensional
+      Environment drift: 1 finding(s), see above. Production no longer matches Git ...
+      # without the gate:  Error 1142: ALTER command denied to user 'svc_prd_dbt'@'%' for table 'fct_olist_orders'
+
+      # as svc_ci_dbt: PRD's grants next to LDV's
+      dbt run-operation audit_environment_drift --args '{audit_user: svc_prd_dbt, fail_on_drift: false}'
+        [missing grant] im_dimensional.*: svc_prd_dbt lacks DROP, ALTER on im_dimensional - svc_ldv_dbt has them,
+                        so CI and LDV stay green
+    zoom: platform
+    highlight: [airflow.release, db.prod]
+    sim:
+      airflow.release: {health: fail, note: "drift gate: svc_prd_dbt lacks DROP, ALTER on im_dimensional"}
+      airflow.daily_load: {health: ok, note: "not paused: the release stopped before it"}
+    live:
+      - {action: airflow_trigger, env: prod, dag: dbt_release, allow_failure: true, timeout: 900}
+    expect: {node: airflow.release, health: fail}
+  - title: "Fix: grants are code too"
+    explain: "Hardening the account was right; doing it by hand in PRD was not. Grants live in Git - the database grants script (infrastructure/singlestore/init_s2.sql here) and the dbt `grants` configs with sync_grants_with_singlestore - go to LDV first, and the release gate checks them. Until the least-privilege role includes DROP and ALTER on the databases dbt builds into, svc_prd_dbt goes back to its group. The PRD daily load is green again and its audit has nothing to report."
+    code: |
+      GRANT GROUP 'grp_admin' TO 'svc_prd_dbt'@'%';  REVOKE GROUP 'grp_svc_prd' FROM 'svc_prd_dbt'@'%';
+      # next: role_svc_prd as code (DROP + ALTER on every database dbt builds into), reviewed, LDV first
+      audit_environment_drift  (dbt_daily_load)
+        Environment drift audit (target run, user svc_prd_dbt, ...): 0 finding(s)
+    zoom: platform
+    highlight: [db.prod, airflow.daily_load, airflow.release]
+    sim:
+      db.prod: {health: ok, note: "svc_prd_dbt back in grp_admin"}
+      airflow.daily_load: {health: ok, note: "PRD: success, audit clean"}
+      airflow.release: {health: ok, note: "gate passes; ships levertermijn_uren from Git"}
+      dbt.fct_olist_orders: {health: ok}
+      exposure.management_kpi_forecast: {health: ok, note: "SLA dashboard reads the model's column"}
+      consumer.management: {health: ok}
+    live:
+      - {action: sql, env: prod, statement: "GRANT GROUP 'grp_admin' TO 'svc_prd_dbt'@'%'", ignore_errors: [1917]}
+      - {action: sql, env: prod, statement: "REVOKE GROUP 'grp_svc_prd' FROM 'svc_prd_dbt'@'%'", ignore_errors: [1923]}
+      - {action: airflow_trigger, env: prod, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+    expect: {node: airflow.daily_load, health: ok}

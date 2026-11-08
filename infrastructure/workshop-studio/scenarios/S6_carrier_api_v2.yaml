@@ -1,0 +1,76 @@
+id: S6_carrier_api_v2
+layer: sources
+title: "The carrier switches to API v2 - unannounced"
+summary: "Overnight the carrier's payloads change shape. The v1 parser reads NULLs. The v2 parser already shipped with the last release and is switched on in PRD with an environment variable - no deploy."
+star: true
+focus: [channel.carrier, dbt.stg_carrier_tracking_events, airflow.levers]
+detect: "not_null on stg_carrier_tracking_events_v1 (critical) fails in the PRD daily load."
+inject:
+  narrative: "The carrier announced its API v2 for 'some time this quarter' - and flips it on a Tuesday night without telling anyone. Keys are camelCase now, the status is a nested code (PU / IT / DL) and times are UTC instead of local time. The scans still arrive: the landing table looks perfectly healthy."
+  sim:
+    channel.carrier: {health: warn, note: "payloads in API v2 format", knobs.schema_variant: v2}
+    dbt.stg_carrier_tracking_events: {health: fail, note: "v1 parser: shipment_id / event_ts NULL"}
+    airflow.daily_load: {health: fail, note: "PRD: dbt_build failed"}
+  live:
+    - {action: set_channel, env: prod, channel: carrier, schema_variant: v2}
+    - {action: trickle, env: prod, days: 1}
+    - {action: trickle, env: prod, days: 1}
+    - {action: airflow_trigger, env: prod, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+impact:
+  - {node: dbt.fct_olist_deliveries, health: warn, note: "skipped"}
+  - {node: dbt.mart_olist_management_kpi, health: warn, note: "skipped"}
+  - {node: exposure.management_delivery_kpi, health: warn, note: "stale"}
+  - {node: consumer.management, health: warn}
+steps:
+  - title: "Detect: NULLs at the staging boundary"
+    explain: "stg_carrier_tracking_events v1 reads `shipment_id`, `event` and `event_time`; a v2 payload has `shipmentId`, `status.code` and `eventTime`, so every new row parses to NULL. The critical not_null tests stop it at staging - the source test on event_id passes: the feed is fine, our parser is not."
+    code: "dbt test --select stg_carrier_tracking_events.v1"
+    zoom: platform
+    highlight: [dbt.stg_carrier_tracking_events, landing.raw_carrier_tracking_events]
+    expect: {node: dbt.stg_carrier_tracking_events, health: fail}
+  - title: "One feed, two contracts"
+    explain: "Same scan, two shapes. Note the time zone: v2 is UTC, the business clock (and v1) is local time (UTC-3) - parse the new format without converting and every delivery moves three hours, some of them into the next day."
+    code: |
+      {"shipment_id": "SH2CEA4008F6", "order_ref": "8223...", "event": "picked_up", "event_time": "2017-05-30 08:42:24"}
+      {"shipmentId": "SH2CEA4008F6", "orderReference": "8223...", "status": {"code": "PU"},
+       "eventTime": "2017-05-30T11:42:24Z", "apiVersion": 2}
+    zoom: sources
+    highlight: [team.carrier, channel.carrier]
+  - title: "Switch PRD to v2: an environment variable, not a deploy"
+    explain: "Model versions: v2 (parses both formats, converts UTC) shipped with the last release next to v1. carrier.yml enables in PRD only the version that DBT_VERSION_STG_CARRIER_TRACKING_EVENTS selects, and fct_olist_deliveries refs `ref('stg_carrier_tracking_events', v=env_var(...))`. LDV and CI build both versions, so v2 was tested on DEV data before it went live. The Airflow Variable dbt_env_vars is exported in front of every dbt task (daily load, release, reload)."
+    code: |
+      airflow variables set dbt_env_vars '{"DBT_VERSION_STG_CARRIER_TRACKING_EVENTS": "2"}'
+      -- models/edw_dv_bdv/carrier/carrier.yml
+      versions:
+        - v: 2
+          config:
+            enabled: "{{ env_var('DBT_VERSION_STG_CARRIER_TRACKING_EVENTS', '1') == '2' or env_var('DBT_DEPLOY_TARGET', 'LDV') not in ['PRD', 'CBT'] }}"
+    zoom: platform
+    highlight: [airflow.levers, dbt.stg_carrier_tracking_events, dbt.fct_olist_deliveries]
+    sim:
+      airflow.levers: {health: warn, note: "PRD dbt_env_vars={DBT_VERSION_STG_CARRIER_TRACKING_EVENTS: 2}"}
+      dbt.stg_carrier_tracking_events: {health: ok, note: "v2 live in PRD"}
+      dbt.fct_olist_deliveries: {health: ok, note: ""}
+      dbt.mart_olist_management_kpi: {health: ok, note: ""}
+      exposure.management_delivery_kpi: {health: ok, note: ""}
+      consumer.management: {health: ok}
+      airflow.daily_load: {health: ok, note: ""}
+    live:
+      - {action: airflow_variable, env: prod, key: dbt_env_vars, value: {DBT_VERSION_STG_CARRIER_TRACKING_EVENTS: "2"}}
+      - {action: airflow_trigger, env: prod, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+    # the daily load is judged by dbt_build, so ok = the v2 tests passed. (The staging node itself stays 'warn' on the
+    # map: the channel keeps sending v2, which the channel probe reports, and the map ripples that downstream.)
+    expect: {node: airflow.daily_load, health: ok}
+  - title: "Make it permanent with the next release"
+    explain: "The switch is an operational state, not the design. The next release makes v2 the latest version (and the env var default), gives v1 a deprecation_date and drops it a release later; then the Variable can go. Clearing this scenario switches PRD back to v1 - which fails again on the v2 payloads that already landed: press Reset afterwards."
+    code: |
+      - name: stg_carrier_tracking_events
+        latest_version: 2
+        versions:
+          - v: 1
+            deprecation_date: 2026-12-31
+    zoom: platform
+    highlight: [git.release, git.main, airflow.levers]
+    sim:
+      channel.carrier: {health: ok, note: "API v2 is the new normal"}
+      airflow.levers: {health: ok, note: "v2 is the default after the release - Variable deleted"}

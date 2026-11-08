@@ -1,0 +1,65 @@
+{
+    "[jinja-sql]": {
+        "editor.defaultFormatter": "innoverio.vscode-dbt-power-user"
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "[yaml]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "codesnap.containerPadding": "1em",
+    "codesnap.realLineNumbers": true,
+    "codesnap.showWindowTitle": true,
+    "codesnap.shutterAction": "copy",
+    "codesnap.transparentBackground": true,
+    "dbt.enableNewLineagePanel": true,
+    "dbt.lineage.defaultExpansion": 5,
+    "editor.accessibilitySupport": "off",
+    "editor.formatOnSave": true,
+    "extensions.ignoreRecommendations": true,
+    "files.associations": {
+        "*.sql": "jinja-sql"
+    },
+    "files.autoSave": "off",
+    "git.addAICoAuthor": "chatAndAgent",
+    "git.allowForcePush": true, // Enkel admins kunnen dit, staat branch protection op in git
+    "git.allowNoVerifyCommit": true,
+    "git.autofetch": true,
+    "git.autoStash": true,
+    "git.branchPrefix": "feature/INTEL-",
+    "git.branchProtection": [
+        "dev",
+        "main"
+    ],
+    "git.branchValidationRegex": "^(feature|bugfix|hotfix)/INTEL-\\d{5}",
+    "git.branchWhitespaceChar": "-",
+    "git.confirmForcePush": true,
+    "git.confirmNoVerifyCommit": true,
+    "git.confirmSync": false,
+    "git.defaultBranchName": "dev",
+    "git.fetchOnPull": true,
+    "git.ignoreMissingGitWarning": true,
+    "git.ignoreRebaseWarning": true,
+    "git.mergeEditor": true,
+    "git.pruneOnFetch": true,
+    "git.replaceTagsWhenPull": true,
+    "git.suggestSmartCommit": false,
+    "git.terminalGitEditor": true,
+    "git.untrackedChanges": "separate",
+    "python.defaultInterpreterPath": "/opt/app-root/bin/python",
+    "python.terminal.activateEnvironment": false,
+    "remote.autoForwardPortsSource": "hybrid",
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.mouseWheelZoom": true,
+    "terminal.integrated.rightClickBehavior": "default",
+    "terminal.integrated.shellIntegration.history": 10000,
+    "terminal.integrated.smoothScrolling": true,
+    "terminal.integrated.textBlinking": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.productIconTheme": "material-product-icons"
+}

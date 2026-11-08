@@ -1,0 +1,54 @@
+id: E9_transformation_pitfalls
+layer: engineering
+status: narrative
+title: "Transformation pitfalls that pass review"
+summary: "Small things that look right in a review and break later: non-deterministic dedup, event-time watermarks, NOT IN with NULLs, implicit casts on join keys, local time vs UTC, and DISTINCT as a fan-out fix."
+focus: [dbt.stg_olist_orders, dbt.fct_olist_orders, dbt.stg_carrier_tracking_events]
+detect: "Usually: a number that changes between two runs on the same data, or slowly drifts away from the source."
+inject:
+  narrative: "A tour of the traps behind E6, E7, E8 and C1 - and a few more that never fail a build, they just make the numbers a little wrong."
+  sim:
+    dbt.fct_olist_orders: {health: warn, note: "pitfall tour"}
+impact:
+  - {node: exposure.management_kpi_forecast, health: warn, note: "numbers drift"}
+steps:
+  - title: "Non-deterministic dedup"
+    explain: "row_number() with an ORDER BY that has ties picks an arbitrary row - a different one on the next run or after a rebalance. Two status updates ingested in the same batch have the same _ingested_at. Add a tie-breaker that is unique and meaningful."
+    code: |
+      row_number() over (partition by order_id order by _ingested_at desc)                       -- ties: random winner
+      row_number() over (partition by order_id order by _ingested_at desc, order_status_rank desc,
+                                                       order_approved_at desc)                     -- deterministic
+    zoom: platform
+    highlight: [dbt.stg_olist_orders]
+  - title: "Watermarks on event time skip late data forever"
+    explain: "An incremental model that loads `where event_ts > max(event_ts)` never sees a scan that happened earlier but arrived later (E6). Filter on the LOAD time (_ingested_at, as the stg_ models do) and resolve on the event time; or re-read a lookback window and merge on the key."
+    code: |
+      {% if is_incremental() %} where event_ts > (select max(event_ts) from {{ this }}) {% endif %}          -- loses late rows
+      {% if is_incremental() %} where _ingested_at > (select max(_ingested_at) from {{ this }}) {% endif %}  -- does not
+    highlight: [dbt.stg_carrier_tracking_events]
+  - title: "NOT IN with a NULL returns nothing"
+    explain: "One NULL in the subquery and `NOT IN` is never true - the model silently returns zero rows (the null_key_pct knob on any channel makes this real). Use NOT EXISTS or a left anti-join."
+    code: |
+      where order_id not in (select order_id from raw_olist_order_payments)          -- 0 rows once one order_id is NULL
+      where not exists (select 1 from raw_olist_order_payments p where p.order_id = o.order_id)
+    highlight: [dbt.fct_olist_orders]
+  - title: "Implicit casts on join keys"
+    explain: "Joining a VARCHAR key to a numeric one (or two different collations) makes the database cast every row: no index or shard-key use, a full scan and a broadcast. It works in DEV with 9,000 rows and crawls in PRD. Make both sides the same type in staging."
+    code: |
+      on o.x_bestel_datum_dakey = k.datum_lbl          -- BIGINT = VARCHAR: casts per row, no key lookups
+      on o.x_bestel_datum_dakey = k.x_datum_dakey      -- same type, same meaning
+    highlight: [dbt.fct_olist_orders]
+  - title: "Local time vs UTC"
+    explain: "Olist timestamps are local (UTC-3); the carrier's API v2 sends UTC (S6). A day-level key built from mixed time zones moves evening events into the next day: the daily KPIs disagree by a few percent and nobody can say why. Convert at the staging boundary, once, and say which zone a column is in its description."
+    code: "date_sub(cast(replace(replace(json_extract_string(payload, 'eventTime'), 'T', ' '), 'Z', '') as datetime), interval 3 hour)"
+    highlight: [dbt.stg_carrier_tracking_events]
+  - title: "DISTINCT is not a fan-out fix"
+    explain: "A join that multiplies rows (C1) is often 'fixed' with SELECT DISTINCT or COUNT(DISTINCT): the totals look right again, the query got more expensive, and SUM() is still wrong. Fix the grain before the join (aggregate first), and test it: unique_combination_of_columns on the grain plus a reconciliation against the source."
+    code: |
+      select distinct ... from orders o join payments p on ...                       -- hides the fan-out
+      with per_order as (select order_hkey, sum(payment_value) ... group by order_hkey)  -- fixes the grain
+    zoom: platform
+    highlight: [dbt.fct_olist_orders, exposure.management_kpi_forecast]
+    sim:
+      dbt.fct_olist_orders: {health: ok, note: ""}
+      exposure.management_kpi_forecast: {health: ok, note: ""}

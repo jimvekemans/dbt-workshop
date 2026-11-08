@@ -1,0 +1,36 @@
+version: 2
+
+sources:
+  - name: raw_web
+    description: "Web-analytics team: tag-manager clickstream of the webshop (generated from the Olist purchases)."
+    config:
+      freshness:
+        warn_after: {count: 1, period: day}
+        error_after: {count: 3, period: day}
+    database: "{{ 'analytics_prod' if env_var('DBT_DEPLOY_TARGET', 'LDV') in ['PRD', 'CBT'] else 'analytics_dev' }}"
+    schema: "{{ 'analytics_prod' if env_var('DBT_DEPLOY_TARGET', 'LDV') in ['PRD', 'CBT'] else 'analytics_dev' }}"
+    tables:
+      - name: raw_web_events
+        description: "One row per tag hit (page_view, add_to_cart, checkout)."
+        config:
+          loaded_at_query: "{{ olist_loaded_at('raw_web_events') }}"
+          meta:
+            channel: web
+            owner_team: web_analytics_team
+        columns:
+          - name: event_id
+            data_tests:
+              - not_null:
+                  config: {severity: error, tags: [critical]}
+          - name: visitor_id
+            description: "First-party cookie id."
+          - name: customer_ref
+            description: >
+              The logged-in customer, as the web-analytics team defines it. NOTE: the webapp team's customer_id is a
+              different thing - Olist issues a new customer_id per order (customer_unique_id is the person).
+          - name: event_type
+          - name: page
+          - name: referrer
+            description: "Traffic source of the visit (google, direct, newsletter, instagram, comparison_site)."
+          - name: event_ts
+          - name: _ingested_at

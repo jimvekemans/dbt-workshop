@@ -1,0 +1,79 @@
+id: S3_drive_duplicate
+layer: sources
+title: "Reviews file delivered twice"
+summary: "The mounted-drive team drops the same reviews file twice. Marketing NPS jumps because every review counts double."
+star: true
+focus: [channel.drive, landing.raw_olist_order_reviews, dbt.stg_olist_reviews]
+detect: "unique(review_id, order_id) on stg_olist_reviews fails; Marketing NPS spikes."
+# Live: the unique test that catches the duplicates ships with Domain B (olist_domain_b.yml), and the dedup fix must
+# not be in dev yet - otherwise there is nothing to detect.
+requires:
+  - {action: check_gitlab_file, ref: dev, path: models/im_dimensional/olist_domain_b.yml, hint: "Domain B (with its unique test) must be in dev: run E1's injection first"}
+  - {action: check_gitlab_file, ref: dev, path: models/edw_dv_bdv/stg_olist_reviews.sql, not_contains: "row_number", hint: "the dedup fix must not be in dev yet: press Reset, then run E1's injection"}
+inject:
+  narrative: "A retry on the file-drop job delivers the whole reviews file a second time. Landing is append-only, so the duplicates are in raw_olist_order_reviews. Live mode needs Domain B in dev (run E1's injection first); the injection then runs the LDV daily load, which trips the unique test."
+  sim:
+    channel.drive: {health: warn, note: "duplicate delivery: 100%", knobs.duplicate_pct: 100}
+    landing.raw_olist_order_reviews: {health: warn, note: "rows doubled"}
+  live:
+    - {action: set_channel, env: both, channel: drive, duplicate_pct: 100}
+    - {action: trickle, env: both, days: 7, domain_b: true}
+    # LDV must run the dev head (with Domain B): wait for tag_dev + publish_dev_artifacts, then the daily load
+    # builds stg_olist_reviews from the doubled landing table and the unique test fails (the DAG fails on purpose)
+    - {action: gitlab_pipeline_wait, tag_of: dev, expect: success, timeout: 900}
+    - {action: airflow_trigger, env: dev, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+impact:
+  - {node: dbt.stg_olist_reviews, health: fail, note: "unique(review_id, order_id) fails"}
+  - {node: dbt.dim_olist_reviews, health: warn}
+  - {node: dbt.mart_olist_customer_satisfaction, health: warn, note: "NPS computed on doubled rows"}
+  - {node: exposure.marketing_nps_dashboard, health: fail, note: "NPS spike"}
+  - {node: exposure.management_kpi_forecast, health: warn}
+  - {node: consumer.marketing, health: warn}
+steps:
+  - title: "Detect: unique test on staging"
+    explain: "The daily load (already run by the injection in Live mode) fails `dbt_utils.unique_combination_of_columns` on stg_olist_reviews (severity error). The mart would have been wrong without the test - NPS barely moves when every review doubles, which is exactly why this kind of bug survives."
+    code: "dbt test --select stg_olist_reviews"
+    zoom: platform
+    highlight: [dbt.stg_olist_reviews]
+    expect: {node: dbt.stg_olist_reviews, health: fail}
+  - title: "Quarantine: stop the duplicate delivery"
+    explain: "Ask the drive team to stop the retry job. Until then new batches would keep adding duplicates."
+    code: "UPDATE _source_channel_config SET duplicate_pct = 0 WHERE channel = 'drive';"
+    zoom: sources
+    highlight: [channel.drive, team.drive]
+    sim:
+      channel.drive: {health: ok, note: "", knobs.duplicate_pct: 0}
+    live:
+      - {action: set_channel, env: both, channel: drive, duplicate_pct: 0}
+  - title: "Fix: make staging idempotent (dedup)"
+    explain: "A file delivered twice must not change the result. Dedup in staging, keeping the latest delivery per key. Bugfix branch -> MR -> dev."
+    code: |
+      row_number() over (partition by review_id, order_id order by _ingested_at desc) as rn
+      -- where rn = 1
+    zoom: platform
+    highlight: [git.feature, dbt.stg_olist_reviews, team.domain_b]
+    sim:
+      git.feature: {health: ok}
+      dbt.stg_olist_reviews: {health: warn, note: "fix merged, not rebuilt yet"}
+    live:
+      - {action: gitlab_branch, name: bugfix/reviews-dedup, ref: dev}
+      - {action: gitlab_commit_patch, patch: fix-reviews-dedup, branch: bugfix/reviews-dedup}
+      - {action: gitlab_mr_merge, source: bugfix/reviews-dedup, target: dev, patch: fix-reviews-dedup}
+  - title: "Rebuild: the numbers are right again"
+    explain: "The next daily load rebuilds stg_olist_reviews from the (still doubled) landing table, deduplicated. The fix reaches PRD with the next release."
+    code: "airflow dags trigger dbt_daily_load --conf '{\"manual_run_override\": true}'"
+    zoom: consumers
+    highlight: [exposure.marketing_nps_dashboard]
+    sim:
+      dbt.stg_olist_reviews: {health: ok}
+      dbt.dim_olist_reviews: {health: ok}
+      dbt.mart_olist_customer_satisfaction: {health: ok}
+      exposure.marketing_nps_dashboard: {health: ok}
+      exposure.management_kpi_forecast: {health: ok}
+      consumer.marketing: {health: ok}
+      landing.raw_olist_order_reviews: {health: ok, note: ""}
+    live:
+      # the fix reaches LDV through tag_dev + publish_dev_artifacts: wait for it, or the load rebuilds the old staging model
+      - {action: gitlab_pipeline_wait, tag_of: dev, expect: success, timeout: 900}
+      - {action: airflow_trigger, env: dev, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+    expect: {node: dbt.stg_olist_reviews, health: ok}

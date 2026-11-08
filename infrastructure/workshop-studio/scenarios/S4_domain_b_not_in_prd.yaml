@@ -1,0 +1,35 @@
+id: S4_domain_b_not_in_prd
+layer: sources
+title: "Domain B not delivered in PRD"
+summary: "The existing workshop exercise: reviews exist in LDV but the drive team has not delivered them to PRD."
+focus: [channel.drive, landing.raw_olist_order_reviews]
+detect: "assert_domain_b_reviews_delivered fails in verify_release_branch."
+inject:
+  narrative: "analytics_prod.raw_olist_order_reviews is empty. LDV has reviews, so everything was green until the release branch was verified against PRD data."
+  sim:
+    channel.drive: {health: idle, note: "withheld in PRD", knobs.enabled: false}
+    landing.raw_olist_order_reviews: {health: fail, note: "0 rows in PRD"}
+  live:
+    - {action: set_channel, env: prod, channel: drive, enabled: 0}
+impact:
+  - {node: ci.verify, health: fail, note: "assert_domain_b_reviews_delivered"}
+  - {node: dbt.dim_olist_reviews, health: fail}
+  - {node: exposure.marketing_nps_dashboard, health: warn, note: "cannot ship"}
+steps:
+  - title: "Resolve on the release branch (see E1)"
+    explain: "Revert Domain B on release/YYYY-Qx only - scenario E1 plays the whole resolution including the conflict with Domain A."
+    code: "git revert --no-edit v1.1.0"
+    zoom: platform
+    highlight: [git.release, ci.verify]
+  - title: "Drive team delivers; next release carries Domain B"
+    explain: "Once reviews land in PRD the guard test passes and Domain B rides along in the next quarterly release."
+    code: "python3 reset_workshop.py --trickle-prod 14 --enable-domain-b"
+    sim:
+      channel.drive: {health: ok, note: "", knobs.enabled: true}
+      landing.raw_olist_order_reviews: {health: ok, note: ""}
+      ci.verify: {health: ok, note: ""}
+      dbt.dim_olist_reviews: {health: ok}
+      exposure.marketing_nps_dashboard: {health: ok, note: ""}
+    live:
+      - {action: set_channel, env: prod, channel: drive, enabled: 1}
+      - {action: trickle, env: prod, days: 14, domain_b: true}

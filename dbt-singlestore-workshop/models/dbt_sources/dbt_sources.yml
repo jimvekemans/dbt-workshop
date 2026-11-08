@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: dbt_sources
+    description: |
+      This view contains the list of dbt sources in the project.
+    config:
+      materialized: table
+    columns:
+      - name: table_schema
+        description: "Database of the source object"
+      - name: table_name
+        description: "Name of the source object"

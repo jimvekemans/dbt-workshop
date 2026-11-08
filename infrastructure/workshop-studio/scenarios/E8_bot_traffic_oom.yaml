@@ -1,0 +1,77 @@
+id: E8_bot_traffic_oom
+layer: engineering
+title: "A crawler makes a naive model run out of memory"
+summary: "A crawler hits the webshop 30,000 times on one cookie. mart_web_journeys pairs every page view with every later one of the same visitor - fine for people, quadratic for the bot. SingleStore runs out of memory."
+star: true
+focus: [channel.web, dbt.mart_web_journeys]
+detect: "mart_web_journeys fails in the LDV daily load: Error 1712, memory has reached 'maximum_memory'."
+requires:
+  - {action: check_gitlab_file, ref: dev, path: models/im_dimensional/web/mart_web_journeys.sql, not_contains: "lead(page)", hint: "the fix is already in dev: press Reset first"}
+inject:
+  narrative: "A price-comparison crawler discovers the webshop and walks every product page - 30,000 hits in a day, all on one cookie. The web-analytics tag records it faithfully. Nothing is wrong with the data; one model was simply never written for it."
+  sim:
+    channel.web: {health: warn, note: "LDV: crawler, 30,000 hits per batch", knobs.bot_events: 30000}
+    dbt.mart_web_journeys: {health: fail, note: "Error 1712: out of memory"}
+    airflow.daily_load: {health: fail, note: "LDV: dbt_build failed"}
+  live:
+    - {action: set_channel, env: dev, channel: web, bot_events: 30000}
+    - {action: trickle, env: dev, days: 1}
+    - {action: airflow_trigger, env: dev, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+impact:
+  - {node: exposure.marketing_nps_dashboard, health: warn, note: "journeys missing"}
+  - {node: consumer.marketing, health: warn}
+steps:
+  - title: "Detect: out of memory"
+    explain: "The non-equi self-join pairs each page view with EVERY later view of the same visitor: n x n per visitor. People have a handful of hits; the crawler's 30,000 make ~450 million pairs, and the count(distinct) over them exhausts SingleStore's memory (measured on the 6 GB workshop node: error after ~27 s). With a few thousand hits it 'only' gets slow - the general delay that pushes a daily load past its window."
+    code: |
+      Failed model mart_web_journeys
+        Error 1712 (HY000): Leaf Error: Memory used by MemSQL (5097.75 Mb) has reached the 'maximum_memory' setting
+      select visitor_id, count(*) from stg_web_events group by 1 order by 2 desc limit 3;   -- the skew
+    zoom: platform
+    highlight: [dbt.mart_web_journeys, channel.web]
+    expect: {node: dbt.mart_web_journeys, health: fail}
+  - title: "Stop the bleeding: exclude the model"
+    explain: "The crawler's hits are in the landing table now, so every load would run out of memory again until the SQL changes - and an OOM can take neighbouring queries down with it. Exclude the model (disabled_dbt_models: it stays in the lineage, its table keeps yesterday's journeys) and ask the web team to filter the crawler at the tag."
+    code: |
+      airflow variables set disabled_dbt_models '["mart_web_journeys"]'   # airflow-dev
+      UPDATE _source_channel_config SET bot_events = 0 WHERE channel = 'web';
+    zoom: platform
+    highlight: [airflow.levers, dbt.mart_web_journeys, channel.web]
+    sim:
+      airflow.levers: {health: warn, note: "LDV disabled_dbt_models=[mart_web_journeys]"}
+      airflow.daily_load: {health: ok, note: "LDV: success (journeys excluded)"}
+      channel.web: {health: ok, note: "crawler blocked at the tag", knobs.bot_events: 0}
+    live:
+      - {action: airflow_variable, env: dev, key: disabled_dbt_models, value: ["mart_web_journeys"]}
+      - {action: set_channel, env: dev, channel: web, bot_events: 0}
+      - {action: airflow_trigger, env: dev, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+    expect: {node: airflow.daily_load, health: ok}
+  - title: "Fix: linear SQL, crawlers out"
+    explain: "lead() pairs each page view with the NEXT one only (linear), and visitors with more than 200 page views a day are not customer journeys. Same columns, same meaning for people - bounded for anything else. Bugfix branch -> MR -> dev."
+    code: |
+      lead(page) over (partition by visitor_id order by event_ts) as next_page
+      ... where p.views <= 200   -- per visitor per day
+    zoom: platform
+    highlight: [git.feature, git.dev, dbt.mart_web_journeys]
+    sim:
+      git.feature: {health: ok}
+      dbt.mart_web_journeys: {health: warn, note: "fix merged, excluded until rebuilt"}
+    live:
+      - {action: gitlab_branch, name: bugfix/web-journeys, ref: dev}
+      - {action: gitlab_commit_patch, patch: fix-web-journeys, branch: bugfix/web-journeys}
+      - {action: gitlab_mr_merge, source: bugfix/web-journeys, target: dev, patch: fix-web-journeys, timeout: 900}
+  - title: "Rebuild and lift the exclude"
+    explain: "Delete the Variable: the next load builds the journeys in about a second - with the crawler's 30,000 hits still in the landing table."
+    code: "airflow variables delete disabled_dbt_models   # airflow-dev"
+    zoom: consumers
+    highlight: [dbt.mart_web_journeys, exposure.marketing_nps_dashboard]
+    sim:
+      dbt.mart_web_journeys: {health: ok, note: ""}
+      airflow.levers: {health: ok, note: "no lever set"}
+      exposure.marketing_nps_dashboard: {health: ok, note: ""}
+      consumer.marketing: {health: ok}
+    live:
+      - {action: airflow_variable, env: dev, key: disabled_dbt_models, delete: true}
+      - {action: gitlab_pipeline_wait, tag_of: dev, expect: success, timeout: 900}
+      - {action: airflow_trigger, env: dev, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+    expect: {node: dbt.mart_web_journeys, health: ok}

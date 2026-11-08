@@ -1,0 +1,52 @@
+dbt_swf:
+  target: default
+  outputs:
+    default:
+      type: singlestore
+      host: "{{ env_var('SINGLESTORE_HOST', 'singlestore') }}"
+      port: 3306
+      user: "{{ env_var('SINGLESTORE_USER', 'svc_ci_dbt') }}"
+      password: "{{ env_var('SINGLESTORE_PASS', 'CiServicePwd2026!') }}"
+      database: "{{ env_var('SINGLESTORE_DB', 'edw_dv_rdv') }}"
+      schema: "{{ env_var('SINGLESTORE_USER', 'svc_ci_dbt') }}"
+      threads: 2
+      # No allow_cleartext_plugin: the SingleStore adapter only allows cleartext passwords over enforced TLS
+      # (ssl_mode required/verify_ca/verify_full) and refuses the profile otherwise. The workshop stack has no TLS and
+      # its users authenticate with native passwords, which never need the cleartext plugin.
+    ci:
+      type: singlestore
+      host: "{{ env_var('SINGLESTORE_HOST', 'singlestore') }}"
+      port: 3306
+      user: "{{ env_var('SINGLESTORE_USER', 'svc_ci_dbt') }}"
+      password: "{{ env_var('SINGLESTORE_PASS', 'CiServicePwd2026!') }}"
+      database: vdp_ci
+      schema: "{{ var('SCHEMA', '') }}"
+      threads: 2
+    run:
+      type: singlestore
+      host: "{{ env_var('SINGLESTORE_HOST', 'singlestore') }}"
+      port: 3306
+      user: "{{ env_var('SINGLESTORE_USER', 'svc_ci_dbt') }}"
+      password: "{{ env_var('SINGLESTORE_PASS', 'CiServicePwd2026!') }}"
+      database: "{{ env_var('SINGLESTORE_DB', 'edw_dv_rdv') }}"
+      schema: "{{ var('SCHEMA', '') }}"
+      threads: 3
+    reload:
+      type: singlestore
+      host: "{{ env_var('SINGLESTORE_HOST', 'singlestore') }}"
+      port: 3306
+      user: "{{ env_var('SINGLESTORE_USER', 'svc_ci_dbt') }}"
+      password: "{{ env_var('SINGLESTORE_PASS', 'CiServicePwd2026!') }}"
+      database: "{{ env_var('SINGLESTORE_DB', 'edw_dv_rdv') }}"
+      schema: "{{ var('SCHEMA', '') }}"
+      threads: 1
+      # no allow_cleartext_plugin: see the default target
+    collibra:
+      type: singlestore
+      host: "{{ env_var('SINGLESTORE_HOST', 'singlestore') }}"
+      port: 3306
+      user: "{{ env_var('SINGLESTORE_USER', 'svc_ci_dbt') }}"
+      password: "{{ env_var('SINGLESTORE_PASS', 'CiServicePwd2026!') }}"
+      database: "{{ env_var('SINGLESTORE_DB', 'edw_dv_rdv') }}"
+      schema: "{{ env_var('SINGLESTORE_DB', 'edw_dv_rdv') }}"
+      threads: 1

@@ -1,0 +1,330 @@
+# The workshop stack. Run it through infrastructure/workshop.sh (up | bootstrap | reset | session | ...), which passes
+# this file and this folder as the project directory; relative paths below are relative to infrastructure/compose/.
+# .env next to this file holds GITLAB_CLIENT_ID / GITLAB_CLIENT_SECRET (written by bootstrap).
+#
+# Self-contained stack: project name pinned (compose would otherwise use the folder name "compose"), every
+# container, volume and the network carry a workshop prefix, and the host ports avoid the usual ones (a personal
+# SingleStore on 3306 / its UI on 8080 keeps running next to this stack). Inside workshop_net the service names and
+# aliases (singlestore, mysql, gitlab.local) are the host names - containers are only addressed by name for
+# docker exec/inspect (bootstrap, milestones, studio).
+# Host ports, overridable from the environment:
+#   WORKSHOP_S2_PORT (23306)  WORKSHOP_S2_UI_PORT (8083)  WORKSHOP_AIRFLOW_LDV_PORT (8088)  WORKSHOP_AIRFLOW_PRD_PORT (8090)
+# Management commands (bootstrap, reset, milestones) run in the `manager` service: infrastructure/workshop.sh.
+name: dbt-workshop
+
+# Upstream images are pinned to exact versions (bump deliberately and rerun a fresh bootstrap): pulled from Docker Hub
+# (gitlab/gitlab-ce, gitlab/gitlab-runner, mysql, nginx, alpine) and ghcr.io (singlestoredb-dev). Only airflow, manager,
+# workshop-studio and the dbt base image (built by bootstrap) are built here.
+configs:
+  gitlab_omnibus:
+    file: ../gitlab/gitlab.rb
+
+networks:
+  workshop_net:
+    name: workshop_net
+    driver: bridge
+
+volumes:
+  gitlab_config:
+  gitlab_logs:
+  gitlab_data:
+  mysql_data:
+  # SingleStore data directory (/data in the singlestoredb-dev image) and its milestones (stopped-volume snapshots,
+  # singlestore/milestones.sh): the Developer Edition has no CREATE MILESTONE / BACKUP, see the architecture skill.
+  s2_data:
+    name: workshop_s2_data
+  s2_milestones:
+    name: workshop_s2_milestones
+  # The deployed LDV and PRD workspaces: dags/, dbt/, docs/, mnt_dbt/ (the "PVC"). Docker volumes, not host folders:
+  # filled by bootstrap, the CI deploy job and the studio Reset; mounted by subpath below. Fixed names, because
+  # Airflow (dbt runner containers) and the GitLab runner (CI jobs) mount them by name: WORKSHOP_STATE_VOLUME.
+  workshop_dev:
+    name: workshop_dev
+  workshop_prod:
+    name: workshop_prod
+  studio_state:
+    name: workshop_studio_state
+
+x-airflow-common: &airflow-common
+  build: ../airflow
+  image: workshop-airflow:latest
+  pull_policy: build
+  restart: on-failure
+  environment: &airflow-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL: 30
+    # Tasks talk to the API server inside the container (port 8080). Without this they follow AIRFLOW__API__BASE_URL, which for
+    # airflow-prod is the *published* host port 8090 -> "Connection refused" and no prod task ever runs.
+    AIRFLOW__CORE__EXECUTION_API_SERVER_URL: http://localhost:8080/execution/
+    AIRFLOW__WEBSERVER__CONFIG_FILE: /opt/airflow/webserver_config.py
+    PYTHONPATH: /opt/airflow/dags
+    DBT_EXECUTION_MODE: docker
+    DOCKER_NETWORK: workshop_net
+    # 1.47 = the static CLI 27.5 in the Airflow image (volume subpath mounts need >= 1.45; Docker 29 rejects < 1.44)
+    DOCKER_API_VERSION: "1.47"
+    SINGLESTORE_HOST: singlestore
+    SINGLESTORE_PASS: CiServicePwd2026!
+    GITLAB_CLIENT_ID: ${GITLAB_CLIENT_ID:-placeholder}
+    GITLAB_CLIENT_SECRET: ${GITLAB_CLIENT_SECRET:-placeholder}
+  extra_hosts:
+    - "gitlab.local:host-gateway"
+  networks:
+    - workshop_net
+
+services:
+  # Creates the workspace layout in the LDV/PRD volumes: a subpath mount fails when the subdirectory does not exist yet.
+  workshop-state-init:
+    image: alpine:3.22
+    container_name: workshop-state-init
+    restart: "no"
+    command:
+      - sh
+      - -c
+      - |
+        for e in dev prod; do
+          for d in dags/utils dbt docs mnt_dbt/target mnt_dbt/artifacts; do mkdir -p /workshop_state/$$e/$$d; done
+        done
+        chmod -R a+rwX /workshop_state/dev /workshop_state/prod
+    volumes:
+      - workshop_dev:/workshop_state/dev
+      - workshop_prod:/workshop_state/prod
+
+  mysql:
+    image: mysql:8.4.13
+    container_name: workshop-mysql
+    restart: on-failure
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --explicit_defaults_for_timestamp=1
+    environment:
+      MYSQL_ROOT_PASSWORD: airflow_root_password
+      MYSQL_USER: airflow
+      MYSQL_PASSWORD: airflow_db_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ../airflow/mysql/init-mysql.sql:/docker-entrypoint-initdb.d/init-mysql.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pairflow_root_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - workshop_net
+
+  singlestore:
+    image: ghcr.io/singlestore-labs/singlestoredb-dev:0.2.90
+    container_name: workshop-singlestore
+    restart: on-failure
+    mem_limit: 6g
+    environment:
+      ROOT_PASSWORD: ${S2_ROOT_PASSWORD:-WorkshopRootPwd123!}
+      # Transaction logs are preallocated per partition (default 256 MB / 64 MB per file: 15+ GB for ~300 MB of data,
+      # and every milestone copies them). 16 MB keeps the data volume and a milestone around 1-2 GB. Applies to
+      # databases created after the container first started - a fresh workshop_s2_data volume.
+      SINGLESTORE_SET_GLOBAL_LOG_FILE_SIZE_PARTITIONS: "16777216"
+      SINGLESTORE_SET_GLOBAL_LOG_FILE_SIZE_REF_DBS: "16777216"
+    ports:
+      - "${WORKSHOP_S2_PORT:-23306}:3306"
+      - "${WORKSHOP_S2_UI_PORT:-8083}:8080" # SingleStore Studio UI
+    volumes:
+      # the singlestoredb-dev image keeps its data in /data (was mounted at /var/lib/memsql: nothing was persisted)
+      - s2_data:/data
+    networks:
+      workshop_net:
+        aliases:
+          - s2-dev
+          - s2-prod
+
+  gitlab:
+    image: gitlab/gitlab-ce:19.5.3-ce.0
+    container_name: workshop-gitlab
+    restart: on-failure
+    hostname: gitlab.local
+    mem_limit: 4g
+    shm_size: '256m'
+    environment:
+      GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD:-WorkshopRootPwd123!}
+      # ../gitlab/gitlab.rb (compose config below), applied on every start
+      GITLAB_OMNIBUS_CONFIG: "from_file('/omnibus_config.rb')"
+    configs:
+      - source: gitlab_omnibus
+        target: /omnibus_config.rb
+    ports:
+      - "80:80"
+      - "2222:22"
+    volumes:
+      - gitlab_config:/etc/gitlab
+      - gitlab_logs:/var/log/gitlab
+      - gitlab_data:/var/opt/gitlab
+    networks:
+      workshop_net:
+        aliases:
+          - gitlab.local
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner:alpine-v19.5.2
+    container_name: workshop-gitlab-runner
+    restart: on-failure
+    depends_on:
+      - gitlab
+    # CI jobs get the workspace volumes from the runner registration (bootstrap_stack.py: --docker-volumes)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - workshop_net
+
+  airflow-dev:
+    <<: *airflow-common
+    container_name: workshop-airflow-dev
+    depends_on:
+      mysql:
+        condition: service_healthy
+      workshop-state-init:
+        condition: service_completed_successfully
+    environment:
+      <<: *airflow-env
+      AIRFLOW_ENV_MODE: dev
+      WORKSHOP_STATE_VOLUME: workshop_dev
+      IFW_PILLAR: rel1ldv
+      SINGLESTORE_USER: svc_ldv_dbt
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: mysql+mysqldb://airflow:airflow_db_password@mysql:3306/airflow_dev?charset=utf8mb4
+      AIRFLOW__API__BASE_URL: http://localhost:${WORKSHOP_AIRFLOW_LDV_PORT:-8088}
+    ports:
+      - "${WORKSHOP_AIRFLOW_LDV_PORT:-8088}:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../airflow/webserver_config.py:/opt/airflow/webserver_config.py:ro
+      - type: volume
+        source: workshop_dev
+        target: /opt/airflow/dags
+        volume: {subpath: dags}
+      - type: volume
+        source: workshop_dev
+        target: /opt/airflow/dbt
+        volume: {subpath: dbt}
+      - type: volume
+        source: workshop_dev
+        target: /mnt/dbt
+        volume: {subpath: mnt_dbt}
+
+  airflow-prod:
+    <<: *airflow-common
+    container_name: workshop-airflow-prod
+    depends_on:
+      mysql:
+        condition: service_healthy
+      workshop-state-init:
+        condition: service_completed_successfully
+    environment:
+      <<: *airflow-env
+      AIRFLOW_ENV_MODE: prod
+      WORKSHOP_STATE_VOLUME: workshop_prod
+      IFW_PILLAR: rel1prd
+      SINGLESTORE_USER: svc_prd_dbt
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: mysql+mysqldb://airflow:airflow_db_password@mysql:3306/airflow_prod?charset=utf8mb4
+      AIRFLOW__API__BASE_URL: http://localhost:${WORKSHOP_AIRFLOW_PRD_PORT:-8090}
+    ports:
+      - "${WORKSHOP_AIRFLOW_PRD_PORT:-8090}:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../airflow/webserver_config.py:/opt/airflow/webserver_config.py:ro
+      - type: volume
+        source: workshop_prod
+        target: /opt/airflow/dags
+        volume: {subpath: dags}
+      - type: volume
+        source: workshop_prod
+        target: /opt/airflow/dbt
+        volume: {subpath: dbt}
+      - type: volume
+        source: workshop_prod
+        target: /mnt/dbt
+        volume: {subpath: mnt_dbt}
+
+  dbt-docs:
+    image: nginx:1.31.8-alpine
+    container_name: workshop-dbt-docs
+    restart: on-failure
+    ports:
+      - "8081:8081" # Dev dbt docs
+      - "8082:8082" # Prod dbt docs
+    depends_on:
+      workshop-state-init:
+        condition: service_completed_successfully
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - type: volume
+        source: workshop_dev
+        target: /usr/share/nginx/html/dev
+        read_only: true
+        volume: {subpath: docs}
+      - type: volume
+        source: workshop_prod
+        target: /usr/share/nginx/html/prod
+        read_only: true
+        volume: {subpath: docs}
+    networks:
+      - workshop_net
+
+  # Workshop manager: bootstrap / reset / trickle / channel faults / milestones, run on demand through
+  # infrastructure/workshop.sh (`docker compose run --rm -v <repo>:<repo> manager ...`). Profile "manager": `up` never
+  # starts it. Orchestrates the stack through the docker socket, talks to it over workshop_net.
+  manager:
+    build: ../manager
+    image: workshop-manager:latest
+    pull_policy: build
+    profiles: ["manager"]
+    restart: "no"
+    environment:
+      S2_HOST: singlestore
+      S2_PORT: "3306"
+      S2_ROOT_PWD: ${S2_ROOT_PASSWORD:-WorkshopRootPwd123!}
+      GITLAB_URL: http://gitlab.local
+      GITLAB_CONTAINER: workshop-gitlab
+      RUNNER_CONTAINER: workshop-gitlab-runner
+      S2_CONTAINER: workshop-singlestore
+      S2_DATA_VOLUME: workshop_s2_data
+      S2_MILESTONE_VOLUME: workshop_s2_milestones
+      WORKSHOP_AIRFLOW_LDV_PORT: ${WORKSHOP_AIRFLOW_LDV_PORT:-8088}
+      WORKSHOP_AIRFLOW_PRD_PORT: ${WORKSHOP_AIRFLOW_PRD_PORT:-8090}
+      WORKSHOP_S2_PORT: ${WORKSHOP_S2_PORT:-23306}
+      WORKSHOP_S2_UI_PORT: ${WORKSHOP_S2_UI_PORT:-8083}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - workshop_net
+
+  # Workshop Studio: interactive map of the data value chain (Sim / Live). It can drive the whole stack
+  # (docker socket, GitLab root PAT, SingleStore root) - published on localhost only, never expose it.
+  workshop-studio:
+    build: ../workshop-studio
+    container_name: workshop-studio
+    restart: on-failure
+    ports:
+      - "127.0.0.1:8085:8085"
+    environment:
+      S2_HOST: singlestore
+      S2_ROOT_PWD: ${S2_ROOT_PASSWORD:-WorkshopRootPwd123!}
+      GITLAB_URL: http://gitlab.local
+      GITLAB_PAT: glpat-workshop-root-token-2026
+      DOCKER_API_VERSION: "1.44"
+      # milestones: SingleStore data-volume snapshots (singlestore/milestones.sh, mounted below)
+      S2_CONTAINER: workshop-singlestore
+      AIRFLOW_CONTAINER_PREFIX: workshop-airflow-
+      S2_DATA_VOLUME: workshop_s2_data
+      S2_MILESTONE_VOLUME: workshop_s2_milestones
+      MILESTONES_SCRIPT: /app/bin/milestones.sh
+    depends_on:
+      workshop-state-init:
+        condition: service_completed_successfully
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # the LDV/PRD workspaces (a Reset redeploys the baseline code into them) and the studio's own state
+      - workshop_dev:/workshop_state/dev
+      - workshop_prod:/workshop_state/prod
+      - studio_state:/workshop_state/studio
+      - ../workshop-studio/scenarios:/app/scenarios   # edit scenarios without a rebuild
+      - ../workshop-studio/patches:/app/patches       # patch sets committed to feature branches
+      - ../manager/milestones.sh:/app/bin/milestones.sh:ro
+    networks:
+      - workshop_net

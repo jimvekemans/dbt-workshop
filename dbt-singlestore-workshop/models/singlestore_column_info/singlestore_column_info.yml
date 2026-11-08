@@ -1,0 +1,6 @@
+version: 2
+models:
+  - name: singlestore_column_info
+    config:
+      materialized: table
+      database: "vdp_mgmt"

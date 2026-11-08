@@ -1,0 +1,106 @@
+id: E1_release_collision
+layer: engineering
+title: "Release collision: Domain B must be reverted, Domain A stays"
+summary: "Domain B's source is not delivered in PRD, so verify_release_branch fails. Reverting B on the release branch collides with Domain A in fct_olist_orders.sql."
+star: true
+focus: [git.release, ci.verify, team.domain_a, team.domain_b]
+detect: "CI verify_release_branch is red (assert_domain_b_reviews_delivered)."
+# Live: B and A must become v1.1.0 / v1.2.0, and the guard test can only fail while PRD has no reviews
+requires:
+  - {action: check_gitlab_baseline, hint: "GitLab must be at the baseline (dev = v1.0.0, main = 2026_DROP1.0): press Reset first"}
+  - {action: check_sql, env: prod, statement: "SELECT COUNT(*) FROM raw_olist_order_reviews", expect: 0, hint: "PRD must not have reviews yet (S3 or E1's Q2 step delivered them): press Reset first"}
+inject:
+  narrative: "Both squads merged into dev: Domain B (reviews, v1.1.0) first, then Domain A (payments, v1.2.0). Both edit adjacent lines in fct_olist_orders.sql. The release branch release/2026-Q1 is cut from dev - but PRD has no reviews yet. Live mode checks that GitLab is at the baseline and PRD has no reviews (press Reset after another live scenario)."
+  sim:
+    git.release: {health: fail, note: "verify_release_branch red"}
+    ci.verify: {health: fail, note: "assert_domain_b_reviews_delivered"}
+    dbt.dim_olist_reviews: {health: fail, note: "no reviews in PRD"}
+    channel.drive: {health: idle, note: "withheld in PRD"}
+  live:
+    - {action: gitlab_branch, name: feature/domain-b-reviews, ref: dev}
+    - {action: gitlab_commit_patch, patch: feature-domain-b-reviews, branch: feature/domain-b-reviews}
+    - {action: gitlab_mr_merge, source: feature/domain-b-reviews, target: dev, patch: feature-domain-b-reviews}
+    - {action: gitlab_tag_wait, tag: v1.1.0, ref: dev}
+    # publish_dev_artifacts syncs LDV from the tag; the daily load then builds Domain B in LDV (Domain A's MR defers to it)
+    - {action: gitlab_pipeline_wait, ref: v1.1.0, expect: success}
+    - {action: airflow_trigger, env: dev, dag: dbt_daily_load, conf: {manual_run_override: true}, timeout: 900}
+    - {action: gitlab_branch, name: feature/domain-a-payments, ref: dev}
+    - {action: gitlab_commit_patch, patch: feature-domain-a-payments, branch: feature/domain-a-payments}
+    - {action: gitlab_mr_merge, source: feature/domain-a-payments, target: dev, patch: feature-domain-a-payments}
+    - {action: gitlab_tag_wait, tag: v1.2.0, ref: dev}
+    - {action: gitlab_branch, name: release/2026-Q1, ref: dev}
+impact:
+  - {node: team.domain_b, health: warn, note: "feature blocked for Q1"}
+  - {node: team.domain_a, health: warn, note: "shares fct_olist_orders with B"}
+  - {node: exposure.marketing_nps_dashboard, health: warn, note: "cannot ship in Q1"}
+steps:
+  - title: "Detect: verify_release_branch is red"
+    explain: "The CI job builds the whole release on CBT (= PRD data). Reviews are empty there, so the Domain B guard test fails and blocks the release."
+    code: "dbt build --target=ci --fail-fast   # assert_domain_b_reviews_delivered FAILS"
+    zoom: platform
+    highlight: [ci.verify, git.release]
+    live:
+      - {action: gitlab_pipeline_wait, ref: release/2026-Q1, expect: failed}
+    expect: {node: ci.verify, health: fail}
+  - title: "Decide: revert Domain B on the release branch only"
+    explain: "Never revert on dev. Features that are not approved or whose source is not delivered are reverted on the release branch, so they can rejoin the next release."
+    code: "git checkout release/2026-Q1"
+    highlight: [git.release, team.domain_b]
+  - title: "git revert v1.1.0 - conflict in fct_olist_orders.sql - resolve"
+    explain: "The revert deletes the Domain B files but conflicts in fct_olist_orders.sql, because Domain A added its hkey on the adjacent line. Resolve by keeping Domain A's version, then `git revert --continue`."
+    code: |
+      git revert --no-edit v1.1.0          # CONFLICT (content): models/im_dimensional/fct_olist_orders.sql
+      # resolution: keep domain_a_hkey, drop domain_b_hkey
+      git add models/im_dimensional/fct_olist_orders.sql && git revert --continue
+      git push origin release/2026-Q1
+    highlight: [git.release, team.domain_a, team.domain_b, dbt.fct_olist_orders]
+    sim:
+      git.release: {health: warn, note: "Domain B reverted, verifying..."}
+      dbt.dim_olist_reviews: {health: idle, note: "reverted on release/2026-Q1"}
+    live:
+      - {action: git_script, script: revert_on_release, branch: release/2026-Q1, tag: v1.1.0, resolution: resolve-release-domain-a-only}
+  - title: "verify_release_branch turns green"
+    explain: "Without Domain B the release builds on PRD data."
+    code: "dbt build --target=ci --fail-fast   # all green"
+    highlight: [ci.verify]
+    sim:
+      ci.verify: {health: ok, note: ""}
+      git.release: {health: ok, note: ""}
+    live:
+      - {action: gitlab_pipeline_wait, ref: release/2026-Q1, expect: success}
+    expect: {node: ci.verify, health: ok}
+  - title: "Promote to main: merge-base reset + --no-ff -> 2026-Q1.0"
+    explain: "Promotion always resets main to the merge-base with the release branch first - that is what lets the reverted feature rejoin a later release."
+    code: |
+      git checkout -B main origin/main
+      git reset --hard $(git merge-base main release/2026-Q1)
+      git merge --no-ff release/2026-Q1 -m "Merge branch 'release/2026-Q1' into 'main'"
+      git push --force origin main
+    highlight: [git.main]
+    sim:
+      git.main: {health: ok, metrics.tag: 2026-Q1.0, note: "Domain A only"}
+    live:
+      - {action: git_script, script: promote_release, branch: release/2026-Q1}
+      - {action: gitlab_tag_wait, tag: 2026-Q1.0, ref: main}
+  - title: "Q2: Domain B is delivered - release/2026-Q2 carries A + B"
+    explain: "The drive team finally delivers reviews to PRD. A new release branch from dev contains A and B again; promotion resets past Q1's revert, so both land in 2026-Q2.0."
+    code: |
+      python3 reset_workshop.py --trickle-prod 14 --enable-domain-b
+      git checkout -b release/2026-Q2 origin/dev && git push -u origin release/2026-Q2
+    zoom: sources
+    highlight: [channel.drive, git.release, git.main]
+    sim:
+      channel.drive: {health: ok, note: ""}
+      dbt.dim_olist_reviews: {health: ok, note: ""}
+      git.main: {health: ok, metrics.tag: 2026-Q2.0, note: "Domain A + B"}
+      team.domain_a: {health: ok, note: ""}
+      team.domain_b: {health: ok, note: ""}
+      exposure.marketing_nps_dashboard: {health: ok, note: ""}
+    live:
+      - {action: trickle, env: prod, days: 14, domain_b: true}
+      - {action: gitlab_branch, name: release/2026-Q2, ref: dev}
+      - {action: gitlab_pipeline_wait, ref: release/2026-Q2, expect: success}
+      - {action: git_script, script: promote_release, branch: release/2026-Q2}
+      - {action: gitlab_tag_wait, tag: 2026-Q2.0, ref: main}
+    # observed: PRD now has fresh reviews (the dashboard itself has no probe of its own)
+    expect: {node: landing.raw_olist_order_reviews, health: ok}

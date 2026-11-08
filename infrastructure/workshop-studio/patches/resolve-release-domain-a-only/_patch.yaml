@@ -1,0 +1,3 @@
+title: 'Resolve revert conflict: keep Domain A hkey only'
+message: 'Resolve revert of Domain B in fct_olist_orders.sql: keep domain_a_hkey'
+branch: (resolution)

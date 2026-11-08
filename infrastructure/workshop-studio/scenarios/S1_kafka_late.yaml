@@ -1,0 +1,65 @@
+id: S1_kafka_late
+layer: sources
+title: "Kafka payments arrive late"
+summary: "A broker upgrade makes the payments feed lag by two batches. Finance revenue is silently incomplete."
+star: true
+focus: [channel.kafka, landing.raw_olist_order_payments]
+detect: "Source freshness warn -> error on raw_olist_order_payments (dbt source freshness)."
+inject:
+  narrative: "The Kafka team's consumer lag explodes after a broker upgrade. Orders keep arriving, but the payments for the last week are held back."
+  sim:
+    channel.kafka: {health: warn, note: "consumer lag: 2 batches", knobs.delay_batches: 2, metrics.rows_held_last: 881}
+    landing.raw_olist_order_payments: {health: fail, note: "freshness 9d > 3d", metrics.lag_days: 9}
+  live:
+    - {action: set_channel, env: prod, channel: kafka, delay_batches: 2}
+    - {action: trickle, env: prod, days: 7}
+impact:
+  - {node: dbt.stg_olist_payments, health: warn, note: "freshness 9d > 3d"}
+  - {node: dbt.mart_olist_payment_performance, health: warn, note: "last week's payments missing"}
+  - {node: exposure.finance_revenue_report, health: fail, note: "revenue -38% vs forecast"}
+  - {node: exposure.management_kpi_forecast, health: warn, note: "forecast uses incomplete payments"}
+  - {node: consumer.management, health: warn}
+  - {node: consumer.finance, health: warn}
+steps:
+  - title: "Detect: source freshness"
+    explain: "Orders are fresh but the newest order that has payments is 7+ days behind the simulation clock. `dbt source freshness` flags raw_olist_order_payments as stale (error after 3 days) - in Live mode the dbt_source_freshness task of the next dbt_daily_load run reports it (informational: it never stops the load), and the studio probe measures the same lag right away."
+    code: "dbt source freshness --select source:raw_olist.raw_olist_order_payments"
+    zoom: platform
+    highlight: [landing.raw_olist_order_payments, channel.kafka]
+    expect: {node: landing.raw_olist_order_payments, health: fail}
+  - title: "Escalate to the Kafka team and decide"
+    explain: "Two options: (1) hold Domain A from the release on the release branch (`git revert v1.2.0`, see scenario E1), or (2) wait for the catch-up delivery. The decision is a conversation with Finance and the Kafka team - the platform cannot fix the source."
+    code: "git revert --no-edit v1.2.0    # option 1: hold Domain A on release/YYYY-Qx only"
+    zoom: sources
+    highlight: [team.kafka, channel.kafka, team.domain_a]
+  - title: "Kafka team catches up"
+    explain: "The consumer lag is fixed; the held windows are delivered on the next batches (ingested 'now', as in real life - they were not late in the business clock, only in the landing clock)."
+    code: |
+      UPDATE _source_channel_config SET delay_batches = 0 WHERE channel = 'kafka';
+      CALL sp_trickle_olist_batch(1, 0);   -- held window lands at its release batch
+    zoom: sources
+    highlight: [channel.kafka]
+    sim:
+      channel.kafka: {health: ok, note: "", knobs.delay_batches: 0, metrics.rows_held_last: 0}
+      landing.raw_olist_order_payments: {health: ok, note: "caught up", metrics.lag_days: 0}
+    live:
+      - {action: set_channel, env: prod, channel: kafka, delay_batches: 0}
+      - {action: trickle, env: prod, days: 1}
+      - {action: trickle, env: prod, days: 1}
+    expect: {node: landing.raw_olist_order_payments, health: ok}
+  - title: "Rebuild the affected models and re-check"
+    explain: "Staging tables recompute on the next daily load. For big incremental models you would use dbt_reload with a date window instead (meta.reload_strategy, see scenario E3)."
+    code: "airflow dags trigger dbt_daily_load --conf '{\"manual_run_override\": true}'"
+    zoom: consumers
+    highlight: [exposure.finance_revenue_report]
+    sim:
+      dbt.stg_olist_payments: {health: ok}
+      dbt.mart_olist_payment_performance: {health: ok}
+      exposure.finance_revenue_report: {health: ok}
+      exposure.management_kpi_forecast: {health: ok}
+      consumer.finance: {health: ok}
+      consumer.management: {health: ok}
+    live:
+      - {action: airflow_trigger, env: prod, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+    # observed by the Airflow probe (the finance report itself has no probe until C1 adds its reconciliation test)
+    expect: {node: airflow.daily_load, health: ok}

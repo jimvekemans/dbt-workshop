@@ -1,0 +1,21 @@
+# Python specific
+*.pyc
+__pycache__
+
+# dbt specific
+target/
+dbt_modules/
+dbt_packages/
+package-lock.json
+package-lock.yml
+logs
+
+# dotfiles
+.user.yml
+.venv
+*.env
+
+.ssh
+artifacts/local
+artifacts
+dbt_internal_packages/

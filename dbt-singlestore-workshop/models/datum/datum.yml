@@ -1,0 +1,7 @@
+version: 2
+
+models:
+  - name: datum
+    config:
+      materialized: table
+      primary_key: ["x_datum_dakey"]

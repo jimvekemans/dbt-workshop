@@ -1,0 +1,45 @@
+{
+    	// Reference: https://containers.dev/implementors/json_reference/
+	"name": "${localWorkspaceFolderBasename} dev container",
+
+	"image": "artifacts.vdab.be/cops-docker-vdab/ondersteuning/dbt-singlestore-base:1.11.11",
+
+	"workspaceFolder": "/usr/app/dbt/workspace",
+    "remoteUser": "dbt",
+    "containerUser": "dbt",
+    "updateRemoteUserUID": true,
+
+	"mounts": [
+		"source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind,consistency=cached",
+		"source=${env:HOME}/.ssh,target=/usr/app/dbt/.ssh,type=bind,consistency=cached"
+	],
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+				"oderwat.indent-rainbow",
+				"phplasma.csv-to-table",
+				"pkief.material-icon-theme",
+                "aaron-bond.better-comments",
+                "adpyke.codesnap",
+                "innoverio.vscode-dbt-power-user",
+                "ms-python.black-formatter",
+                "ms-python.python",
+                "pkief.material-product-icons",
+                "redhat.vscode-yaml",
+                "samuelcolvin.jinjahtml",
+                "zainchen.json"
+            ],
+            "settings": {
+				"python.defaultInterpreterPath": "/opt/app-root/bin/python"
+			}
+        }
+    },
+
+    // Runs on the host: starts the workshop cluster and stops it again once this
+    // container stops (shutdownAction stops it when the VS Code window closes).
+    "initializeCommand": ["bash", "-c", "S=\"${localWorkspaceFolder}/../infrastructure/workshop.sh\"; if [ -x \"$S\" ]; then \"$S\" session --devcontainer \"${localWorkspaceFolder}\"; fi; true"],
+    "shutdownAction": "stopContainer",
+
+    "postCreateCommand": "./.devcontainer/post_create.sh ${containerWorkspaceFolder}"
+}

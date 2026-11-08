@@ -1,0 +1,47 @@
+version: 2
+sources:
+  - name: vdp_mgmt
+    database: vdp_mgmt
+    schema: vdp_mgmt
+    tables:
+      - name: dbt_run_results
+        columns:
+          - name: adapter_response
+          - name: compiled_code
+          - name: compile_completed_at
+          - name: compile_started_at
+          - name: completed_at
+          - name: created_at
+          - name: database_name
+          - name: execute_completed_at
+          - name: execute_started_at
+          - name: execution_time
+          - name: failures
+          - name: file_path
+          - name: full_refresh
+          - name: generated_at
+          - name: group_name
+          - name: invocation_id
+          - name: materialization
+          - name: materialized
+          - name: message
+          - name: model_execution_id
+          - name: name
+          - name: query_id
+          - name: relation_name
+          - name: resource_type
+          - name: rows_affected
+          - name: run_started_at
+          - name: started_at
+          - name: status
+          - name: thread_id
+          - name: unique_id
+      - name: vdp_parameters
+        columns:
+          - name: dtm_cre
+          - name: dtm_lw
+          - name: parameter_description
+          - name: parameter_name
+          - name: parameter_value
+          - name: usr_cre
+          - name: usr_lw

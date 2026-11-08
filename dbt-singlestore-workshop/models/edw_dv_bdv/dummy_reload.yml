@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: ref_dummy_numbers
+    description: "Hulptabel met 100.000 opeenvolgende gehele getallen (seq 1..100000) voor reload validatie."
+    columns:
+      - name: seq
+        description: "Volgnummer (1 t/m 100.000)."
+        data_tests:
+          - not_null
+
+  - name: dummy_loading_history
+    description: "Hulptabel met laaddatum metadata voor dummy_reload_pit_with_deps."
+    columns:
+      - name: last_loaded_date
+        data_tests:
+          - not_null
+      - name: pipeline_name
+
+  - name: dummy_reload_date_window
+    description: "Dummy incremental model voor het valideren van sliding date windows en datum-halvering bij OOM retry."
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - id
+    columns:
+      - name: event_date
+        data_tests:
+          - not_null
+      - name: id
+        data_tests:
+          - not_null
+      - name: val
+
+  - name: dummy_reload_hkey_mod
+    description: "Dummy incremental model voor het valideren van hash-key modulo chunking en modulus-verdubbeling bij OOM retry."
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - hkey_record
+    columns:
+      - name: id
+        data_tests:
+          - not_null
+      - name: hkey_record
+        data_tests:
+          - not_null
+
+  - name: dummy_reload_pit_with_deps
+    description: "Dummy PIT incremental model voor het valideren van generate_alias_name ref() isolatie en {{ this }} batching."
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - pit_key
+    columns:
+      - name: pit_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('datum')
+                field: datum_id
+      - name: last_loaded_date
+        data_tests:
+          - not_null
+      - name: load_timestamp
+        data_tests:
+          - not_null

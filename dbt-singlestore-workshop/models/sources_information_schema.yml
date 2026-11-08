@@ -1,0 +1,95 @@
+version: 2
+sources:
+  - name: information_schema
+    database: information_schema
+    schema: information_schema
+    tables:
+      - name: COLUMNS
+        columns:
+          - name: CHARACTER_MAXIMUM_LENGTH
+          - name: CHARACTER_OCTET_LENGTH
+          - name: CHARACTER_SET_NAME
+          - name: COLLATION_NAME
+          - name: COLUMN_COMMENT
+          - name: COLUMN_DEFAULT
+          - name: COLUMN_KEY
+          - name: COLUMN_NAME
+          - name: COLUMN_TYPE
+          - name: DATA_TYPE
+          - name: DATETIME_PRECISION
+          - name: EXTRA
+          - name: GENERATION_EXPRESSION
+          - name: IS_NULLABLE
+          - name: IS_SPARSE
+          - name: NUMERIC_PRECISION
+          - name: NUMERIC_SCALE
+          - name: ORDINAL_POSITION
+          - name: PRIVILEGES
+          - name: TABLE_CATALOG
+          - name: TABLE_NAME
+          - name: TABLE_SCHEMA
+      - name: GROUP_PRIVILEGES
+        columns:
+          - name: DATABASE
+          - name: GROUP
+          - name: PRIVILEGES
+          - name: ROLE
+          - name: TABLE
+      - name: ROLE_PRIVILEGES
+        columns:
+          - name: DATABASE
+          - name: PRIVILEGES
+          - name: ROLE
+          - name: TABLE
+      - name: TABLES
+        columns:
+          - name: ALTER_TIME
+          - name: ALTER_USER
+          - name: AUTO_INCREMENT
+          - name: AVG_ROW_LENGTH
+          - name: CHECKSUM
+          - name: CHECK_TIME
+          - name: CREATE_OPTIONS
+          - name: CREATE_TIME
+          - name: CREATE_USER
+          - name: DATA_FREE
+          - name: DATA_LENGTH
+          - name: DISTRIBUTED
+          - name: ENGINE
+          - name: FLAGS
+          - name: INDEX_LENGTH
+          - name: MAX_DATA_LENGTH
+          - name: ROW_FORMAT
+          - name: STORAGE_TYPE
+          - name: TABLE_CATALOG
+          - name: TABLE_COLLATION
+          - name: TABLE_COMMENT
+          - name: TABLE_NAME
+          - name: TABLE_ROWS
+          - name: TABLE_SCHEMA
+          - name: TABLE_TYPE
+          - name: UPDATE_TIME
+          - name: VERSION
+      - name: TABLE_PRIVILEGES
+        columns:
+          - name: GRANTEE
+          - name: IS_GRANTABLE
+          - name: PRIVILEGE_TYPE
+          - name: TABLE_CATALOG
+          - name: TABLE_NAME
+          - name: TABLE_SCHEMA
+      - name: TABLE_STATISTICS
+        columns:
+          - name: COMPUTE_ID
+          - name: DATABASE_NAME
+          - name: HOST
+          - name: MEMORY_USE
+          - name: NODE_TYPE
+          - name: ORDINAL
+          - name: PARTITION_TYPE
+          - name: PORT
+          - name: ROWS
+          - name: ROWS_IN_MEMORY
+          - name: STORAGE_ID
+          - name: STORAGE_TYPE
+          - name: TABLE_NAME

@@ -1,0 +1,11 @@
+title: 'Resolve the parcel status by event time, not arrival order'
+message: 'fix(carrier): current parcel status = latest scan by event time (late scans no longer rewrite deliveries)'
+branch: bugfix/carrier-timeline
+# find/replace on whatever dev holds (fct_olist_deliveries.sql ships with the baseline)
+ops:
+  - path: models/im_dimensional/carrier/fct_olist_deliveries.sql
+    find: "    -- Current status = the most recently RECEIVED scan (newest _ingested_at). Right as long as scans arrive in the\n    -- order they happen; a scan uploaded late overrules a delivery that already arrived.\n"
+    replace: "    -- Current status = the scan that HAPPENED last (event time), not the one that arrived last: a scan that is\n    -- uploaded late must not overrule a delivery. Same second: the furthest status wins.\n"
+  - path: models/im_dimensional/carrier/fct_olist_deliveries.sql
+    find: "row_number() over (partition by order_id order by _ingested_at desc, event_ts desc) as rn"
+    replace: "row_number() over (\n            partition by order_id\n            order by event_ts desc, case event_type when 'delivered' then 3 when 'in_transit' then 2 else 1 end desc\n        ) as rn"

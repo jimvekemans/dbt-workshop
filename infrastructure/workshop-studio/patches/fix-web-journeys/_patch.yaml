@@ -1,0 +1,3 @@
+title: 'Journeys: next page with a window function, crawlers excluded'
+message: 'fix(web): mart_web_journeys uses lead() instead of a non-equi self-join and leaves crawler traffic out'
+branch: bugfix/web-journeys

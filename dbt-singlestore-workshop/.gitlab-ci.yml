@@ -1,0 +1,309 @@
+image:
+  name: artifacts.vdab.be/cops-docker-vdab/ondersteuning/dbt-singlestore-base:1.11.11
+  docker:
+    user: root
+
+variables:
+  GIT_STRATEGY: clone
+  GIT_DEPTH: "0"
+  DOCKER_API_VERSION: "1.44"
+  # Literal defaults: GitLab does not expand shell-style ${VAR:-default} in `variables:` (it yields an empty value, which made
+  # every dbt job fail with "Missing required field in singlestore profile: database"). Override per job or via CI/CD variables.
+  SINGLESTORE_HOST: "singlestore"
+  SINGLESTORE_USER: "svc_ci_dbt"
+  SINGLESTORE_PASS: "CiServicePwd2026!"
+  SINGLESTORE_DB: "edw_dv_rdv"
+
+stages:
+  - verify
+  - promote
+  - tag
+  - build_and_publish
+  - deploy
+  - changelog
+
+.git-setup:
+  script:
+    - git config --global user.email "gitlab-ci@vdab.be"
+    - git config --global user.name "GitLab CI"
+    - git config --global --add safe.directory "*"
+    - git fetch --force --prune --tags --update-head-ok origin
+
+# Expects DEPLOY_TAG (shell var) and DBT_DEPLOY_TARGET. Syncs to the shared /workshop_state volume.
+.deploy-airflow:
+  script:
+    - git checkout "$DEPLOY_TAG"
+    - dbt deps || true
+    - dbt compile --target run --target-path artifacts || true
+    # dbt Fusion: a complete static site (index.html + assets/) in --output-dir; there is no --static flag
+    - dbt docs generate --target run --output-dir target/dbt-docs || true
+    - ENV_DIR=$([[ "$DBT_DEPLOY_TARGET" =~ ^(LDV|ABT)$ ]] && echo dev || echo prod)
+    - ROOT=/workshop_state/$ENV_DIR
+    - mkdir -p $ROOT/dags/utils $ROOT/dbt $ROOT/docs $ROOT/mnt_dbt/target $ROOT/mnt_dbt/artifacts
+    - RSYNC="rsync -rlptD --delete --exclude=__pycache__ --exclude=*.pyc"
+    - $RSYNC --exclude=utils airflow/dags/ $ROOT/dags/
+    - $RSYNC airflow/utils/ $ROOT/dags/utils/
+    - $RSYNC ./ $ROOT/dbt/
+    - if [ -d artifacts ]; then rsync -a artifacts/ $ROOT/mnt_dbt/target/; rsync -a artifacts/ $ROOT/mnt_dbt/artifacts/; fi
+    - if [ -f target/dbt-docs/index.html ]; then rsync -rlD --delete target/dbt-docs/ $ROOT/docs/; fi
+    - chmod -R a+rwX $ROOT || true
+
+# -----------------------------------------------------------------------------
+# 1. VERIFICATION PIPELINES (CI)
+# -----------------------------------------------------------------------------
+
+verify_feature_to_dev:
+  stage: verify
+  variables:
+    DBT_DEPLOY_TARGET: "LDV"
+  script:
+    - !reference [.git-setup, script]
+    - echo "Compiling Dev baseline for state comparison..."
+    - git checkout origin/dev
+    - dbt deps || true
+    - dbt compile --target-path artifacts --target=run
+
+    - echo "Building modified models against LDV..."
+    - git checkout $CI_COMMIT_SHA
+    - git merge origin/dev --no-commit --no-ff || true
+    - dbt clean
+    - |
+      dbt build --select state:modified+ --state artifacts --defer --vars "SCHEMA: ${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME//[\/-]/_}" --target=ci
+    - |
+      dbt run-operation drop_nodes --target=ci --vars "SCHEMA: ${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME//[\/-]/_}"
+  # a red verify must not leave half-built tables behind: they break the next run (e.g. after the release revert)
+  after_script:
+    - |
+      dbt run-operation drop_nodes --vars "SCHEMA: ${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME//[\/-]/_}" --target=ci || true
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev"'
+
+verify_release_branch:
+  stage: verify
+  variables:
+    DBT_DEPLOY_TARGET: "CBT"
+  script:
+    - !reference [.git-setup, script]
+    - git checkout $CI_COMMIT_SHA
+    - dbt deps || true
+    - |
+      dbt build --vars "SCHEMA: ci_release_verify" --target=ci --fail-fast
+    - |
+      dbt run-operation drop_nodes --vars "SCHEMA: ci_release_verify" --target=ci
+  # a red verify must not leave half-built tables behind: they break the next run (e.g. after the release revert)
+  after_script:
+    - |
+      dbt run-operation drop_nodes --vars "SCHEMA: ci_release_verify" --target=ci || true
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^release\/[0-9]{4}-Q[1-4]$/ && $CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^release\//'
+
+verify_release_to_main:
+  stage: verify
+  variables:
+    DBT_DEPLOY_TARGET: "CBT"
+  script:
+    - !reference [.git-setup, script]
+    - git checkout $CI_COMMIT_SHA
+    - dbt deps || true
+    - |
+      dbt build --vars "SCHEMA: ci_cbt_verify" --target=ci --fail-fast
+    - |
+      dbt run-operation drop_nodes --vars "SCHEMA: ci_cbt_verify" --target=ci
+  # a red verify must not leave half-built tables behind: they break the next run (e.g. after the release revert)
+  after_script:
+    - |
+      dbt run-operation drop_nodes --vars "SCHEMA: ci_cbt_verify" --target=ci || true
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+
+# -----------------------------------------------------------------------------
+# 1b. MODIFIED GITFLOW RELEASE-TO-MAIN PROMOTION
+#     1. main resets to merge-base(main, release/YYYY-Qx)
+#     2. merge release/YYYY-Qx into main (--no-ff)
+#     3. force push new main
+# -----------------------------------------------------------------------------
+
+promote_release_to_main:
+  stage: promote
+  script:
+    - !reference [.git-setup, script]
+    - echo "Promoting ${CI_COMMIT_REF_NAME} to main using Modified GitFlow (merge-base reset + --no-ff merge)..."
+    - git checkout -B main origin/main
+    - MERGE_BASE=$(git merge-base origin/main "origin/${CI_COMMIT_REF_NAME}")
+    - echo "Resetting main to merge-base ${MERGE_BASE}..."
+    - git reset --hard "${MERGE_BASE}"
+    - |
+      if [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/${CI_COMMIT_REF_NAME})" ]; then
+        git commit --allow-empty -m "Merge branch '${CI_COMMIT_REF_NAME}' into 'main'"
+      else
+        git merge --no-ff "origin/${CI_COMMIT_REF_NAME}" -m "Merge branch '${CI_COMMIT_REF_NAME}' into 'main'"
+      fi
+    - git push --force "http://root:${GITLAB_PUSH_TOKEN:-$CI_JOB_TOKEN}@gitlab.local/${CI_PROJECT_PATH}.git" HEAD:main
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^release\/[0-9]{4}-Q[1-4]$/'
+      when: manual
+
+# -----------------------------------------------------------------------------
+# 2. TAGGING AUTOMATION
+# -----------------------------------------------------------------------------
+
+tag_dev:
+  stage: tag
+  script:
+    - !reference [.git-setup, script]
+    - git checkout dev
+    - git pull origin dev
+    - git fetch --tags
+    - latest_tag=$(git tag -l 'v*.*.*' | sort -V | tail -n 1)
+    - latest_tag="${latest_tag:-v1.0.0}"
+    - major=$(echo "$latest_tag" | awk -F. '{print $1}')
+    - minor=$(echo "$latest_tag" | awk -F. '{print $2}')
+    - patch=$(echo "$latest_tag" | awk -F. '{print $3}')
+    - last_merge_msg=$(git log -1 --pretty=%s)
+    - |
+      if [[ "$last_merge_msg" == *"feature/"* || "$last_merge_msg" == feat* ]]; then
+        new_tag="${major}.$((minor + 1)).0"
+      else
+        new_tag="${major}.${minor}.$((patch + 1))"
+      fi
+    - echo "Creating tag $new_tag"
+    - git tag -f "$new_tag"
+    - git push "http://root:${GITLAB_PUSH_TOKEN:-$CI_JOB_TOKEN}@gitlab.local/${CI_PROJECT_PATH}.git" "$new_tag"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev" && $CI_PIPELINE_SOURCE == "push"'
+
+tag_main:
+  stage: tag
+  script:
+    - !reference [.git-setup, script]
+    - git checkout main
+    - git pull origin main
+    - release_name=$(git log -1 --pretty=%s | grep -oP "release/\K[^ ']+" || echo "")
+    - |
+      if [ -z "$release_name" ]; then
+        latest_rel=$(git tag -l | grep -E '^[0-9]{4}(-Q[1-4]|_DROP[0-9]{1,2})' | sort -V | tail -n 1 | awk -F. '{print $1}')
+        release_name="${latest_rel:-$(date +%Y)-Q1}"
+      fi
+    - existing_tag=$(git tag -l "${release_name}.*" | sort -V | tail -n 1)
+    - |
+      if [ -z "$existing_tag" ]; then
+        new_tag="${release_name}.0"
+      else
+        last_patch=$(echo "$existing_tag" | awk -F. '{print $2}')
+        new_tag="${release_name}.$((last_patch + 1))"
+      fi
+    - echo "Creating release tag $new_tag"
+    - git tag -f "$new_tag"
+    - git push "http://root:${GITLAB_PUSH_TOKEN:-$CI_JOB_TOKEN}@gitlab.local/${CI_PROJECT_PATH}.git" "$new_tag"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"'
+
+# -----------------------------------------------------------------------------
+# 3. BUILD ARTIFACTS & PUBLISH (Post-Merge Actions)
+# -----------------------------------------------------------------------------
+
+publish_dev_artifacts:
+  stage: build_and_publish
+  variables:
+    DBT_DEPLOY_TARGET: "LDV"
+  script:
+    - !reference [.git-setup, script]
+    - echo "Pushing DAGs and compiled artifacts to LDV..."
+    - DEPLOY_TAG="$CI_COMMIT_TAG"
+    - !reference [.deploy-airflow, script]
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
+
+publish_main_artifacts:
+  stage: build_and_publish
+  variables:
+    DBT_DEPLOY_TARGET: "CBT"
+  script:
+    - !reference [.git-setup, script]
+    - echo "Pushing DAGs and compiled artifacts to CBT..."
+    - DEPLOY_TAG="$CI_COMMIT_TAG"
+    - !reference [.deploy-airflow, script]
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^[0-9]{4}(-Q[1-4]|_DROP[0-9]{1,2})\.[0-9]+$/'
+
+# -----------------------------------------------------------------------------
+# 4. DEPLOYMENTS
+# -----------------------------------------------------------------------------
+
+deploy_abt_scheduled:
+  stage: deploy
+  variables:
+    DBT_DEPLOY_TARGET: "ABT"
+  script:
+    - !reference [.git-setup, script]
+    - latest_dev_tag=$(git tag -l 'v*.*.*' | sort -V | tail -n 1)
+    - echo "Deploying $latest_dev_tag to ABT"
+    - DEPLOY_TAG="$latest_dev_tag"
+    - !reference [.deploy-airflow, script]
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+
+deploy_cbt_manual:
+  stage: deploy
+  variables:
+    DBT_DEPLOY_TARGET: "CBT"
+  script:
+    - !reference [.git-setup, script]
+    - latest_release_tag=$(git tag -l | grep -E '^[0-9]{4}(-Q[1-4]|_DROP[0-9]{1,2})\.[0-9]+$' | sort -V | tail -n 1)
+    - if [ -z "$latest_release_tag" ]; then echo "No release tag found"; exit 1; fi
+    - echo "Deploying release tag $latest_release_tag to CBT"
+    - DEPLOY_TAG="$latest_release_tag"
+    - !reference [.deploy-airflow, script]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
+
+deploy_prd_manual:
+  stage: deploy
+  variables:
+    DBT_DEPLOY_TARGET: "PRD"
+  script:
+    - !reference [.git-setup, script]
+    - latest_release_tag=$(git tag -l | grep -E '^[0-9]{4}(-Q[1-4]|_DROP[0-9]{1,2})\.[0-9]+$' | sort -V | tail -n 1)
+    - if [ -z "$latest_release_tag" ]; then echo "No release tag found"; exit 1; fi
+    - echo "Deploying release tag $latest_release_tag to Production"
+    - DEPLOY_TAG="$latest_release_tag"
+    - !reference [.deploy-airflow, script]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
+
+# -----------------------------------------------------------------------------
+# 5. CHANGELOG
+# -----------------------------------------------------------------------------
+
+changelog:
+  stage: changelog
+  variables:
+    CHANGELOG_TARGET_BRANCH: "changelog"
+    CHANGELOG_FILENAME: "CHANGELOG.md"
+  rules:
+    - if: "$CI_COMMIT_TAG"
+      when: always
+    - when: never
+  script: |
+    git config --global user.email "gitlab-ci@vdab.be"
+    git config --global user.name "GitLab CI"
+    git config --global --add safe.directory "*"
+
+    echo "Fetching dev branch, changelog branch, and tags..."
+    git fetch origin dev || true
+    git fetch origin ${CHANGELOG_TARGET_BRANCH} || true
+
+    echo "Switching to ${CHANGELOG_TARGET_BRANCH}..."
+    git checkout -B ${CHANGELOG_TARGET_BRANCH} origin/dev
+
+    echo "Generating Changelog for ${CI_COMMIT_TAG}"
+    git-changelog --include-all --output "${CHANGELOG_FILENAME}" || echo "# Changelog (${CI_COMMIT_TAG})" > "${CHANGELOG_FILENAME}"
+    git add "${CHANGELOG_FILENAME}"
+    git diff --cached --quiet || git commit -m "chore(changelog): Update ${CHANGELOG_FILENAME} for ${CI_COMMIT_TAG} [skip ci]"
+
+    echo "Pushing changelog update to ${CHANGELOG_TARGET_BRANCH}..."
+    git push "http://root:${GITLAB_PUSH_TOKEN:-$CI_JOB_TOKEN}@gitlab.local/${CI_PROJECT_PATH}.git" HEAD:${CHANGELOG_TARGET_BRANCH} --force -o ci.skip
+    echo "Changelog Updated and Completed"

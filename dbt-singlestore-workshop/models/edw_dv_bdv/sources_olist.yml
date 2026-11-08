@@ -1,0 +1,109 @@
+version: 2
+
+sources:
+  - name: raw_olist
+    description: "Olist E-Commerce landing tables populated incrementally by the IFW trickle feeder."
+    # Freshness is measured against the simulation watermark (see macros/utils/olist_freshness.sql):
+    # "days behind the simulation clock". 14-day trickles keep a healthy channel well inside warn_after.
+    config:
+      freshness:
+        warn_after: {count: 1, period: day}
+        error_after: {count: 3, period: day}
+    database: "{{ 'analytics_prod' if env_var('DBT_DEPLOY_TARGET', 'LDV') in ['PRD', 'CBT'] else 'analytics_dev' }}"
+    schema: "{{ 'analytics_prod' if env_var('DBT_DEPLOY_TARGET', 'LDV') in ['PRD', 'CBT'] else 'analytics_dev' }}"
+    tables:
+      - name: raw_olist_customers
+        description: "Raw Olist customer records landed per order purchase window."
+        config:
+          loaded_at_query: "{{ olist_loaded_at('raw_olist_customers') }}"
+          meta:
+            channel: webapp
+            owner_team: webapp_team
+        columns:
+          - name: customer_id
+            data_tests:
+              - not_null:
+                  config: {severity: error, tags: [critical]}
+          - name: customer_unique_id
+          - name: customer_zip_code_prefix
+          - name: customer_city
+          - name: customer_state
+          - name: _ingested_at
+      - name: raw_olist_orders
+        description: "Raw Olist orders with CDC status transitions (processing -> shipped -> delivered)."
+        config:
+          loaded_at_query: "{{ olist_loaded_at('raw_olist_orders') }}"
+          meta:
+            channel: webapp
+            owner_team: webapp_team
+        columns:
+          - name: order_id
+            data_tests:
+              - not_null:
+                  config: {severity: error, tags: [critical]}
+          - name: customer_id
+            description: "Webshop customer id: 32 lowercase hex characters, issued per order."
+            data_tests:
+              # DYNAMIC LOCAL SEVERITY: DEV has dirty data PRD never has (QA smoke-test orders placed with QA test
+              # accounts like 'qa-account-001'). warn in LDV/ABT, error in PRD/CBT; DBT_SEVERITY_DEV_DATA overrides both
+              # (Airflow Variable dbt_env_vars) - e.g. to see what the strict PRD rule would do to a DEV load.
+              - dbt_utils.expression_is_true:
+                  arguments:
+                    expression: "regexp '^[0-9a-f]{32}$'"
+                  config:
+                    severity: "{{ env_var('DBT_SEVERITY_DEV_DATA', 'warn' if env_var('DBT_DEPLOY_TARGET', 'LDV') in ['LDV', 'ABT'] else 'error') }}"
+                    tags: [critical]
+          - name: order_status
+            description: "Contract v1: processing | shipped | delivered. Contract v2 (webapp release) adds fraud_hold."
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ["processing", "shipped", "delivered"]
+                  config: {severity: error, tags: [critical]}
+          - name: order_purchase_timestamp
+          - name: order_approved_at
+          - name: order_delivered_carrier_date
+          - name: order_delivered_customer_date
+          - name: order_estimated_delivery_date
+          - name: _ingested_at
+      - name: raw_olist_order_payments
+        description: "Domain A: Raw Olist order payment transactions."
+        config:
+          loaded_at_query: "{{ olist_loaded_at('raw_olist_order_payments') }}"
+          meta:
+            channel: kafka
+            owner_team: kafka_team
+        data_tests:
+          - dbt_utils.unique_combination_of_columns:
+              arguments:
+                combination_of_columns: [order_id, payment_sequential]
+              config: {severity: error, tags: [critical]}
+        columns:
+          - name: order_id
+            data_tests:
+              - not_null:
+                  config: {severity: error, tags: [critical]}
+          - name: payment_sequential
+          - name: payment_type
+          - name: payment_installments
+          - name: payment_value
+          - name: _ingested_at
+      - name: raw_olist_order_reviews
+        description: "Domain B: Raw Olist customer order reviews (withheld in PRD until Domain B source delivery)."
+        config:
+          loaded_at_query: "{{ olist_loaded_at('raw_olist_order_reviews') }}"
+          meta:
+            channel: drive
+            owner_team: drive_team
+        columns:
+          - name: review_id
+            data_tests:
+              - not_null:
+                  config: {severity: error, tags: [critical]}
+          - name: order_id
+          - name: review_score
+          - name: review_comment_title
+          - name: review_comment_message
+          - name: review_creation_date
+          - name: review_answer_timestamp
+          - name: _ingested_at

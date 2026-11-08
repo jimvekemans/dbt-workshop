@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: mart_olist_management_kpi
+    description: "Management data product: order volume and delivery performance per order month (carrier scans)."
+    config:
+      meta:
+        owner_team: core
+    columns:
+      - name: bestel_jaar_maand
+      - name: pct_op_tijd
+        description: "% of delivered orders delivered on or before the promised date."
+
+# Defined next to the mart (not in models/exposures.yml): when the carrier feed is dropped with .dbtignore, the mart
+# AND this file go with it - an exposure that refs an ignored model breaks the parse just like a model does.
+exposures:
+  - name: management_delivery_kpi
+    label: "Management - delivery performance"
+    type: dashboard
+    maturity: medium
+    owner:
+      name: Management
+      email: management@example.org
+    description: "On-time delivery % per order month, from the carrier scans."
+    depends_on:
+      - ref('mart_olist_management_kpi')
+    config:
+      meta:
+        consumer: management
+        domain: deliveries

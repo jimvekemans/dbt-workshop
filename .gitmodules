@@ -1,0 +1,8 @@
+[submodule "infrastructure/dbt-singlestore-base-image/src/dbt"]
+	path = infrastructure/dbt-singlestore-base-image/src/dbt
+	url = https://github.com/jimvekemans/dbt.git
+	branch = feat/backfill-hardening-pr
+[submodule "infrastructure/dbt-singlestore-base-image/src/singlestore-adbc-connector"]
+	path = infrastructure/dbt-singlestore-base-image/src/singlestore-adbc-connector
+	url = https://github.com/singlestore-labs/singlestore-adbc-connector.git
+	branch = main

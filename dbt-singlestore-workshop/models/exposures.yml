@@ -1,0 +1,56 @@
+version: 2
+
+# Consumer-side nodes of the Workshop Studio map. Their health on the map comes from the upstream
+# test + source-freshness status of the models/sources they depend on.
+exposures:
+  - name: finance_revenue_report
+    label: "Finance - revenue report"
+    type: dashboard
+    maturity: high
+    owner:
+      name: Finance
+      email: finance@example.org
+    description: "Monthly revenue per order cohort. Reconciled against the raw payments (sum of payment_value)."
+    depends_on:
+      - ref('fct_olist_orders')
+      - source('raw_olist', 'raw_olist_order_payments')
+    config:
+      meta:
+        consumer: finance
+        domain: payments
+        freshness_sla: "payments no more than 1 day behind the simulation clock"
+
+  - name: marketing_nps_dashboard
+    label: "Marketing - NPS dashboard"
+    type: dashboard
+    maturity: medium
+    owner:
+      name: Marketing
+      email: marketing@example.org
+    description: "Customer satisfaction (review score / NPS) per order cohort and state."
+    depends_on:
+      - ref('fct_olist_orders')
+      - ref('dim_olist_customers')
+      - source('raw_olist', 'raw_olist_order_reviews')
+      - ref('mart_web_conversion')
+      - ref('int_web_top_pages')
+    config:
+      meta:
+        consumer: marketing
+        domain: reviews
+
+  - name: management_kpi_forecast
+    label: "Management - KPI & forecast"
+    type: analysis
+    maturity: medium
+    owner:
+      name: Management
+      email: management@example.org
+    description: "Order volume, delivery performance and revenue forecast. Waits for green sources before publishing."
+    depends_on:
+      - ref('fct_olist_orders')
+      - ref('dim_olist_customers')
+    config:
+      meta:
+        consumer: management
+        domain: all

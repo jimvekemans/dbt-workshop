@@ -1,0 +1,38 @@
+version: 2
+
+macros:
+  - name: get_var
+    description: |
+      A utility macro that executes a SQL query and returns its first column's first row value.
+      This macro is used to fetch dynamic values at runtime that can be used within the dbt project,
+      such as load cycle IDs, flags, or configuration parameters stored in the database.
+
+      SELECT 
+        {{ var('full_refresh_pit_burger_db', default=False) }} as load_cycle_id,
+        field1,
+        field2
+      FROM source_table
+    arguments:
+      - name: query
+        type: string
+        description: |
+          A SQL query string that returns a single value (first column, first row).
+          The query should be designed to return exactly one value.
+
+  - name: get_incr_load_start
+    description: |
+      Begintijdstip van incr load - default run_started_at - 7 dagen, kan overschreven worden met env_var
+      Gebruik:
+      - Daily incremental runs: gebruik default om alleen recente wijzigingen te laden
+      - Full-refresh: override met een vroege datum (bijv. '2020-01-01') voor volledige historische load
+      - Historical backfill: stel specifieke start datum in voor gedeeltelijke historische load
+
+  - name: get_incr_load_end
+    description: |
+      Eindtijdstip van incr load - default op 9999-12-31, kan overschreven worden met env_var
+      Gebruik:
+      - Normale runs: gebruik default (9999-12-31) om alle records tot in de toekomst te laden
+      - Historical backfill: stel specifieke eind datum in om load te beperken tot een bepaalde periode
+
+  - name: get_local_run_started_at
+    description: "Start datum van de DBT run in locale tijd"

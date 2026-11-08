@@ -1,0 +1,22 @@
+version: 2
+
+macros:
+  - name: audit_environment_drift
+    description: >-
+      Compares the live warehouse with the project (Git): relations a model builds that were created or altered by an
+      account other than a dbt service account (a manual hotfix), objects in a model database that nothing declares,
+      and privileges the run user lacks on the databases dbt writes to (write) or reads from (SELECT), compared with
+      the reference account. Logs one line per finding and fails when `fail_on_drift` is true. Runs as the first task
+      of dbt_release (gate) and right before dbt_build in dbt_daily_load (report only). Studio scenario E10.
+    arguments:
+      - name: fail_on_drift
+        type: boolean
+        description: "Raise a compilation error when there is at least one finding (default true)."
+      - name: reference_user
+        type: string
+        description: "Account to compare missing grants with (default var drift_audit_reference_user = svc_ldv_dbt)."
+      - name: audit_user
+        type: string
+        description: >-
+          Audit this account's grants instead of target.user - run as an admin (svc_ci_dbt) to see PRD's grants next
+          to LDV's; a least-privilege account only sees its own rows in information_schema.

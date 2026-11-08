@@ -1,0 +1,70 @@
+id: C1_finance_fanout
+layer: consumers
+title: "Finance revenue is double-counted (payments fan-out)"
+summary: "A refactor builds the revenue mart from the payment-grain dimension: the order total is summed once per payment row."
+star: true
+focus: [dbt.mart_olist_payment_performance, exposure.finance_revenue_report]
+detect: "Reconciliation test sum(mart) = sum(raw payments) fails; Finance KPI +7.5%."
+requires:
+  - {action: check_gitlab_file, ref: dev, path: models/im_dimensional/dim_olist_payments.sql, hint: "Domain A must be in dev: run H0 steps 1-2 or E1's injection first"}
+inject:
+  narrative: "A 'harmless' refactor reuses dim_olist_payments, whose order_betaald_totaal is repeated on every payment row. Orders paid with several payments (voucher + card) are counted once per payment. The MR pipeline (verify_feature_to_dev) is red on the reconciliation test, but this project does not require a green pipeline to merge, so the MR gets merged anyway and the bug reaches dev. Needs Domain A in dev: run H0 (steps 1-2) or E1 first."
+  sim:
+    dbt.mart_olist_payment_performance: {health: fail, note: "sum(mart) != sum(raw): +7.5%"}
+    git.dev: {health: ok}
+  live:
+    - {action: gitlab_branch, name: feature/finance-mart-refactor, ref: dev}
+    - {action: gitlab_commit_patch, patch: bug-finance-fanout, branch: feature/finance-mart-refactor}
+    - {action: gitlab_mr_merge, source: feature/finance-mart-refactor, target: dev, patch: bug-finance-fanout, wait_pipeline: false, timeout: 900}
+    # let tag_dev + publish_dev_artifacts sync LDV before the daily load builds the new mart
+    - {action: gitlab_pipeline_wait, tag_of: dev, expect: success, timeout: 900}
+    - {action: airflow_trigger, env: dev, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+impact:
+  - {node: exposure.finance_revenue_report, health: fail, note: "revenue +7.5% vs raw payments"}
+  - {node: exposure.management_kpi_forecast, health: warn, note: "forecast inherits inflated revenue"}
+  - {node: consumer.finance, health: warn}
+  - {node: consumer.management, health: warn}
+steps:
+  - title: "Detect: the reconciliation test fails"
+    explain: "assert_finance_revenue_reconciles compares the mart with the raw payments (tolerance 0.5%). The same bug without the test would have reached the CFO as 'revenue is up 7.5%'."
+    code: "dbt test --select assert_finance_revenue_reconciles"
+    zoom: consumers
+    highlight: [exposure.finance_revenue_report, dbt.mart_olist_payment_performance]
+    expect: {node: exposure.finance_revenue_report, health: fail}
+  - title: "Analyse the grain"
+    explain: "dim_olist_payments is at PAYMENT grain, order_betaald_totaal is an ORDER measure. Joining orders to it and summing the order measure multiplies it by the number of payment rows."
+    code: |
+      select count(*), count(distinct order_id) from dim_olist_payments;         -- 9104 rows vs 8552 orders
+      select sum(payment_value), sum(order_betaald_totaal) from dim_olist_payments;  -- 1.419M vs 1.526M
+    zoom: platform
+    highlight: [dbt.dim_olist_payments, dbt.mart_olist_payment_performance, team.domain_a]
+  - title: "Fix: aggregate payments to order grain before the join"
+    explain: "Sum payment_value per order in a CTE, then join to the fact (one row per order). Bugfix branch -> MR -> dev."
+    code: |
+      with per_order as (select order_hkey, sum(payment_value) as betaald_totaal, count(*) as aantal_betalingen
+                         from {{ ref('stg_olist_payments') }} group by order_hkey)
+      select ... from fct_olist_orders f left join per_order p on p.order_hkey = f.order_hkey
+    highlight: [git.feature, git.dev, dbt.mart_olist_payment_performance]
+    sim:
+      git.feature: {health: ok}
+      dbt.mart_olist_payment_performance: {health: warn, note: "fix merged, rebuilding"}
+    live:
+      - {action: gitlab_branch, name: bugfix/finance-grain, ref: dev}
+      - {action: gitlab_commit_patch, patch: fix-finance-grain, branch: bugfix/finance-grain}
+      - {action: gitlab_mr_merge, source: bugfix/finance-grain, target: dev, patch: fix-finance-grain, timeout: 900}
+  - title: "Rebuild and release"
+    explain: "The next daily load recomputes the mart; the fix reaches PRD with the next release (quarterly cadence - see C2 for what that costs)."
+    code: "airflow dags trigger dbt_daily_load --conf '{\"manual_run_override\": true}'"
+    zoom: consumers
+    highlight: [exposure.finance_revenue_report]
+    sim:
+      dbt.mart_olist_payment_performance: {health: ok, note: ""}
+      exposure.finance_revenue_report: {health: ok, note: ""}
+      exposure.management_kpi_forecast: {health: ok, note: ""}
+      consumer.finance: {health: ok}
+      consumer.management: {health: ok}
+    live:
+      # the fix reaches LDV through tag_dev + publish_dev_artifacts: wait for it, or the load rebuilds the buggy mart
+      - {action: gitlab_pipeline_wait, tag_of: dev, expect: success, timeout: 900}
+      - {action: airflow_trigger, env: dev, dag: dbt_daily_load, conf: {manual_run_override: true}, allow_failure: true}
+    expect: {node: exposure.finance_revenue_report, health: ok}

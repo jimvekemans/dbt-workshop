@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_web_events
+    description: "Web clickstream staging (lazy: select * from the landing table)."
+    config:
+      meta:
+        owner_team: platform
+
+  - name: mart_web_conversion
+    description: "Marketing data product: visitors, checkouts and attributed orders per month."
+    config:
+      meta:
+        owner_team: domain_b
+    columns:
+      - name: maand
+      - name: toewijzing_pct
+        description: "% of logged-in checkouts that could be matched to an order."
+
+  - name: mart_web_journeys
+    description: "Marketing journey analysis: page paths per day (naive non-equi self-join)."
+    config:
+      meta:
+        owner_team: domain_b
+
+  - name: int_web_top_pages
+    description: "LEGACY. Top pages for the marketing dashboard. No owner since 2024."
+    config:
+      meta:
+        owner_team: none
+        status: unmaintained

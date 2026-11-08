@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: dbt_run_results
+    description: "Deze tabel wordt gebruikt om de resultaten van dbt runs te loggen. De tabel wordt automatisch gevuld door de macro log_dbt_results."
+    config:
+      materialized: incremental
+      database: "vdp_mgmt"
+      incremental_strategy: append
+      unique_key: ["invocation_id", "name"]
+      primary_key: ["invocation_id", "name"]
+      shard_key: ["invocation_id", "name"]
+      full_refresh: false

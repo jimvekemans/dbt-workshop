@@ -1,0 +1,33 @@
+version: 2
+
+# The carrier feed lives in its own folders (models/*/carrier/, tests/carrier/): when the feed has to disappear from
+# the daily load between two deploy windows, the Airflow Variable `dbt_daily_load_dbtignore` can drop it with a few
+# patterns - see airflow/utils/dbt_runtime_overrides.py. Anything OUTSIDE these folders that refs a carrier model
+# (mart_olist_management_kpi) has to be ignored too, or the whole project fails to parse.
+sources:
+  - name: raw_carrier
+    description: "Logistics partner tracking API: one JSON payload per parcel scan (generated from the Olist delivery dates)."
+    config:
+      freshness:
+        warn_after: {count: 1, period: day}
+        error_after: {count: 3, period: day}
+    database: "{{ 'analytics_prod' if env_var('DBT_DEPLOY_TARGET', 'LDV') in ['PRD', 'CBT'] else 'analytics_dev' }}"
+    schema: "{{ 'analytics_prod' if env_var('DBT_DEPLOY_TARGET', 'LDV') in ['PRD', 'CBT'] else 'analytics_dev' }}"
+    tables:
+      - name: raw_carrier_tracking_events
+        description: >
+          Contract v1: {"shipment_id", "order_ref", "event": picked_up | in_transit | delivered, "event_time": local time}.
+          The carrier has announced API v2 (camelCase keys, nested status code PU | IT | DL, UTC ISO-8601 eventTime) for
+          "some time this quarter" - stg_carrier_tracking_events v2 already parses it.
+        config:
+          loaded_at_query: "{{ olist_loaded_at('raw_carrier_tracking_events') }}"
+          meta:
+            channel: carrier
+            owner_team: carrier_team
+        columns:
+          - name: event_id
+            data_tests:
+              - not_null:
+                  config: {severity: error, tags: [critical]}
+          - name: payload
+          - name: _ingested_at

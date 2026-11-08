@@ -1,0 +1,12 @@
+title: Accept webapp contract v2 (order_status fraud_hold)
+message: 'fix(webapp): accept new order_status fraud_hold from contract v2'
+branch: bugfix/webapp-contract-v2
+ops:
+- path: models/edw_dv_bdv/sources_olist.yml
+  find: 'values: ["processing", "shipped", "delivered"]'
+  replace: 'values: ["processing", "shipped", "delivered", "fraud_hold"]'
+- path: models/edw_dv_bdv/sources_olist.yml
+  find: 'Contract v1: processing | shipped | delivered. Contract v2 (webapp release)
+    adds fraud_hold.'
+  replace: 'Contract v2: processing | shipped | delivered | fraud_hold (orders held
+    by the fraud team).'

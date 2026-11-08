@@ -1,0 +1,3 @@
+# Python deps of bootstrap_stack.py / reset_workshop.py (the manager image). Exact versions: same build next month.
+PyMySQL==1.2.3
+requests==2.34.2
