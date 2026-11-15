@@ -15,7 +15,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG CARGO_BUILD_JOBS=
 # The Dockerfile is listed so the COPY never matches nothing when ./dbt is absent.
 COPY Dockerfile dbt* /prebuilt/
-RUN --mount=type=bind,source=src/dbt,target=/src/dbt \
+# rw: the fork has no Cargo.lock in git, so cargo writes one (into the build's own copy; nothing reaches the host)
+RUN --mount=type=bind,source=src/dbt,target=/src/dbt,rw \
     --mount=type=cache,target=/root/.cargo/registry \
     --mount=type=cache,target=/root/.cargo/git \
     --mount=type=cache,target=/cargo-target \
@@ -39,7 +40,7 @@ RUN --mount=type=bind,source=src/dbt,target=/src/dbt \
 FROM debian:trixie-slim AS adbc-build
 ENV DEBIAN_FRONTEND=noninteractive
 COPY Dockerfile libadbc_driver_singlestore.so* /prebuilt/
-RUN --mount=type=bind,source=src/singlestore-adbc-connector,target=/src/adbc \
+RUN --mount=type=bind,source=src/singlestore-adbc-connector,target=/src/adbc,rw \
     --mount=type=cache,target=/root/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
     set -eux; mkdir -p /out; \
@@ -80,8 +81,6 @@ RUN groupadd -f -g 1000 vscode && groupadd -f wheel && \
     usermod -aG wheel dbt && \
     echo "dbt ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     git config --system --add safe.directory '*' && \
-    git config --system url."http://gitlab.local/workshop/".insteadOf "git@git.vdab.be:vdp/" && \
-    git config --system url."http://gitlab.local/workshop/".insteadOf "https://git.vdab.be/vdp/" && \
     chown -R 1000:0 /usr/app/dbt && chmod -R g+rwx /usr/app/dbt
 
 USER dbt:root

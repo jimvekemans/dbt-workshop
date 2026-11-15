@@ -1,7 +1,7 @@
 # Omnibus configuration of the workshop GitLab (image gitlab/gitlab-ce, pinned in compose/docker-compose.yml).
 # Mounted as a compose config at /omnibus_config.rb and loaded with GITLAB_OMNIBUS_CONFIG="from_file('/omnibus_config.rb')":
 # GitLab applies it on every container start (reconfigure), on top of the defaults in the gitlab_config volume.
-# Changing it: edit, then `infrastructure/workshop.sh up` (recreates workshop-gitlab).
+# Changing it: edit, then `make up` (recreates workshop-gitlab).
 
 # Browser and in-network name: the container's hostname and its network alias on workshop_net
 external_url 'http://gitlab.local'

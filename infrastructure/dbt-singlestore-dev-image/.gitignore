@@ -1,0 +1,3 @@
+# The vdp toolkit's source and the optional prebuilt vdp binary are local copies (see README.md)
+src/vdp-rust-utils/
+/vdp

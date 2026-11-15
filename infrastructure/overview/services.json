@@ -1,0 +1,196 @@
+{
+  "_comment": "Declarative service list for the overview page. probe types: docker (container state only), http (url, optional ok_below), airflow (health JSON), docs (nginx site), singlestore (login + select 1), tcp (connect). A link template expands ${VAR:default} from the environment, the same variables and defaults as docker-compose.yml. users.source: none | static | singlestore | gitlab | gitlab_airflow. A static user's password_env names the variable in the service's own container that holds its password (read through the Docker API, never written here). same_as reuses the probe result of another service.",
+  "_airflow_roles_comment": "Mirrors AUTH_ROLES_MAPPING in infrastructure/airflow/webserver_config.py (GitLab subgroup -> Airflow role per environment). Change both together.",
+  "airflow_roles": {
+    "dev": {
+      "workshop/admins": "Admin",
+      "workshop/maintainers": "Op",
+      "workshop/users": "User",
+      "workshop/viewers": "Viewer"
+    },
+    "val": {
+      "workshop/admins": "Admin",
+      "workshop/maintainers": "Op",
+      "workshop/users": "Viewer",
+      "workshop/viewers": "Viewer"
+    },
+    "prd": {
+      "workshop/admins": "Admin",
+      "workshop/maintainers": "Op",
+      "workshop/users": "Viewer",
+      "workshop/viewers": "Viewer"
+    }
+  },
+  "shared": {
+    "title": "Shared services",
+    "services": [
+      {
+        "id": "gitlab",
+        "name": "GitLab",
+        "container": "workshop-gitlab",
+        "purpose": "Git hosting, merge requests and CI",
+        "probe": {
+          "type": "http",
+          "url": "http://gitlab.local/users/sign_in",
+          "ok_below": 500
+        },
+        "link": "http://gitlab.local",
+        "users": {
+          "source": "gitlab"
+        },
+        "credentials": "infrastructure/compose/docker-compose.yml (GITLAB_ROOT_PASSWORD), infrastructure/manager/bootstrap_stack.py (users)"
+      },
+      {
+        "id": "runner",
+        "name": "GitLab runner",
+        "container": "workshop-gitlab-runner",
+        "purpose": "Runs the CI jobs through the Docker socket",
+        "probe": {
+          "type": "docker"
+        },
+        "users": {
+          "source": "none",
+          "note": "No accounts."
+        },
+        "credentials": "infrastructure/manager/bootstrap_stack.py (runner registration)"
+      },
+      {
+        "id": "singlestore",
+        "name": "SingleStore",
+        "container": "workshop-singlestore",
+        "purpose": "One database server, separate databases per environment",
+        "probe": {
+          "type": "singlestore"
+        },
+        "link": "http://localhost:${WORKSHOP_S2_UI_PORT:8083}",
+        "link_label": "Open Studio",
+        "users": {
+          "source": "singlestore",
+          "env": null
+        },
+        "credentials": "infrastructure/singlestore/init_global.sql and init_env.sql.tmpl (users), docker-compose.yml (root)"
+      },
+      {
+        "id": "mysql",
+        "name": "MySQL",
+        "container": "workshop-mysql",
+        "purpose": "Airflow metadata databases",
+        "probe": {
+          "type": "tcp",
+          "host": "mysql",
+          "port": 3306
+        },
+        "users": {
+          "source": "static",
+          "users": [
+            {
+              "name": "root",
+              "role": "administrator",
+              "password_env": "MYSQL_ROOT_PASSWORD"
+            },
+            {
+              "name": "airflow",
+              "role": "Airflow metadata owner",
+              "password_env": "MYSQL_PASSWORD"
+            }
+          ]
+        },
+        "credentials": "infrastructure/compose/docker-compose.yml (mysql), infrastructure/airflow/mysql/init-mysql.sql"
+      },
+      {
+        "id": "mailpit",
+        "name": "Mailpit",
+        "container": "workshop-mailpit",
+        "purpose": "Catches the report and failure mails",
+        "probe": {
+          "type": "http",
+          "url": "http://mailpit:8025/livez"
+        },
+        "link": "http://localhost:${WORKSHOP_MAILPIT_PORT:8025}",
+        "users": {
+          "source": "none",
+          "note": "No accounts."
+        },
+        "credentials": "none needed"
+      },
+      {
+        "id": "studio",
+        "name": "Workshop Studio",
+        "container": "workshop-studio",
+        "purpose": "Scenarios and live demos; feeds the practice data",
+        "probe": {
+          "type": "http",
+          "url": "http://workshop-studio:8085/api/health",
+          "ok_below": 500
+        },
+        "link": "http://localhost:${WORKSHOP_STUDIO_PORT:8085}",
+        "users": {
+          "source": "none",
+          "note": "No accounts."
+        },
+        "credentials": "none needed (published on localhost only)"
+      }
+    ]
+  },
+  "per_environment": {
+    "ports": {
+      "dev": {
+        "airflow": "${WORKSHOP_AIRFLOW_DEV_PORT:8088}",
+        "docs": "8081"
+      },
+      "val": {
+        "airflow": "${WORKSHOP_AIRFLOW_VAL_PORT:8089}",
+        "docs": "8082"
+      },
+      "prd": {
+        "airflow": "${WORKSHOP_AIRFLOW_PRD_PORT:8090}",
+        "docs": "8086"
+      }
+    },
+    "services": [
+      {
+        "id": "airflow",
+        "name": "Airflow",
+        "container": "workshop-airflow-{env}",
+        "purpose": "Runs the dbt DAGs for {env}",
+        "probe": {
+          "type": "airflow",
+          "url": "http://airflow-{env}:8080/api/v2/monitor/health"
+        },
+        "link": "http://localhost:{airflow_port}",
+        "users": {
+          "source": "gitlab_airflow"
+        },
+        "credentials": "No local accounts: sign-in through GitLab (infrastructure/airflow/webserver_config.py)"
+      },
+      {
+        "id": "docs",
+        "name": "dbt docs",
+        "container": "workshop-dbt-docs",
+        "purpose": "Static dbt documentation of {env}",
+        "probe": {
+          "type": "docs",
+          "url": "http://dbt-docs:{docs_port}/"
+        },
+        "link": "http://localhost:{docs_port}",
+        "users": {
+          "source": "none",
+          "note": "No accounts."
+        },
+        "credentials": "none needed (written by the CI deploy job)"
+      },
+      {
+        "id": "singlestore",
+        "name": "SingleStore {env}",
+        "container": "workshop-singlestore",
+        "purpose": "Databases {env}_landing ... {env}_vdp_mgmt on the shared server",
+        "same_as": "singlestore",
+        "users": {
+          "source": "singlestore",
+          "env": "{env}"
+        },
+        "credentials": "infrastructure/singlestore/init_env.sql.tmpl (roles and users)"
+      }
+    ]
+  }
+}

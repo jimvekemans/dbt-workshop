@@ -1,0 +1,153 @@
+-- One environment (dev | val | prd; the name replaces the placeholder): databases, roles, service user, grants,
+-- management tables and EMPTY landing tables. Bootstrap applies this file once per environment.
+-- Roles are attached to groups and groups to users (SingleStore RBAC: user -> group -> role -> privileges).
+
+-- 1. Databases
+CREATE DATABASE IF NOT EXISTS __ENV___landing;
+CREATE DATABASE IF NOT EXISTS __ENV___edw_dv_rdv;
+CREATE DATABASE IF NOT EXISTS __ENV___edw_dv_bdv;
+CREATE DATABASE IF NOT EXISTS __ENV___im_dimensional;
+CREATE DATABASE IF NOT EXISTS __ENV___vdp_mgmt;
+
+-- 2. Roles and groups: admin (ALL), dbt (service user), reader (SELECT)
+CREATE ROLE '__ENV___admin';
+CREATE GROUP 'grp___ENV___admin';
+GRANT ROLE '__ENV___admin' TO 'grp___ENV___admin';
+CREATE ROLE '__ENV___dbt';
+CREATE GROUP 'grp___ENV___dbt';
+GRANT ROLE '__ENV___dbt' TO 'grp___ENV___dbt';
+CREATE ROLE '__ENV___reader';
+CREATE GROUP 'grp___ENV___reader';
+GRANT ROLE '__ENV___reader' TO 'grp___ENV___reader';
+
+-- 3. Grants, per database
+GRANT ALL PRIVILEGES ON __ENV___landing.* TO ROLE '__ENV___admin';
+GRANT SELECT, SHOW VIEW ON __ENV___landing.* TO ROLE '__ENV___reader';
+GRANT SELECT, SHOW VIEW ON __ENV___landing.* TO ROLE '__ENV___dbt';
+GRANT ALL PRIVILEGES ON __ENV___edw_dv_rdv.* TO ROLE '__ENV___admin';
+GRANT SELECT, SHOW VIEW ON __ENV___edw_dv_rdv.* TO ROLE '__ENV___reader';
+GRANT ALL PRIVILEGES ON __ENV___edw_dv_rdv.* TO ROLE '__ENV___dbt';
+GRANT ALL PRIVILEGES ON __ENV___edw_dv_bdv.* TO ROLE '__ENV___admin';
+GRANT SELECT, SHOW VIEW ON __ENV___edw_dv_bdv.* TO ROLE '__ENV___reader';
+GRANT ALL PRIVILEGES ON __ENV___edw_dv_bdv.* TO ROLE '__ENV___dbt';
+GRANT ALL PRIVILEGES ON __ENV___im_dimensional.* TO ROLE '__ENV___admin';
+GRANT SELECT, SHOW VIEW ON __ENV___im_dimensional.* TO ROLE '__ENV___reader';
+GRANT ALL PRIVILEGES ON __ENV___im_dimensional.* TO ROLE '__ENV___dbt';
+GRANT ALL PRIVILEGES ON __ENV___vdp_mgmt.* TO ROLE '__ENV___admin';
+GRANT SELECT, SHOW VIEW ON __ENV___vdp_mgmt.* TO ROLE '__ENV___reader';
+GRANT ALL PRIVILEGES ON __ENV___vdp_mgmt.* TO ROLE '__ENV___dbt';
+
+-- 4. Service user (dbt in CI and Airflow)
+CREATE USER IF NOT EXISTS 'svc___ENV___dbt'@'%' IDENTIFIED BY 'CiServicePwd2026!';
+GRANT GROUP 'grp___ENV___dbt' TO 'svc___ENV___dbt'@'%';
+
+FLUSH PRIVILEGES;
+
+-- 5. Management tables
+USE __ENV___vdp_mgmt;
+
+CREATE TABLE IF NOT EXISTS dbt_run_results (
+    invocation_id VARCHAR(250),
+    run_started_at DATETIME(6),
+    unique_id VARCHAR(1000),
+    file_path VARCHAR(1000),
+    relation_name VARCHAR(250),
+    database_name VARCHAR(250),
+    name VARCHAR(1000),
+    resource_type VARCHAR(250),
+    materialized VARCHAR(250),
+    status VARCHAR(250),
+    failures VARCHAR(1000),
+    started_at DATETIME(6),
+    completed_at DATETIME(6),
+    execution_time DECIMAL(38, 10),
+    rows_affected BIGINT,
+    pre_hook LONGTEXT,
+    post_hook LONGTEXT,
+    compiled_code LONGTEXT,
+    SHARD KEY (invocation_id, name),
+    PRIMARY KEY (invocation_id, name)
+);
+
+CREATE TABLE IF NOT EXISTS vdp_parameters (
+    parameter_name VARCHAR(250) PRIMARY KEY,
+    parameter_value VARCHAR(1000),
+    parameter_description VARCHAR(1000),
+    dtm_cre DATETIME,
+    usr_cre VARCHAR(100),
+    dtm_lw DATETIME,
+    usr_lw VARCHAR(100)
+);
+
+-- 6. Landing tables (empty: the data arrives from outside the stack)
+USE __ENV___landing;
+
+CREATE TABLE IF NOT EXISTS raw_olist_customers (
+    customer_id VARCHAR(64),
+    customer_unique_id VARCHAR(64),
+    customer_zip_code_prefix VARCHAR(16),
+    customer_city VARCHAR(64),
+    customer_state VARCHAR(8),
+    _ingested_at DATETIME,
+    SHARD KEY (customer_id),
+    SORT KEY (_ingested_at)
+);
+
+CREATE TABLE IF NOT EXISTS raw_olist_orders (
+    order_id VARCHAR(64),
+    customer_id VARCHAR(64),
+    order_status VARCHAR(32),
+    order_purchase_timestamp DATETIME,
+    order_approved_at DATETIME,
+    order_delivered_carrier_date DATETIME,
+    order_delivered_customer_date DATETIME,
+    order_estimated_delivery_date DATETIME,
+    _ingested_at DATETIME,
+    SHARD KEY (order_id),
+    SORT KEY (_ingested_at)
+);
+
+CREATE TABLE IF NOT EXISTS raw_olist_order_payments (
+    order_id VARCHAR(64),
+    payment_sequential INT,
+    payment_type VARCHAR(32),
+    payment_installments INT,
+    payment_value DECIMAL(10,2),
+    _ingested_at DATETIME,
+    SHARD KEY (order_id),
+    SORT KEY (_ingested_at)
+);
+
+CREATE TABLE IF NOT EXISTS raw_olist_order_reviews (
+    review_id VARCHAR(64),
+    order_id VARCHAR(64),
+    review_score INT,
+    review_comment_title TEXT,
+    review_comment_message TEXT,
+    review_creation_date DATETIME,
+    review_answer_timestamp DATETIME,
+    _ingested_at DATETIME,
+    SHARD KEY (order_id),
+    SORT KEY (_ingested_at)
+);
+
+CREATE TABLE IF NOT EXISTS raw_carrier_tracking_events (
+    event_id     VARCHAR(64),
+    payload      JSON,
+    _ingested_at DATETIME,
+    SHARD KEY (event_id),
+    SORT KEY (_ingested_at)
+);
+
+CREATE TABLE IF NOT EXISTS raw_web_events (
+    event_id     VARCHAR(64),
+    visitor_id   VARCHAR(64),
+    customer_ref VARCHAR(64),
+    event_type   VARCHAR(32),
+    page         VARCHAR(255),
+    referrer     VARCHAR(32),
+    event_ts     DATETIME,
+    _ingested_at DATETIME,
+    SHARD KEY (event_id),
+    SORT KEY (_ingested_at)
+);

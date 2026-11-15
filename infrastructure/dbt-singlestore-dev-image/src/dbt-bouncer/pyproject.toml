@@ -1,0 +1,220 @@
+[project]
+name = "dbt-bouncer"
+version = "0.0.0"
+description = "Configure and enforce conventions for your dbt project."
+readme = "README.md"
+requires-python = ">=3.11,<3.15"
+license = "MIT"
+authors = [{ name = "Padraic Slattery", email = "pgoslatara@gmail.com" }]
+maintainers = [{ name = "Padraic Slattery", email = "pgoslatara@gmail.com" }]
+keywords = [
+  "CI/CD",
+  "cli",
+  "dbt",
+  "python",
+]
+classifiers = [
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+  "jellyfish (>=1,<2)",
+  "jinja2-simple-tags (<1)",
+  "jinja2 (>=3,<4)",
+  "junitparser (>=2,<6)",
+  "orjson (>=3,<4)",
+  "packaging (<27)",
+  "pydantic (>=2,<3)",
+  "pyyaml (<7)",
+  "rich (>=13,<16)",  # Typer also pulls in rich as a dependency, relying on that would be an implicit transitive dependency.
+  "semver (<4)",
+  "typer>=0.12,<1",
+]
+
+[project.urls]
+repository = "https://github.com/godatadriven/dbt-bouncer"
+
+[project.scripts]
+dbt-bouncer = "dbt_bouncer.main:app"
+
+[project.entry-points."dbt_bouncer.checks"]
+catalog = "dbt_bouncer.checks.catalog"
+manifest = "dbt_bouncer.checks.manifest"
+run_results = "dbt_bouncer.checks.run_results"
+
+[project.optional-dependencies]
+dev = [
+  "bandit~=1.0",
+  "dbt-core>=1.12.0b1,<2",
+  "dbt-duckdb~=1.0",
+  "prek>=0.1,<1",
+  "pytest>=8,<10",
+  "pytest-cov>=5,<8",
+  "pytest-xdist~=3.0",
+  "pyupgrade~=3.0",
+  "rumdl>=0.1.19",
+  "ruff>=0.8,<1",
+  "shandy-sqlfmt[jinjafmt]>=0.7,<1",
+  "tombi>=0.7.32",
+  "ty>=0.0.7"
+]
+
+# PEP 735 dev-only groups (not published in wheel metadata).
+# `docs` lives here because PyPI rejects direct URL deps in published projects;
+# moving it out of [project.optional-dependencies] keeps the `mike` git fork usable
+# locally and in CI while keeping uploads valid.
+[dependency-groups]
+docs = [
+  # Zensical replaces mkdocs + mkdocs-material; it natively reads mkdocs.yml.
+  # `squidfunk/mike` is the Zensical-compatible fork of `mike` (not on PyPI).
+  # Pinned to commit 2d4ad79 (2026-04-17, version 2.2.0+zensical.0.1.0);
+  # swap back to `mike~=2.0` once Zensical ships native versioning support.
+  "mike @ git+https://github.com/squidfunk/mike.git@2d4ad799442f4592db8ad53b179bfb33db8c69ac",
+  "mkdocstrings-python<3",
+  "pymdown-extensions~=10.0",
+  # Zensical is pre-1.0; constrain to the patch series to avoid surprise breakage.
+  "zensical~=0.0.43"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "if TYPE_CHECKING:",
+]
+
+[tool.dbt-bouncer]
+dbt_artifacts_dir = "dbt_project/target"
+
+[[tool.dbt-bouncer.manifest_checks]]
+name = "check_model_has_unique_test"
+
+[[tool.dbt-bouncer.manifest_checks]]
+name = "check_model_names"
+include = "^staging"
+model_name_pattern = "^stg_"
+
+[tool.ruff]
+exclude = [
+  ".bzr",
+  ".direnv",
+  ".eggs",
+  ".git",
+  ".git-rewrite",
+  ".hg",
+  ".ipynb_checkpoints",
+  ".mypy_cache",
+  ".nox",
+  ".pants.d",
+  ".pyenv",
+  ".pytest_cache",
+  ".pytype",
+  ".ruff_cache",
+  ".svn",
+  ".tox",
+  ".venv",
+  ".vscode",
+  "__pypackages__",
+  "_build",
+  "buck-out",
+  "build",
+  "dist",
+  "node_modules",
+  "site-packages",
+  "venv",
+]
+line-length = 88
+indent-width = 4
+target-version = "py311"
+
+[tool.ruff.lint]
+ignore = [
+  "COM812",
+  "D100",
+  "D203",
+  "D213",
+  "D406",
+  "D407",
+  "D409",
+  "E501",
+  "G004",
+  "LOG015",
+  "S101"
+]
+preview = true
+select = [
+  "A",
+  "ARG",
+  "B",
+  "C4",
+  "COM",
+  "D",
+  "DOC",
+  "E",
+  "EXE",
+  "F",
+  "I",
+  "ICN",
+  "LOG",
+  "G",
+  "N",
+  "PT",
+  "PTH",
+  "Q",
+  "RUF",
+  "S",
+  "SIM",
+  "T20",
+  "TCH",
+  "TID",
+  "W"
+]
+unfixable = ["B"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402"]
+"src/dbt_bouncer/checks/*" = ["ARG001", "D101", "D401", "D417", "DOC501"]
+"src/dbt_bouncer/parsers.py" = ["TCH002"]
+"docs/assets/brand/scripts/*" = [
+  "D103",
+  "DOC201",
+  "DOC501",
+  "S310",
+  "S404",
+  "S603",
+  "T201",
+]
+"tests/*" = ["D100", "D101", "D102", "D103", "D104", "E402"]
+
+[tool.ruff.format]
+docstring-code-format = false
+docstring-code-line-length = "dynamic"
+indent-style = "space"
+line-ending = "auto"
+quote-style = "double"
+skip-magic-trailing-comma = false
+
+[tool.rumdl]
+disable = [
+  "MD007",  # Indentation
+  "MD013",  # Line length
+  "MD033",  # Inline HTML
+  "MD041",  # First line heading
+  "MD046",  # Code block style
+  "MD059",  # Link text
+]
+exclude = [
+  ".git",
+  ".github",
+  ".venv",
+  "LICENSE.md",
+  "docs/plans",
+]
+MD007.indent = 4
+respect_gitignore = true
+
+[tool.uv]
+package = true

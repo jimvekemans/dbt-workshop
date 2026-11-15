@@ -8,7 +8,7 @@ fi
 airflow db migrate
 airflow dags reserialize || true
 
-# Launch the four required Airflow 3.0 components in the same process group
+# Launch the four Airflow 3 components in the same process group
 airflow api-server --port 8080 &
 airflow scheduler &
 airflow dag-processor &

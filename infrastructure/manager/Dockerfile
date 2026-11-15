@@ -1,7 +1,7 @@
-# Workshop manager: the Python side of the workshop (bootstrap, reset, trickle, channel faults, milestones) in a
+# Workshop manager: the Python side of the workshop (bootstrap, reset) in a
 # container, so the host needs nothing but Docker - no venv (the exFAT workshop drive cannot hold one), no Python.
 # It orchestrates the other containers through the Docker socket and reaches them over workshop_net
-# (singlestore:3306, gitlab.local). Run it through ../workshop.sh, which mounts the repo at its HOST path: the compose
+# (singlestore:3306, gitlab.local). Run it through the root Makefile, which mounts the repo at its HOST path: the compose
 # commands bootstrap issues create bind mounts, and the daemon resolves those against the host filesystem.
 FROM python:3.13-slim
 

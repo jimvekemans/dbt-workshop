@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workshop overview</title>
+<style>
+  :root {
+    --bg: #f5f6f8; --card: #ffffff; --text: #1d2330; --muted: #566074; --border: #d5d9e2; --link: #0b5cad;
+    --up-bg: #dcf3e2; --up-fg: #11602b; --warn-bg: #fdf0cc; --warn-fg: #7a4d00;
+    --down-bg: #fbe0e0; --down-fg: #9a1c1c; --unk-bg: #e6e8ee; --unk-fg: #3d4658;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14171d; --card: #1d222b; --text: #e6e9ef; --muted: #a2abbb; --border: #323a48; --link: #7db7f5;
+      --up-bg: #163a22; --up-fg: #8fdba5; --warn-bg: #43330c; --warn-fg: #f2cd7a;
+      --down-bg: #4a1c1c; --down-fg: #f4a3a3; --unk-bg: #2b3140; --unk-fg: #c3cad8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  a { color: var(--link); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
+  header, main { max-width: 1400px; margin: 0 auto; padding: 0 16px; }
+  header { padding-top: 20px; }
+  h1 { margin: 0; font-size: 1.5rem; }
+  #summary { margin: 4px 0 0; color: var(--muted); }
+  #banner { margin: 12px 0 0; padding: 10px 14px; border-radius: 6px; background: var(--down-bg); color: var(--down-fg); font-weight: 600; }
+  h2 { font-size: 1.1rem; margin: 24px 0 10px; }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .envs { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
+  @media (max-width: 900px) { .envs { grid-template-columns: 1fr; } }
+  .envs .col { display: grid; gap: 12px; }
+  ul.cards { list-style: none; margin: 0; padding: 0; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+  .card h3 { margin: 0; font-size: 1rem; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+  .purpose { margin: 2px 0 0; color: var(--muted); font-size: .9rem; }
+  .badge { font-size: .8rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .badge.up { background: var(--up-bg); color: var(--up-fg); }
+  .badge.degraded { background: var(--warn-bg); color: var(--warn-fg); }
+  .badge.down { background: var(--down-bg); color: var(--down-fg); }
+  .badge.unknown { background: var(--unk-bg); color: var(--unk-fg); }
+  .detail { margin: 8px 0 0; font-size: .9rem; }
+  .users { margin: 8px 0 0; padding: 0; list-style: none; font-size: .88rem; }
+  .users li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 8px; border-top: 1px solid var(--border); padding: 3px 0; }
+  .users .role { color: var(--muted); text-align: right; }
+  .users .pw { flex-basis: 100%; display: flex; align-items: center; gap: 6px; }
+  .users .pw code { flex: 1; min-width: 0; overflow-wrap: anywhere; font: .82rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--muted); }
+  .users .pw code.shown { color: var(--text); user-select: all; }
+  .users .nopw { flex-basis: 100%; color: var(--muted); font-size: .82rem; }
+  button { font: inherit; font-size: .78rem; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 5px; padding: 1px 8px; cursor: pointer; }
+  button:hover { border-color: var(--link); }
+  button[aria-pressed="true"] { background: var(--warn-bg); color: var(--warn-fg); border-color: var(--warn-fg); }
+  .toolbar { margin: 10px 0 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .toolbar button { font-size: .85rem; padding: 3px 12px; }
+  .toolbar span { color: var(--muted); font-size: .85rem; }
+  .note { margin: 6px 0 0; font-size: .85rem; color: var(--muted); }
+  .open { display: inline-block; margin-top: 8px; font-weight: 600; }
+  .cred { margin: 8px 0 0; font-size: .78rem; color: var(--muted); overflow-wrap: anywhere; }
+  footer { max-width: 1400px; margin: 24px auto; padding: 0 16px; color: var(--muted); font-size: .85rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Workshop overview</h1>
+  <p id="summary" aria-live="polite">Loading ...</p>
+  <div class="toolbar">
+    <button type="button" id="show-all" aria-pressed="false">Show all passwords</button>
+    <span id="pw-state" aria-live="polite">Passwords are hidden.</span>
+  </div>
+  <div id="banner" role="alert" hidden>The overview API is not answering. The data below is out of date.</div>
+</header>
+<main>
+  <section aria-labelledby="h-shared"><h2 id="h-shared">Shared services</h2><ul class="cards grid" id="shared"></ul></section>
+  <section aria-labelledby="h-env"><h2 id="h-env">Environments</h2><div class="envs" id="envs"></div></section>
+</main>
+<footer>Refreshes every 10 seconds. Passwords stay hidden until you show them, and Copy works without showing. Each card names the file that defines its credentials. This page is published on localhost only.</footer>
+<script>
+"use strict";
+const LABELS = { up: "Up", degraded: "Degraded", down: "Down", unknown: "Unknown" };
+const cardEls = new Map();   // card id -> element, so a refresh updates in place
+const MASK = "••••••••";     // fixed length: a hidden password does not give away its size
+const revealed = new Set();  // "card id / user name" of the passwords shown one by one
+let showAll = false;
+
+function isShown(key) { return showAll || revealed.has(key); }
+
+// One password field: the value (masked or shown), a Show/Hide toggle and a Copy button.
+function passwordField(key, user) {
+  const box = el("span", "pw");
+  const value = el("code");
+  const toggle = el("button"); toggle.type = "button";
+  const copy = el("button", "", "Copy"); copy.type = "button";
+  copy.setAttribute("aria-label", "Copy the password of " + user.name);
+  const paint = () => {
+    const on = isShown(key);
+    value.textContent = on ? user.password : MASK;
+    value.className = on ? "shown" : "";
+    toggle.textContent = on ? "Hide" : "Show";
+    toggle.setAttribute("aria-pressed", String(on));
+    toggle.setAttribute("aria-label", (on ? "Hide" : "Show") + " the password of " + user.name);
+  };
+  toggle.addEventListener("click", () => {
+    // with "show all" on, hiding one row turns the global switch into per-row state
+    if (showAll) { showAll = false; document.querySelectorAll(".pw").forEach((p) => revealed.add(p.dataset.key)); }
+    if (revealed.has(key)) revealed.delete(key); else revealed.add(key);
+    repaintPasswords();
+  });
+  copy.addEventListener("click", async () => {
+    let ok = true;
+    try { await navigator.clipboard.writeText(user.password); }
+    catch (e) {   // no clipboard permission: fall back to a selection the browser can copy
+      const t = document.createElement("textarea");
+      t.value = user.password; document.body.append(t); t.select();
+      ok = document.execCommand("copy"); t.remove();
+    }
+    copy.textContent = ok ? "Copied" : "Failed";
+    setTimeout(() => { copy.textContent = "Copy"; }, 1500);
+  });
+  box.dataset.key = key;
+  box.paint = paint;
+  box.append(value, toggle, copy);
+  paint();
+  return box;
+}
+
+function repaintPasswords() {
+  const fields = document.querySelectorAll(".pw");
+  fields.forEach((p) => p.paint());
+  const shown = [...fields].filter((p) => isShown(p.dataset.key)).length;
+  const all = document.getElementById("show-all");
+  all.setAttribute("aria-pressed", String(showAll));
+  all.textContent = showAll ? "Hide all passwords" : "Show all passwords";
+  setText(document.getElementById("pw-state"),
+          shown ? shown + " of " + fields.length + " passwords visible." : "Passwords are hidden.");
+}
+
+document.getElementById("show-all").addEventListener("click", () => {
+  showAll = !showAll;
+  revealed.clear();
+  repaintPasswords();
+});
+
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+function ago(epoch) {
+  const s = Math.max(0, Math.floor(Date.now() / 1000 - epoch));
+  if (s < 90) return s + " s";
+  if (s < 5400) return Math.round(s / 60) + " min";
+  if (s < 129600) return Math.round(s / 3600) + " h";
+  return Math.round(s / 86400) + " days";
+}
+
+function setText(node, text) { if (node.textContent !== text) node.textContent = text; }
+
+function dockerLine(d) {
+  if (!d) return "Docker state unavailable";
+  if (d.state === "missing") return "";  // the detail line already says the container was not found
+  let t = "container " + d.state;
+  if (d.health) t += ", health " + d.health;
+  if (d.since) t += ", up for " + ago(d.since);
+  return t;
+}
+
+function makeCard(s) {
+  const li = el("li", "card");
+  li.dataset.id = s.id;
+  const h = el("h3");
+  h.append(el("span", "name"), el("span", "badge"));
+  li.append(h, el("p", "purpose"), el("p", "detail"), el("p", "docker note"), el("ul", "users"), el("p", "unote note"),
+            el("a", "open"), el("p", "cred"));
+  return li;
+}
+
+function updateCard(li, s) {
+  const q = (c) => li.querySelector("." + c);
+  setText(q("name"), s.name);
+  const badge = q("badge");
+  const st = LABELS[s.status] ? s.status : "unknown";
+  badge.className = "badge " + st;
+  setText(badge, LABELS[st]);
+  setText(q("purpose"), s.purpose);
+  setText(q("detail"), s.detail);
+  setText(q("docker"), dockerLine(s.docker));
+  const ul = q("users");
+  const rows = (s.users || []).map((u) => [u.name, u.role, u.password || ""].join("\u0000")).join("\n");
+  if (ul.dataset.rows !== rows) {   // rebuilt only when the users change, so open fields survive a refresh
+    ul.dataset.rows = rows;
+    ul.replaceChildren(...(s.users || []).map((u) => {
+      const row = el("li");
+      row.append(el("span", "uname", u.name), el("span", "role", u.role));
+      if (u.password) row.append(passwordField(s.id + " / " + u.name, u));
+      else row.append(el("span", "nopw", "password not found"));
+      return row;
+    }));
+    repaintPasswords();
+  }
+  ul.hidden = !(s.users && s.users.length);
+  const note = s.users ? (s.users.length ? s.users_note || "" : "No users." + (s.users_note ? " " + s.users_note : ""))
+                       : s.users_note || "";
+  setText(q("unote"), note);
+  q("unote").hidden = !note;
+  const a = q("open");
+  a.hidden = !s.link;
+  if (s.link) {
+    a.href = s.link; a.target = "_blank"; a.rel = "noopener noreferrer";
+    setText(a, (s.link_label || "Open") + " ↗");
+    a.setAttribute("aria-label", (s.link_label || "Open") + " " + s.name + " in a new tab");
+  }
+  setText(q("cred"), s.credentials ? "Credentials: " + s.credentials : "");
+}
+
+function render(data) {
+  const all = [];
+  for (const g of data.groups) {
+    let parent;
+    if (g.id === "shared") parent = document.getElementById("shared");
+    else {
+      let col = document.getElementById("env-" + g.id);
+      if (!col) {
+        col = el("section", "col"); col.id = "env-" + g.id;
+        col.setAttribute("aria-labelledby", "h-" + g.id);
+        const h = el("h3", "", g.title); h.id = "h-" + g.id;
+        const ul = el("ul", "cards col"); ul.id = "list-" + g.id;
+        col.append(h, ul);
+        document.getElementById("envs").append(col);
+      }
+      parent = document.getElementById("list-" + g.id);
+    }
+    for (const s of g.services) {
+      let li = cardEls.get(s.id);
+      if (!li) { li = makeCard(s); cardEls.set(s.id, li); parent.append(li); }
+      updateCard(li, s);
+      all.push(s);
+    }
+  }
+  const t = new Date(data.generated_at * 1000).toLocaleTimeString();
+  setText(document.getElementById("summary"), data.up + " of " + data.total + " services up, last refresh " + t);
+}
+
+async function refresh() {
+  const banner = document.getElementById("banner");
+  try {
+    const r = await fetch("/api/status", { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    render(await r.json());
+    banner.hidden = true;
+  } catch (e) {
+    banner.hidden = false;
+  }
+}
+refresh();
+setInterval(refresh, 10000);
+</script>
+</body>
+</html>

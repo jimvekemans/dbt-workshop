@@ -1,0 +1,157 @@
+edit_uri: edit/main/docs/
+repo_name: godatadriven/dbt-bouncer
+repo_url: https://github.com/godatadriven/dbt-bouncer
+site_name: dbt-bouncer
+site_url: https://godatadriven.github.io/dbt-bouncer/
+
+extra:
+  version:
+    alias: true
+    canonical_version: stable
+    default: stable
+    provider: mike
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - toc:
+      permalink: "#"
+
+nav:
+  - Home: index.md
+  - Getting started: getting_started.md
+  - Configuration: configuration.md
+  - Checks:
+      - Checks: checks/index.md
+      - Catalog:
+          - Catalog Seeds: checks/catalog/check_catalog_seeds.md
+          - Catalog Sources: checks/catalog/check_catalog_sources.md
+          - Columns:
+              - checks/catalog/columns/description.md
+              - checks/catalog/columns/naming.md
+              - checks/catalog/columns/tests.md
+      - Manifest:
+          - Exposures: checks/manifest/check_exposures.md
+          - Lineage: checks/manifest/check_lineage.md
+          - Macros: checks/manifest/check_macros.md
+          - Metadata: checks/manifest/check_metadata.md
+          - Models:
+              - checks/manifest/models/access.md
+              - checks/manifest/models/code.md
+              - checks/manifest/models/columns.md
+              - checks/manifest/models/description.md
+              - checks/manifest/models/directories.md
+              - checks/manifest/models/lineage.md
+              - checks/manifest/models/meta.md
+              - checks/manifest/models/naming.md
+              - checks/manifest/models/tags.md
+              - checks/manifest/models/tests.md
+              - checks/manifest/models/versioning.md
+          - Seeds: checks/manifest/check_seeds.md
+          - Semantic Models: checks/manifest/check_semantic_models.md
+          - Snapshots: checks/manifest/check_snapshots.md
+          - Sources:
+              - checks/manifest/sources/description.md
+              - checks/manifest/sources/directories.md
+              - checks/manifest/sources/freshness.md
+              - checks/manifest/sources/lineage.md
+              - checks/manifest/sources/loader.md
+              - checks/manifest/sources/meta.md
+              - checks/manifest/sources/naming.md
+              - checks/manifest/sources/tags.md
+          - Tests: checks/manifest/check_tests.md
+          - Unit Tests: checks/manifest/check_unit_tests.md
+      - Run Results:
+          - Run Results: checks/run_results/check_run_results.md
+  - CLI: cli.md
+  - FAQ: faq.md
+  - Migration:
+      - v3: migration/v3.md
+  - Brand: brand.md
+  - Contributing: CONTRIBUTING.md
+  - Users: users.md
+
+plugins:
+  # TODO: Re-enable `git-revision-date-localized` once Zensical supports it.
+  # Tracking: https://github.com/zensical/backlog/issues/18
+  - mkdocstrings:
+      custom_templates: docs/templates
+      handlers:
+        python:
+          paths:
+            - src/dbt_bouncer/checks
+          options:
+            docstring_style: google
+            filters: ["check_"]
+            group_by_category: true
+            heading_level: 1
+            inherited_members: true
+            members_order: source
+            show_bases: false
+            show_docstring_classes: true
+            show_docstring_raises: false
+            show_if_no_docstring: true
+            show_root_toc_entry: false
+            show_source: true
+            show_signature: false
+            show_submodules: true
+            summary: true
+  - search
+
+theme:
+  custom_dir: docs/overrides
+  favicon: assets/logo.svg
+  features:
+    - content.action.edit
+    - content.code.annotate
+    - content.code.copy
+    - navigation.expand
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.tracking
+    - navigation.top
+    - toc.follow
+    - toc.integrate
+  icon:
+    edit: material/pencil
+    repo: fontawesome/brands/github
+    view: material/eye
+  logo: assets/logo.svg
+  name: material
+  # Zensical defaults to the `modern` variant (translucent white header).
+  # `classic` preserves the Material for MkDocs look — solid orange header
+  # driven by `--md-primary-fg-color` in docs/stylesheets/extra.css.
+  variant: classic
+  palette:
+    - media: "(prefers-color-scheme)"
+      primary: custom
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference

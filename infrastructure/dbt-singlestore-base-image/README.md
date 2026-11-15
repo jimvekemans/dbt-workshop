@@ -1,7 +1,7 @@
 # dbt-singlestore base image
 
-Runtime image for every dbt invocation in the workshop: GitLab CI jobs, Airflow tasks, the devcontainer and the
-bootstrap. It holds two native artifacts and nothing else of note (no Python, no dbt-core):
+Base image for every dbt invocation in the workshop. The dev image (devcontainer) and the `dbt-vdp` project image
+(GitLab CI jobs, Airflow tasks) are built on it. It holds two native artifacts and nothing else of note (no Python, no dbt-core):
 
 | Artifact | In the image | Source |
 |---|---|---|
@@ -31,8 +31,8 @@ dbt-singlestore-base-image/
 docker build -t dbt-singlestore-base:1.11.11 infrastructure/dbt-singlestore-base-image
 ```
 
-Normally you don't run this yourself: `infrastructure/workshop.sh bootstrap` builds the image and adds the enterprise
-tags (`artifacts.vdab.be/.../dbt-singlestore-base:1.11.11`, etc.) that CI and the devcontainer reference.
+Normally you don't run this yourself: `make images` and `make bootstrap` at the repository root build it. The
+Dockerfile does not rewrite git URLs.
 
 For each artifact, the build **uses the prebuilt file in this folder if it exists, and otherwise builds it from its
 submodule**:

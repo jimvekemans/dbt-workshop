@@ -1,5 +1,5 @@
 """
-It uses GitLab's OIDC `/oauth/userinfo` endpoint to read the user's GitLab subgroup membership (`workshop/admins`, `workshop/maintainers`, `workshop/users`, `workshop/viewers`) and dynamically maps `workshop/users` to the `User` role in `airflow-dev` and `Viewer` in `airflow-prod`.
+It uses GitLab's OIDC `/oauth/userinfo` endpoint to read the user's GitLab subgroup membership (`workshop/admins`, `workshop/maintainers`, `workshop/users`, `workshop/viewers`) and dynamically maps `workshop/users` to the `User` role in `airflow-dev` and `Viewer` in `airflow-val` and `airflow-prd`.
 """
 
 import os
@@ -10,7 +10,7 @@ from airflow.providers.fab.auth_manager.security_manager.override import FabAirf
 basedir = os.path.abspath(os.path.dirname(__file__))
 log = logging.getLogger(__name__)
 
-ENV_MODE = os.getenv("AIRFLOW_ENV_MODE", "dev")
+DEPLOY_TARGET = os.getenv("DBT_DEPLOY_TARGET", "dev")
 GITLAB_INTERNAL_URL = "http://gitlab.local"
 GITLAB_BROWSER_URL = "http://gitlab.local"
 
@@ -20,11 +20,11 @@ AUTH_USER_REGISTRATION_ROLE = "Public"
 AUTH_ROLES_SYNC_AT_LOGIN = True
 
 # Map GitLab subgroups to Airflow FAB Roles
-# Developers ('workshop/users') can trigger DAGs in dev, but are read-only Viewers in prod
+# Developers ('workshop/users') can trigger DAGs in dev, but are read-only Viewers in val and prd
 AUTH_ROLES_MAPPING = {
     "workshop/admins": ["Admin"],
     "workshop/maintainers": ["Op"],
-    "workshop/users": ["User"] if ENV_MODE == "dev" else ["Viewer"],
+    "workshop/users": ["User"] if DEPLOY_TARGET == "dev" else ["Viewer"],
     "workshop/viewers": ["Viewer"],
 }
 

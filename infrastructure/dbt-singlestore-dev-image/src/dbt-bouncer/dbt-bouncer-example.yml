@@ -1,0 +1,286 @@
+# custom_checks_dir: my_checks # [Optional] Directory where custom checks are stored.
+dbt_artifacts_dir: dbt_project/target # [Optional] Directory where the dbt artifacts exists, generally the `target` directory inside a dbt project. Defaults to `$DBT_PROJECT_DIR/target` if $DBT_PROJECT_DIR is set, else `./target`.
+# exclude: ^models/staging # [Optional] Here for demonstration purposes only
+# include: ^models/marts # [Optional] Here for demonstration purposes only
+# package_name: internal_package # [Optional] If you want to run `dbt-bouncer` against a package.
+# severity: warn # [Optional] Useful when applying `dbt-bouncer` to an existing dbt project.
+
+catalog_checks:
+  - name: check_column_description_populated
+    include: ^models/marts
+  - name: check_column_name_complies_to_column_type
+    column_name_pattern: ^is_.*
+    exclude: ^models/staging
+    types:
+      - BOOLEAN
+  - name: check_column_name_complies_to_column_type
+    column_name_pattern: .*_date$
+    include: ^models/staging # Not a good idea, here for demonstration purposes only
+    types:
+      - DATE
+  - name: check_column_name_complies_to_column_type
+    column_name_pattern: ^[a-z_]*$
+    type_pattern: ^(?!STRUCT) # No STRUCT data types allowed
+  - name: check_column_type_complies_to_column_name
+    column_name_pattern: ^(is|has)_.*
+    types:
+      - BOOLEAN
+  - name: check_column_type_complies_to_column_name
+    column_name_pattern: ^[a-z_]*$
+    types:
+      - BIGINT
+      - BOOLEAN
+      - DATE
+      - DOUBLE
+      - INTEGER
+      - VARCHAR
+  - name: check_column_names
+    column_name_pattern: >
+      [a-z_]*
+  - name: check_column_has_specified_test
+    column_name_pattern: ^is_.*
+    test_name: not_null
+  - name: check_columns_are_all_documented
+    include: ^models/marts
+  - name: check_columns_are_documented_in_public_models
+  - name: check_seed_columns_are_all_documented
+  # check_seed_max_bytes and check_seed_max_row_count require an adapter that
+  # populates row/byte stats in catalog.json (e.g. Snowflake, BigQuery, Redshift,
+  # Databricks). DuckDB (used in this example project) does not, so these
+  # entries are commented out.
+  # - name: check_seed_max_bytes
+  #   max_bytes: 1048576
+  # - name: check_seed_max_row_count
+  #   max_row_count: 1000
+  - name: check_source_columns_are_all_documented
+    exclude: ^models/staging/crm # Not a good idea, here for demonstration purposes only
+
+manifest_checks:
+  # Exposures
+  - name: check_exposure_based_on_model
+  - name: check_exposure_based_on_non_public_models
+  - name: check_exposure_based_on_view
+
+  # Lineage
+  - name: check_lineage_permitted_upstream_models
+    include: ^models/staging
+    upstream_path_pattern: $^
+  - name: check_lineage_permitted_upstream_models
+    include: ^models/intermediate
+    upstream_path_pattern: ^models/staging|^models/intermediate
+  - name: check_lineage_permitted_upstream_models
+    include: ^models/marts
+    upstream_path_pattern: ^models/staging|^models/intermediate
+  - name: check_lineage_seed_cannot_be_used
+    include: ^models/intermediate|^models/marts
+  - name: check_lineage_source_cannot_be_used
+    include: ^models/intermediate|^models/marts
+
+  # Macros
+  - name: check_macro_arguments_description_populated
+  - name: check_macro_code_does_not_contain_regexp_pattern
+    regexp_pattern: .*[i][f][n][u][l][l].*
+  - name: check_macro_description_populated
+  - name: check_macro_is_used
+  - name: check_macro_max_number_of_lines
+  - name: check_macro_name_matches_file_name
+  - name: check_macro_property_file_location
+
+  # Metadata
+  - name: check_project_name
+    project_name_pattern: ^dbt_bouncer_
+
+  # Models
+  - name: check_model_access
+    include: ^models/intermediate
+    access: protected
+    severity: warn
+  - name: check_model_access
+    include: ^models/marts
+    access: public
+  - name: check_model_access
+    include: ^models/staging
+    access: protected
+  - name: check_model_code_does_not_contain_regexp_pattern
+    regexp_pattern: .*[i][f][n][u][l][l].*
+  - name: check_model_columns_have_relationship_tests
+    column_name_pattern: "_fk$"
+  - name: check_model_columns_have_meta_keys
+    include: ^models/marts
+    keys:
+      - maturity
+  - name: check_model_columns_have_types
+    include: ^models/marts
+  - name: check_model_contract_enforced_for_public_model
+  - name: check_model_depends_on_macros
+    description: Incremental models must use the `is_incremental` macro.
+    required_macros:
+      - dbt.is_incremental
+    materialization: incremental
+  - name: check_model_depends_on_multiple_sources
+  - name: check_model_description_contains_regex_pattern
+    include: ^models/marts/finance/customers
+    regexp_pattern: .*as well as some derived facts.*
+  - name: check_model_description_populated
+  - name: check_model_directories
+    include: ^models
+    permitted_sub_directories:
+      - intermediate
+      - marts
+      - staging
+      - utilities
+  - name: check_model_directories
+    include: ^models/staging
+    permitted_sub_directories:
+      - crm
+      - payments
+  - name: check_model_documentation_coverage
+    min_model_documentation_coverage_pct: 90
+  - name: check_model_documented_in_same_directory
+  - name: check_model_file_name
+    include: ^models/marts
+    file_name_pattern: .*(s|v[0-9])\.sql$
+  - name: check_model_grant_privilege
+    include: ^models/marts
+    privilege_pattern: ^select|^write
+  - name: check_model_grant_privilege_required
+    include: ^models/marts
+    privilege: select
+  - name: check_model_hard_coded_references
+  - name: check_model_has_constraints
+    include: ^models/marts
+    required_constraint_types:
+      - primary_key
+  - name: check_model_has_contracts_enforced
+    include: ^models/marts
+  - name: check_model_has_exposure
+    include: ^models/marts/finance
+    exclude: ^models/marts/finance/customers_v[12].sql
+  - name: check_model_has_meta_keys
+    keys:
+      - maturity
+  - name: check_model_has_no_upstream_dependencies
+    include: ^((?!int_*).)*$
+    exclude: ^models/utilities/time_spines
+  - name: check_model_has_semi_colon
+  - name: check_model_has_tags
+    include: ^models/staging/crm
+    tags:
+      - crm
+  - name: check_model_has_unique_test
+  - name: check_model_max_chained_views
+  - name: check_model_max_fanout
+    max_downstream_models: 5
+  - name: check_model_max_number_of_lines
+  - name: check_model_max_upstream_dependencies
+  - name: check_model_number_of_grants
+    include: ^models/marts
+    max_number_of_privileges: 2 # Optional
+    min_number_of_privileges: 1 # Optional
+  - name: check_model_has_unit_tests
+    include: ^models/marts
+  - name: check_model_names
+    include: ^models/intermediate
+    model_name_pattern: ^int_
+  - name: check_model_names
+    description: Models in the staging layer should always start with "stg_". # Descriptions are optional for all checks.
+    include: ^models/staging
+    model_name_pattern: ^stg_
+  - name: check_model_test_coverage
+  - name: check_model_property_file_location
+  - name: check_model_schema_name
+    include: ^models/intermediate
+    schema_name_pattern: .*intermediate
+  - name: check_model_schema_name
+    include: ^models/staging
+    schema_name_pattern: .*stg_.*
+  - name: check_model_names
+    description: Most model checks include the ability to filter by materialization, this is an example of how this is done.
+    include: ^models/intermediate
+    materialization: ephemeral
+    model_name_pattern: ^int_
+
+  # Seeds
+  - name: check_seed_column_names
+    seed_column_name_pattern: ^[a-z_]*$
+  - name: check_seed_columns_have_types
+  - name: check_seed_description_populated
+  # - name: check_seed_has_unit_tests
+  - name: check_seed_names
+    include: ^seeds
+    seed_name_pattern: ^raw_
+
+  # Semantic models
+  - name: check_semantic_model_based_on_non_public_models
+
+  # Snapshots
+  - name: check_snapshot_description_populated
+  - name: check_snapshot_has_tags
+    exclude: snapshots/snapshot_orders.sql
+    tags:
+      - payment
+  - name: check_snapshot_names
+    include: snapshots/snapshot_orders.sql
+    snapshot_name_pattern: ^snapshot_
+
+  # Sources
+  - name: check_source_description_populated
+    min_description_length: 25
+  - name: check_source_freshness_populated
+  - name: check_source_loader_populated
+  - name: check_source_has_meta_keys
+    keys:
+      - contact:
+          - email
+          - slack
+      - owner
+  - name: check_source_has_tags
+    tags:
+      - example_tag
+  - name: check_source_names
+    source_name_pattern: >
+      ^[a-z0-9_]*$
+  - name: check_source_file_name
+    file_name_pattern: ^_.*__sources\.yml$
+  - name: check_source_not_orphaned
+    include: ^models/staging/crm
+  - name: check_source_property_file_location
+  - name: check_source_used_by_models_in_same_directory
+  - name: check_source_used_by_only_one_model
+
+  # Tests
+  - name: check_test_has_meta_keys
+    include: ^tests/
+    keys:
+      - owner
+  - name: check_test_has_tags
+    include: ^models/marts
+    tags:
+      - critical
+
+  # Unit tests
+  - name: check_unit_test_coverage
+    include: ^models/marts
+  - name: check_unit_test_expect_format
+  - name: check_unit_test_given_formats
+
+  # Versions
+  - name: check_model_latest_version_specified
+    exclude: ^models/marts/finance/orders.sql
+    include: ^models/marts
+  - name: check_model_version_allowed
+    include: ^models/marts
+    version_pattern: >- # Versions must be numeric
+      [0-9]\d*
+  - name: check_model_version_pinned_in_ref
+    include: ^models/marts
+
+run_results_checks:
+  # Not a good idea, here for demonstration purposes only
+  - name: check_run_results_max_execution_time
+    include: ^models/staging
+    exclude: ^models/staging/crm
+    max_execution_time_seconds: 10
+  # dbt-bigquery only
+  # - name: check_run_results_max_gigabytes_billed
+  #   max_gigabytes_billed: 10
