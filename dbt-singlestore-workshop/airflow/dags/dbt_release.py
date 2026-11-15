@@ -13,10 +13,12 @@ Features:
   accumulated state directory so later steps can use '--state' to skip already-succeeded nodes.
 - Supports deferring model full-refreshes to 'dbt_reload' DAG while preserving state
   artifacts for downstream state comparisons.
-- Rich failure email reporting: extracts dbt model error blocks and test warnings.
+- After the successful build: run-operation 'sync_grants_with_singlestore' (grants of the project's models) and
+  'clean_orphaned_models' (relations of models that no longer exist in the project).
+- One failure e-mail per run (task send_failure_report, utils/dbt_failure_report.py).
 - Dry-run mode: preview all planned commands without executing anything or pausing the daily load.
 - All artifact paths are resolved at task execution time from context['run_id'] to avoid
-  Jinja template rendering issues inside Kubernetes pod Python code.
+  Jinja template rendering issues.
 """
 
 import logging
@@ -25,22 +27,23 @@ from datetime import datetime, timedelta
 from typing import Any
 
 
-from utils.compat import AirflowException, AirflowSkipException, DAG, Param, ParamsDict, TriggerDagRunOperator, task
+from airflow.providers.standard.operators.trigger_dagrun import TriggerDagRunOperator
+from airflow.sdk import DAG, Param, task
+from airflow.sdk.definitions.param import ParamsDict
+from airflow.sdk.exceptions import AirflowException, AirflowSkipException
+
 from utils.dbt_config import (
     MOUNT_DIR,
     RELEASE_ARTIFACTS_BASE_DIR,
     SAFE_RUN_ID_TEMPLATE,
 )
 from utils.dbt_command_utils import (
-    format_dbt_bash_command,
+    build_run_operation_command,
     build_upstream_prep_command,
+    format_dbt_bash_command,
 )
-from utils.dbt_dag_utils import (
-    set_dag_paused_state,
-    build_failure_email_callback,
-)
-from utils.dbt_log_utils import FAILURE_EMAIL_RECIPIENTS
-from utils.dbt_pod_utils import openshift_dbt_task, openshift_python_task
+from utils.dbt_dag_utils import REPORT_TASK_ID, failure_report_task, set_dag_paused_state
+from utils.dbt_pod_utils import dbt_task, python_task
 from utils.dbt_state_utils import merge_run_results_and_manifest
 
 logger = logging.getLogger(__name__)
@@ -224,13 +227,6 @@ with DAG(
     max_active_runs=1,
     tags=["dbt", "release", "management"],
     doc_md=_build_release_doc(),
-    default_args={
-        "email": FAILURE_EMAIL_RECIPIENTS,
-        "email_on_failure": False,
-        "on_failure_callback": build_failure_email_callback(
-            default_recipients=FAILURE_EMAIL_RECIPIENTS
-        ),
-    },
     params=ParamsDict(
         {
             "dry_run": Param(
@@ -245,7 +241,7 @@ with DAG(
     ),
 ) as dag:
 
-    @openshift_dbt_task(
+    @dbt_task(
         task_id="audit_environment_drift",
         trigger_rule="all_success",
         target_path=os.path.join(MOUNT_DIR, "target_drift_audit"),
@@ -273,7 +269,7 @@ with DAG(
                 "Dry-run mode: dbt_daily_load will not be paused."
             )
 
-        logger.info("Pausing dbt_daily_load and consumer dbt DAGs before release execution.")
+        logger.info("Pausing dbt_daily_load before release execution.")
         success = set_dag_paused_state("dbt_daily_load", is_paused=True)
         if not success:
             raise AirflowException(
@@ -281,10 +277,8 @@ with DAG(
                 "running both DAGs simultaneously risks data race conditions. "
                 "Check Airflow metadata DB connectivity and retry."
             )
-        for aux_dag_id in ("dbt_vdp", "dbt_vdp_new"):
-            set_dag_paused_state(aux_dag_id, is_paused=True)
 
-    @openshift_dbt_task(
+    @dbt_task(
         task_id="run_operation__database_maintenance", trigger_rule="all_success"
     )
     def run_operation__database_maintenance(**context):
@@ -306,7 +300,7 @@ with DAG(
     ):
         """Create a smart upstream prep task that resolves node targets at runtime via dbt list."""
 
-        @openshift_dbt_task(task_id=task_id, trigger_rule="all_success")
+        @dbt_task(task_id=task_id, trigger_rule="all_success")
         def _exec(**context):
             run_dir, _ = _resolve_state_dirs(context["run_id"])
             task_target_dir = os.path.join(run_dir, task_id)
@@ -335,7 +329,7 @@ with DAG(
     ):
         """Create a dbt build task with artifact paths resolved at execution time."""
 
-        @openshift_dbt_task(task_id=task_id, trigger_rule="all_success")
+        @dbt_task(task_id=task_id, trigger_rule="all_success")
         def _exec(**context):
             run_dir, accumulated_dir = _resolve_state_dirs(context["run_id"])
             task_target_dir = os.path.join(run_dir, task_id)
@@ -362,7 +356,7 @@ with DAG(
     def _create_merge_state_task(task_id: str):
         """Merge step artifacts into accumulated state for downstream --state selectors."""
 
-        @openshift_python_task(
+        @python_task(
             task_id=f"merge_state__{task_id}",
             trigger_rule="all_success",
         )
@@ -416,7 +410,19 @@ with DAG(
             execution_timeout=timedelta(hours=5),
         )
 
-    @openshift_dbt_task(
+    def _create_post_build_operation(task_id: str, macro: str):
+        """run-operation of a carried macro after the successful build (skipped in dry-run)."""
+
+        @dbt_task(task_id=task_id, trigger_rule="all_success")
+        def _exec(**context):
+            if context.get("params", {}).get("dry_run"):
+                logger.info(f"[DRY RUN] Would execute: dbt run-operation {macro} --target run")
+                raise AirflowSkipException("Dry-run mode.")
+            return build_run_operation_command(macro, {})
+
+        return _exec()
+
+    @dbt_task(
         task_id="cleanup_temporary_artifacts",
         trigger_rule="none_failed_min_one_success",
     )
@@ -435,10 +441,8 @@ with DAG(
         if context.get("params", {}).get("dry_run"):
             logger.info("[DRY RUN] Skipping unpause (daily load was not paused).")
             raise AirflowSkipException("Dry-run mode: dbt_daily_load was not paused.")
-        logger.info("Unpausing dbt_daily_load and consumer dbt DAGs following release execution.")
+        logger.info("Unpausing dbt_daily_load following release execution.")
         set_dag_paused_state("dbt_daily_load", is_paused=False)
-        for aux_dag_id in ("dbt_vdp", "dbt_vdp_new"):
-            set_dag_paused_state(aux_dag_id, is_paused=False)
 
     # Instantiate base flow tasks
     drift_task = audit_environment_drift_task()
@@ -446,6 +450,10 @@ with DAG(
     maintenance_task = run_operation__database_maintenance()
     cleanup_task = cleanup_artifacts_task()
     unpause_task = unpause_daily_load_task()
+
+    grants_task = _create_post_build_operation("run_operation__sync_grants", "sync_grants_with_singlestore")
+    orphans_task = _create_post_build_operation("run_operation__clean_orphaned_models", "clean_orphaned_models")
+    report_task = failure_report_task()
 
     drift_task >> pause_task >> maintenance_task
 
@@ -477,4 +485,6 @@ with DAG(
         previous_task >> step_task >> merge_task
         previous_task = merge_task
 
-    previous_task >> [cleanup_task, unpause_task]
+    previous_task >> grants_task >> orphans_task >> [cleanup_task, unpause_task]
+    # one failure report per run, whichever step failed (unpause always runs and is not a dbt step)
+    [t for t in dag.task_dict.values() if t.task_id not in ("unpause_daily_load", REPORT_TASK_ID)] >> report_task

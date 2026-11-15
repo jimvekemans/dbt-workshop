@@ -7,7 +7,7 @@ dbt_swf:
       port: 3306
       user: "{{ env_var('SINGLESTORE_USER', 'svc_ci_dbt') }}"
       password: "{{ env_var('SINGLESTORE_PASS', 'CiServicePwd2026!') }}"
-      database: "{{ env_var('SINGLESTORE_DB', 'edw_dv_rdv') }}"
+      database: "{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_edw_dv_rdv"
       schema: "{{ env_var('SINGLESTORE_USER', 'svc_ci_dbt') }}"
       threads: 2
       # No allow_cleartext_plugin: the SingleStore adapter only allows cleartext passwords over enforced TLS
@@ -28,7 +28,7 @@ dbt_swf:
       port: 3306
       user: "{{ env_var('SINGLESTORE_USER', 'svc_ci_dbt') }}"
       password: "{{ env_var('SINGLESTORE_PASS', 'CiServicePwd2026!') }}"
-      database: "{{ env_var('SINGLESTORE_DB', 'edw_dv_rdv') }}"
+      database: "{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_edw_dv_rdv"
       schema: "{{ var('SCHEMA', '') }}"
       threads: 3
     reload:
@@ -37,16 +37,7 @@ dbt_swf:
       port: 3306
       user: "{{ env_var('SINGLESTORE_USER', 'svc_ci_dbt') }}"
       password: "{{ env_var('SINGLESTORE_PASS', 'CiServicePwd2026!') }}"
-      database: "{{ env_var('SINGLESTORE_DB', 'edw_dv_rdv') }}"
+      database: "{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_edw_dv_rdv"
       schema: "{{ var('SCHEMA', '') }}"
       threads: 1
       # no allow_cleartext_plugin: see the default target
-    collibra:
-      type: singlestore
-      host: "{{ env_var('SINGLESTORE_HOST', 'singlestore') }}"
-      port: 3306
-      user: "{{ env_var('SINGLESTORE_USER', 'svc_ci_dbt') }}"
-      password: "{{ env_var('SINGLESTORE_PASS', 'CiServicePwd2026!') }}"
-      database: "{{ env_var('SINGLESTORE_DB', 'edw_dv_rdv') }}"
-      schema: "{{ env_var('SINGLESTORE_DB', 'edw_dv_rdv') }}"
-      threads: 1

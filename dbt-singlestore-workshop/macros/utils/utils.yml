@@ -39,21 +39,21 @@ macros:
 
   - name: import_dependencies
     description: |
-      # Hoofdmacro om upstream afhankelijkheden (ref en source) in een model te importeren.
+      Imports upstream dependencies (ref and source) into a model.
 
-      Genereert een set import CTE's voor gebruik bovenaan het model (inclusief 'with' en scheidingskommas).
+      Generates a set of import CTEs for the top of the model (including 'with' and the separating commas).
 
       # Argument
-      Een array van afhankelijkheden:
-        * een string -> eenvoudige ref met modelnaam als alias, materialize-hint staat aan
-        * een dictionary:
-          * `dependency`: naam van de afhankelijkheid (standaard ref met identieke naam voor de CTE)
-          * `source` (optioneel): de brondatabank van een source afhankelijkheid
-          * `alias` (optioneel): de naam van de CTE
-          * `materialize_off` (optioneel, default `true`): zet op `false` om de `with (materialize = off)`-hint voor deze dependency uit te schakelen (bv. voor complexe views)
-          * `respect_empty` (optioneel, default `true`): zet op `false` om bij `dbt build --empty` de `limit 0`-subquery rond de ref/source te vermijden (`ref().render()`). Gebruik dit enkel wanneer het model met `--empty` faalt op SingleStore-fout 1749 (complex join waarvan de linkerkant geen gesharde tabel is)
+      An array of dependencies:
+        * a string -> simple ref with the model name as alias, materialize hint on
+        * a dictionary:
+          * `dependency`: name of the dependency (a ref by default, same name for the CTE)
+          * `source` (optional): the source name of a source dependency
+          * `alias` (optional): the CTE name
+          * `materialize_off` (optional, default `true`): set to `false` to drop the `with (materialize = off)` hint for this dependency (e.g. for complex views)
+          * `respect_empty` (optional, default `true`): set to `false` to avoid the `limit 0` subquery around the ref/source on `dbt build --empty` (`ref().render()`). Only use it when the model fails with `--empty` on SingleStore error 1749
 
-      # Voorbeeld
+      # Example
       ```
       {% raw %}
       {{ import_dependencies(
@@ -70,7 +70,7 @@ macros:
       select * from andere_datum
       ```
 
-      ## Genereerde SQL
+      ## Generated SQL
 
       ```
       with
@@ -86,23 +86,23 @@ macros:
 
   - name: import_generate_cte
     description: |
-      Genereert één import CTE voor een upstream afhankelijkheid (ref of source).
+      Generates one import CTE for an upstream dependency (ref or source).
 
-      Dit gebeurt hoofdzakelijk via macro 'import_dependencies', maar kan onafhankelijk aangeroepen worden indien meer controle per dependency nodig is (bv. om de materialize-hint selectief uit te schakelen).
+      This mostly happens through 'import_dependencies', but it can be called on its own for more control per dependency.
 
-      We zetten standaard "with (materialize = off)" om te vermijden dat SingleStore onnodig volledige brontabellen materialiseert.
+      By default we add "with (materialize = off)" so SingleStore does not needlessly materialize whole source tables.
 
       # Argument
-      Eén afhankelijkheid (`item`):
-        * een string -> eenvoudige ref met modelnaam als alias, materialize-hint staat aan
-        * een dictionary:
-          * `dependency`: naam van de afhankelijkheid (standaard ref met identieke naam voor de CTE)
-          * `source` (optioneel): de brondatabank van een source afhankelijkheid
-          * `alias` (optioneel): de naam van de CTE
-          * `materialize_off` (optioneel, default `true`): zet op `false` om de `with (materialize = off)`-hint voor deze dependency uit te schakelen (bv. voor complexe views)
-          * `respect_empty` (optioneel, default `true`): zet op `false` om bij `dbt build --empty` de `limit 0`-subquery rond de ref/source te vermijden (`ref().render()`). Gebruik dit enkel wanneer het model met `--empty` faalt op SingleStore-fout 1749 (complex join waarvan de linkerkant geen gesharde tabel is)
+      One dependency (`item`):
+        * a string -> simple ref with the model name as alias, materialize hint on
+        * a dictionary:
+          * `dependency`: name of the dependency (a ref by default, same name for the CTE)
+          * `source` (optional): the source name of a source dependency
+          * `alias` (optional): the CTE name
+          * `materialize_off` (optional, default `true`): set to `false` to drop the `with (materialize = off)` hint for this dependency (e.g. for complex views)
+          * `respect_empty` (optional, default `true`): set to `false` to avoid the `limit 0` subquery around the ref/source on `dbt build --empty` (`ref().render()`). Only use it when the model fails with `--empty` on SingleStore error 1749
 
-      # Voorbeeld
+      # Example
       ```
       {% raw %}
       {{ import_generate_cte("leeftijd") }}
@@ -111,7 +111,7 @@ macros:
       {% endraw %}
       ```
 
-      ## Genereerde SQL
+      ## Generated SQL
 
       ```
       leeftijd as          ( select with (materialize = off) * from `edw_dv_bdv`.`leeftijd` )

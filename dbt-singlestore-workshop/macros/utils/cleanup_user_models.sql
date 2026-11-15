@@ -16,7 +16,8 @@
                 else 'view'
             end as type
         from information_schema.tables
-        where create_time < date_sub(NOW(), interval {{keep_younger_than_days}} DAY)
+        where table_schema in ('dev_edw_dv_rdv', 'dev_edw_dv_bdv', 'dev_im_dimensional')
+        and create_time < date_sub(NOW(), interval {{keep_younger_than_days}} DAY)
         and table_name like '{%- if all_pu_users | as_bool -%}pu%{%- else -%}{{ env_var("SINGLESTORE_USER") }}{%- endif-%}_%'
     {%- endset %}
     {% do log(user_artifacts, True) %}

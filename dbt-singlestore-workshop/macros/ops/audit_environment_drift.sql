@@ -3,8 +3,8 @@
 
         dbt run-operation audit_environment_drift --target run                                  # fails on drift
         dbt run-operation audit_environment_drift --target run --args '{fail_on_drift: false}' # report only
-        dbt run-operation audit_environment_drift --args '{audit_user: svc_prd_dbt}'  # as an admin (svc_ci_dbt):
-                                                     # PRD's grants next to LDV's, which svc_prd_dbt itself cannot see
+        dbt run-operation audit_environment_drift --args '{audit_user: svc_prd_dbt}'  # as an admin (pu_admin):
+                                                     # prd's grants next to dev's, which svc_prd_dbt itself cannot see
 
     Three checks, all from information_schema - no state of its own:
       1. changed outside dbt   a table/view dbt builds (model, seed, snapshot) whose CREATE_USER or ALTER_USER is not a
@@ -14,7 +14,7 @@
                                service account (or personal pu_* sandbox user) created: a hand-made hotfix object.
       3. missing grant         the user of this run (target.user, e.g. svc_prd_dbt) lacks a privilege the project
                                needs - write privileges on every database a model is built in, SELECT on every source
-                               database - while the reference account (svc_ldv_dbt) has it. CI and LDV stay green;
+                               database - while the reference account (svc_dev_dbt) has it. CI and dev stay green;
                                only this environment fails, halfway through its build.
     Privileges are resolved user -> group -> role -> privileges (SingleStore RBAC) plus direct grants.
 
@@ -23,14 +23,46 @@
 
     vars (dbt_project.yml): drift_audit_service_accounts, drift_audit_reference_user, drift_audit_ignore_databases.
 -#}
-{% macro audit_environment_drift(fail_on_drift=true, reference_user=none, audit_user=none) %}
+{% macro audit_environment_drift(
+    fail_on_drift=true, reference_user=none, audit_user=none
+) %}
     {% if not execute %} {{ return([]) }} {% endif %}
 
-    {% set service_accounts = var("drift_audit_service_accounts", ["svc_ci_dbt", "svc_ldv_dbt", "svc_prd_dbt"]) | map("lower") | list %}
-    {% set ignore_databases = var("drift_audit_ignore_databases", ["vdp_mgmt", "information_schema"]) | map("lower") | list %}
+    {% set service_accounts = (
+        var(
+            "drift_audit_service_accounts",
+            ["svc_ci_dbt", "svc_dev_dbt", "svc_val_dbt", "svc_prd_dbt"],
+        )
+        | map("lower")
+        | list
+    ) %}
+    {% set ignore_databases = (
+        var(
+            "drift_audit_ignore_databases",
+            [
+                "dev_vdp_mgmt",
+                "val_vdp_mgmt",
+                "prd_vdp_mgmt",
+                "information_schema",
+            ],
+        )
+        | map("lower")
+        | list
+    ) %}
     {% set run_user = (audit_user or target.user) | lower %}
-    {% set ref_user = (reference_user or var("drift_audit_reference_user", "svc_ldv_dbt")) | lower %}
-    {% set write_privileges = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "ALTER", "CREATE VIEW"] %}
+    {% set ref_user = (
+        reference_user or var("drift_audit_reference_user", "svc_dev_dbt")
+    ) | lower %}
+    {% set write_privileges = [
+        "SELECT",
+        "INSERT",
+        "UPDATE",
+        "DELETE",
+        "CREATE",
+        "DROP",
+        "ALTER",
+        "CREATE VIEW",
+    ] %}
 
     {# ---- what this project builds and declares (the graph = Git) ---- #}
     {% set built = {} %}
@@ -38,16 +70,27 @@
     {% set write_dbs = [] %}
     {% set read_dbs = [] %}
     {% for node in graph.nodes.values() %}
-        {% if node.resource_type in ["model", "seed", "snapshot"] and node.config.materialized != "ephemeral" %}
+        {% if node.resource_type in [
+            "model",
+            "seed",
+            "snapshot",
+        ] and node.config.materialized != "ephemeral" %}
             {% set db = node.database | lower %}
-            {% do built.update({(db ~ "." ~ (node.alias or node.name)) | lower: node.unique_id}) %}
+            {% do built.update(
+                {
+                    (db ~ "." ~ (node.alias or node.name))
+                    | lower: node.unique_id
+                }
+            ) %}
             {% if db not in write_dbs %} {% do write_dbs.append(db) %} {% endif %}
         {% endif %}
     {% endfor %}
     {% for src in graph.sources.values() %}
         {% set db = src.database | lower %}
         {% do declared.append((db ~ "." ~ (src.identifier or src.name)) | lower) %}
-        {% if db not in read_dbs and db not in ignore_databases %} {% do read_dbs.append(db) %} {% endif %}
+        {% if db not in read_dbs and db not in ignore_databases %}
+            {% do read_dbs.append(db) %}
+        {% endif %}
     {% endfor %}
     {% set audit_dbs = [] %}
     {% for db in write_dbs %}
@@ -77,21 +120,50 @@
             {% set alterer = row["alter_user"] | lower %}
             {% if ident in built %}
                 {% if creator not in service_accounts or alterer not in service_accounts %}
-                    {% set who = alterer if alterer not in service_accounts else creator %}
-                    {% set when = row["alter_time"] if alterer not in service_accounts else row["create_time"] %}
-                    {% do findings.append({
-                        "check": "changed outside dbt", "object": ident,
-                        "detail": (row["table_type"] | lower) ~ " " ~ ("altered" if alterer not in service_accounts else "created")
-                                  ~ " by " ~ who ~ " at " ~ when
-                                  ~ ": the next build recreates it from Git and the manual change is lost",
-                    }) %}
+                    {% set who = (
+                        alterer
+                        if alterer not in service_accounts
+                        else creator
+                    ) %}
+                    {% set when = (
+                        row["alter_time"]
+                        if alterer not in service_accounts
+                        else row["create_time"]
+                    ) %}
+                    {% do findings.append(
+                        {
+                            "check": "changed outside dbt",
+                            "object": ident,
+                            "detail": (row["table_type"] | lower)
+                            ~ " "
+                            ~ (
+                                "altered"
+                                if alterer not in service_accounts
+                                else "created"
+                            )
+                            ~ " by "
+                            ~ who
+                            ~ " at "
+                            ~ when
+                            ~ ": the next build recreates it from Git and the manual change is lost",
+                        }
+                    ) %}
                 {% endif %}
-            {% elif ident not in declared and creator not in service_accounts and not creator.startswith("pu_") %}
-                {% do findings.append({
-                    "check": "created outside dbt", "object": ident,
-                    "detail": (row["table_type"] | lower) ~ " created by " ~ creator ~ " at " ~ row["create_time"]
-                              ~ ": not in the project, nobody rebuilds, tests or documents it",
-                }) %}
+            {% elif ident not in declared and creator not in service_accounts and not creator.startswith(
+                "pu_"
+            ) %}
+                {% do findings.append(
+                    {
+                        "check": "created outside dbt",
+                        "object": ident,
+                        "detail": (row["table_type"] | lower)
+                        ~ " created by "
+                        ~ creator
+                        ~ " at "
+                        ~ row["create_time"]
+                        ~ ": not in the project, nobody rebuilds, tests or documents it",
+                    }
+                ) %}
             {% endif %}
         {% endfor %}
     {% endif %}
@@ -110,10 +182,14 @@
     {% endset %}
     {% set privileges = {} %}
     {% for row in run_query(grants_sql) %}
-        {% set user = (row["grantee"] | string).split("@")[0] | replace("'", "") | lower %}
+        {% set user = (
+            (row["grantee"] | string).split("@")[0] | replace("'", "") | lower
+        ) %}
         {% if user in [run_user, ref_user] %}
             {% set key = user ~ "|" ~ (row["db"] | lower) %}
-            {% if key not in privileges %} {% do privileges.update({key: []}) %} {% endif %}
+            {% if key not in privileges %}
+                {% do privileges.update({key: []}) %}
+            {% endif %}
             {% for p in (row["privs"] | string).split(",") %}
                 {% do privileges[key].append(p | trim | upper) %}
             {% endfor %}
@@ -123,7 +199,9 @@
     {# without global privileges an account only sees its own rows: then the reference cannot be compared #}
     {% set ns = namespace(ref_visible=false) %}
     {% for key in privileges %}
-        {% if key.split("|")[0] == ref_user %} {% set ns.ref_visible = true %} {% endif %}
+        {% if key.split("|")[0] == ref_user %}
+            {% set ns.ref_visible = true %}
+        {% endif %}
     {% endfor %}
 
     {% set needs = [] %}
@@ -132,45 +210,91 @@
         {% if db not in write_dbs %} {% do needs.append((db, ["SELECT"])) %} {% endif %}
     {% endfor %}
     {% for db, required in needs %}
-        {% set run_has = privileges.get(run_user ~ "|*", []) + privileges.get(run_user ~ "|" ~ db, []) %}
-        {% set ref_has = privileges.get(ref_user ~ "|*", []) + privileges.get(ref_user ~ "|" ~ db, []) %}
+        {% set run_has = privileges.get(run_user ~ "|*", []) + privileges.get(
+            run_user ~ "|" ~ db, []
+        ) %}
+        {% set ref_has = privileges.get(ref_user ~ "|*", []) + privileges.get(
+            ref_user ~ "|" ~ db, []
+        ) %}
         {% set missing = [] %}
         {% for p in required %}
-            {% if p not in run_has and "ALL PRIVILEGES" not in run_has %} {% do missing.append(p) %} {% endif %}
+            {% if p not in run_has and "ALL PRIVILEGES" not in run_has %}
+                {% do missing.append(p) %}
+            {% endif %}
         {% endfor %}
         {% if missing %}
             {% set ref_missing = [] %}
             {% for p in missing %}
-                {% if p not in ref_has and "ALL PRIVILEGES" not in ref_has %} {% do ref_missing.append(p) %} {% endif %}
+                {% if p not in ref_has and "ALL PRIVILEGES" not in ref_has %}
+                    {% do ref_missing.append(p) %}
+                {% endif %}
             {% endfor %}
-            {% if run_user == ref_user %}
-                {% set contrast = "" %}
+            {% if run_user == ref_user %} {% set contrast = "" %}
             {% elif not ns.ref_visible %}
-                {% set contrast = " (" ~ ref_user ~ "'s grants are not visible to " ~ run_user
-                                  ~ ": compare as an admin, e.g. SHOW GRANTS FOR '" ~ ref_user ~ "'@'%')" %}
+                {% set contrast = (
+                    " ("
+                    ~ ref_user
+                    ~ "'s grants are not visible to "
+                    ~ run_user
+                    ~ ": compare as an admin, e.g. SHOW GRANTS FOR '"
+                    ~ ref_user
+                    ~ "'@'%')"
+                ) %}
             {% elif not ref_missing %}
-                {% set contrast = " - " ~ ref_user ~ " has them, so CI and LDV stay green" %}
+                {% set contrast = (
+                    " - " ~ ref_user ~ " has them, so CI and dev stay green"
+                ) %}
             {% else %}
-                {% set contrast = " - " ~ ref_user ~ " lacks " ~ (ref_missing | join(", ")) ~ " too" %}
+                {% set contrast = (
+                    " - "
+                    ~ ref_user
+                    ~ " lacks "
+                    ~ (ref_missing | join(", "))
+                    ~ " too"
+                ) %}
             {% endif %}
-            {% do findings.append({
-                "check": "missing grant", "object": db ~ ".*",
-                "detail": run_user ~ " lacks " ~ (missing | join(", ")) ~ " on " ~ db ~ contrast,
-            }) %}
+            {% do findings.append(
+                {
+                    "check": "missing grant",
+                    "object": db ~ ".*",
+                    "detail": run_user
+                    ~ " lacks "
+                    ~ (missing | join(", "))
+                    ~ " on "
+                    ~ db
+                    ~ contrast,
+                }
+            ) %}
         {% endif %}
     {% endfor %}
 
     {# ---- report ---- #}
-    {% do log("Environment drift audit (target " ~ target.name ~ ", user " ~ run_user ~ ", databases "
-              ~ (audit_dbs | join(", ")) ~ "): " ~ (findings | length) ~ " finding(s)", info=True) %}
+    {% do log(
+        "Environment drift audit (target "
+        ~ target.name
+        ~ ", user "
+        ~ run_user
+        ~ ", databases "
+        ~ (audit_dbs | join(", "))
+        ~ "): "
+        ~ (findings | length)
+        ~ " finding(s)",
+        info=True,
+    ) %}
     {% for f in findings %}
-        {% do log("  [" ~ f["check"] ~ "] " ~ f["object"] ~ ": " ~ f["detail"], info=True) %}
+        {% do log(
+            "  [" ~ f["check"] ~ "] " ~ f["object"] ~ ": " ~ f["detail"],
+            info=True,
+        ) %}
     {% endfor %}
     {% if findings and fail_on_drift %}
         {% do exceptions.raise_compiler_error(
-            "Environment drift: " ~ (findings | length) ~ " finding(s), see above. Production no longer matches Git: "
+            "Environment drift: "
+            ~ (findings | length)
+            ~ " finding(s), see above. Production no longer matches Git: "
             ~ "put the change in the project (or the grants in the grants script) first. To go ahead anyway: "
-            ~ "--args '{fail_on_drift: false}'") %}
+            ~ "--args '{fail_on_drift: false}'"
+        ) %}
     {% endif %}
     {{ return(findings) }}
 {% endmacro %}

@@ -1,25 +1,22 @@
-"""Airflow DAG coordination, run governance, and callback utilities.
+"""Airflow DAG coordination utilities: pausing/unpausing DAGs and the one-per-run failure report.
 
-Adheres to Single Responsibility Principle: manages cross-DAG pausing/unpausing,
-manual trigger validation gates, and dynamic failure notification callbacks.
+The mail itself (parsing, rendering, SMTP) lives in utils/dbt_failure_report.py and has no Airflow dependency; this
+module only collects what the report needs from the Airflow side.
 """
 
+import glob
 import logging
-from typing import Any, Callable
+import os
+from datetime import datetime
+from typing import Any
 
-from utils.compat import AirflowException
-from utils.dbt_log_utils import (
-    FAILURE_EMAIL_RECIPIENTS,
-    FAILURE_EMAIL_SUBJECT,
-    FAILURE_EMAIL_CONTENT,
-    extract_dbt_error_lines,
-    extract_dbt_warning_details,
-    format_error_section,
-    read_task_log_text,
-)
-from utils.dbt_config import ENV_UPPER
+from utils.dbt_config import ENV, RELEASE_ARTIFACTS_BASE_DIR, TARGET_DIR
+from utils.dbt_failure_report import build_and_send
 
 logger = logging.getLogger(__name__)
+
+REPORT_TASK_ID = "send_failure_report"
+MAX_LOG_CHARS = 400_000
 
 
 def set_dag_paused_state(dag_id: str, is_paused: bool) -> bool:
@@ -92,100 +89,73 @@ def set_dag_paused_state(dag_id: str, is_paused: bool) -> bool:
         return False
 
 
-def validate_daily_run_trigger(context: dict[str, Any]) -> None:
-    """Ensure manual execution of daily load has explicit override confirmation.
-
-    Raises AirflowException if manually triggered without the acknowledgment flag.
-    """
-    dag_run = context.get("dag_run")
-    if not dag_run:
-        return
-
-    # If run is scheduled or dataset triggered, no check needed
-    if getattr(dag_run, "run_type", "") in ("scheduled", "dataset_triggered"):
-        return
-
-    params = context.get("params", {})
-    override_accepted = params.get("manual_run_override", False)
-
-    if not override_accepted:
-        raise AirflowException(
-            "MANUAL TRIGGER BLOCKED: The 'dbt_daily_load' DAG is reserved for dataset-triggered "
-            "scheduled production runs. For ad-hoc or manual dbt runs, please use DAG 'dbt_vdp'. "
-            "To force a manual run of 'dbt_daily_load', enable the 'manual_run_override' parameter."
-        )
-
-    logger.warning(
-        "MANUAL OVERRIDE DETECTED: 'dbt_daily_load' was manually triggered with manual_run_override=True."
-    )
+def _failed_task_ids(context: dict[str, Any]) -> list[str]:
+    """Task ids of this run that ended 'failed' (not upstream_failed), asked from the Airflow API."""
+    ti = context["ti"]
+    states = ti.get_task_states(dag_id=ti.dag_id, run_ids=[ti.run_id]).get(ti.run_id, {})
+    return [t for t, state in states.items() if str(state) == "failed" and t != REPORT_TASK_ID]
 
 
-def build_failure_email_callback(
-    default_recipients: list[str] | None = None,
-) -> Callable[[dict[str, Any]], None]:
-    """Factory creating an on_failure_callback that respects DAG/task params
+def read_task_log_text(dag_id: str, run_id: str, task_id: str) -> str:
+    """The newest attempt's log of a task, read from the local log folder (LocalExecutor: same container)."""
+    from airflow.configuration import conf
 
-    for recipient overrides and toggle flags.
-    """
+    base = conf.get("logging", "base_log_folder")
+    pattern = os.path.join(glob.escape(base), f"dag_id={glob.escape(dag_id)}", f"run_id={glob.escape(run_id)}",
+                           f"task_id={glob.escape(task_id)}", "attempt=*.log")
+    files = sorted(glob.glob(pattern), key=os.path.getmtime)
+    if not files:
+        return ""
+    with open(files[-1], encoding="utf-8", errors="replace") as handle:
+        return handle.read()[-MAX_LOG_CHARS:]
 
-    def _callback(context: dict[str, Any]) -> None:
-        params = context.get("params", {})
-        # Check if email is explicitly disabled in parameters
-        send_email_param = params.get("send_email_on_failure", True)
-        if not send_email_param:
-            logger.info("send_email_on_failure is False; skipping failure email.")
-            return
 
-        # Determine recipients: param override -> default_recipients -> global default
-        recipient_param = params.get("failure_email_recipients")
-        if recipient_param:
-            if isinstance(recipient_param, str):
-                recipients = [
-                    r.strip() for r in recipient_param.split(",") if r.strip()
-                ]
-            else:
-                recipients = list(recipient_param)
-        elif default_recipients:
-            recipients = default_recipients
-        else:
-            recipients = FAILURE_EMAIL_RECIPIENTS
+def _run_url(dag_id: str, run_id: str) -> str:
+    try:
+        from airflow.configuration import conf
 
-        ti = context.get("task_instance")
-        dag = context.get("dag")
-        dag_id = dag.dag_id if dag else "unknown_dag"
-        task_id = ti.task_id if ti else "unknown_task"
-        run_id = context.get("run_id", "")
-        log_url = ti.log_url if ti else ""
+        base = conf.get("api", "base_url", fallback="").rstrip("/")
+        return f"{base}/dags/{dag_id}/runs/{run_id}" if base else ""
+    except Exception:
+        return ""
 
-        error_section = ""
-        if ti:
-            try:
-                log_text = read_task_log_text(ti)
-                error_lines = extract_dbt_error_lines(log_text)
-                warning_details = extract_dbt_warning_details(log_text)
-                error_section = format_error_section(error_lines, warning_details)
-            except Exception as err:
-                logger.warning(f"Failed to parse error section for email: {err}")
 
-        subject = FAILURE_EMAIL_SUBJECT.format(
-            dag_id=dag_id, task_id=task_id, ENV=ENV_UPPER
-        )
-        content = (
-            FAILURE_EMAIL_CONTENT.format(
-                task_id=task_id,
-                dag_id=dag_id,
-                run_id=run_id,
-                log_url=log_url,
-            )
-            + error_section
-        )
+def send_failure_report_for_run(context: dict[str, Any]) -> bool:
+    """Collect the logs of the failed task(s) of this run plus run_results.json and send ONE mail. Never raises."""
+    try:
+        from utils.dbt_pod_utils import get_variable
 
-        try:
-            from airflow.utils.email import send_email
+        ti, dag_run = context["ti"], context.get("dag_run")
+        failed = _failed_task_ids(context) or []
+        logs = [f"===== task {t} =====\n{read_task_log_text(ti.dag_id, ti.run_id, t)}" for t in failed]
+        started = getattr(dag_run, "start_date", None)
+        not_before = started.timestamp() - 5 if isinstance(started, datetime) else None
+        safe_run_id = ti.run_id.replace(":", "_").replace("+", "_")
+        # release steps write to their own target dir, the daily load and the reload tasks to the shared one
+        candidates = [os.path.join(RELEASE_ARTIFACTS_BASE_DIR, safe_run_id, t, "run_results.json") for t in failed]
+        candidates.append(os.path.join(TARGET_DIR, "run_results.json"))
+        run_results_path = next((c for c in candidates if os.path.isfile(c)), candidates[-1])
+        ctx = {
+            "environment": ENV,
+            "dag_id": ti.dag_id,
+            "run_id": ti.run_id,
+            "image_tag": get_variable("dbt_image_tag", ""),
+            "run_url": _run_url(ti.dag_id, ti.run_id),
+        }
+        return build_and_send("\n".join(logs), ctx, run_results_path=run_results_path, not_before=not_before)
+    except Exception as exc:
+        logger.error(f"Failure report could not be prepared: {exc}")
+        return False
 
-            send_email(to=recipients, subject=subject, html_content=content)
-            logger.info(f"Sent failure email to {recipients} for {dag_id}.{task_id}")
-        except Exception as exc:
-            logger.error(f"Failed to send failure email: {exc}")
 
-    return _callback
+def failure_report_task():
+    """The final `send_failure_report` task (trigger_rule one_failed). Call it inside a `with DAG(...)` block and set
+    the dbt tasks as its upstream: it runs once per DAG run in which any of them failed."""
+    from airflow.sdk import task
+
+    @task(task_id=REPORT_TASK_ID, trigger_rule="one_failed")
+    def send_failure_report(**context):
+        """One mail: dbt findings of the failed task(s), run_results.json, the last log lines."""
+        send_failure_report_for_run(context)
+
+    return send_failure_report()

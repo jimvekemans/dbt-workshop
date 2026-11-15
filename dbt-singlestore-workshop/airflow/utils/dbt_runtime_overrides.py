@@ -3,12 +3,13 @@
 All three are Airflow Variables, read when the task starts (not at DAG parse time):
 
 ``dbt_env_vars`` (JSON object, every dbt task of every DAG)
-    Environment variables exported before dbt starts, e.g. ``{"DBT_VERSION_STG_CARRIER_TRACKING_EVENTS": "2"}``
-    (dynamic model version resolution) or ``{"DBT_SEVERITY_DEV_DATA": "error"}`` (dynamic test severity). Connection
+    Environment variables exported before dbt starts, e.g. ``{"DBT_CARRIER_V2_FROM": "2017-03-04 12:00:00"}``
+    (carrier format switch-over moment) or ``{"DBT_SEVERITY_DEV_DATA": "error"}`` (dynamic test severity). Connection
     secrets and the deploy target cannot be overridden.
 
 ``dbt_daily_load_dbtignore`` (JSON list or newline/comma separated, dbt_daily_load only)
-    Paths/globs appended to the project's ``.dbtignore`` before dbt starts, and removed again when it ends. The files
+    Paths/globs appended to the project's ``.dbtignore`` (inside the throwaway container, in the image's project copy)
+    before dbt starts, and removed again when it ends. The files
     disappear from the project: models, sources, tests, freshness checks and exposures in them are neither built, tested
     nor documented. Anything that refs an ignored node must be ignored as well, or the WHOLE project fails to parse.
     Use it when a feed must be out of the project until the next deploy window.
@@ -30,7 +31,7 @@ ENV_VARS_VARIABLE = "dbt_env_vars"
 DBTIGNORE_VARIABLE = "dbt_daily_load_dbtignore"
 
 _ENV_NAME = re.compile(r"^[A-Z][A-Z0-9_]*$")
-# never from a Variable: connection secrets, and the target environment itself (a PRD run must not think it is DEV)
+# never from a Variable: connection secrets, and the target environment itself (a prd run must not think it is dev)
 _PROTECTED_ENV = re.compile(r"^(SINGLESTORE_.*|IKL_HASH_SALT|DBT_DEPLOY_TARGET|DBT_PROFILES_DIR|DBT_TARGET_PATH|PATH|HOME)$")
 _IGNORE_ENTRY = re.compile(r"^[A-Za-z0-9_./*!?\[\]-]+$")
 
@@ -102,8 +103,8 @@ def _bash_body(cmd: list[str] | str) -> tuple[str, bool]:
 def apply_overrides(cmd: list[str] | str, env_vars: dict[str, str] | None = None,
                     dbtignore: list[str] | None = None) -> list[str]:
     """Wrap a dbt command (``['bash', '-c', body]``, an argv list or a string) so the env vars are exported and the
-    .dbtignore entries are in place while it runs. The project's own .dbtignore (if any) is restored afterwards:
-    in docker mode the workspace is shared with every later run, in Kubernetes the pod is thrown away anyway."""
+    .dbtignore entries are in place while it runs. The project's own .dbtignore (if any) is restored afterwards (the
+    container is thrown away anyway; the restore keeps the command usable in any writable project directory)."""
     body, _ = _bash_body(cmd)
     prefix: list[str] = []
     for name, value in (env_vars or {}).items():

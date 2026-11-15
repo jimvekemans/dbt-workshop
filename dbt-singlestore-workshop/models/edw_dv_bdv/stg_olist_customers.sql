@@ -1,18 +1,26 @@
 {{
     config(
-        materialized='incremental',
-        unique_key='customer_id',
-        shard_key=['customer_id'],
-        sort_key=['_ingested_at'],
-        on_schema_change='sync_all_columns'
+        materialized="incremental",
+        unique_key="customer_id",
+        shard_key=["customer_id"],
+        sort_key=["_ingested_at"],
+        on_schema_change="sync_all_columns",
     )
 }}
 
-with raw_source as (
+{{
+    import_dependencies(
+        [{"dependency": "raw_olist_customers", "source": "raw_olist"}]
+    )
+}},
+
+raw_source as (
     select *
-    from {{ source('raw_olist', 'raw_olist_customers') }}
+    from raw_olist_customers
     {% if is_incremental() %}
-      where _ingested_at > (select coalesce(max(_ingested_at), '1970-01-01') from {{ this }})
+        where
+            _ingested_at
+            > (select coalesce(max(_ingested_at), '1970-01-01') from {{ this }})
     {% endif %}
 ),
 

@@ -1,23 +1,16 @@
-"""Central configuration and environment constants for Airflow dbt DAGs."""
+"""Central configuration for the Airflow dbt DAGs. Everything environment-specific derives from DBT_DEPLOY_TARGET."""
 
 import os
 
-HOST = os.environ.get("IFW_PILLAR", "rel1ldv")
-ENV = HOST.replace("rel1", "")
-ENV_UPPER = ENV.upper()
+ENVIRONMENTS = ("dev", "val", "prd")
+ENV = os.environ.get("DBT_DEPLOY_TARGET", "dev").strip().lower() or "dev"
+if ENV not in ENVIRONMENTS:
+    raise ValueError(f"DBT_DEPLOY_TARGET must be one of {ENVIRONMENTS}, got {ENV!r}")
 
-NAMESPACE = f"{ENV}-vdp-airflow"
-KUBE_CONFIG = "/opt/apache_airflow/.kube/config"
+# Database dbt connects to (profiles.yml, targets default/run/reload)
+SINGLESTORE_DB = f"{ENV}_edw_dv_rdv"
 
-HOST_DNS_SUFFIX_MAP = {
-    "rel1ldv": "ops.vdab.be",
-    "rel1abt": "ops.vdab.be",
-    "rel1cbt": "vdab.be",
-    "rel1prd": "vdab.be",
-}
-HOST_DNS_SUFFIX = HOST_DNS_SUFFIX_MAP.get(HOST, "ops.vdab.be")
-
-# Shared PVC storage paths
+# Shared state volume, mounted in this container and (subpath mnt_dbt) in every dbt container
 MOUNT_DIR = "/mnt/dbt"
 TARGET_DIR = os.path.join(MOUNT_DIR, "target")
 ARTIFACTS_DIR = os.path.join(MOUNT_DIR, "artifacts")
@@ -28,8 +21,8 @@ RELOAD_ARTIFACTS_BASE_DIR = os.path.join(ARTIFACTS_DIR, "reload")
 
 SAFE_RUN_ID_TEMPLATE = "{{ run_id | replace(':', '_') | replace('+', '_') }}"
 
-# Image & Secret naming
-SECRET_NAME = f"s-{ENV}-vdp-dbt"
-DBT_IMAGE = f"artifacts.vdab.be/cops-docker-vdab/ondersteuning/dbt-vdp/dbt-vdp:{ENV}"
-PVC_CLAIM_NAME = "pvc-vdp-airflow"
-DBT_PV_STORAGE_NAME = "dbt-pv-storage"
+# The dbt project runs from the CI-built image dbt-vdp:<tag>; the tag is the Airflow Variable set by every deploy
+DBT_IMAGE_REPOSITORY = "dbt-vdp"
+DBT_IMAGE_TAG_VARIABLE = "dbt_image_tag"
+IMAGE_WORKDIR = "/usr/app/dbt/workspace"
+STATE_VOLUME_SUBPATH = "mnt_dbt"

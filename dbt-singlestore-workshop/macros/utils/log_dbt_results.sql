@@ -2,7 +2,10 @@
 
     {%- if execute -%}
 
-        {%- set table_identifier = api.Relation.create(database="vdp_mgmt", identifier="dbt_run_results") %}
+        {%- set table_identifier = api.Relation.create(
+            database=env_var("DBT_DEPLOY_TARGET", "dev") ~ "_vdp_mgmt",
+            identifier="dbt_run_results",
+        ) %}
 
         {%- set parsed_results = parse_dbt_results(results) -%}
         {%- if parsed_results | length > 0 -%}

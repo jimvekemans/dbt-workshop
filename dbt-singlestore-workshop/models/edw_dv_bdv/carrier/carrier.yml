@@ -1,43 +1,34 @@
 version: 2
 
 models:
-  # DYNAMIC MODEL VERSION RESOLUTION
-  # v2 (parses the carrier's announced API v2) was released to PRD before the carrier switched, but it is not live
-  # there yet: an environment variable picks the version that PRD builds and that downstream models ref.
-  #   DBT_VERSION_STG_CARRIER_TRACKING_EVENTS = 1 (default) | 2
-  # Downstream:  ref('stg_carrier_tracking_events', v=env_var('DBT_VERSION_STG_CARRIER_TRACKING_EVENTS', '1'))
-  # In PRD/CBT only the selected version is enabled (one table is built, tests run on that one). Everywhere else
-  # (LDV, ABT, CI) both versions are built, so v2 is tested on DEV data long before it is switched on in PRD.
-  # Operations flips it with the Airflow Variable dbt_env_vars - no release needed.
-  - name: stg_carrier_tracking_events
-    description: "Carrier scans, one row per scan (event_id). Grain: event_id."
-    latest_version: 1
+  - name: stg_carrier_events
+    description: >
+      Carrier scans, one row per scan (event_id). The carrier changes its message format on one day: scans that
+      arrived before the switch-over moment (env var DBT_CARRIER_V2_FROM, default: never) are read with the old
+      format, later ones with the new format. read_as says which reader was used; is_readable is false when a scan
+      could not be read (shipment, event type or time missing), e.g. because it arrived in a format the moment did
+      not expect. Operators set the moment without a deploy through the Airflow Variable dbt_env_vars.
     config:
       meta:
         owner_team: platform
     columns:
       - name: event_id
-      - name: shipment_id
         data_tests:
           - not_null:
               config: {severity: error, tags: [critical]}
+          - unique:
+              config: {severity: error, tags: [critical], where: "is_readable"}
+      - name: shipment_id
       - name: order_id
       - name: event_type
         data_tests:
           - accepted_values:
               arguments:
                 values: ["picked_up", "in_transit", "delivered"]
-              config: {severity: error, tags: [critical]}
+              config: {severity: error, tags: [critical], where: "is_readable"}
       - name: event_ts
-        data_tests:
-          - not_null:
-              config: {severity: error, tags: [critical]}
-      - name: api_version
+      - name: read_as
+        description: "Which format reader was used: 'old format' or 'new format'."
+      - name: is_readable
+        description: "True when shipment_id, event_type and event_ts are all filled."
       - name: _ingested_at
-    versions:
-      - v: 1
-        config:
-          enabled: "{{ env_var('DBT_VERSION_STG_CARRIER_TRACKING_EVENTS', '1') == '1' or env_var('DBT_DEPLOY_TARGET', 'LDV') not in ['PRD', 'CBT'] }}"
-      - v: 2
-        config:
-          enabled: "{{ env_var('DBT_VERSION_STG_CARRIER_TRACKING_EVENTS', '1') == '2' or env_var('DBT_DEPLOY_TARGET', 'LDV') not in ['PRD', 'CBT'] }}"

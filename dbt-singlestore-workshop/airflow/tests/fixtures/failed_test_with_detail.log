@@ -1,0 +1,64 @@
+   dbt-oss 2.0.11
+   Loading profiles.yml
+   Loading packages.yml
+     Using 3 threads (target: run)
+   Started downloading referenced relations (1 items)
+  Finished [  0.01s] downloading referenced relations (1 items)
+    Passed test  source_not_null_raw_olist_raw_olist_order_payments_order_id [4 of 49 in 0.00s]
+    Passed test  source_not_null_raw_olist_raw_olist_order_reviews_review_id [3 of 49 in 0.00s]
+    Passed test  source_not_null_raw_carrier_raw_carrier_tracking_events_event_id [6 of 49 in 0.01s]
+    Passed test  source_not_null_raw_olist_raw_olist_customers_customer_id [5 of 49 in 0.01s]
+    Passed test  source_not_null_raw_web_raw_web_events_event_id [1 of 49 in 0.01s]
+    Failed test  source_not_null_raw_olist_raw_olist_orders_order_id (models/edw_dv_bdv/sources_olist.yml:40:17) [2 of 49 in 0.01s]
+    Passed test  dbt_utils_source_unique_combination_of_columns_raw_olist_raw_olist_order_payments_order_id__payment_sequential [8 of 49 in 0.01s]
+    Passed test  source_accepted_values_raw_olist_raw_olist_orders_order_status__processing__shipped__delivered [7 of 49 in 0.01s]
+    Passed test  assert_carrier_events_delivered [10 of 49 in 0.01s]
+    Passed test  dbt_utils_source_expression_is_true_raw_olist_raw_olist_orders_customer_id__regexp_0_9a_f_32_ [9 of 49 in 0.01s]
+   Skipped model stg_olist_orders (incremental) [12 of 49]
+ Succeeded model dummy_loading_history (table) [15 of 49 in 0.70s]
+ Succeeded model dbt_table_grants (table) [17 of 49 in 0.72s]
+ Succeeded model ref_dummy_numbers (table) [14 of 49 in 0.76s]
+ Succeeded model dbt_run_results (incremental) [19 of 49 in 0.13s]
+ Succeeded model singlestore_column_info (table) [20 of 49 in 0.65s]
+ Succeeded model dbt_active_test_failures (view) [23 of 49 in 0.06s]
+ Succeeded model dbt_sources (table) [18 of 49 in 0.74s]
+ Succeeded model singlestore_table_info (table) [22 of 49 in 0.96s]
+ Succeeded model stg_olist_customers (incremental) [16 of 49 in 0.17s]
+ Succeeded model dbt_models (table) [21 of 49 in 0.73s]
+ Succeeded model stg_web_events (table) [11 of 49 in 0.87s]
+ Succeeded model dummy_reload_date_window (incremental) [26 of 49 in 0.18s]
+ Succeeded model stg_carrier_events (table) [13 of 49 in 0.80s]
+ Succeeded model dbt_foreign_create_user (view) [28 of 49 in 0.11s]
+ Succeeded model dbt_orphaned_objects (view) [27 of 49 in 0.11s]
+ Succeeded model dummy_reload_hkey_mod (incremental) [25 of 49 in 0.50s]
+ Succeeded model dbt_model_info (view) [30 of 49 in 0.11s]
+ Succeeded model dim_olist_customers (table) [29 of 49 in 0.65s]
+ Succeeded model mart_web_journeys (table) [31 of 49 in 0.55s]
+    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [33 of 49 in 0.06s]
+    Passed test  unique_stg_carrier_events_event_id [34 of 49 in 0.06s]
+    Passed test  not_null_stg_carrier_events_event_id [36 of 49 in 0.06s]
+    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 49 in 0.06s]
+    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [38 of 49 in 0.11s]
+ Succeeded model dbt_table_performance (view) [39 of 49 in 0.11s]
+    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [40 of 49 in 0.11s]
+ Succeeded model fct_olist_deliveries (table) [35 of 49 in 0.64s]
+    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 49 in 0.00s]
+    Passed test  assert_delivery_status_consistent [41 of 49 in 0.01s]
+ Succeeded model int_web_top_pages (table) [32 of 49 in 1.06s]
+ Succeeded model datum (table) [24 of 49 in 5.03s]
+   Skipped model fct_olist_orders (table) [44 of 49]
+   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [47 of 49]
+   Skipped model mart_web_conversion (table) [46 of 49]
+   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 49]
+   Skipped model mart_olist_management_kpi (table) [45 of 49]
+ Succeeded model dummy_reload_pit_with_deps (incremental) [43 of 49 in 0.13s]
+    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [49 of 49 in 0.01s]
+  Finished [  0.02s] hook  dbt_swf-on-run-end-0
+
+====================== Test Failures =======================
+Test failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id
+
+==================== Execution Summary =====================
+Finished 'build' with 1 error for target 'run' [6.8s]
+Processed: 1 hook | 28 models | 21 tests
+Summary: 50 total | 43 success | 1 error | 6 skipped

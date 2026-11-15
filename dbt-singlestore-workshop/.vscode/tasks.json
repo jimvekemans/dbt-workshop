@@ -1,59 +1,301 @@
+// Tasks for the devcontainer: "Tasks: Run Task". The vdp tasks run the vdp toolkit (see vdp.toml).
+// See https://go.microsoft.com/fwlink/?LinkId=733558 for the tasks.json format.
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Workshop cluster",
-            "type": "shell",
-            "command": "SCRIPT=\"${workspaceFolder}/../infrastructure/workshop.sh\"; if [ -x \"$SCRIPT\" ] && command -v docker >/dev/null; then exec \"$SCRIPT\" session; else echo \"Workshop cluster script or docker not available, skipping\"; fi",
-            "options": {
-                "shell": {
-                    "executable": "bash",
-                    "args": ["-c"]
-                }
-            },
-            "isBackground": true,
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "silent",
-                "panel": "dedicated",
-                "close": false
-            },
-            "runOptions": {
-                "runOn": "folderOpen",
-                "instanceLimit": 1
-            }
-        },
-        {
             "label": "Compile fresh artifacts",
             "type": "shell",
-            "command": "dbt clean && CURRENT_BRANCH=$(git branch --show-current) && git fetch origin dev && git stash --include-untracked && MERGE_BASE=$(git merge-base $CURRENT_BRANCH origin/dev) && git checkout $MERGE_BASE && dbt compile --no-partial-parse --target run --target-path artifacts && git switch \"$CURRENT_BRANCH\" && git stash pop"
+            "command": "export DBT_DEPLOY_TARGET=dev && dbt clean && CURRENT_BRANCH=$(git branch --show-current) && git fetch origin dev && git stash --include-untracked && MERGE_BASE=$(git merge-base $CURRENT_BRANCH origin/dev) && git checkout $MERGE_BASE && dbt compile --no-partial-parse --target run --target-path artifacts && git switch \"$CURRENT_BRANCH\" && git stash pop",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false,
+                "focus": false,
+                "showReuseMessage": false
+            }
         },
         {
             "label": "Build modified",
             "type": "shell",
-            "command": "dbt build -s state:modified --defer --state artifacts"
+            "command": "DBT_DEPLOY_TARGET=dev dbt build -s state:modified --defer --state artifacts",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false,
+                "focus": false,
+                "showReuseMessage": false
+            }
         },
         {
             "label": "List modified",
             "type": "shell",
-            "command": "dbt ls -s state:modified --state artifacts --output json --output-keys database name resource_type"
+            "command": "DBT_DEPLOY_TARGET=dev dbt ls -s state:modified --state artifacts --output json --output-keys database name resource_type",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false,
+                "focus": false,
+                "showReuseMessage": false
+            }
         },
         {
             "label": "List all CI pipeline targets",
             "type": "shell",
-            "command": "dbt clean && CURRENT_BRANCH=$(git branch --show-current) && git fetch origin dev && git stash --include-untracked && MERGE_BASE=$(git merge-base $CURRENT_BRANCH origin/dev) && git checkout $MERGE_BASE && dbt compile --no-partial-parse --target run --target-path artifacts && git switch \"$CURRENT_BRANCH\" && git stash pop && dbt ls -s state:modified+,+state:modified state:modified+1 --state artifacts --output json --output-keys database name resource_type"
+            "command": "export DBT_DEPLOY_TARGET=dev && dbt clean && CURRENT_BRANCH=$(git branch --show-current) && git fetch origin dev && git stash --include-untracked && MERGE_BASE=$(git merge-base $CURRENT_BRANCH origin/dev) && git checkout $MERGE_BASE && dbt compile --no-partial-parse --target run --target-path artifacts && git switch \"$CURRENT_BRANCH\" && git stash pop && dbt ls -s state:modified+,+state:modified state:modified+1 --state artifacts --output json --output-keys database name resource_type",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false,
+                "focus": false,
+                "showReuseMessage": false
+            }
         },
         {
             "label": "Replicate CI pipeline locally",
             "type": "shell",
-            "command": "dbt clean && CURRENT_BRANCH=$(git branch --show-current) && git fetch origin dev && git stash --include-untracked && MERGE_BASE=$(git merge-base $CURRENT_BRANCH origin/dev) && git checkout $MERGE_BASE && dbt compile --no-partial-parse --target run --target-path artifacts && git switch \"$CURRENT_BRANCH\" && git stash pop && SCHEMA=\"${CURRENT_BRANCH//[\/-]/_}\" && dbt build -s state:modified+,+state:modified state:modified+1 --state artifacts --target ci --empty --vars \"SCHEMA: ${SCHEMA}\""
+            "command": "export DBT_DEPLOY_TARGET=dev && dbt clean && CURRENT_BRANCH=$(git branch --show-current) && git fetch origin dev && git stash --include-untracked && MERGE_BASE=$(git merge-base $CURRENT_BRANCH origin/dev) && git checkout $MERGE_BASE && dbt compile --no-partial-parse --target run --target-path artifacts && git switch \"$CURRENT_BRANCH\" && git stash pop && SCHEMA=\"${CURRENT_BRANCH//[/-]/_}\" && dbt build -s state:modified+,+state:modified state:modified+1 --state artifacts --target ci --empty --vars \"SCHEMA: ${SCHEMA}\"",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false,
+                "focus": false,
+                "showReuseMessage": false
+            }
         },
         {
             "label": "Rebase feature branch",
             "type": "shell",
-            "command": "CURRENT_BRANCH=$(git branch --show-current); if [ \"$CURRENT_BRANCH\" = \"dev\" ]; then echo \"Switch to feature branch before rebasing\"; exit 1; fi; if printf '%s' \"$CURRENT_BRANCH\" | grep -q 'INTEL-'; then git fetch origin dev && if ! git rebase origin/dev; then echo \"Merge conflicts during rebase, manual resolution required\"; git diff --name-only --diff-filter=U; exit 1; fi && if git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1; then git push --force-with-lease; else git push --set-upstream origin \"$CURRENT_BRANCH\"; fi; else echo \"Current branch does not contain INTEL-\"; exit 1; fi"
+            "command": "CURRENT_BRANCH=$(git branch --show-current); if [ \"$CURRENT_BRANCH\" = \"dev\" ]; then echo \"Switch to feature branch before rebasing\"; exit 1; fi; if printf '%s' \"$CURRENT_BRANCH\" | grep -Eq '^(feature|bugfix|hotfix)/'; then git fetch origin dev && if ! git rebase origin/dev; then echo \"Merge conflicts during rebase, manual resolution required\"; git diff --name-only --diff-filter=U; exit 1; fi && if git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1; then git push --force-with-lease; else git push --set-upstream origin \"$CURRENT_BRANCH\"; fi; else echo \"Current branch is not a feature, bugfix or hotfix branch\"; exit 1; fi",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false,
+                "focus": false,
+                "showReuseMessage": false
+            }
         },
+        {
+            "label": "vdp: env show",
+            "detail": "Environment, project, configuration files and secret keys (never values)",
+            "type": "shell",
+            "command": "vdp env show",
+            "options": {
+                "env": {
+                    "DBT_DEPLOY_TARGET": "dev"
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true,
+                "showReuseMessage": false,
+                "close": false
+            }
+        },
+        {
+            "label": "vdp: env doctor",
+            "detail": "Check the dbt engine, the SingleStore driver and the dbt project",
+            "type": "shell",
+            "command": "vdp env doctor",
+            "options": {
+                "env": {
+                    "DBT_DEPLOY_TARGET": "dev"
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true,
+                "showReuseMessage": false,
+                "close": false
+            }
+        },
+        {
+            "label": "vdp: add source",
+            "detail": "Declare tables in the generated source file, with their columns from the database",
+            "type": "shell",
+            "command": "vdp sources add ${input:vdpDryRun} ${input:vdpTables}",
+            "options": {
+                "env": {
+                    "DBT_DEPLOY_TARGET": "dev"
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true,
+                "showReuseMessage": false,
+                "close": false
+            }
+        },
+        {
+            "label": "vdp: add undefined sources",
+            "detail": "Add every source that dbt reports as undefined (dbt1048) to the generated source files",
+            "type": "shell",
+            "command": "vdp sources add --missing ${input:vdpDryRun}",
+            "options": {
+                "env": {
+                    "DBT_DEPLOY_TARGET": "dev"
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true,
+                "showReuseMessage": false,
+                "close": false
+            }
+        },
+        {
+            "label": "vdp: update source files",
+            "detail": "Refresh the columns of the generated source files and keep only referenced tables",
+            "type": "shell",
+            "command": "vdp sources rewrite",
+            "options": {
+                "env": {
+                    "DBT_DEPLOY_TARGET": "dev"
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true,
+                "showReuseMessage": false,
+                "close": false
+            }
+        },
+        {
+            "label": "vdp: run SQL file",
+            "detail": "Run a SQL file against the dbt target and print the result",
+            "type": "shell",
+            "command": "vdp sql run ${input:vdpSqlFile}",
+            "options": {
+                "env": {
+                    "DBT_DEPLOY_TARGET": "dev"
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true,
+                "showReuseMessage": false,
+                "close": false
+            }
+        },
+        {
+            "label": "vdp: export table to CSV",
+            "detail": "Save a table as data/<database>_<table>.csv",
+            "type": "shell",
+            "command": "vdp sql export ${input:vdpExportTable}",
+            "options": {
+                "env": {
+                    "DBT_DEPLOY_TARGET": "dev"
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true,
+                "showReuseMessage": false,
+                "close": false
+            }
+        },
+        {
+            "label": "vdp: qa orphan tables",
+            "detail": "Table models that nothing reads",
+            "type": "shell",
+            "command": "vdp qa orphan-tables",
+            "options": {
+                "env": {
+                    "DBT_DEPLOY_TARGET": "dev"
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true,
+                "showReuseMessage": false,
+                "close": false
+            }
+        },
+        {
+            "label": "vdp: qa view candidates",
+            "detail": "Views whose downstream tables are candidates to materialize (without run timings)",
+            "type": "shell",
+            "command": "vdp qa view-candidates",
+            "options": {
+                "env": {
+                    "DBT_DEPLOY_TARGET": "dev"
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true,
+                "showReuseMessage": false,
+                "close": false
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "vdpTables",
+            "type": "promptString",
+            "description": "Table(s) as <database>.<table> (space separated), e.g. dev_landing.raw_orders",
+            "default": "dev_landing."
+        },
+        {
+            "id": "vdpDryRun",
+            "type": "pickString",
+            "description": "Write the source file or only show the change?",
+            "options": [
+                {
+                    "label": "Write",
+                    "value": ""
+                },
+                {
+                    "label": "Dry run",
+                    "value": "--dry-run"
+                }
+            ],
+            "default": ""
+        },
+        {
+            "id": "vdpSqlFile",
+            "type": "promptString",
+            "description": "SQL file to run (relative to the project)",
+            "default": "${file}"
+        },
+        {
+            "id": "vdpExportTable",
+            "type": "promptString",
+            "description": "Table to export as <database>.<table>",
+            "default": "dev_landing."
+        }
     ]
 }

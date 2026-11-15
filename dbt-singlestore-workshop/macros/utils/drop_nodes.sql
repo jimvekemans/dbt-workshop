@@ -3,11 +3,15 @@
     {# Drops all created model/seed/snapshot relations found in the manifest for the current target (+ interrupted-run leftovers) #}
     {% set nodes = [] %}
     {% for node in graph.nodes.values() %}
-        {% if node.resource_type in ['model', 'seed', 'snapshot'] and node.relation_name is not none %}
+        {% if node.resource_type in [
+            "model",
+            "seed",
+            "snapshot",
+        ] and node.relation_name is not none %}
             {% do nodes.append(node.relation_name) %}
             {# also the leftovers of an interrupted run (--fail-fast cancels mid-DDL): <relation>__dbt_tmp / __dbt_backup #}
-            {% do nodes.append(node.relation_name[:-1] ~ '__dbt_tmp`') %}
-            {% do nodes.append(node.relation_name[:-1] ~ '__dbt_backup`') %}
+            {% do nodes.append(node.relation_name[:-1] ~ "__dbt_tmp`") %}
+            {% do nodes.append(node.relation_name[:-1] ~ "__dbt_backup`") %}
         {% endif %}
     {% endfor %}
     {% do log(nodes) %}
@@ -23,7 +27,7 @@
                             else 'VIEW'
                         end as obj_type
                 from information_schema.tables
-                where table_schema not in ('information_schema', 'memsql', 'cluster', '_olist_master', 'analytics_dev', 'analytics_prod', 'vdp_mgmt')
+                where table_schema not in ('information_schema', 'memsql', 'cluster', '{{ env_var("DBT_DEPLOY_TARGET", "dev") }}_vdp_mgmt')
             )
             select identifier, obj_type
             from all_objects

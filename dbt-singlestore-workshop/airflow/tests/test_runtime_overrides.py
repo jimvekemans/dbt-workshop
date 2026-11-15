@@ -39,9 +39,9 @@ def test_exclude_list_accepts_a_json_variable():
 
 
 def test_env_vars_are_validated():
-    assert parse_env_vars('{"DBT_VERSION_STG_CARRIER_TRACKING_EVENTS": 2, "X": true}') == {
-        "DBT_VERSION_STG_CARRIER_TRACKING_EVENTS": "2", "X": "true"}
-    for bad in ('{"SINGLESTORE_PASS": "x"}', '{"DBT_DEPLOY_TARGET": "LDV"}', '{"lower": "x"}', '{"A": [1]}', "[1]"):
+    assert parse_env_vars('{"DBT_CARRIER_V2_FROM": "2017-03-04 12:00:00", "X": true}') == {
+        "DBT_CARRIER_V2_FROM": "2017-03-04 12:00:00", "X": "true"}
+    for bad in ('{"SINGLESTORE_PASS": "x"}', '{"DBT_DEPLOY_TARGET": "dev"}', '{"lower": "x"}', '{"A": [1]}', "[1]"):
         with pytest.raises(ValueError):
             parse_env_vars(bad)
 
@@ -81,7 +81,7 @@ def test_overrides_are_in_place_during_the_run_and_gone_after(project):
     assert res.returncode == 1                                  # dbt's exit code survives the cleanup trap
     assert "version=2" in res.stdout
     assert "ignore=models/*/carrier/ tests/carrier/" in res.stdout   # globs written literally, not expanded
-    assert not (work / ".dbtignore").exists()                   # docker mode: the shared workspace is clean again
+    assert not (work / ".dbtignore").exists()                   # the project directory is clean again
 
 
 def test_the_projects_own_dbtignore_is_restored(project):

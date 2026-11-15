@@ -1,6 +1,8 @@
 {% macro sync_grants_with_singlestore(dry_run=False) %}
     {% set project_grants = {} %}
-    {% for node in graph.nodes.values() | selectattr("resource_type", "equalto", "model") %}
+    {% for node in graph.nodes.values() | selectattr(
+        "resource_type", "equalto", "model"
+    ) %}
         {% if node.config.grants %}
             {% set model_id = (node.database ~ "." ~ node.name) | lower %}
             {% set grants = node.config.grants %}
@@ -61,7 +63,9 @@
             {% set model_id = (row["identifier"]) | lower %}
             {% set priv = row["grants"] | lower %}
             {% set role = row["role"] | lower %}
-            {% if db_grants.get(model_id) is none %} {% do db_grants.update({model_id: {}}) %} {% endif %}
+            {% if db_grants.get(model_id) is none %}
+                {% do db_grants.update({model_id: {}}) %}
+            {% endif %}
             {% if db_grants[model_id].get(priv) is none %}
                 {% do db_grants[model_id].update({priv: []}) %}
             {% endif %}
@@ -77,7 +81,8 @@
         {% if project_grants.get(model_id) %}
             {% for priv, roles in project_grants[model_id].items() %}
                 {% for role in roles %}
-                    {% set grant = priv ~ ":" ~ role %} {% do project_grant_list.append(grant) %}
+                    {% set grant = priv ~ ":" ~ role %}
+                    {% do project_grant_list.append(grant) %}
                 {% endfor %}
             {% endfor %}
         {% endif %}
@@ -109,8 +114,16 @@
     {% if revokes | length > 0 %}
         {{ log("Found " ~ revokes | length ~ " grants to revoke.", info=True) }}
         {% for revoke_sql in revokes %}
-            {% if dry_run %} {{ log("[Dry Run] Would execute: " ~ revoke_sql, info=True) }}
-            {% else %} {% do run_query(revoke_sql) %} {{ log("Executed: " ~ revoke_sql, info=True) }}
+            {% if dry_run %}
+                {{ log("[Dry Run] Would execute: " ~ revoke_sql, info=True) }}
+            {% else %}
+                {% do run_query(revoke_sql) %}
+                {{
+                    log(
+                        "Executed: " ~ revoke_sql,
+                        info=True,
+                    )
+                }}
             {% endif %}
         {% endfor %}
     {% else %} {{ log("No grants to revoke.", info=True) }}

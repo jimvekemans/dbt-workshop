@@ -1,22 +1,22 @@
 groups:
   - name: indicatoren
     owner:
-      email: boris.ideler@vdab.be
+      email: indicators@example.org
   - name: kans_op_werk
     owner:
-      email: ute.naessens@vdab.be
+      email: opportunities@example.org
   - name: dim_burger
     owner:
-      email: tim.vanbrabant@vdab.be
+      email: dimensions@example.org
   - name: dim_beroep
     owner:
-      email: tim.vanbrabant@vdab.be
+      email: dimensions@example.org
   - name: dim_organisatie
     owner:
-      email: jan.leers@vdab.be
+      email: organisation@example.org
   - name: c2_conversie
     owner:
-      email: sergio.maccalline@vdab.be
+      email: conversion@example.org
   - name: interne_organisatie
     owner:
-      email: hans.neckebroeck@vdab.be
+      email: internal@example.org

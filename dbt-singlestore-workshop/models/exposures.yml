@@ -18,7 +18,7 @@ exposures:
       meta:
         consumer: finance
         domain: payments
-        freshness_sla: "payments no more than 1 day behind the simulation clock"
+        freshness_sla: "payments no more than 1 day behind"
 
   - name: marketing_nps_dashboard
     label: "Marketing - NPS dashboard"

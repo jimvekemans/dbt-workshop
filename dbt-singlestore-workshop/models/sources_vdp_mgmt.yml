@@ -1,8 +1,8 @@
 version: 2
 sources:
   - name: vdp_mgmt
-    database: vdp_mgmt
-    schema: vdp_mgmt
+    database: "{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_vdp_mgmt"
+    schema: "{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_vdp_mgmt"
     tables:
       - name: dbt_run_results
         columns:

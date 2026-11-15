@@ -1,7 +1,7 @@
-name: dbt_swf # This name should match the profile name in profiles.yml
+name: dbt_swf
 version: "1.0.0"
 
-profile: "dbt_swf" # This name should match the profile name in profiles.yml
+profile: "dbt_swf"
 
 model-paths: ["models"]
 test-paths: ["tests"]
@@ -13,7 +13,7 @@ packages-install-path: "dbt_packages"
 clean-targets:
   - "target"
   - "logs"
-  - "{% if env_var('SINGLESTORE_USER', 'pu-username').startswith('pu') %}artifacts{% else %}logs{% endif %}"
+  - "{% if env_var('SINGLESTORE_USER', 'pu_username').startswith('pu') %}artifacts{% else %}logs{% endif %}"
 
 models:
   dbt_swf:
@@ -22,24 +22,23 @@ models:
       +database: edw_dv_bdv
       +tags: edw_dv_bdv
       +docs:
-        node_color: "#2c13ba" # Donkerblauw
+        node_color: "#2c13ba"
     im_dimensional:
       +database: im_dimensional
       +tags: im_dimensional
       +docs:
-        node_color: "#1d5e09" # Diep dennengroen
+        node_color: "#1d5e09"
 
 on-run-end:
   - "{% if env_var('LOG_RUN_RESULTS', '') == 'TRUE' and target.name == 'run'%}{{ log_dbt_results(results) }}{% endif %}"
 
 data_tests:
   dbt_swf:
-    # project name
     # GLOBAL severity switch: warn by default, overridable in yml files or individual tests to error. Operations can flip
     # every test without an explicit severity at once per environment, without a deploy: DBT_TEST_SEVERITY=error
-    # (Airflow Variable `dbt_env_vars`, see airflow/utils/dbt_runtime_overrides.py).
-    # LOCAL switches live on the tests themselves, e.g. the DEV-data tests in models/edw_dv_bdv/sources_olist.yml:
-    #   severity: "{{ env_var('DBT_SEVERITY_DEV_DATA', 'warn' if env_var('DBT_DEPLOY_TARGET', 'LDV') in ['LDV', 'ABT'] else 'error') }}"
+    # (Airflow Variable `dbt_env_vars`).
+    # LOCAL switches live on the tests themselves, e.g. the dev-data tests in models/edw_dv_bdv/sources_olist.yml:
+    #   severity: "{{ env_var('DBT_SEVERITY_DEV_DATA', 'warn' if env_var('DBT_DEPLOY_TARGET', 'dev') == 'dev' else 'error') }}"
     # Note: on dbt Fusion `--warn-error` does not turn a warn-severity test into a failure (dbt Core does), so in the
     # daily load the severity decides.
     +severity: "{{ env_var('DBT_TEST_SEVERITY', 'warn') }}"
@@ -52,58 +51,16 @@ vars:
   dbt_date:
     "dbt_date:time_zone": "Europe/Brussels"
   dbt_swf:
-    id_column_length: 33
-    uuid_column_length: 36
-    bkcc_column_length: 60
-    full_refresh_fmc_pit_loading_history: false
-    full_refresh_pit_burger_db: false
-    full_refresh_pit_burger_niet_beschikbaarheid_db: false
-    full_refresh_pit_medewerker_db: false
-    # Start datum van de DBT run in locale tijd
-    # TODO vervangen van models die deze var aanspreken met de macro 'get_local_run_started_at'
+    # Start of the dbt run in local time
     local_run_started_at: "{{run_started_at.astimezone(modules.pytz.timezone(var('dbt_date')['dbt_date:time_zone'])).strftime('%Y-%m-%d %H:%M:%S') }}"
 
     # Drift audit (macros/ops/audit_environment_drift.sql; gate in dbt_release, report-only in dbt_daily_load):
     # relations a model builds must be created/altered by one of these accounts, anything else is a change outside Git
-    drift_audit_service_accounts: ["svc_ci_dbt", "svc_ldv_dbt", "svc_prd_dbt"]
-    # whose grants a missing privilege is compared with ("svc_ldv_dbt has them, so CI and LDV stay green")
-    drift_audit_reference_user: "svc_ldv_dbt"
-    # platform metadata (root-created run log tables) and system schemas are not audited
-    drift_audit_ignore_databases: ["vdp_mgmt", "information_schema"]
-
-    # ----------------------------------------------------------------------------------------
-    # Parameters gerelateerd aan modellen.
-    # ----------------------------------------------------------------------------------------
-    # Deze parameter geeft de cutoff datum voor het einde van de satb_orgbeheer_organisatie_label_hb data (eigen Kafka topic)
-    # en de start van data uit satb_orgbeheer_org_label_hb (v3 van het organisatietopic) (zie INTEL-23700)
-    start_organisatie_label_v3_2026_dt:
-      "LDV": "2026-03-25 00:00:00"
-      "ABT": "2026-03-25 00:00:00"
-      "CBT": "2026-03-24 00:00:00"
-      "PRD": "2026-04-08 00:00:00"
-    bit_cutoff_date_2026_dt:
-      "LDV": "2026-03-09 08:13:49"
-      # "LDV": "2026-03-23 19:54:33"
-      "ABT": "2026-03-10 08:43:06"
-      "CBT": "2026-03-19 12:46:44"
-      "PRD": "2026-03-23 19:54:33"
-    start_correctie_nis_code_2026_dt:
-      "LDV": "2026-05-28 09:49:25"
-      "ABT": "2026-05-28 09:40:37"
-      "CBT": "2026-06-16 08:30:32"
-      "PRD": "2026-05-27 10:34:49"
-    burger_switch_sas_vdp_dt: "2025-07-01 00:00:00"
-    burger_afstand_switch_sas_vdp_dt: "2024-10-05 00:00:00"
-    start_correctie_landmon_origine_2026_dt:
-      "LDV": "2026-06-12 10:47:46"
-      "ABT": "2026-06-11 20:06:50"
-      "CBT": "2026-07-14 09:20:11"
-      "PRD": "2026-06-11 20:01:41"
-    start_brgdvl_werkloosheidsverzekering_crud_dt:
-      "LDV": "2026-04-03 00:00:00"
-      "ABT": "2026-04-03 00:00:00"
-      "CBT": "2026-04-03 00:00:00"
-      "PRD": "2026-04-21 00:00:00"
+    drift_audit_service_accounts: ["svc_ci_dbt", "svc_dev_dbt", "svc_val_dbt", "svc_prd_dbt"]
+    # whose grants a missing privilege is compared with ("svc_dev_dbt has them, so CI and dev stay green")
+    drift_audit_reference_user: "svc_dev_dbt"
+    # platform metadata (run log tables) and system schemas are not audited
+    drift_audit_ignore_databases: ["dev_vdp_mgmt", "val_vdp_mgmt", "prd_vdp_mgmt", "information_schema"]
 
 # ----------------------------------------------------------------------------------------
 # Miscellaneous parameters

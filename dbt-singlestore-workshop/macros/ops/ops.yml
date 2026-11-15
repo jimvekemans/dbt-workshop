@@ -14,9 +14,9 @@ macros:
         description: "Raise a compilation error when there is at least one finding (default true)."
       - name: reference_user
         type: string
-        description: "Account to compare missing grants with (default var drift_audit_reference_user = svc_ldv_dbt)."
+        description: "Account to compare missing grants with (default var drift_audit_reference_user = svc_dev_dbt)."
       - name: audit_user
         type: string
         description: >-
-          Audit this account's grants instead of target.user - run as an admin (svc_ci_dbt) to see PRD's grants next
-          to LDV's; a least-privilege account only sees its own rows in information_schema.
+          Audit this account's grants instead of target.user - run as an admin (pu_admin) to see prd's grants next
+          to dev's; a least-privilege account only sees its own rows in information_schema.

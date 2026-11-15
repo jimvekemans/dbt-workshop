@@ -75,12 +75,7 @@
             {% set compiled_code = clean_code.replace('"', "'").replace("'", "''") %}
         {% endif %}
 
-        {#- versioned models share a name (stg_carrier_tracking_events v1/v2): log <name>_v<n>, like their relation,
-            so (invocation_id, name) - the primary key of vdp_mgmt.dbt_run_results - stays unique -#}
         {% set node_name = node.get("name") %}
-        {% if node.get("version") is not none and node.get("version") | string != "" %}
-            {% set node_name = node_name ~ "_v" ~ (node.get("version") | string) %}
-        {% endif %}
         {% set parsed_result_dict = {
             "invocation_id": invocation_id,
             "run_started_at": run_started_at,

@@ -1,8 +1,4 @@
-{{
-  config(
-    materialized='table'
-  )
-}}
+{{ config(materialized="table") }}
 
 select
     cast('2026-01-01' as date) as last_loaded_date,

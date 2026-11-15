@@ -1,7 +1,7 @@
 """dbt state management and artifact processing utilities.
 
 Adheres to Single Responsibility Principle: handles manifest and run_results
-parsing, state accumulation across sequential tasks, and dataset outlet extraction.
+parsing, and state accumulation across sequential tasks.
 """
 
 import json
@@ -162,52 +162,3 @@ def consolidate_reload_artifacts(target_path: str) -> dict[str, Any]:
             )
 
     return merged
-
-
-def extract_successful_relations(
-    manifest_path: str,
-    run_results_path: str,
-) -> list[dict[str, str]]:
-    """Extract database relation names (db, object) for successful models
-
-    materialized as table, view, or incremental.
-    """
-    if not Path(manifest_path).is_file():
-        raise FileNotFoundError(f"Missing manifest file: {manifest_path}")
-    if not Path(run_results_path).is_file():
-        raise FileNotFoundError(f"Missing run_results file: {run_results_path}")
-
-    with open(manifest_path, "r", encoding="utf-8") as f:
-        manifest = json.load(f)
-    with open(run_results_path, "r", encoding="utf-8") as f:
-        run_results = json.load(f)
-
-    models = {
-        m_id: info
-        for m_id, info in manifest.get("nodes", {}).items()
-        if info.get("resource_type") == "model"
-    }
-
-    valid_tables = {
-        info.get("alias", m_id.split(".")[-1]).replace("__new_", "")
-        for m_id, info in models.items()
-        if info.get("config", {}).get("materialized")
-        in ("table", "view", "incremental")
-    }
-
-    results: list[dict[str, str]] = []
-    for res in run_results.get("results", []):
-        if (
-            res.get("status") == "success"
-            and res.get("unique_id") in models
-            and "relation_name" in res
-        ):
-            raw_relation = res["relation_name"].replace("`", "").replace("__new_", "")
-            parts = raw_relation.split(".")
-            if len(parts) >= 2:
-                db = parts[0]
-                object_name = parts[1]
-                if object_name in valid_tables:
-                    results.append({"db": db, "object": object_name})
-
-    return results

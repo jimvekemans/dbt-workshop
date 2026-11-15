@@ -1,4 +1,6 @@
-{% macro check_database_maintenance(database_name, dry_run=True, ignore_dbt_artifacts=True) %}
+{% macro check_database_maintenance(
+    database_name, dry_run=True, ignore_dbt_artifacts=True
+) %}
 
     {% set created_objects_query %}
         select distinct concat(table_schema, ".", table_name) as identifier,
@@ -27,14 +29,20 @@
 
     {% set dbt_objects = [] %}
     {% for node in graph.nodes.values() %}
-        {% if node.resource_type in ["model", "seed", "snapshot"] and node.database == database_name %}
+        {% if node.resource_type in [
+            "model",
+            "seed",
+            "snapshot",
+        ] and node.database == database_name %}
             {% do dbt_objects.append(node.database ~ "." ~ node.name) %}
         {% endif %}
     {% endfor %}
 
     {% set orphaned_objects = [] %}
     {% for obj in created_objects %}
-        {% if obj["identifier"] not in dbt_objects %} {% do orphaned_objects.append(obj) %} {% endif %}
+        {% if obj["identifier"] not in dbt_objects %}
+            {% do orphaned_objects.append(obj) %}
+        {% endif %}
     {% endfor %}
 
     {% set grants_query %}
@@ -91,7 +99,9 @@
             {% set model_id = (row["identifier"]) | lower %}
             {% set priv = row["grants"] | lower %}
             {% set role = row["role"] | lower %}
-            {% if db_grants.get(model_id) is none %} {% do db_grants.update({model_id: {}}) %} {% endif %}
+            {% if db_grants.get(model_id) is none %}
+                {% do db_grants.update({model_id: {}}) %}
+            {% endif %}
             {% if db_grants[model_id].get(priv) is none %}
                 {% do db_grants[model_id].update({priv: []}) %}
             {% endif %}
@@ -105,13 +115,23 @@
     {% set revokes = [] %}
     {% for obj in orphaned_objects %}
         {% set identifier = obj.get("identifier") %}
-        {% set drop_command = "drop " ~ obj.get("type") ~ " if exists " ~ identifier ~ ";" %}
+        {% set drop_command = (
+            "drop " ~ obj.get("type") ~ " if exists " ~ identifier ~ ";"
+        ) %}
         {% do drop_commands.append(drop_command) %}
         {% set db_grant_dict = db_grants.get(identifier) %}
         {% if db_grant_dict %}
             {% for priv, db_roles in db_grant_dict.items() %}
                 {% for role in db_roles %}
-                    {% set revoke_sql = "revoke " ~ priv ~ " on " ~ identifier ~ " from " ~ role ~ ";" %}
+                    {% set revoke_sql = (
+                        "revoke "
+                        ~ priv
+                        ~ " on "
+                        ~ identifier
+                        ~ " from "
+                        ~ role
+                        ~ ";"
+                    ) %}
                     {% do revokes.append(revoke_sql) %}
                 {% endfor %}
             {% endfor %}
@@ -120,7 +140,8 @@
 
     {% if not dry_run %}
         {% for revoke_sql in revokes %}
-            {% do run_query(revoke_sql) %} {{ log("Executed: " ~ revoke_sql, info=True) }}
+            {% do run_query(revoke_sql) %}
+            {{ log("Executed: " ~ revoke_sql, info=True) }}
         {% endfor %}
         {% for drop_sql in drop_commands %}
             {% do run_query(drop_sql) %} {{ log("Executed: " ~ drop_sql, info=True) }}
@@ -132,8 +153,11 @@
 
 {% macro perform_database_maintenance() %}
     {% set maintenance_report = {} %}
-    {% for db in ["edw_dv_bdv", "edw_fmc", "edw_ldm", "pres_dataproduct", "im_dimensional"] %}
-        {% set result = check_database_maintenance(db, dry_run=false, ignore_dbt_artifacts=true) %}
+    {% for name in ["edw_dv_rdv", "edw_dv_bdv", "im_dimensional"] %}
+        {% set db = env_var("DBT_DEPLOY_TARGET", "dev") ~ "_" ~ name %}
+        {% set result = check_database_maintenance(
+            db, dry_run=false, ignore_dbt_artifacts=true
+        ) %}
         {% do maintenance_report.update([(db, result)]) %}
     {% endfor %}
     {{ print(maintenance_report | tojson) }}

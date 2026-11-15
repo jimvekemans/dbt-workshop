@@ -3,7 +3,10 @@ import os
 from datetime import datetime, timedelta
 
 
-from utils.compat import AirflowException, AirflowSkipException, DAG, Param, ParamsDict, TaskGroup
+from airflow.sdk import DAG, Param, TaskGroup
+from airflow.sdk.definitions.param import ParamsDict
+from airflow.sdk.exceptions import AirflowException, AirflowSkipException
+
 from utils.dbt_config import RELOAD_ARTIFACTS_BASE_DIR
 from utils.dbt_command_utils import (
     build_reload_init_command,
@@ -13,8 +16,8 @@ from utils.dbt_command_utils import (
     build_reload_cleanup_scratch_command,
     build_reload_drop_backup_command,
 )
-from utils.dbt_dag_utils import build_failure_email_callback
-from utils.dbt_pod_utils import openshift_dbt_task, openshift_python_task
+from utils.dbt_dag_utils import failure_report_task
+from utils.dbt_pod_utils import dbt_task, python_task
 from utils.dbt_state_utils import consolidate_reload_artifacts
 
 logger = logging.getLogger(__name__)
@@ -62,10 +65,6 @@ Everything else lives in `macros/utils/reload_helpers.sql`.
 
 Boundaries: `date_window` needs `start_date` and `end_date` (exclusive); `pit` needs `limit` (rows per batch); `hkey_mod` needs nothing.
 """,
-    default_args={
-        "email_on_failure": False,
-        "on_failure_callback": build_failure_email_callback(),
-    },
     params=ParamsDict(
         {
             "model_name": Param("dummy_reload_hkey_mod", type="string", description="Model with a reload_strategy to reload"),
@@ -80,7 +79,7 @@ Boundaries: `date_window` needs `start_date` and `end_date` (exclusive); `pit` n
     ),
 ) as dag:
 
-    @openshift_dbt_task(task_id="init_green_table", trigger_rule="all_success")
+    @dbt_task(task_id="init_green_table", trigger_rule="all_success")
     def init_green_table(**context):
         batches = int(_conf(context, "batch_count"))
         if not 1 <= batches <= MAX_BATCH_SLOTS:
@@ -93,7 +92,7 @@ Boundaries: `date_window` needs `start_date` and `end_date` (exclusive); `pit` n
         batch_tasks = []
 
         def _make_batch(batch_num: int):
-            @openshift_dbt_task(
+            @dbt_task(
                 task_id=f"batch_chunk_{batch_num}",
                 trigger_rule="none_failed_min_one_success",
                 retries=1,
@@ -121,7 +120,7 @@ Boundaries: `date_window` needs `start_date` and `end_date` (exclusive); `pit` n
         for b_curr, b_next in zip(batch_tasks[:-1], batch_tasks[1:]):
             b_curr >> b_next
 
-    @openshift_dbt_task(task_id="test_green_table", trigger_rule="none_failed_min_one_success")
+    @dbt_task(task_id="test_green_table", trigger_rule="none_failed_min_one_success")
     def test_green_table(**context):
         if not _conf(context, "run_tests", True):
             raise AirflowSkipException("run_tests=False")
@@ -129,17 +128,17 @@ Boundaries: `date_window` needs `start_date` and `end_date` (exclusive); `pit` n
             _conf(context, "model_name"), os.path.join(_target_path(context), "test")
         )
 
-    @openshift_dbt_task(task_id="atomic_swap", trigger_rule="none_failed_min_one_success")
+    @dbt_task(task_id="atomic_swap", trigger_rule="none_failed_min_one_success")
     def atomic_swap(**context):
         return build_reload_swap_command(_conf(context, "model_name"))
 
-    @openshift_dbt_task(task_id="cleanup_backup_table", trigger_rule="none_failed_min_one_success")
+    @dbt_task(task_id="cleanup_backup_table", trigger_rule="none_failed_min_one_success")
     def cleanup_backup_table(**context):
         if not _conf(context, "cleanup_backup", True):
             raise AirflowSkipException("cleanup_backup=False")
         return build_reload_drop_backup_command(_conf(context, "model_name"))
 
-    @openshift_python_task(
+    @python_task(
         task_id="archive_reload_artifacts",
         trigger_rule="none_failed_min_one_success",
         do_xcom_push=True,
@@ -149,7 +148,7 @@ Boundaries: `date_window` needs `start_date` and `end_date` (exclusive); `pit` n
         consolidate_reload_artifacts(target_path)
         return {"model": _conf(context, "model_name"), "path": target_path}
 
-    @openshift_dbt_task(task_id="cleanup_scratch_table", trigger_rule="one_failed")
+    @dbt_task(task_id="cleanup_scratch_table", trigger_rule="one_failed")
     def cleanup_scratch_table(**context):
         return build_reload_cleanup_scratch_command(_conf(context, "model_name"))
 
@@ -159,6 +158,7 @@ Boundaries: `date_window` needs `start_date` and `end_date` (exclusive); `pit` n
     drop_task = cleanup_backup_table()
     archive_task = archive_reload_artifacts()
     cleanup_scratch_task = cleanup_scratch_table()
+    report_task = failure_report_task()
 
     init_task >> batch_tasks[0]
     batch_tasks >> test_task
@@ -166,3 +166,4 @@ Boundaries: `date_window` needs `start_date` and `end_date` (exclusive); `pit` n
     swap_task >> drop_task >> archive_task
     swap_task >> archive_task
     [init_task, *batch_tasks, test_task, swap_task] >> cleanup_scratch_task
+    [init_task, *batch_tasks, test_task, swap_task, drop_task, archive_task] >> report_task

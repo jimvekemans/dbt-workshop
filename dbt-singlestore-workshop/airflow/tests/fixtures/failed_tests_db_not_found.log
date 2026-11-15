@@ -1,0 +1,69 @@
+   dbt-oss 2.0.11
+   Loading profiles.yml
+   Loading packages.yml
+     Using 3 threads (target: run)
+   Started downloading referenced relations (1 items)
+  Finished [  0.01s] downloading referenced relations (1 items)
+    Passed test  source_not_null_raw_web_raw_web_events_event_id [1 of 49 in 0.00s]
+    Passed test  source_not_null_raw_olist_raw_olist_order_reviews_review_id [3 of 49 in 0.00s]
+    Passed test  source_not_null_raw_olist_raw_olist_orders_order_id [2 of 49 in 0.01s]
+    Passed test  source_not_null_raw_olist_raw_olist_customers_customer_id [5 of 49 in 0.01s]
+    Passed test  source_not_null_raw_olist_raw_olist_order_payments_order_id [4 of 49 in 0.01s]
+    Passed test  source_accepted_values_raw_olist_raw_olist_orders_order_status__processing__shipped__delivered [7 of 49 in 0.01s]
+    Passed test  dbt_utils_source_unique_combination_of_columns_raw_olist_raw_olist_order_payments_order_id__payment_sequential [8 of 49 in 0.01s]
+    Passed test  dbt_utils_source_expression_is_true_raw_olist_raw_olist_orders_customer_id__regexp_0_9a_f_32_ [9 of 49 in 0.02s]
+ Succeeded model ref_dummy_numbers (table) [14 of 49 in 0.90s]
+    Failed test  source_not_null_raw_carrier_raw_carrier_tracking_events_event_id (models/edw_dv_bdv/carrier/sources_carrier.yml:29:17) [6 of 49 in 1.01s]
+    Failed test  assert_carrier_events_delivered (tests/carrier/assert_carrier_events_delivered.sql) [10 of 49 in 1.01s]
+   Skipped model stg_carrier_events (table) [13 of 49]
+   Skipped test  unique_stg_carrier_events_event_id (models/edw_dv_bdv/carrier/carrier.yml:19:13) [27 of 49]
+   Skipped test  not_null_stg_carrier_events_event_id (models/edw_dv_bdv/carrier/carrier.yml:17:13) [28 of 49]
+   Skipped test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered (models/edw_dv_bdv/carrier/carrier.yml:25:13) [29 of 49]
+   Skipped model fct_olist_deliveries (table) [30 of 49]
+   Skipped test  assert_delivery_status_consistent (tests/carrier/assert_delivery_status_consistent.sql) [31 of 49]
+   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey (models/im_dimensional/carrier/carrier_deliveries.yml:10:9) [32 of 49]
+ Succeeded model dbt_run_results (incremental) [19 of 49 in 0.12s]
+ Succeeded model dbt_table_grants (table) [17 of 49 in 0.64s]
+ Succeeded model dummy_loading_history (table) [15 of 49 in 0.73s]
+ Succeeded model dbt_sources (table) [18 of 49 in 0.73s]
+ Succeeded model singlestore_column_info (table) [20 of 49 in 0.65s]
+ Succeeded model dbt_active_test_failures (view) [23 of 49 in 0.06s]
+ Succeeded model singlestore_table_info (table) [22 of 49 in 0.75s]
+ Succeeded model dbt_models (table) [21 of 49 in 0.73s]
+ Succeeded model stg_olist_customers (incremental) [16 of 49 in 0.20s]
+ Succeeded model stg_olist_orders (incremental) [12 of 49 in 0.19s]
+ Succeeded model dummy_reload_hkey_mod (incremental) [25 of 49 in 0.38s]
+ Succeeded model dummy_reload_date_window (incremental) [26 of 49 in 0.21s]
+ Succeeded model dbt_foreign_create_user (view) [33 of 49 in 0.11s]
+ Succeeded model dbt_orphaned_objects (view) [34 of 49 in 0.11s]
+ Succeeded model stg_web_events (table) [11 of 49 in 0.85s]
+ Succeeded model dbt_model_info (view) [35 of 49 in 0.11s]
+    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [37 of 49 in 0.10s]
+    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [38 of 49 in 0.06s]
+ Succeeded model dim_olist_customers (table) [36 of 49 in 0.83s]
+ Succeeded model int_web_top_pages (table) [39 of 49 in 0.76s]
+ Succeeded model dbt_table_performance (view) [41 of 49 in 0.06s]
+    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [42 of 49 in 0.05s]
+ Succeeded model mart_web_journeys (table) [40 of 49 in 0.65s]
+ Succeeded model datum (table) [24 of 49 in 5.15s]
+ Succeeded model dummy_reload_pit_with_deps (incremental) [43 of 49 in 0.13s]
+    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [45 of 49 in 0.01s]
+ Succeeded model fct_olist_orders (table) [44 of 49 in 0.65s]
+    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey [48 of 49 in 0.00s]
+   Skipped model mart_olist_management_kpi (table) [47 of 49]
+ Succeeded model mart_web_conversion (table) [46 of 49 in 0.57s]
+    Passed test  assert_web_checkouts_attributed [49 of 49 in 0.00s]
+  Finished [  0.01s] hook  dbt_swf-on-run-end-0
+
+=================== Errors and Warnings ====================
+[error] [DbNotFound (dbt1306)]: Error materializing test test.dbt_swf.source_not_null_raw_carrier_raw_carrier_tracking_events_event_id.ae52bc500b (../../../../mnt/dbt/target/run/dbt_swf/generic_tests/source_not_null_raw_carrier_ra_515519ea71c820f3bd595f302fefe819.sql)
+  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1146 (42S02): Table 'dev_landing.raw_carrier_tracking_events' doesn't exist (SQLSTATE: 42S02, Vendor code: 1146)
+  (in run/dbt_swf/generic_tests/source_not_null_raw_carrier_ra_515519ea71c820f3bd595f302fefe819.sql:1:1)
+[error] [DbNotFound (dbt1306)]: Error materializing test test.dbt_swf.assert_carrier_events_delivered (../../../../mnt/dbt/target/run/dbt_swf/tests/carrier/dbt_test__audit_assert_carrier_events_delivered.sql)
+  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1146 (42S02): Table 'dev_landing.raw_carrier_tracking_events' doesn't exist (SQLSTATE: 42S02, Vendor code: 1146)
+  (in run/dbt_swf/tests/carrier/dbt_test__audit_assert_carrier_events_delivered.sql:1:1)
+
+==================== Execution Summary =====================
+Finished 'build' with 2 errors for target 'run' [8.7s]
+Processed: 1 hook | 28 models | 21 tests
+Summary: 50 total | 40 success | 2 error | 8 skipped

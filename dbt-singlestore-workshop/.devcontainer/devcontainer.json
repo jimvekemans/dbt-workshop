@@ -2,7 +2,9 @@
     	// Reference: https://containers.dev/implementors/json_reference/
 	"name": "${localWorkspaceFolderBasename} dev container",
 
-	"image": "artifacts.vdab.be/cops-docker-vdab/ondersteuning/dbt-singlestore-base:1.11.11",
+	"image": "dbt-singlestore-dev:1.11.11",
+
+	"runArgs": ["--network=workshop_net"],
 
 	"workspaceFolder": "/usr/app/dbt/workspace",
     "remoteUser": "dbt",
@@ -31,15 +33,13 @@
                 "zainchen.json"
             ],
             "settings": {
-				"python.defaultInterpreterPath": "/opt/app-root/bin/python"
+				"python.defaultInterpreterPath": "/opt/devtools/bin/python"
 			}
         }
     },
 
-    // Runs on the host: starts the workshop cluster and stops it again once this
-    // container stops (shutdownAction stops it when the VS Code window closes).
-    "initializeCommand": ["bash", "-c", "S=\"${localWorkspaceFolder}/../infrastructure/workshop.sh\"; if [ -x \"$S\" ]; then \"$S\" session --devcontainer \"${localWorkspaceFolder}\"; fi; true"],
-    "shutdownAction": "stopContainer",
+    // Runs on the host: starts the workshop stack (a no-op when it already runs; skipped without make or docker).
+    "initializeCommand": ["bash", "-c", "if command -v make >/dev/null && command -v docker >/dev/null; then make -C \"${localWorkspaceFolder}/..\" up || true; else echo 'make or docker missing, workshop stack not started'; fi"],
 
     "postCreateCommand": "./.devcontainer/post_create.sh ${containerWorkspaceFolder}"
 }

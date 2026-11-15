@@ -20,8 +20,13 @@
     {%- set filtered_columns = [] -%}
 
     {#- Automatically exclude snapshot metadata columns if we're in a snapshot node -#}
-    {%- if datasource.resource_type == 'snapshot' -%}
-        {%- set exclude = exclude + ['dbt_scd_id', 'dbt_updated_at', 'dbt_valid_from', 'dbt_valid_to'] -%}
+    {%- if datasource.resource_type == "snapshot" -%}
+        {%- set exclude = exclude + [
+            "dbt_scd_id",
+            "dbt_updated_at",
+            "dbt_valid_from",
+            "dbt_valid_to",
+        ] -%}
     {%- endif -%}
 
     {%- for col in columns -%}
@@ -29,5 +34,6 @@
             {%- do filtered_columns.append(col) -%}
         {%- endif -%}
     {%- endfor -%}
-    {{ filtered_columns | join(', ') }}
+    {#- relation not built yet (empty column list): fall back to * -#}
+    {{ filtered_columns | join(", ") if filtered_columns else "*" }}
 {% endmacro %}

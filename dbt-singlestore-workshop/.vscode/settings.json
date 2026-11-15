@@ -27,12 +27,12 @@
     "git.allowNoVerifyCommit": true,
     "git.autofetch": true,
     "git.autoStash": true,
-    "git.branchPrefix": "feature/INTEL-",
+    "git.branchPrefix": "feature/",
     "git.branchProtection": [
         "dev",
         "main"
     ],
-    "git.branchValidationRegex": "^(feature|bugfix|hotfix)/INTEL-\\d{5}",
+    "git.branchValidationRegex": "^(feature|bugfix|hotfix)/.+",
     "git.branchWhitespaceChar": "-",
     "git.confirmForcePush": true,
     "git.confirmNoVerifyCommit": true,

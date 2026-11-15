@@ -1,0 +1,26 @@
+repos:
+  - repo: local
+    hooks:
+      - id: sqlfmt
+        name: sqlfmt
+        entry: bash -c 'sqlfmt "$@" && git add "$@"' --
+        language: system
+        pass_filenames: true
+        always_run: false
+        require_serial: true
+  - repo: local
+    hooks:
+      - id: dbt parse
+        name: dbt parse
+        entry: dbt parse
+        language: system
+        pass_filenames: false
+        always_run: true
+  - repo: local
+    hooks:
+      - id: dbt-bouncer
+        name: dbt-bouncer
+        entry: dbt-bouncer --config-file /usr/app/dbt/workspace/dbt-bouncer.yml
+        language: system
+        pass_filenames: false
+        always_run: true

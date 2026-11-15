@@ -6,21 +6,20 @@ version: 2
 # (mart_olist_management_kpi) has to be ignored too, or the whole project fails to parse.
 sources:
   - name: raw_carrier
-    description: "Logistics partner tracking API: one JSON payload per parcel scan (generated from the Olist delivery dates)."
+    description: "Logistics partner tracking API: one JSON payload per parcel scan."
     config:
       freshness:
         warn_after: {count: 1, period: day}
-        error_after: {count: 3, period: day}
-    database: "{{ 'analytics_prod' if env_var('DBT_DEPLOY_TARGET', 'LDV') in ['PRD', 'CBT'] else 'analytics_dev' }}"
-    schema: "{{ 'analytics_prod' if env_var('DBT_DEPLOY_TARGET', 'LDV') in ['PRD', 'CBT'] else 'analytics_dev' }}"
+    database: "{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_landing"
+    schema: "{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_landing"
     tables:
       - name: raw_carrier_tracking_events
         description: >
           Contract v1: {"shipment_id", "order_ref", "event": picked_up | in_transit | delivered, "event_time": local time}.
           The carrier has announced API v2 (camelCase keys, nested status code PU | IT | DL, UTC ISO-8601 eventTime) for
-          "some time this quarter" - stg_carrier_tracking_events v2 already parses it.
+          "some time this quarter" - stg_carrier_events reads it from the moment set in DBT_CARRIER_V2_FROM.
         config:
-          loaded_at_query: "{{ olist_loaded_at('raw_carrier_tracking_events') }}"
+          loaded_at_field: _ingested_at
           meta:
             channel: carrier
             owner_team: carrier_team

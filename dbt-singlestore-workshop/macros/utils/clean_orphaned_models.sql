@@ -1,12 +1,11 @@
 {% macro clean_orphaned_models(dry_run=False) %}
 
     {# 1. Define the specific schemas to look for #}
+    {% set env_prefix = env_var("DBT_DEPLOY_TARGET", "dev") %}
     {% set target_schemas = [
-        "edw_dv_bdv",
-        "im_dimensional",
-        "im_indicator_stg",
-        "pres_dataproduct",
-        "edw_ldm",
+        env_prefix ~ "_edw_dv_rdv",
+        env_prefix ~ "_edw_dv_bdv",
+        env_prefix ~ "_im_dimensional",
     ] %}
 
     {# Format the list for the SQL IN clause #}
@@ -39,11 +38,15 @@
 
         {# Create a list of tuples (schema, table) from the DB results #}
         {% for row in results %}
-            {% do db_models.append((((row["table_schema"], row["table_name"])), row["table_type"])) %}
+            {% do db_models.append(
+                (((row["table_schema"], row["table_name"])), row["table_type"])
+            ) %}
         {% endfor %}
 
         {# 3. Get the list of current dbt models from the 'graph' variable #}
-        {% for node in graph.nodes.values() | selectattr("resource_type", "equalto", "model") %}
+        {% for node in graph.nodes.values() | selectattr(
+            "resource_type", "equalto", "model"
+        ) %}
 
             {% set model_name = node.name %}
             {% set model_db = node.database %}
@@ -54,7 +57,9 @@
 
         {# 4. Compare the lists: Items in DB but not in Project #}
         {% for db_item in db_models %}
-            {% if db_item[0] not in project_models %} {% do orphaned_models.append(db_item) %} {% endif %}
+            {% if db_item[0] not in project_models %}
+                {% do orphaned_models.append(db_item) %}
+            {% endif %}
         {% endfor %}
 
         {# 5. DROP the orphaned tables/views #}
@@ -62,7 +67,9 @@
 
             {{
                 log(
-                    "Found " ~ orphaned_models | length ~ " orphaned models. Starting cleanup...", info=True
+                    "Found " ~ orphaned_models
+                    | length ~ " orphaned models. Starting cleanup...",
+                    info=True,
                 )
             }}
 
@@ -83,7 +90,17 @@
                 {% else %}
                     {# In Live Mode: Execute and log the result #}
                     {% do run_query(drop_sql) %}
-                    {{ log("Dropped " ~ table_type ~ ": " ~ db_name ~ "." ~ table_name, info=True) }}
+                    {{
+                        log(
+                            "Dropped "
+                            ~ table_type
+                            ~ ": "
+                            ~ db_name
+                            ~ "."
+                            ~ table_name,
+                            info=True,
+                        )
+                    }}
                 {% endif %}
 
             {% endfor %}

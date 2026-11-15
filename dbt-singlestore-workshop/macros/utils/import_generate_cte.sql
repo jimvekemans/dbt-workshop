@@ -1,18 +1,18 @@
 {#
-    Macro om een import CTE te genereren voor een upstream afhankelijkheid.
+    Macro that generates an import CTE for an upstream dependency.
 
-    Dit zal hoofdzakelijk via macro 'import_dependencies' gebeuren, maar kan onafhankelijk indien meer controle nodig is.
+    This mostly happens through the macro 'import_dependencies', but it can be called on its own for more control.
 
-    We zetten standaard "with (materialize = off)" om te vermijden dat SingleStore onnodig volledige brontabellen materialiseert.
-    Via de optionele key "materialize_off" (default true) kan dit per dependency uitgeschakeld worden:
+    By default we add "with (materialize = off)" so SingleStore does not needlessly materialize whole source tables.
+    The optional key "materialize_off" (default true) disables it per dependency:
     {"dependency": "da_organisatie", "materialize_off": false}
 
-    Bij 'dbt build --empty' wordt elke ref()/source() vervangen door een subquery met 'limit 0'. Dat kan bij complexe joins
-    leiden tot SingleStore-fout 1749 (left side is not a sharded table). Via de optionele key "respect_empty" (default true)
-    kan dit per dependency uitgeschakeld worden, zodat de volledige relatienaam gebruikt wordt (ref().render()):
+    With 'dbt build --empty' every ref()/source() is replaced by a 'limit 0' subquery. For complex joins that can cause
+    SingleStore error 1749 (left side is not a sharded table). The optional key "respect_empty" (default true)
+    disables this per dependency so the full relation name is used (ref().render()):
     {"dependency": "da_organisatie", "respect_empty": false}
 
-    Argument/voorbeelden: zie macro 'import_dependencies'
+    Arguments/examples: see macro 'import_dependencies'
 #}
 {% macro import_generate_cte(item) %}
     {%- set is_dict = item is mapping -%}

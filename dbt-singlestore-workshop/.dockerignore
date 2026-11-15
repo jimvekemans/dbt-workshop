@@ -1,0 +1,7 @@
+target/
+logs/
+artifacts/
+dbt_packages/
+.git
+.devcontainer
+.vscode

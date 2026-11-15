@@ -1,0 +1,36 @@
+# Project-level vdp configuration, layered over the built-in defaults key by key.
+
+[core]
+# The workshop environments (DBT_DEPLOY_TARGET = dev | val | prd), defined below.
+default_environment = "dev"
+dotenv = ".devcontainer/.env"
+
+# Local sources only: no secret store in the workshop.
+[secrets]
+precedence = ["dotenv", "env"]
+
+# The workshop stack has neither Vault nor TLS.
+[environments.dev]
+vault_url = ""
+ca_certificate = ""
+
+[environments.val]
+vault_url = ""
+ca_certificate = ""
+
+[environments.prd]
+vault_url = ""
+ca_certificate = ""
+
+# `vdp sources add` and `vdp sources rewrite` work on the physical dev databases the devcontainer connects to.
+[sources]
+databases = ["dev_landing", "dev_edw_dv_rdv", "dev_edw_dv_bdv", "dev_im_dimensional"]
+
+# Databases carry the environment as a prefix. Sources are written with the expression instead of the literal `dev_`,
+# so a generated source is valid in every environment, and hand-written sources using the expression can be maintained.
+[sources.database_prefix]
+physical = "dev_"
+jinja = "{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_"
+
+[qa]
+run_results_table = "{env}_vdp_mgmt.dbt_run_results"
