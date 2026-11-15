@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "studio-frontend-mock",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "infrastructure/workshop-studio/frontend", "run", "dev", "--", "--host", "127.0.0.1", "--port", "5199", "--strictPort"],
+      "port": 5199
+    }
+  ]
+}

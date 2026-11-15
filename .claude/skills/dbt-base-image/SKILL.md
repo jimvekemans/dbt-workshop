@@ -5,7 +5,7 @@ description: >-
   Dockerfile that uses a prebuilt Fusion dbt binary and SingleStore ADBC driver when present and otherwise builds them
   from git submodules (src/dbt = jimvekemans/dbt feat/backfill-hardening-pr, src/singlestore-adbc-connector =
   singlestore-labs/singlestore-adbc-connector main), driver discovery via lib/dbt/, DBT_ALLOW_EXPERIMENTAL_ADAPTERS,
-  image tags and consumers, and build pitfalls. Use when building, rebuilding, debugging or changing the base image, the
+  image tags and consumers (including the dev image and the dbt-vdp project image built on it), and build pitfalls. Use when building, rebuilding, debugging or changing the base image, the
   dbt binary, the ADBC driver, the submodules, or when dbt in CI/Airflow/devcontainer fails to start or reach SingleStore.
 ---
 
@@ -27,9 +27,12 @@ details that matter when you change or debug the image.
 - `ENV DBT_ALLOW_EXPERIMENTAL_ADAPTERS=true`. Without it, the build rejects the profile with "The 'singlestore'
   adapter is not yet supported by dbt".
 - User `dbt` (uid 1000, gid 1000, also in `wheel`, passwordless sudo) and workdir `/usr/app/dbt/workspace`. Git has
-  `safe.directory '*'` set, and `git.vdab.be/vdp/` URLs (ssh and https) are rewritten to
-  `http://gitlab.local/workshop/`, so package and project URLs from the real VDAB setup resolve against the workshop
-  GitLab.
+  `safe.directory '*'` set. The Dockerfile does not rewrite any git URLs: git package URLs in a dbt project must resolve
+  as written.
+- Two images are built on top of it: the **dev image** `dbt-singlestore-dev:1.11.11`
+  (`infrastructure/dbt-singlestore-dev-image/`, adds `vdp`, `sqlfmt`, `dbt-bouncer`, `pre-commit`; built by
+  `make images` from its own `src/` and optional prebuilt `./vdp`) and the **project image** `dbt-vdp:<git tag>` (`dbt-singlestore-workshop/Dockerfile`,
+  built by CI).
 
 ## 2. Dockerfile stages
 
@@ -100,15 +103,13 @@ them.
 
 ## 4. Who builds and consumes it
 
-- `infrastructure/manager/bootstrap_stack.py` → `build_and_register_runner()`: runs `docker build -t
-  dbt-singlestore-base:1.11.11 <this folder>`, retags it per `ENTERPRISE_IMAGE_TAGS` (`:latest`,
-  `artifacts.vdab.be/cops-docker-vdab/ondersteuning/dbt-singlestore-base:{1.11.11,1.9.2}`, and more), then
-  registers the GitLab runner with that image and `--docker-pull-policy if-not-present`. Nothing is pushed, so the
-  enterprise names only exist locally.
-- Consumers: `dbt-singlestore-workshop/.gitlab-ci.yml` (`image:`), `.devcontainer/devcontainer.json`, the LDV/PRD
-  initial deploy in `initialize_workshop_deployments()`, and the Airflow dbt tasks. See the
-  `vdab-dbt-workshop-architecture` skill in `.agents/skills/` for the wider stack.
-- After rebuilding, re-run the tagging (or the bootstrap step) so the enterprise tags point at the new image ID.
+- `make images` and `bootstrap_stack.py::build_images()` run `docker build -t dbt-singlestore-base:1.11.11 <this folder>`.
+  The tag is not changed or pushed. `bootstrap_stack.py::register_runner()` registers the GitLab runner with
+  `--docker-image dbt-singlestore-base:1.11.11` and `--docker-pull-policy if-not-present`.
+- Consumers: `dbt-singlestore-workshop/.gitlab-ci.yml` (default job image), `dbt-singlestore-workshop/Dockerfile`
+  (`FROM`, argument `BASE_IMAGE`), `infrastructure/dbt-singlestore-dev-image/Dockerfile` (`FROM`), and through the project
+  image the Airflow dbt tasks. See the `vdab-dbt-workshop-architecture` skill in `.agents/skills/` for the wider stack.
+- After rebuilding the base image, rebuild the dev image and let CI build a new `dbt-vdp` tag, or they keep the old layers.
 
 ## 5. Quick checks
 
