@@ -1,0 +1,51 @@
+.block { margin: 0; container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+.caption { display: flex; justify-content: space-between; align-items: center; gap: var(--space-1) var(--space-3); flex-wrap: wrap; font-size: var(--text-sm); color: var(--ink-2); }
+.fileInfo { display: grid; gap: 0.15em; min-width: 0; }
+.fileLabel { font-weight: 700; font-size: var(--text-md); color: var(--ink); }
+.file { overflow-wrap: anywhere; font-family: var(--font-mono); font-size: 0.85em; color: var(--ink-2); }
+.open { display: inline-flex; align-items: center; gap: 0.4em; min-height: 44px; padding: 0 var(--space-2); font-weight: 600; font-size: var(--text-md); }
+
+.badge { flex: none; display: inline-grid; place-items: center; min-width: 1.6em; height: 1.6em; border-radius: 999px; background: var(--ink); color: var(--on-ink); font-size: 0.85em; font-weight: 700; line-height: 1; }
+
+.scrollWrap { position: relative; min-width: 0; }
+.grid {
+  display: grid;
+  grid-template-columns: 3.2em 2.2em minmax(0, 1fr);
+  background: var(--code-bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  max-height: 34rem;
+  overflow: auto;
+}
+.row { display: contents; }
+.num { grid-column: 1; text-align: right; padding-right: 0.9em; color: var(--ink-2); user-select: none; font-variant-numeric: tabular-nums; }
+.mark { grid-column: 2; display: flex; align-items: flex-start; padding-top: 0.2em; }
+/* narrow: long lines wrap, the continuation hangs under the line's own indent */
+.text { grid-column: 3; position: relative; display: block; white-space: pre-wrap; overflow-wrap: anywhere; padding-right: var(--space-4); padding-left: calc(0.4em + var(--ind, 0ch)); text-indent: calc(-1 * var(--ind, 0ch)); tab-size: 2; font-size: inherit; border-radius: 2px; }
+.text:focus-visible { outline-offset: -3px; }
+.row[data-noted] .num, .row[data-noted] .mark, .row[data-noted] .text { background: var(--code-note-bg); }
+.row[data-noted] .num { color: var(--ink); font-weight: 700; }
+.row[data-noted] .text { box-shadow: inset 3px 0 0 var(--code-note-line); }
+.row[data-active] .num, .row[data-active] .mark, .row[data-active] .text { background: var(--code-active-bg); }
+.row[data-active] .text { box-shadow: inset 4px 0 0 var(--accent); }
+.marker { display: inline-grid; place-items: center; min-width: 1.5em; height: 1.5em; border-radius: 999px; background: var(--ink); color: var(--on-ink); font-size: 0.8em; font-weight: 700; line-height: 1; }
+.gap { grid-column: 1 / -1; padding: var(--space-1) var(--space-3) var(--space-1) 3.4em; }
+.more { min-height: 44px; padding: 0 var(--space-4); border-radius: var(--radius-md); border: 1.5px dashed var(--ink-faint); background: var(--surface); color: var(--ink); font: var(--text-sm) var(--font-text); font-weight: 600; }
+@media (hover: hover) and (pointer: fine) { .more:hover { border-color: var(--ink); } }
+
+/* the note sits right under its line, with the same number badge */
+.inlineNote { grid-column: 1 / -1; display: flex; gap: var(--space-2); align-items: flex-start; margin: 0.25em var(--space-3) 0.5em 3.4em; padding: var(--space-2) var(--space-3); font-family: var(--font-text); font-size: var(--text-sm); line-height: 1.45; color: var(--ink); background: var(--surface); border: 1px solid var(--code-note-line); border-radius: var(--radius-md); }
+.row[data-active] .inlineNote { border-color: var(--accent); }
+.noteText { min-width: 0; }
+
+/* wide: no wrapping; the code scrolls sideways and a fade at the right edge says there is more */
+@container (min-width: 720px) {
+  .grid { grid-template-columns: 3.2em 2.2em max-content; }
+  .text { white-space: pre; padding-left: 0.4em; text-indent: 0; }
+  .inlineNote { position: sticky; left: 3.4em; width: calc(100cqw - 4.8rem); max-width: 60rem; }
+  .scrollWrap[data-more]::after { content: ''; position: absolute; top: 1px; bottom: 1px; right: 1px; width: 2.5rem; pointer-events: none; border-radius: 0 var(--radius-lg) var(--radius-lg) 0; background: linear-gradient(to right, transparent, var(--code-bg)); }
+}

@@ -1,0 +1,117 @@
+id: checked-before-merge
+group: changes
+title: Every change is rehearsed in a private copy first
+promise: A mistake in a proposed change is caught by an automatic rehearsal, long before any report is wrong.
+minutes: 3
+environment: dev
+related:
+  - id: own-workbench
+    why: Each rehearsal works in its own private copy, the same idea as a developer's own tables there.
+
+problem:
+  headline: One small change makes every order count three times
+  story: |
+    A developer improves the orders table and, by mistake, every order now appears three times. The change looks
+    tiny, so nobody checks it. Later, the management report says the shop took three times as many orders as it
+    really did. Finance has already sent that number to the board.
+  cost: Finance sends the board an order count three times too high, and the developers lose a day finding the cause.
+  visual:
+    type: flow
+    nodes:
+      - {id: change, label: "Developer's change", state: warn, note: "Looks harmless"}
+      - {id: orders, label: "Orders table", state: bad, note: "Every order three times"}
+      - {id: report, label: "Management report", state: bad, note: "Three times too many orders"}
+      - {id: board, label: "Board meeting", state: bad, note: "Decisions on wrong numbers"}
+    links: [[change, orders], [orders, report], [report, board]]
+    caption: One wrong step and everything after it is wrong too.
+
+idea:
+  headline: Every proposed change is rehearsed first, and a failed rehearsal blocks it
+  points:
+    - The automatic rehearsal rebuilds only what the change touches, plus the reports that depend on it.
+    - It does this in a [[sandbox]], a private corner of the database named after the change, and runs every check there.
+    - A red result blocks the change, and the sandbox is thrown away afterwards, whatever the result.
+  visual:
+    type: flow
+    nodes:
+      - {id: change, label: Proposed change, state: idle, note: "Not accepted yet"}
+      - {id: rehearsal, label: Automatic rehearsal, state: fix, note: "In a private sandbox"}
+      - {id: result, label: Red or green, state: idle, note: "Red blocks the change"}
+      - {id: shared, label: Shared tables, state: ok, note: "Only green changes arrive"}
+    links: [[change, rehearsal], [rehearsal, result], [result, shared]]
+    caption: The mistake is found by the rehearsal, not by the people who read the report.
+
+code:
+  - title: The rehearsal that runs for every proposed change
+    file: .gitlab-ci.yml
+    file_label: The instructions for the automatic checks
+    from: "VERIFY_SCHEMA: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+    to: "dbt build --select state:modified+"
+    max_lines: 12
+    notes:
+      - line: "VERIFY_SCHEMA:"
+        says: The sandbox is named after the proposed change, so two rehearsals never disturb each other.
+      - line: "git merge origin/dev"
+        says: The change is tried on top of everybody else's latest work.
+      - line: "dbt build --select state:modified+"
+        says: Only the changed tables and those that depend on them are rebuilt and checked.
+  - title: Clearing away the sandbox afterwards
+    file: .gitlab-ci.yml
+    file_label: The instructions for the automatic checks
+    from: ".verify:"
+    to: "dbt run-operation drop_nodes"
+    max_lines: 12
+    notes:
+      - line: "after_script:"
+        says: This always runs at the end, even when the rehearsal failed.
+      - line: "dbt run-operation drop_nodes"
+        says: It throws away every table the rehearsal built, so nothing is left behind.
+
+demo:
+  intro: >-
+    A developer proposes a change that breaks the orders table. The automatic rehearsal refuses it, then accepts the
+    repaired change.
+  setup: []
+  steps:
+    - id: broken
+      title: Propose a broken change
+      say: |
+        The developer adds a delivery calendar to the orders table, and by mistake every order appears three times.
+        The rehearsal catches it.
+      button: Propose the change
+      inputs: []
+      do:
+        - {action: gitlab.branch, name: demo/orders-calendar, from: dev}
+        - {action: gitlab.commit, branch: demo/orders-calendar, patch: orders-triple-count}
+        - {action: gitlab.merge_request, source: demo/orders-calendar, target: dev, title: "Add the delivery calendar to the orders table"}
+        - {action: gitlab.wait_pipeline, for: "mr:demo/orders-calendar", expect: failed, timeout: 600}
+      show:
+        - {type: pipeline, for: "mr:demo/orders-calendar", title: "The automatic rehearsal", caption: "A failed step means the change cannot be accepted. The line under it says what went wrong."}
+        - type: number
+          title: Orders in the shared table
+          caption: "The shared table was never touched: its number of orders equals its number of different order numbers, so every order appears once."
+          query: "select count(*) from {{ db('im_dimensional') }}.fct_olist_orders"
+          unit: orders
+          compare_to:
+            query: "select count(distinct order_id) from {{ db('im_dimensional') }}.fct_olist_orders"
+            label: Different order numbers among them
+      outcome: The rehearsal failed because the same order number would have been stored more than once. This change cannot be accepted, and the shared table is unchanged.
+    - id: fixed
+      title: Repair the change
+      say: The developer removes the mistake and sends the new version.
+      button: Send the repaired change
+      inputs: []
+      do:
+        - {action: gitlab.commit, branch: demo/orders-calendar, patch: orders-fixed}
+        - {action: gitlab.wait_pipeline, for: "mr:demo/orders-calendar", expect: success, timeout: 600}
+      show:
+        - {type: pipeline, before_of: broken, for: "mr:demo/orders-calendar", title: "The automatic rehearsal", caption: "Every step is done, so the change may be accepted."}
+        - type: number
+          title: Orders in the shared table
+          caption: "Still one line per order: the repaired change is only rehearsed, not accepted yet."
+          query: "select count(*) from {{ db('im_dimensional') }}.fct_olist_orders"
+          unit: orders
+          compare_to:
+            query: "select count(distinct order_id) from {{ db('im_dimensional') }}.fct_olist_orders"
+            label: Different order numbers among them
+      outcome: The repaired change passes the rehearsal. Accepting it is the next step, and it is not part of this demo.

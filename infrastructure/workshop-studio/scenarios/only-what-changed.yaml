@@ -1,0 +1,126 @@
+id: only-what-changed
+group: changes
+title: A small change gets a small rehearsal
+promise: Only the changed tables and the tables that depend on them are rehearsed.
+minutes: 3
+environment: dev
+related:
+  - id: checked-before-merge
+    why: That scenario shows what a rehearsal catches. This one shows how many tables a rehearsal has to cover.
+
+problem:
+  headline: Either mistakes reach everyone, or every tiny change takes forever
+  story: |
+    Without a rehearsal, a one-line change goes straight to the shared tables, and a mistake reaches every report.
+    The other way round, a rehearsal that rebuilds every table for every one-line change takes so long that people
+    bundle many changes together or skip the rehearsal. Both end in a mistake nobody saw coming.
+  cost: Colleagues read a wrong report, or each developer waits after every small change and starts skipping the rehearsal.
+  visual:
+    type: compare
+    left:
+      title: No rehearsal
+      state: bad
+      items:
+        - A one-line change goes straight into the shared tables
+        - A mistake reaches every report at once
+    right:
+      title: Rehearse every table
+      state: warn
+      items:
+        - Every one-line change waits for a full rebuild
+        - People bundle changes or skip the rehearsal
+    caption: Both choices end with mistakes that reach people.
+
+idea:
+  headline: The rehearsal covers only what changed and what depends on it
+  points:
+    - The automatic rehearsal compares the proposed change with the last accepted version and finds exactly which tables differ.
+    - Only those tables and the tables that depend on them are rebuilt and checked.
+    - Everything that did not change is only read from the shared tables, never changed, so a small change gets a fast answer.
+  visual:
+    type: flow
+    nodes:
+      - {id: change, label: Proposed change, state: idle, note: "Compared with the last version"}
+      - {id: compare, label: Find what differs, state: fix, note: "Changed tables and the tables that depend on them"}
+      - {id: rehearsal, label: Small rehearsal, state: ok, note: "Only that part is checked"}
+      - {id: real, label: Shared tables, state: ok, note: "Only read, never changed"}
+    links: [[change, compare], [compare, rehearsal], [rehearsal, real]]
+    caption: A small change gets a small rehearsal, a bigger change a bigger one.
+
+code:
+  - title: The last accepted version is the starting point
+    file: .gitlab-ci.yml
+    file_label: The instructions for the automatic rehearsal
+    from: "- git checkout origin/dev"
+    to: "- git merge origin/dev"
+    max_lines: 12
+    notes:
+      - line: "git checkout origin/dev"
+        says: Start from the last accepted version, the shared work as it is now.
+      - line: "dbt compile --target-path artifacts"
+        says: Write down every table as it is today, as the list to compare with.
+      - line: "git checkout $CI_COMMIT_SHA"
+        says: Then switch to the proposed change.
+      - line: "git merge origin/dev"
+        says: The latest shared work is added, so the rehearsal includes what others did.
+  - title: Only the changed tables and what depends on them are built
+    file: .gitlab-ci.yml
+    file_label: The instructions for the automatic rehearsal
+    from: "- dbt clean"
+    to: "--target ci"
+    max_lines: 12
+    notes:
+      - line: "dbt clean"
+        says: Old results are wiped, so the comparison always starts fresh.
+      - line: "state:modified+"
+        says: Only changed tables and tables built on them are rebuilt; the rest is only read.
+
+demo:
+  intro: >-
+    A developer proposes three changes, one after the other: one report, a central table that other tables depend on,
+    and a setting that every table shares. Each rehearsal says how many tables it covered and how long the build took.
+    Nothing is accepted.
+  setup: []
+  steps:
+    - id: report
+      title: Change one report
+      say: The developer shows the on-time percentage with two decimals. It is one table, the management report.
+      button: Propose the change
+      inputs: []
+      do:
+        - {action: gitlab.branch, name: demo/precise-report, from: dev}
+        - {action: gitlab.commit, branch: demo/precise-report, patch: report-more-precise}
+        - {action: gitlab.merge_request, source: demo/precise-report, target: dev, title: "Two decimals in the management report"}
+        - {action: gitlab.wait_pipeline, for: "mr:demo/precise-report", expect: success, timeout: 600, report_rehearsed: true}
+      show:
+        - {type: pipeline, rehearsed: true, for: "mr:demo/precise-report", title: "The automatic rehearsal", caption: "Done means the change may be accepted."}
+        - {type: result, from_action: gitlab.wait_pipeline, title: "How much was rehearsed", caption: "Only the management report was rehearsed: no other table depends on it. If it shows 0 data checks, this table has none of its own; it was still built in a private copy."}
+      outcome: The rehearsal covered only the changed table, counted above. Nothing is accepted.
+    - id: central
+      title: Change a central table
+      say: The developer writes the customers' city names in lower case. Other tables are built on that table.
+      button: Propose the change
+      inputs: []
+      do:
+        - {action: gitlab.branch, name: demo/lowercase-cities, from: dev}
+        - {action: gitlab.commit, branch: demo/lowercase-cities, patch: customers-lowercase-city}
+        - {action: gitlab.merge_request, source: demo/lowercase-cities, target: dev, title: "City names in lower case"}
+        - {action: gitlab.wait_pipeline, for: "mr:demo/lowercase-cities", expect: success, timeout: 600, report_rehearsed: true}
+      show:
+        - {type: pipeline, rehearsed: true, before_of: report, for: "mr:demo/lowercase-cities", title: "The automatic rehearsal", caption: "Done means the change may be accepted."}
+        - {type: result, from_action: gitlab.wait_pipeline, title: "How much was rehearsed", caption: "More tables, because other tables are built on this one: the card counts them. The rest of the shop was not rebuilt."}
+      outcome: The rehearsal covered more tables than for the report, but not all of them. Nothing is accepted.
+    - id: everything
+      title: Change a setting every table shares
+      say: The developer adds one small step that runs after every table is built. It is one setting of the whole project.
+      button: Propose the change
+      inputs: []
+      do:
+        - {action: gitlab.branch, name: demo/step-after-every-table, from: dev}
+        - {action: gitlab.commit, branch: demo/step-after-every-table, patch: step-after-every-table}
+        - {action: gitlab.merge_request, source: demo/step-after-every-table, target: dev, title: "One small step after every table"}
+        - {action: gitlab.wait_pipeline, for: "mr:demo/step-after-every-table", expect: success, timeout: 900, report_rehearsed: true}
+      show:
+        - {type: pipeline, rehearsed: true, before_of: central, for: "mr:demo/step-after-every-table", title: "The automatic rehearsal", caption: "Done means the change may be accepted."}
+        - {type: result, from_action: gitlab.wait_pipeline, title: "How much was rehearsed", caption: "A setting of the whole project changes how every table is built, so every table counts as changed. Compare the time with the first two steps."}
+      outcome: The rehearsal covered every table, counted above, because the change touches a setting all of them share. Nothing is accepted.

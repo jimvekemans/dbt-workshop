@@ -1,0 +1,2 @@
+.sentence { margin-top: var(--space-3); color: var(--ink-2); max-width: 52ch; min-height: 3.2em; }
+.hint { margin-top: var(--space-2); font-size: var(--text-sm); color: var(--warn); font-weight: 600; }

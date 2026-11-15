@@ -8,10 +8,12 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
     "isolatedModules": true,
+    "skipLibCheck": true,
     "noEmit": true,
     "types": ["vite/client"]
   },
-  "include": ["src"]
+  "include": ["src", "vite.config.ts"]
 }

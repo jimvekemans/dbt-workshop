@@ -1,0 +1,6 @@
+title: "Show the on-time percentage with two decimals in the management report"
+message: 'fix: management report shows the on-time percentage with two decimals'
+ops:
+  - path: models/im_dimensional/mart_olist_management_kpi.sql
+    find: "        1\n    ) as pct_op_tijd,"
+    replace: "        2\n    ) as pct_op_tijd,"

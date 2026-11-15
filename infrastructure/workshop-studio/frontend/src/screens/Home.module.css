@@ -1,0 +1,12 @@
+.page { display: grid; gap: var(--space-5); }
+.hero { display: grid; gap: var(--space-3); padding: var(--space-6) 0 var(--space-2); }
+.h1 { font-size: clamp(2.2rem, 4.2vw + 0.6rem, 4.6rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; max-width: 18ch; font-variation-settings: 'wdth' 100; }
+.lead { font-size: var(--text-lg); color: var(--ink-2); max-width: 54ch; line-height: 1.5; }
+.loading { max-width: 40rem; }
+.group { display: grid; gap: var(--space-4); margin-top: var(--space-4); }
+.groupTitle { font-size: var(--text-2xl); padding-bottom: var(--space-2); border-bottom: 3px solid var(--ink); }
+.grid { list-style: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+@media (min-width: 40rem) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 64rem) { .grid { grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); } }
+.hint { color: var(--ink); font-weight: 600; max-width: 60ch; }
+.blurb { color: var(--ink-2); max-width: var(--measure); margin-top: calc(var(--space-1) * -1); }

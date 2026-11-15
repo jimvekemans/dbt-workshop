@@ -1,0 +1,11 @@
+.card { display: flex; flex-direction: column; gap: var(--space-2); position: relative; transition: transform var(--dur-med) var(--ease-out), box-shadow var(--dur-med) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); } }
+.number { display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-lg); font-weight: 800; letter-spacing: 0.06em; color: var(--accent-text); }
+.pick { padding: 0.1em 0.8em; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: var(--text-sm); font-weight: 700; letter-spacing: 0.02em; }
+/* four cards in a row are narrow: the grid then asks for a smaller title; a long word is hyphenated, never cut */
+.title { font-size: var(--card-title, var(--text-xl)); line-height: 1.15; overflow-wrap: break-word; hyphens: auto; }
+.promise { color: var(--ink-2); flex: 1; }
+.meta { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; font-size: var(--text-sm); color: var(--ink-2); }
+.min { display: inline-flex; align-items: flex-start; gap: 0.35em; font-variant-numeric: tabular-nums; }
+.actions { display: flex; align-items: center; gap: var(--space-4); margin-top: var(--space-2); flex-wrap: wrap; }
+.jump { color: var(--accent-text); font-size: var(--text-md); font-weight: 600; min-height: 44px; padding: 0 var(--space-2); display: inline-flex; align-items: center; }

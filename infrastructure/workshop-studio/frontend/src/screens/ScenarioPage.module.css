@@ -1,0 +1,26 @@
+.page { display: grid; gap: var(--space-5); }
+.top { display: grid; gap: var(--space-1); }
+.h1 { font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.01em; color: var(--ink); max-width: 60ch; }
+.origin { font-weight: 600; font-size: var(--text-sm); justify-self: start; min-height: 2.75rem; display: inline-flex; align-items: center; }
+.loading { max-width: 40rem; padding-top: var(--space-6); }
+.missing { display: grid; gap: var(--space-3); max-width: 40rem; padding-top: var(--space-6); color: var(--ink-2); font-size: var(--text-lg); }
+.missingTitle { font-size: var(--text-2xl); color: var(--ink); }
+.missingActions { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--space-3); }
+
+/* one line, at most 60 px, sticks to the bottom on every screen: Back on the left, Next on the right */
+.footer {
+  position: sticky; bottom: 0; z-index: var(--z-sticky);
+  display: flex; flex-direction: row; justify-content: space-between; align-items: center; gap: var(--space-3);
+  min-height: 0; max-height: 60px;
+  margin: var(--space-5) calc(-1 * var(--gutter)) 0; padding: 6px var(--gutter);
+  background: var(--bg); border-top: 1px solid var(--line);
+}
+.footer[data-clear] { position: static; }
+.footer .back, .footer .next { min-height: 44px; padding: 0.25em 1em; font-size: var(--text-md); border-radius: var(--radius-md); min-width: 0; }
+.footer .next { margin-left: auto; max-width: 100%; }
+.footer .back { flex: none; }
+.long { display: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.short { display: inline; white-space: nowrap; }
+.long small { font-size: var(--text-sm); font-weight: 500; opacity: 0.9; }
+@media (min-width: 40rem) { .long { display: inline; } .short { display: none; } }
+@media (max-width: 70rem) { .long small { display: none; } }

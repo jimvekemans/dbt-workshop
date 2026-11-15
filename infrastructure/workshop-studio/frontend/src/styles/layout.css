@@ -1,0 +1,12 @@
+.page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--space-5) var(--gutter) var(--space-9);
+}
+.page:focus { outline: none; }
+
+/* the top bar and the connection banner stick together, so the banner never hides behind the bar */
+.chrome { position: sticky; top: 0; z-index: var(--z-sticky); }
+
+/* the scenario pages have a sticky Back / Next bar (at most 60 px): things fixed to the bottom sit above it */
+:root[data-sticky-footer] { --footer-reserve: 4.5rem; }

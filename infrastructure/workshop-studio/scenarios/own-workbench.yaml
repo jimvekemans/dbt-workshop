@@ -1,0 +1,125 @@
+id: own-workbench
+group: changes
+title: Every developer works on their own copies
+promise: Two developers can build the same table at the same time without overwriting each other.
+minutes: 3
+environment: dev
+
+problem:
+  headline: Two developers build the same table and one erases the other's work
+  story: |
+    Dana and Sam are both improving the customers table. Dana builds her version and spends an hour checking the
+    numbers. Meanwhile Sam builds his version into the same place. Dana's table is replaced under her hands, and her
+    hour of checking was about a table that no longer exists. Nobody knows which version is the right one.
+  cost: Dana loses an hour of checking, and every report that reads the shared table shows whatever was built last.
+  visual:
+    type: timeline
+    days:
+      - {label: "09:00", state: ok, note: "Dana builds the customers table"}
+      - {label: "10:00", state: ok, note: "Dana checks the numbers for 1 hour"}
+      - {label: "10:30", state: bad, note: "Sam builds the same table: Dana's table is replaced"}
+      - {label: "11:00", state: bad, note: "Dana finishes checking a table that no longer exists"}
+      - {label: "11:30", state: bad, note: "Which of the 2 versions is right?"}
+    marker: {after: 1, label: "Sam overwrites"}
+    caption: Both worked correctly. The place they worked in was shared.
+
+idea:
+  headline: Everyone builds their own named copies, and old copies are cleared away
+  points:
+    - Every developer's tables carry the developer's name in front, so two people can build the same table side by side.
+    - Only the automatic process changes the shared tables, never a developer's trial run.
+    - A weekly job throws away developers' copies that are more than a week old.
+  visual:
+    type: flow
+    nodes:
+      - {id: one, label: Developer one, state: ok, note: "Builds the customers table"}
+      - {id: two, label: Developer two, state: ok, note: "Builds the same table"}
+      - {id: name, label: Name in front of the table, state: fix, note: "Keeps the copies apart"}
+      - {id: copies, label: One copy each, state: ok, note: "The shared table stays as it is"}
+    links: [[one, name], [two, name], [name, copies]]
+    caption: Same table, different owners.
+
+code:
+  - title: The developer's name goes in front of the table name
+    file: macros/core/generate_alias_name.sql
+    file_label: The rule that names every table
+    from: "{%- if 1 >= node.schema | length -%}"
+    to: "{%- endif -%}"
+    max_lines: 12
+    notes:
+      - line: "node.schema | length"
+        says: Shared tables get no prefix; a developer's work gets their login name in front.
+      - line: "{{ node.schema }}_{{ prefix ~ base_name }}"
+        says: So the shared table and developer one's copy never share a name.
+  - title: The weekly job throws away old developer copies
+    file: airflow/dags/dbt_housekeeping.py
+    file_label: The weekly clean-up job
+    from: '@dbt_task(task_id="cleanup_user_models")'
+    to: 'return build_run_operation_command("cleanup_user_models", args)'
+    max_lines: 12
+    notes:
+      - line: "def cleanup_user_models():"
+        says: The weekly job cleans up after every developer at once.
+      - line: '"keep_younger_than_days": 7'
+        says: Copies younger than a week are kept, so nobody loses work in progress.
+  - title: How the clean-up recognises a developer's copy
+    file: macros/utils/cleanup_user_models.sql
+    file_label: The clean-up instructions
+    from: "from information_schema.tables"
+    to: "table_name like"
+    max_lines: 12
+    notes:
+      - line: "table_schema in ('dev_edw_dv_rdv'"
+        says: It only looks in the development copy of the system.
+      - line: "create_time <"
+        says: Only copies older than the chosen number of days are removed.
+      - line: "table_name like"
+        says: Only tables whose name starts with a developer's name are touched.
+
+demo:
+  intro: >-
+    Two developers build the same table, and both copies exist next to the shared one. Then one developer's clean-up
+    removes only that developer's copy.
+  setup: []
+  steps:
+    - id: first
+      title: Developer one builds the customers table
+      say: Each developer asks for the same customers table.
+      button: Build the table as developer one
+      inputs: []
+      do:
+        - {action: dbt.run, as: "developer:pu_dev1", command: "run --select +dim_olist_customers", expect: success}
+      show:
+        - &copies
+          type: table
+          title: Copies of the customers table
+          caption: One line per table. The last column says who it belongs to.
+          query: "select case when table_name like 'pu_%' then concat('Customers table (copy of ', substring_index(table_name, '_dim_olist_customers', 1), ')') else 'Customers table (shared)' end as copy, case when table_name like 'pu_%' then substring_index(table_name, '_dim_olist_customers', 1) else 'shared' end as owner from information_schema.tables where table_schema = '{{ db('im_dimensional') }}' and table_name like '%dim_olist_customers' order by table_name"
+          as: root
+          columns: [{key: copy, label: Table}, {key: owner, label: Belongs to}]
+          empty: No copies yet.
+      outcome: Developer one has their own copy, and the shared table is still there. 2 tables exist.
+    - id: second
+      title: Developer two builds the same table
+      say: A second developer asks for the same table, and nothing is overwritten.
+      button: Build the table as developer two
+      inputs: []
+      do:
+        - {action: dbt.run, as: "developer:pu_dev2", command: "run --select +dim_olist_customers", expect: success}
+      show:
+        - <<: *copies
+          before_of: first
+      outcome: 3 tables now exist side by side. Each developer can check their own numbers in peace.
+    - id: cleanup
+      title: Developer one clears away their copy
+      say: |
+        The weekly job only removes copies older than a week. To show it now, we clear developer one's copies at
+        once, with no age limit.
+      button: Clean up developer one
+      inputs: []
+      do:
+        - {action: dbt.run, as: "developer:pu_dev1", command: "run-operation cleanup_user_models", expect: success}
+      show:
+        - <<: *copies
+          before_of: second
+      outcome: Only developer one's copy is gone. 2 tables remain, the shared one and developer two's copy.

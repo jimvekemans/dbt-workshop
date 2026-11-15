@@ -1,0 +1,4199 @@
+{
+ "late-delivery": {
+  "id": "late-delivery",
+  "group": "sources",
+  "title": "A late feed is reported and the rest still loads",
+  "promise": "When a feed does not arrive, the team is told, and every other report still loads on time.",
+  "minutes": 3,
+  "environment": "dev",
+  "related": [
+   {
+    "id": "skip-one-table",
+    "why": "When a feed is not just late but broken, an operator can leave it out of the nightly load."
+   }
+  ],
+  "problem": {
+   "headline": "The carrier goes silent and nobody notices for two days",
+   "story": "Every evening the carrier sends the day's parcel scans. One day the scans stop coming. No error appears,\nbecause nothing was sent that could go wrong. The nightly load keeps showing the same old numbers. Two days\nlater a manager notices that no scan has arrived for two days, and everyone asks how long this has been going on.",
+   "cost": "Customer service promises delivery dates from numbers that are two days old.",
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "carrier",
+      "label": "Carrier scans",
+      "state": "bad",
+      "note": "No scans for 2 days"
+     },
+     {
+      "id": "load",
+      "label": "Nightly load",
+      "state": "warn",
+      "note": "Shows the old numbers"
+     },
+     {
+      "id": "team",
+      "label": "Customer service",
+      "state": "bad",
+      "note": "Does not know"
+     }
+    ],
+    "links": [
+     [
+      "carrier",
+      "load"
+     ],
+     [
+      "load",
+      "team"
+     ]
+    ],
+    "caption": "A silent feed looks exactly like a quiet day."
+   }
+  },
+  "idea": {
+   "headline": "Each night we check when every feed last arrived",
+   "points": [
+    "Every [[feed]] has an agreed deadline, here one day.",
+    "After the [[nightly load]], a separate check compares the newest arrival of each feed with its deadline.",
+    "The check only reports, so the feeds that did arrive are still loaded."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "load",
+      "label": "Nightly load",
+      "state": "ok",
+      "note": "Loads every feed that arrived"
+     },
+     {
+      "id": "check",
+      "label": "Check each feed",
+      "state": "fix",
+      "note": "Newest arrival against its deadline"
+     },
+     {
+      "id": "named",
+      "label": "Late feeds named",
+      "state": "ok",
+      "note": "Shown in the check's result"
+     },
+     {
+      "id": "team",
+      "label": "The team",
+      "state": "ok",
+      "note": "Talks to the sender"
+     }
+    ],
+    "links": [
+     [
+      "load",
+      "check"
+     ],
+     [
+      "check",
+      "named"
+     ],
+     [
+      "named",
+      "team"
+     ]
+    ],
+    "caption": "Late is a conversation with the sender, not a reason to stop everything."
+   }
+  },
+  "code": [
+   {
+    "title": "Each feed carries its own deadline",
+    "file": "models/edw_dv_bdv/carrier/sources_carrier.yml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 11,
+      "text": "      freshness:",
+      "note": "A feed can be given a deadline for its newest scan."
+     },
+     {
+      "n": 12,
+      "text": "        warn_after: {count: 1, period: day}",
+      "note": "After one day without news, the carrier's feed is reported as late."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/models/edw_dv_bdv/carrier/sources_carrier.yml#L11-L12",
+    "file_label": "The description of the carrier's feed"
+   },
+   {
+    "title": "The check never stops the nightly load",
+    "file": "airflow/dags/dbt_daily_load.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 122,
+      "text": "        \"\"\"Source freshness (thresholds in the sources_*.yml files). Informational: a late source is a conversation",
+      "note": "This step compares every feed with its deadline."
+     },
+     {
+      "n": 123,
+      "text": "        with the source team, so it is reported here but never fails the load.\"\"\"",
+      "note": "A late feed is reported, but the nightly load is not blocked."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/dags/dbt_daily_load.py#L122-L123",
+    "file_label": "The list of steps of the nightly load"
+   },
+   {
+    "title": "A late feed ends the check normally",
+    "file": "airflow/dags/dbt_daily_load.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 130,
+      "text": "            \"out=$(dbt source freshness --target run 2>&1); rc=$?; printf '%s\\\\n' \\\"$out\\\"; \"",
+      "note": "The step runs the check and keeps everything it prints."
+     },
+     {
+      "n": 131,
+      "text": "            \"if [ $rc -ne 0 ] && printf '%s' \\\"$out\\\" | grep -q \\\"Finished 'freshness'\\\"; then \""
+     },
+     {
+      "n": 132,
+      "text": "            \"echo 'dbt_source_freshness: one or more sources are stale or missing (see above) - informational, \"",
+      "note": "A late feed is only written down as a message."
+     },
+     {
+      "n": 133,
+      "text": "            \"the daily load is not stopped'; exit 0; fi; exit $rc\",",
+      "note": "A broken check still fails, so nobody mistakes it for a late feed."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/dags/dbt_daily_load.py#L130-L133",
+    "file_label": "The list of steps of the nightly load"
+   }
+  ],
+  "demo": {
+   "intro": "We pause the carrier's scans and run the nightly load. The late feed is named, and the other reports still load.",
+   "steps": [
+    {
+     "id": "silent",
+     "title": "The carrier goes quiet",
+     "say": "Say: the other feeds keep arriving, but the carrier sends nothing new. Takes about 20 seconds.",
+     "button": "Pause the carrier, run the load",
+     "inputs": [],
+     "show": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "caption": "The carrier is marked Late; the other feeds are up to date.",
+       "before_of": null
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "caption": "The late feed did not stop the nightly load.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The carrier's feed is marked Late (its newest scan is 2 days old), the other 5 feeds are up to date, and the nightly load still finished.",
+     "usual_seconds": 17.8
+    },
+    {
+     "id": "back",
+     "title": "The carrier delivers again",
+     "say": "Say: the carrier sends the missing scans, and the next nightly load shows no late feed. Takes about 15 seconds.",
+     "button": "Resume the carrier, run the load",
+     "inputs": [],
+     "show": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "caption": "All 6 feeds are up to date again.",
+       "before_of": "silent"
+      }
+     ],
+     "outcome": "All 6 feeds are up to date again, and nobody had to remember to look.",
+     "usual_seconds": 16.2
+    }
+   ]
+  },
+  "prepare_usual_seconds": 36.2
+ },
+ "skip-one-table": {
+  "id": "skip-one-table",
+  "group": "sources",
+  "title": "One broken feed must not stop every report",
+  "promise": "When one feed arrives broken, an operator skips it for tonight and every other report is still on time.",
+  "minutes": 4,
+  "environment": "dev",
+  "related": [
+   {
+    "id": "switchover-date",
+    "why": "The skip list is another setting an operator can change in a minute, without a new release."
+   }
+  ],
+  "problem": {
+   "headline": "One broken carrier file leaves management with yesterday's numbers",
+   "story": "At 02:00 the carrier sends a file in which 3 scans have no scan number. The automatic checks stop the work for\neverything that depends on the carrier, and the night ends in red. The management report, which combines orders\nand deliveries, is not refreshed. At 08:00 management opens it and reads yesterday's numbers. The carrier team\nneeds a day to fix its file.",
+   "cost": "Management works from a report that is a day old, because of 3 bad scans from one carrier.",
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "carrier",
+      "label": "Carrier scans",
+      "state": "bad",
+      "note": "3 scans without a number"
+     },
+     {
+      "id": "deliveries",
+      "label": "Deliveries report",
+      "state": "bad",
+      "note": "Not built"
+     },
+     {
+      "id": "mgmt",
+      "label": "Management report",
+      "state": "bad",
+      "note": "Not refreshed"
+     },
+     {
+      "id": "night",
+      "label": "The whole night",
+      "state": "bad",
+      "note": "Ends in red"
+     }
+    ],
+    "links": [
+     [
+      "carrier",
+      "deliveries"
+     ],
+     [
+      "deliveries",
+      "mgmt"
+     ],
+     [
+      "mgmt",
+      "night"
+     ]
+    ],
+    "caption": "Everything that depends on the carrier stops until the carrier is fixed."
+   }
+  },
+  "idea": {
+   "headline": "Leave the broken feed out tonight, and everything that depends on it",
+   "points": [
+    "An [[operator]] writes a short skip list into a [[setting]], with no new [[release]].",
+    "The listed files disappear from tonight's nightly load, and every other report is built and checked as usual.",
+    "Remove the list and everything returns the next night, with nothing left behind."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "list",
+      "label": "The skip list",
+      "state": "fix",
+      "note": "Written by an operator"
+     },
+     {
+      "id": "load",
+      "label": "Nightly load",
+      "state": "ok",
+      "note": "Reads the list first"
+     },
+     {
+      "id": "left",
+      "label": "Carrier and management report",
+      "state": "idle",
+      "note": "Left out tonight"
+     },
+     {
+      "id": "rest",
+      "label": "All other reports",
+      "state": "ok",
+      "note": "Built and checked"
+     }
+    ],
+    "links": [
+     [
+      "list",
+      "load"
+     ],
+     [
+      "load",
+      "left"
+     ],
+     [
+      "load",
+      "rest"
+     ]
+    ],
+    "caption": "Skip the broken part, not the whole night."
+   }
+  },
+  "code": [
+   {
+    "title": "The carrier's files and what depends on them",
+    "file": "models/edw_dv_bdv/carrier/sources_carrier.yml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 3,
+      "text": "# The carrier feed lives in its own folders (models/*/carrier/, tests/carrier/): when the feed has to disappear from"
+     },
+     {
+      "n": 4,
+      "text": "# the daily load between two deploy windows, the Airflow Variable `dbt_daily_load_dbtignore` can drop it with a few",
+      "note": "The skip list lives in one setting that an operator can fill in."
+     },
+     {
+      "n": 5,
+      "text": "# patterns - see airflow/utils/dbt_runtime_overrides.py. Anything OUTSIDE these folders that refs a carrier model"
+     },
+     {
+      "n": 6,
+      "text": "# (mart_olist_management_kpi) has to be ignored too, or the whole project fails to parse.",
+      "note": "Reports built on the carrier must be on the list too, or the run breaks."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/models/edw_dv_bdv/carrier/sources_carrier.yml#L3-L6",
+    "file_label": "The description of the carrier's feed"
+   },
+   {
+    "title": "The nightly load reads the skip list first",
+    "file": "airflow/dags/dbt_daily_load.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 97,
+      "text": "        # Files left out of the project until the next deploy window (also for `dbt retry`: same project, same state)",
+      "note": "The files stay in the project and are back with the next release."
+     },
+     {
+      "n": 98,
+      "text": "        ignored = read_dbtignore(get_variable)",
+      "note": "Just before the work starts, the nightly load reads the skip list."
+     },
+     {
+      "n": 99,
+      "text": "        if ignored:"
+     },
+     {
+      "n": 100,
+      "text": "            cmd = apply_overrides(cmd, dbtignore=ignored)",
+      "note": "The listed files are hidden from this run only."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/dags/dbt_daily_load.py#L97-L100",
+    "file_label": "The list of steps of the nightly load"
+   },
+   {
+    "title": "What the skip list does",
+    "file": "airflow/utils/dbt_runtime_overrides.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 10,
+      "text": "``dbt_daily_load_dbtignore`` (JSON list or newline/comma separated, dbt_daily_load only)",
+      "note": "Only the nightly load reads this setting."
+     },
+     {
+      "n": 11,
+      "text": "    Paths/globs appended to the project's ``.dbtignore`` (inside the throwaway container, in the image's project copy)"
+     },
+     {
+      "n": 12,
+      "text": "    before dbt starts, and removed again when it ends. The files",
+      "note": "The list is removed after the run, so nothing is left behind."
+     },
+     {
+      "n": 13,
+      "text": "    disappear from the project: models, sources, tests, freshness checks and exposures in them are neither built, tested",
+      "note": "A skipped file is not built, not checked and not documented tonight."
+     },
+     {
+      "n": 14,
+      "text": "    nor documented. Anything that refs an ignored node must be ignored as well, or the WHOLE project fails to parse."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/utils/dbt_runtime_overrides.py#L10-L14",
+    "file_label": "Notes on the settings an operator can change"
+   }
+  ],
+  "demo": {
+   "intro": "The carrier delivers broken scans. We run the nightly load once as it is, then again with the carrier left out.",
+   "steps": [
+    {
+     "id": "red",
+     "title": "First, the night as it is",
+     "say": "Say: 3 scans from the carrier have no scan number, so a check stops the night. Takes about 15 seconds.",
+     "button": "Run the nightly load",
+     "inputs": [],
+     "show": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "caption": "1 step failed: the one that builds the reports.",
+       "before_of": null
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "caption": null,
+       "before_of": null
+      }
+     ],
+     "outcome": "The night ends in red: 1 step failed, the one that builds the reports.",
+     "usual_seconds": 17.7
+    },
+    {
+     "id": "skip",
+     "title": "Now leave the carrier out for tonight",
+     "say": "Say: the operator fills in the skip list: the carrier's files and the management report that needs them. Takes about 20 seconds.",
+     "button": "Skip the carrier, run the load again",
+     "inputs": [],
+     "show": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "caption": "No step failed this time.",
+       "before_of": "red"
+      },
+      {
+       "type": "number",
+       "title": "Orders in the orders report",
+       "caption": "The orders report is still filled.",
+       "before_of": null
+      },
+      {
+       "type": "run_history",
+       "title": "The last two nights",
+       "caption": "Top line: tonight, 25 tables built instead of 28, because the carrier and the management report were left out.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The night is green. 25 tables were built instead of 28, and every other report is on time.",
+     "usual_seconds": 19.0
+    }
+   ]
+  },
+  "prepare_usual_seconds": 35.9
+ },
+ "strict-where-it-matters": {
+  "id": "strict-where-it-matters",
+  "group": "sources",
+  "title": "Messy test data is fine in development, never in production",
+  "promise": "The same check only warns while we try things out, and stops the load where real customers depend on it.",
+  "minutes": 4,
+  "environment": "dev",
+  "related": [],
+  "problem": {
+   "headline": "Either testers are blocked, or bad data reaches production",
+   "story": "Testers fill the practice copy of the shop with made-up orders, and some have invalid customer numbers. If the\ncheck on customer numbers is strict everywhere, every practice night stops and nobody can try anything. If it\nis relaxed everywhere, an invalid customer number can reach the real shop one day, and finance invoices a\ncustomer who does not exist.",
+   "cost": "Testers lose days to stopped nights, or finance sends an invoice to a customer who does not exist.",
+   "visual": {
+    "type": "compare",
+    "left": {
+     "title": "Strict everywhere",
+     "items": [
+      "Practice orders stop every practice night.",
+      "Testers wait, or switch the check off."
+     ],
+     "state": "bad"
+    },
+    "right": {
+     "title": "Relaxed everywhere",
+     "items": [
+      "An invalid customer number reaches the real shop.",
+      "Finance finds out at invoice time."
+     ],
+     "state": "bad"
+    },
+    "caption": "One strictness for development and production is wrong for at least one of them."
+   }
+  },
+  "idea": {
+   "headline": "The same check is relaxed in development and strict in production",
+   "points": [
+    "In development the check only warns: invalid customer numbers are listed and the nightly load goes on.",
+    "In validation and production the same check stops the nightly load before bad orders spread.",
+    "In development only, a second copy of the orders table sets the invalid orders aside, so the reports stay clean."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "orders",
+      "label": "Orders arrive",
+      "state": "ok",
+      "note": "Some with invalid customer numbers"
+     },
+     {
+      "id": "check",
+      "label": "Customer number check",
+      "state": "fix",
+      "note": "Same rule, strictness set per place"
+     },
+     {
+      "id": "dev",
+      "label": "In development",
+      "state": "warn",
+      "note": "Warns, the load goes on"
+     },
+     {
+      "id": "prod",
+      "label": "In validation and production",
+      "state": "ok",
+      "note": "Stops the load"
+     }
+    ],
+    "links": [
+     [
+      "orders",
+      "check"
+     ],
+     [
+      "check",
+      "dev"
+     ],
+     [
+      "check",
+      "prod"
+     ]
+    ],
+    "caption": "One rule, written once, with two behaviours."
+   }
+  },
+  "code": [
+   {
+    "title": "One check, two levels of strictness",
+    "file": "models/edw_dv_bdv/sources_olist.yml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 45,
+      "text": "              # DYNAMIC LOCAL SEVERITY: dev may hold dirty data that val/prd never should: warn in dev, error in",
+      "note": "The same check warns in development and stops the load everywhere else."
+     },
+     {
+      "n": 46,
+      "text": "              # val/prd. DBT_SEVERITY_DEV_DATA overrides both (Airflow Variable dbt_env_vars).",
+      "note": "An operator can still tighten or loosen it for one run."
+     },
+     {
+      "n": 47,
+      "text": "              - dbt_utils.expression_is_true:"
+     },
+     {
+      "n": 48,
+      "text": "                  arguments:"
+     },
+     {
+      "n": 49,
+      "text": "                    expression: \"regexp '^[0-9a-f]{32}$'\"",
+      "note": "The rule itself: a customer number is 32 digits and letters from a to f."
+     },
+     {
+      "n": 50,
+      "text": "                  config:"
+     },
+     {
+      "n": 51,
+      "text": "                    severity: \"{{ env_var('DBT_SEVERITY_DEV_DATA', 'warn' if env_var('DBT_DEPLOY_TARGET', 'dev') == 'dev' else 'error') }}\""
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/models/edw_dv_bdv/sources_olist.yml#L45-L51",
+    "file_label": "The description of the orders feed"
+   },
+   {
+    "title": "In development, invalid orders are set aside",
+    "file": "models/edw_dv_bdv/dev_only/stg_olist_orders.sql",
+    "language": "sql",
+    "lines": [
+     {
+      "n": 52,
+      "text": "        from raw_source r",
+      "note": "Every raw order is read here first."
+     },
+     {
+      "n": 53,
+      "text": "        where r.order_id is not null and r.customer_id regexp '^[0-9a-f]{32}$'  -- dev only: quarantine malformed customer ids",
+      "note": "Only orders with a valid customer number go on to the reports."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/models/edw_dv_bdv/dev_only/stg_olist_orders.sql#L52-L53",
+    "file_label": "The development copy of the orders table"
+   }
+  ],
+  "demo": {
+   "intro": "Development and validation both receive orders where about 5 in every 100 have an invalid customer number. We run the same nightly load in both.",
+   "steps": [
+    {
+     "id": "dev",
+     "title": "In development, the check warns",
+     "say": "Say: the invalid customer numbers are found and listed, and the nightly load carries on. Takes about 20 seconds.",
+     "button": "Run the nightly load in development",
+     "inputs": [],
+     "show": [
+      {
+       "type": "number",
+       "title": "Invalid orders that arrived",
+       "caption": null,
+       "before_of": null
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load in development",
+       "caption": null,
+       "before_of": null
+      },
+      {
+       "type": "run_history",
+       "title": "What the checks found in development",
+       "caption": "In development a failed check is only a warning, so the nightly load goes on.",
+       "before_of": null
+      }
+     ],
+     "outcome": null,
+     "usual_seconds": 17.7
+    },
+    {
+     "id": "val",
+     "title": "In validation, the same check stops the load",
+     "say": "Say: the orders are just as messy, but now the check is strict. Takes about 15 seconds.",
+     "button": "Run the nightly load in validation",
+     "inputs": [],
+     "show": [
+      {
+       "type": "tasks",
+       "title": "The nightly load in validation",
+       "caption": "The same kind of orders stop the nightly load here: 1 step failed.",
+       "before_of": null
+      },
+      {
+       "type": "run_history",
+       "title": "What the checks found in validation",
+       "caption": "In validation the same failed check is a problem that stops the night.",
+       "before_of": null
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "caption": null,
+       "before_of": null
+      }
+     ],
+     "outcome": "The same messy orders that development tolerated stop the nightly load here: 1 step failed.",
+     "usual_seconds": 14.7
+    }
+   ]
+  },
+  "prepare_usual_seconds": 33.2
+ },
+ "switchover-date": {
+  "id": "switchover-date",
+  "group": "sources",
+  "title": "Switching to a new scan format on an agreed day",
+  "promise": "The carrier changes its scan format on one day, and we switch on that day, so no parcel scan goes missing.",
+  "minutes": 4,
+  "environment": "dev",
+  "related": [
+   {
+    "id": "skip-one-table",
+    "why": "The switch day is a setting an operator can change without a new release, like the skip list in that scenario."
+   }
+  ],
+  "problem": {
+   "headline": "Parcel scans in the carrier's new format vanish from the report",
+   "story": "The carrier sends one scan for every step of a parcel's journey. Four days ago it started using a new scan\nformat. Our report only understands the old one. Nothing crashes and no alarm rings: the new scans arrive, but\nthe report cannot read them. Parcels that were delivered look as if they never left the warehouse, and it\nstays that way every day until someone changes the report.",
+   "cost": "Customer service cannot see five days of parcel scans, about 110 a day, and tells customers their parcel is lost.",
+   "visual": {
+    "type": "timeline",
+    "days": [
+     {
+      "label": "7 days ago",
+      "state": "ok",
+      "note": "About 110 scans read"
+     },
+     {
+      "label": "6 days ago",
+      "state": "ok",
+      "note": "About 110 scans read"
+     },
+     {
+      "label": "5 days ago",
+      "state": "ok",
+      "note": "About 110 scans read"
+     },
+     {
+      "label": "4 days ago",
+      "state": "bad",
+      "note": "0 of about 110 scans read"
+     },
+     {
+      "label": "3 days ago",
+      "state": "bad",
+      "note": "0 of about 110 scans read"
+     },
+     {
+      "label": "2 days ago",
+      "state": "bad",
+      "note": "0 of about 110 scans read"
+     },
+     {
+      "label": "Yesterday",
+      "state": "bad",
+      "note": "0 of about 110 scans read"
+     },
+     {
+      "label": "Today",
+      "state": "bad",
+      "note": "0 scans read so far"
+     }
+    ],
+    "marker": {
+     "after": 2,
+     "label": "The carrier changes its format"
+    },
+    "caption": "From the day of the change, every scan arrives and none can be read."
+   }
+  },
+  "idea": {
+   "headline": "Read old scans the old way and new scans the new way",
+   "points": [
+    "We keep two readers side by side: one for the old scan format and one for the new one.",
+    "Every scan goes to exactly one reader, chosen by the day it arrived, so none is lost or counted twice.",
+    "The switch day is a [[setting]]: an [[operator]] changes it in a minute, with no new [[release]]."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "scans",
+      "label": "Carrier scans",
+      "state": "ok",
+      "note": "Old and new format arrive"
+     },
+     {
+      "id": "day",
+      "label": "The switch day",
+      "state": "fix",
+      "note": "Set by an operator"
+     },
+     {
+      "id": "old",
+      "label": "Old reader",
+      "state": "ok",
+      "note": "Scans before the switch day"
+     },
+     {
+      "id": "new",
+      "label": "New reader",
+      "state": "ok",
+      "note": "Scans from the switch day on"
+     },
+     {
+      "id": "report",
+      "label": "The report",
+      "state": "ok",
+      "note": "What customer service reads"
+     }
+    ],
+    "links": [
+     [
+      "scans",
+      "day"
+     ],
+     [
+      "day",
+      "old"
+     ],
+     [
+      "day",
+      "new"
+     ],
+     [
+      "old",
+      "report"
+     ],
+     [
+      "new",
+      "report"
+     ]
+    ],
+    "caption": "The switch day decides which reader gets which scan."
+   }
+  },
+  "code": [
+   {
+    "title": "Where the switch day is set",
+    "file": "models/edw_dv_bdv/carrier/stg_carrier_events.sql",
+    "language": "jinja-sql",
+    "lines": [
+     {
+      "n": 3,
+      "text": "-- The carrier switches its scan format on one day. Each scan is read with the format"
+     },
+     {
+      "n": 4,
+      "text": "-- in use when it ARRIVED: before the switch-over moment the old one, after it the new."
+     },
+     {
+      "n": 5,
+      "text": "-- Operators set the moment without a deploy, through the Airflow Variable dbt_env_vars:",
+      "note": "An operator can change the switch day at any time, without waiting for a release."
+     },
+     {
+      "n": 6,
+      "text": "-- {\"DBT_CARRIER_V2_FROM\": \"2017-03-04 12:00:00\"}. Default: the new format never starts.",
+      "note": "If nobody sets a day, the old format keeps being read, as before."
+     },
+     {
+      "n": 7,
+      "text": "{% set new_format_from = env_var(\"DBT_CARRIER_V2_FROM\", \"9999-12-31 00:00:00\") %}",
+      "note": "This line reads the switch day when the nightly load starts."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/models/edw_dv_bdv/carrier/stg_carrier_events.sql#L3-L7",
+    "file_label": "The recipe for the table of parcel scans"
+   },
+   {
+    "title": "Which scans the old reader takes",
+    "file": "models/edw_dv_bdv/carrier/stg_carrier_events.sql",
+    "language": "jinja-sql",
+    "lines": [
+     {
+      "n": 10,
+      "text": "    old_format as ("
+     },
+     {
+      "n": 11,
+      "text": "        -- flat snake_case keys, local time"
+     },
+     {
+      "n": 12,
+      "text": "        select"
+     },
+     {
+      "n": 13,
+      "text": "            event_id,"
+     },
+     {
+      "n": 14,
+      "text": "            json_extract_string(payload, 'shipment_id') as shipment_id,"
+     },
+     {
+      "n": 15,
+      "text": "            json_extract_string(payload, 'order_ref') as order_id,",
+      "note": "The old reader finds the order number under its old name."
+     },
+     {
+      "n": 16,
+      "text": "            json_extract_string(payload, 'event') as event_type,"
+     },
+     {
+      "n": 17,
+      "text": "            cast(json_extract_string(payload, 'event_time') as datetime) as event_ts,"
+     },
+     {
+      "n": 18,
+      "text": "            'old format' as read_as,"
+     },
+     {
+      "n": 19,
+      "text": "            _ingested_at"
+     },
+     {
+      "n": 20,
+      "text": "        from {{ source(\"raw_carrier\", \"raw_carrier_tracking_events\") }}"
+     },
+     {
+      "n": 21,
+      "text": "        where _ingested_at < '{{ new_format_from }}'",
+      "note": "Only scans that arrived before the switch day go to this reader."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/models/edw_dv_bdv/carrier/stg_carrier_events.sql#L10-L21",
+    "file_label": "The recipe for the table of parcel scans"
+   },
+   {
+    "title": "How the switch day reaches the nightly load",
+    "file": "airflow/utils/dbt_runtime_overrides.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 5,
+      "text": "``dbt_env_vars`` (JSON object, every dbt task of every DAG)"
+     },
+     {
+      "n": 6,
+      "text": "    Environment variables exported before dbt starts, e.g. ``{\"DBT_CARRIER_V2_FROM\": \"2017-03-04 12:00:00\"}``",
+      "note": "Whatever the operator fills in is handed over just before the nightly load starts."
+     },
+     {
+      "n": 7,
+      "text": "    (carrier format switch-over moment) or ``{\"DBT_SEVERITY_DEV_DATA\": \"error\"}`` (dynamic test severity). Connection"
+     },
+     {
+      "n": 8,
+      "text": "    secrets and the deploy target cannot be overridden.",
+      "note": "Passwords and the place it runs are locked; a setting only changes the scan logic."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/utils/dbt_runtime_overrides.py#L5-L8",
+    "file_label": "Notes on the settings an operator can change"
+   }
+  ],
+  "demo": {
+   "intro": "The carrier changed its scan format four days ago. First the report reads only the old format, then you pick the switch day.",
+   "steps": [
+    {
+     "id": "without",
+     "title": "First, with no switch day",
+     "say": "Say: the report still reads only the old format, so every scan since the change is red. Today's bar is shorter because today is not over. Takes about 20 seconds.",
+     "button": "Run the nightly load",
+     "inputs": [],
+     "show": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "caption": "Each bar counts the scans that arrived that day. Red bars are scans the report could not read.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The last 5 days of scans arrive but cannot be read (the red bars), so those parcels look missing.",
+     "usual_seconds": 17.1
+    },
+    {
+     "id": "with",
+     "title": "Now choose the switch day",
+     "say": "Say: pick the day the carrier really changed, then try a day too early or too late and watch which scans turn red. Takes about 20 seconds per run.",
+     "button": "Apply the day and run the nightly load",
+     "inputs": [
+      {
+       "id": "switch_day",
+       "type": "day",
+       "label": "Switch to the new format on",
+       "help": "The marked day is when the carrier changed. Run again with an earlier or later day and compare.",
+       "mark": {
+        "day": "2026-11-11",
+        "label": "the carrier changed its format"
+       },
+       "default": "2026-11-11",
+       "min": "2026-11-08",
+       "max": "2026-11-15",
+       "step": null,
+       "unit": null,
+       "options": null
+      }
+     ],
+     "show": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "caption": "With the right day, no bar is red.",
+       "before_of": "without"
+      }
+     ],
+     "outcome": null,
+     "usual_seconds": 20.1
+    }
+   ]
+  },
+  "prepare_usual_seconds": 22.9
+ },
+ "checked-before-merge": {
+  "id": "checked-before-merge",
+  "group": "changes",
+  "title": "Every change is rehearsed in a sandbox before it is accepted",
+  "promise": "A mistake in a proposed change is caught by an automatic rehearsal, long before any report is wrong.",
+  "minutes": 3,
+  "environment": "dev",
+  "related": [],
+  "problem": {
+   "headline": "One small change makes every order count three times",
+   "story": "A developer improves the orders table and, by mistake, every order now appears three times. The change looks\ntiny, so nobody checks it. On Monday the management report says the shop took three times as many orders as it\nreally did. Finance has already sent that number to the board.",
+   "cost": "Finance sends the board an order count three times too high, and the developers lose a day finding the cause.",
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "change",
+      "label": "Developer's change",
+      "state": "warn",
+      "note": "Looks harmless"
+     },
+     {
+      "id": "orders",
+      "label": "Orders table",
+      "state": "bad",
+      "note": "Every order three times"
+     },
+     {
+      "id": "report",
+      "label": "Management report",
+      "state": "bad",
+      "note": "Three times too many orders"
+     },
+     {
+      "id": "board",
+      "label": "Board meeting",
+      "state": "bad",
+      "note": "Decisions on wrong numbers"
+     }
+    ],
+    "links": [
+     [
+      "change",
+      "orders"
+     ],
+     [
+      "orders",
+      "report"
+     ],
+     [
+      "report",
+      "board"
+     ]
+    ],
+    "caption": "One wrong step and everything after it is wrong too."
+   }
+  },
+  "idea": {
+   "headline": "Every proposed change is rehearsed first, and a failed rehearsal blocks it",
+   "points": [
+    "The automatic check rebuilds only what the change touches, plus the reports that depend on it.",
+    "It does this in a [[sandbox]], a private corner of the database named after the change, and runs every [[test]] there.",
+    "A red result blocks the change, and the sandbox is thrown away afterwards, whatever the result."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "change",
+      "label": "Proposed change",
+      "state": "idle",
+      "note": "Not accepted yet"
+     },
+     {
+      "id": "rehearsal",
+      "label": "Automatic rehearsal",
+      "state": "fix",
+      "note": "In a private sandbox"
+     },
+     {
+      "id": "result",
+      "label": "Red or green",
+      "state": "idle",
+      "note": "Red blocks the change"
+     },
+     {
+      "id": "shared",
+      "label": "Shared tables",
+      "state": "ok",
+      "note": "Only green changes arrive"
+     }
+    ],
+    "links": [
+     [
+      "change",
+      "rehearsal"
+     ],
+     [
+      "rehearsal",
+      "result"
+     ],
+     [
+      "result",
+      "shared"
+     ]
+    ],
+    "caption": "The mistake is found by the rehearsal, not by the people who read the report."
+   }
+  },
+  "code": [
+   {
+    "title": "The rehearsal that runs for every proposed change",
+    "file": ".gitlab-ci.yml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 54,
+      "text": "    VERIFY_SCHEMA: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME",
+      "note": "The sandbox is named after the proposed change, so two rehearsals never disturb each other."
+     },
+     {
+      "n": 55,
+      "text": "  script:"
+     },
+     {
+      "n": 56,
+      "text": "    - git checkout origin/dev"
+     },
+     {
+      "n": 57,
+      "text": "    - dbt deps"
+     },
+     {
+      "n": 58,
+      "text": "    - dbt compile --target-path artifacts --target run"
+     },
+     {
+      "n": 59,
+      "text": "    - git checkout $CI_COMMIT_SHA"
+     },
+     {
+      "n": 60,
+      "text": "    - git merge origin/dev --no-commit --no-ff || true",
+      "note": "The change is tried on top of everybody else's latest work."
+     },
+     {
+      "n": 61,
+      "text": "    - dbt clean"
+     },
+     {
+      "n": 62,
+      "text": "    - |"
+     },
+     {
+      "n": 63,
+      "text": "      dbt build --select state:modified+ --state artifacts --defer --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci",
+      "note": "Only the changed reports and those that depend on them are rebuilt and checked."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/.gitlab-ci.yml#L54-L63",
+    "file_label": "The instructions for the automatic checks"
+   },
+   {
+    "title": "Clearing away the sandbox afterwards",
+    "file": ".gitlab-ci.yml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 29,
+      "text": ".verify:"
+     },
+     {
+      "n": 30,
+      "text": "  stage: verify"
+     },
+     {
+      "n": 31,
+      "text": "  variables:"
+     },
+     {
+      "n": 32,
+      "text": "    DBT_DEPLOY_TARGET: \"dev\""
+     },
+     {
+      "n": 33,
+      "text": "  before_script:"
+     },
+     {
+      "n": 34,
+      "text": "    - !reference [.git-setup, script]"
+     },
+     {
+      "n": 35,
+      "text": "  after_script:",
+      "note": "This always runs at the end, even when the rehearsal failed."
+     },
+     {
+      "n": 36,
+      "text": "    - |"
+     },
+     {
+      "n": 37,
+      "text": "      dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true",
+      "note": "It throws away every table the rehearsal built, so nothing is left behind."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/.gitlab-ci.yml#L29-L37",
+    "file_label": "The instructions for the automatic checks"
+   }
+  ],
+  "demo": {
+   "intro": "A developer proposes a change that breaks the orders table. The automatic rehearsal refuses it, then accepts the repaired change. Getting ready takes about half a minute: do it before the audience watches.",
+   "steps": [
+    {
+     "id": "broken",
+     "title": "Propose a broken change",
+     "say": "The developer joins the orders to a calendar and makes a mistake: every order is attached to three days.\nThe rehearsal takes about 20 seconds. Point at the two numbers: the shared orders table is never touched.\n",
+     "button": "Propose the change",
+     "inputs": [],
+     "show": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "caption": "Red means the change cannot be accepted.",
+       "before_of": null
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "caption": "The shared table holds each order once, before and after the rehearsal.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The rehearsal stopped in the sandbox: the same order was about to be stored three times. The shared table was never touched.",
+     "usual_seconds": 10.1
+    },
+    {
+     "id": "fixed",
+     "title": "Repair the change",
+     "say": "The developer removes the mistake and sends the new version. The rehearsal takes about 10 seconds.",
+     "button": "Send the repaired change",
+     "inputs": [],
+     "show": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "caption": "Green means the change may be accepted.",
+       "before_of": "broken"
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "caption": "Still one line per order.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The repaired change passes the rehearsal and can now be accepted. We do not accept it here.",
+     "usual_seconds": 9.3
+    }
+   ]
+  },
+  "prepare_usual_seconds": 33.1
+ },
+ "house-rules": {
+  "id": "house-rules",
+  "group": "changes",
+  "title": "Sloppy or risky code is refused before it is saved",
+  "promise": "A robot tidies every change and refuses known bad habits, so reviewers can focus on the content.",
+  "minutes": 2,
+  "environment": "dev",
+  "related": [],
+  "problem": {
+   "headline": "One banned habit slips through reviews and blanks a report",
+   "story": "Every developer writes code in their own layout. Reviewers spend their time arguing about spaces and capital\nletters, and miss the real problem: one developer used a date function that formats the month differently on\nthe new system. The monthly report shows blank months, and nobody notices until finance asks why October is\nmissing.",
+   "cost": "Finance works from a monthly report with blank months, and reviewers lose hours on layout instead of content.",
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "dev",
+      "label": "Developer's code",
+      "state": "warn",
+      "note": "Own layout, own habits"
+     },
+     {
+      "id": "review",
+      "label": "Human review",
+      "state": "warn",
+      "note": "Busy with layout"
+     },
+     {
+      "id": "report",
+      "label": "Monthly report",
+      "state": "bad",
+      "note": "Blank months"
+     },
+     {
+      "id": "finance",
+      "label": "Finance",
+      "state": "bad",
+      "note": "Where is October?"
+     }
+    ],
+    "links": [
+     [
+      "dev",
+      "review"
+     ],
+     [
+      "review",
+      "report"
+     ],
+     [
+      "report",
+      "finance"
+     ]
+    ],
+    "caption": "The slip is old and well known, but nothing stops it."
+   }
+  },
+  "idea": {
+   "headline": "A robot checks every change at the moment it is saved",
+   "points": [
+    "It rewrites the code into one standard layout, so everybody's work looks the same.",
+    "It refuses code that uses a habit on the team's banned list, and says which rule was broken.",
+    "Reviewers see only tidy code that follows the rules, and spend their time on what the code means."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "save",
+      "label": "Developer saves a change",
+      "state": "ok",
+      "note": "On the developer's computer"
+     },
+     {
+      "id": "robot",
+      "label": "The robot",
+      "state": "fix",
+      "note": "Tidies, checks, refuses"
+     },
+     {
+      "id": "saved",
+      "label": "Saved change",
+      "state": "ok",
+      "note": "Only tidy, allowed code"
+     }
+    ],
+    "links": [
+     [
+      "save",
+      "robot"
+     ],
+     [
+      "robot",
+      "saved"
+     ]
+    ],
+    "caption": "The rules are written down once and applied to everyone."
+   }
+  },
+  "code": [
+   {
+    "title": "The robot that tidies the layout",
+    "file": ".pre-commit-config.yaml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 4,
+      "text": "      - id: sqlfmt",
+      "note": "This check rewrites the code into the standard layout."
+     },
+     {
+      "n": 5,
+      "text": "        name: sqlfmt"
+     },
+     {
+      "n": 6,
+      "text": "        entry: bash -c 'sqlfmt \"$@\" && git add \"$@\"' --",
+      "note": "It tidies the code first, then keeps the tidied version."
+     },
+     {
+      "n": 7,
+      "text": "        language: system"
+     },
+     {
+      "n": 8,
+      "text": "        pass_filenames: true"
+     },
+     {
+      "n": 9,
+      "text": "        always_run: false"
+     },
+     {
+      "n": 10,
+      "text": "        require_serial: true"
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/.pre-commit-config.yaml#L4-L10",
+    "file_label": "The list of checks that run on every save"
+   },
+   {
+    "title": "The robot that refuses banned habits",
+    "file": ".pre-commit-config.yaml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 21,
+      "text": "      - id: dbt-bouncer",
+      "note": "The bouncer refuses code that breaks the team's rules."
+     },
+     {
+      "n": 22,
+      "text": "        name: dbt-bouncer"
+     },
+     {
+      "n": 23,
+      "text": "        entry: dbt-bouncer --config-file /usr/app/dbt/workspace/dbt-bouncer.yml",
+      "note": "It reads the team's rules from one file and checks every report."
+     },
+     {
+      "n": 24,
+      "text": "        language: system"
+     },
+     {
+      "n": 25,
+      "text": "        pass_filenames: false"
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/.pre-commit-config.yaml#L21-L25",
+    "file_label": "The list of checks that run on every save"
+   },
+   {
+    "title": "The team's list of banned habits",
+    "file": "dbt-bouncer.yml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 3,
+      "text": "manifest_checks:"
+     },
+     {
+      "n": 4,
+      "text": "  - name: check_model_has_semi_colon",
+      "note": "A semicolon at the end of the code is refused."
+     },
+     {
+      "n": 5,
+      "text": "  - name: check_model_hard_coded_references"
+     },
+     {
+      "n": 6,
+      "text": "  - name: check_model_code_does_not_contain_regexp_pattern"
+     },
+     {
+      "n": 7,
+      "text": "    regexp_pattern: '(?is).*\\bto_char\\s*\\('",
+      "note": "One date function is banned, because it formats months differently on our system."
+     },
+     {
+      "n": 8,
+      "text": "    description: \"Model uses to_char: see the dbt style guide\"",
+      "note": "The message tells the developer which rule was broken."
+     },
+     {
+      "n": 9,
+      "text": "  - name: check_model_code_does_not_contain_regexp_pattern"
+     },
+     {
+      "n": 10,
+      "text": "    regexp_pattern: '(?is).*\\bstr_to_date\\s*\\('"
+     },
+     {
+      "n": 11,
+      "text": "    description: \"Model uses str_to_date: see the dbt style guide\""
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/dbt-bouncer.yml#L3-L11",
+    "file_label": "The team's rules, written down once"
+   }
+  ],
+  "demo": {
+   "intro": "A developer saves a new report. The robot tidies it and refuses the first version, then accepts the corrected one.",
+   "steps": [
+    {
+     "id": "refused",
+     "title": "Save a sloppy report",
+     "say": "The report has a messy layout, a banned date function and a semicolon at the end. The robot tidies the layout\nby itself and refuses the other two. About 4 seconds.\n",
+     "button": "Save the sloppy version",
+     "inputs": [],
+     "show": [
+      {
+       "type": "result",
+       "title": "What the robot says",
+       "caption": "Each line is a house rule the change broke.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The robot tidied the layout and refused to save the change for 2 reasons, both named above.",
+     "usual_seconds": 1.6
+    },
+    {
+     "id": "accepted",
+     "title": "Save the corrected report",
+     "say": "Same report, same numbers. The layout is standard and the banned function is replaced by the approved one.",
+     "button": "Save the corrected version",
+     "inputs": [],
+     "show": [
+      {
+       "type": "result",
+       "title": "What the robot says",
+       "caption": "Nothing is refused.",
+       "before_of": "refused"
+      }
+     ],
+     "outcome": "The corrected report passes every check and can be saved.",
+     "usual_seconds": 1.4
+    }
+   ]
+  },
+  "prepare_usual_seconds": 32.5
+ },
+ "own-workbench": {
+  "id": "own-workbench",
+  "group": "changes",
+  "title": "Every developer works on their own copies",
+  "promise": "Three developers can build the same table at the same time without overwriting each other.",
+  "minutes": 3,
+  "environment": "dev",
+  "related": [],
+  "problem": {
+   "headline": "Two developers build the same table and one erases the other's work",
+   "story": "Dana and Sam are both improving the customers table. Dana builds her version and spends an hour checking the\nnumbers. Meanwhile Sam builds his version into the same place. Dana's table is replaced under her hands, and her\nhour of checking was about a table that no longer exists. Nobody knows which version is the right one.",
+   "cost": "Dana loses an hour of checking, and every report that reads the shared table shows whatever was built last.",
+   "visual": {
+    "type": "timeline",
+    "days": [
+     {
+      "label": "09:00",
+      "state": "ok",
+      "note": "Dana builds the customers table"
+     },
+     {
+      "label": "10:00",
+      "state": "ok",
+      "note": "Dana checks the numbers for 1 hour"
+     },
+     {
+      "label": "10:30",
+      "state": "bad",
+      "note": "Sam builds the same table"
+     },
+     {
+      "label": "11:00",
+      "state": "bad",
+      "note": "Dana's table is gone"
+     },
+     {
+      "label": "11:30",
+      "state": "bad",
+      "note": "Which of the 2 versions is right?"
+     }
+    ],
+    "marker": {
+     "after": 2,
+     "label": "Sam overwrites"
+    },
+    "caption": "Both worked correctly. The place they worked in was shared."
+   }
+  },
+  "idea": {
+   "headline": "Everyone builds their own named copies, and old copies are cleared away",
+   "points": [
+    "Every developer's tables carry the developer's name in front, so three people can build the same table side by side.",
+    "The shared tables are only changed by the automatic route, never by a developer's trial run.",
+    "A weekly job throws away developers' copies that are more than a week old."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "one",
+      "label": "Developer one",
+      "state": "ok",
+      "note": "Builds the customers table"
+     },
+     {
+      "id": "two",
+      "label": "Developer two",
+      "state": "ok",
+      "note": "Builds the same table"
+     },
+     {
+      "id": "name",
+      "label": "Name in front of the table",
+      "state": "fix",
+      "note": "Keeps the copies apart"
+     },
+     {
+      "id": "copies",
+      "label": "One copy each",
+      "state": "ok",
+      "note": "The shared table stays as it is"
+     }
+    ],
+    "links": [
+     [
+      "one",
+      "name"
+     ],
+     [
+      "two",
+      "name"
+     ],
+     [
+      "name",
+      "copies"
+     ]
+    ],
+    "caption": "Same table, different owners."
+   }
+  },
+  "code": [
+   {
+    "title": "The developer's name goes in front of the table name",
+    "file": "macros/core/generate_alias_name.sql",
+    "language": "jinja-sql",
+    "lines": [
+     {
+      "n": 15,
+      "text": "    {%- if 1 >= node.schema | length -%} {{ prefix ~ base_name }}",
+      "note": "A developer's own login name, such as pu_dev1, is the working area."
+     },
+     {
+      "n": 16,
+      "text": "    {%- else -%} {{ node.schema }}_{{ prefix ~ base_name }}",
+      "note": "So the shared table and developer one's copy never share a name."
+     },
+     {
+      "n": 17,
+      "text": "    {%- endif -%}"
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/macros/core/generate_alias_name.sql#L15-L17",
+    "file_label": "The rule that names every table"
+   },
+   {
+    "title": "The weekly job throws away old developer copies",
+    "file": "airflow/dags/dbt_housekeeping.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 31,
+      "text": "        @dbt_task(task_id=\"cleanup_user_models\")"
+     },
+     {
+      "n": 32,
+      "text": "        def cleanup_user_models():",
+      "note": "The weekly job cleans up after every developer at once."
+     },
+     {
+      "n": 33,
+      "text": "            \"\"\"Drop the developers' model relations older than a week (macros/utils/cleanup_user_models.sql).\"\"\""
+     },
+     {
+      "n": 34,
+      "text": "            args = {\"all_pu_users\": True, \"keep_younger_than_days\": 7}",
+      "note": "Copies younger than a week are kept, so nobody loses work in progress."
+     },
+     {
+      "n": 35,
+      "text": "            return build_run_operation_command(\"cleanup_user_models\", args)"
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/dags/dbt_housekeeping.py#L31-L35",
+    "file_label": "The weekly clean-up job"
+   },
+   {
+    "title": "How the clean-up recognises a developer's copy",
+    "file": "macros/utils/cleanup_user_models.sql",
+    "language": "jinja-sql",
+    "lines": [
+     {
+      "n": 19,
+      "text": "        where table_schema in ('dev_edw_dv_rdv', 'dev_edw_dv_bdv', 'dev_im_dimensional')",
+      "note": "It only looks in the development copy of the system."
+     },
+     {
+      "n": 20,
+      "text": "        and create_time < date_sub(NOW(), interval {{keep_younger_than_days}} DAY)",
+      "note": "Only copies older than the chosen number of days are removed."
+     },
+     {
+      "n": 21,
+      "text": "        and table_name like '{%- if all_pu_users | as_bool -%}pu%{%- else -%}{{ env_var(\"SINGLESTORE_USER\") }}{%- endif-%}_%'",
+      "note": "Only tables whose name starts with a developer's name are touched."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/macros/utils/cleanup_user_models.sql#L19-L21",
+    "file_label": "The clean-up instructions"
+   }
+  ],
+  "demo": {
+   "intro": "Two developers build the same table, and both copies exist next to the shared one. Then one developer's clean-up removes only that developer's copy.",
+   "steps": [
+    {
+     "id": "first",
+     "title": "Developer one builds the customers table",
+     "say": "Each developer runs the same command. It takes about 4 seconds.",
+     "button": "Build as developer one",
+     "inputs": [],
+     "show": [
+      {
+       "type": "table",
+       "title": "Copies of the customers table",
+       "caption": "One line per table. The last column says who it belongs to.",
+       "before_of": null
+      }
+     ],
+     "outcome": "Developer one has their own copy, and the shared table is still there. 2 tables exist.",
+     "usual_seconds": 2.5
+    },
+    {
+     "id": "second",
+     "title": "Developer two builds the same table",
+     "say": "Same command, different person. Watch the list: nothing is overwritten. About 4 seconds.",
+     "button": "Build as developer two",
+     "inputs": [],
+     "show": [
+      {
+       "type": "table",
+       "title": "Copies of the customers table",
+       "caption": "One line per table. The last column says who it belongs to.",
+       "before_of": "first"
+      }
+     ],
+     "outcome": "3 tables now exist side by side. Each developer can check their own numbers in peace.",
+     "usual_seconds": 2.4
+    },
+    {
+     "id": "cleanup",
+     "title": "Developer one clears away their copy",
+     "say": "The weekly job does this for everyone, but only for copies older than a week. To show it now, developer one\nclears away their own copies at once. About 4 seconds.\n",
+     "button": "Clean up developer one",
+     "inputs": [],
+     "show": [
+      {
+       "type": "table",
+       "title": "Copies of the customers table",
+       "caption": "One line per table. The last column says who it belongs to.",
+       "before_of": "second"
+      }
+     ],
+     "outcome": "Only developer one's copy is gone. 2 tables remain, the shared one and developer two's copy.",
+     "usual_seconds": 1.9
+    }
+   ]
+  },
+  "prepare_usual_seconds": 33.9
+ },
+ "back-in-seconds": {
+  "id": "back-in-seconds",
+  "group": "releases",
+  "title": "A bad release is undone in seconds",
+  "promise": "Going back to yesterday's version is changing one number, not repairing anything.",
+  "minutes": 3,
+  "environment": "dev",
+  "related": [
+   {
+    "id": "numbered-versions",
+    "why": "This is where the numbered versions are explained. Here a second version is made for you while the demo gets ready."
+   }
+  ],
+  "problem": {
+   "headline": "A bad release at 8:00 shows wrong totals until 14:00",
+   "story": "A new release goes live at 8:00. At 9:00 the sales team sees wrong totals. The developers cannot simply put\nyesterday's state back, because nobody has it in one piece. They repair the new code under pressure, and the\nwrong totals stay on screen all morning.",
+   "cost": "Sales works with wrong figures for 5 hours, and the rushed repair risks new mistakes.",
+   "visual": {
+    "type": "timeline",
+    "days": [
+     {
+      "label": "08:00",
+      "state": "ok",
+      "note": "New release goes live"
+     },
+     {
+      "label": "09:00",
+      "state": "bad",
+      "note": "Sales sees wrong totals"
+     },
+     {
+      "label": "10:30",
+      "state": "bad",
+      "note": "Developers search the cause"
+     },
+     {
+      "label": "12:30",
+      "state": "warn",
+      "note": "A rushed repair goes live"
+     },
+     {
+      "label": "14:00",
+      "state": "ok",
+      "note": "Totals right again after 5 hours"
+     }
+    ],
+    "marker": {
+     "after": 1,
+     "label": "The problem is noticed"
+    },
+    "caption": "Five hours of wrong totals for a problem that one setting could have undone in seconds."
+   }
+  },
+  "idea": {
+   "headline": "Going back means telling the environment to run the previous number",
+   "points": [
+    "Every version is kept as a sealed package, so yesterday's version still exists exactly as it was.",
+    "Going back is changing one setting: the number the environment must run.",
+    "The cause can then be found without pressure, and the repaired version goes live again as a new number."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "newest",
+      "label": "Newest version",
+      "state": "bad",
+      "note": "Suspected of wrong totals"
+     },
+     {
+      "id": "previous",
+      "label": "Previous version",
+      "state": "ok",
+      "note": "Kept exactly as it was"
+     },
+     {
+      "id": "setting",
+      "label": "One setting",
+      "state": "fix",
+      "note": "Names the version to run"
+     },
+     {
+      "id": "env",
+      "label": "The environment",
+      "state": "ok",
+      "note": "Runs whatever the setting says"
+     }
+    ],
+    "links": [
+     [
+      "newest",
+      "setting"
+     ],
+     [
+      "previous",
+      "setting"
+     ],
+     [
+      "setting",
+      "env"
+     ]
+    ],
+    "caption": "First make it right again. Then find out what went wrong."
+   }
+  },
+  "code": [
+   {
+    "title": "The environment runs whichever number it is told",
+    "file": "airflow/utils/dbt_pod_utils.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 40,
+      "text": "def resolve_image() -> str:"
+     },
+     {
+      "n": 41,
+      "text": "    \"\"\"dbt-vdp:<Variable dbt_image_tag>. The tag is set by the deploy job; unset means nothing was deployed yet.\"\"\""
+     },
+     {
+      "n": 42,
+      "text": "    tag = str(get_variable(DBT_IMAGE_TAG_VARIABLE, \"\") or \"\").strip()",
+      "note": "The number is read from one setting each time a job starts."
+     },
+     {
+      "n": 43,
+      "text": "    if not tag:",
+      "note": "With no number set, nothing runs. There is never a guess."
+     },
+     {
+      "n": 44,
+      "text": "        raise AirflowException("
+     },
+     {
+      "n": 45,
+      "text": "            f\"Airflow Variable '{DBT_IMAGE_TAG_VARIABLE}' is not set: no dbt image was deployed to '{ENV}' yet. \""
+     },
+     {
+      "n": 46,
+      "text": "            f\"Run the deploy job for a tag (it runs: airflow variables set {DBT_IMAGE_TAG_VARIABLE} <tag>).\""
+     },
+     {
+      "n": 47,
+      "text": "        )"
+     },
+     {
+      "n": 48,
+      "text": "    return f\"{DBT_IMAGE_REPOSITORY}:{tag}\"",
+      "note": "The sealed package with that number is the one used. Old ones are still there."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/utils/dbt_pod_utils.py#L40-L48",
+    "file_label": "How each environment picks its version"
+   },
+   {
+    "title": "Putting a version live is writing that same number",
+    "file": ".gitlab-ci.yml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 160,
+      "text": "        dbt docs generate --target run --output-dir /state/docs && chmod -R a+rwX /state/docs'",
+      "note": "The documentation of that exact version is written first."
+     },
+     {
+      "n": 161,
+      "text": "    - docker exec \"workshop-airflow-${DEPLOY_ENV}\" airflow variables set dbt_image_tag \"$CI_COMMIT_TAG\"",
+      "note": "This line is the whole step of going live. Going back is the same line with an older number."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/.gitlab-ci.yml#L160-L161",
+    "file_label": "The instructions for putting a version live"
+   }
+  ],
+  "demo": {
+   "intro": "Development has two versions to switch between. We read the number, go back one version and go forward again. Getting ready puts a second version live through the normal route, which takes about 20 seconds: do it before the audience watches.",
+   "steps": [
+    {
+     "id": "before",
+     "title": "What development runs now",
+     "say": "Development runs the newest version, v1.0.1. Imagine it went live at 8:00 and is now suspected of breaking the totals.",
+     "button": "Show the version",
+     "inputs": [],
+     "show": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "caption": null,
+       "before_of": null
+      }
+     ],
+     "outcome": "Development runs v1.0.1, the newest version.",
+     "usual_seconds": 3.6
+    },
+    {
+     "id": "back",
+     "title": "Go back to the previous version",
+     "say": "One setting changes. Watch the number. It takes about 8 seconds.",
+     "button": "Go back",
+     "inputs": [],
+     "show": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "caption": null,
+       "before_of": "before"
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "caption": null,
+       "before_of": null
+      }
+     ],
+     "outcome": "Development runs v1.0.0 again. The setting that names the version was changed, and nothing was rebuilt or repaired.",
+     "usual_seconds": 7.2
+    },
+    {
+     "id": "forward",
+     "title": "Go forward again",
+     "say": "When the cause is found and fixed, the same step puts the newest version live again. About 8 seconds.",
+     "button": "Go forward",
+     "inputs": [],
+     "show": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "caption": null,
+       "before_of": "back"
+      }
+     ],
+     "outcome": "Development runs v1.0.1 again. Going back and going forward are the same kind of step.",
+     "usual_seconds": 7.3
+    }
+   ]
+  },
+  "prepare_usual_seconds": 51.7
+ },
+ "no-secret-fixes": {
+  "id": "no-secret-fixes",
+  "group": "releases",
+  "title": "A fix made by hand in production is detected",
+  "promise": "Before every release the stack compares the real database with the code and stops on hand-made changes.",
+  "minutes": 2,
+  "environment": "val",
+  "related": [],
+  "problem": {
+   "headline": "A fix made by hand at night vanishes in the next release",
+   "story": "On a Friday night a customer table in production is missing a column that support needs. An engineer adds it\nby hand, directly in the live database, and goes to bed. Nobody writes it down. Three weeks later a normal\nrelease rebuilds the table from the code, and the column silently disappears.",
+   "cost": "Support loses a column they relied on for 3 weeks, and nobody can say why it stopped working.",
+   "visual": {
+    "type": "timeline",
+    "days": [
+     {
+      "label": "Fri night",
+      "state": "warn",
+      "note": "1 column added by hand"
+     },
+     {
+      "label": "Mon",
+      "state": "ok",
+      "note": "Support uses the column"
+     },
+     {
+      "label": "Week 2",
+      "state": "ok",
+      "note": "Everything seems fine"
+     },
+     {
+      "label": "Week 3",
+      "state": "bad",
+      "note": "Normal release rebuilds the table"
+     },
+     {
+      "label": "Week 3",
+      "state": "bad",
+      "note": "The column is gone"
+     }
+    ],
+    "marker": {
+     "after": 0,
+     "label": "Nobody wrote it down"
+    },
+    "caption": "The fix worked for 3 weeks, but only the engineer knew about it."
+   }
+  },
+  "idea": {
+   "headline": "Before every release the stack compares the real database with the code",
+   "points": [
+    "The first thing a release does is look for any [[hand-made change]] in the real database.",
+    "If it finds one, it stops before anything is built and names the table, the person and the time.",
+    "The change must first be put into the code, where it is recorded and reviewed. Then the release continues."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "release",
+      "label": "A release starts",
+      "state": "ok",
+      "note": "Before anything is built"
+     },
+     {
+      "id": "check",
+      "label": "The comparison",
+      "state": "fix",
+      "note": "Real database against the code"
+     },
+     {
+      "id": "found",
+      "label": "Hand-made change found",
+      "state": "warn",
+      "note": "Names table, person and time"
+     },
+     {
+      "id": "build",
+      "label": "The build",
+      "state": "ok",
+      "note": "Only when nothing was found"
+     }
+    ],
+    "links": [
+     [
+      "release",
+      "check"
+     ],
+     [
+      "check",
+      "found"
+     ],
+     [
+      "check",
+      "build"
+     ]
+    ],
+    "caption": "The release refuses to run over something it does not know about."
+   }
+  },
+  "code": [
+   {
+    "title": "The check looks at who last changed each table",
+    "file": "macros/ops/audit_environment_drift.sql",
+    "language": "jinja-sql",
+    "lines": [
+     {
+      "n": 122,
+      "text": "                {% if creator not in service_accounts or alterer not in service_accounts %}",
+      "note": "A table last changed by a person, not by a robot, is flagged."
+     },
+     {
+      "n": 123,
+      "text": "                    {% set who = (",
+      "note": "The check remembers who made the change."
+     },
+     {
+      "n": 124,
+      "text": "                        alterer"
+     },
+     {
+      "n": 125,
+      "text": "                        if alterer not in service_accounts"
+     },
+     {
+      "n": 126,
+      "text": "                        else creator",
+      "note": "If a robot changed it last, the robot's name is used instead."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/macros/ops/audit_environment_drift.sql#L122-L126",
+    "file_label": "The comparison instructions"
+   },
+   {
+    "title": "A finding stops the release",
+    "file": "macros/ops/audit_environment_drift.sql",
+    "language": "jinja-sql",
+    "lines": [
+     {
+      "n": 290,
+      "text": "    {% if findings and fail_on_drift %}",
+      "note": "If anything was found, the check fails on purpose."
+     },
+     {
+      "n": 291,
+      "text": "        {% do exceptions.raise_compiler_error("
+     },
+     {
+      "n": 292,
+      "text": "            \"Environment drift: \""
+     },
+     {
+      "n": 293,
+      "text": "            ~ (findings | length)"
+     },
+     {
+      "n": 294,
+      "text": "            ~ \" finding(s), see above. Production no longer matches Git: \"",
+      "note": "The message says plainly that the real database and the code have drifted apart."
+     },
+     {
+      "n": 295,
+      "text": "            ~ \"put the change in the project (or the grants in the grants script) first. To go ahead anyway: \""
+     },
+     {
+      "n": 296,
+      "text": "            ~ \"--args '{fail_on_drift: false}'\""
+     },
+     {
+      "n": 297,
+      "text": "        ) %}"
+     },
+     {
+      "n": 298,
+      "text": "    {% endif %}"
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/macros/ops/audit_environment_drift.sql#L290-L298",
+    "file_label": "The comparison instructions"
+   },
+   {
+    "title": "The check is the very first step of the release",
+    "file": "airflow/dags/dbt_release.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 448,
+      "text": "    drift_task = audit_environment_drift_task()"
+     },
+     {
+      "n": 449,
+      "text": "    pause_task = pause_daily_load_task()"
+     },
+     {
+      "n": 450,
+      "text": "    maintenance_task = run_operation__database_maintenance()"
+     },
+     {
+      "n": 451,
+      "text": "    cleanup_task = cleanup_artifacts_task()"
+     },
+     {
+      "n": 452,
+      "text": "    unpause_task = unpause_daily_load_task()"
+     },
+     {
+      "n": 453,
+      "text": ""
+     },
+     {
+      "n": 454,
+      "text": "    grants_task = _create_post_build_operation(\"run_operation__sync_grants\", \"sync_grants_with_singlestore\")"
+     },
+     {
+      "n": 455,
+      "text": "    orphans_task = _create_post_build_operation(\"run_operation__clean_orphaned_models\", \"clean_orphaned_models\")"
+     },
+     {
+      "n": 456,
+      "text": "    report_task = failure_report_task()"
+     },
+     {
+      "n": 457,
+      "text": ""
+     },
+     {
+      "n": 458,
+      "text": "    drift_task >> pause_task >> maintenance_task",
+      "note": "Everything else waits for this check. If it fails, nothing is paused, built or changed."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/dags/dbt_release.py#L448-L458",
+    "file_label": "The order of the release's steps"
+   }
+  ],
+  "demo": {
+   "intro": "Someone adds a column to a customer table by hand in validation. Then we start a release and watch it refuse to run. Getting ready takes about half a minute. Cleaning up afterwards rebuilds the customers table, so the next release check passes again.",
+   "steps": [
+    {
+     "id": "handfix",
+     "title": "Change a table by hand",
+     "say": "An engineer adds a column straight in the database, with no record in the code. It takes 2 seconds.",
+     "button": "Make the hand-made change",
+     "inputs": [],
+     "show": [
+      {
+       "type": "table",
+       "title": "Columns of the customers table",
+       "caption": "The new column is in the database but not in the code.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The customers table now has 1 column, hotfix_flag, that exists nowhere in the code.",
+     "usual_seconds": 0.3
+    },
+    {
+     "id": "release",
+     "title": "Start the release",
+     "say": "The release runs its first check. It takes about 20 seconds.",
+     "button": "Start the release",
+     "inputs": [],
+     "show": [
+      {
+       "type": "table",
+       "title": "Tables changed by a person",
+       "caption": "The first check reads who last changed each table. Only the stack's robots may.",
+       "before_of": null
+      },
+      {
+       "type": "tasks",
+       "title": "The release, step by step",
+       "caption": "Red is the first check. Every later step was skipped.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The release stopped at its first check and named the customers table and the person who changed it. Nothing was built or overwritten.",
+     "usual_seconds": 18.9
+    }
+   ]
+  },
+  "prepare_usual_seconds": 32.9
+ },
+ "numbered-versions": {
+  "id": "numbered-versions",
+  "group": "releases",
+  "title": "Every environment runs one exact, numbered version",
+  "promise": "The question 'which version is running in production?' always has one exact answer.",
+  "minutes": 3,
+  "environment": "dev",
+  "related": [],
+  "problem": {
+   "headline": "Nobody can say which version of the code runs in production",
+   "story": "On Tuesday the sales report shows odd figures. Support asks the developers: which version of the code produced\nthis? One developer thinks it is last week's, another thinks Monday's fix is already in. Three people spend the\nmorning comparing files by hand before they can even start looking for the cause.",
+   "cost": "Every problem takes hours longer to solve: three people spend a whole morning comparing files.",
+   "visual": {
+    "type": "timeline",
+    "days": [
+     {
+      "label": "Mon",
+      "state": "ok",
+      "note": "A fix is finished"
+     },
+     {
+      "label": "Tue 09:00",
+      "state": "bad",
+      "note": "Sales report looks odd"
+     },
+     {
+      "label": "Tue 09:30",
+      "state": "warn",
+      "note": "Which version is live?"
+     },
+     {
+      "label": "Tue 10:30",
+      "state": "warn",
+      "note": "3 people compare files"
+     },
+     {
+      "label": "Tue 12:00",
+      "state": "bad",
+      "note": "Still no certain answer"
+     }
+    ],
+    "marker": {
+     "after": 1,
+     "label": "The question nobody can answer"
+    },
+    "caption": "The search for the version costs more than the search for the cause."
+   }
+  },
+  "idea": {
+   "headline": "Every accepted change gets a number, and each environment runs one number",
+   "points": [
+    "Accepting a change gives it the next version number automatically, such as v1.0.1.",
+    "That number is turned into a sealed package of the code, and a sealed package never changes.",
+    "Each [[environment]] is told which number to run, so one glance answers the question."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "change",
+      "label": "Accepted change",
+      "state": "ok",
+      "note": "Looks the same as before"
+     },
+     {
+      "id": "number",
+      "label": "The next number",
+      "state": "fix",
+      "note": "Chosen automatically"
+     },
+     {
+      "id": "package",
+      "label": "Sealed package",
+      "state": "ok",
+      "note": "Never edited afterwards"
+     },
+     {
+      "id": "env",
+      "label": "Each environment",
+      "state": "ok",
+      "note": "Runs one named number"
+     }
+    ],
+    "links": [
+     [
+      "change",
+      "number"
+     ],
+     [
+      "number",
+      "package"
+     ],
+     [
+      "package",
+      "env"
+     ]
+    ],
+    "caption": "Like the edition number printed in a book."
+   }
+  },
+  "code": [
+   {
+    "title": "A new number is chosen after every accepted change",
+    "file": ".gitlab-ci.yml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 90,
+      "text": "    - latest_tag=$(git tag -l 'v*.*.*' | sort -V | tail -n 1)",
+      "note": "Find the highest number used so far."
+     },
+     {
+      "n": 91,
+      "text": "    - latest_tag=\"${latest_tag:-v1.0.0}\""
+     },
+     {
+      "n": 92,
+      "text": "    - IFS=. read -r major minor patch <<< \"$latest_tag\""
+     },
+     {
+      "n": 93,
+      "text": "    - last_merge_msg=$(git log -1 --pretty=%s)"
+     },
+     {
+      "n": 94,
+      "text": "    - |"
+     },
+     {
+      "n": 95,
+      "text": "      if [[ \"$last_merge_msg\" == *\"feature/\"* || \"$last_merge_msg\" == feat* ]]; then"
+     },
+     {
+      "n": 96,
+      "text": "        new_tag=\"${major}.$((minor + 1)).0\"",
+      "note": "A new feature moves the middle number up, for example v1.1.0."
+     },
+     {
+      "n": 97,
+      "text": "      else"
+     },
+     {
+      "n": 98,
+      "text": "        new_tag=\"${major}.${minor}.$((patch + 1))\"",
+      "note": "A small fix moves the last number up, for example v1.0.1."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/.gitlab-ci.yml#L90-L98",
+    "file_label": "The instructions for numbering a version"
+   },
+   {
+    "title": "The number becomes a sealed package",
+    "file": ".gitlab-ci.yml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 128,
+      "text": ".build-image:"
+     },
+     {
+      "n": 129,
+      "text": "  stage: build"
+     },
+     {
+      "n": 130,
+      "text": "  image: docker:27.3.1-cli",
+      "note": "This tool packs the code into one sealed package."
+     },
+     {
+      "n": 131,
+      "text": "  script:"
+     },
+     {
+      "n": 132,
+      "text": "    - docker build --build-arg GIT_TAG=\"$CI_COMMIT_TAG\" --build-arg GIT_COMMIT=\"$CI_COMMIT_SHA\" -t \"dbt-vdp:$CI_COMMIT_TAG\" .",
+      "note": "The package carries the number, and nobody edits it afterwards."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/.gitlab-ci.yml#L128-L132",
+    "file_label": "The instructions for packing a version"
+   },
+   {
+    "title": "Each environment looks up the number it must run",
+    "file": "airflow/utils/dbt_pod_utils.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 40,
+      "text": "def resolve_image() -> str:"
+     },
+     {
+      "n": 41,
+      "text": "    \"\"\"dbt-vdp:<Variable dbt_image_tag>. The tag is set by the deploy job; unset means nothing was deployed yet.\"\"\""
+     },
+     {
+      "n": 42,
+      "text": "    tag = str(get_variable(DBT_IMAGE_TAG_VARIABLE, \"\") or \"\").strip()",
+      "note": "Each environment keeps one setting with its version number."
+     },
+     {
+      "n": 43,
+      "text": "    if not tag:",
+      "note": "If no number was set, nothing runs. There is never a guess."
+     },
+     {
+      "n": 44,
+      "text": "        raise AirflowException("
+     },
+     {
+      "n": 45,
+      "text": "            f\"Airflow Variable '{DBT_IMAGE_TAG_VARIABLE}' is not set: no dbt image was deployed to '{ENV}' yet. \""
+     },
+     {
+      "n": 46,
+      "text": "            f\"Run the deploy job for a tag (it runs: airflow variables set {DBT_IMAGE_TAG_VARIABLE} <tag>).\""
+     },
+     {
+      "n": 47,
+      "text": "        )"
+     },
+     {
+      "n": 48,
+      "text": "    return f\"{DBT_IMAGE_REPOSITORY}:{tag}\"",
+      "note": "The package with exactly that number is the one that runs."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/utils/dbt_pod_utils.py#L40-L48",
+    "file_label": "How each environment picks its version"
+   }
+  ],
+  "demo": {
+   "intro": "First we read the numbers. Then one small change is proposed and accepted: development gets a new number while validation and production stay on theirs. Getting ready takes about half a minute.",
+   "steps": [
+    {
+     "id": "now",
+     "title": "Read the numbers",
+     "say": "One number per environment. That is the complete answer to: what is running where?",
+     "button": "Show what is running",
+     "inputs": [],
+     "show": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "caption": null,
+       "before_of": null
+      }
+     ],
+     "outcome": "Development, validation and production each run exactly one numbered version, v1.0.0.",
+     "usual_seconds": 3.6
+    },
+    {
+     "id": "propose",
+     "title": "Propose a small change",
+     "say": "The change only rewrites one description text, so it is harmless but visible.\nThe automatic rehearsal takes about 15 seconds. Nothing is live yet.\n",
+     "button": "Propose the change",
+     "inputs": [],
+     "show": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "caption": "Green means the change may be accepted.",
+       "before_of": null
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "caption": null,
+       "before_of": null
+      }
+     ],
+     "outcome": "The change passed its rehearsal. The numbers did not move: nothing is accepted yet.",
+     "usual_seconds": 13.5
+    },
+    {
+     "id": "accept",
+     "title": "Accept the change",
+     "say": "Accepting gives it a number, packs it and puts it live in development. This takes about 20 seconds:\npoint at the versions card, it changes by itself.\n",
+     "button": "Accept the change",
+     "inputs": [],
+     "show": [
+      {
+       "type": "pipeline",
+       "title": "Packing and putting live",
+       "caption": "The number v1.0.1 was chosen when the change was accepted.",
+       "before_of": null
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "caption": null,
+       "before_of": "propose"
+      }
+     ],
+     "outcome": "Development runs v1.0.1. Validation and production still run v1.0.0, and everybody can see which.",
+     "usual_seconds": 20.2
+    }
+   ]
+  },
+  "prepare_usual_seconds": 32.0
+ },
+ "one-team-not-ready": {
+  "id": "one-team-not-ready",
+  "group": "releases",
+  "title": "Take one team's change out of a release",
+  "promise": "When one team is not ready, only that team's change waits and the other team ships.",
+  "minutes": 3,
+  "environment": "val",
+  "related": [
+   {
+    "id": "numbered-versions",
+    "why": "Each finished change gets a version number. The unfinished one is taken out by its number."
+   }
+  ],
+  "problem": {
+   "headline": "One team's unfinished change holds back another team's finished one",
+   "story": "Two teams have finished their work and both changes sit in the next release, planned for tomorrow. Late today the\nreviews team finds that their figures are not yet right. The payments team is fine. Without a way to take out one\nchange, the choice is to delay everybody or to ship something unfinished.",
+   "cost": "Finance waits a whole release cycle for a payments overview that was ready, or marketing gets review numbers nobody trusts.",
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "pay",
+      "label": "Payments change",
+      "state": "ok",
+      "note": "Ready"
+     },
+     {
+      "id": "rev",
+      "label": "Reviews change",
+      "state": "bad",
+      "note": "Not ready"
+     },
+     {
+      "id": "release",
+      "label": "Release",
+      "state": "warn",
+      "note": "Planned for tomorrow"
+     },
+     {
+      "id": "live",
+      "label": "Go-live",
+      "state": "bad",
+      "note": "Delay everyone or ship both"
+     }
+    ],
+    "links": [
+     [
+      "pay",
+      "release"
+     ],
+     [
+      "rev",
+      "release"
+     ],
+     [
+      "release",
+      "live"
+     ]
+    ],
+    "caption": "Two changes, one release, one deadline."
+   }
+  },
+  "idea": {
+   "headline": "One team's change can be taken out, and the rest ships",
+   "points": [
+    "The release gets its own line of work, separate from the daily work, so the daily work never stops.",
+    "An unfinished change is taken out of the release only, by its version number, and stays in the daily work.",
+    "The release is checked again as a whole and goes live under its own number. The team that waited joins the next one."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "daily",
+      "label": "Daily work",
+      "state": "ok",
+      "note": "Holds both changes"
+     },
+     {
+      "id": "takeout",
+      "label": "Take one change out",
+      "state": "fix",
+      "note": "By its version number"
+     },
+     {
+      "id": "release",
+      "label": "The release",
+      "state": "ok",
+      "note": "Holds the finished change"
+     },
+     {
+      "id": "live",
+      "label": "Go-live",
+      "state": "ok",
+      "note": "Under its own number"
+     }
+    ],
+    "links": [
+     [
+      "daily",
+      "takeout"
+     ],
+     [
+      "takeout",
+      "release"
+     ],
+     [
+      "release",
+      "live"
+     ]
+    ],
+    "caption": "A release is a list of changes, and one item can be crossed off."
+   }
+  },
+  "code": [
+   {
+    "title": "The whole release is checked again after the change is taken out",
+    "file": ".gitlab-ci.yml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 69,
+      "text": "verify_release:"
+     },
+     {
+      "n": 70,
+      "text": "  extends: .verify-full",
+      "note": "A release is checked completely, not only the changed parts."
+     },
+     {
+      "n": 71,
+      "text": "  variables:"
+     },
+     {
+      "n": 72,
+      "text": "    VERIFY_SCHEMA: ci_release_verify"
+     },
+     {
+      "n": 73,
+      "text": "  rules:"
+     },
+     {
+      "n": 74,
+      "text": "    - if: '$CI_COMMIT_BRANCH =~ /^release\\/[0-9]{4}-Q[1-4]$/ && $CI_PIPELINE_SOURCE == \"push\"'",
+      "note": "Any line of work named release/<year>-<quarter> gets this check automatically."
+     },
+     {
+      "n": 75,
+      "text": "    - if: '$CI_PIPELINE_SOURCE == \"merge_request_event\" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == \"main\"'"
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/.gitlab-ci.yml#L69-L75",
+    "file_label": "The instructions for the automatic checks"
+   },
+   {
+    "title": "Going live gives the release its own number",
+    "file": ".gitlab-ci.yml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 110,
+      "text": "    - release_name=$(git log -1 --pretty=%s | grep -oP \"release/\\K[^ ']+\" || echo \"\")",
+      "note": "The release name, for example 2026-Q4, is read from the message of the final step."
+     },
+     {
+      "n": 111,
+      "text": "    - |"
+     },
+     {
+      "n": 112,
+      "text": "      if [ -z \"$release_name\" ]; then"
+     },
+     {
+      "n": 113,
+      "text": "        latest_rel=$(git tag -l | grep -E '^[0-9]{4}-Q[1-4]\\.' | sort -V | tail -n 1 | awk -F. '{print $1}')"
+     },
+     {
+      "n": 114,
+      "text": "        release_name=\"${latest_rel:-$(date +%Y)-Q1}\""
+     },
+     {
+      "n": 115,
+      "text": "      fi"
+     },
+     {
+      "n": 116,
+      "text": "    - existing_tag=$(git tag -l \"${release_name}.*\" | sort -V | tail -n 1)",
+      "note": "It looks for earlier numbers of the same release."
+     },
+     {
+      "n": 117,
+      "text": "    - |"
+     },
+     {
+      "n": 118,
+      "text": "      if [ -z \"$existing_tag\" ]; then"
+     },
+     {
+      "n": 119,
+      "text": "        new_tag=\"${release_name}.0\"",
+      "note": "The first time, the release is numbered .0. Later fixes count up."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/.gitlab-ci.yml#L110-L119",
+    "file_label": "The instructions for numbering a release"
+   }
+  ],
+  "demo": {
+   "intro": "Two teams have each finished a change, and both are in the daily work. We build the release without the team that is not ready, and put it live. Getting ready takes a minute or two (both teams deliver): do it before the audience watches.",
+   "steps": [
+    {
+     "id": "takeout",
+     "title": "Build the release without the unfinished team",
+     "say": "Both changes are in the daily work: development runs v1.2.0. Pick the team that is not ready. The release gets\nits own line of work, that change is taken out of it, and the whole release is checked again. About 30 seconds.\n",
+     "button": "Build the release",
+     "inputs": [
+      {
+       "id": "not_ready",
+       "type": "choice",
+       "label": "Which team is not ready?",
+       "help": "The change is taken out by its version number.",
+       "mark": null,
+       "default": "v1.2.0",
+       "min": null,
+       "max": null,
+       "step": null,
+       "unit": null,
+       "options": [
+        {
+         "value": "v1.1.0",
+         "label": "The payments team"
+        },
+        {
+         "value": "v1.2.0",
+         "label": "The reviews team"
+        }
+       ]
+      }
+     ],
+     "show": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "caption": "The daily work keeps both changes.",
+       "before_of": null
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "caption": "Green means the release without that change is sound.",
+       "before_of": null
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "caption": null,
+       "before_of": null
+      }
+     ],
+     "outcome": "The release holds the daily work minus the chosen team's change. Development still runs both changes.",
+     "usual_seconds": 28.2
+    },
+    {
+     "id": "golive",
+     "title": "Put the release live",
+     "say": "The finished line of work becomes the release. It gets its own number and goes live in validation.\nProduction is a deliberate, manual last step, which we leave alone. About 20 seconds.\n",
+     "button": "Put it live",
+     "inputs": [],
+     "show": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "caption": "The change that was taken out is not part of it.",
+       "before_of": null
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "caption": "Production waits for a person.",
+       "before_of": null
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "caption": null,
+       "before_of": "takeout"
+      }
+     ],
+     "outcome": "The release is numbered 2026-Q4.0 and runs in validation. The team that was not ready is not in it.",
+     "usual_seconds": 20.4
+    }
+   ]
+  },
+  "prepare_usual_seconds": 76.9
+ },
+ "right-keys-only": {
+  "id": "right-keys-only",
+  "group": "releases",
+  "title": "The robot that builds development cannot touch production",
+  "promise": "Each environment has its own robot with keys to its own rooms only, so a mix-up cannot damage production.",
+  "minutes": 2,
+  "environment": "prd",
+  "related": [],
+  "problem": {
+   "headline": "A testing robot pointed at production empties the real customer list",
+   "story": "The program that builds the test copy of the system has one set of keys that open every door. One afternoon its\nsettings are copied from a test setup to the real one by mistake. At night it does what it is told, in the wrong\nplace: the real customers table is rebuilt from test data, and customer service sees an empty list.",
+   "cost": "Customer service cannot look anyone up until the real table is restored, and customers notice.",
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "cfg",
+      "label": "Test settings",
+      "state": "warn",
+      "note": "Copied to the real system by mistake"
+     },
+     {
+      "id": "robot",
+      "label": "Build robot",
+      "state": "warn",
+      "note": "Has keys to every door"
+     },
+     {
+      "id": "prod",
+      "label": "Real customers table",
+      "state": "bad",
+      "note": "Rebuilt from test data"
+     },
+     {
+      "id": "service",
+      "label": "Customer service",
+      "state": "bad",
+      "note": "Empty customer list"
+     }
+    ],
+    "links": [
+     [
+      "cfg",
+      "robot"
+     ],
+     [
+      "robot",
+      "prod"
+     ],
+     [
+      "prod",
+      "service"
+     ]
+    ],
+    "caption": "One wrong setting is enough, when the keys open everything."
+   }
+  },
+  "idea": {
+   "headline": "Every robot's keys open only its own environment",
+   "points": [
+    "Development, validation and production each have their own [[robot account]], and the development robot has no key for production.",
+    "People get their own keys too: they can work in development and only look in validation and production.",
+    "A mistake becomes a refusal with a clear message, instead of damage."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "robot",
+      "label": "Development robot",
+      "state": "ok",
+      "note": "Builds the test copy"
+     },
+     {
+      "id": "keys",
+      "label": "Keys per environment",
+      "state": "fix",
+      "note": "Open only their own rooms"
+     },
+     {
+      "id": "dev",
+      "label": "Development",
+      "state": "ok",
+      "note": "Allowed"
+     },
+     {
+      "id": "prod",
+      "label": "Production",
+      "state": "ok",
+      "note": "Refused, nothing touched"
+     }
+    ],
+    "links": [
+     [
+      "robot",
+      "keys"
+     ],
+     [
+      "keys",
+      "dev"
+     ],
+     [
+      "keys",
+      "prod"
+     ]
+    ],
+    "caption": "The safety does not depend on anyone remembering to be careful."
+   }
+  },
+  "code": [
+   {
+    "title": "What each environment's robot may do",
+    "file": "../infrastructure/singlestore/init_env.sql.tmpl",
+    "language": "text",
+    "lines": [
+     {
+      "n": 23,
+      "text": "-- 3. Grants, per database",
+      "note": "This block is applied separately to each environment, so each robot only gets its own rights."
+     },
+     {
+      "n": 24,
+      "text": "GRANT ALL PRIVILEGES ON __ENV___landing.* TO ROLE '__ENV___admin';"
+     },
+     {
+      "n": 25,
+      "text": "GRANT SELECT, SHOW VIEW ON __ENV___landing.* TO ROLE '__ENV___reader';"
+     },
+     {
+      "n": 26,
+      "text": "GRANT SELECT, SHOW VIEW ON __ENV___landing.* TO ROLE '__ENV___dbt';",
+      "note": "The robot may only read the incoming data. It builds the reports."
+     },
+     {
+      "n": 27,
+      "text": "GRANT ALL PRIVILEGES ON __ENV___edw_dv_rdv.* TO ROLE '__ENV___admin';"
+     },
+     {
+      "n": 28,
+      "text": "GRANT SELECT, SHOW VIEW ON __ENV___edw_dv_rdv.* TO ROLE '__ENV___reader';"
+     },
+     {
+      "n": 29,
+      "text": "GRANT ALL PRIVILEGES ON __ENV___edw_dv_rdv.* TO ROLE '__ENV___dbt';"
+     },
+     {
+      "n": 30,
+      "text": "GRANT ALL PRIVILEGES ON __ENV___edw_dv_bdv.* TO ROLE '__ENV___admin';"
+     },
+     {
+      "n": 31,
+      "text": "GRANT SELECT, SHOW VIEW ON __ENV___edw_dv_bdv.* TO ROLE '__ENV___reader';"
+     },
+     {
+      "n": 32,
+      "text": "GRANT ALL PRIVILEGES ON __ENV___edw_dv_bdv.* TO ROLE '__ENV___dbt';"
+     }
+    ],
+    "gitlab_url": "",
+    "file_label": "The database setup, written once for every environment"
+   },
+   {
+    "title": "The robot belongs to one environment",
+    "file": "../infrastructure/singlestore/init_env.sql.tmpl",
+    "language": "text",
+    "lines": [
+     {
+      "n": 40,
+      "text": "-- 4. Service user (dbt in CI and Airflow)"
+     },
+     {
+      "n": 41,
+      "text": "CREATE USER IF NOT EXISTS 'svc___ENV___dbt'@'%' IDENTIFIED BY 'CiServicePwd2026!';",
+      "note": "One robot account per environment, with its own name."
+     },
+     {
+      "n": 42,
+      "text": "GRANT GROUP 'grp___ENV___dbt' TO 'svc___ENV___dbt'@'%';",
+      "note": "It receives the keys of its own environment and nothing else."
+     }
+    ],
+    "gitlab_url": "",
+    "file_label": "The database setup, written once for every environment"
+   },
+   {
+    "title": "People may write in development only",
+    "file": "../infrastructure/singlestore/init_global.sql",
+    "language": "sql",
+    "lines": [
+     {
+      "n": 18,
+      "text": "-- 4. Developer role: same rights as dev_dbt (dev databases only)"
+     },
+     {
+      "n": 19,
+      "text": "CREATE ROLE 'dev_developer';"
+     },
+     {
+      "n": 20,
+      "text": "CREATE GROUP 'grp_dev_developer';"
+     },
+     {
+      "n": 21,
+      "text": "GRANT ROLE 'dev_developer' TO 'grp_dev_developer';"
+     },
+     {
+      "n": 22,
+      "text": "GRANT ALL PRIVILEGES ON dev_edw_dv_rdv.* TO ROLE 'dev_developer';"
+     },
+     {
+      "n": 23,
+      "text": "GRANT ALL PRIVILEGES ON dev_edw_dv_bdv.* TO ROLE 'dev_developer';"
+     },
+     {
+      "n": 24,
+      "text": "GRANT ALL PRIVILEGES ON dev_im_dimensional.* TO ROLE 'dev_developer';",
+      "note": "Developers may create and change anything in development."
+     },
+     {
+      "n": 25,
+      "text": "GRANT ALL PRIVILEGES ON dev_vdp_mgmt.* TO ROLE 'dev_developer';"
+     },
+     {
+      "n": 26,
+      "text": "GRANT SELECT, SHOW VIEW ON dev_landing.* TO ROLE 'dev_developer';",
+      "note": "Even there they may only read the incoming data."
+     }
+    ],
+    "gitlab_url": "",
+    "file_label": "The database setup for people"
+   }
+  ],
+  "demo": {
+   "intro": "The development robot tries to write into production and is refused. The production robot may. A developer can look at production but not write. Getting ready takes about half a minute.",
+   "steps": [
+    {
+     "id": "devrobot",
+     "title": "The development robot tries to write into production",
+     "say": "This is the mistake from the story, a development robot pointed at production. It takes 2 seconds.",
+     "button": "Try it",
+     "inputs": [],
+     "show": [
+      {
+       "type": "result",
+       "title": "The answer from the database",
+       "caption": "Refused. Nothing was created.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The database refused the development robot and named the production tables it may not change. Nothing was created.",
+     "usual_seconds": 0.0
+    },
+    {
+     "id": "prdrobot",
+     "title": "The production robot works in production",
+     "say": "The right robot with the right keys, in its own environment, is allowed.",
+     "button": "Try it",
+     "inputs": [],
+     "show": [
+      {
+       "type": "result",
+       "title": "The answer from the database",
+       "caption": "Allowed. The table is removed again when the demo is cleaned up.",
+       "before_of": "devrobot"
+      }
+     ],
+     "outcome": "The production robot may write in production, and only there.",
+     "usual_seconds": 0.0
+    },
+    {
+     "id": "people",
+     "title": "A developer looks at production, and tries to write",
+     "say": "Developers may read production, which helps them investigate. They may not change it.",
+     "button": "Try both",
+     "inputs": [],
+     "show": [
+      {
+       "type": "number",
+       "title": "Customers a developer can see in production",
+       "caption": "Reading is allowed.",
+       "before_of": null
+      },
+      {
+       "type": "result",
+       "title": "The answer to the write attempt",
+       "caption": "Writing is refused.",
+       "before_of": null
+      }
+     ],
+     "outcome": "Reading was allowed and writing was refused. Looking is safe, changing is not possible.",
+     "usual_seconds": 0.0
+    }
+   ]
+  },
+  "prepare_usual_seconds": 30.6
+ },
+ "every-run-on-record": {
+  "id": "every-run-on-record",
+  "group": "daily",
+  "title": "Every run and every check is written down",
+  "promise": "The question \"what ran last night, how long did it take, what failed\" always has an answer, in plain tables.",
+  "minutes": 4,
+  "environment": "dev",
+  "related": [
+   {
+    "id": "one-clear-mail",
+    "why": "The mail reports tonight's failure; the record keeps the history of every night."
+   }
+  ],
+  "problem": {
+   "headline": "Nobody can say what ran last night or how long it took",
+   "story": "One morning the management report is late. The manager asks: did the night run? How long did it take? Did a\ncheck fail? Nobody knows. The answers are in the [[log]], which is thrown away after a few days, so the team can\nonly guess. A table that gets a little slower every week goes unnoticed until the night no longer finishes\nbefore morning.",
+   "cost": "The team has to search for every answer about last night, and slow tables are found only when the morning report is late.",
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "run",
+      "label": "The night runs",
+      "state": "ok",
+      "note": "Every night"
+     },
+     {
+      "id": "logs",
+      "label": "The log",
+      "state": "warn",
+      "note": "Thrown away after a few days"
+     },
+     {
+      "id": "question",
+      "label": "Was it slow?",
+      "state": "bad",
+      "note": "Nobody knows"
+     }
+    ],
+    "links": [
+     [
+      "run",
+      "logs"
+     ],
+     [
+      "logs",
+      "question"
+     ]
+    ],
+    "caption": "Without a record, the past is gone."
+   }
+  },
+  "idea": {
+   "headline": "Every step and every check is written down when the night ends",
+   "points": [
+    "At the end of each night, every step and check is added to one table: its name, result, time and rows.",
+    "The table sits next to the data, so anyone allowed to read the reports can ask it questions.",
+    "Two ready-made lists are built on it: today's failed checks and the slowest tables."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "end",
+      "label": "The night ends",
+      "state": "ok",
+      "note": "Every step and check has a result"
+     },
+     {
+      "id": "record",
+      "label": "One row per step and check",
+      "state": "fix",
+      "note": "Name, result, time, rows"
+     },
+     {
+      "id": "failed",
+      "label": "Today's failed checks",
+      "state": "ok",
+      "note": "A ready-made list"
+     },
+     {
+      "id": "slow",
+      "label": "The slowest tables",
+      "state": "ok",
+      "note": "A ready-made list"
+     }
+    ],
+    "links": [
+     [
+      "end",
+      "record"
+     ],
+     [
+      "record",
+      "failed"
+     ],
+     [
+      "record",
+      "slow"
+     ]
+    ],
+    "caption": "The record turns \"I think so\" into a number."
+   }
+  },
+  "code": [
+   {
+    "title": "The end of every run triggers the writing",
+    "file": "dbt_project.yml",
+    "language": "yaml",
+    "lines": [
+     {
+      "n": 32,
+      "text": "on-run-end:",
+      "note": "As soon as a run is over, whatever happened is written down."
+     },
+     {
+      "n": 33,
+      "text": "  - \"{% if env_var('LOG_RUN_RESULTS', '') == 'TRUE' and target.name == 'run'%}{{ log_dbt_results(results) }}{% endif %}\"",
+      "note": "Only the real nightly runs are written down, not experiments."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/dbt_project.yml#L32-L33",
+    "file_label": "The settings of the whole project"
+   },
+   {
+    "title": "One row per step and per check",
+    "file": "macros/utils/log_dbt_results.sql",
+    "language": "sql",
+    "lines": [
+     {
+      "n": 22,
+      "text": "                        resource_type,"
+     },
+     {
+      "n": 23,
+      "text": "                        materialized,"
+     },
+     {
+      "n": 24,
+      "text": "                        status,",
+      "note": "Whether the step or check passed, warned or failed."
+     },
+     {
+      "n": 25,
+      "text": "                        failures,",
+      "note": "For a check, how many rows failed it."
+     },
+     {
+      "n": 26,
+      "text": "                        execution_time,",
+      "note": "How long it took."
+     },
+     {
+      "n": 27,
+      "text": "                        started_at,"
+     },
+     {
+      "n": 28,
+      "text": "                        completed_at,"
+     },
+     {
+      "n": 29,
+      "text": "                        rows_affected,",
+      "note": "How many rows it touched."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/macros/utils/log_dbt_results.sql#L22-L29",
+    "file_label": "The code that writes the record"
+   },
+   {
+    "title": "A ready-made list of today's failed checks",
+    "file": "models/dbt_active_test_failures/dbt_active_test_failures.sql",
+    "language": "jinja-sql",
+    "lines": [
+     {
+      "n": 15,
+      "text": "        from {{ source(\"vdp_mgmt\", \"dbt_run_results\") }}",
+      "note": "It reads the record of every step and check."
+     },
+     {
+      "n": 16,
+      "text": "        where resource_type = 'test' and run_started_at >= current_date()",
+      "note": "Only today's checks count; yesterday stays in the record, not in this list."
+     },
+     {
+      "n": 17,
+      "text": "    )"
+     },
+     {
+      "n": 18,
+      "text": "select"
+     },
+     {
+      "n": 19,
+      "text": "    file_path,"
+     },
+     {
+      "n": 20,
+      "text": "    name,"
+     },
+     {
+      "n": 21,
+      "text": "    status,"
+     },
+     {
+      "n": 22,
+      "text": "    case when failures regexp '^[0-9]+$' then failures :> int(4) end as failures,"
+     },
+     {
+      "n": 23,
+      "text": "    run_started_at,"
+     },
+     {
+      "n": 24,
+      "text": "    execution_time :> decimal(10, 2) as execution_time_seconds"
+     },
+     {
+      "n": 25,
+      "text": "from ranked"
+     },
+     {
+      "n": 26,
+      "text": "where run_rank = 1 and status in ('fail', 'error', 'warn')",
+      "note": "Only checks that failed, errored or warned are listed."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/models/dbt_active_test_failures/dbt_active_test_failures.sql#L15-L26",
+    "file_label": "The recipe for the list of failed checks"
+   }
+  ],
+  "demo": {
+   "intro": "We run the nightly load, then read the record. The documentation site for development is at http://localhost:8081.",
+   "steps": [
+    {
+     "id": "run",
+     "title": "Run the nightly load",
+     "say": "Say: a normal night. Afterwards we look at what was written down. Takes about 20 seconds.",
+     "button": "Run the nightly load",
+     "inputs": [],
+     "show": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "caption": "Newest first: the top line is the night you just ran.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The night you just ran is at the top of the list with its result.",
+     "usual_seconds": 17.6
+    },
+    {
+     "id": "read",
+     "title": "Read the record",
+     "say": "Say: one row for every step and every check, with the seconds it took. The documentation site at http://localhost:8081 shows the same shop as pictures. This step is instant.",
+     "button": "Show the record",
+     "inputs": [],
+     "show": [
+      {
+       "type": "table",
+       "title": "The latest steps and checks",
+       "caption": "Tables the night builds and checks on the data are listed together; the Kind column tells them apart.",
+       "before_of": null
+      },
+      {
+       "type": "table",
+       "title": "The slowest tables",
+       "caption": "Only tables that take over a minute appear here, slowest first.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The list shows the latest 12 steps and checks with their result and seconds: the answer to \"what ran last night, and how long\" is one look.",
+     "usual_seconds": 1.1
+    },
+    {
+     "id": "failure",
+     "title": "A failed check stays on file",
+     "say": "Say: orders arrive with 3 missing order numbers, the night fails, and the failed check is added to the record. Takes about 15 seconds.",
+     "button": "Make the night fail",
+     "inputs": [],
+     "show": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "caption": "Read from the record, one line per failed check.",
+       "before_of": null
+      }
+     ],
+     "outcome": null,
+     "usual_seconds": 14.7
+    }
+   ]
+  },
+  "prepare_usual_seconds": 32.1
+ },
+ "one-clear-mail": {
+  "id": "one-clear-mail",
+  "group": "daily",
+  "title": "A failed night produces one clear mail",
+  "promise": "When the nightly load fails, the team gets one short mail that says what failed, not a wall of text.",
+  "minutes": 3,
+  "environment": "dev",
+  "related": [
+   {
+    "id": "redo-only-what-failed",
+    "why": "After reading the mail and fixing the cause, only the failed part is run again."
+   }
+  ],
+  "problem": {
+   "headline": "The night fails, and the cause is buried in hundreds of lines",
+   "story": "At 03:10 the nightly load stops. In the morning the person on duty opens the [[log]]: hundreds of lines from a\ndozen steps, with the one line that matters somewhere in the middle. Twenty minutes later it is clear that three\norders have no order number. By then the reports have been wrong for hours, and colleagues are asking in the\nchat what happened.",
+   "cost": "Every failure costs the person on duty about 20 minutes of reading before anyone can start fixing.",
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "fail",
+      "label": "The night fails",
+      "state": "bad",
+      "note": "03:10"
+     },
+     {
+      "id": "logs",
+      "label": "Hundreds of log lines",
+      "state": "warn",
+      "note": "One line matters"
+     },
+     {
+      "id": "find",
+      "label": "Someone searches",
+      "state": "warn",
+      "note": "About 20 minutes"
+     },
+     {
+      "id": "fix",
+      "label": "The fix starts",
+      "state": "idle",
+      "note": "Only after the search"
+     }
+    ],
+    "links": [
+     [
+      "fail",
+      "logs"
+     ],
+     [
+      "logs",
+      "find"
+     ],
+     [
+      "find",
+      "fix"
+     ]
+    ],
+    "caption": "Nothing tells the team where to look."
+   }
+  },
+  "idea": {
+   "headline": "One mail per failed night, with the answer at the top",
+   "points": [
+    "When any step fails, one last step collects what went wrong and writes it up.",
+    "The mail names the failed check and counts what succeeded, failed and was skipped.",
+    "It is sent once per night, however many steps failed, with the last 40 log lines below it."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "steps",
+      "label": "The steps of the night",
+      "state": "ok",
+      "note": "Any of them can fail"
+     },
+     {
+      "id": "last",
+      "label": "The last step",
+      "state": "fix",
+      "note": "Runs only after a failure"
+     },
+     {
+      "id": "mail",
+      "label": "One mail",
+      "state": "ok",
+      "note": "Failed check, counts, log lines"
+     },
+     {
+      "id": "team",
+      "label": "The team's inbox",
+      "state": "ok",
+      "note": "Read in one minute"
+     }
+    ],
+    "links": [
+     [
+      "steps",
+      "last"
+     ],
+     [
+      "last",
+      "mail"
+     ],
+     [
+      "mail",
+      "team"
+     ]
+    ],
+    "caption": "The mail does the reading so the team can do the fixing."
+   }
+  },
+  "code": [
+   {
+    "title": "A last step that runs only after a failure",
+    "file": "airflow/utils/dbt_dag_utils.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 156,
+      "text": "    @task(task_id=REPORT_TASK_ID, trigger_rule=\"one_failed\")",
+      "note": "On a good night this step stays idle; any failed step starts it."
+     },
+     {
+      "n": 157,
+      "text": "    def send_failure_report(**context):"
+     },
+     {
+      "n": 158,
+      "text": "        \"\"\"One mail: dbt findings of the failed task(s), run_results.json, the last log lines.\"\"\"",
+      "note": "It sends exactly one mail: the findings, the check results and the last log lines."
+     },
+     {
+      "n": 159,
+      "text": "        send_failure_report_for_run(context)"
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/utils/dbt_dag_utils.py#L156-L159",
+    "file_label": "Helpers for the steps of the nightly load"
+   },
+   {
+    "title": "It is attached to the end of the nightly load",
+    "file": "airflow/dags/dbt_daily_load.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 153,
+      "text": "    # 5. One failure report per run, whichever task failed",
+      "note": "One mail per night, whichever step failed."
+     },
+     {
+      "n": 154,
+      "text": "    [drift_task, build_task, freshness_task] >> failure_report_task()",
+      "note": "Every step of the night leads to the mail step, so any failure sends it."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/dags/dbt_daily_load.py#L153-L154",
+    "file_label": "The list of steps of the nightly load"
+   },
+   {
+    "title": "The subject line of the mail",
+    "file": "airflow/utils/dbt_failure_report.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 437,
+      "text": "def render_subject(report: Report, ctx: dict[str, Any]) -> str:",
+      "note": "This writes the subject line of the mail."
+     },
+     {
+      "n": 438,
+      "text": "    \"\"\"`[dev] Nightly load failed: 1 check failed, 12 tables skipped` (counts from the parsed log).\"\"\"",
+      "note": "The subject names the place, the job, and what failed or was skipped."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/utils/dbt_failure_report.py#L437-L438",
+    "file_label": "The code that writes the failure mail"
+   }
+  ],
+  "demo": {
+   "intro": "Three orders arrive without an order number. The nightly load fails, and then we open the mail it sends.",
+   "steps": [
+    {
+     "id": "fail",
+     "title": "The night fails",
+     "say": "Say: a check finds 3 orders without an order number and stops the night. Takes about 15 seconds.",
+     "button": "Run the nightly load",
+     "inputs": [],
+     "show": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "caption": "1 step failed. The last step, Sending the failure mail, writes the mail.",
+       "before_of": null
+      }
+     ],
+     "outcome": "1 step failed and the night stopped there; the last step then wrote the mail.",
+     "usual_seconds": 14.7
+    },
+    {
+     "id": "mail",
+     "title": "The mail in the inbox",
+     "say": "Say: this is all the person on duty receives. Point at the failed check near the top, and at the log lines far below. Takes a couple of seconds.",
+     "button": "Open the mail",
+     "inputs": [],
+     "show": [
+      {
+       "type": "mail",
+       "title": "The mail the team receives",
+       "caption": null,
+       "before_of": null
+      }
+     ],
+     "outcome": "The mail names the failed check near the top and keeps the last 40 log lines below it, which replaces 20 minutes of searching.",
+     "usual_seconds": 2.0
+    }
+   ]
+  },
+  "prepare_usual_seconds": 30.4
+ },
+ "rebuild-without-downtime": {
+  "id": "rebuild-without-downtime",
+  "group": "daily",
+  "title": "Rebuilding a big table while people keep reading it",
+  "promise": "A big table is rebuilt next to the old one and swapped in at once, so readers never see an empty table.",
+  "minutes": 4,
+  "environment": "dev",
+  "related": [],
+  "problem": {
+   "headline": "During the rebuild, finance sees an empty table, then a half-filled one",
+   "story": "The invoice table holds 100,000 rows and must be rebuilt after a correction. The usual way is to empty it and\nfill it again, and that takes ninety minutes. During those ninety minutes finance opens the report and sees 0\nrows, then 33,000, then 66,000. Someone sends a half-filled total to the bank. The correct number appears only\nwhen the rebuild is finished.",
+   "cost": "Finance works with a wrong total for ninety minutes, and nobody can tell how wrong it is.",
+   "visual": {
+    "type": "timeline",
+    "days": [
+     {
+      "label": "09:00",
+      "state": "ok",
+      "note": "100,000 rows"
+     },
+     {
+      "label": "09:01",
+      "state": "bad",
+      "note": "Emptied: 0 rows"
+     },
+     {
+      "label": "09:30",
+      "state": "bad",
+      "note": "Filling: 33,000 rows"
+     },
+     {
+      "label": "10:00",
+      "state": "bad",
+      "note": "Filling: 66,000 rows"
+     },
+     {
+      "label": "10:30",
+      "state": "ok",
+      "note": "Full again: 100,000 rows"
+     }
+    ],
+    "marker": {
+     "after": 0,
+     "label": "The rebuild starts"
+    },
+    "caption": "For ninety minutes nobody can trust the rows they see."
+   }
+  },
+  "idea": {
+   "headline": "Fill a new copy beside the old table, then swap it in",
+   "points": [
+    "The old table stays untouched and readable the whole time.",
+    "The new copy is filled part by part; if one part fails, only that part is repeated, in smaller pieces.",
+    "The new copy is checked first, and only then swapped for the old table, so readers notice nothing."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "old",
+      "label": "The old table",
+      "state": "ok",
+      "note": "Finance keeps reading it"
+     },
+     {
+      "id": "new",
+      "label": "The new copy",
+      "state": "ok",
+      "note": "Filled part by part"
+     },
+     {
+      "id": "check",
+      "label": "Checks",
+      "state": "ok",
+      "note": "Run before the swap"
+     },
+     {
+      "id": "swap",
+      "label": "The swap",
+      "state": "fix",
+      "note": "The new copy takes the old name"
+     }
+    ],
+    "links": [
+     [
+      "old",
+      "new"
+     ],
+     [
+      "new",
+      "check"
+     ],
+     [
+      "check",
+      "swap"
+     ]
+    ],
+    "caption": "Until the swap, everything readers see is the old, complete table."
+   }
+  },
+  "code": [
+   {
+    "title": "Each big table says how it can be cut into parts",
+    "file": "models/edw_dv_bdv/dummy_reload_hkey_mod.sql",
+    "language": "sql",
+    "lines": [
+     {
+      "n": 2,
+      "text": "    config("
+     },
+     {
+      "n": 3,
+      "text": "        materialized=\"incremental\","
+     },
+     {
+      "n": 4,
+      "text": "        unique_key=\"hkey_record\",",
+      "note": "Every row has its own key, and the parts are cut on that key."
+     },
+     {
+      "n": 5,
+      "text": "        meta={\"reload_strategy\": {\"type\": \"hkey_mod\", \"column\": \"hkey_record\"}},",
+      "note": "The table says it can be cut into equal parts, loaded one by one."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/models/edw_dv_bdv/dummy_reload_hkey_mod.sql#L2-L5",
+    "file_label": "The recipe for the practice table"
+   },
+   {
+    "title": "The swap is the only moment readers are affected",
+    "file": "macros/utils/reload_helpers.sql",
+    "language": "jinja-sql",
+    "lines": [
+     {
+      "n": 253,
+      "text": "                    \"alter table \" ~ names.orig ~ \" rename to \" ~ names.backup",
+      "note": "The old table is moved aside as a backup, not deleted."
+     },
+     {
+      "n": 254,
+      "text": "                ) %}"
+     },
+     {
+      "n": 255,
+      "text": "            {% endif %}"
+     },
+     {
+      "n": 256,
+      "text": "        {% endif %}"
+     },
+     {
+      "n": 257,
+      "text": "        {% do run_query(\"alter table \" ~ names.new ~ \" rename to \" ~ names.orig) %}",
+      "note": "The new copy takes over the old name."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/macros/utils/reload_helpers.sql#L253-L257",
+    "file_label": "Helpers for rebuilding a table"
+   },
+   {
+    "title": "The new copy is checked before the swap",
+    "file": "airflow/dags/dbt_reload.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 124,
+      "text": "    def test_green_table(**context):",
+      "note": "The new copy is checked before anyone is pointed at it."
+     },
+     {
+      "n": 125,
+      "text": "        if not _conf(context, \"run_tests\", True):"
+     },
+     {
+      "n": 126,
+      "text": "            raise AirflowSkipException(\"run_tests=False\")"
+     },
+     {
+      "n": 127,
+      "text": "        return build_reload_test_command("
+     },
+     {
+      "n": 128,
+      "text": "            _conf(context, \"model_name\"), os.path.join(_target_path(context), \"test\")"
+     },
+     {
+      "n": 129,
+      "text": "        )"
+     },
+     {
+      "n": 130,
+      "text": ""
+     },
+     {
+      "n": 131,
+      "text": "    @dbt_task(task_id=\"atomic_swap\", trigger_rule=\"none_failed_min_one_success\")"
+     },
+     {
+      "n": 132,
+      "text": "    def atomic_swap(**context):",
+      "note": "Only after the checks pass does the swap happen."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/dags/dbt_reload.py#L124-L132",
+    "file_label": "The list of steps of the rebuild"
+   }
+  ],
+  "demo": {
+   "intro": "We rebuild a practice table of 100,000 rows that stands in for the invoice table. You choose into how many parts the rebuild is cut. Watch the table people read and the new copy next to it.",
+   "steps": [
+    {
+     "id": "before",
+     "title": "The table everyone reads",
+     "say": "Say: this is the table finance reads, 100,000 rows. This step is instant.",
+     "button": "Show the table",
+     "inputs": [],
+     "show": [
+      {
+       "type": "number",
+       "title": "Rows people can read",
+       "caption": null,
+       "before_of": null
+      }
+     ],
+     "outcome": "People can read 100,000 rows. This is the number that must never look empty or half full.",
+     "usual_seconds": 1.0
+    },
+    {
+     "id": "rebuild",
+     "title": "Rebuild it in parts",
+     "say": "Say: we choose the number of parts; more parts means smaller steps. Keep your eye on the first number. Takes about 20 seconds.",
+     "button": "Rebuild the table",
+     "inputs": [
+      {
+       "id": "slices",
+       "type": "number",
+       "label": "Number of parts",
+       "help": "More parts means smaller steps, so a failed step costs less to redo.",
+       "mark": null,
+       "default": 4,
+       "min": 2,
+       "max": 8,
+       "step": 1.0,
+       "unit": "parts",
+       "options": null
+      }
+     ],
+     "show": [
+      {
+       "type": "number",
+       "title": "Rows people can read",
+       "caption": "The first number should stay at 100,000. The second is the new copy: it grows while the parts are loaded, then drops to 0 once it has taken over.",
+       "before_of": "before"
+      },
+      {
+       "type": "tasks",
+       "title": "The rebuild",
+       "caption": "One 'Loading one part' step is Done for each part you chose; unused spare steps are Skipped.",
+       "before_of": null
+      }
+     ],
+     "outcome": null,
+     "usual_seconds": 20.7
+    }
+   ]
+  },
+  "prepare_usual_seconds": 34.0
+ },
+ "redo-only-what-failed": {
+  "id": "redo-only-what-failed",
+  "group": "daily",
+  "title": "After a fix, only the failed part runs again",
+  "promise": "When a night fails and the cause is fixed, the retry redoes only what failed and what waits for it.",
+  "minutes": 4,
+  "environment": "dev",
+  "related": [
+   {
+    "id": "one-clear-mail",
+    "why": "The mail tells the team what failed, so they know what to fix before they retry."
+   }
+  ],
+  "problem": {
+   "headline": "Fixing three bad orders costs a whole second night of work",
+   "story": "The nightly load builds 28 tables. At 03:10 it stops because three orders have no order number. The cause is\nfixed in ten minutes, but the only way forward is to start the whole night again from the beginning. All 28\ntables are rebuilt, including the ones that were fine, and the management report is late for the morning\nmeeting.",
+   "cost": "Management waits for all 28 tables to be rebuilt after a ten-minute fix, and the morning meeting runs on old numbers.",
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "built",
+      "label": "28 tables built",
+      "state": "ok",
+      "note": "Most were fine"
+     },
+     {
+      "id": "fail",
+      "label": "1 check fails",
+      "state": "bad",
+      "note": "Fixed in 10 minutes"
+     },
+     {
+      "id": "again",
+      "label": "Start from zero",
+      "state": "warn",
+      "note": "All 28 tables again"
+     }
+    ],
+    "links": [
+     [
+      "built",
+      "fail"
+     ],
+     [
+      "fail",
+      "again"
+     ]
+    ],
+    "caption": "Everything is redone, even what was fine."
+   }
+  },
+  "idea": {
+   "headline": "A retry remembers what worked and redoes only the rest",
+   "points": [
+    "After every run, the result of every step is saved: what worked, what failed and what was skipped.",
+    "A retry reads that saved result and redoes only the failed step and whatever waits for it.",
+    "A brand-new night starts from the top, so a retry cannot mix in results from an old night."
+   ],
+   "visual": {
+    "type": "flow",
+    "nodes": [
+     {
+      "id": "first",
+      "label": "First attempt",
+      "state": "ok",
+      "note": "Some steps work, one fails"
+     },
+     {
+      "id": "saved",
+      "label": "The saved result",
+      "state": "fix",
+      "note": "What worked, failed, was skipped"
+     },
+     {
+      "id": "retry",
+      "label": "The retry",
+      "state": "ok",
+      "note": "Reads the saved result"
+     },
+     {
+      "id": "redone",
+      "label": "Redone",
+      "state": "ok",
+      "note": "The failed part and what waits for it"
+     }
+    ],
+    "links": [
+     [
+      "first",
+      "saved"
+     ],
+     [
+      "saved",
+      "retry"
+     ],
+     [
+      "retry",
+      "redone"
+     ]
+    ],
+    "caption": "The saved result of the first attempt is what makes the short retry possible."
+   }
+  },
+  "code": [
+   {
+    "title": "The second attempt knows it is a retry",
+    "file": "airflow/dags/dbt_daily_load.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 75,
+      "text": "        if ti.try_number > 1:",
+      "note": "From the second attempt on, the night knows it is a retry."
+     },
+     {
+      "n": 76,
+      "text": "            logger.warning("
+     },
+     {
+      "n": 77,
+      "text": "                f\"RETRY MODE (attempt {ti.try_number}): This task will execute 'dbt retry' \""
+     },
+     {
+      "n": 78,
+      "text": "                f\"using state artifacts from '{DAILY_ARTIFACTS_DIR}'. \"",
+      "note": "It looks for the saved results of the first attempt."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/dags/dbt_daily_load.py#L75-L78",
+    "file_label": "The list of steps of the nightly load"
+   },
+   {
+    "title": "A retry becomes a different command",
+    "file": "airflow/utils/dbt_command_utils.py",
+    "language": "python",
+    "lines": [
+     {
+      "n": 126,
+      "text": "    if try_number > 1:"
+     },
+     {
+      "n": 127,
+      "text": "        cmd = ["
+     },
+     {
+      "n": 128,
+      "text": "            \"dbt\","
+     },
+     {
+      "n": 129,
+      "text": "            \"retry\",",
+      "note": "Instead of building everything, the command retries only what did not succeed."
+     },
+     {
+      "n": 130,
+      "text": "            \"--state\","
+     },
+     {
+      "n": 131,
+      "text": "            state_dir,",
+      "note": "It reads the saved results from where the first attempt left them."
+     }
+    ],
+    "gitlab_url": "http://gitlab.local/workshop/dbt-vdp/-/blob/dev/airflow/utils/dbt_command_utils.py#L126-L131",
+    "file_label": "Helpers that build the nightly command"
+   }
+  ],
+  "demo": {
+   "intro": "We make the nightly load fail on three bad orders, fix them, and retry. Watch how little runs the second time.",
+   "steps": [
+    {
+     "id": "fail",
+     "title": "The night fails",
+     "say": "Say: 3 orders have no order number, so a check stops the night. Takes about 15 seconds.",
+     "button": "Run the nightly load",
+     "inputs": [],
+     "show": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "caption": "1 step failed: the one that builds the reports.",
+       "before_of": null
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "caption": "The first night: 28 tables built, 21 checks, 1 problem.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The first night built 28 tables and ran 21 checks, and 1 check failed.",
+     "usual_seconds": 14.7
+    },
+    {
+     "id": "fix",
+     "title": "Fix the delivery",
+     "say": "Say: the sender corrects the file. Here we simply remove the 3 bad orders from the delivered orders. This is instant.",
+     "button": "Remove the bad orders",
+     "inputs": [],
+     "show": [
+      {
+       "type": "number",
+       "title": "Orders without an order number",
+       "caption": null,
+       "before_of": null
+      }
+     ],
+     "outcome": "The cause is gone, 0 orders without an order number are left. Only the retry remains.",
+     "usual_seconds": 0.0
+    },
+    {
+     "id": "retry",
+     "title": "Retry",
+     "say": "Say: we do not start over. We ask for a retry and watch how little runs. Takes about 5 seconds.",
+     "button": "Retry only what failed",
+     "inputs": [],
+     "show": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "caption": "No step is red after the retry.",
+       "before_of": "fail"
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "caption": "Top line: the retry, 4 tables built and 3 checks. Line below: the first night, 28 tables and 21 checks.",
+       "before_of": null
+      }
+     ],
+     "outcome": "The retry built 4 tables and ran 3 checks instead of 28 and 21, and the night is green.",
+     "usual_seconds": 5.8
+    }
+   ]
+  },
+  "prepare_usual_seconds": 28.6
+ }
+}

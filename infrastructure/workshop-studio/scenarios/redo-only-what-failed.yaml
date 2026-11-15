@@ -1,0 +1,117 @@
+id: redo-only-what-failed
+group: daily
+title: After a fix, only the failed part runs again
+promise: When a night fails and the cause is fixed, the retry redoes only what failed and what waits for it.
+minutes: 4
+environment: dev
+related:
+  - id: one-clear-mail
+    why: The mail tells the team what failed, so they know what to fix before they retry.
+
+problem:
+  headline: Fixing three bad orders means rebuilding everything from zero
+  story: |
+    The nightly load has 28 tables. At 03:10 it stops because three orders have no order number. The cause is fixed
+    in ten minutes, but the only way forward is to start the whole night again, so the 24 tables that were already
+    fine are rebuilt too, and the management report is late for the morning meeting.
+  cost: Management waits for a full rebuild of all 28 tables after a ten-minute fix, and the morning meeting runs on old numbers.
+  visual:
+    type: flow
+    nodes:
+      - {id: built, label: 24 of 28 tables built, state: ok, note: "Most were fine"}
+      - {id: fail, label: 1 check fails, state: bad, note: "Fixed in 10 minutes"}
+      - {id: again, label: Start from zero, state: warn, note: "All 28 tables again"}
+    links: [[built, fail], [fail, again]]
+    caption: Everything is redone, even what was fine.
+
+idea:
+  headline: A retry remembers what worked and redoes only the rest
+  points:
+    - "After every run, the result of every step is saved: what worked, what failed and what was skipped."
+    - A retry reads that saved result and redoes only the failed step and whatever waits for it.
+    - A brand-new night starts from the top, so a retry cannot mix in results from an old night.
+  visual:
+    type: flow
+    nodes:
+      - {id: first, label: First attempt, state: ok, note: "Some steps work, one fails"}
+      - {id: saved, label: The saved result, state: fix, note: "What worked, failed, was skipped"}
+      - {id: retry, label: The retry, state: ok, note: "Reads the saved result"}
+      - {id: redone, label: Redone, state: ok, note: "The failed part and what waits for it"}
+    links: [[first, saved], [saved, retry], [retry, redone]]
+    caption: The saved result of the first attempt is what makes the short retry possible.
+
+code:
+  - title: The attempt number and the saved results are passed on
+    file: airflow/dags/dbt_daily_load.py
+    file_label: The list of steps of the nightly load
+    from: "cmd = build_daily_load_command("
+    to: "        )"
+    max_lines: 10
+    notes:
+      - line: "try_number=ti.try_number"
+        says: The command is told which attempt this is.
+      - line: "state_dir=DAILY_ARTIFACTS_DIR"
+        says: It also learns where the first attempt left its saved results.
+
+  - title: A retry becomes a different command
+    file: airflow/utils/dbt_command_utils.py
+    file_label: Helpers that build the nightly command
+    from: "if try_number > 1:"
+    to: "        ]"
+    max_lines: 10
+    notes:
+      - line: "\"retry\","
+        says: Instead of building everything, the command retries only what did not succeed.
+      - line: "state_dir,"
+        says: It reads the saved results from where the first attempt left them.
+
+demo:
+  intro: We make the nightly load fail on three bad orders, fix them, and retry. Watch how little runs the second time.
+  setup:
+    - {action: feed.condition, feed: orders, set: {bad_rows: 3}}
+    - {action: feed.deliver, days: 1}
+  steps:
+    - id: fail
+      title: The night fails
+      say: 3 orders have no order number, so a check stops the night.
+      button: Run the nightly load
+      inputs: []
+      do:
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: failed}
+      show:
+        - {type: tasks, dag: dbt_daily_load, title: The nightly load, caption: "1 step failed: the one that builds the reports."}
+        - {type: run_history, limit: 1, title: What ran tonight, caption: "The first night: 24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed."}
+      outcome: The first night built 24 of 28 tables and stopped; 4 tables and 2 checks never ran, and 1 check failed.
+    - id: fix
+      title: Fix the delivery
+      say: The sender corrects the file; here we simply remove the 3 bad orders.
+      button: Remove the bad orders
+      inputs: []
+      do:
+        - {action: feed.condition, feed: orders, set: {bad_rows: 0}}
+        - action: sql.exec
+          as: root
+          statement: "delete from {{ db('landing') }}.raw_olist_orders where order_id is null or order_id = ''"
+          expect: ok
+          undo: "select 1"
+      show:
+        - type: number
+          title: Orders without an order number
+          query: "select count(*) from {{ db('landing') }}.raw_olist_orders where order_id is null or order_id = ''"
+          unit: orders
+      outcome:
+        check: "select count(*) from {{ db('landing') }}.raw_olist_orders where order_id is null or order_id = ''"
+        good_when: zero
+        good: The cause is gone, no order without an order number is left. Only the retry remains.
+        not_quite: "{{ value }} orders without an order number are still there, so the retry would fail again."
+    - id: retry
+      title: Retry
+      say: "We do not start over: we ask for a retry and watch how little runs."
+      button: Retry only what failed
+      inputs: []
+      do:
+        - {action: airflow.retry_failed, dag: dbt_daily_load, expect: success}
+      show:
+        - {type: tasks, before_of: fail, dag: dbt_daily_load, title: The nightly load, caption: "No step is red after the retry. Only the building of the reports ran again; the other four steps were done in the first attempt and were not repeated. The mail was sent after the first attempt only."}
+        - {type: run_history, limit: 2, title: What ran, caption: "Retry: 4 tables built, 3 checks passed. The first attempt built 24 tables and the retry built the other 4: together all 28. The line below is the first attempt."}
+      outcome: The retry built only the 4 tables that had not run and ran 3 checks, instead of all 28 tables and 21 checks, and the night is green.

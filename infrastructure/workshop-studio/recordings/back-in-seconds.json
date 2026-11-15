@@ -1,0 +1,1001 @@
+{
+ "scenario": "back-in-seconds",
+ "steps": {
+  "before": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.28,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.28,
+     "actions": [
+      {
+       "label": "Reading the numbers",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.28,
+     "actions": [
+      {
+       "label": "Reading the numbers",
+       "status": "running",
+       "summary": "Reading which version each environment runs",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.28,
+     "actions": [
+      {
+       "label": "Reading the numbers",
+       "status": "done",
+       "summary": "Reading which version each environment runs.",
+       "details": "Reading the numbers."
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.56,
+     "actions": [
+      {
+       "label": "Reading the numbers",
+       "status": "done",
+       "summary": "Reading which version each environment runs.",
+       "details": "Reading the numbers."
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.56,
+     "actions": [
+      {
+       "label": "Reading the numbers",
+       "status": "done",
+       "summary": "Reading which version each environment runs.",
+       "details": "Reading the numbers."
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Reading which version each environment runs.",
+   "outcome": "Development runs v1.0.1, the newest version.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:23:01+00:00",
+   "durations": [
+    3.6,
+    3.6,
+    3.6,
+    3.6,
+    3.6
+   ],
+   "show": [
+    "versions"
+   ]
+  },
+  "back": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.29,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.29,
+     "actions": [
+      {
+       "label": "Putting the previous version live",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.46,
+     "actions": [
+      {
+       "label": "Putting the previous version live",
+       "status": "running",
+       "summary": "Copying the schedules of version v1.0.0 into development",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.69,
+     "actions": [
+      {
+       "label": "Putting the previous version live",
+       "status": "running",
+       "summary": "Writing the documentation of version v1.0.0",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.61,
+     "actions": [
+      {
+       "label": "Putting the previous version live",
+       "status": "running",
+       "summary": "Writing the documentation of version v1.0.0",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.12,
+     "actions": [
+      {
+       "label": "Putting the previous version live",
+       "status": "running",
+       "summary": "Telling development to run version v1.0.0",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.38,
+     "actions": [
+      {
+       "label": "Putting the previous version live",
+       "status": "done",
+       "summary": "Development now runs version v1.0.0.",
+       "details": "dbt_image_tag = v1.0.0; schedules and docs copied from image dbt-vdp:v1.0.0"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.66,
+     "actions": [
+      {
+       "label": "Putting the previous version live",
+       "status": "done",
+       "summary": "Development now runs version v1.0.0.",
+       "details": "dbt_image_tag = v1.0.0; schedules and docs copied from image dbt-vdp:v1.0.0"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "Development now runs version v1.0.0.",
+        "details": "dbt_image_tag = v1.0.0; schedules and docs copied from image dbt-vdp:v1.0.0",
+        "data": {
+         "tag": "v1.0.0"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.66,
+     "actions": [
+      {
+       "label": "Putting the previous version live",
+       "status": "done",
+       "summary": "Development now runs version v1.0.0.",
+       "details": "dbt_image_tag = v1.0.0; schedules and docs copied from image dbt-vdp:v1.0.0"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "Development now runs version v1.0.0.",
+        "details": "dbt_image_tag = v1.0.0; schedules and docs copied from image dbt-vdp:v1.0.0",
+        "data": {
+         "tag": "v1.0.0"
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Development now runs version v1.0.0.",
+   "outcome": "Development runs v1.0.0 again. Only the version number was changed.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:23:09+00:00",
+   "durations": [
+    7.2,
+    7.2,
+    7.4,
+    8.0,
+    7.7
+   ],
+   "show": [
+    "versions",
+    "result"
+   ]
+  },
+  "forward": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.28,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.28,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.43,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "running",
+       "summary": "Copying the schedules of version v1.0.1 into development",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.65,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "running",
+       "summary": "Writing the documentation of version v1.0.1",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.6,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "running",
+       "summary": "Writing the documentation of version v1.0.1",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.8,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "running",
+       "summary": "Telling development to run version v1.0.1",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.02,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "done",
+       "summary": "Development now runs version v1.0.1.",
+       "details": "dbt_image_tag = v1.0.1; schedules and docs copied from image dbt-vdp:v1.0.1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.31,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "done",
+       "summary": "Development now runs version v1.0.1.",
+       "details": "dbt_image_tag = v1.0.1; schedules and docs copied from image dbt-vdp:v1.0.1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.31,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "done",
+       "summary": "Development now runs version v1.0.1.",
+       "details": "dbt_image_tag = v1.0.1; schedules and docs copied from image dbt-vdp:v1.0.1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Development now runs version v1.0.1.",
+   "outcome": "Development runs v1.0.1 again. Going back and going forward are the same kind of step.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:23:17+00:00",
+   "durations": [
+    9.1,
+    7.2,
+    7.3,
+    7.8,
+    7.3
+   ],
+   "show": [
+    "versions"
+   ]
+  }
+ },
+ "prepare": {
+  "durations": [
+   33.0,
+   32.7,
+   27.3,
+   28.1,
+   32.9
+  ]
+ },
+ "recorded_at": "2026-11-15T19:23:17+00:00"
+}

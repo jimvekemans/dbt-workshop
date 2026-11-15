@@ -1,0 +1,10 @@
+.list { list-style: none; display: grid; gap: var(--space-2); }
+.item {
+  display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto; gap: 0 var(--space-4); align-items: center;
+  padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--tone-bg); border-left: 5px solid var(--tone);
+  transition: background-color var(--dur-med) var(--ease-out);
+}
+.label { font-weight: 700; }
+.age { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.detail { grid-column: 1 / -1; font-size: var(--text-sm); color: var(--ink-2); }
+@media (max-width: 560px) { .item { grid-template-columns: 1fr auto; } .age { grid-column: 1; } }

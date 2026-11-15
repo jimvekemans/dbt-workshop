@@ -1,0 +1,7 @@
+.steps { list-style: none; display: grid; gap: var(--space-5); }
+.step { min-width: 0; }
+.end { display: grid; gap: var(--space-3); padding: var(--space-5) var(--space-6); border-radius: var(--radius-xl); background: var(--surface-2); border: 1px dashed var(--line-strong); }
+.endTitle { font-size: var(--text-xl); }
+.endText { color: var(--ink-2); max-width: var(--measure); }
+.endActions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+.endHint { color: var(--ink-2); font-size: var(--text-sm); }

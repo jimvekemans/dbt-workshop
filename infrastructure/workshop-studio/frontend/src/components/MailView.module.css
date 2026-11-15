@@ -1,0 +1,11 @@
+.wrap { display: grid; gap: var(--space-3); justify-items: start; }
+.mail { width: 100%; border: 1px solid var(--line-strong); border-radius: var(--radius-md); overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); }
+.head { display: grid; grid-template-columns: auto 1fr; gap: 0.1rem var(--space-4); margin: 0; padding: var(--space-3) var(--space-4); background: var(--surface-2); border-bottom: 1px solid var(--line); font-size: var(--text-md); }
+.head dt { color: var(--ink-2); font-weight: 600; }
+.head dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.subject { font-weight: 700; font-size: var(--text-lg); }
+.empty { padding: var(--space-4); color: #57544a; background: #fff; }
+.frame { display: block; width: 100%; height: 12rem; border: 0; background: #fff; }
+.frame:focus-visible { outline: 3px solid var(--ring); outline-offset: -3px; }
+.fullSubject { font-weight: 700; color: var(--ink); margin-bottom: var(--space-2); }
+.fullFrame { display: block; width: 100%; height: min(70vh, 48rem); border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: #fff; }

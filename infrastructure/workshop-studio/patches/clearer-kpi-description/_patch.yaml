@@ -1,0 +1,6 @@
+title: "Clearer description for the management delivery report"
+message: 'docs: clearer description of the management KPI'
+ops:
+  - path: models/im_dimensional/olist_management.yml
+    find: 'description: "Management data product: order volume and delivery performance per order month (carrier scans)."'
+    replace: 'description: "Management data product: how many orders we get each month and how many arrive on time (carrier scans)."'

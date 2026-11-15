@@ -1,0 +1,2347 @@
+{
+ "scenario": "one-team-not-ready",
+ "steps": {
+  "golive": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.36,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.36,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.89,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.89,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.04,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.78,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "The release goes live in validation; production waits for a person.",
+        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.33,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "The release goes live in validation; production waits for a person.",
+        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.18,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: putting the version live in validation",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "The release goes live in validation; production waits for a person.",
+        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.91,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: putting the version live in validation",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "The release goes live in validation; production waits for a person.",
+        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 15.47,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: putting the version live in validation",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "The release goes live in validation; production waits for a person.",
+        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.36,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: waiting for the next step",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "The release goes live in validation; production waits for a person.",
+        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.48,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in validation.",
+       "details": "pipeline 284 on 2026-Q4.0: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "The release goes live in validation; production waits for a person.",
+        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 19.0,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in validation.",
+       "details": "pipeline 284 on 2026-Q4.0: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "The release goes live in validation; production waits for a person.",
+        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.52,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in validation.",
+       "details": "pipeline 284 on 2026-Q4.0: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "The release goes live in validation; production waits for a person.",
+        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.52,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in validation.",
+       "details": "pipeline 284 on 2026-Q4.0: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "The release goes live in validation; production waits for a person.",
+        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The version was packaged and put live in validation.",
+   "outcome": "The release is numbered 2026-Q4.0 and runs in validation. The team that was not ready is not in it.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:25:43+00:00",
+   "durations": [
+    20.4,
+    20.5,
+    20.7,
+    21.0,
+    20.5
+   ],
+   "show": [
+    "result",
+    "pipeline",
+    "versions"
+   ]
+  },
+  "takeout": {
+   "inputs": {
+    "not_ready": "v1.2.0"
+   },
+   "frames": [
+    {
+     "t": 1.42,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.42,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.67,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.67,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.13,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.13,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.34,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.89,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "The change was taken out of the copy for the release; everything else is still in.",
+        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "data": {
+         "reasons": [
+          "Taken out: the reviews team's change (v1.2.0), review scores overview",
+          "Still in: the payments team's change (v1.1.0), payments overview"
+         ],
+         "taken_out": [
+          "the reviews team's change (v1.2.0), review scores overview"
+         ],
+         "still_in": [
+          "the payments team's change (v1.1.0), payments overview"
+         ]
+        }
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Checking the whole release",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.44,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "The change was taken out of the copy for the release; everything else is still in.",
+        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "data": {
+         "reasons": [
+          "Taken out: the reviews team's change (v1.2.0), review scores overview",
+          "Still in: the payments team's change (v1.1.0), payments overview"
+         ],
+         "taken_out": [
+          "the reviews team's change (v1.2.0), review scores overview"
+         ],
+         "still_in": [
+          "the payments team's change (v1.1.0), payments overview"
+         ]
+        }
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Checking the whole release",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.49,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: checking the whole release",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "The change was taken out of the copy for the release; everything else is still in.",
+        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "data": {
+         "reasons": [
+          "Taken out: the reviews team's change (v1.2.0), review scores overview",
+          "Still in: the payments team's change (v1.1.0), payments overview"
+         ],
+         "taken_out": [
+          "the reviews team's change (v1.2.0), review scores overview"
+         ],
+         "still_in": [
+          "the payments team's change (v1.1.0), payments overview"
+         ]
+        }
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Checking the whole release",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.96,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: checking the whole release",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "The change was taken out of the copy for the release; everything else is still in.",
+        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "data": {
+         "reasons": [
+          "Taken out: the reviews team's change (v1.2.0), review scores overview",
+          "Still in: the payments team's change (v1.1.0), payments overview"
+         ],
+         "taken_out": [
+          "the reviews team's change (v1.2.0), review scores overview"
+         ],
+         "still_in": [
+          "the payments team's change (v1.1.0), payments overview"
+         ]
+        }
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Checking the whole release",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 15.42,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: checking the whole release",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "The change was taken out of the copy for the release; everything else is still in.",
+        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "data": {
+         "reasons": [
+          "Taken out: the reviews team's change (v1.2.0), review scores overview",
+          "Still in: the payments team's change (v1.1.0), payments overview"
+         ],
+         "taken_out": [
+          "the reviews team's change (v1.2.0), review scores overview"
+         ],
+         "still_in": [
+          "the payments team's change (v1.1.0), payments overview"
+         ]
+        }
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Checking the whole release",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.63,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: waiting for the next step",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "The change was taken out of the copy for the release; everything else is still in.",
+        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "data": {
+         "reasons": [
+          "Taken out: the reviews team's change (v1.2.0), review scores overview",
+          "Still in: the payments team's change (v1.1.0), payments overview"
+         ],
+         "taken_out": [
+          "the reviews team's change (v1.2.0), review scores overview"
+         ],
+         "still_in": [
+          "the payments team's change (v1.1.0), payments overview"
+         ]
+        }
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Checking the whole release",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.68,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic checks passed.",
+       "details": "pipeline 282 on release/2026-Q4: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "The change was taken out of the copy for the release; everything else is still in.",
+        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "data": {
+         "reasons": [
+          "Taken out: the reviews team's change (v1.2.0), review scores overview",
+          "Still in: the payments team's change (v1.1.0), payments overview"
+         ],
+         "taken_out": [
+          "the reviews team's change (v1.2.0), review scores overview"
+         ],
+         "still_in": [
+          "the payments team's change (v1.1.0), payments overview"
+         ]
+        }
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Checking the whole release",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.93,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic checks passed.",
+       "details": "pipeline 282 on release/2026-Q4: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "The change was taken out of the copy for the release; everything else is still in.",
+        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "data": {
+         "reasons": [
+          "Taken out: the reviews team's change (v1.2.0), review scores overview",
+          "Still in: the payments team's change (v1.1.0), payments overview"
+         ],
+         "taken_out": [
+          "the reviews team's change (v1.2.0), review scores overview"
+         ],
+         "still_in": [
+          "the payments team's change (v1.1.0), payments overview"
+         ]
+        }
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Checking the whole release",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.35,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic checks passed.",
+       "details": "pipeline 282 on release/2026-Q4: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "The change was taken out of the copy for the release; everything else is still in.",
+        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "data": {
+         "reasons": [
+          "Taken out: the reviews team's change (v1.2.0), review scores overview",
+          "Still in: the payments team's change (v1.1.0), payments overview"
+         ],
+         "taken_out": [
+          "the reviews team's change (v1.2.0), review scores overview"
+         ],
+         "still_in": [
+          "the payments team's change (v1.1.0), payments overview"
+         ]
+        }
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Checking the whole release",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.35,
+     "actions": [
+      {
+       "label": "Making a copy for the release",
+       "status": "done",
+       "summary": "Made a copy for the release, taken from the shared work in progress.",
+       "details": "branch release/2026-Q4 created from dev"
+      },
+      {
+       "label": "Taking one team's change out of the copy for the release",
+       "status": "done",
+       "summary": "The change was taken out of the copy for the release; everything else is still in.",
+       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic checks passed.",
+       "details": "pipeline 282 on release/2026-Q4: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What is in the release",
+       "data": {
+        "summary": "The change was taken out of the copy for the release; everything else is still in.",
+        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "data": {
+         "reasons": [
+          "Taken out: the reviews team's change (v1.2.0), review scores overview",
+          "Still in: the payments team's change (v1.1.0), payments overview"
+         ],
+         "taken_out": [
+          "the reviews team's change (v1.2.0), review scores overview"
+         ],
+         "still_in": [
+          "the payments team's change (v1.1.0), payments overview"
+         ]
+        }
+       }
+      },
+      {
+       "type": "pipeline",
+       "title": "Complete check of the release",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Checking the whole release",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.2.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The automatic checks passed.",
+   "outcome": "The release holds the shared work minus the chosen team's change. Development still runs both changes.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:25:22+00:00",
+   "durations": [
+    20.3,
+    37.9,
+    28.5,
+    21.0,
+    20.3
+   ],
+   "show": [
+    "result",
+    "pipeline",
+    "versions"
+   ]
+  }
+ },
+ "prepare": {
+  "durations": [
+   52.9,
+   61.6,
+   61.3,
+   59.4,
+   58.4
+  ]
+ },
+ "recorded_at": "2026-11-15T19:25:43+00:00"
+}

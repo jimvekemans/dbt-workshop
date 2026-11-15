@@ -1,0 +1,152 @@
+id: every-run-on-record
+group: daily
+title: Every run and every check is written down
+promise: 'The question "what ran last night, how long did it take, what failed" always has an answer, in plain tables.'
+minutes: 4
+environment: dev
+related:
+  - id: one-clear-mail
+    why: The mail reports tonight's failure; the record keeps the history of every night.
+
+problem:
+  headline: Nobody can say what ran last night or how long it took
+  story: |
+    One morning the management report is late. The manager asks: did the night run? How long did it take? Did a
+    check fail? Nobody knows. The answers are in the [[log]], which is thrown away after a few days, so the team can
+    only guess. A table that gets a little slower every week goes unnoticed until the night no longer finishes
+    before morning.
+  cost: The team has to search for every answer about last night, and slow tables are found only when the morning report is late.
+  visual:
+    type: flow
+    nodes:
+      - {id: run, label: The night runs, state: ok, note: "Every night"}
+      - {id: logs, label: The log, state: warn, note: "Thrown away after a few days"}
+      - {id: question, label: "Was it slow?", state: bad, note: "Nobody knows"}
+    links: [[run, logs], [logs, question]]
+    caption: Without a record, the past is gone.
+
+idea:
+  headline: Every step and every check is written down when the night ends
+  points:
+    - "At the end of each night, every step and check is added to one table: its name, result, time and rows."
+    - The table sits next to the data, so anyone allowed to read the reports can ask it questions.
+    - Two ready-made lists are built on it, for example the failed checks and the slowest tables.
+  visual:
+    type: flow
+    nodes:
+      - {id: end, label: The night ends, state: ok, note: "Every step and check has a result"}
+      - {id: record, label: One row per step and check, state: fix, note: "Name, result, time, rows"}
+      - {id: failed, label: Today's failed checks, state: ok, note: "A ready-made list"}
+      - {id: slow, label: The slowest tables, state: ok, note: "A ready-made list"}
+      - {id: answer, label: The answer to a question, state: idle, note: "A plain table, no searching"}
+    links: [[end, record], [record, failed], [record, slow], [failed, answer], [slow, answer]]
+    caption: The record turns "I think so" into a number.
+
+code:
+  - title: The end of every run triggers the writing
+    file: dbt_project.yml
+    file_label: The settings of the whole project
+    from: "on-run-end:"
+    to: "log_dbt_results(results)"
+    max_lines: 3
+    notes:
+      - line: "on-run-end"
+        says: As soon as a run is over, whatever happened is written down.
+      - line: "target.name == 'run'"
+        says: Only the real nightly runs are written down, not experiments.
+  - title: One row per step and per check
+    file: macros/utils/log_dbt_results.sql
+    file_label: The code that writes the record
+    from: "resource_type,"
+    to: ") values"
+    max_lines: 12
+    notes:
+      - line: "status,"
+        says: Whether the step or check passed, warned or failed.
+      - line: "failures,"
+        says: For a check, how many rows failed it.
+      - line: "execution_time,"
+        says: How long it took.
+      - line: "rows_affected,"
+        says: How many rows it touched.
+  - title: A ready-made list of today's failed checks
+    file: models/dbt_active_test_failures/dbt_active_test_failures.sql
+    file_label: The recipe for the list of failed checks
+    from: "from {{ source(\"vdp_mgmt\", \"dbt_run_results\") }}"
+    to: "status in ('fail', 'error', 'warn')"
+    max_lines: 12
+    notes:
+      - line: "from {{ source("
+        says: It reads the record of every step and check.
+      - line: "run_started_at >= current_date()"
+        says: Only today's checks count; yesterday stays in the record, not in this list.
+      - line: "status in ('fail', 'error', 'warn')"
+        says: Only checks that failed, errored or warned are listed.
+
+demo:
+  intro: We run the nightly load, then read the record it wrote.
+  setup: []
+  steps:
+    - id: run
+      title: Run the nightly load
+      say: A normal night. Afterwards we look at what was written down.
+      button: Run the nightly load
+      inputs: []
+      do:
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
+      show:
+        - {type: run_history, limit: 5, title: The latest nights, caption: "Newest first: the top line is the night you just ran. Each line is one night: built counts the tables that were rebuilt, not run counts steps skipped after a failure."}
+      outcome: The night you just ran is at the top of the list with its result.
+    - id: read
+      title: Read the record
+      say: One row for every step and every check, with the seconds it took.
+      button: Show the record
+      inputs: []
+      do:
+        - {action: wait, seconds: 1, because: "The record was written when the night ended"}
+      show:
+        - type: table
+          title: The slowest steps and checks of the last night
+          caption: "The 8 slowest tables and the 4 slowest checks of the last night, slowest first. Checks are in the same record: the next step shows a failed one."
+          query: "select name, case resource_type when 'model' then 'table' else 'check' end as kind, case when status in ('success', 'pass') then 'Done' when status in ('fail', 'error') then 'Failed' when status = 'warn' then 'Warning' else 'Not run' end as result, round(execution_time, 1) as seconds from (select * from (select * from {{ db('vdp_mgmt') }}.dbt_run_results where resource_type = 'model' and run_started_at = (select max(run_started_at) from {{ db('vdp_mgmt') }}.dbt_run_results) order by execution_time desc limit 8) a union all select * from (select * from {{ db('vdp_mgmt') }}.dbt_run_results where resource_type = 'test' and run_started_at = (select max(run_started_at) from {{ db('vdp_mgmt') }}.dbt_run_results) order by execution_time desc limit 4) b) t order by execution_time desc"
+          columns:
+            - {key: name, label: Name}
+            - {key: kind, label: Table or check}
+            - {key: result, label: Result}
+            - {key: seconds, label: Time (seconds)}
+          highlight: {column: result, equals: Failed, as: bad}
+          empty: Nothing is written down yet.
+        - type: table
+          title: The five slowest tables of the last night
+          caption: "The five tables that took longest, slowest first. A table that creeps up would show here before the morning report is late."
+          query: "select name, round(execution_time, 1) as seconds from {{ db('vdp_mgmt') }}.dbt_run_results where resource_type = 'model' and status = 'success' and run_started_at = (select max(run_started_at) from {{ db('vdp_mgmt') }}.dbt_run_results) order by execution_time desc limit 5"
+          columns:
+            - {key: name, label: Table}
+            - {key: seconds, label: Time (seconds)}
+          empty: No table was built in the last night.
+      outcome: "The record shows the slowest tables and checks of the last night with their result and seconds: what ran and how long it took is one look."
+    - id: failure
+      title: A failed check stays on file
+      say: 3 orders arrive without an order number, the night fails, and the failed check is added to the record.
+      button: Make the night fail
+      inputs: []
+      do:
+        - {action: feed.condition, feed: orders, set: {bad_rows: 3}}
+        - {action: feed.deliver, days: 1}
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: failed}
+      show:
+        - type: table
+          title: Checks that failed in the last night
+          caption: "Read from the record: one line per failed check of the last night. Each row that broke the rule here is one order without an order number."
+          query: "select name, 'failed' as status, failures from {{ db('vdp_mgmt') }}.dbt_run_results where resource_type = 'test' and status in ('fail', 'error') and run_started_at = (select max(run_started_at) from {{ db('vdp_mgmt') }}.dbt_run_results) order by name limit 10"
+          columns:
+            - {key: name, label: Check}
+            - {key: status, label: Result}
+            - {key: failures, label: Rows that broke the rule}
+          highlight: {column: status, equals: failed, as: bad}
+          empty: No failed checks in the last night.
+      outcome:
+        check: "select count(*) from {{ db('vdp_mgmt') }}.dbt_run_results where resource_type = 'test' and status in ('fail', 'error') and run_started_at = (select max(run_started_at) from {{ db('vdp_mgmt') }}.dbt_run_results)"
+        good_when: positive
+        good: The failed check is on file, with the number of rows that failed, long after the log is gone.
+        not_quite: The record holds no failed check for the last night.

@@ -1,0 +1,6 @@
+title: "Run one small step after every table is built"
+message: 'chore: run one small step after every table is built'
+ops:
+  - path: dbt_project.yml
+    find: "    +materialized: view\n"
+    replace: "    +materialized: view\n    +post-hook: \"select 1\"\n"

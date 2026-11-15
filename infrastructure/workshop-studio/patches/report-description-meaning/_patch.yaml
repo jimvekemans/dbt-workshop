@@ -1,0 +1,6 @@
+title: "Say in the description of the management report which month an order is counted in"
+message: 'docs: the management report counts an order in the month it was placed'
+ops:
+  - path: models/im_dimensional/olist_management.yml
+    find: 'description: "Management data product: order volume and delivery performance per order month (carrier scans)."'
+    replace: 'description: "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans)."'

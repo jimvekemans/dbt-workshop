@@ -1,0 +1,1892 @@
+{
+ "scenario": "production-waits",
+ "steps": {
+  "release": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.36,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.36,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.94,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.94,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.09,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.71,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.26,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Waiting",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.23,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: packaging the version",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Waiting",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.78,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: packaging the version",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 15.28,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: packaging the version",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.37,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: waiting for the next step",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.49,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in validation.",
+       "details": "pipeline 289 on 2026-Q4.0: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.8,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in validation.",
+       "details": "pipeline 289 on 2026-Q4.0: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.34,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in validation.",
+       "details": "pipeline 289 on 2026-Q4.0: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.34,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in validation.",
+       "details": "pipeline 289 on 2026-Q4.0: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The version was packaged and put live in validation.",
+   "outcome": "The release runs in validation. Production has not changed and waits for a person.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:26:33+00:00",
+   "durations": [
+    20.5,
+    20.5,
+    28.4,
+    21.0,
+    20.3
+   ],
+   "show": [
+    "pipeline",
+    "versions"
+   ]
+  },
+  "approve": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.51,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.51,
+     "actions": [
+      {
+       "label": "Starting: putting the version live in production",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.87,
+     "actions": [
+      {
+       "label": "Starting: putting the version live in production",
+       "status": "running",
+       "summary": "Putting the version live in production: pending",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.99,
+     "actions": [
+      {
+       "label": "Starting: putting the version live in production",
+       "status": "running",
+       "summary": "Putting the version live in production: pending",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.49,
+     "actions": [
+      {
+       "label": "Starting: putting the version live in production",
+       "status": "running",
+       "summary": "Putting the version live in production: pending",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.92,
+     "actions": [
+      {
+       "label": "Starting: putting the version live in production",
+       "status": "running",
+       "summary": "Putting the version live in production: running",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.99,
+     "actions": [
+      {
+       "label": "Starting: putting the version live in production",
+       "status": "running",
+       "summary": "Putting the version live in production: running",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "2026-Q4.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 15.49,
+     "actions": [
+      {
+       "label": "Starting: putting the version live in production",
+       "status": "running",
+       "summary": "Putting the version live in production: running",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "2026-Q4.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.97,
+     "actions": [
+      {
+       "label": "Starting: putting the version live in production",
+       "status": "running",
+       "summary": "Putting the version live in production: success",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "2026-Q4.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.97,
+     "actions": [
+      {
+       "label": "Starting: putting the version live in production",
+       "status": "done",
+       "summary": "Putting the version live in production: done.",
+       "details": "job deploy_prd (309) success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "2026-Q4.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.99,
+     "actions": [
+      {
+       "label": "Starting: putting the version live in production",
+       "status": "done",
+       "summary": "Putting the version live in production: done.",
+       "details": "job deploy_prd (309) success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "2026-Q4.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "Putting the version live in production: done.",
+        "details": "job deploy_prd (309) success",
+        "data": {
+         "reasons": [
+          "Approved by Administrator",
+          "Approved on 15 November, 20:26"
+         ],
+         "approved_by": "Administrator",
+         "approved_at": "2026-11-15T19:26:38.588Z"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.46,
+     "actions": [
+      {
+       "label": "Starting: putting the version live in production",
+       "status": "done",
+       "summary": "Putting the version live in production: done.",
+       "details": "job deploy_prd (309) success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "2026-Q4.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "Putting the version live in production: done.",
+        "details": "job deploy_prd (309) success",
+        "data": {
+         "reasons": [
+          "Approved by Administrator",
+          "Approved on 15 November, 20:26"
+         ],
+         "approved_by": "Administrator",
+         "approved_at": "2026-11-15T19:26:38.588Z"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.46,
+     "actions": [
+      {
+       "label": "Starting: putting the version live in production",
+       "status": "done",
+       "summary": "Putting the version live in production: done.",
+       "details": "job deploy_prd (309) success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "2026-Q4.0"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "Who approved",
+       "data": {
+        "summary": "Putting the version live in production: done.",
+        "details": "job deploy_prd (309) success",
+        "data": {
+         "reasons": [
+          "Approved by Administrator",
+          "Approved on 15 November, 20:26"
+         ],
+         "approved_by": "Administrator",
+         "approved_at": "2026-11-15T19:26:38.588Z"
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Putting the version live in production: done.",
+   "outcome": "Production runs the release that validation ran, and the approval is recorded with a name and a time.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:26:54+00:00",
+   "durations": [
+    11.4,
+    11.4,
+    11.6,
+    11.6,
+    20.5
+   ],
+   "show": [
+    "pipeline",
+    "versions",
+    "result"
+   ]
+  }
+ },
+ "prepare": {
+  "durations": [
+   27.0,
+   37.1,
+   32.7,
+   38.2,
+   29.2
+  ]
+ },
+ "recorded_at": "2026-11-15T19:26:54+00:00"
+}

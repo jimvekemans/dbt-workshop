@@ -1,0 +1,122 @@
+id: numbered-versions
+group: releases
+title: Every environment runs one exact, numbered version
+promise: "The question 'which version of our code runs in the live system?' always has one exact answer."
+minutes: 3
+environment: dev
+
+problem:
+  headline: Nobody can say which version of the code runs live
+  story: |
+    On Tuesday the sales report shows odd figures. Support asks the developers: which version of the code produced
+    this? One developer thinks it is last week's, another thinks Monday's fix is already in. Three people spend the
+    morning comparing files by hand before they can even start looking for the cause.
+  cost: "Every problem takes hours longer to solve: three people spend a whole morning comparing files."
+  visual:
+    type: timeline
+    days:
+      - {label: "Mon", state: ok, note: "A fix is finished"}
+      - {label: "Tue 09:00", state: bad, note: "Sales report looks odd"}
+      - {label: "Tue 09:30", state: warn, note: "Which version is live?"}
+      - {label: "Tue 10:30", state: warn, note: "3 people compare files"}
+      - {label: "Tue 12:00", state: bad, note: "Still no certain answer"}
+    marker: {after: 1, label: "The question nobody can answer"}
+    caption: The search for the version costs more than the search for the cause.
+
+idea:
+  headline: Every accepted change gets a number, and each environment runs one number
+  points:
+    - Accepting a change gives it the next version number automatically.
+    - The accepted code is packed into a sealed package that can never be edited, with its number printed on it, like v1.0.1.
+    - Each [[environment]] is told which number to run, so one glance answers the question.
+  visual:
+    type: flow
+    nodes:
+      - {id: change, label: Accepted change, state: ok, note: "Someone approves the work"}
+      - {id: number, label: The next number, state: fix, note: "Chosen automatically"}
+      - {id: package, label: Sealed package, state: ok, note: "Never edited afterwards"}
+      - {id: env, label: Each environment, state: ok, note: "Runs one named number"}
+    links: [[change, number], [number, package], [package, env]]
+    caption: Like the edition number printed in a book.
+
+code:
+  - title: A new number is chosen after every accepted change
+    file: .gitlab-ci.yml
+    file_label: The instructions for numbering a version
+    from: "latest_tag=$(git tag -l 'v*.*.*'"
+    to: "      fi"
+    max_lines: 12
+    notes:
+      - line: "latest_tag=$(git tag -l 'v*.*.*' | sort -V | tail -n 1)"
+        says: Find the highest number used so far.
+      - line: 'new_tag="${major}.$((minor + 1)).0"'
+        says: A new feature moves the middle number up, for example v1.1.0.
+      - line: 'new_tag="${major}.${minor}.$((patch + 1))"'
+        says: A small fix moves the last number up, for example v1.0.1.
+  - title: The accepted code is packed into a sealed package
+    file: .gitlab-ci.yml
+    file_label: The instructions for packing a version
+    from: ".build-image:"
+    to: 'docker build'
+    max_lines: 12
+    notes:
+      - line: "image: docker"
+        says: This tool packs the code into one sealed package.
+      - line: 'docker build'
+        says: The package carries the number, and nobody edits it afterwards.
+  - title: Each environment looks up the number it must run
+    file: airflow/utils/dbt_pod_utils.py
+    file_label: How each environment picks its version
+    from: "def resolve_image() -> str:"
+    to: 'return f"{DBT_IMAGE_REPOSITORY}:{tag}"'
+    max_lines: 12
+    notes:
+      - line: "tag = str(get_variable"
+        says: Each environment keeps one setting with its version number.
+      - line: "if not tag:"
+        says: If no number was set, nothing runs. There is never a guess.
+      - line: 'return f"{DBT_IMAGE_REPOSITORY}:{tag}"'
+        says: The package with exactly that number is the one that runs.
+
+demo:
+  intro: >-
+    First we read the numbers. Then one small change is proposed and accepted: development gets a new number while
+    validation and production stay on theirs.
+  setup: []
+  steps:
+    - id: now
+      title: Read the numbers
+      say: "One number per environment: the complete answer to what runs where."
+      button: Show what is running
+      inputs: []
+      do:
+        - {action: wait, seconds: 1, because: "Reading the numbers"}
+      show:
+        - {type: versions, title: "Version in each environment", caption: "Each environment runs one number. Development is the one that changes next."}
+      outcome: Development, validation and production each run exactly one numbered version, v1.0.0.
+    - id: propose
+      title: Propose a small change
+      say: A harmless change is tried in a private copy. Nothing is live yet.
+      button: Propose the change
+      inputs: []
+      do:
+        - {action: gitlab.branch, name: demo/clearer-description, from: dev}
+        - {action: gitlab.commit, branch: demo/clearer-description, patch: clearer-kpi-description}
+        - {action: gitlab.merge_request, source: demo/clearer-description, target: dev, title: "Clearer description of the management report"}
+        - {action: gitlab.wait_pipeline, for: "mr:demo/clearer-description", expect: success, timeout: 600}
+      show:
+        - {type: pipeline, for: "mr:demo/clearer-description", title: "The automatic rehearsal", caption: "Done means the change may be accepted."}
+        - {type: versions, title: "Version in each environment", caption: "Nothing moved."}
+      outcome: "The change passed its rehearsal. The numbers did not move: nothing is accepted yet."
+    - id: accept
+      title: Accept the change
+      say: Accepting gives the change a number, packs it and puts it live in development.
+      button: Accept the change
+      inputs: []
+      do:
+        - {action: gitlab.merge, source: demo/clearer-description}
+        - {action: gitlab.wait_pipeline, for: "tag:^v", expect: success, timeout: 900}
+      show:
+        - {type: pipeline, for: "tag:^v", title: "Packaging and putting live", caption: "The number v1.0.1 was chosen when the change was accepted. Packaging seals the accepted code into one numbered package; putting it live makes development use that package."}
+        - {type: versions, before_of: propose, title: "Version in each environment", caption: "Look at the Development row: it changed from v1.0.0 to v1.0.1."}
+      outcome: Development runs v1.0.1. Validation and production still run v1.0.0, and everybody can see which.

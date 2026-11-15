@@ -1,0 +1,108 @@
+id: late-delivery
+group: sources
+title: A late feed is named and the rest still loads
+promise: When a feed does not arrive, the nightly load names it as late, and every other report still loads on time.
+minutes: 3
+environment: dev
+related:
+  - id: skip-one-table
+    why: When a feed is not just late but broken, an operator can leave it out of the nightly load.
+
+problem:
+  headline: The carrier goes silent and nobody notices for two days
+  story: |
+    Every evening the carrier sends the day's parcel scans. One day the scans stop coming. No error appears,
+    because nothing was sent that could go wrong. The nightly load keeps showing the same old numbers. Two days
+    later a manager notices that no scan has arrived for two days, and everyone asks how long this has been going on.
+  cost: Customer service promises delivery dates from numbers that are two days old.
+  visual:
+    type: flow
+    nodes:
+      - {id: carrier, label: Carrier scans, state: bad, note: "No scans for 2 days"}
+      - {id: load, label: Nightly load, state: warn, note: "Shows the old numbers"}
+      - {id: team, label: Customer service, state: bad, note: "Does not know"}
+    links: [[carrier, load], [load, team]]
+    caption: A silent feed looks exactly like a quiet day.
+
+idea:
+  headline: Each night we check when every feed last arrived
+  points:
+    - Every [[feed]] has an agreed deadline, here one day.
+    - After the [[nightly load]], a separate check compares the newest arrival of each feed with its deadline and names the late ones.
+    - The check only reports, so the feeds that did arrive are still loaded.
+  visual:
+    type: flow
+    nodes:
+      - {id: load, label: Nightly load, state: ok, note: "Loads every feed that arrived"}
+      - {id: check, label: Check each feed, state: fix, note: "Newest arrival against its deadline"}
+      - {id: named, label: Late feeds named, state: ok, note: "Shown in the check's result"}
+      - {id: team, label: The team, state: ok, note: "Talks to the sender"}
+    links: [[load, check], [check, named], [named, team]]
+    caption: Late is a conversation with the sender, not a reason to stop everything.
+
+code:
+  - title: Each feed carries its own deadline
+    file: models/edw_dv_bdv/carrier/sources_carrier.yml
+    file_label: The description of the carrier's feed
+    from: "freshness:"
+    to: "warn_after:"
+    max_lines: 4
+    notes:
+      - line: "freshness:"
+        says: A feed can be given a deadline for its newest scan.
+      - line: "warn_after:"
+        says: After one day without news, the carrier's feed is reported as late.
+  - title: The check never stops the nightly load
+    file: airflow/dags/dbt_daily_load.py
+    file_label: The list of steps of the nightly load
+    from: "# 4. Report source freshness after the build"
+    to: "build_task >> freshness_task"
+    max_lines: 4
+    notes:
+      - line: "# 4. Report source freshness"
+        says: This step compares every feed with its deadline.
+      - line: "build_task >> freshness_task"
+        says: It runs beside the build, so a late feed never blocks the load.
+  - title: A late feed is written down, not treated as an error
+    file: airflow/dags/dbt_daily_load.py
+    file_label: The list of steps of the nightly load
+    from: "# dbt exits 1 for both"
+    to: "        ]"
+    max_lines: 10
+    notes:
+      - line: "out=$(dbt source freshness"
+        says: The step runs the check and keeps everything it prints.
+      - line: "one or more sources are stale or missing"
+        says: A late feed is only written down as a message.
+      - line: "exit 0; fi; exit $rc"
+        says: A broken check still fails, so nobody mistakes it for a late feed.
+
+demo:
+  intro: We pause the carrier's scans and run the nightly load. The late feed is named, and the other reports still load.
+  setup: []
+  steps:
+    - id: silent
+      title: The carrier goes quiet
+      say: The other feeds keep arriving, but the carrier sends nothing new.
+      button: Pause the carrier, run the load
+      inputs: []
+      do:
+        - {action: feed.condition, feed: carrier, set: {paused: true}}
+        - {action: feed.deliver, days: 3}
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
+      show:
+        - {type: freshness, title: When each feed last arrived, caption: "The parcel scans from the carrier are marked Late; the other 5 feeds are up to date. A feed counts as late when it has sent nothing for more than 1 day."}
+        - {type: tasks, dag: dbt_daily_load, title: "The nightly load, step by step", caption: "Every step finished and no failure mail was needed: the late feed did not stop the nightly load."}
+      outcome: The parcel scans from the carrier are marked Late (the newest scan is 2 days old), the other 5 feeds are up to date, and the nightly load still finished.
+    - id: back
+      title: The carrier delivers again
+      say: The carrier sends the missing scans, and the next nightly load shows no late feed.
+      button: Resume the carrier, run the load
+      inputs: []
+      do:
+        - {action: feed.condition, feed: carrier, set: {paused: false}}
+        - {action: feed.deliver, days: 3}
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
+      show:
+        - {type: freshness, before_of: silent, title: When each feed last arrived, caption: All 6 feeds are up to date again.}
+      outcome: All 6 feeds are up to date again, so the check no longer names a late feed.

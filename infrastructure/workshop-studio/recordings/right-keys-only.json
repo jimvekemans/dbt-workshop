@@ -1,0 +1,525 @@
+{
+ "scenario": "right-keys-only",
+ "steps": {
+  "devrobot": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.0,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "The answer from the database",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "Checking whether the development robot is allowed to do this",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "The answer from the database",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Checking whether the development robot is allowed to do this",
+       "status": "done",
+       "summary": "The database refused: the development robot may not change tables in production.",
+       "details": "The database refused: svc_dev_dbt may not change tables in prd_edw_dv_bdv.\ncreate table prd_edw_dv_bdv.dev_robot_was_here (id int)\n-> (1142, \"CREATE command denied to user 'svc_dev_dbt'@'%' for table 'dev_robot_was_here'\")"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "The answer from the database",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Checking whether the development robot is allowed to do this",
+       "status": "done",
+       "summary": "The database refused: the development robot may not change tables in production.",
+       "details": "The database refused: svc_dev_dbt may not change tables in prd_edw_dv_bdv.\ncreate table prd_edw_dv_bdv.dev_robot_was_here (id int)\n-> (1142, \"CREATE command denied to user 'svc_dev_dbt'@'%' for table 'dev_robot_was_here'\")"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "The answer from the database",
+       "data": {
+        "summary": "The database refused: the development robot may not change tables in production.",
+        "details": "The database refused: svc_dev_dbt may not change tables in prd_edw_dv_bdv.\ncreate table prd_edw_dv_bdv.dev_robot_was_here (id int)\n-> (1142, \"CREATE command denied to user 'svc_dev_dbt'@'%' for table 'dev_robot_was_here'\")",
+        "data": {
+         "refused": true
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Checking whether the development robot is allowed to do this",
+       "status": "done",
+       "summary": "The database refused: the development robot may not change tables in production.",
+       "details": "The database refused: svc_dev_dbt may not change tables in prd_edw_dv_bdv.\ncreate table prd_edw_dv_bdv.dev_robot_was_here (id int)\n-> (1142, \"CREATE command denied to user 'svc_dev_dbt'@'%' for table 'dev_robot_was_here'\")"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "The answer from the database",
+       "data": {
+        "summary": "The database refused: the development robot may not change tables in production.",
+        "details": "The database refused: svc_dev_dbt may not change tables in prd_edw_dv_bdv.\ncreate table prd_edw_dv_bdv.dev_robot_was_here (id int)\n-> (1142, \"CREATE command denied to user 'svc_dev_dbt'@'%' for table 'dev_robot_was_here'\")",
+        "data": {
+         "refused": true
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The database refused: the development robot may not change tables in production.",
+   "outcome": "The database refused the development robot and said it may not change production. Nothing was created.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:27:37+00:00",
+   "durations": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "show": [
+    "result"
+   ]
+  },
+  "prdrobot": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.0,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "The answer from the database",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "Changing the database",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "The answer from the database",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Changing the database",
+       "status": "done",
+       "summary": "The database made the change.",
+       "details": "create table prd_edw_dv_bdv.prd_robot_was_here (id int)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "The answer from the database",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Changing the database",
+       "status": "done",
+       "summary": "The database made the change.",
+       "details": "create table prd_edw_dv_bdv.prd_robot_was_here (id int)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "The answer from the database",
+       "data": {
+        "summary": "The database made the change.",
+        "details": "create table prd_edw_dv_bdv.prd_robot_was_here (id int)",
+        "data": {
+         "rows": []
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Changing the database",
+       "status": "done",
+       "summary": "The database made the change.",
+       "details": "create table prd_edw_dv_bdv.prd_robot_was_here (id int)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "The answer from the database",
+       "data": {
+        "summary": "The database made the change.",
+        "details": "create table prd_edw_dv_bdv.prd_robot_was_here (id int)",
+        "data": {
+         "rows": []
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The database made the change.",
+   "outcome": "The production robot may write in production, and only there.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:27:38+00:00",
+   "durations": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "show": [
+    "result"
+   ]
+  },
+  "people": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.01,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Customers a developer can see in production",
+       "data": {
+        "value": 3432,
+        "unit": "customers",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "The answer to the write attempt",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Reading from the database",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Customers a developer can see in production",
+       "data": {
+        "value": 3432,
+        "unit": "customers",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "The answer to the write attempt",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Reading from the database",
+       "status": "done",
+       "summary": "The database answered.",
+       "details": "select count(*) from prd_im_dimensional.dim_olist_customers"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Customers a developer can see in production",
+       "data": {
+        "value": 3432,
+        "unit": "customers",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "The answer to the write attempt",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Reading from the database",
+       "status": "done",
+       "summary": "The database answered.",
+       "details": "select count(*) from prd_im_dimensional.dim_olist_customers"
+      },
+      {
+       "label": "Checking whether developer one is allowed to do this",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Customers a developer can see in production",
+       "data": {
+        "value": 3432,
+        "unit": "customers",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "The answer to the write attempt",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "Reading from the database",
+       "status": "done",
+       "summary": "The database answered.",
+       "details": "select count(*) from prd_im_dimensional.dim_olist_customers"
+      },
+      {
+       "label": "Checking whether developer one is allowed to do this",
+       "status": "done",
+       "summary": "The database refused: developer one may not change tables in production.",
+       "details": "The database refused: pu_dev1 may not change tables in prd_im_dimensional.\ncreate table prd_im_dimensional.dev_was_here (id int)\n-> (1142, \"CREATE command denied to user 'pu_dev1'@'%' for table 'dev_was_here'\")"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Customers a developer can see in production",
+       "data": {
+        "value": 3432,
+        "unit": "customers",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "The answer to the write attempt",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "Reading from the database",
+       "status": "done",
+       "summary": "The database answered.",
+       "details": "select count(*) from prd_im_dimensional.dim_olist_customers"
+      },
+      {
+       "label": "Checking whether developer one is allowed to do this",
+       "status": "done",
+       "summary": "The database refused: developer one may not change tables in production.",
+       "details": "The database refused: pu_dev1 may not change tables in prd_im_dimensional.\ncreate table prd_im_dimensional.dev_was_here (id int)\n-> (1142, \"CREATE command denied to user 'pu_dev1'@'%' for table 'dev_was_here'\")"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Customers a developer can see in production",
+       "data": {
+        "value": 3432,
+        "unit": "customers",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "The answer to the write attempt",
+       "data": {
+        "summary": "The database refused: developer one may not change tables in production.",
+        "details": "The database refused: pu_dev1 may not change tables in prd_im_dimensional.\ncreate table prd_im_dimensional.dev_was_here (id int)\n-> (1142, \"CREATE command denied to user 'pu_dev1'@'%' for table 'dev_was_here'\")",
+        "data": {
+         "refused": true
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "Reading from the database",
+       "status": "done",
+       "summary": "The database answered.",
+       "details": "select count(*) from prd_im_dimensional.dim_olist_customers"
+      },
+      {
+       "label": "Checking whether developer one is allowed to do this",
+       "status": "done",
+       "summary": "The database refused: developer one may not change tables in production.",
+       "details": "The database refused: pu_dev1 may not change tables in prd_im_dimensional.\ncreate table prd_im_dimensional.dev_was_here (id int)\n-> (1142, \"CREATE command denied to user 'pu_dev1'@'%' for table 'dev_was_here'\")"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Customers a developer can see in production",
+       "data": {
+        "value": 3432,
+        "unit": "customers",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "The answer to the write attempt",
+       "data": {
+        "summary": "The database refused: developer one may not change tables in production.",
+        "details": "The database refused: pu_dev1 may not change tables in prd_im_dimensional.\ncreate table prd_im_dimensional.dev_was_here (id int)\n-> (1142, \"CREATE command denied to user 'pu_dev1'@'%' for table 'dev_was_here'\")",
+        "data": {
+         "refused": true
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The database refused: developer one may not change tables in production.",
+   "outcome": "Reading was allowed and writing was refused. Looking is safe, changing is not possible.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:27:38+00:00",
+   "durations": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "show": [
+    "number",
+    "result"
+   ]
+  }
+ },
+ "recorded_at": "2026-11-15T19:27:38+00:00",
+ "prepare": {
+  "durations": [
+   26.2,
+   23.6,
+   11.4,
+   11.1,
+   11.3
+  ]
+ }
+}

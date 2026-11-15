@@ -1,4 +1,0 @@
-title: Finance mart refactor (introduces grain bug)
-message: 'refactor(finance): build revenue mart from dim_olist_payments + add reconciliation
-  test'
-branch: feature/finance-mart-refactor

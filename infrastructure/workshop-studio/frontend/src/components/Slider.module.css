@@ -1,0 +1,58 @@
+.slider { display: grid; gap: var(--space-2); min-width: 0; }
+.head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; }
+.label { font-weight: 600; }
+.value { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--accent-text); font-size: var(--text-lg); }
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2.75rem;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  --track: 0.5rem;
+}
+.range::-webkit-slider-runnable-track {
+  height: var(--track);
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--accent) var(--pct), var(--line-strong) var(--pct));
+}
+.range::-moz-range-track { height: var(--track); border-radius: 999px; background: var(--line-strong); }
+.range::-moz-range-progress { height: var(--track); border-radius: 999px; background: var(--accent); }
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  margin-top: calc((var(--track) - 1.7rem) / 2);
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--accent);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.range::-moz-range-thumb {
+  width: 1.7rem; height: 1.7rem; border-radius: 50%;
+  background: var(--surface); border: 3px solid var(--accent); box-shadow: var(--shadow-md);
+}
+.range:active::-webkit-slider-thumb { transform: scale(1.12); }
+.range:focus-visible { outline: none; }
+.range:focus-visible::-webkit-slider-thumb { outline: 3px solid var(--ring); outline-offset: 3px; }
+.range:focus-visible::-moz-range-thumb { outline: 3px solid var(--ring); outline-offset: 3px; }
+.range:disabled { opacity: 0.5; cursor: not-allowed; }
+.track { position: relative; }
+.tick { position: absolute; top: 50%; width: 4px; height: 1.5rem; margin: -0.75rem 0 0 -2px; border-radius: 2px; background: var(--ink); pointer-events: none; }
+.ticks { list-style: none; position: relative; height: 2.6em; margin-top: calc(var(--space-1) * -1); font-size: var(--text-xs); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.ticks li { position: absolute; top: 0; transform: translateX(-50%); display: grid; justify-items: center; }
+.ticks i { display: block; width: 2px; height: 0.45rem; background: var(--ink-faint); }
+.ticks span { white-space: nowrap; font-weight: 600; }
+.markRow { position: relative; height: 3.2em; margin-top: calc(var(--space-2) * -1); font-size: var(--text-sm); font-weight: 600; color: var(--ink); }
+.markRow > span { position: absolute; white-space: nowrap; }
+/* the arrow stands exactly under its day; the words sit under the arrow and never run out of the track */
+.markArrow { top: 0; transform: translateX(-50%); line-height: 1; color: var(--accent-text); }
+.markText { top: 1.5em; }
+.markRow[data-side='mid'] .markText { transform: translateX(-50%); }
+.markRow[data-side='start'] .markText { transform: translateX(-1rem); }
+.markRow[data-side='end'] .markText { transform: translateX(calc(-100% + 1rem)); }
+.ends { display: flex; justify-content: space-between; font-size: var(--text-sm); color: var(--ink-2); }
+.help { font-size: var(--text-sm); color: var(--ink-2); }

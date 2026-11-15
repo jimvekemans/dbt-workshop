@@ -1,0 +1,16 @@
+check: An automatic test of the data, for example that every order has an order number.
+database: The big, organised store where all the shop's data lives, in tables.
+environment: 'One complete copy of the system with its own data. We have three: development (trying things), validation (checking) and production (the real one).'
+feed: Data that another team or company sends us again and again, for example the carrier's parcel scans or customer reviews.
+hand-made change: A change someone typed straight into the live database instead of putting it through the normal, recorded route.
+log: 'The diary a program writes while it works: one line for every step, in the order it happened.'
+model: One table of the shop's reports, built from raw data by a small piece of code.
+nightly load: The job that runs every night and rebuilds all the shop's reports from the latest data.
+operator: The person who keeps the nightly load running, not the person who writes the reports.
+release: A numbered bundle of finished changes that goes to validation and then to production together.
+robot account: A login used by a program instead of a person. It has its own keys that only open certain doors.
+sandbox: A private scratch copy where a change can be tried without touching what others use.
+setting: A value an operator can change in a minute to alter tonight's nightly load, without building anything new.
+table: 'One sheet of the database: rows and columns, like a page of a spreadsheet.'
+test: An automatic check on the data, for example that every order has a number.
+version: One exact, numbered state of all our code, for example v1.0.2. Like the edition number of a book.

@@ -1,0 +1,3864 @@
+{
+ "scenario": "late-delivery",
+ "steps": {
+  "silent": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.01,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:02.352538+00:00",
+         "finished": "2026-11-15T19:17:14.372296+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:02.352538+00:00",
+         "finished": "2026-11-15T19:17:14.372296+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:02.352538+00:00",
+         "finished": "2026-11-15T19:17:14.372296+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:02.352538+00:00",
+         "finished": "2026-11-15T19:17:14.372296+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "running",
+       "summary": "Sending the last 3 days of data again in development.",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:02.352538+00:00",
+         "finished": "2026-11-15T19:17:14.372296+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.1,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:02.352538+00:00",
+         "finished": "2026-11-15T19:17:14.372296+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.1,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:02.352538+00:00",
+         "finished": "2026-11-15T19:17:14.372296+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.03,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:02.352538+00:00",
+         "finished": "2026-11-15T19:17:14.372296+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.62,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:02.352538+00:00",
+         "finished": "2026-11-15T19:17:14.372296+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.04,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:17:35.459558+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.63,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:17:35.459558+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.06,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:17:35.459558+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.07,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:17:35.459558+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.65,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:17:35.459558+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.09,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:17:35.459558+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.66,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:17:35.459558+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 12.1,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:12.914765976Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "13 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:17:35.459558+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.12,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:35.459558+00:00",
+         "finished": "2026-11-15T19:17:46.572027+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.68,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794770253_1e148f: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:35.459558+00:00",
+         "finished": "2026-11-15T19:17:46.572027+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.69,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794770253_1e148f: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:35.459558+00:00",
+         "finished": "2026-11-15T19:17:46.572027+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.69,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is paused: nothing new arrives.",
+       "details": "feed.condition dev carrier {'paused': True}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (1,846 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 0, 'raw_web_events': 1281}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794770253_1e148f: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The nightly load, step by step",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:17:35.459558+00:00",
+         "finished": "2026-11-15T19:17:46.572027+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The nightly load finished without problems in development.",
+   "outcome": "The parcel scans from the carrier are marked Late (the newest scan is 2 days old), the other 5 feeds are up to date, and the nightly load still finished.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:17:47+00:00",
+   "durations": [
+    17.77,
+    17.8,
+    17.7,
+    21.0,
+    14.7
+   ],
+   "show": [
+    "freshness",
+    "tasks"
+   ]
+  },
+  "back": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.0,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "running",
+       "summary": "Sending the last 3 days of data again in development.",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.07,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.07,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.0,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.6,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.0,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.61,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.0,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.0,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.62,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.0,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.64,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 12.0,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.0,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.65,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 16.0,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.67,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794770268_a73d3e: success; tasks: audit_environment_drift=success, dbt_build=success, persist_artifacts_to_state=success, dbt_source_freshness=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:17:45.333692845Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "late",
+          "state_text": "Late",
+          "last_data": "2 days ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "5 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.67,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794770268_a73d3e: success; tasks: audit_environment_drift=success, dbt_build=success, persist_artifacts_to_state=success, dbt_source_freshness=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:18:03.996409461Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "14 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "6 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.67,
+     "actions": [
+      {
+       "label": "Changing how parcel scans are delivered",
+       "status": "done",
+       "summary": "Delivery of parcel scans is running again.",
+       "details": "feed.condition dev carrier {'paused': False}"
+      },
+      {
+       "label": "Sending the last 3 days of data again",
+       "status": "done",
+       "summary": "Sent the last 3 days of every data feed again in development with the current settings (2,181 rows arrived).",
+       "details": "feed.deliver dev days=3 feeds=all rows={'raw_olist_customers': 91, 'raw_olist_orders': 313, 'raw_olist_order_payments': 111, 'raw_olist_order_reviews': 50, 'raw_carrier_tracking_events': 334, 'raw_web_events': 1282}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794770268_a73d3e: success; tasks: audit_environment_drift=success, dbt_build=success, persist_artifacts_to_state=success, dbt_source_freshness=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "freshness",
+       "title": "When each feed last arrived",
+       "data": {
+        "generated_at": "2026-11-15T19:18:03.996409461Z",
+        "sources": [
+         {
+          "label": "parcel scans",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "14 minutes ago"
+         },
+         {
+          "label": "customers",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "payments",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "2 minutes ago"
+         },
+         {
+          "label": "reviews",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "6 minutes ago"
+         },
+         {
+          "label": "orders",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "1 minute ago"
+         },
+         {
+          "label": "website visits",
+          "state": "fresh",
+          "state_text": "Up to date",
+          "last_data": "just now"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The nightly load finished without problems in development.",
+   "outcome": "All 6 feeds are up to date again, so the check no longer names a late feed.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:18:05+00:00",
+   "durations": [
+    14.69,
+    17.7,
+    14.7,
+    18.0,
+    17.7
+   ],
+   "show": [
+    "freshness"
+   ]
+  }
+ },
+ "recorded_at": "2026-11-15T19:18:05+00:00",
+ "prepare": {
+  "durations": [
+   36.2,
+   15.3,
+   16.0,
+   15.4
+  ]
+ }
+}

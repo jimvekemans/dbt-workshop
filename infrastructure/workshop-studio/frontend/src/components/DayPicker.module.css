@@ -1,0 +1,9 @@
+.picker { display: grid; gap: var(--space-2); }
+.date { display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; }
+.weekday { font-size: var(--text-xl); font-weight: 700; color: var(--accent-text); }
+.full { font-size: var(--text-lg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-2); }
+.slider { min-width: 0; }
+.ago { color: var(--ink-2); font-size: var(--text-md); }
+.edge { border: 2px solid var(--ink-2); }
+.edge[aria-disabled='true'] { opacity: 0.6; border-color: var(--ink-faint); }

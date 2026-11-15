@@ -1,0 +1,40 @@
+.wrap { position: relative; display: inline; }
+.term {
+  display: inline;
+  /* a hit area of about 32 px high without changing the line height */
+  padding: 0.4em 0.15em;
+  margin: -0.4em -0.15em;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: help;
+  text-decoration: underline dotted var(--accent) 2px;
+  text-underline-offset: 0.22em;
+  border-radius: 2px;
+}
+@media (hover: hover) and (pointer: fine) { .term:hover { color: var(--accent-text); } }
+.term[aria-expanded='true'] { color: var(--accent-text); background: var(--accent-soft); }
+.pop {
+  position: fixed;
+  z-index: calc(var(--z-modal) + 1);
+  display: block;
+  width: min(22rem, 78vw);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--ink);
+  color: var(--on-ink);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  font-weight: 400;
+  text-align: left;
+  white-space: normal;
+  animation: pop var(--dur-fast) var(--ease-out) both;
+}
+.popTitle { display: block; font-weight: 700; margin-bottom: 0.2em; letter-spacing: 0.01em; }
+.popText { display: block; }
+@keyframes pop { from { opacity: 0; } to { opacity: 1; } }
+.popFoot { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); margin-top: var(--space-2); font-size: var(--text-xs); opacity: 0.85; }
+.popClose { min-height: 40px; padding: 0 var(--space-3); border-radius: var(--radius-sm); border: 1px solid currentColor; background: transparent; color: inherit; font-weight: 600; cursor: pointer; }
+.popClose:focus-visible { outline: 3px solid var(--on-ink); outline-offset: 2px; }

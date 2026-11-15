@@ -1,0 +1,15 @@
+.wrap { display: grid; gap: var(--space-3); justify-items: start; padding: var(--space-4) var(--space-5); border-radius: var(--radius-md); background: var(--tone-bg); border-left: 6px solid var(--tone); }
+.text { font-size: var(--text-lg); line-height: 1.4; font-weight: 600; max-width: var(--measure); }
+.reasons { margin: 0; padding-left: 1.2em; display: grid; gap: var(--space-1); color: var(--ink-2); font-size: var(--text-md); max-width: var(--measure); }
+.compare { width: 100%; border-collapse: collapse; margin-top: var(--space-2); font-size: var(--text-md); }
+.compare th, .compare td { text-align: left; padding: var(--space-1) var(--space-3) var(--space-1) 0; border-bottom: 1px solid var(--line); font-weight: 400; }
+.compare thead th { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-2); }
+.compare tbody th { font-weight: 700; }
+.same { color: var(--good); font-size: var(--text-sm); white-space: nowrap; }
+.diff { display: inline-block; padding: 0 0.6em; border-radius: 999px; background: var(--warn-bg); border: 1px solid var(--warn-line); color: var(--warn); font-size: var(--text-sm); font-weight: 600; white-space: nowrap; }
+@media (max-width: 560px) {
+  .compare thead { display: none; }
+  .compare tr { display: grid; gap: 0.1em; padding: var(--space-2) 0; border-bottom: 1px solid var(--line); }
+  .compare th, .compare td { border: 0; padding: 0; }
+  .compare td[data-label]::before { content: attr(data-label) ': '; color: var(--ink-2); font-size: var(--text-sm); }
+}

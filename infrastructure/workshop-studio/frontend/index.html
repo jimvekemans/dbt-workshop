@@ -2,9 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
     <title>Workshop Studio</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Ccircle cx='9' cy='16' r='3' fill='white'/%3E%3Ccircle cx='23' cy='9' r='3' fill='white'/%3E%3Ccircle cx='23' cy='23' r='3' fill='white'/%3E%3Cpath d='M12 16 L20 10 M12 16 L20 22' stroke='white' stroke-width='2'/%3E%3C/svg%3E" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232b45c4'/%3E%3Cpath d='M9 17l4 4 10-11' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+    <script>
+      try {
+        var t = localStorage.getItem('studio-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+        // the chosen text size, before the first paint (the same table as src/lib/textSize.ts)
+        var z = { xsmall: 0.65, small: 0.75, medium: 0.85, large: 1, xlarge: 1.15 }[localStorage.getItem('studio-text-size')];
+        if (z) document.documentElement.style.setProperty('--text-scale', z);
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

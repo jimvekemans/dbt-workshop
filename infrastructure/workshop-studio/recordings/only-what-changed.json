@@ -1,0 +1,3665 @@
+{
+ "scenario": "only-what-changed",
+ "steps": {
+  "report": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.27,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.41,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.27,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.41,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.51,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.41,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.51,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.41,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.87,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.41,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.87,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.41,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.06,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Two decimals in the management report' for review.",
+       "details": "merge request !77: demo/precise-report -> dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.41,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.06,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Two decimals in the management report' for review.",
+       "details": "merge request !77: demo/precise-report -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.41,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.31,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Two decimals in the management report' for review.",
+       "details": "merge request !77: demo/precise-report -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.41,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.5,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Two decimals in the management report' for review.",
+       "details": "merge request !77: demo/precise-report -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.72,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Two decimals in the management report' for review.",
+       "details": "merge request !77: demo/precise-report -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.03,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Two decimals in the management report' for review.",
+       "details": "merge request !77: demo/precise-report -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.42,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.28,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Two decimals in the management report' for review.",
+       "details": "merge request !77: demo/precise-report -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.42,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.51,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Two decimals in the management report' for review.",
+       "details": "merge request !77: demo/precise-report -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: waiting for the next step",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.42,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.57,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Two decimals in the management report' for review.",
+       "details": "merge request !77: demo/precise-report -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed. It rehearsed 1 of 28 tables and 0 data checks in 1 second.",
+       "details": "pipeline 260 on refs/merge-requests/77/head: success\n--- the last lines of the rehearsal ---\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nSucceeded model demo_precise_report.demo_precise_report_mart_olist_management_kpi (table) [1 of 1 in 0.16s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [416ms]\nProcessed: 1 hook | 1 model\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\nDROP TABLE IF EXISTS `vdp_ci`.`demo_precise_report_mart_olist_management_kpi`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794770462:step_script\n\nsection_start:1794770462:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [163ms]\nsection_end:1794770462:after_script\n\nsection_start:1794770462:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770462:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.42,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.8,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Two decimals in the management report' for review.",
+       "details": "merge request !77: demo/precise-report -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed. It rehearsed 1 of 28 tables and 0 data checks in 1 second.",
+       "details": "pipeline 260 on refs/merge-requests/77/head: success\n--- the last lines of the rehearsal ---\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nSucceeded model demo_precise_report.demo_precise_report_mart_olist_management_kpi (table) [1 of 1 in 0.16s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [416ms]\nProcessed: 1 hook | 1 model\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\nDROP TABLE IF EXISTS `vdp_ci`.`demo_precise_report_mart_olist_management_kpi`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794770462:step_script\n\nsection_start:1794770462:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [163ms]\nsection_end:1794770462:after_script\n\nsection_start:1794770462:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770462:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.42,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "The automatic rehearsal passed. It rehearsed 1 of 28 tables and 0 data checks in 1 second.",
+        "details": "pipeline 260 on refs/merge-requests/77/head: success\n--- the last lines of the rehearsal ---\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nSucceeded model demo_precise_report.demo_precise_report_mart_olist_management_kpi (table) [1 of 1 in 0.16s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [416ms]\nProcessed: 1 hook | 1 model\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\nDROP TABLE IF EXISTS `vdp_ci`.`demo_precise_report_mart_olist_management_kpi`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794770462:step_script\n\nsection_start:1794770462:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [163ms]\nsection_end:1794770462:after_script\n\nsection_start:1794770462:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770462:cleanup_file_variables\n\nJob succeeded",
+        "data": {
+         "status": "success",
+         "failures": [],
+         "rehearsed": {
+          "tables": 1,
+          "checks": 0,
+          "tables_total": 28,
+          "seconds": 0.42,
+          "names": [
+           "Management report table"
+          ]
+         }
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.8,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/precise-report created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Show the on-time percentage with two decimals in the management report.",
+       "details": "9457f2fa fix: management report shows the on-time percentage with two decimals\nmodels/im_dimensional/mart_olist_management_kpi.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Two decimals in the management report' for review.",
+       "details": "merge request !77: demo/precise-report -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed. It rehearsed 1 of 28 tables and 0 data checks in 1 second.",
+       "details": "pipeline 260 on refs/merge-requests/77/head: success\n--- the last lines of the rehearsal ---\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nSucceeded model demo_precise_report.demo_precise_report_mart_olist_management_kpi (table) [1 of 1 in 0.16s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [416ms]\nProcessed: 1 hook | 1 model\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\nDROP TABLE IF EXISTS `vdp_ci`.`demo_precise_report_mart_olist_management_kpi`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794770462:step_script\n\nsection_start:1794770462:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [163ms]\nsection_end:1794770462:after_script\n\nsection_start:1794770462:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770462:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 1,
+         "checks": 0,
+         "tables_total": 28,
+         "seconds": 0.42,
+         "names": [
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "The automatic rehearsal passed. It rehearsed 1 of 28 tables and 0 data checks in 1 second.",
+        "details": "pipeline 260 on refs/merge-requests/77/head: success\n--- the last lines of the rehearsal ---\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nSucceeded model demo_precise_report.demo_precise_report_mart_olist_management_kpi (table) [1 of 1 in 0.16s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [416ms]\nProcessed: 1 hook | 1 model\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\nDROP TABLE IF EXISTS `vdp_ci`.`demo_precise_report_mart_olist_management_kpi`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794770462:step_script\n\nsection_start:1794770462:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [163ms]\nsection_end:1794770462:after_script\n\nsection_start:1794770462:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770462:cleanup_file_variables\n\nJob succeeded",
+        "data": {
+         "status": "success",
+         "failures": [],
+         "rehearsed": {
+          "tables": 1,
+          "checks": 0,
+          "tables_total": 28,
+          "seconds": 0.42,
+          "names": [
+           "Management report table"
+          ]
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The automatic rehearsal passed. It rehearsed 1 of 28 tables and 0 data checks in 1 second.",
+   "outcome": "The rehearsal covered only the changed table, counted above. Nothing is accepted.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:21:07+00:00",
+   "durations": [
+    9.8,
+    9.8,
+    9.8,
+    9.8,
+    9.8
+   ],
+   "show": [
+    "pipeline",
+    "result"
+   ]
+  },
+  "central": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.27,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.4,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.27,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.4,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.5,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.4,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.5,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.4,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.84,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.4,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.84,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.4,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.03,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.4,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.03,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.4,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.28,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.4,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.5,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "todo",
+        "state_text": "Waiting",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.81,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.08,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.34,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.48,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: trying the change in a private copy",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.56,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: trying the change in a private copy",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 13.79,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: trying the change in a private copy",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 16.05,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: trying the change in a private copy",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.3,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.65,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: waiting for the next step",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.3,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.7,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed. It rehearsed 4 of 28 tables and 3 data checks in 6 seconds.",
+       "details": "pipeline 261 on refs/merge-requests/78/head: success\n--- the last lines of the rehearsal ---\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [6.3s]\nProcessed: 1 hook | 4 models | 3 tests\nSummary: 8 total | 8 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_dim_olist_customers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_fct_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_mart_olist_management_kpi`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_mart_web_conversion`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [182ms]\nsection_end:1794770480:step_script\n\nsection_start:1794770480:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [155ms]\nsection_end:1794770481:after_script\n\nsection_start:1794770481:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770481:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.3,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.94,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed. It rehearsed 4 of 28 tables and 3 data checks in 6 seconds.",
+       "details": "pipeline 261 on refs/merge-requests/78/head: success\n--- the last lines of the rehearsal ---\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [6.3s]\nProcessed: 1 hook | 4 models | 3 tests\nSummary: 8 total | 8 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_dim_olist_customers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_fct_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_mart_olist_management_kpi`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_mart_web_conversion`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [182ms]\nsection_end:1794770480:step_script\n\nsection_start:1794770480:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [155ms]\nsection_end:1794770481:after_script\n\nsection_start:1794770481:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770481:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.3,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "The automatic rehearsal passed. It rehearsed 4 of 28 tables and 3 data checks in 6 seconds.",
+        "details": "pipeline 261 on refs/merge-requests/78/head: success\n--- the last lines of the rehearsal ---\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [6.3s]\nProcessed: 1 hook | 4 models | 3 tests\nSummary: 8 total | 8 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_dim_olist_customers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_fct_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_mart_olist_management_kpi`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_mart_web_conversion`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [182ms]\nsection_end:1794770480:step_script\n\nsection_start:1794770480:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [155ms]\nsection_end:1794770481:after_script\n\nsection_start:1794770481:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770481:cleanup_file_variables\n\nJob succeeded",
+        "data": {
+         "status": "success",
+         "failures": [],
+         "rehearsed": {
+          "tables": 4,
+          "checks": 3,
+          "tables_total": 28,
+          "seconds": 6.3,
+          "names": [
+           "Customers table",
+           "Orders table",
+           "Website conversion table",
+           "Management report table"
+          ]
+         }
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.94,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/lowercase-cities created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Write the customers' city names in lower case.",
+       "details": "81f59c08 fix: customers table writes city names in lower case\nmodels/im_dimensional/dim_olist_customers.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'City names in lower case' for review.",
+       "details": "merge request !78: demo/lowercase-cities -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed. It rehearsed 4 of 28 tables and 3 data checks in 6 seconds.",
+       "details": "pipeline 261 on refs/merge-requests/78/head: success\n--- the last lines of the rehearsal ---\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [6.3s]\nProcessed: 1 hook | 4 models | 3 tests\nSummary: 8 total | 8 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_dim_olist_customers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_fct_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_mart_olist_management_kpi`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_mart_web_conversion`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [182ms]\nsection_end:1794770480:step_script\n\nsection_start:1794770480:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [155ms]\nsection_end:1794770481:after_script\n\nsection_start:1794770481:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770481:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 4,
+         "checks": 3,
+         "tables_total": 28,
+         "seconds": 6.3,
+         "names": [
+          "Customers table",
+          "Orders table",
+          "Website conversion table",
+          "Management report table"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "The automatic rehearsal passed. It rehearsed 4 of 28 tables and 3 data checks in 6 seconds.",
+        "details": "pipeline 261 on refs/merge-requests/78/head: success\n--- the last lines of the rehearsal ---\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [6.3s]\nProcessed: 1 hook | 4 models | 3 tests\nSummary: 8 total | 8 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_dim_olist_customers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_fct_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_mart_olist_management_kpi`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_lowercase_cities_mart_web_conversion`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [182ms]\nsection_end:1794770480:step_script\n\nsection_start:1794770480:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [155ms]\nsection_end:1794770481:after_script\n\nsection_start:1794770481:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770481:cleanup_file_variables\n\nJob succeeded",
+        "data": {
+         "status": "success",
+         "failures": [],
+         "rehearsed": {
+          "tables": 4,
+          "checks": 3,
+          "tables_total": 28,
+          "seconds": 6.3,
+          "names": [
+           "Customers table",
+           "Orders table",
+           "Website conversion table",
+           "Management report table"
+          ]
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The automatic rehearsal passed. It rehearsed 4 of 28 tables and 3 data checks in 6 seconds.",
+   "outcome": "The rehearsal covered more tables than for the report, but not all of them. Nothing is accepted.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:21:25+00:00",
+   "durations": [
+    9.9,
+    18.0,
+    9.8,
+    17.9,
+    17.9
+   ],
+   "show": [
+    "pipeline",
+    "result"
+   ]
+  },
+  "everything": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.24,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 28,
+         "checks": 22,
+         "tables_total": 28,
+         "seconds": 12.5,
+         "names": [
+          "Cleaned parcel scans table",
+          "Run logbook",
+          "Cleaned orders table",
+          "Cleaned website visits table",
+          "Column details",
+          "List of data feeds",
+          "and 22 more"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.24,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 28,
+         "checks": 22,
+         "tables_total": 28,
+         "seconds": 12.5,
+         "names": [
+          "Cleaned parcel scans table",
+          "Run logbook",
+          "Cleaned orders table",
+          "Cleaned website visits table",
+          "Column details",
+          "List of data feeds",
+          "and 22 more"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.47,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 28,
+         "checks": 22,
+         "tables_total": 28,
+         "seconds": 12.5,
+         "names": [
+          "Cleaned parcel scans table",
+          "Run logbook",
+          "Cleaned orders table",
+          "Cleaned website visits table",
+          "Column details",
+          "List of data feeds",
+          "and 22 more"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.47,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 28,
+         "checks": 22,
+         "tables_total": 28,
+         "seconds": 12.5,
+         "names": [
+          "Cleaned parcel scans table",
+          "Run logbook",
+          "Cleaned orders table",
+          "Cleaned website visits table",
+          "Column details",
+          "List of data feeds",
+          "and 22 more"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.78,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 28,
+         "checks": 22,
+         "tables_total": 28,
+         "seconds": 12.5,
+         "names": [
+          "Cleaned parcel scans table",
+          "Run logbook",
+          "Cleaned orders table",
+          "Cleaned website visits table",
+          "Column details",
+          "List of data feeds",
+          "and 22 more"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.78,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 28,
+         "checks": 22,
+         "tables_total": 28,
+         "seconds": 12.5,
+         "names": [
+          "Cleaned parcel scans table",
+          "Run logbook",
+          "Cleaned orders table",
+          "Cleaned website visits table",
+          "Column details",
+          "List of data feeds",
+          "and 22 more"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.02,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 28,
+         "checks": 22,
+         "tables_total": 28,
+         "seconds": 12.5,
+         "names": [
+          "Cleaned parcel scans table",
+          "Run logbook",
+          "Cleaned orders table",
+          "Cleaned website visits table",
+          "Column details",
+          "List of data feeds",
+          "and 22 more"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.02,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 28,
+         "checks": 22,
+         "tables_total": 28,
+         "seconds": 12.5,
+         "names": [
+          "Cleaned parcel scans table",
+          "Run logbook",
+          "Cleaned orders table",
+          "Cleaned website visits table",
+          "Column details",
+          "List of data feeds",
+          "and 22 more"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.3,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 28,
+         "checks": 22,
+         "tables_total": 28,
+         "seconds": 12.5,
+         "names": [
+          "Cleaned parcel scans table",
+          "Run logbook",
+          "Cleaned orders table",
+          "Cleaned website visits table",
+          "Column details",
+          "List of data feeds",
+          "and 22 more"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.47,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.73,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.0,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.24,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.49,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: trying the change in a private copy",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.49,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: trying the change in a private copy",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 13.72,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: trying the change in a private copy",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 15.95,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: trying the change in a private copy",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.68,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: waiting for the next step",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.77,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed. It rehearsed 28 of 28 tables and 22 data checks in 12 seconds.",
+       "details": "pipeline 262 on refs/merge-requests/79/head: success\n--- the last lines of the rehearsal ---\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_dummy_reload_hkey_mod`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_dummy_reload_pit_with_deps`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_fct_olist_deliveries`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_fct_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_int_web_top_pages`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_olist_management_kpi`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_web_conversion`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_web_journeys`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_ref_dummy_numbers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_singlestore_column_info`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_singlestore_table_info`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_carrier_events`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_olist_customers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_web_events`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [378ms]\nsection_end:1794770502:step_script\n\nsection_start:1794770502:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794770502:after_script\n\nsection_start:1794770502:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770502:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": [],
+        "rehearsed": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.01,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed. It rehearsed 28 of 28 tables and 22 data checks in 12 seconds.",
+       "details": "pipeline 262 on refs/merge-requests/79/head: success\n--- the last lines of the rehearsal ---\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_dummy_reload_hkey_mod`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_dummy_reload_pit_with_deps`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_fct_olist_deliveries`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_fct_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_int_web_top_pages`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_olist_management_kpi`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_web_conversion`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_web_journeys`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_ref_dummy_numbers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_singlestore_column_info`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_singlestore_table_info`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_carrier_events`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_olist_customers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_web_events`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [378ms]\nsection_end:1794770502:step_script\n\nsection_start:1794770502:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794770502:after_script\n\nsection_start:1794770502:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770502:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 28,
+         "checks": 22,
+         "tables_total": 28,
+         "seconds": 12.2,
+         "names": [
+          "List of data feeds",
+          "Cleaned website visits table",
+          "Failing data checks",
+          "List of tables",
+          "Column details",
+          "Database table details",
+          "and 22 more"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "The automatic rehearsal passed. It rehearsed 28 of 28 tables and 22 data checks in 12 seconds.",
+        "details": "pipeline 262 on refs/merge-requests/79/head: success\n--- the last lines of the rehearsal ---\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_dummy_reload_hkey_mod`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_dummy_reload_pit_with_deps`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_fct_olist_deliveries`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_fct_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_int_web_top_pages`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_olist_management_kpi`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_web_conversion`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_web_journeys`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_ref_dummy_numbers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_singlestore_column_info`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_singlestore_table_info`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_carrier_events`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_olist_customers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_web_events`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [378ms]\nsection_end:1794770502:step_script\n\nsection_start:1794770502:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794770502:after_script\n\nsection_start:1794770502:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770502:cleanup_file_variables\n\nJob succeeded",
+        "data": {
+         "status": "success",
+         "failures": [],
+         "rehearsed": {
+          "tables": 28,
+          "checks": 22,
+          "tables_total": 28,
+          "seconds": 12.2,
+          "names": [
+           "List of data feeds",
+           "Cleaned website visits table",
+           "Failing data checks",
+           "List of tables",
+           "Column details",
+           "Database table details",
+           "and 22 more"
+          ]
+         }
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.01,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/step-after-every-table created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Run one small step after every table is built.",
+       "details": "fd28343e chore: run one small step after every table is built\ndbt_project.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'One small step after every table' for review.",
+       "details": "merge request !79: demo/step-after-every-table -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed. It rehearsed 28 of 28 tables and 22 data checks in 12 seconds.",
+       "details": "pipeline 262 on refs/merge-requests/79/head: success\n--- the last lines of the rehearsal ---\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_dummy_reload_hkey_mod`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_dummy_reload_pit_with_deps`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_fct_olist_deliveries`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_fct_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_int_web_top_pages`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_olist_management_kpi`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_web_conversion`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_web_journeys`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_ref_dummy_numbers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_singlestore_column_info`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_singlestore_table_info`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_carrier_events`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_olist_customers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_web_events`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [378ms]\nsection_end:1794770502:step_script\n\nsection_start:1794770502:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794770502:after_script\n\nsection_start:1794770502:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770502:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": [],
+        "rehearsed": {
+         "tables": 28,
+         "checks": 22,
+         "tables_total": 28,
+         "seconds": 12.2,
+         "names": [
+          "List of data feeds",
+          "Cleaned website visits table",
+          "Failing data checks",
+          "List of tables",
+          "Column details",
+          "Database table details",
+          "and 22 more"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "How much was rehearsed",
+       "data": {
+        "summary": "The automatic rehearsal passed. It rehearsed 28 of 28 tables and 22 data checks in 12 seconds.",
+        "details": "pipeline 262 on refs/merge-requests/79/head: success\n--- the last lines of the rehearsal ---\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_dummy_reload_hkey_mod`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_dummy_reload_pit_with_deps`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_fct_olist_deliveries`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_fct_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_int_web_top_pages`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_olist_management_kpi`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_web_conversion`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_mart_web_journeys`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_ref_dummy_numbers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_singlestore_column_info`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_singlestore_table_info`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_carrier_events`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_olist_customers`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_olist_orders`\nDROP TABLE IF EXISTS `vdp_ci`.`demo_step_after_every_table_stg_web_events`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [378ms]\nsection_end:1794770502:step_script\n\nsection_start:1794770502:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794770502:after_script\n\nsection_start:1794770502:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770502:cleanup_file_variables\n\nJob succeeded",
+        "data": {
+         "status": "success",
+         "failures": [],
+         "rehearsed": {
+          "tables": 28,
+          "checks": 22,
+          "tables_total": 28,
+          "seconds": 12.2,
+          "names": [
+           "List of data feeds",
+           "Cleaned website visits table",
+           "Failing data checks",
+           "List of tables",
+           "Column details",
+           "Database table details",
+           "and 22 more"
+          ]
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The automatic rehearsal passed. It rehearsed 28 of 28 tables and 22 data checks in 12 seconds.",
+   "outcome": "The rehearsal covered every table, counted above, because the change touches a setting all of them share. Nothing is accepted.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:21:43+00:00",
+   "durations": [
+    9.8,
+    26.0,
+    26.0,
+    26.2,
+    18.0
+   ],
+   "show": [
+    "pipeline",
+    "result"
+   ]
+  }
+ },
+ "prepare": {
+  "durations": [
+   2.4,
+   2.4,
+   1.4,
+   1.9,
+   1.9
+  ]
+ },
+ "recorded_at": "2026-11-15T19:21:43+00:00"
+}

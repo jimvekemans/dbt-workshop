@@ -1,0 +1,10 @@
+.wrap { display: grid; gap: var(--space-2); align-content: center; min-height: 6rem; }
+.big { display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; line-height: 1; }
+.value { font-size: var(--text-4xl); font-weight: 800; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; animation: rise var(--dur-med) var(--ease-out) both; }
+.unit { font-size: var(--text-xl); font-weight: 600; color: var(--ink-2); }
+.compare { min-height: 1.6em; color: var(--ink-2); font-size: var(--text-md); display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: baseline; }
+.second { color: var(--ink); font-size: var(--text-lg); font-variant-numeric: tabular-nums; }
+.same { color: var(--ink-2); }
+@keyframes rise { from { opacity: 0.2; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.trail { color: var(--ink-2); font-size: var(--text-sm); font-variant-numeric: tabular-nums; line-height: 1.5; }
+.step { white-space: nowrap; }

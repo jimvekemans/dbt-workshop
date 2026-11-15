@@ -1,0 +1,108 @@
+id: one-clear-mail
+group: daily
+title: A failed night produces one clear mail
+promise: When the night fails, the person on duty gets one short mail that says what failed, not a wall of text.
+minutes: 3
+environment: dev
+related:
+  - id: redo-only-what-failed
+    why: After reading the mail and fixing the cause, only the failed part is run again.
+
+problem:
+  headline: The night fails, and the cause is buried in hundreds of lines
+  story: |
+    At 03:10 the night stops. In the morning the person on duty opens the [[log]]: hundreds of lines from a
+    dozen steps, with the one line that matters somewhere in the middle. Twenty minutes later it is clear that three
+    orders have no order number. By then the reports have been wrong for hours, and colleagues are asking in the
+    chat what happened.
+  cost: Every failure costs the person on duty about 20 minutes of reading before anyone can start fixing.
+  visual:
+    type: flow
+    nodes:
+      - {id: fail, label: The night fails, state: bad, note: "03:10"}
+      - {id: logs, label: Hundreds of log lines, state: warn, note: "One line matters"}
+      - {id: find, label: Someone searches, state: warn, note: "About 20 minutes"}
+      - {id: fix, label: The fix starts, state: idle, note: "Only after the search"}
+    links: [[fail, logs], [logs, find], [find, fix]]
+    caption: Nothing tells the team where to look.
+
+idea:
+  headline: One mail per failed night, with the answer at the top
+  points:
+    - When any step fails, one last step collects what went wrong and writes it up.
+    - The mail names the failed check and counts what succeeded, failed and was not run.
+    - It is sent once per night, however many steps failed, with the last log lines below it.
+  visual:
+    type: flow
+    nodes:
+      - {id: steps, label: The steps of the night, state: ok, note: "Any of them can fail"}
+      - {id: last, label: The last step, state: fix, note: "Runs only after a failure"}
+      - {id: mail, label: One mail, state: ok, note: "Failed check, counts, log lines"}
+      - {id: team, label: Inbox of the person on duty, state: ok, note: "Read in one minute"}
+    links: [[steps, last], [last, mail], [mail, team]]
+    caption: The mail does the reading so the team can do the fixing.
+
+code:
+  - title: A last step that runs only after a failure
+    file: airflow/utils/dbt_dag_utils.py
+    file_label: Helpers for the steps of the night
+    from: "@task(task_id=REPORT_TASK_ID"
+    to: "send_failure_report_for_run(context)"
+    max_lines: 6
+    notes:
+      - line: "trigger_rule=\"one_failed\""
+        says: On a good night this step stays idle; any failed step starts it.
+      - line: "One mail: dbt findings"
+        says: "It sends exactly one mail: the findings, the check results and the last log lines."
+  - title: It is attached to the end of the night
+    file: airflow/dags/dbt_daily_load.py
+    file_label: The list of steps of the night
+    from: "# 5. One failure report per run, whichever task failed"
+    to: "[drift_task, build_task, freshness_task] >> failure_report_task()"
+    max_lines: 4
+    notes:
+      - line: "# 5. One failure report per run"
+        says: One mail per night, whichever step failed.
+      - line: "failure_report_task()"
+        says: Every step of the night leads to the mail step, so any failure sends it.
+  - title: The subject line of the mail
+    file: airflow/utils/dbt_failure_report.py
+    file_label: The code that writes the failure mail
+    from: "    parts = []"
+    to: "    return f\"[{_environment(ctx)}]"
+    max_lines: 12
+    notes:
+      - line: "{_plural(t.failed_checks, 'check')} failed"
+        says: Failed checks are counted first.
+      - line: "{_plural(t.not_run, 'step')} not run"
+        says: Steps that never ran are counted too.
+      - line: "_load_label(ctx)"
+        says: The subject names the environment, the job, and what failed or did not run.
+
+demo:
+  intro: Three orders arrive without an order number. The night fails, and then we open the mail the person on duty receives.
+  setup:
+    - {action: mail.clear}
+    - {action: feed.condition, feed: orders, set: {bad_rows: 3}}
+    - {action: feed.deliver, days: 1}
+  steps:
+    - id: fail
+      title: The night fails
+      say: A check finds 3 orders without an order number and stops the night.
+      button: Run the night
+      inputs: []
+      do:
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: failed}
+      show:
+        - {type: tasks, dag: dbt_daily_load, title: The night, caption: "1 step of the night failed: the one that builds the reports. A data check inside it found the 3 orders. The last step of the night then wrote the failure mail."}
+      outcome: "1 step of the night failed and the night stopped there; the last step then wrote the mail."
+    - id: mail
+      title: The mail in the inbox
+      say: This is all the person on duty receives. The failed check is at the top; the log lines are far below.
+      button: Open the mail
+      inputs: []
+      do:
+        - {action: wait, seconds: 2, because: "The mail is sent by the last step of the night"}
+      show:
+        - {type: mail, match: Nightly load failed, title: What the person on duty receives, caption: "The subject says what failed. The failed check is named under What failed. The log lines for the engineer come last."}
+      outcome: The mail names the failed check right at the top. The log lines are only below it, for the engineer who wants them.

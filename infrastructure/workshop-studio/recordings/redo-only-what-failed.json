@@ -1,0 +1,2394 @@
+{
+ "scenario": "redo-only-what-failed",
+ "steps": {
+  "fail": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.03,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-15T19:27:43.671352+00:00",
+         "finished": "2026-11-15T19:27:53.099750+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.03,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-15T19:27:43.671352+00:00",
+         "finished": "2026-11-15T19:27:53.099750+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.05,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-15T19:27:43.671352+00:00",
+         "finished": "2026-11-15T19:27:53.099750+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.55,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-15T19:27:43.671352+00:00",
+         "finished": "2026-11-15T19:27:53.099750+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.12,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.56,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.15,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.18,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.57,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.21,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.59,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 12.24,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
+          "current": true
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.26,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": "2026-11-15T19:28:26.591102+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
+          "current": true
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.6,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
+       "details": "run studio__1794770894_942ba6: failed; tasks: audit_environment_drift=success, dbt_build=failed, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": "2026-11-15T19:28:26.591102+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
+          "current": true
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.63,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
+       "details": "run studio__1794770894_942ba6: failed; tasks: audit_environment_drift=success, dbt_build=failed, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": "2026-11-15T19:28:26.591102+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
+          "current": true
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.63,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
+       "details": "run studio__1794770894_942ba6: failed; tasks: audit_environment_drift=success, dbt_build=failed, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": "2026-11-15T19:28:26.591102+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran tonight",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
+          "current": true
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
+   "outcome": "The first night built 24 of 28 tables and stopped; 4 tables and 2 checks never ran, and 1 check failed.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:28:27+00:00",
+   "durations": [
+    14.6,
+    14.6,
+    14.6,
+    14.9,
+    14.6
+   ],
+   "show": [
+    "tasks",
+    "run_history"
+   ]
+  },
+  "fix": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.01,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Orders without an order number",
+       "data": {
+        "value": 3,
+        "unit": "orders",
+        "compare": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Orders without an order number",
+       "data": {
+        "value": 3,
+        "unit": "orders",
+        "compare": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 0 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 0}"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Orders without an order number",
+       "data": {
+        "value": 3,
+        "unit": "orders",
+        "compare": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 0 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 0}"
+      },
+      {
+       "label": "Changing the database",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Orders without an order number",
+       "data": {
+        "value": 3,
+        "unit": "orders",
+        "compare": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 0 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 0}"
+      },
+      {
+       "label": "Changing the database",
+       "status": "done",
+       "summary": "The database made the change.",
+       "details": "delete from dev_landing.raw_olist_orders where order_id is null or order_id = ''"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Orders without an order number",
+       "data": {
+        "value": 3,
+        "unit": "orders",
+        "compare": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.03,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 0 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 0}"
+      },
+      {
+       "label": "Changing the database",
+       "status": "done",
+       "summary": "The database made the change.",
+       "details": "delete from dev_landing.raw_olist_orders where order_id is null or order_id = ''"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Orders without an order number",
+       "data": {
+        "value": 0,
+        "unit": "orders",
+        "compare": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.03,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 0 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 0}"
+      },
+      {
+       "label": "Changing the database",
+       "status": "done",
+       "summary": "The database made the change.",
+       "details": "delete from dev_landing.raw_olist_orders where order_id is null or order_id = ''"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Orders without an order number",
+       "data": {
+        "value": 0,
+        "unit": "orders",
+        "compare": null
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The database made the change.",
+   "outcome": "The cause is gone, no order without an order number is left. Only the retry remains.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:28:28+00:00",
+   "durations": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "show": [
+    "number"
+   ]
+  },
+  "retry": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.03,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": "2026-11-15T19:28:26.591102+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.03,
+     "actions": [
+      {
+       "label": "Retrying only the failed part of the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": "2026-11-15T19:28:26.591102+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.23,
+     "actions": [
+      {
+       "label": "Retrying only the failed part of the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-15T19:28:16.541071+00:00",
+         "finished": "2026-11-15T19:28:26.591102+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.06,
+     "actions": [
+      {
+       "label": "Retrying only the failed part of the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:28:29.876804+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.09,
+     "actions": [
+      {
+       "label": "Retrying only the failed part of the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:28:29.876804+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.25,
+     "actions": [
+      {
+       "label": "Retrying only the failed part of the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-15T19:28:29.876804+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.12,
+     "actions": [
+      {
+       "label": "Retrying only the failed part of the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:28:29.876804+00:00",
+         "finished": "2026-11-15T19:28:32.880409+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.26,
+     "actions": [
+      {
+       "label": "Retrying only the failed part of the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794770894_942ba6: success; tasks: audit_environment_drift=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=success, dbt_build=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:28:29.876804+00:00",
+         "finished": "2026-11-15T19:28:32.880409+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.29,
+     "actions": [
+      {
+       "label": "Retrying only the failed part of the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794770894_942ba6: success; tasks: audit_environment_drift=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=success, dbt_build=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:28:29.876804+00:00",
+         "finished": "2026-11-15T19:28:32.880409+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.29,
+     "actions": [
+      {
+       "label": "Retrying only the failed part of the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794770894_942ba6: success; tasks: audit_environment_drift=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=success, dbt_build=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-15T19:28:29.876804+00:00",
+         "finished": "2026-11-15T19:28:32.880409+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done in the first attempt"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The nightly load finished without problems in development.",
+   "outcome": "The retry built only the 4 tables that had not run and ran 3 checks, instead of all 28 tables and 21 checks, and the night is green.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:28:35+00:00",
+   "durations": [
+    7.3,
+    4.2,
+    7.2,
+    4.4,
+    7.3
+   ],
+   "show": [
+    "tasks",
+    "run_history"
+   ]
+  }
+ },
+ "recorded_at": "2026-11-15T19:28:35+00:00",
+ "prepare": {
+  "durations": [
+   28.6,
+   13.8,
+   14.1,
+   27.5,
+   14.4
+  ]
+ }
+}

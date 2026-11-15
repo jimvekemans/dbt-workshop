@@ -1,0 +1,27 @@
+.figure { margin: 0; container-type: inline-size; }
+.cols { display: none; }
+.rows { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+.slot { display: flex; flex-direction: column; gap: var(--space-2); }
+.day {
+  display: grid; gap: var(--space-1); align-content: start;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--tone-bg);
+  border: 2px solid var(--tone-line);
+  border-top-width: 6px;
+}
+.day[data-state='idle'] { border-style: dashed; border-top-style: solid; background: var(--surface-2); }
+.label { font-weight: 700; font-size: var(--text-lg); line-height: 1.2; }
+.note { font-size: var(--text-sm); color: var(--ink-2); line-height: 1.35; }
+.marker { display: flex; align-items: center; gap: var(--space-3); color: var(--accent-ink); font-weight: 700; font-size: var(--text-md); }
+.marker::before { content: ''; flex: 1; border-top: 4px dashed var(--accent); }
+.markerLabel { padding: 0.25em 1em; border-radius: 999px; background: var(--accent); color: var(--accent-ink); }
+.label, .note { overflow-wrap: break-word; min-width: 0; }
+/* side by side only when every day has room (measured in the component); otherwise the stacked rows above */
+.figure[data-wide] .rows { display: none; }
+.figure[data-wide] .cols { list-style: none; display: flex; flex-direction: row; align-items: stretch; padding-top: 3.4rem; }
+.figure[data-wide] .slot { flex: 1 1 0; flex-direction: row; min-width: 0; position: relative; }
+.figure[data-wide] .day { flex: 1; min-width: 0; margin: 0 var(--space-1); }
+.figure[data-wide] .marker { position: absolute; top: -3.4rem; bottom: 0; right: -1px; width: 0; flex-direction: column; align-items: center; z-index: 1; }
+.figure[data-wide] .marker::before { flex: 1; border-top: 0; border-left: 4px dashed var(--accent); order: 2; }
+.figure[data-wide] .markerLabel { order: 1; width: max-content; max-width: 10rem; text-align: center; line-height: 1.25; }

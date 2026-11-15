@@ -1,0 +1,140 @@
+id: switchover-date
+group: sources
+title: Switching to a new scan format on an agreed day
+promise: The carrier changes its scan format on one day, and we switch on that day, so no parcel scan goes missing.
+minutes: 4
+environment: dev
+related:
+  - id: skip-one-table
+    why: The switch day is a setting an operator can change without a new release, like the skip list in that scenario.
+
+problem:
+  headline: Parcel scans in the carrier's new format vanish from the report
+  story: |
+    The carrier, our parcel delivery company, sends one scan for every step of a parcel's journey. Four days ago it
+    started using a new scan format, so counting today, five days are affected. Our report only understands the
+    old one. Nothing crashes and no alarm rings: the new scans arrive, but
+    the report cannot read them. Parcels that were delivered look as if they never left the warehouse, and it
+    stays that way every day until someone changes the report.
+  cost: Customer service cannot see five days of parcel scans, about 110 a day, and tells customers their delivered parcel is lost.
+  visual:
+    type: timeline
+    days:
+      - {label: 7 days ago, state: ok, note: "About 110 scans read"}
+      - {label: 6 days ago, state: ok, note: "About 110 scans read"}
+      - {label: 5 days ago, state: ok, note: "About 110 scans read"}
+      - {label: 4 days ago, state: bad, note: "0 of about 110 scans read"}
+      - {label: 3 days ago, state: bad, note: "0 of about 110 scans read"}
+      - {label: 2 days ago, state: bad, note: "0 of about 110 scans read"}
+      - {label: Yesterday, state: bad, note: "0 of about 110 scans read"}
+      - {label: Today, state: bad, note: "0 scans read so far"}
+    marker: {after: 2, label: The carrier changes its format}
+    caption: From the day of the change, every scan arrives and none can be read.
+
+idea:
+  headline: Read old scans the old way and new scans the new way
+  points:
+    - "We keep two readers side by side: one for the old scan format and one for the new one."
+    - Every scan goes to exactly one reader, chosen by the day it arrived, so none is lost or counted twice.
+    - "The switch day is a [[setting]]: an [[operator]] changes it in a minute, with no new [[release]]."
+  visual:
+    type: flow
+    nodes:
+      - {id: scans, label: Carrier scans, state: ok, note: "Old and new format arrive"}
+      - {id: day, label: The switch day, state: fix, note: "Set by an operator"}
+      - {id: old, label: Old reader, state: ok, note: "Scans before the switch day"}
+      - {id: new, label: New reader, state: ok, note: "Scans from the switch day on"}
+      - {id: report, label: The report, state: ok, note: "What customer service reads"}
+    links: [[scans, day], [day, old], [day, new], [old, report], [new, report]]
+    caption: The switch day decides which reader gets which scan.
+
+code:
+  - title: Where the switch day is set
+    file: models/edw_dv_bdv/carrier/stg_carrier_events.sql
+    file_label: The recipe for the table of parcel scans
+    from: "-- The carrier switches its scan format on one day."
+    to: "new_format_from = env_var"
+    max_lines: 12
+    notes:
+      - line: "Operators set the moment without a deploy"
+        says: An operator can change the switch day at any time, without waiting for a release.
+      - line: "the new format never starts"
+        says: If nobody sets a day, the old format keeps being read, as before.
+      - line: "new_format_from = env_var"
+        says: This line reads the switch day when the [[nightly load]] starts.
+  - title: Which scans the old reader takes
+    file: models/edw_dv_bdv/carrier/stg_carrier_events.sql
+    file_label: The recipe for the table of parcel scans
+    from: "old_format as ("
+    to: "where _ingested_at < '"
+    max_lines: 12
+    notes:
+      - line: "json_extract_string(payload, 'order_ref')"
+        says: The old reader finds the order number under its old name.
+      - line: "where _ingested_at < '"
+        says: Only scans that arrived before the switch day go to this reader.
+  - title: How the switch day reaches the nightly load
+    file: airflow/utils/dbt_runtime_overrides.py
+    file_label: The code that hands settings to the nightly load
+    from: "prefix: list[str] = []"
+    to: "prefix.append(f\"export"
+    max_lines: 6
+    notes:
+      - line: "for name, value in (env_vars or {}).items():"
+        says: Every setting the operator filled in is handled one by one.
+      - line: "prefix.append(f\"export"
+        says: Each one is handed over just before the nightly load starts.
+
+demo:
+  intro: The carrier changed its scan format four days ago. First the report reads only the old format, then you pick the switch day.
+  setup:
+    - {action: feed.condition, feed: carrier, set: {format_from: "{{ day(-4) }}"}}
+    - {action: feed.deliver, days: 7}
+  steps:
+    - id: without
+      title: First, with no switch day
+      say: The report reads only the old format, so every scan since the change is red. Today's bar is shorter because today is not over.
+      button: Run the nightly load
+      inputs: []
+      do:
+        - {action: airflow.set_variable, key: dbt_env_vars, value: {DBT_CARRIER_V2_FROM: "9999-12-31 00:00:00"}}
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
+      show:
+        - type: bars
+          title: Parcel scans per day
+          caption: Each bar counts the scans that arrived that day. The last bar is today, and it is shorter because today is not over. Red bars are scans the report could not read.
+          query: "select date(_ingested_at) as label, if(is_readable, 'readable', 'unreadable') as series, count(*) as value from {{ db('edw_dv_bdv') }}.stg_carrier_events group by label, series order by label desc, series limit 14"
+          good: readable
+          bad: unreadable
+          x_label: Day the scan arrived (the last bar is today)
+      outcome: The last 5 days of scans arrive but cannot be read (the red bars), so those parcels look missing.
+    - id: with
+      title: Now choose the switch day
+      say: Pick the day the carrier really changed, then try another day and watch which scans turn red.
+      button: Apply the day and run the nightly load
+      inputs:
+        - id: switch_day
+          type: day
+          label: Switch to the new format on
+          default: "{{ day(-4) }}"
+          min: "{{ day(-7) }}"
+          max: "{{ day(0) }}"
+          help: The marked day is when the carrier really changed. Try a day before or after it and see which scans turn red.
+          mark: {day: "{{ day(-4) }}", label: the carrier changed its format}
+      do:
+        - {action: airflow.set_variable, key: dbt_env_vars, value: {DBT_CARRIER_V2_FROM: "{{ inputs.switch_day }} 00:00:00"}}
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
+      show:
+        - type: bars
+          before_of: without
+          title: Parcel scans per day
+          caption: The last bar is today, and it is shorter because today is not over. With the day the carrier changed (4 days ago), no bar is red.
+          query: "select date(_ingested_at) as label, if(is_readable, 'readable', 'unreadable') as series, count(*) as value from {{ db('edw_dv_bdv') }}.stg_carrier_events group by label, series order by label desc, series limit 14"
+          good: readable
+          bad: unreadable
+          x_label: Day the scan arrived (the last bar is today)
+      outcome:
+        check: "select count(*) from {{ db('edw_dv_bdv') }}.stg_carrier_events where not is_readable"
+        good_when: zero
+        good: Every scan is read in the format it was sent in, so no bar is red.
+        not_quite: "{{ value }} scans (the red bars) still cannot be read: that day is not the day the carrier changed. Try the marked day."

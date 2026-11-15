@@ -1,0 +1,6 @@
+.group { display: inline-flex; align-items: center; }
+.small, .large { font-family: var(--font-display, inherit); font-weight: 700; line-height: 1; }
+.small { font-size: 0.85rem; }
+.large { font-size: 1.35rem; }
+/* a narrow top bar has no room for it; a phone is not what the app is presented on */
+@media (max-width: 720px) { .group { display: none; } }

@@ -1,0 +1,5 @@
+version: 2
+
+models:
+  - name: mart_reviews_by_score
+    description: "Reviews team: number of customer reviews per star score."

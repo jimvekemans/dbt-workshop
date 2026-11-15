@@ -1,55 +1,33 @@
-import type { Health, Layer, NodeDef, NodeState, ScenarioSummary, StudioState, GroupId } from "../types";
+import type { ServerState } from '../api/types'
+import { envWords } from './env'
 
-export const HEALTH_RANK: Record<Health, number> = { idle: 0, ok: 1, warn: 2, fail: 3 };
-
-export function worst(a: Health, b: Health): Health {
-  return HEALTH_RANK[a] >= HEALTH_RANK[b] ? a : b;
+export interface Health {
+  total: number
+  notRunning: number
+  /** The plain line about the practice system when it is not ready; null when it is. */
+  baselineLine: string | null
+  leftovers: number
+  /** Something the presenter should look at: Details opens by itself. */
+  attention: boolean
+  /** "Demo system: ready", the warning sentence, or '' when only the practice-system line is shown. */
+  headline: string
+  /** The headline is a warning (a thing is not running). */
+  warn: boolean
 }
 
-/** Aggregate health of a set of nodes (idle only if everything is idle). */
-export function aggregate(states: Record<string, NodeState>, ids: string[]): Health {
-  let out: Health = "idle";
-  for (const id of ids) {
-    const h = states[id]?.health;
-    if (h) out = worst(out, h);
-  }
-  return out;
-}
-
-export function groupNodeIds(nodes: NodeDef[], group: GroupId): string[] {
-  return nodes.filter((n) => n.group === group).map((n) => n.id);
-}
-
-/** Layer shown in the scenario picker for the layer the audience is currently zoomed into. */
-export function layerForZoom(zoom: string | null): Layer {
-  switch (zoom) {
-    case "sources":
-      return "sources";
-    case "platform":
-      return "engineering";
-    case "consumers":
-      return "consumers";
-    default:
-      return "all";
-  }
-}
-
-export function scenariosForLayer(list: ScenarioSummary[], layer: Layer): ScenarioSummary[] {
-  return layer === "all" ? list : list.filter((s) => s.layer === layer || s.layer === "all");
-}
-
-/** Staggered animation delay for the downstream ripple (depth = BFS distance from the injected node). */
-export function rippleDelayMs(depth: number | undefined): number {
-  return depth === undefined ? 0 : Math.min(depth, 10) * 380;
-}
-
-export function isActiveFlow(h: Health): boolean {
-  return h === "ok" || h === "warn";
-}
-
-export function summarize(state: StudioState): string {
-  const { fail, warn } = state.counts;
-  if (fail) return `${fail} failing${warn ? `, ${warn} warning` : ""}`;
-  if (warn) return `${warn} warning`;
-  return "all green";
+/** What the one quiet status row on the home page says, from the server state. */
+export function health(server: ServerState): Health {
+  const total = server.stack.length
+  const notRunning = server.stack.filter((s) => s.status !== 'up').length
+  const b = server.baseline
+  let baselineLine: string | null = null
+  if (server.waiting) baselineLine = server.waiting.text
+  else if (b.status === 'preparing') {
+    const now = b.progress.find((p) => p.status === 'running') ?? b.progress.find((p) => p.status === 'todo')
+    baselineLine = `Getting the practice system ready${now ? `: ${envWords(now.label)}` : ''}`
+  } else if (b.status === 'failed') baselineLine = 'The practice system could not be made ready'
+  else if (b.status === 'missing') baselineLine = 'The practice system has not been checked yet'
+  const leftovers = server.leftovers.length
+  const headline = notRunning > 0 ? `${notRunning} of ${total} things the demos need are not running` : baselineLine ? '' : 'Demo system: ready'
+  return { total, notRunning, baselineLine, leftovers, attention: notRunning > 0 || baselineLine !== null || leftovers > 0, headline, warn: notRunning > 0 }
 }

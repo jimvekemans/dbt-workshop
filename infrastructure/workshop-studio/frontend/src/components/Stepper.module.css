@@ -1,0 +1,57 @@
+.nav { width: 100%; }
+.list { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2); }
+.item { position: relative; }
+.item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--ink-faint);
+}
+.done::before, .current::before { background: var(--accent); }
+.current::before { height: 6px; top: -1px; }
+.button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 3.5rem;
+  padding: var(--space-3) var(--space-2);
+  border: 0;
+  background: transparent;
+  text-align: left;
+  border-radius: var(--radius-md);
+  color: var(--ink-2);
+  font-weight: 600;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) { .button:hover { background: var(--bg-sunk); color: var(--ink); } }
+.current .button { color: var(--ink); }
+.num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid var(--ink-faint);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.done .num { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-text); }
+.current .num { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.name { line-height: 1.2; }
+.phoneName { display: none; margin-top: var(--space-2); font-weight: 600; color: var(--ink); }
+.keys { display: none; margin-top: var(--space-1); font-size: var(--text-sm); color: var(--ink-2); }
+@media (min-width: 64rem) and (hover: hover) { .keys { display: block; } }
+@media (max-width: 640px) {
+  .button { justify-content: center; padding: var(--space-2) 0; }
+  .num { width: 2.75rem; height: 2.75rem; font-size: var(--text-md); }
+  .name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .phoneName { display: block; }
+}

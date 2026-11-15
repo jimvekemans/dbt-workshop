@@ -1,4 +1,0 @@
-title: Dedup reviews in staging (same file delivered twice)
-message: 'fix(domain-b): deduplicate reviews on (review_id, order_id), keep latest
-  delivery'
-branch: bugfix/reviews-dedup

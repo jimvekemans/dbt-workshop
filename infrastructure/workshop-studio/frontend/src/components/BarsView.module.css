@@ -1,0 +1,22 @@
+.wrap { display: grid; gap: var(--space-2); }
+.legend { list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); font-size: var(--text-sm); font-weight: 600; }
+.legend li { display: inline-flex; align-items: center; gap: var(--space-2); }
+.role { color: var(--ink-2); font-weight: 400; }
+.svg { width: 100%; height: auto; max-height: 24rem; display: block; overflow: visible; }
+.axis { fill: var(--ink-2); font-size: 12px; font-family: var(--font-text); font-variant-numeric: tabular-nums; }
+.axisTitle { fill: var(--ink-2); font-size: 12px; font-weight: 600; font-family: var(--font-text); }
+.value { fill: var(--ink); font-size: 12.5px; font-weight: 700; font-family: var(--font-text); font-variant-numeric: tabular-nums; }
+.inside { font-size: 11px; font-weight: 700; font-family: var(--font-text); font-variant-numeric: tabular-nums; }
+.bar {
+  y: calc(var(--y) * 1px);
+  height: calc(var(--h) * 1px);
+  transition: y var(--dur-slow) var(--ease-out), height var(--dur-slow) var(--ease-out), opacity var(--dur-fast);
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: grow var(--dur-slow) var(--ease-out) both;
+}
+.on .bar { opacity: 0.85; }
+.readout { min-height: 3em; font-size: var(--text-sm); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+@keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.counting { font-size: var(--text-sm); color: var(--ink-2); }
+.todayTag { fill: var(--ink-2); font-size: 11px; font-style: italic; font-family: var(--font-text); }

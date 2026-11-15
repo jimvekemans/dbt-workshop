@@ -1,0 +1,6 @@
+title: "Write the customers' city names in lower case"
+message: 'fix: customers table writes city names in lower case'
+ops:
+  - path: models/im_dimensional/dim_olist_customers.sql
+    find: "            customer_city,\n            customer_state,\n            _ingested_at\n        from"
+    replace: "            lower(customer_city) as customer_city,\n            customer_state,\n            _ingested_at\n        from"

@@ -1,0 +1,121 @@
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  /* grows with the window (a projector needs more than a laptop); --text-scale is the presenter's own choice
+     (the A buttons in the top bar, lib/textSize.ts), Medium when nothing was chosen */
+  font-size: calc(clamp(18px, 0.9vw + 10px, 26px) * var(--text-scale, 0.85));
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-padding-top: 6rem;
+  scroll-padding-bottom: 5rem;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--text-md);
+  line-height: var(--lh-body);
+  min-height: 100vh;
+  overflow-wrap: break-word;
+}
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+p, li, dd, blockquote { text-wrap: pretty; }
+p { margin: 0; }
+ul, ol { margin: 0; padding: 0; }
+a { color: var(--accent-text); text-underline-offset: 0.18em; }
+a:hover { color: var(--accent-hover); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+[aria-disabled='true'] { cursor: not-allowed; }
+code, pre, kbd, samp { font-family: var(--font-mono); font-size: 0.92em; }
+kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0 0.4em;
+  text-align: center;
+  border: 1px solid var(--line-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-size: 0.8em;
+  line-height: 1.5;
+}
+::selection { background: var(--accent-soft); }
+
+:focus { outline: none; }
+:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: fixed;
+  left: var(--space-4);
+  top: -6rem;
+  z-index: var(--z-toast);
+  padding: var(--space-3) var(--space-4);
+  background: var(--ink);
+  color: var(--on-ink);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top var(--dur-fast) var(--ease-out);
+}
+.skip-link:focus { top: var(--space-4); }
+
+.kicker {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.tabular { font-variant-numeric: tabular-nums; }
+.measure { max-width: var(--measure); }
+
+/* syntax colours: highlight.js classes mapped to tokens */
+.hljs-keyword, .hljs-built_in, .hljs-literal, .hljs-selector-tag { color: var(--tok-keyword); font-weight: 600; }
+.hljs-string, .hljs-regexp, .hljs-template-variable { color: var(--tok-string); }
+.hljs-number, .hljs-symbol { color: var(--tok-number); }
+.hljs-comment, .hljs-quote { color: var(--tok-comment); font-style: italic; }
+.hljs-title, .hljs-function, .hljs-section { color: var(--tok-fn); }
+.hljs-attr, .hljs-attribute, .hljs-name, .hljs-variable, .hljs-params { color: var(--tok-attr); }
+.hljs-meta, .hljs-type { color: var(--tok-number); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* state tones for visuals and evidence: set data-state on any element, then use var(--tone*) */
+[data-state='ok'] { --tone: var(--good); --tone-bg: var(--good-bg); --tone-line: var(--good-line); }
+[data-state='bad'] { --tone: var(--bad); --tone-bg: var(--bad-bg); --tone-line: var(--bad-line); }
+[data-state='warn'] { --tone: var(--warn); --tone-bg: var(--warn-bg); --tone-line: var(--warn-line); }
+[data-state='idle'], [data-state='todo'], [data-state='skipped'] { --tone: var(--idle); --tone-bg: var(--idle-bg); --tone-line: var(--idle-line); }
+[data-state='fix'] { --tone: var(--accent-text); --tone-bg: var(--accent-soft); --tone-line: var(--accent); }
+@media (hover: none) { kbd.hint-key { display: none; } }
+[data-state='running'] { --tone: var(--accent-text); --tone-bg: var(--accent-soft); --tone-line: var(--accent); }
+
+/* a masked secret in code: plain ink on a quiet chip, whatever token colour the highlighter put around it */
+.code-mask { color: var(--ink) !important; background: var(--surface-2); border-radius: 3px; padding: 0 0.15em; cursor: help; text-decoration: underline dotted var(--ink-2); text-underline-offset: 0.2em; }

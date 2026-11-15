@@ -1,0 +1,6 @@
+title: "Add the delivery calendar to the orders table (wrong join: every order appears three times)"
+message: 'fix: attach the next days of the calendar to every order'
+ops:
+  - path: models/im_dimensional/fct_olist_orders.sql
+    find: "        left join kalender k on o.x_bestel_datum_dakey = k.x_datum_dakey\n"
+    replace: "        left join kalender k on k.x_datum_dakey between o.x_bestel_datum_dakey and o.x_bestel_datum_dakey + 2\n"

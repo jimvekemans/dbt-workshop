@@ -1,0 +1,12 @@
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--line);
+  min-width: 0;
+}
+.sunk { background: var(--surface-2); box-shadow: none; }
+.good { background: var(--good-bg); border-color: var(--good-line); box-shadow: none; }
+.bad { background: var(--bad-bg); border-color: var(--bad-line); box-shadow: none; }
+.warn { background: var(--warn-bg); border-color: var(--warn-line); box-shadow: none; }

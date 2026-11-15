@@ -1,0 +1,6661 @@
+{
+ "scenario": "switchover-date",
+ "steps": {
+  "without": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.02,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           108,
+           115,
+           116,
+           119,
+           100
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           108,
+           115,
+           116,
+           119,
+           100
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.02,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           108,
+           115,
+           116,
+           119,
+           100
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.55,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           108,
+           115,
+           116,
+           119,
+           100
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.55,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           108,
+           115,
+           116,
+           119,
+           100
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.03,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           108,
+           115,
+           116,
+           119,
+           100
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.19,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           108,
+           115,
+           116,
+           119,
+           100
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.04,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           108,
+           115,
+           116,
+           119,
+           100
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.05,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           108,
+           115,
+           116,
+           119,
+           100
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.21,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           108,
+           115,
+           116,
+           119,
+           100
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.05,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           108,
+           115,
+           116,
+           119,
+           100
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.22,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           108,
+           115,
+           116,
+           119,
+           100
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 12.08,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.08,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.24,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 16.09,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.25,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.1,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.11,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.27,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794774600_8ce8a7: success; tasks: audit_environment_drift=success, dbt_build=success, persist_artifacts_to_state=success, dbt_source_freshness=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.27,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794774600_8ce8a7: success; tasks: audit_environment_drift=success, dbt_build=success, persist_artifacts_to_state=success, dbt_source_freshness=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.27,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"9999-12-31 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794774600_8ce8a7: success; tasks: audit_environment_drift=success, dbt_build=success, persist_artifacts_to_state=success, dbt_source_freshness=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The nightly load finished without problems in development.",
+   "outcome": "The last 5 days of scans arrive but cannot be read (the red bars), so those parcels look missing.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T20:30:16+00:00",
+   "durations": [
+    17.1,
+    20.0,
+    17.6,
+    20.0,
+    20.3
+   ],
+   "show": [
+    "bars"
+   ]
+  },
+  "with": {
+   "inputs": {
+    "switch_day": "2026-11-10"
+   },
+   "frames": [
+    {
+     "t": 0.01,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.02,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.45,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.45,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.02,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.07,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.03,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.04,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.08,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.04,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.1,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 12.07,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.07,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.11,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 16.08,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.13,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Checking that every data feed is up to date",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.09,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Checking that every data feed is up to date",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.09,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Checking that every data feed is up to date",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.14,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794774638_7712dc: success; tasks: audit_environment_drift=success, dbt_build=success, persist_artifacts_to_state=success, dbt_source_freshness=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.15,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794774638_7712dc: success; tasks: audit_environment_drift=success, dbt_build=success, persist_artifacts_to_state=success, dbt_source_freshness=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.16,
+     "actions": [
+      {
+       "label": "Changing a setting of the nightly load",
+       "status": "done",
+       "summary": "Changed a setting of the nightly load in development.",
+       "details": "airflow variables set dbt_env_vars {\"DBT_CARRIER_V2_FROM\": \"2026-11-10 00:00:00\"}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794774638_7712dc: success; tasks: audit_environment_drift=success, dbt_build=success, persist_artifacts_to_state=success, dbt_source_freshness=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "bars",
+       "title": "Parcel scans per day",
+       "data": {
+        "labels": [
+         "2026-11-02",
+         "2026-11-03",
+         "2026-11-04",
+         "2026-11-05",
+         "2026-11-06",
+         "2026-11-07",
+         "2026-11-08",
+         "2026-11-09",
+         "2026-11-10",
+         "2026-11-11",
+         "2026-11-12",
+         "2026-11-13",
+         "2026-11-14",
+         "2026-11-15"
+        ],
+        "bars": [
+         {
+          "key": "2026-11-02",
+          "label": "2 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-03",
+          "label": "3 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-04",
+          "label": "4 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-05",
+          "label": "5 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-06",
+          "label": "6 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-07",
+          "label": "7 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-08",
+          "label": "8 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-09",
+          "label": "9 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-10",
+          "label": "10 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-11",
+          "label": "11 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-12",
+          "label": "12 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-13",
+          "label": "13 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-14",
+          "label": "14 Nov",
+          "today": false
+         },
+         {
+          "key": "2026-11-15",
+          "label": "15 Nov (today)",
+          "today": true
+         }
+        ],
+        "x_label": "Day the scan arrived (the last bar is today)",
+        "unit": "parcel scans",
+        "series": [
+         {
+          "name": "readable",
+          "state": "good",
+          "values": [
+           116,
+           119,
+           109,
+           97,
+           111,
+           123,
+           122,
+           103,
+           0,
+           108,
+           115,
+           116,
+           119,
+           104
+          ]
+         },
+         {
+          "name": "unreadable",
+          "state": "bad",
+          "values": [
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           0,
+           107,
+           0,
+           0,
+           0,
+           0,
+           0
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The nightly load finished without problems in development.",
+   "outcome": "107 scans (the red bars) still cannot be read: that day is not the day the carrier changed. Try the marked day.",
+   "outcome_kind": "not_quite",
+   "recorded_at": "2026-11-15T20:30:54+00:00",
+   "durations": [
+    20.0,
+    20.0,
+    17.5,
+    20.0,
+    20.2
+   ],
+   "show": [
+    "bars"
+   ]
+  }
+ },
+ "recorded_at": "2026-11-15T20:30:54+00:00",
+ "prepare": {
+  "durations": [
+   1.5,
+   1.6,
+   15.7,
+   1.5,
+   1.6
+  ]
+ }
+}

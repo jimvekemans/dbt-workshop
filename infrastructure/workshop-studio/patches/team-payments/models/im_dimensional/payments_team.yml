@@ -1,0 +1,5 @@
+version: 2
+
+models:
+  - name: mart_payments_by_type
+    description: "Payments team: number of payments and money received per payment type."

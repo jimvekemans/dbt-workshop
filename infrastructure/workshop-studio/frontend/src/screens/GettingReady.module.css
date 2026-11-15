@@ -1,0 +1,12 @@
+.card { display: grid; gap: var(--space-3); max-width: 44rem; padding: var(--space-6); }
+.title { font-size: var(--text-xl); }
+.text { color: var(--ink-2); max-width: 56ch; min-height: 1.6em; }
+.bar { height: 0.5rem; border-radius: 999px; background: var(--line); overflow: hidden; }
+.fill { display: block; width: 35%; transition: width var(--dur-slow) var(--ease-out); height: 100%; border-radius: 999px; background: var(--accent); animation: slide 1.4s var(--ease-in-out) infinite; }
+.list { list-style: none; display: grid; gap: var(--space-2); margin-top: var(--space-2); }
+.item { display: flex; gap: var(--space-3); align-items: center; }
+.item[data-state='idle'] { color: var(--ink-2); }
+.detail { font-size: var(--text-sm); color: var(--ink-2); }
+.elapsed { color: var(--ink); font-variant-numeric: tabular-nums; }
+@keyframes slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
+@media (prefers-reduced-motion: reduce) { .fill { width: 100%; animation: none; opacity: 0.4; } }

@@ -1,0 +1,111 @@
+id: back-in-seconds
+group: releases
+title: A bad version is undone in seconds
+promise: Going back to yesterday's version is changing one number, not repairing anything.
+minutes: 3
+environment: dev
+related:
+  - id: numbered-versions
+    why: Numbered versions are explained there. Here a second version is prepared so there is something to go back to.
+
+problem:
+  headline: A bad version live at 8:00 means wrong totals until 14:00
+  story: |
+    A new version goes live at 8:00. At 9:00 the sales team sees wrong totals. The developers cannot simply put
+    yesterday's state back, because nobody has it in one piece. They repair the new code under pressure, and the
+    wrong totals stay on screen until the afternoon.
+  cost: Sales works with wrong figures for 6 hours, and the rushed repair risks new mistakes.
+  visual:
+    type: timeline
+    days:
+      - {label: "08:00", state: ok, note: "New version goes live"}
+      - {label: "09:00", state: bad, note: "Sales sees wrong totals"}
+      - {label: "10:30", state: bad, note: "Developers search the cause"}
+      - {label: "12:30", state: warn, note: "A rushed repair goes live"}
+      - {label: "14:00", state: ok, note: "Totals right again after 6 hours"}
+    marker: {after: 1, label: "The problem is noticed"}
+    caption: Six hours of wrong totals for a problem that one setting could have undone in seconds.
+
+idea:
+  headline: Going back means telling the environment to run the previous number
+  points:
+    - Every version is kept as a sealed package, so yesterday's version still exists exactly as it was.
+    - "Going back is changing one setting: the number the environment must run."
+    - The cause can then be found without pressure, and the repaired version goes live again as a new number.
+  visual:
+    type: flow
+    nodes:
+      - {id: setting, label: One setting, state: fix, note: "Names the version to run"}
+      - {id: newest, label: Newest version, state: bad, note: "Not used after going back"}
+      - {id: previous, label: Previous version, state: ok, note: "Kept exactly as it was"}
+      - {id: env, label: The environment, state: ok, note: "Runs whatever the setting says"}
+    links: [[setting, newest], [setting, previous], [newest, env], [previous, env]]
+    caption: First make it right again. Then find out what went wrong.
+
+code:
+  - title: The environment runs whichever number it is told
+    file: airflow/utils/dbt_pod_utils.py
+    file_label: How each environment picks its version
+    from: "def resolve_image() -> str:"
+    to: 'return f"{DBT_IMAGE_REPOSITORY}:{tag}"'
+    max_lines: 12
+    notes:
+      - line: "tag = str(get_variable"
+        says: The number is read from one setting each time a job starts.
+      - line: "if not tag:"
+        says: With no number set, nothing runs. There is never a guess.
+      - line: 'return f"{DBT_IMAGE_REPOSITORY}:{tag}"'
+        says: The sealed package with that number is the one used. Old ones are still there.
+  - title: Putting a version live is writing that same number
+    file: .gitlab-ci.yml
+    file_label: The instructions for putting a version live
+    from: "docker run --rm -u root --network workshop_net"
+    to: "airflow variables set dbt_image_tag"
+    max_lines: 8
+    notes:
+      - line: "dbt docs generate --target run"
+        says: The documentation of that exact version is written first, as part of going live.
+      - line: "airflow variables set dbt_image_tag"
+        says: One line puts a version live; an older number brings it back.
+
+demo:
+  intro: >-
+    Development has two versions to switch between. We read the number, go back one version and go forward again.
+  setup:
+    - {action: gitlab.branch, name: demo/second-version, from: dev}
+    - {action: gitlab.commit, branch: demo/second-version, patch: clearer-kpi-description}
+    - {action: gitlab.merge_request, source: demo/second-version, target: dev, title: "Clearer description of the management report"}
+    - {action: gitlab.merge, source: demo/second-version}
+    - {action: gitlab.wait_pipeline, for: "tag:^v", expect: success, timeout: 900}
+  steps:
+    - id: before
+      title: What development runs now
+      say: Development runs the newest version, v1.0.1, and is suspected of breaking the totals.
+      button: Show the version
+      inputs: []
+      do:
+        - {action: wait, seconds: 1, because: "Reading the numbers"}
+      show:
+        - {type: versions, title: "Version in each environment", caption: "Look at the Development row: it shows v1.0.1."}
+      outcome: Development runs v1.0.1, the newest version.
+    - id: back
+      title: Go back to the previous version
+      say: "One setting changes: watch the number."
+      button: Go back
+      inputs: []
+      do:
+        - {action: deploy.set_version, tag: previous}
+      show:
+        - {type: versions, before_of: before, title: "Version in each environment", caption: "Look at the Development row: it is the only one that changes."}
+        - {type: result, title: "What happened", caption: "Only the number that development is told to run was changed. It is the same sealed package v1.0.0: nothing was rebuilt."}
+      outcome: Development runs v1.0.0 again. Only the version number was changed.
+    - id: forward
+      title: Go forward again
+      say: "Pretend the cause has been fixed: the same kind of step puts the newest version live again. Nothing was repaired in this demo."
+      button: Go forward
+      inputs: []
+      do:
+        - {action: deploy.set_version, tag: latest}
+      show:
+        - {type: versions, before_of: back, title: "Version in each environment", caption: "Look at the Development row: it is the only one that changes."}
+      outcome: Development runs v1.0.1 again. Going back and going forward are the same kind of step.

@@ -1,0 +1,121 @@
+id: right-keys-only
+group: releases
+title: The robot that builds development cannot touch production
+promise: Each environment has its own robot that works only there, so a mix-up cannot damage production.
+minutes: 2
+environment: prd
+
+problem:
+  headline: A testing robot pointed at production empties the real customer list
+  story: |
+    The program that builds the test copy of the system has one login that works everywhere. One afternoon its
+    settings are copied from a test setup to the real one by mistake. At night it does what it is told, in the wrong
+    place: the real customers table is rebuilt from test data, and customer service sees an empty list.
+  cost: Customer service cannot look anyone up for the hours it takes to restore the real table, and every caller meanwhile gets no answer.
+  visual:
+    type: flow
+    nodes:
+      - {id: cfg, label: "Test settings", state: warn, note: "Copied to the real system by mistake"}
+      - {id: robot, label: "Build robot", state: warn, note: "One login for everything"}
+      - {id: prod, label: "Real customers table", state: bad, note: "Rebuilt from test data"}
+      - {id: service, label: "Customer service", state: bad, note: "Empty customer list"}
+    links: [[cfg, robot], [robot, prod], [prod, service]]
+    caption: One wrong setting is enough, when one login works everywhere.
+
+idea:
+  headline: Every robot can work only in its own environment
+  points:
+    - Development, validation and production each have their own [[robot account]], and the development robot has no access to production.
+    - "People get their own access too: they can change development and only look at validation and production."
+    - A mistake becomes a refusal with a clear message, instead of damage.
+  visual:
+    type: flow
+    nodes:
+      - {id: robot, label: Development robot, state: ok, note: "Builds the test copy"}
+      - {id: keys, label: Access per environment, state: fix, note: "Each robot reaches only its own"}
+      - {id: dev, label: Development, state: ok, note: "Allowed"}
+      - {id: prod, label: Production, state: ok, note: "Refused, nothing touched"}
+      - {id: answer, label: The database's answer, state: idle, note: "Done in development, a clear refusal in production"}
+    links: [[robot, keys], [keys, dev], [keys, prod], [dev, answer], [prod, answer]]
+    caption: The safety does not depend on anyone remembering to be careful.
+
+code:
+  - title: What each environment's robot may do
+    file: ../infrastructure/singlestore/init_env.sql.tmpl
+    file_label: The database setup, written once for every environment
+    from: "-- 3. Grants, per database"
+    to: "GRANT ALL PRIVILEGES ON __ENV___edw_dv_bdv.* TO ROLE '__ENV___dbt';"
+    max_lines: 12
+    notes:
+      - line: "-- 3. Grants, per database"
+        says: Each environment gets its own copy of these rights, so no robot crosses over.
+      - line: "GRANT SELECT, SHOW VIEW ON __ENV___landing.* TO ROLE '__ENV___dbt';"
+        says: The robot may only read the incoming data. It builds the reports.
+      - line: "GRANT ALL PRIVILEGES ON __ENV___edw_dv_bdv.* TO ROLE '__ENV___dbt';"
+        says: ALL PRIVILEGES means the robot may build and change the reports in this environment.
+  - title: The robot belongs to one environment
+    file: ../infrastructure/singlestore/init_env.sql.tmpl
+    file_label: The database setup, written once for every environment
+    from: "-- 4. Service user"
+    to: "GRANT GROUP 'grp___ENV___dbt' TO 'svc___ENV___dbt'@'%';"
+    max_lines: 12
+    notes:
+      - line: "CREATE USER IF NOT EXISTS"
+        says: One robot account per environment, with its own name.
+      - line: "GRANT GROUP"
+        says: It receives the access of its own environment and nothing else.
+  - title: People may write in development only
+    file: ../infrastructure/singlestore/init_global.sql
+    file_label: The database setup for people
+    from: "-- 4. Developer role"
+    to: "GRANT SELECT, SHOW VIEW ON dev_landing.* TO ROLE 'dev_developer';"
+    max_lines: 12
+    notes:
+      - line: "GRANT ALL PRIVILEGES ON dev_im_dimensional.*"
+        says: Developers may create and change anything in development.
+      - line: "GRANT SELECT, SHOW VIEW ON dev_landing.*"
+        says: Even there they may only read the incoming data.
+
+demo:
+  intro: >-
+    A robot is an automatic program with its own login; a developer is a person with theirs. The development robot
+    tries to write into production and is refused. The production robot may. A developer can look at production but
+    not write.
+  setup: []
+  steps:
+    - id: devrobot
+      title: The development robot tries to write into production
+      say: "This is the mistake from the story: a development robot pointed at production."
+      button: Try it
+      inputs: []
+      do:
+        - {action: sql.exec, as: svc_dev_dbt, statement: "create table prd_edw_dv_bdv.dev_robot_was_here (id int)", expect: refused}
+      show:
+        - {type: result, title: "The answer from the database", caption: "Refused. Nothing was created."}
+      outcome: The database refused the development robot and said it may not change production. Nothing was created.
+    - id: prdrobot
+      title: The production robot works in production
+      say: The right robot, in its own environment, is allowed. It creates a small test table in production, and the demo removes it again afterwards.
+      button: Try it
+      inputs: []
+      do:
+        - action: sql.exec
+          as: svc_prd_dbt
+          statement: "create table prd_edw_dv_bdv.prd_robot_was_here (id int)"
+          expect: ok
+          undo: "drop table if exists prd_edw_dv_bdv.prd_robot_was_here"
+      show:
+        - {type: result, before_of: devrobot, title: "The answer from the database", caption: "Allowed. The table is removed again when the demo is cleaned up."}
+      outcome: The production robot may write in production, and only there.
+    - id: people
+      title: A developer looks at production, and tries to write
+      say: Developers may read production to investigate, but not change it.
+      button: Try both
+      inputs: []
+      do:
+        - {action: sql.exec, as: pu_dev1, statement: "select count(*) from prd_im_dimensional.dim_olist_customers", expect: ok}
+        - {action: sql.exec, as: pu_dev1, statement: "create table prd_im_dimensional.dev_was_here (id int)", expect: refused}
+      show:
+        - {type: number, title: "Customers a developer can see in production", caption: "Reading is allowed.", query: "select count(*) from prd_im_dimensional.dim_olist_customers", as: pu_dev1, unit: customers}
+        - {type: result, title: "The answer to the write attempt", caption: "Writing is refused."}
+      outcome: Reading was allowed and writing was refused. Looking is safe, changing is not possible.

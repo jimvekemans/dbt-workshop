@@ -1,0 +1,16 @@
+.figure { margin: 0; container-type: inline-size; }
+.pair { display: grid; gap: var(--space-4); }
+.side {
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--tone-bg);
+  border: 2px solid var(--tone-line);
+  display: grid; gap: var(--space-2); align-content: start;
+}
+.kind { font-size: var(--text-md); font-weight: 700; color: var(--ink-2); }
+.title { font-size: var(--text-xl); line-height: 1.2; }
+.state { display: inline-flex; align-items: center; gap: 0.4em; font-weight: 700; color: var(--tone); font-size: var(--text-sm); }
+.items { list-style: none; display: grid; gap: var(--space-2); margin-top: var(--space-2); }
+.items li { position: relative; padding-left: 1.4em; color: var(--ink); line-height: 1.45; }
+.items li::before { content: ''; position: absolute; left: 0.1em; top: 0.6em; width: 0.6em; height: 0.6em; background: var(--tone); border-radius: 2px; transform: rotate(45deg); }
+@container (min-width: 44rem) { .pair { grid-template-columns: 1fr 1fr; } }

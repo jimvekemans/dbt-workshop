@@ -1,0 +1,135 @@
+id: rebuild-without-downtime
+group: daily
+title: Rebuilding a big table while people keep reading it
+promise: A big table is rebuilt next to the old one and swapped in at once, so readers never see an empty table.
+minutes: 4
+environment: dev
+related: []
+
+problem:
+  headline: During the rebuild, finance sees an empty table, then a half-filled one
+  story: |
+    The invoice table holds 100,000 rows and must be rebuilt after a correction. The usual way is to empty it and
+    fill it again, and that takes ninety minutes. During those ninety minutes finance opens the report and sees 0
+    rows, then 33,000, then 66,000. Someone sends a half-filled total to the bank. The correct number appears only
+    when the rebuild is finished.
+  cost: For 90 minutes finance sees totals between 0 and two thirds of the truth, and a payment may already have gone out on a wrong figure.
+  visual:
+    type: timeline
+    days:
+      - {label: "09:00", state: ok, note: "100,000 rows"}
+      - {label: "09:01", state: bad, note: "Emptied: 0 rows"}
+      - {label: "09:30", state: bad, note: "Filling: 33,000 rows"}
+      - {label: "10:00", state: bad, note: "Filling: 66,000 rows"}
+      - {label: "10:30", state: ok, note: "Full again: 100,000 rows"}
+    marker: {after: 0, label: The rebuild starts}
+    caption: For ninety minutes nobody can trust the rows they see.
+
+idea:
+  headline: Fill a new copy beside the old table, then swap it in
+  points:
+    - The old table stays untouched and readable the whole time.
+    - The new copy is filled part by part, so a failed part can be repeated alone in smaller pieces.
+    - The new copy is checked first, and only then swapped for the old table, so readers notice nothing.
+  visual:
+    type: flow
+    nodes:
+      - {id: old, label: The old table, state: ok, note: "Finance keeps reading it"}
+      - {id: new, label: The new copy, state: ok, note: "Filled part by part"}
+      - {id: check, label: Checks, state: ok, note: "Run before the swap"}
+      - {id: swap, label: The swap, state: fix, note: "The new copy takes the old name"}
+    links: [[old, new], [new, check], [check, swap]]
+    caption: Until the swap, everything readers see is the old, complete table.
+
+code:
+  - title: Each big table says how it can be cut into parts
+    file: models/edw_dv_bdv/dummy_reload_hkey_mod.sql
+    file_label: The recipe for the practice table
+    from: "config("
+    to: "    )"
+    max_lines: 6
+    notes:
+      - line: "unique_key"
+        says: Every row has its own key, and the parts are cut on that key.
+      - line: "reload_strategy"
+        says: The table says it can be cut into equal parts, loaded one by one.
+  - title: The swap is the only moment readers are affected
+    file: macros/utils/reload_helpers.sql
+    file_label: Helpers for rebuilding a table
+    from: "{% if names.orig_identifier in types %}"
+    to: "{% do run_query(\"alter table \" ~ names.new ~ \" rename to \" ~ names.orig) %}"
+    max_lines: 12
+    notes:
+      - line: "rename to \" ~ names.backup"
+        says: The old table is renamed and kept as a backup until the swap works.
+      - line: "~ names.new ~ \" rename to \" ~ names.orig"
+        says: The new copy takes over the old name.
+  - title: The new copy is checked before the swap
+    file: airflow/dags/dbt_reload.py
+    file_label: The list of steps of the rebuild
+    from: '@dbt_task(task_id="test_green_table"'
+    to: 'return build_reload_swap_command(_conf(context, "model_name"))'
+    max_lines: 12
+    notes:
+      - line: "def test_green_table"
+        says: The new copy is checked before anyone is pointed at it.
+      - line: "def atomic_swap"
+        says: Only after the checks pass does the swap happen.
+
+demo:
+  intro: We rebuild a big practice table that stands in for the invoice table. You choose into how many parts the rebuild is cut.
+  setup: []
+  steps:
+    - id: before
+      title: The table everyone reads
+      say: This is the table finance reads. The number on the card is what people can read right now.
+      button: Show the table
+      inputs: []
+      do:
+        - {action: wait, seconds: 1, because: "Let the audience read the starting number"}
+      show:
+        - type: number
+          title: Rows people can read
+          query: "select count(*) from {{ db('edw_dv_bdv') }}.dummy_reload_hkey_mod"
+          unit: rows
+      outcome:
+        check: "select count(*) from {{ db('edw_dv_bdv') }}.dummy_reload_hkey_mod"
+        good_when: positive
+        good: People can read {{ value }} rows. This is the number that must never look empty or half full.
+        not_quite: The table is empty before the rebuild even starts, so the demo cannot show anything.
+    - id: rebuild
+      title: Rebuild it in parts
+      say: "Choose the number of parts. Watch the first number: it must not change."
+      button: Rebuild the table
+      inputs:
+        - id: slices
+          type: number
+          label: Cut the rebuild into how many parts?
+          default: 4
+          min: 2
+          max: 8
+          step: 1
+          unit: parts
+          help: "A part is a slice of the rows that is loaded separately. 4 is a good start; more parts means smaller steps and a slightly slower rebuild."
+      do:
+        - action: airflow.run_dag
+          dag: dbt_reload
+          conf: {model_name: dummy_reload_hkey_mod, batch_count: "{{ inputs.slices }}"}
+          expect: success
+          timeout: 600
+      show:
+        - type: number
+          before_of: before
+          title: Rows people can read
+          query: "select count(*) from {{ db('edw_dv_bdv') }}.dummy_reload_hkey_mod"
+          unit: rows
+          compare_to:
+            query: "select count(*) from {{ db('edw_dv_bdv') }}.__new_dummy_reload_hkey_mod"
+            label: Rows in the new copy
+          caption: "The first number is what readers see: it should not change. The second is the new copy being built: it grows while the parts are loaded, then drops to 0 once it has taken over."
+        - {type: tasks, dag: dbt_reload, title: The rebuild, caption: "One 'Loading one part' step is Done for each part you chose. 'Removing the unfinished copy' and 'Sending the failure mail' are not needed, because nothing went wrong."}
+      outcome:
+        check: "select abs(count(*) - 100000) from {{ db('edw_dv_bdv') }}.dummy_reload_hkey_mod"
+        good_when: zero
+        good: "The new copy was loaded in {{ inputs.slices }} parts and swapped in. Readers still see the same number of rows."
+        not_quite: "After the swap the table is off by {{ value }} rows from 100,000."

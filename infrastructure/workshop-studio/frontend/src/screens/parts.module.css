@@ -1,0 +1,34 @@
+.part { display: grid; gap: var(--space-5); animation: enter var(--dur-slow) var(--ease-out) both; }
+.part[data-dir='back'] { animation-name: enterBack; }
+.head { display: grid; gap: var(--space-2); }
+.h2 { font-size: clamp(1.8rem, 2.6vw + 0.8rem, 3.4rem); line-height: 1.05; letter-spacing: -0.03em; font-weight: 800; max-width: 22ch; }
+.h2:focus { outline: none; }
+.split { display: grid; gap: var(--space-6); align-items: start; }
+@media (min-width: 62rem) { .split { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+.story { display: grid; gap: var(--space-4); font-size: var(--text-lg); line-height: 1.55; max-width: var(--measure); }
+.cost { display: grid; gap: var(--space-1); }
+.costLabel { font-weight: 800; font-size: var(--text-xs); letter-spacing: 0.12em; text-transform: uppercase; }
+.points { list-style: none; display: grid; gap: var(--space-4); max-width: var(--measure); }
+/* plain bullets: the points are not tied to the boxes of the picture, so they carry no numbers */
+.points li { display: grid; grid-template-columns: auto 1fr; gap: var(--space-3); font-size: var(--text-lg); line-height: 1.45; align-items: start; }
+.points li::before { content: ''; width: 0.55rem; height: 0.55rem; margin-top: 0.6em; border-radius: 50%; background: var(--accent); }
+.visual { min-width: 0; }
+.blocks { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-7); }
+.block { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+.blockTitle { font-size: var(--text-xl); max-width: var(--measure); }
+.lead { color: var(--ink-2); font-size: var(--text-lg); max-width: var(--measure); }
+@keyframes enter { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+@keyframes enterBack { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+
+/* parts 1 and 2: the picture starts at the top, next to the heading; on a phone the story comes first, then the picture, then the cost */
+.twoCol { display: grid; gap: var(--space-5) var(--space-6); grid-template-columns: minmax(0, 1fr); grid-template-areas: 'head' 'text' 'visual' 'cost'; align-items: start; }
+.twoCol[data-part='idea'] { grid-template-areas: 'head' 'text' 'visual'; }
+.areaHead { grid-area: head; display: grid; gap: var(--space-2); }
+.areaText { grid-area: text; }
+.areaCost { grid-area: cost; max-width: var(--measure); }
+.areaVisual { grid-area: visual; }
+.twoCol .h2 { font-size: clamp(1.8rem, 1.4vw + 1rem, 2.9rem); max-width: 20ch; }
+@media (min-width: 62rem) {
+  .twoCol { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto auto auto 1fr; grid-template-areas: 'head visual' 'text visual' 'cost visual' 'fill visual'; }
+  .twoCol[data-part='idea'] { grid-template-rows: auto auto 1fr; grid-template-areas: 'head visual' 'text visual' 'fill visual'; }
+}

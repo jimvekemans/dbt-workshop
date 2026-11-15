@@ -1,0 +1,35 @@
+.figure { margin: 0; container-type: inline-size; }
+.flow { list-style: none; display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+.stage { display: flex; flex-direction: column; align-items: stretch; }
+.nodes { display: grid; grid-template-columns: repeat(var(--m, 1), minmax(0, 1fr)); gap: var(--space-3); align-items: start; }
+.node {
+  display: grid; gap: var(--space-1); align-content: start;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--tone-bg);
+  border: 2px solid var(--tone-line);
+}
+.node[data-state='bad'] { border-style: solid; border-width: 3px; }
+.node[data-state='idle'] { border-style: dashed; background: var(--surface-2); }
+.node[data-state='fix'] { border-width: 4px; border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 28%, transparent); }
+.fix { justify-self: start; padding: 0.1em 0.7em; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: var(--text-sm); font-weight: 700; }
+.label { font-size: var(--text-lg); font-weight: 700; line-height: 1.2; color: var(--ink); }
+.note { font-size: var(--text-sm); color: var(--ink-2); line-height: 1.4; }
+
+/* the arrows between two stages: lines in an svg, one head per receiving box */
+.link { position: relative; display: block; height: 2.4rem; color: var(--ink-2); }
+.hLines { display: none; }
+.vLines, .hLines { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke-width: 2.4; stroke-linecap: round; overflow: visible; }
+.vLines path, .hLines path { vector-effect: non-scaling-stroke; }
+.head { position: absolute; width: 0; height: 0; border-style: solid; border-width: 10px 6px 0 6px; border-color: currentColor transparent transparent transparent; bottom: 0; left: calc(var(--p) * 1%); transform: translateX(-50%); }
+
+@container (min-width: 36rem) {
+  .flow { flex-direction: row; align-items: stretch; }
+  .stage { flex: 1 1 0; flex-direction: row; min-width: 0; }
+  .nodes { flex: 1; min-width: 0; grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(var(--m, 1), 1fr); align-items: center; }
+  .node { width: 100%; }
+  .link { height: auto; width: 2.6rem; flex: none; }
+  .hLines { display: block; }
+  .vLines { display: none; }
+  .head { bottom: auto; left: auto; right: 0; top: calc(var(--p) * 1%); border-width: 6px 0 6px 10px; border-color: transparent transparent transparent currentColor; transform: translateY(-50%); }
+}

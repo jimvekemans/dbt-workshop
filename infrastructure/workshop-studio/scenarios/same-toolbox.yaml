@@ -1,0 +1,112 @@
+id: same-toolbox
+group: changes
+title: Everyone works with the same packaged toolbox
+promise: Every developer's toolbox holds the same tools, and its report builder matches production.
+minutes: 3
+environment: dev
+related:
+  - id: own-workbench
+    why: Each developer also gets a private copy of the tables to try changes in. The toolbox is the set of tools used there.
+
+problem:
+  headline: A report works for one developer and breaks for everyone else
+  story: |
+    Every developer installs the tools by hand, so every laptop is a little different. A new colleague spends her
+    first days on installing and fixing tools. When she proposes her first change, it works on her laptop but the
+    automatic rehearsal rejects it. Her report builder is newer than the one the rehearsal uses. Nobody can tell which
+    side is right without comparing both setups by hand.
+  cost: A new colleague produces nothing for days, and the team loses an afternoon on every difference in tools.
+  visual:
+    type: timeline
+    days:
+      - {label: "Mon 09:00", state: ok, note: "A new colleague starts"}
+      - {label: "Mon 17:00", state: warn, note: "Still installing tools"}
+      - {label: "Tue 17:00", state: warn, note: "The tools finally run"}
+      - {label: "Wed 10:00", state: bad, note: "A change works only on her laptop"}
+      - {label: "Wed 15:00", state: bad, note: "The rehearsal rejects it"}
+    marker: {after: 2, label: "A newer tool on one laptop"}
+    caption: The tools differ from laptop to laptop, and nobody sees it until a change fails.
+
+idea:
+  headline: Everyone starts from one packaged toolbox
+  points:
+    - The toolbox is one packaged copy of every tool, and every tool has one fixed version.
+    - Developers open the project inside it, so a new colleague has every tool installed without doing anything.
+    - The automatic rehearsal and the package that runs in production are built on the same foundation, so the report builder and the database connector match.
+  visual:
+    type: flow
+    nodes:
+      - {id: toolbox, label: Packaged toolbox, state: fix, note: "Every tool, one version"}
+      - {id: developer, label: Developer, state: ok, note: "Opens the project in it"}
+      - {id: rehearsal, label: Automatic rehearsal, state: ok, note: "Starts from the same foundation"}
+      - {id: production, label: Production, state: ok, note: "The same report builder and connector"}
+    links: [[toolbox, developer], [toolbox, rehearsal], [toolbox, production]]
+    caption: A difference in tools cannot appear, because there is only one set.
+
+code:
+  - title: Every developer opens the project in the same toolbox
+    file: .devcontainer/devcontainer.json
+    file_label: The settings of the developer toolbox
+    from: '"image": "dbt-singlestore-dev:1.11.11",'
+    to: '"workspaceFolder"'
+    max_lines: 12
+    notes:
+      - line: '"image"'
+        says: One line names the toolbox, with its version number.
+      - line: '"runArgs"'
+        says: The toolbox joins the workshop's private network, so it can reach the test database.
+      - line: '"workspaceFolder"'
+        says: The project appears inside the toolbox, ready to work in.
+  - title: Every tool is installed once, when the toolbox is built
+    file: dev-image/Dockerfile
+    file_label: The recipe of the developer toolbox
+    from: "RUN --mount=type=bind,source=src/sqlfmt"
+    to: "ln -s"
+    max_lines: 12
+    notes:
+      - line: "python3 -m venv"
+        says: One separate place is made for the developer tools.
+      - line: "pip install"
+        says: The layout robot, rule checker and pre-save checks are installed in it.
+      - line: "ln -s"
+        says: Each tool is made available to everyone who opens the toolbox.
+  - title: The automatic rehearsal starts from the same base
+    file: .gitlab-ci.yml
+    file_label: The instructions for the automatic rehearsal
+    from: "name: dbt-singlestore-base:1.11.11"
+    to: "user: root"
+    max_lines: 12
+    notes:
+      - line: "name: dbt-singlestore-base:1.11.11"
+        says: The rehearsal starts from the base package that holds the report builder and the connector.
+      - line: "docker:"
+        says: The rehearsal runs inside a copy of that base package.
+      - line: "user: root"
+        says: The rehearsal has full rights inside that copy only.
+
+demo:
+  intro: >-
+    Two fresh toolboxes are opened the way two new colleagues would on their first morning, and their tools are
+    listed side by side. Then a toolbox is compared with the package that runs in production.
+  setup: []
+  steps:
+    - id: open
+      title: Open two fresh toolboxes
+      say: Two new, empty toolboxes are started, and every tool in each one reports its version.
+      button: Open two toolboxes
+      inputs: []
+      do:
+        - {action: image.versions, image: toolbox, compare_with: toolbox, expect_same: [report_builder, connector, layout_robot, rule_checker, helper_tool, pre_save_checks]}
+      show:
+        - {type: result, from_action: image.versions, title: "The tools in two fresh toolboxes", caption: "One line per tool, the first toolbox next to the second. Every line says the same."}
+      outcome: Two fresh toolboxes hold the same tools, and nobody installed anything by hand.
+    - id: compare
+      title: Compare a toolbox with production
+      say: One toolbox is compared with the package that runs in production.
+      button: Compare with production
+      inputs: []
+      do:
+        - {action: image.versions, image: toolbox, compare_with: production, expect_same: [report_builder, connector]}
+      show:
+        - {type: result, from_action: image.versions, title: "The toolbox next to production", caption: "Production needs only the report builder and the database connector. The other tools are for writing code, so they are not in the package."}
+      outcome: The lines marked "the same" are the tools production needs, and they match the toolbox. The other tools only exist in the toolbox.

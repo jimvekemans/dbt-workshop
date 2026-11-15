@@ -1,0 +1,6 @@
+title: "Put the calendar join back (every order appears once again)"
+message: 'fix: join the calendar on the order day only'
+ops:
+  - path: models/im_dimensional/fct_olist_orders.sql
+    find: "        left join kalender k on k.x_datum_dakey between o.x_bestel_datum_dakey and o.x_bestel_datum_dakey + 2\n"
+    replace: "        left join kalender k on o.x_bestel_datum_dakey = k.x_datum_dakey\n"

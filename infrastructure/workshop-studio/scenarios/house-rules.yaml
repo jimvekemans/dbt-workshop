@@ -1,0 +1,103 @@
+id: house-rules
+group: changes
+title: Sloppy or risky code is refused before it is saved
+promise: A robot tidies all code and refuses known bad habits, so reviewers can focus on the content.
+minutes: 2
+environment: dev
+
+problem:
+  headline: One banned habit slips through reviews and blanks a report
+  story: |
+    Every developer writes code in their own layout. Reviewers spend their time arguing about spaces and capital
+    letters, and miss the real problem: one developer used a date function that writes months differently on our
+    database. The monthly report shows blank months, and nobody notices until finance asks why October is
+    missing.
+  cost: Finance works from a monthly report with blank months, and reviewers lose hours on layout instead of content.
+  visual:
+    type: flow
+    nodes:
+      - {id: dev, label: "Developer's code", state: warn, note: "Own layout, own habits"}
+      - {id: review, label: "Human review", state: warn, note: "Busy with layout"}
+      - {id: report, label: "Monthly report", state: bad, note: "Blank months"}
+      - {id: finance, label: "Finance", state: bad, note: "Where is October?"}
+    links: [[dev, review], [review, report], [report, finance]]
+    caption: The slip is old and well known, but nothing stops it.
+
+idea:
+  headline: A robot checks all code at the moment it is saved
+  points:
+    - It rewrites the code into one standard layout, so everybody's work looks the same.
+    - It refuses code that breaks one of the team's rules, and says which rule was broken.
+    - Reviewers see only tidy code that follows the rules, and spend their time on what the code means.
+  visual:
+    type: flow
+    nodes:
+      - {id: save, label: Developer saves code, state: ok, note: "On the developer's computer"}
+      - {id: robot, label: The robot, state: fix, note: "Tidies, checks, refuses"}
+      - {id: saved, label: Saved code, state: ok, note: "Only tidy, allowed code"}
+    links: [[save, robot], [robot, saved]]
+    caption: The rules are written down once and applied to everyone.
+
+code:
+  - title: The robot that tidies the layout
+    file: .pre-commit-config.yaml
+    file_label: The list of checks that run on every save
+    from: "id: sqlfmt"
+    to: "require_serial: true"
+    max_lines: 12
+    notes:
+      - line: "id: sqlfmt"
+        says: This check rewrites the code into the standard layout.
+      - line: "entry: bash -c 'sqlfmt"
+        says: It tidies the code first, then keeps the tidied version.
+  - title: The robot that refuses banned habits
+    file: .pre-commit-config.yaml
+    file_label: The list of checks that run on every save
+    from: "id: dbt-bouncer"
+    to: "pass_filenames: false"
+    max_lines: 12
+    notes:
+      - line: "id: dbt-bouncer"
+        says: The robot refuses code that breaks the team's rules.
+      - line: "entry: dbt-bouncer"
+        says: It reads the team's rules from one file and checks all the code.
+  - title: The team's list of banned habits
+    file: dbt-bouncer.yml
+    file_label: The team's rules, written down once
+    from: "manifest_checks:"
+    to: 'description: "Model uses str_to_date: see the dbt style guide"'
+    max_lines: 12
+    notes:
+      - line: "check_model_has_semi_colon"
+        says: A semicolon at the end of the code is refused.
+      - line: '\bto_char'
+        says: Two date functions are banned; the first writes months differently on our database.
+      - line: 'description: "Model uses to_char'
+        says: The message tells the developer which rule was broken.
+
+demo:
+  intro: A developer saves new code. The robot tidies it and refuses the first version, then accepts the corrected one.
+  setup: []
+  steps:
+    - id: refused
+      title: Save sloppy code
+      say: |
+        The code has a messy layout, a banned date function and a semicolon at the end. The robot tidies the layout
+        by itself and refuses the other two.
+      button: Save the sloppy code
+      inputs: []
+      do:
+        - {action: precommit.run, patch: house-sloppy-model, expect: refused}
+      show:
+        - {type: result, title: "What the robot says", caption: "Each line is a rule of the team that the code broke. The robot also tidied the layout by itself, which needs no action."}
+      outcome: "The robot tidied the layout and refused the change for 2 reasons: a semicolon at the end of the code and a banned date function."
+    - id: accepted
+      title: Save the corrected code
+      say: The corrected version has the standard layout and uses the approved date function, so the robot has nothing to refuse.
+      button: Save the corrected code
+      inputs: []
+      do:
+        - {action: precommit.run, patch: house-tidy-model, expect: ok}
+      show:
+        - {type: result, before_of: refused, title: "What the robot says", caption: "Nothing is refused: both earlier problems are gone (no semicolon at the end, the approved date function)."}
+      outcome: The robot has nothing to refuse, so the corrected code can be saved.

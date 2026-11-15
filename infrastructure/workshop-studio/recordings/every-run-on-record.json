@@ -1,0 +1,4167 @@
+{
+ "scenario": "every-run-on-record",
+ "steps": {
+  "run": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.01,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         },
+         {
+          "started": "2026-11-15T19:18:43.891981",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         },
+         {
+          "started": "2026-11-15T19:18:43.891981",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.03,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         },
+         {
+          "started": "2026-11-15T19:18:43.891981",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.58,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         },
+         {
+          "started": "2026-11-15T19:18:43.891981",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.04,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         },
+         {
+          "started": "2026-11-15T19:18:43.891981",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.59,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         },
+         {
+          "started": "2026-11-15T19:18:43.891981",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.06,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         },
+         {
+          "started": "2026-11-15T19:18:43.891981",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.07,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         },
+         {
+          "started": "2026-11-15T19:18:43.891981",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.61,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         },
+         {
+          "started": "2026-11-15T19:18:43.891981",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.08,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         },
+         {
+          "started": "2026-11-15T19:18:43.891981",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.62,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         },
+         {
+          "started": "2026-11-15T19:18:43.891981",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 12.09,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         },
+         {
+          "started": "2026-11-15T19:18:43.891981",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.11,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:29:28.399283",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 21,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.63,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:29:28.399283",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 21,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 16.13,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:29:28.399283",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 21,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.65,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794770965_2cdb09: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:29:28.399283",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 21,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.67,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794770965_2cdb09: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:29:28.399283",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 21,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.67,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794770965_2cdb09: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "run_history",
+       "title": "The latest nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-15T19:29:28.399283",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 21,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-15T19:28:30.171907",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed"
+         },
+         {
+          "started": "2026-11-15T19:28:18.087962",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:27:44.730809",
+          "tables_built": 24,
+          "tables_total": 28,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-15T19:19:18.240691",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 20,
+          "checks_failed": 0,
+          "checks_warned": 1,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "warn",
+          "summary": "28 of 28 tables built, 20 checks passed, 1 warning"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The nightly load finished without problems in development.",
+   "outcome": "The night you just ran is at the top of the list with its result.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:29:41+00:00",
+   "durations": [
+    17.6,
+    17.7,
+    14.6,
+    17.6,
+    17.7
+   ],
+   "show": [
+    "run_history"
+   ]
+  },
+  "read": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.02,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "The slowest steps and checks of the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name"
+         },
+         {
+          "key": "kind",
+          "label": "Table or check"
+         },
+         {
+          "key": "result",
+          "label": "Result"
+         },
+         {
+          "key": "seconds",
+          "label": "Time (seconds)"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Calendar table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 5.1
+          },
+          "state": null,
+          "details": "datum"
+         },
+         {
+          "cells": {
+           "name": "Practice numbers table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "ref_dummy_numbers"
+         },
+         {
+          "cells": {
+           "name": "Most visited pages table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "int_web_top_pages"
+         },
+         {
+          "cells": {
+           "name": "Website conversion table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "mart_web_conversion"
+         },
+         {
+          "cells": {
+           "name": "Cleaned parcel scans table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "stg_carrier_events"
+         },
+         {
+          "cells": {
+           "name": "Customers table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "dim_olist_customers"
+         },
+         {
+          "cells": {
+           "name": "Orders table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "fct_olist_orders"
+         },
+         {
+          "cells": {
+           "name": "Cleaned website visits table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.7
+          },
+          "state": null,
+          "details": "stg_web_events"
+         },
+         {
+          "cells": {
+           "name": "Practice rebuild table (by key): each combination of record key appears only once",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0.1
+          },
+          "state": null,
+          "details": "dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record"
+         },
+         {
+          "cells": {
+           "name": "Practice rebuild table (with dependencies): each combination of history key appears only once",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key"
+         },
+         {
+          "cells": {
+           "name": "Website conversion report: nearly every checkout matches an order",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "assert_web_checkouts_attributed"
+         },
+         {
+          "cells": {
+           "name": "Orders feed: the customer number has the expected format",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "dbt_utils_source_expression_is_true_raw_olist_raw_olist_orders_customer_id__regexp_0_9a_f_32_"
+         }
+        ],
+        "empty": "Nothing is written down yet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "table",
+       "title": "The five slowest tables of the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Table"
+         },
+         {
+          "key": "seconds",
+          "label": "Time (seconds)"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Calendar table",
+           "seconds": 5.1
+          },
+          "state": null,
+          "details": "datum"
+         },
+         {
+          "cells": {
+           "name": "Practice numbers table",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "ref_dummy_numbers"
+         },
+         {
+          "cells": {
+           "name": "Most visited pages table",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "int_web_top_pages"
+         },
+         {
+          "cells": {
+           "name": "Website conversion table",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "mart_web_conversion"
+         },
+         {
+          "cells": {
+           "name": "Cleaned parcel scans table",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "stg_carrier_events"
+         }
+        ],
+        "empty": "No table was built in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "The record was written when the night ended",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "The slowest steps and checks of the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name"
+         },
+         {
+          "key": "kind",
+          "label": "Table or check"
+         },
+         {
+          "key": "result",
+          "label": "Result"
+         },
+         {
+          "key": "seconds",
+          "label": "Time (seconds)"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Calendar table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 5.1
+          },
+          "state": null,
+          "details": "datum"
+         },
+         {
+          "cells": {
+           "name": "Practice numbers table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "ref_dummy_numbers"
+         },
+         {
+          "cells": {
+           "name": "Most visited pages table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "int_web_top_pages"
+         },
+         {
+          "cells": {
+           "name": "Website conversion table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "mart_web_conversion"
+         },
+         {
+          "cells": {
+           "name": "Cleaned parcel scans table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "stg_carrier_events"
+         },
+         {
+          "cells": {
+           "name": "Customers table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "dim_olist_customers"
+         },
+         {
+          "cells": {
+           "name": "Orders table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "fct_olist_orders"
+         },
+         {
+          "cells": {
+           "name": "Cleaned website visits table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.7
+          },
+          "state": null,
+          "details": "stg_web_events"
+         },
+         {
+          "cells": {
+           "name": "Practice rebuild table (by key): each combination of record key appears only once",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0.1
+          },
+          "state": null,
+          "details": "dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record"
+         },
+         {
+          "cells": {
+           "name": "Practice rebuild table (with dependencies): each combination of history key appears only once",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key"
+         },
+         {
+          "cells": {
+           "name": "Website conversion report: nearly every checkout matches an order",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "assert_web_checkouts_attributed"
+         },
+         {
+          "cells": {
+           "name": "Orders feed: the customer number has the expected format",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "dbt_utils_source_expression_is_true_raw_olist_raw_olist_orders_customer_id__regexp_0_9a_f_32_"
+         }
+        ],
+        "empty": "Nothing is written down yet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "table",
+       "title": "The five slowest tables of the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Table"
+         },
+         {
+          "key": "seconds",
+          "label": "Time (seconds)"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Calendar table",
+           "seconds": 5.1
+          },
+          "state": null,
+          "details": "datum"
+         },
+         {
+          "cells": {
+           "name": "Practice numbers table",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "ref_dummy_numbers"
+         },
+         {
+          "cells": {
+           "name": "Most visited pages table",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "int_web_top_pages"
+         },
+         {
+          "cells": {
+           "name": "Website conversion table",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "mart_web_conversion"
+         },
+         {
+          "cells": {
+           "name": "Cleaned parcel scans table",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "stg_carrier_events"
+         }
+        ],
+        "empty": "No table was built in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "The record was written when the night ended",
+       "status": "running",
+       "summary": "The record was written when the night ended",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "The slowest steps and checks of the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name"
+         },
+         {
+          "key": "kind",
+          "label": "Table or check"
+         },
+         {
+          "key": "result",
+          "label": "Result"
+         },
+         {
+          "key": "seconds",
+          "label": "Time (seconds)"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Calendar table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 5.1
+          },
+          "state": null,
+          "details": "datum"
+         },
+         {
+          "cells": {
+           "name": "Practice numbers table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "ref_dummy_numbers"
+         },
+         {
+          "cells": {
+           "name": "Most visited pages table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "int_web_top_pages"
+         },
+         {
+          "cells": {
+           "name": "Website conversion table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "mart_web_conversion"
+         },
+         {
+          "cells": {
+           "name": "Cleaned parcel scans table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "stg_carrier_events"
+         },
+         {
+          "cells": {
+           "name": "Customers table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "dim_olist_customers"
+         },
+         {
+          "cells": {
+           "name": "Orders table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "fct_olist_orders"
+         },
+         {
+          "cells": {
+           "name": "Cleaned website visits table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.7
+          },
+          "state": null,
+          "details": "stg_web_events"
+         },
+         {
+          "cells": {
+           "name": "Practice rebuild table (by key): each combination of record key appears only once",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0.1
+          },
+          "state": null,
+          "details": "dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record"
+         },
+         {
+          "cells": {
+           "name": "Practice rebuild table (with dependencies): each combination of history key appears only once",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key"
+         },
+         {
+          "cells": {
+           "name": "Website conversion report: nearly every checkout matches an order",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "assert_web_checkouts_attributed"
+         },
+         {
+          "cells": {
+           "name": "Orders feed: the customer number has the expected format",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "dbt_utils_source_expression_is_true_raw_olist_raw_olist_orders_customer_id__regexp_0_9a_f_32_"
+         }
+        ],
+        "empty": "Nothing is written down yet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "table",
+       "title": "The five slowest tables of the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Table"
+         },
+         {
+          "key": "seconds",
+          "label": "Time (seconds)"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Calendar table",
+           "seconds": 5.1
+          },
+          "state": null,
+          "details": "datum"
+         },
+         {
+          "cells": {
+           "name": "Practice numbers table",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "ref_dummy_numbers"
+         },
+         {
+          "cells": {
+           "name": "Most visited pages table",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "int_web_top_pages"
+         },
+         {
+          "cells": {
+           "name": "Website conversion table",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "mart_web_conversion"
+         },
+         {
+          "cells": {
+           "name": "Cleaned parcel scans table",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "stg_carrier_events"
+         }
+        ],
+        "empty": "No table was built in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.02,
+     "actions": [
+      {
+       "label": "The record was written when the night ended",
+       "status": "done",
+       "summary": "The record was written when the night ended.",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "The slowest steps and checks of the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name"
+         },
+         {
+          "key": "kind",
+          "label": "Table or check"
+         },
+         {
+          "key": "result",
+          "label": "Result"
+         },
+         {
+          "key": "seconds",
+          "label": "Time (seconds)"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Calendar table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 5.1
+          },
+          "state": null,
+          "details": "datum"
+         },
+         {
+          "cells": {
+           "name": "Practice numbers table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "ref_dummy_numbers"
+         },
+         {
+          "cells": {
+           "name": "Most visited pages table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "int_web_top_pages"
+         },
+         {
+          "cells": {
+           "name": "Website conversion table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "mart_web_conversion"
+         },
+         {
+          "cells": {
+           "name": "Cleaned parcel scans table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "stg_carrier_events"
+         },
+         {
+          "cells": {
+           "name": "Customers table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "dim_olist_customers"
+         },
+         {
+          "cells": {
+           "name": "Orders table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "fct_olist_orders"
+         },
+         {
+          "cells": {
+           "name": "Cleaned website visits table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.7
+          },
+          "state": null,
+          "details": "stg_web_events"
+         },
+         {
+          "cells": {
+           "name": "Practice rebuild table (by key): each combination of record key appears only once",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0.1
+          },
+          "state": null,
+          "details": "dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record"
+         },
+         {
+          "cells": {
+           "name": "Practice rebuild table (with dependencies): each combination of history key appears only once",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key"
+         },
+         {
+          "cells": {
+           "name": "Website conversion report: nearly every checkout matches an order",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "assert_web_checkouts_attributed"
+         },
+         {
+          "cells": {
+           "name": "Orders feed: the customer number has the expected format",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "dbt_utils_source_expression_is_true_raw_olist_raw_olist_orders_customer_id__regexp_0_9a_f_32_"
+         }
+        ],
+        "empty": "Nothing is written down yet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "table",
+       "title": "The five slowest tables of the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Table"
+         },
+         {
+          "key": "seconds",
+          "label": "Time (seconds)"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Calendar table",
+           "seconds": 5.1
+          },
+          "state": null,
+          "details": "datum"
+         },
+         {
+          "cells": {
+           "name": "Practice numbers table",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "ref_dummy_numbers"
+         },
+         {
+          "cells": {
+           "name": "Most visited pages table",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "int_web_top_pages"
+         },
+         {
+          "cells": {
+           "name": "Website conversion table",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "mart_web_conversion"
+         },
+         {
+          "cells": {
+           "name": "Cleaned parcel scans table",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "stg_carrier_events"
+         }
+        ],
+        "empty": "No table was built in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.03,
+     "actions": [
+      {
+       "label": "The record was written when the night ended",
+       "status": "done",
+       "summary": "The record was written when the night ended.",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "The slowest steps and checks of the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name"
+         },
+         {
+          "key": "kind",
+          "label": "Table or check"
+         },
+         {
+          "key": "result",
+          "label": "Result"
+         },
+         {
+          "key": "seconds",
+          "label": "Time (seconds)"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Calendar table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 5.1
+          },
+          "state": null,
+          "details": "datum"
+         },
+         {
+          "cells": {
+           "name": "Practice numbers table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "ref_dummy_numbers"
+         },
+         {
+          "cells": {
+           "name": "Most visited pages table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "int_web_top_pages"
+         },
+         {
+          "cells": {
+           "name": "Website conversion table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "mart_web_conversion"
+         },
+         {
+          "cells": {
+           "name": "Cleaned parcel scans table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "stg_carrier_events"
+         },
+         {
+          "cells": {
+           "name": "Customers table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "dim_olist_customers"
+         },
+         {
+          "cells": {
+           "name": "Orders table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "fct_olist_orders"
+         },
+         {
+          "cells": {
+           "name": "Cleaned website visits table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.7
+          },
+          "state": null,
+          "details": "stg_web_events"
+         },
+         {
+          "cells": {
+           "name": "Practice rebuild table (by key): each combination of record key appears only once",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0.1
+          },
+          "state": null,
+          "details": "dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record"
+         },
+         {
+          "cells": {
+           "name": "Practice rebuild table (with dependencies): each combination of history key appears only once",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key"
+         },
+         {
+          "cells": {
+           "name": "Website conversion report: nearly every checkout matches an order",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "assert_web_checkouts_attributed"
+         },
+         {
+          "cells": {
+           "name": "Orders feed: the customer number has the expected format",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "dbt_utils_source_expression_is_true_raw_olist_raw_olist_orders_customer_id__regexp_0_9a_f_32_"
+         }
+        ],
+        "empty": "Nothing is written down yet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "table",
+       "title": "The five slowest tables of the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Table"
+         },
+         {
+          "key": "seconds",
+          "label": "Time (seconds)"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Calendar table",
+           "seconds": 5.1
+          },
+          "state": null,
+          "details": "datum"
+         },
+         {
+          "cells": {
+           "name": "Practice numbers table",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "ref_dummy_numbers"
+         },
+         {
+          "cells": {
+           "name": "Most visited pages table",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "int_web_top_pages"
+         },
+         {
+          "cells": {
+           "name": "Website conversion table",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "mart_web_conversion"
+         },
+         {
+          "cells": {
+           "name": "Cleaned parcel scans table",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "stg_carrier_events"
+         }
+        ],
+        "empty": "No table was built in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.03,
+     "actions": [
+      {
+       "label": "The record was written when the night ended",
+       "status": "done",
+       "summary": "The record was written when the night ended.",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "The slowest steps and checks of the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name"
+         },
+         {
+          "key": "kind",
+          "label": "Table or check"
+         },
+         {
+          "key": "result",
+          "label": "Result"
+         },
+         {
+          "key": "seconds",
+          "label": "Time (seconds)"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Calendar table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 5.1
+          },
+          "state": null,
+          "details": "datum"
+         },
+         {
+          "cells": {
+           "name": "Practice numbers table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "ref_dummy_numbers"
+         },
+         {
+          "cells": {
+           "name": "Most visited pages table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "int_web_top_pages"
+         },
+         {
+          "cells": {
+           "name": "Website conversion table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "mart_web_conversion"
+         },
+         {
+          "cells": {
+           "name": "Cleaned parcel scans table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "stg_carrier_events"
+         },
+         {
+          "cells": {
+           "name": "Customers table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "dim_olist_customers"
+         },
+         {
+          "cells": {
+           "name": "Orders table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "fct_olist_orders"
+         },
+         {
+          "cells": {
+           "name": "Cleaned website visits table",
+           "kind": "table",
+           "result": "Done",
+           "seconds": 0.7
+          },
+          "state": null,
+          "details": "stg_web_events"
+         },
+         {
+          "cells": {
+           "name": "Practice rebuild table (by key): each combination of record key appears only once",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0.1
+          },
+          "state": null,
+          "details": "dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record"
+         },
+         {
+          "cells": {
+           "name": "Practice rebuild table (with dependencies): each combination of history key appears only once",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key"
+         },
+         {
+          "cells": {
+           "name": "Website conversion report: nearly every checkout matches an order",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "assert_web_checkouts_attributed"
+         },
+         {
+          "cells": {
+           "name": "Orders feed: the customer number has the expected format",
+           "kind": "check",
+           "result": "Done",
+           "seconds": 0
+          },
+          "state": null,
+          "details": "dbt_utils_source_expression_is_true_raw_olist_raw_olist_orders_customer_id__regexp_0_9a_f_32_"
+         }
+        ],
+        "empty": "Nothing is written down yet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "table",
+       "title": "The five slowest tables of the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Table"
+         },
+         {
+          "key": "seconds",
+          "label": "Time (seconds)"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Calendar table",
+           "seconds": 5.1
+          },
+          "state": null,
+          "details": "datum"
+         },
+         {
+          "cells": {
+           "name": "Practice numbers table",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "ref_dummy_numbers"
+         },
+         {
+          "cells": {
+           "name": "Most visited pages table",
+           "seconds": 0.9
+          },
+          "state": null,
+          "details": "int_web_top_pages"
+         },
+         {
+          "cells": {
+           "name": "Website conversion table",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "mart_web_conversion"
+         },
+         {
+          "cells": {
+           "name": "Cleaned parcel scans table",
+           "seconds": 0.8
+          },
+          "state": null,
+          "details": "stg_carrier_events"
+         }
+        ],
+        "empty": "No table was built in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The record was written when the night ended.",
+   "outcome": "The record shows the slowest tables and checks of the last night with their result and seconds: what ran and how long it took is one look.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:29:42+00:00",
+   "durations": [
+    1.1,
+    1.1,
+    1.1,
+    1.1,
+    1.0
+   ],
+   "show": [
+    "table",
+    "table"
+   ]
+  },
+  "failure": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.01,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "running",
+       "summary": "Sending the last 1 day of data again in development.",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.07,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.07,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.02,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.59,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.02,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.61,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.03,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.04,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.62,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.04,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.64,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 12.05,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Orders feed: the order number is never empty",
+           "status": "failed",
+           "failures": "3"
+          },
+          "state": "bad",
+          "details": "source_not_null_raw_olist_raw_olist_orders_order_id"
+         }
+        ],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.06,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Orders feed: the order number is never empty",
+           "status": "failed",
+           "failures": "3"
+          },
+          "state": "bad",
+          "details": "source_not_null_raw_olist_raw_olist_orders_order_id"
+         }
+        ],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.65,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
+       "details": "run studio__1794770984_1242ab: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Orders feed: the order number is never empty",
+           "status": "failed",
+           "failures": "3"
+          },
+          "state": "bad",
+          "details": "source_not_null_raw_olist_raw_olist_orders_order_id"
+         }
+        ],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.66,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
+       "details": "run studio__1794770984_1242ab: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Orders feed: the order number is never empty",
+           "status": "failed",
+           "failures": "3"
+          },
+          "state": "bad",
+          "details": "source_not_null_raw_olist_raw_olist_orders_order_id"
+         }
+        ],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.66,
+     "actions": [
+      {
+       "label": "Changing how orders are delivered",
+       "status": "done",
+       "summary": "Every day 3 orders now arrive without an order number.",
+       "details": "feed.condition dev orders {'bad_rows': 3}"
+      },
+      {
+       "label": "Sending the last 1 day of data again",
+       "status": "done",
+       "summary": "Sent today of every data feed again in development with the current settings (528 rows arrived).",
+       "details": "feed.deliver dev days=1 feeds=all rows={'raw_olist_customers': 23, 'raw_olist_orders': 95, 'raw_olist_order_payments': 28, 'raw_olist_order_reviews': 13, 'raw_carrier_tracking_events': 100, 'raw_web_events': 269}"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
+       "details": "run studio__1794770984_1242ab: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Checks that failed in the last night",
+       "data": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Check"
+         },
+         {
+          "key": "status",
+          "label": "Result"
+         },
+         {
+          "key": "failures",
+          "label": "Rows that broke the rule"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "name": "Orders feed: the order number is never empty",
+           "status": "failed",
+           "failures": "3"
+          },
+          "state": "bad",
+          "details": "source_not_null_raw_olist_raw_olist_orders_order_id"
+         }
+        ],
+        "empty": "No failed checks in the last night.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
+   "outcome": "The failed check is on file, with the number of rows that failed, long after the log is gone.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T19:29:58+00:00",
+   "durations": [
+    14.6,
+    14.7,
+    14.6,
+    14.7,
+    14.7
+   ],
+   "show": [
+    "table"
+   ]
+  }
+ },
+ "recorded_at": "2026-11-15T19:29:58+00:00",
+ "prepare": {
+  "durations": [
+   28.0,
+   14.8,
+   10.8,
+   11.2,
+   11.0
+  ]
+ }
+}

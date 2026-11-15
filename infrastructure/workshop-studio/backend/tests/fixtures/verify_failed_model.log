@@ -1,0 +1,115 @@
+2026-11-15T16:23:58.293276Z 00O [0KRunning with gitlab-runner 19.5.2 (66ad5002)[0;m
+2026-11-15T16:23:58.293285Z 00O [0K  on 04d360ade64e kCVPyqXHN, system ID: r_Icq5yFdLlyy4[0;m
+2026-11-15T16:23:58.293286Z 00O [0K  UUID: 01a1def2-66bd-733d-a211-ccea989791ed[0;m
+2026-11-15T16:23:58.293301Z 00O section_start:1794759838:prepare_executor[0K
+2026-11-15T16:23:58.293303Z 00O+[0K[36;1mPreparing the "docker" executor[0;m[0;m
+2026-11-15T16:23:58.300208Z 00O [0KUsing Docker executor with image dbt-singlestore-base:1.11.11 ...[0;m
+2026-11-15T16:23:58.734151Z 00O [0KUsing effective pull policy of [if-not-present] for container dbt-singlestore-base:1.11.11[0;m
+2026-11-15T16:23:58.739984Z 00O [0KUsing locally found image version due to "if-not-present" pull policy[0;m
+2026-11-15T16:23:58.739991Z 00O [0KUsing docker image sha256:e41ebe11086ce8a11715e846b3e06214469afba561ea273415c3893b196b2f87 for dbt-singlestore-base:1.11.11 with digest dbt-singlestore-base@sha256:e41ebe11086ce8a11715e846b3e06214469afba561ea273415c3893b196b2f87 ...[0;m
+2026-11-15T16:23:58.739995Z 00O section_end:1794759838:prepare_executor[0K
+2026-11-15T16:23:58.740076Z 00O+section_start:1794759838:prepare_script[0K
+2026-11-15T16:23:58.740078Z 00O+[0K[36;1mPreparing environment[0;m[0;m
+2026-11-15T16:23:58.744548Z 00O [0KUsing effective pull policy of [if-not-present] for container sha256:072376a64c654169ef9de96b4b40740c10f1ef1a69f913644f56b25d1d894401[0;m
+2026-11-15T16:23:58.847945Z 01O Running on runner-kcvpyqxhn-project-1-concurrent-0 via 04d360ade64e...
+2026-11-15T16:23:58.849588Z 01O Running on CPU: Intel(R) Core(TM) Ultra 7 265F (avx, avx2)
+2026-11-15T16:23:58.921276Z 00O section_end:1794759838:prepare_script[0K
+2026-11-15T16:23:58.921506Z 00O+section_start:1794759838:get_sources[0K
+2026-11-15T16:23:58.921510Z 00O+[0K[36;1mGetting source from Git repository[0;m[0;m
+2026-11-15T16:23:59.014550Z 01O [32;1mGitaly correlation ID: 01M7G0BJEJ08NX5SXQMZDYVB51[0;m
+2026-11-15T16:23:59.018213Z 01O [32;1mFetching changes...[0;m
+2026-11-15T16:23:59.019298Z 01O Initialized empty Git repository in /builds/workshop/dbt-vdp/.git/
+2026-11-15T16:23:59.020190Z 01O [32;1mCreated fresh repository.[0;m
+2026-11-15T16:23:59.123820Z 01O [32;1mChecking out 3d53553c as detached HEAD (ref is refs/merge-requests/23/head)...[0;m
+2026-11-15T16:23:59.147641Z 01O 
+2026-11-15T16:23:59.147651Z 01O [32;1mSkipping Git submodules setup[0;m
+2026-11-15T16:23:59.222389Z 00O section_end:1794759839:get_sources[0K
+2026-11-15T16:23:59.222758Z 00O+section_start:1794759839:step_script[0K
+2026-11-15T16:23:59.222762Z 00O+[0K[36;1mExecuting "step_script" stage of the job script[0;m[0;m
+2026-11-15T16:23:59.222769Z 00O [0KUsing effective pull policy of [if-not-present] for container dbt-singlestore-base:1.11.11[0;m
+2026-11-15T16:23:59.230733Z 00O [0KUsing docker image sha256:e41ebe11086ce8a11715e846b3e06214469afba561ea273415c3893b196b2f87 for dbt-singlestore-base:1.11.11 with digest dbt-singlestore-base@sha256:e41ebe11086ce8a11715e846b3e06214469afba561ea273415c3893b196b2f87 ...[0;m
+2026-11-15T16:23:59.342878Z 01O [32;1m$ git config --global user.email "gitlab-ci@workshop.local"[0;m
+2026-11-15T16:23:59.343733Z 01O [32;1m$ git config --global user.name "GitLab CI"[0;m
+2026-11-15T16:23:59.344410Z 01O [32;1m$ git config --global --add safe.directory "*"[0;m
+2026-11-15T16:23:59.345310Z 01O [32;1m$ git fetch --force --prune --tags --update-head-ok origin[0;m
+2026-11-15T16:23:59.403023Z 01O [32;1m$ git checkout origin/dev[0;m
+2026-11-15T16:23:59.405138Z 01E Previous HEAD position was 3d53553 fix: attach the next days of the calendar to every order
+2026-11-15T16:23:59.405143Z 01E HEAD is now at f536746 feat(core): initial dbt project baseline
+2026-11-15T16:23:59.405454Z 01O [32;1m$ dbt deps[0;m
+2026-11-15T16:23:59.412340Z 01O    dbt-oss 2.0.11
+2026-11-15T16:23:59.413387Z 01O    Started resolving packages from packages.yml
+2026-11-15T16:23:59.607964Z 01O   Finished [  0.19s] resolving packages from packages.yml (1 items)
+2026-11-15T16:23:59.607971Z 01O Installing packages
+2026-11-15T16:23:59.608140Z 01O Installing dbt-labs/dbt_utils
+2026-11-15T16:23:59.971123Z 01O  Installed dbt-labs/dbt_utils: 1.4.1
+2026-11-15T16:23:59.971129Z 01O  Installed 1 package
+2026-11-15T16:23:59.971734Z 01O 
+2026-11-15T16:23:59.971736Z 01O ==================== Execution Summary =====================
+2026-11-15T16:23:59.971737Z 01O Finished 'deps' successfully [559ms]
+2026-11-15T16:23:59.974686Z 01O [32;1m$ dbt compile --target-path artifacts --target run[0;m
+2026-11-15T16:23:59.981772Z 01O    dbt-oss 2.0.11
+2026-11-15T16:23:59.982505Z 01O    Loading profiles.yml
+2026-11-15T16:23:59.983620Z 01O    Loading packages.yml
+2026-11-15T16:23:59.987020Z 01O      Using 3 threads (target: run)
+2026-11-15T16:24:00.123840Z 01O    Started downloading referenced relations (1 items)
+2026-11-15T16:24:00.131760Z 01O   Finished [  0.01s] downloading referenced relations (1 items)
+2026-11-15T16:24:00.192243Z 01O   Finished [  0.01s] hook  dbt_swf-on-run-end-0
+2026-11-15T16:24:00.201135Z 01O 
+2026-11-15T16:24:00.201138Z 01O ==================== Execution Summary =====================
+2026-11-15T16:24:00.201139Z 01O Finished 'compile' successfully for target 'run' [219ms]
+2026-11-15T16:24:00.201139Z 01O Processed: 1 hook | 28 models | 21 tests
+2026-11-15T16:24:00.201139Z 01O Summary: 50 total | 50 success
+2026-11-15T16:24:00.208860Z 01O [32;1m$ git checkout $CI_COMMIT_SHA[0;m
+2026-11-15T16:24:00.211214Z 01E Previous HEAD position was f536746 feat(core): initial dbt project baseline
+2026-11-15T16:24:00.211270Z 01E HEAD is now at 3d53553 fix: attach the next days of the calendar to every order
+2026-11-15T16:24:00.211495Z 01O [32;1m$ git merge origin/dev --no-commit --no-ff || true[0;m
+2026-11-15T16:24:00.212409Z 01O Already up to date.
+2026-11-15T16:24:00.212476Z 01O [32;1m$ dbt clean[0;m
+2026-11-15T16:24:00.219470Z 01O    dbt-oss 2.0.11
+2026-11-15T16:24:00.220206Z 01O    Loading profiles.yml
+2026-11-15T16:24:00.222335Z 01O   Removing logs
+2026-11-15T16:24:00.222364Z 01O   Removing target
+2026-11-15T16:24:00.222671Z 01O 
+2026-11-15T16:24:00.222672Z 01O ==================== Execution Summary =====================
+2026-11-15T16:24:00.222673Z 01O Finished 'clean' successfully [3ms]
+2026-11-15T16:24:00.223734Z 01O [32;1m$ dbt build --select state:modified+ --state artifacts --defer --vars "SCHEMA: ${VERIFY_SCHEMA//[\/-]/_}" --target ci[0;m
+2026-11-15T16:24:00.231380Z 01O    dbt-oss 2.0.11
+2026-11-15T16:24:00.231895Z 01O    Loading profiles.yml
+2026-11-15T16:24:00.232607Z 01O    Loading packages.yml
+2026-11-15T16:24:00.235840Z 01O      Using 2 threads (target: ci)
+2026-11-15T16:24:00.395686Z 01O    Started downloading deferred relations (1 items)
+2026-11-15T16:24:00.403853Z 01O   Finished [  0.01s] downloading deferred relations (1 items)
+2026-11-15T16:24:02.014831Z 01O     Failed model demo_orders_calendar.demo_orders_calendar_fct_olist_orders (table) [1 of 6 in 1.56s]
+2026-11-15T16:24:02.014839Z 01O    Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [2 of 6]
+2026-11-15T16:24:02.014839Z 01O    Skipped test  assert_orders_one_row_each (tests/assert_orders_one_row_each.sql) [3 of 6]
+2026-11-15T16:24:02.014840Z 01O    Skipped model demo_orders_calendar.demo_orders_calendar_mart_olist_management_kpi (table) [4 of 6]
+2026-11-15T16:24:02.014929Z 01O    Skipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [5 of 6]
+2026-11-15T16:24:02.014930Z 01O    Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 6]
+2026-11-15T16:24:02.016335Z 01O   Finished [  0.00s] hook  dbt_swf-on-run-end-0
+2026-11-15T16:24:02.049141Z 01E 
+2026-11-15T16:24:02.049148Z 01E =================== Errors and Warnings ====================
+2026-11-15T16:24:02.049149Z 01E [error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)
+2026-11-15T16:24:02.049150Z 01E   [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a36938f241ab17ceb322da29f3801942' for key 'PRIMARY'
+2026-11-15T16:24:02.049150Z 01E   (in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)
+2026-11-15T16:24:02.049154Z 01O 
+2026-11-15T16:24:02.049154Z 01O ==================== Execution Summary =====================
+2026-11-15T16:24:02.049155Z 01O Finished 'build' with 1 error for target 'ci' [1.8s]
+2026-11-15T16:24:02.049155Z 01O Processed: 1 hook | 3 models | 3 tests
+2026-11-15T16:24:02.049155Z 01O Summary: 7 total | 1 success | 1 error | 5 skipped
+2026-11-15T16:24:02.132322Z 00O section_end:1794759842:step_script[0K
+2026-11-15T16:24:02.132492Z 00O+section_start:1794759842:after_script[0K
+2026-11-15T16:24:02.132496Z 00O+[0K[36;1mRunning after_script[0;m[0;m
+2026-11-15T16:24:02.215702Z 01O [32;1mRunning after script...[0;m
+2026-11-15T16:24:02.215718Z 01O [32;1m$ dbt run-operation drop_nodes --vars "SCHEMA: ${VERIFY_SCHEMA//[\/-]/_}" --target ci || true[0;m
+2026-11-15T16:24:02.223015Z 01O    dbt-oss 2.0.11
+2026-11-15T16:24:02.223798Z 01O    Loading profiles.yml
+2026-11-15T16:24:02.224762Z 01O    Loading packages.yml
+2026-11-15T16:24:02.228657Z 01O      Using 2 threads (target: ci)
+2026-11-15T16:24:02.385089Z 01O 
+2026-11-15T16:24:02.385094Z 01O ==================== Execution Summary =====================
+2026-11-15T16:24:02.385095Z 01O Finished 'run-operation' successfully for target 'ci' [162ms]
+2026-11-15T16:24:02.463796Z 00O section_end:1794759842:after_script[0K
+2026-11-15T16:24:02.464191Z 00O+section_start:1794759842:cleanup_file_variables[0K
+2026-11-15T16:24:02.464195Z 00O+[0K[36;1mCleaning up project directory and file based variables[0;m[0;m
+2026-11-15T16:24:02.626969Z 00O section_end:1794759842:cleanup_file_variables[0K
+2026-11-15T16:24:02.665299Z 00O [31;1mERROR: Job failed: exit code 1[0;m

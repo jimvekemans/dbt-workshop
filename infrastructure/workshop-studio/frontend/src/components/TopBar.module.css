@@ -1,0 +1,19 @@
+.bar { background: var(--bg); border-bottom: 1px solid var(--line); }
+.inner { max-width: var(--page-max); margin: 0 auto; padding: 0 var(--gutter); height: 3.75rem; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-3); }
+.left, .mid, .right { display: flex; align-items: center; gap: var(--space-2); min-width: 0; flex-wrap: nowrap; }
+.mid { justify-content: center; overflow: hidden; }
+.right { justify-content: flex-end; }
+.brand { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 2.75rem; padding: 0 var(--space-2); font-weight: 800; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; border-radius: var(--radius-md); white-space: nowrap; }
+@media (hover: hover) and (pointer: fine) { .brand:hover { background: var(--bg-sunk); color: var(--ink); } }
+.switcher { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 2.75rem; min-width: 2.75rem; justify-content: center; padding: 0 var(--space-3); border-radius: var(--radius-md); border: 1.5px solid var(--line-strong); background: var(--surface); color: var(--ink-2); font-weight: 600; white-space: nowrap; }
+@media (hover: hover) and (pointer: fine) { .switcher:hover { border-color: var(--ink-2); color: var(--ink); } }
+.short { display: none; }
+.nav { padding: 0 var(--space-2); white-space: nowrap; }
+.txt { display: none; }
+.count { font-size: var(--text-sm); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.countLong { display: none; }
+@media (min-width: 900px) { .countLong { display: inline; } .countShort { display: none; } }
+@media (max-width: 1499px) { .long { display: none; } .short { display: inline; } .switcher kbd { display: none; } }
+@media (max-width: 720px) { .brand span { display: none; } .brand { padding: 0; width: 2.75rem; justify-content: center; } }
+@media (max-width: 560px) { .inner { gap: var(--space-1); } .switcher { padding: 0 var(--space-2); } .switcher svg { display: none; } .nav { padding: 0; min-width: 2.5rem; } .mid { gap: 0; } }
+@media (max-width: 480px) { .brand { display: none; } .switcher { padding: 0 var(--space-2); font-size: var(--text-sm); } .nav { min-width: 2.25rem; } .inner { padding: 0 var(--space-3); } }

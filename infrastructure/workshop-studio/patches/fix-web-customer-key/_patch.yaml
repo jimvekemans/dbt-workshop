@@ -1,7 +1,0 @@
-title: 'Attribute checkouts per person (customer_unique_id), not per webshop customer_id'
-message: 'fix(web): resolve the web customer_ref to the person before attributing checkouts to orders'
-branch: bugfix/web-customer-key
-ops:
-  - path: models/edw_dv_bdv/web/sources_web.yml
-    find: "              The logged-in customer, as the web-analytics team defines it. NOTE: the webapp team's customer_id is a\n              different thing - Olist issues a new customer_id per order (customer_unique_id is the person).\n"
-    replace: "              The logged-in customer, as the web-analytics team defines it. Contract v1: the webshop customer_id\n              (issued per order). Contract v2 (since the new login service): the web ACCOUNT, i.e. the person - the\n              webapp team calls that customer_unique_id. Same name, two definitions: resolve to customer_unique_id\n              before joining the two teams' data (mart_web_conversion).\n"

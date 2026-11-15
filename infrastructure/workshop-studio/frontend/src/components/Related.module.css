@@ -1,0 +1,7 @@
+.related { margin-top: var(--space-6); padding-top: var(--space-3); border-top: 1px solid var(--line); max-width: var(--measure); color: var(--ink-2); }
+.title { font-size: var(--text-sm); font-weight: 600; color: var(--ink-2); }
+.sub { font-size: var(--text-sm); color: var(--ink-2); }
+.list { list-style: none; margin-top: var(--space-3); display: grid; gap: var(--space-3); }
+.list li { display: grid; gap: 0.1em; }
+.link { font-weight: 600; display: inline-flex; align-items: center; min-height: 44px; }
+.why { font-size: var(--text-sm); color: var(--ink-2); }

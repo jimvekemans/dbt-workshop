@@ -1,0 +1,2206 @@
+{
+ "scenario": "numbered-versions",
+ "steps": {
+  "now": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.29,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.29,
+     "actions": [
+      {
+       "label": "Reading the numbers",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.29,
+     "actions": [
+      {
+       "label": "Reading the numbers",
+       "status": "running",
+       "summary": "Reading which version each environment runs",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.29,
+     "actions": [
+      {
+       "label": "Reading the numbers",
+       "status": "done",
+       "summary": "Reading which version each environment runs.",
+       "details": "Reading the numbers."
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.58,
+     "actions": [
+      {
+       "label": "Reading the numbers",
+       "status": "done",
+       "summary": "Reading which version each environment runs.",
+       "details": "Reading the numbers."
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.58,
+     "actions": [
+      {
+       "label": "Reading the numbers",
+       "status": "done",
+       "summary": "Reading which version each environment runs.",
+       "details": "Reading the numbers."
+      }
+     ],
+     "evidence": [
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Reading which version each environment runs.",
+   "outcome": "Development, validation and production each run exactly one numbered version, v1.0.0.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T20:49:44+00:00",
+   "durations": [
+    3.6,
+    3.6,
+    3.7,
+    3.6,
+    3.6
+   ],
+   "show": [
+    "versions"
+   ]
+  },
+  "propose": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.64,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.64,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.13,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.13,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.48,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.48,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.67,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Clearer description of the management report' for review.",
+       "details": "merge request !85: demo/clearer-description -> dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.67,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Clearer description of the management report' for review.",
+       "details": "merge request !85: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.91,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Clearer description of the management report' for review.",
+       "details": "merge request !85: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.16,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Clearer description of the management report' for review.",
+       "details": "merge request !85: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "todo",
+        "state_text": "Waiting",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.74,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Clearer description of the management report' for review.",
+       "details": "merge request !85: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.15,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Clearer description of the management report' for review.",
+       "details": "merge request !85: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: waiting for the next step",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.25,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Clearer description of the management report' for review.",
+       "details": "merge request !85: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed.",
+       "details": "pipeline 291 on refs/merge-requests/85/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'build' with 2 warnings for target 'ci' [242ms]\n\n=================== Errors and Warnings ====================\n[warning] [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion 'state:modified+' does not match any enabled nodes\n[warning] [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [168ms]\nsection_end:1794775792:step_script\n\nsection_start:1794775792:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [170ms]\nsection_end:1794775792:after_script\n\nsection_start:1794775792:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794775793:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 12.34,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Clearer description of the management report' for review.",
+       "details": "merge request !85: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed.",
+       "details": "pipeline 291 on refs/merge-requests/85/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'build' with 2 warnings for target 'ci' [242ms]\n\n=================== Errors and Warnings ====================\n[warning] [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion 'state:modified+' does not match any enabled nodes\n[warning] [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [168ms]\nsection_end:1794775792:step_script\n\nsection_start:1794775792:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [170ms]\nsection_end:1794775792:after_script\n\nsection_start:1794775792:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794775793:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 13.92,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Clearer description of the management report' for review.",
+       "details": "merge request !85: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed.",
+       "details": "pipeline 291 on refs/merge-requests/85/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'build' with 2 warnings for target 'ci' [242ms]\n\n=================== Errors and Warnings ====================\n[warning] [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion 'state:modified+' does not match any enabled nodes\n[warning] [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [168ms]\nsection_end:1794775792:step_script\n\nsection_start:1794775792:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [170ms]\nsection_end:1794775792:after_script\n\nsection_start:1794775792:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794775793:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 13.92,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Clearer description of the management report' for review.",
+       "details": "merge request !85: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed.",
+       "details": "pipeline 291 on refs/merge-requests/85/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'build' with 2 warnings for target 'ci' [242ms]\n\n=================== Errors and Warnings ====================\n[warning] [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion 'state:modified+' does not match any enabled nodes\n[warning] [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [168ms]\nsection_end:1794775792:step_script\n\nsection_start:1794775792:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [170ms]\nsection_end:1794775792:after_script\n\nsection_start:1794775792:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794775793:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The automatic rehearsal passed.",
+   "outcome": "The change passed its rehearsal. The numbers did not move: nothing is accepted yet.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T20:49:58+00:00",
+   "durations": [
+    13.7,
+    13.7,
+    14.1,
+    13.8,
+    13.9
+   ],
+   "show": [
+    "pipeline",
+    "versions"
+   ]
+  },
+  "accept": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.38,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.38,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.88,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "running",
+       "summary": "Waiting until the change may be accepted",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.88,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.88,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.02,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.82,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.44,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Putting the version live in development",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.19,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: putting the version live in development",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Putting the version live in development",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.95,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: putting the version live in development",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in development",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 15.47,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: putting the version live in development",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in development",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.37,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: waiting for the next step",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in development",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.43,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in development.",
+       "details": "pipeline 293 on v1.0.1: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in development",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.98,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in development.",
+       "details": "pipeline 293 on v1.0.1: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in development",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.45,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in development.",
+       "details": "pipeline 293 on v1.0.1: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in development",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.45,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !85 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in development.",
+       "details": "pipeline 293 on v1.0.1: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in development",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The version was packaged and put live in development.",
+   "outcome": "Development runs v1.0.1. Validation and production still run v1.0.0, and everybody can see which.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-15T20:50:18+00:00",
+   "durations": [
+    20.3,
+    20.3,
+    20.9,
+    20.4,
+    20.4
+   ],
+   "show": [
+    "pipeline",
+    "versions"
+   ]
+  }
+ },
+ "prepare": {
+  "durations": [
+   1.9,
+   11.7,
+   1.4,
+   2.4,
+   16.0
+  ]
+ },
+ "recorded_at": "2026-11-15T20:50:18+00:00"
+}

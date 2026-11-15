@@ -1,0 +1,234 @@
+{
+ "groups": [
+  {
+   "id": "sources",
+   "title": "When the data changes",
+   "blurb": "The shop depends on feeds sent by other teams and companies. A feed can change format, arrive late or arrive broken.",
+   "scenarios": [
+    {
+     "id": "late-delivery",
+     "title": "A late feed is reported and the rest still loads",
+     "promise": "When a feed does not arrive, the team is told, and every other report still loads on time.",
+     "minutes": 3,
+     "environment": "dev",
+     "related": [
+      {
+       "id": "skip-one-table",
+       "why": "When a feed is not just late but broken, an operator can leave it out of the nightly load."
+      }
+     ],
+     "recorded": true
+    },
+    {
+     "id": "skip-one-table",
+     "title": "One broken feed must not stop every report",
+     "promise": "When one feed arrives broken, an operator skips it for tonight and every other report is still on time.",
+     "minutes": 4,
+     "environment": "dev",
+     "related": [
+      {
+       "id": "switchover-date",
+       "why": "The skip list is another setting an operator can change in a minute, without a new release."
+      }
+     ],
+     "recorded": true
+    },
+    {
+     "id": "strict-where-it-matters",
+     "title": "Messy test data is fine in development, never in production",
+     "promise": "The same check only warns while we try things out, and stops the load where real customers depend on it.",
+     "minutes": 4,
+     "environment": "dev",
+     "related": [],
+     "recorded": true
+    },
+    {
+     "id": "switchover-date",
+     "title": "Switching to a new scan format on an agreed day",
+     "promise": "The carrier changes its scan format on one day, and we switch on that day, so no parcel scan goes missing.",
+     "minutes": 4,
+     "environment": "dev",
+     "related": [
+      {
+       "id": "skip-one-table",
+       "why": "The switch day is a setting an operator can change without a new release, like the skip list in that scenario."
+      }
+     ],
+     "recorded": true
+    }
+   ]
+  },
+  {
+   "id": "changes",
+   "title": "When the code changes",
+   "blurb": "Every change to the reports is rehearsed, checked and kept tidy before it can reach anyone.",
+   "scenarios": [
+    {
+     "id": "checked-before-merge",
+     "title": "Every change is rehearsed in a sandbox before it is accepted",
+     "promise": "A mistake in a proposed change is caught by an automatic rehearsal, long before any report is wrong.",
+     "minutes": 3,
+     "environment": "dev",
+     "related": [],
+     "recorded": true
+    },
+    {
+     "id": "house-rules",
+     "title": "Sloppy or risky code is refused before it is saved",
+     "promise": "A robot tidies every change and refuses known bad habits, so reviewers can focus on the content.",
+     "minutes": 2,
+     "environment": "dev",
+     "related": [],
+     "recorded": true
+    },
+    {
+     "id": "own-workbench",
+     "title": "Every developer works on their own copies",
+     "promise": "Three developers can build the same table at the same time without overwriting each other.",
+     "minutes": 3,
+     "environment": "dev",
+     "related": [],
+     "recorded": true
+    }
+   ]
+  },
+  {
+   "id": "releases",
+   "title": "When we release",
+   "blurb": "New versions reach the shop in a fixed order, can be pulled back in seconds and cannot be changed in secret.",
+   "scenarios": [
+    {
+     "id": "back-in-seconds",
+     "title": "A bad release is undone in seconds",
+     "promise": "Going back to yesterday's version is changing one number, not repairing anything.",
+     "minutes": 3,
+     "environment": "dev",
+     "related": [
+      {
+       "id": "numbered-versions",
+       "why": "This is where the numbered versions are explained. Here a second version is made for you while the demo gets ready."
+      }
+     ],
+     "recorded": true
+    },
+    {
+     "id": "no-secret-fixes",
+     "title": "A fix made by hand in production is detected",
+     "promise": "Before every release the stack compares the real database with the code and stops on hand-made changes.",
+     "minutes": 2,
+     "environment": "val",
+     "related": [],
+     "recorded": true
+    },
+    {
+     "id": "numbered-versions",
+     "title": "Every environment runs one exact, numbered version",
+     "promise": "The question 'which version is running in production?' always has one exact answer.",
+     "minutes": 3,
+     "environment": "dev",
+     "related": [],
+     "recorded": true
+    },
+    {
+     "id": "one-team-not-ready",
+     "title": "Take one team's change out of a release",
+     "promise": "When one team is not ready, only that team's change waits and the other team ships.",
+     "minutes": 3,
+     "environment": "val",
+     "related": [
+      {
+       "id": "numbered-versions",
+       "why": "Each finished change gets a version number. The unfinished one is taken out by its number."
+      }
+     ],
+     "recorded": true
+    },
+    {
+     "id": "right-keys-only",
+     "title": "The robot that builds development cannot touch production",
+     "promise": "Each environment has its own robot with keys to its own rooms only, so a mix-up cannot damage production.",
+     "minutes": 2,
+     "environment": "prd",
+     "related": [],
+     "recorded": true
+    }
+   ]
+  },
+  {
+   "id": "daily",
+   "title": "Every day",
+   "blurb": "The nightly load runs on its own. When it fails, people get one clear mail and a fast way back.",
+   "scenarios": [
+    {
+     "id": "every-run-on-record",
+     "title": "Every run and every check is written down",
+     "promise": "The question \"what ran last night, how long did it take, what failed\" always has an answer, in plain tables.",
+     "minutes": 4,
+     "environment": "dev",
+     "related": [
+      {
+       "id": "one-clear-mail",
+       "why": "The mail reports tonight's failure; the record keeps the history of every night."
+      }
+     ],
+     "recorded": true
+    },
+    {
+     "id": "one-clear-mail",
+     "title": "A failed night produces one clear mail",
+     "promise": "When the nightly load fails, the team gets one short mail that says what failed, not a wall of text.",
+     "minutes": 3,
+     "environment": "dev",
+     "related": [
+      {
+       "id": "redo-only-what-failed",
+       "why": "After reading the mail and fixing the cause, only the failed part is run again."
+      }
+     ],
+     "recorded": true
+    },
+    {
+     "id": "rebuild-without-downtime",
+     "title": "Rebuilding a big table while people keep reading it",
+     "promise": "A big table is rebuilt next to the old one and swapped in at once, so readers never see an empty table.",
+     "minutes": 4,
+     "environment": "dev",
+     "related": [],
+     "recorded": true
+    },
+    {
+     "id": "redo-only-what-failed",
+     "title": "After a fix, only the failed part runs again",
+     "promise": "When a night fails and the cause is fixed, the retry redoes only what failed and what waits for it.",
+     "minutes": 4,
+     "environment": "dev",
+     "related": [
+      {
+       "id": "one-clear-mail",
+       "why": "The mail tells the team what failed, so they know what to fix before they retry."
+      }
+     ],
+     "recorded": true
+    }
+   ]
+  }
+ ],
+ "glossary": {
+  "database": "The big, organised store where all the shop's data lives, in tables.",
+  "environment": "One complete copy of the system with its own data. We have three: development (trying things), validation (checking) and production (the real one).",
+  "feed": "Data that another team or company sends us again and again, for example the carrier's parcel scans or customer reviews.",
+  "hand-made change": "A change someone typed straight into the live database instead of putting it through the normal, recorded route.",
+  "log": "The diary a program writes while it works: one line for every step, in the order it happened.",
+  "model": "One table of the shop's reports, built from raw data by a small piece of code.",
+  "nightly load": "The job that runs every night and rebuilds all the shop's reports from the latest data.",
+  "operator": "The person who keeps the nightly load running, not the person who writes the reports.",
+  "release": "A bundle of finished changes that goes live together on an agreed day.",
+  "robot account": "A login used by a program instead of a person. It has its own keys that only open certain doors.",
+  "sandbox": "A private scratch copy where a change can be tried without touching what others use.",
+  "setting": "A value an operator can change in a minute to alter tonight's nightly load, without building anything new.",
+  "table": "One sheet of the database: rows and columns, like a page of a spreadsheet.",
+  "test": "An automatic check on the data, for example that every order has a number.",
+  "version": "One exact, numbered state of all our code, for example v1.0.2. Like the edition number of a book."
+ },
+ "overview_url": "http://localhost:8099"
+}

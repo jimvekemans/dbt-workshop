@@ -1,0 +1,106 @@
+id: production-waits
+group: releases
+title: Production gets a release only when a person approves
+promise: A release goes live in validation by itself, and the same package reaches production after one approval.
+minutes: 3
+environment: val
+related:
+  - id: numbered-versions
+    why: The numbered package that validation and production run is explained there.
+  - id: one-team-not-ready
+    why: That scenario builds the release. Here we look at the last step, the approval for production.
+
+problem:
+  headline: A release nobody approved goes live for every customer
+  story: |
+    A release is finished late on Thursday afternoon. The automatic go-live is set up so that it simply continues:
+    validation, then production, straight after each other. Nobody looked at the release in validation, and nobody
+    was asked. On Friday morning every customer sees wrong delivery figures, and the team that built the release
+    will not be back until Monday.
+  cost: Every customer sees wrong figures for the whole weekend, and nobody can say who allowed the release.
+  visual:
+    type: flow
+    nodes:
+      - {id: release, label: Finished release, state: ok, note: "Thursday afternoon"}
+      - {id: val, label: Validation, state: warn, note: "Thursday evening: nobody looks at it"}
+      - {id: prd, label: Production, state: bad, note: "Thursday night: goes live by itself"}
+      - {id: shop, label: Every customer, state: bad, note: "Friday morning: sees the wrong figures"}
+    links: [[release, val], [val, prd], [prd, shop]]
+    caption: One automatic chain, and nobody in it who can say stop.
+
+idea:
+  headline: Validation goes live by itself, production waits for a person
+  points:
+    - The release goes live in validation automatically, so everybody can look at it there first.
+    - The same sealed package is offered to production, but that step waits until a person presses approve, and until then production keeps running its old version.
+    - The step records who approved and when; who may press it is a setting of the team, and in this practice system it is not restricted.
+  visual:
+    type: flow
+    nodes:
+      - {id: release, label: Numbered release, state: ok, note: "One sealed package"}
+      - {id: val, label: Validation, state: ok, note: "Goes live by itself"}
+      - {id: approve, label: A person approves, state: fix, note: "Production waits for this"}
+      - {id: prd, label: Production, state: ok, note: "The same package"}
+    links: [[release, val], [val, approve], [approve, prd]]
+    caption: Only the last step needs a decision, and it is recorded.
+
+code:
+  - title: Production starts only when a person says so
+    file: .gitlab-ci.yml
+    file_label: The instructions for putting a version live
+    from: "deploy_prd:"
+    to: "when: manual"
+    max_lines: 12
+    notes:
+      - line: "extends: .deploy"
+        says: Production uses the same steps for going live as every other environment.
+      - line: "needs: [build_image, deploy_val]"
+        says: Production is offered only after validation has finished.
+      - line: "- if: *release_tag"
+        says: Production is offered only for numbered releases.
+      - line: "when: manual"
+        says: Even then it waits until a person presses the button.
+  - title: Validation starts by itself
+    file: .gitlab-ci.yml
+    file_label: The instructions for putting a version live
+    from: "deploy_val:"
+    to: "- if: *release_tag"
+    max_lines: 12
+    notes:
+      - line: "extends: .deploy"
+        says: Validation uses the same steps for going live.
+      - line: "- if: *release_tag"
+        says: It starts by itself for every numbered release.
+
+demo:
+  intro: >-
+    A release is prepared and goes live in validation by itself. Production waits. Then a person approves, and the
+    same package goes live in production.
+  setup:
+    - {action: gitlab.branch, name: release/2026-Q4, from: dev}
+    - {action: gitlab.wait_pipeline, for: "ref:release/2026-Q4", expect: success, timeout: 900}
+  steps:
+    - id: release
+      title: Hand over the release
+      say: The checked release is handed over. Validation goes live by itself, production waits.
+      button: Hand over the release
+      inputs: []
+      do:
+        - {action: git.promote_release, branch: release/2026-Q4}
+        - {action: gitlab.wait_pipeline, for: "tag:^2026-Q4\\.", expect: success, timeout: 900}
+      show:
+        - {type: pipeline, for: "tag:^2026-Q4\\.", title: "Numbering and putting the release live", caption: "Look at the last line: production waits for a person."}
+        - {type: versions, title: "Version in each environment", caption: "Validation runs the new release 2026-Q4.0 (fourth quarter 2026, first release) and can be looked at now. Production still runs its old version."}
+      outcome: The release runs in validation. Production has not changed and waits for a person.
+    - id: approve
+      title: Approve production
+      say: A person presses approve on the waiting step. The same package goes live in production.
+      button: Approve production
+      inputs: []
+      do:
+        - {action: gitlab.play_job, job: deploy_prd, for: "tag:^2026-Q4\\.", timeout: 600}
+      show:
+        - {type: pipeline, before_of: release, for: "tag:^2026-Q4\\.", title: "Numbering and putting the release live", caption: "The last line was waiting for a person. Now it is done."}
+        - {type: versions, before_of: release, title: "Version in each environment", caption: "Production now runs the same release as validation."}
+        - {type: result, from_action: gitlab.play_job, title: "Who approved", caption: "The name and time of whoever pressed the button are kept with this release. Here that is the studio's own login, Administrator."}
+      outcome: Production runs the release that validation ran, and the approval is recorded with a name and a time.

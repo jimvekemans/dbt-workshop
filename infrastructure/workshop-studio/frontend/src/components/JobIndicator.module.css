@@ -1,0 +1,24 @@
+.job {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--space-4) + var(--footer-reserve, 0px));
+  transform: translateX(-50%);
+  z-index: var(--z-popover);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0.3em 0.4em 0.3em 1em;
+  max-width: calc(100vw - 2 * var(--space-4));
+  border-radius: 999px;
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  box-shadow: var(--shadow-lg);
+  color: var(--ink);
+  animation: rise var(--dur-med) var(--ease-out) both;
+}
+.label { font-weight: 600; font-size: var(--text-sm); min-width: 0; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.usual { font-weight: 400; color: var(--ink-2); }
+.time { font-size: var(--text-sm); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.job button { min-height: 2.5rem; padding: 0.2em 0.9em; font-size: var(--text-sm); white-space: nowrap; }
+@media (max-width: 560px) { .usual { display: none; } .label { white-space: normal; } .job { border-radius: var(--radius-xl); } }
+@keyframes rise { from { opacity: 0; } to { opacity: 1; } }
