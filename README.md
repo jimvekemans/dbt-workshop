@@ -45,7 +45,8 @@ by itself (about a minute the first time); the home page shows when everything i
 
 **The first `make images` on a new machine compiles the dbt engine and the database driver from the two git submodules**
 (`infrastructure/dbt-singlestore-base-image/src/`), because the prebuilt binaries are too large for the repository.
-__BUILD_TIME__ If you cloned without `--recurse-submodules`, run `git submodule update --init` first. To skip the
+That took 8 minutes on a 20-core machine; allow up to an hour on a small laptop (later builds reuse the result).
+If you cloned without `--recurse-submodules`, run `git submodule update --init` first. To skip the
 compile, copy `dbt` and `libadbc_driver_singlestore.so` from a machine that has them into
 `infrastructure/dbt-singlestore-base-image/`; they are used as they are when present.
 
