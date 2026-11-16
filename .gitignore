@@ -1,6 +1,8 @@
 # Locally built binaries for the dbt base image. When absent, the Dockerfile builds them
 # from the submodules under infrastructure/dbt-singlestore-base-image/src/.
 infrastructure/dbt-singlestore-base-image/dbt
+# local/: prebuilt binaries of an older submodule commit, set aside on the machine they came from
+infrastructure/dbt-singlestore-base-image/local/
 infrastructure/dbt-singlestore-base-image/libadbc_driver_singlestore.so
 # Dev image: the tool sources are in the repository (src/sqlfmt, src/dbt-bouncer and a cleaned src/vdp-rust-utils).
 # local/ holds the untouched vdp copy of this machine; ./vdp is an optional prebuilt binary. Both stay out.

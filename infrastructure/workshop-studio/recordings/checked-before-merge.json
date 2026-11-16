@@ -5,7 +5,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 0.27,
+     "t": 0.38,
      "actions": [],
      "evidence": [
       {
@@ -28,18 +28,18 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
      ]
     },
     {
-     "t": 0.27,
+     "t": 0.38,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -69,18 +69,18 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
      ]
     },
     {
-     "t": 0.52,
+     "t": 1.79,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -110,18 +110,18 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
      ]
     },
     {
-     "t": 0.52,
+     "t": 1.79,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -157,18 +157,18 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
      ]
     },
     {
-     "t": 0.89,
+     "t": 2.2,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -180,7 +180,7 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       }
      ],
      "evidence": [
@@ -204,18 +204,18 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
      ]
     },
     {
-     "t": 0.89,
+     "t": 2.2,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -227,7 +227,7 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
        "label": "Proposing the change for review",
@@ -257,18 +257,18 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
      ]
     },
     {
-     "t": 1.08,
+     "t": 2.48,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -280,66 +280,66 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !76: demo/orders-calendar -> dev"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "done",
-        "state_text": "Done",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "done",
-          "state_text": "Done"
-         }
-        ],
-        "failures": []
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 1.08,
-     "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/orders-calendar created from dev"
-      },
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !76: demo/orders-calendar -> dev"
+       "details": "merge request !86: demo/orders-calendar -> dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.48,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
+       "details": "merge request !86: demo/orders-calendar -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -369,18 +369,18 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
      ]
     },
     {
-     "t": 1.34,
+     "t": 2.65,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -392,13 +392,66 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !76: demo/orders-calendar -> dev"
+       "details": "merge request !86: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.76,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
+       "details": "merge request !86: demo/orders-calendar -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -412,15 +465,9 @@
        "type": "pipeline",
        "title": "The automatic rehearsal",
        "data": {
-        "state": "done",
-        "state_text": "Done",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "done",
-          "state_text": "Done"
-         }
-        ],
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
         "failures": []
        }
       },
@@ -428,18 +475,18 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
      ]
     },
     {
-     "t": 2.56,
+     "t": 4.99,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -451,13 +498,693 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !76: demo/orders-calendar -> dev"
+       "details": "merge request !86: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.23,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
+       "details": "merge request !86: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.45,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
+       "details": "merge request !86: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.94,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
+       "details": "merge request !86: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: waiting for the next step",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.11,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
+       "details": "merge request !86: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal failed, as expected: trying the change in a private copy.",
+       "details": "pipeline 298 on refs/merge-requests/86/head: failed\n--- verify_feature_to_dev (failed) ---\n2026-11-16T07:27:13.177706Z 01O Finished 'build' with 1 error for target 'ci' [2.3s]\n2026-11-16T07:27:13.177706Z 01O Processed: 1 hook | 3 models | 3 tests\n2026-11-16T07:27:13.177706Z 01O Summary: 7 total | 1 success | 1 error | 5 skipped\n2026-11-16T07:27:13.267878Z 00O section_end:1794814033:step_script\n\u001b[0K\n2026-11-16T07:27:13.268040Z 00O+section_start:1794814033:after_script\n\u001b[0K\n2026-11-16T07:27:13.268043Z 00O+\u001b[0K\u001b[36;1mRunning after_script\u001b[0;m\u001b[0;m\n2026-11-16T07:27:13.338184Z 01O \u001b[32;1mRunning after script...\u001b[0;m\n2026-11-16T07:27:13.338197Z 01O \u001b[32;1m$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\u001b[0;m\n2026-11-16T07:27:13.344722Z 01O    dbt-oss 2.0.11\n2026-11-16T07:27:13.345291Z 01O    Loading profiles.yml\n2026-11-16T07:27:13.346019Z 01O    Loading packages.yml\n2026-11-16T07:27:13.349128Z 01O      Using 2 threads (target: ci)\n2026-11-16T07:27:13.509377Z 01O \n2026-11-16T07:27:13.509383Z 01O ==================== Execution Summary =====================\n2026-11-16T07:27:13.509384Z 01O Finished 'run-operation' successfully for target 'ci' [164ms]\n2026-11-16T07:27:13.592425Z 00O section_end:1794814033:after_script\n\u001b[0K\n2026-11-16T07:27:13.592833Z 00O+section_start:1794814033:cleanup_file_variables\n\u001b[0K\n2026-11-16T07:27:13.592836Z 00O+\u001b[0K\u001b[36;1mCleaning up project directory and file based variables\u001b[0;m\u001b[0;m\n2026-11-16T07:27:13.763026Z 00O section_end:1794814033:cleanup_file_variables\n\u001b[0K\n2026-11-16T07:27:13.804689Z 00O \u001b[31;1mERROR: Job failed: exit code 1\u001b[0;m\n--- the last lines of the rehearsal ---\nFinished [  0.01s] downloading deferred relations (1 items)\nFailed model demo_orders_calendar.demo_orders_calendar_fct_olist_orders (table) [1 of 6 in 2.08s]\nSkipped test  assert_orders_one_row_each (tests/assert_orders_one_row_each.sql) [2 of 6]\nSkipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [5 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [3 of 6]\nSkipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_olist_management_kpi (table) [4 of 6]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n\n==================== Execution Summary =====================\nFinished 'build' with 1 error for target 'ci' [2.3s]\nProcessed: 1 hook | 3 models | 3 tests\nSummary: 7 total | 1 success | 1 error | 5 skipped\nsection_end:1794814033:step_script\n\nsection_start:1794814033:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794814033:after_script\n\nsection_start:1794814033:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814033:cleanup_file_variables\n\nERROR: Job failed: exit code 1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.34,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
+       "details": "merge request !86: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal failed, as expected: trying the change in a private copy.",
+       "details": "pipeline 298 on refs/merge-requests/86/head: failed\n--- verify_feature_to_dev (failed) ---\n2026-11-16T07:27:13.177706Z 01O Finished 'build' with 1 error for target 'ci' [2.3s]\n2026-11-16T07:27:13.177706Z 01O Processed: 1 hook | 3 models | 3 tests\n2026-11-16T07:27:13.177706Z 01O Summary: 7 total | 1 success | 1 error | 5 skipped\n2026-11-16T07:27:13.267878Z 00O section_end:1794814033:step_script\n\u001b[0K\n2026-11-16T07:27:13.268040Z 00O+section_start:1794814033:after_script\n\u001b[0K\n2026-11-16T07:27:13.268043Z 00O+\u001b[0K\u001b[36;1mRunning after_script\u001b[0;m\u001b[0;m\n2026-11-16T07:27:13.338184Z 01O \u001b[32;1mRunning after script...\u001b[0;m\n2026-11-16T07:27:13.338197Z 01O \u001b[32;1m$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\u001b[0;m\n2026-11-16T07:27:13.344722Z 01O    dbt-oss 2.0.11\n2026-11-16T07:27:13.345291Z 01O    Loading profiles.yml\n2026-11-16T07:27:13.346019Z 01O    Loading packages.yml\n2026-11-16T07:27:13.349128Z 01O      Using 2 threads (target: ci)\n2026-11-16T07:27:13.509377Z 01O \n2026-11-16T07:27:13.509383Z 01O ==================== Execution Summary =====================\n2026-11-16T07:27:13.509384Z 01O Finished 'run-operation' successfully for target 'ci' [164ms]\n2026-11-16T07:27:13.592425Z 00O section_end:1794814033:after_script\n\u001b[0K\n2026-11-16T07:27:13.592833Z 00O+section_start:1794814033:cleanup_file_variables\n\u001b[0K\n2026-11-16T07:27:13.592836Z 00O+\u001b[0K\u001b[36;1mCleaning up project directory and file based variables\u001b[0;m\u001b[0;m\n2026-11-16T07:27:13.763026Z 00O section_end:1794814033:cleanup_file_variables\n\u001b[0K\n2026-11-16T07:27:13.804689Z 00O \u001b[31;1mERROR: Job failed: exit code 1\u001b[0;m\n--- the last lines of the rehearsal ---\nFinished [  0.01s] downloading deferred relations (1 items)\nFailed model demo_orders_calendar.demo_orders_calendar_fct_olist_orders (table) [1 of 6 in 2.08s]\nSkipped test  assert_orders_one_row_each (tests/assert_orders_one_row_each.sql) [2 of 6]\nSkipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [5 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [3 of 6]\nSkipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_olist_management_kpi (table) [4 of 6]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n\n==================== Execution Summary =====================\nFinished 'build' with 1 error for target 'ci' [2.3s]\nProcessed: 1 hook | 3 models | 3 tests\nSummary: 7 total | 1 success | 1 error | 5 skipped\nsection_end:1794814033:step_script\n\nsection_start:1794814033:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794814033:after_script\n\nsection_start:1794814033:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814033:cleanup_file_variables\n\nERROR: Job failed: exit code 1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "failed",
+        "state_text": "Failed",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "failed",
+          "state_text": "Failed"
+         }
+        ],
+        "failures": [
+         {
+          "kind": "table",
+          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "rows": null,
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.34,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
+       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
+       "details": "merge request !86: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal failed, as expected: trying the change in a private copy.",
+       "details": "pipeline 298 on refs/merge-requests/86/head: failed\n--- verify_feature_to_dev (failed) ---\n2026-11-16T07:27:13.177706Z 01O Finished 'build' with 1 error for target 'ci' [2.3s]\n2026-11-16T07:27:13.177706Z 01O Processed: 1 hook | 3 models | 3 tests\n2026-11-16T07:27:13.177706Z 01O Summary: 7 total | 1 success | 1 error | 5 skipped\n2026-11-16T07:27:13.267878Z 00O section_end:1794814033:step_script\n\u001b[0K\n2026-11-16T07:27:13.268040Z 00O+section_start:1794814033:after_script\n\u001b[0K\n2026-11-16T07:27:13.268043Z 00O+\u001b[0K\u001b[36;1mRunning after_script\u001b[0;m\u001b[0;m\n2026-11-16T07:27:13.338184Z 01O \u001b[32;1mRunning after script...\u001b[0;m\n2026-11-16T07:27:13.338197Z 01O \u001b[32;1m$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\u001b[0;m\n2026-11-16T07:27:13.344722Z 01O    dbt-oss 2.0.11\n2026-11-16T07:27:13.345291Z 01O    Loading profiles.yml\n2026-11-16T07:27:13.346019Z 01O    Loading packages.yml\n2026-11-16T07:27:13.349128Z 01O      Using 2 threads (target: ci)\n2026-11-16T07:27:13.509377Z 01O \n2026-11-16T07:27:13.509383Z 01O ==================== Execution Summary =====================\n2026-11-16T07:27:13.509384Z 01O Finished 'run-operation' successfully for target 'ci' [164ms]\n2026-11-16T07:27:13.592425Z 00O section_end:1794814033:after_script\n\u001b[0K\n2026-11-16T07:27:13.592833Z 00O+section_start:1794814033:cleanup_file_variables\n\u001b[0K\n2026-11-16T07:27:13.592836Z 00O+\u001b[0K\u001b[36;1mCleaning up project directory and file based variables\u001b[0;m\u001b[0;m\n2026-11-16T07:27:13.763026Z 00O section_end:1794814033:cleanup_file_variables\n\u001b[0K\n2026-11-16T07:27:13.804689Z 00O \u001b[31;1mERROR: Job failed: exit code 1\u001b[0;m\n--- the last lines of the rehearsal ---\nFinished [  0.01s] downloading deferred relations (1 items)\nFailed model demo_orders_calendar.demo_orders_calendar_fct_olist_orders (table) [1 of 6 in 2.08s]\nSkipped test  assert_orders_one_row_each (tests/assert_orders_one_row_each.sql) [2 of 6]\nSkipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [5 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [3 of 6]\nSkipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_olist_management_kpi (table) [4 of 6]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n\n==================== Execution Summary =====================\nFinished 'build' with 1 error for target 'ci' [2.3s]\nProcessed: 1 hook | 3 models | 3 tests\nSummary: 7 total | 1 success | 1 error | 5 skipped\nsection_end:1794814033:step_script\n\nsection_start:1794814033:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794814033:after_script\n\nsection_start:1794814033:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814033:cleanup_file_variables\n\nERROR: Job failed: exit code 1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "failed",
+        "state_text": "Failed",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "failed",
+          "state_text": "Failed"
+         }
+        ],
+        "failures": [
+         {
+          "kind": "table",
+          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "rows": null,
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "The automatic rehearsal failed, as expected: trying the change in a private copy.",
+   "outcome": "The rehearsal failed because the same order number would have been stored more than once. This change cannot be accepted, and the shared table is unchanged.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-16T07:27:15+00:00",
+   "durations": [
+    10.4,
+    9.9,
+    10.0,
+    10.0,
+    11.3
+   ],
+   "show": [
+    "pipeline",
+    "number"
+   ]
+  },
+  "fixed": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.23,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "failed",
+        "state_text": "Failed",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "failed",
+          "state_text": "Failed"
+         }
+        ],
+        "failures": [
+         {
+          "kind": "table",
+          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "rows": null,
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.23,
+     "actions": [
+      {
+       "label": "Saving the prepared code change",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "failed",
+        "state_text": "Failed",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "failed",
+          "state_text": "Failed"
+         }
+        ],
+        "failures": [
+         {
+          "kind": "table",
+          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "rows": null,
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.57,
+     "actions": [
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
+       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "failed",
+        "state_text": "Failed",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "failed",
+          "state_text": "Failed"
+         }
+        ],
+        "failures": [
+         {
+          "kind": "table",
+          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "rows": null,
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.57,
+     "actions": [
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
+       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "failed",
+        "state_text": "Failed",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "failed",
+          "state_text": "Failed"
+         }
+        ],
+        "failures": [
+         {
+          "kind": "table",
+          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "rows": null,
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.84,
+     "actions": [
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
+       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "failed",
+        "state_text": "Failed",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "failed",
+          "state_text": "Failed"
+         }
+        ],
+        "failures": [
+         {
+          "kind": "table",
+          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "rows": null,
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.49,
+     "actions": [
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
+       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -487,36 +1214,24 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
      ]
     },
     {
-     "t": 4.81,
+     "t": 4.82,
      "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/orders-calendar created from dev"
-      },
       {
        "label": "Saving the prepared code change",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !76: demo/orders-calendar -> dev"
+       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
+       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -546,36 +1261,24 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
      ]
     },
     {
-     "t": 7.08,
+     "t": 7.05,
      "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/orders-calendar created from dev"
-      },
       {
        "label": "Saving the prepared code change",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !76: demo/orders-calendar -> dev"
+       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
+       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -605,41 +1308,29 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
      ]
     },
     {
-     "t": 9.43,
+     "t": 9.03,
      "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/orders-calendar created from dev"
-      },
       {
        "label": "Saving the prepared code change",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !76: demo/orders-calendar -> dev"
+       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
+       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "running",
-       "summary": "Waiting for the automatic checks to start",
+       "summary": "Automatic checks: waiting for the next step",
        "details": ""
       }
      ],
@@ -648,34 +1339,121 @@
        "type": "pipeline",
        "title": "The automatic rehearsal",
        "data": {
-        "state": "failed",
-        "state_text": "Failed",
+        "state": "running",
+        "state_text": "Running",
         "jobs": [
          {
           "label": "Trying the change in a private copy",
-          "state": "failed",
-          "state_text": "Failed"
+          "state": "running",
+          "state_text": "Running"
          }
         ],
-        "failures": [
-         {
-          "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
-          "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
-         }
-        ]
+        "failures": []
        }
       },
       {
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.18,
+     "actions": [
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
+       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed.",
+       "details": "pipeline 299 on refs/merge-requests/86/head: success\n--- the last lines of the rehearsal ---\nUsing 2 threads (target: ci)\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nPassed test  assert_orders_one_row_each [1 of 1 in 0.02s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [262ms]\nProcessed: 1 hook | 1 test\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794814042:step_script\n\nsection_start:1794814042:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794814042:after_script\n\nsection_start:1794814042:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814043:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "running",
+        "state_text": "Running",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "running",
+          "state_text": "Running"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 9.35,
+     "actions": [
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
+       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The automatic rehearsal passed.",
+       "details": "pipeline 299 on refs/merge-requests/86/head: success\n--- the last lines of the rehearsal ---\nUsing 2 threads (target: ci)\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nPassed test  assert_orders_one_row_each [1 of 1 in 0.02s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [262ms]\nProcessed: 1 hook | 1 test\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794814042:step_script\n\nsection_start:1794814042:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794814042:after_script\n\nsection_start:1794814042:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814043:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the shared table",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": {
+         "label": "Different order numbers among them",
+         "value": 3392
         }
        }
       }
@@ -685,733 +1463,16 @@
      "t": 9.58,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/orders-calendar created from dev"
-      },
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !76: demo/orders-calendar -> dev"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "running",
-       "summary": "Automatic checks: waiting for the next step",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "failed",
-        "state_text": "Failed",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "failed",
-          "state_text": "Failed"
-         }
-        ],
-        "failures": [
-         {
-          "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
-          "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
-         }
-        ]
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 9.8,
-     "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/orders-calendar created from dev"
-      },
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !76: demo/orders-calendar -> dev"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The automatic rehearsal failed, as expected: trying the change in a private copy.",
-       "details": "pipeline 258 on refs/merge-requests/76/head: failed\n--- verify_feature_to_dev (failed) ---\n2026-11-15T19:20:43.276821Z 01O Finished 'build' with 1 error for target 'ci' [2.4s]\n2026-11-15T19:20:43.276821Z 01O Processed: 1 hook | 3 models | 3 tests\n2026-11-15T19:20:43.276821Z 01O Summary: 7 total | 1 success | 1 error | 5 skipped\n2026-11-15T19:20:43.369318Z 00O section_end:1794770443:step_script\n\u001b[0K\n2026-11-15T19:20:43.369507Z 00O+section_start:1794770443:after_script\n\u001b[0K\n2026-11-15T19:20:43.369510Z 00O+\u001b[0K\u001b[36;1mRunning after_script\u001b[0;m\u001b[0;m\n2026-11-15T19:20:43.449047Z 01O \u001b[32;1mRunning after script...\u001b[0;m\n2026-11-15T19:20:43.449062Z 01O \u001b[32;1m$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\u001b[0;m\n2026-11-15T19:20:43.456251Z 01O    dbt-oss 2.0.11\n2026-11-15T19:20:43.456886Z 01O    Loading profiles.yml\n2026-11-15T19:20:43.458100Z 01O    Loading packages.yml\n2026-11-15T19:20:43.461812Z 01O      Using 2 threads (target: ci)\n2026-11-15T19:20:43.616435Z 01O \n2026-11-15T19:20:43.616441Z 01O ==================== Execution Summary =====================\n2026-11-15T19:20:43.616442Z 01O Finished 'run-operation' successfully for target 'ci' [160ms]\n2026-11-15T19:20:43.699661Z 00O section_end:1794770443:after_script\n\u001b[0K\n2026-11-15T19:20:43.700155Z 00O+section_start:1794770443:cleanup_file_variables\n\u001b[0K\n2026-11-15T19:20:43.700159Z 00O+\u001b[0K\u001b[36;1mCleaning up project directory and file based variables\u001b[0;m\u001b[0;m\n2026-11-15T19:20:43.862854Z 00O section_end:1794770443:cleanup_file_variables\n\u001b[0K\n2026-11-15T19:20:43.904899Z 00O \u001b[31;1mERROR: Job failed: exit code 1\u001b[0;m\n--- the last lines of the rehearsal ---\nFinished [  0.01s] downloading deferred relations (1 items)\nFailed model demo_orders_calendar.demo_orders_calendar_fct_olist_orders (table) [1 of 6 in 2.10s]\nSkipped test  assert_orders_one_row_each (tests/assert_orders_one_row_each.sql) [3 of 6]\nSkipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [5 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_olist_management_kpi (table) [4 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [2 of 6]\nSkipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 6]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n\n==================== Execution Summary =====================\nFinished 'build' with 1 error for target 'ci' [2.4s]\nProcessed: 1 hook | 3 models | 3 tests\nSummary: 7 total | 1 success | 1 error | 5 skipped\nsection_end:1794770443:step_script\n\nsection_start:1794770443:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794770443:after_script\n\nsection_start:1794770443:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770443:cleanup_file_variables\n\nERROR: Job failed: exit code 1"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "failed",
-        "state_text": "Failed",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "failed",
-          "state_text": "Failed"
-         }
-        ],
-        "failures": [
-         {
-          "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
-          "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
-         }
-        ]
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 10.03,
-     "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/orders-calendar created from dev"
-      },
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !76: demo/orders-calendar -> dev"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The automatic rehearsal failed, as expected: trying the change in a private copy.",
-       "details": "pipeline 258 on refs/merge-requests/76/head: failed\n--- verify_feature_to_dev (failed) ---\n2026-11-15T19:20:43.276821Z 01O Finished 'build' with 1 error for target 'ci' [2.4s]\n2026-11-15T19:20:43.276821Z 01O Processed: 1 hook | 3 models | 3 tests\n2026-11-15T19:20:43.276821Z 01O Summary: 7 total | 1 success | 1 error | 5 skipped\n2026-11-15T19:20:43.369318Z 00O section_end:1794770443:step_script\n\u001b[0K\n2026-11-15T19:20:43.369507Z 00O+section_start:1794770443:after_script\n\u001b[0K\n2026-11-15T19:20:43.369510Z 00O+\u001b[0K\u001b[36;1mRunning after_script\u001b[0;m\u001b[0;m\n2026-11-15T19:20:43.449047Z 01O \u001b[32;1mRunning after script...\u001b[0;m\n2026-11-15T19:20:43.449062Z 01O \u001b[32;1m$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\u001b[0;m\n2026-11-15T19:20:43.456251Z 01O    dbt-oss 2.0.11\n2026-11-15T19:20:43.456886Z 01O    Loading profiles.yml\n2026-11-15T19:20:43.458100Z 01O    Loading packages.yml\n2026-11-15T19:20:43.461812Z 01O      Using 2 threads (target: ci)\n2026-11-15T19:20:43.616435Z 01O \n2026-11-15T19:20:43.616441Z 01O ==================== Execution Summary =====================\n2026-11-15T19:20:43.616442Z 01O Finished 'run-operation' successfully for target 'ci' [160ms]\n2026-11-15T19:20:43.699661Z 00O section_end:1794770443:after_script\n\u001b[0K\n2026-11-15T19:20:43.700155Z 00O+section_start:1794770443:cleanup_file_variables\n\u001b[0K\n2026-11-15T19:20:43.700159Z 00O+\u001b[0K\u001b[36;1mCleaning up project directory and file based variables\u001b[0;m\u001b[0;m\n2026-11-15T19:20:43.862854Z 00O section_end:1794770443:cleanup_file_variables\n\u001b[0K\n2026-11-15T19:20:43.904899Z 00O \u001b[31;1mERROR: Job failed: exit code 1\u001b[0;m\n--- the last lines of the rehearsal ---\nFinished [  0.01s] downloading deferred relations (1 items)\nFailed model demo_orders_calendar.demo_orders_calendar_fct_olist_orders (table) [1 of 6 in 2.10s]\nSkipped test  assert_orders_one_row_each (tests/assert_orders_one_row_each.sql) [3 of 6]\nSkipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [5 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_olist_management_kpi (table) [4 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [2 of 6]\nSkipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 6]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n\n==================== Execution Summary =====================\nFinished 'build' with 1 error for target 'ci' [2.4s]\nProcessed: 1 hook | 3 models | 3 tests\nSummary: 7 total | 1 success | 1 error | 5 skipped\nsection_end:1794770443:step_script\n\nsection_start:1794770443:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794770443:after_script\n\nsection_start:1794770443:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770443:cleanup_file_variables\n\nERROR: Job failed: exit code 1"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "failed",
-        "state_text": "Failed",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "failed",
-          "state_text": "Failed"
-         }
-        ],
-        "failures": [
-         {
-          "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
-          "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
-         }
-        ]
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 10.03,
-     "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/orders-calendar created from dev"
-      },
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "4005f7e7 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !76: demo/orders-calendar -> dev"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The automatic rehearsal failed, as expected: trying the change in a private copy.",
-       "details": "pipeline 258 on refs/merge-requests/76/head: failed\n--- verify_feature_to_dev (failed) ---\n2026-11-15T19:20:43.276821Z 01O Finished 'build' with 1 error for target 'ci' [2.4s]\n2026-11-15T19:20:43.276821Z 01O Processed: 1 hook | 3 models | 3 tests\n2026-11-15T19:20:43.276821Z 01O Summary: 7 total | 1 success | 1 error | 5 skipped\n2026-11-15T19:20:43.369318Z 00O section_end:1794770443:step_script\n\u001b[0K\n2026-11-15T19:20:43.369507Z 00O+section_start:1794770443:after_script\n\u001b[0K\n2026-11-15T19:20:43.369510Z 00O+\u001b[0K\u001b[36;1mRunning after_script\u001b[0;m\u001b[0;m\n2026-11-15T19:20:43.449047Z 01O \u001b[32;1mRunning after script...\u001b[0;m\n2026-11-15T19:20:43.449062Z 01O \u001b[32;1m$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\u001b[0;m\n2026-11-15T19:20:43.456251Z 01O    dbt-oss 2.0.11\n2026-11-15T19:20:43.456886Z 01O    Loading profiles.yml\n2026-11-15T19:20:43.458100Z 01O    Loading packages.yml\n2026-11-15T19:20:43.461812Z 01O      Using 2 threads (target: ci)\n2026-11-15T19:20:43.616435Z 01O \n2026-11-15T19:20:43.616441Z 01O ==================== Execution Summary =====================\n2026-11-15T19:20:43.616442Z 01O Finished 'run-operation' successfully for target 'ci' [160ms]\n2026-11-15T19:20:43.699661Z 00O section_end:1794770443:after_script\n\u001b[0K\n2026-11-15T19:20:43.700155Z 00O+section_start:1794770443:cleanup_file_variables\n\u001b[0K\n2026-11-15T19:20:43.700159Z 00O+\u001b[0K\u001b[36;1mCleaning up project directory and file based variables\u001b[0;m\u001b[0;m\n2026-11-15T19:20:43.862854Z 00O section_end:1794770443:cleanup_file_variables\n\u001b[0K\n2026-11-15T19:20:43.904899Z 00O \u001b[31;1mERROR: Job failed: exit code 1\u001b[0;m\n--- the last lines of the rehearsal ---\nFinished [  0.01s] downloading deferred relations (1 items)\nFailed model demo_orders_calendar.demo_orders_calendar_fct_olist_orders (table) [1 of 6 in 2.10s]\nSkipped test  assert_orders_one_row_each (tests/assert_orders_one_row_each.sql) [3 of 6]\nSkipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [5 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_olist_management_kpi (table) [4 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [2 of 6]\nSkipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 6]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n\n==================== Execution Summary =====================\nFinished 'build' with 1 error for target 'ci' [2.4s]\nProcessed: 1 hook | 3 models | 3 tests\nSummary: 7 total | 1 success | 1 error | 5 skipped\nsection_end:1794770443:step_script\n\nsection_start:1794770443:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794770443:after_script\n\nsection_start:1794770443:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770443:cleanup_file_variables\n\nERROR: Job failed: exit code 1"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "failed",
-        "state_text": "Failed",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "failed",
-          "state_text": "Failed"
-         }
-        ],
-        "failures": [
-         {
-          "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
-          "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
-         }
-        ]
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    }
-   ],
-   "summary": "The automatic rehearsal failed, as expected: trying the change in a private copy.",
-   "outcome": "The rehearsal failed because the same order number would have been stored more than once. This change cannot be accepted, and the shared table is unchanged.",
-   "outcome_kind": "good",
-   "recorded_at": "2026-11-15T19:20:45+00:00",
-   "durations": [
-    9.8,
-    10.4,
-    9.9,
-    10.0,
-    10.0
-   ],
-   "show": [
-    "pipeline",
-    "number"
-   ]
-  },
-  "fixed": {
-   "inputs": {},
-   "frames": [
-    {
-     "t": 0.25,
-     "actions": [],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "failed",
-        "state_text": "Failed",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "failed",
-          "state_text": "Failed"
-         }
-        ],
-        "failures": [
-         {
-          "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
-          "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
-         }
-        ]
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 0.25,
-     "actions": [
-      {
-       "label": "Saving the prepared code change",
-       "status": "running",
-       "summary": "",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "failed",
-        "state_text": "Failed",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "failed",
-          "state_text": "Failed"
-         }
-        ],
-        "failures": [
-         {
-          "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
-          "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
-         }
-        ]
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 0.54,
-     "actions": [
-      {
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "d8535c51 fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "failed",
-        "state_text": "Failed",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "failed",
-          "state_text": "Failed"
-         }
-        ],
-        "failures": [
-         {
-          "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
-          "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
-         }
-        ]
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 0.54,
-     "actions": [
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "d8535c51 fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "running",
-       "summary": "",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "failed",
-        "state_text": "Failed",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "failed",
-          "state_text": "Failed"
-         }
-        ],
-        "failures": [
-         {
-          "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
-          "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
-         }
-        ]
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 0.77,
-     "actions": [
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "d8535c51 fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "running",
-       "summary": "Waiting for the automatic checks to start",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "failed",
-        "state_text": "Failed",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "failed",
-          "state_text": "Failed"
-         }
-        ],
-        "failures": [
-         {
-          "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
-          "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'a63217d0889567519db8761490fb987c' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
-         }
-        ]
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 2.55,
-     "actions": [
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "d8535c51 fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "running",
-       "summary": "Waiting for the automatic checks to start",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "running",
-        "state_text": "Running",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "running",
-          "state_text": "Running"
-         }
-        ],
-        "failures": []
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 4.83,
-     "actions": [
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "d8535c51 fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "running",
-       "summary": "Waiting for the automatic checks to start",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "done",
-        "state_text": "Done",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "done",
-          "state_text": "Done"
-         }
-        ],
-        "failures": []
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 7.1,
-     "actions": [
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "d8535c51 fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "running",
-       "summary": "Waiting for the automatic checks to start",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "done",
-        "state_text": "Done",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "done",
-          "state_text": "Done"
-         }
-        ],
-        "failures": []
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 8.95,
-     "actions": [
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "d8535c51 fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "running",
-       "summary": "Automatic checks: waiting for the next step",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "done",
-        "state_text": "Done",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "done",
-          "state_text": "Done"
-         }
-        ],
-        "failures": []
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 9.05,
-     "actions": [
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "d8535c51 fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The automatic rehearsal passed.",
-       "details": "pipeline 259 on refs/merge-requests/76/head: success\n--- the last lines of the rehearsal ---\nUsing 2 threads (target: ci)\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nPassed test  assert_orders_one_row_each [1 of 1 in 0.02s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [262ms]\nProcessed: 1 hook | 1 test\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794770449:step_script\n\nsection_start:1794770449:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794770450:after_script\n\nsection_start:1794770450:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770450:cleanup_file_variables\n\nJob succeeded"
+       "details": "pipeline 299 on refs/merge-requests/86/head: success\n--- the last lines of the rehearsal ---\nUsing 2 threads (target: ci)\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nPassed test  assert_orders_one_row_each [1 of 1 in 0.02s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [262ms]\nProcessed: 1 hook | 1 test\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794814042:step_script\n\nsection_start:1794814042:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794814042:after_script\n\nsection_start:1794814042:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814043:cleanup_file_variables\n\nJob succeeded"
       }
      ],
      "evidence": [
@@ -1435,30 +1496,30 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
      ]
     },
     {
-     "t": 9.3,
+     "t": 9.58,
      "actions": [
       {
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "d8535c51 fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The automatic rehearsal passed.",
-       "details": "pipeline 259 on refs/merge-requests/76/head: success\n--- the last lines of the rehearsal ---\nUsing 2 threads (target: ci)\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nPassed test  assert_orders_one_row_each [1 of 1 in 0.02s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [262ms]\nProcessed: 1 hook | 1 test\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794770449:step_script\n\nsection_start:1794770449:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794770450:after_script\n\nsection_start:1794770450:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770450:cleanup_file_variables\n\nJob succeeded"
+       "details": "pipeline 299 on refs/merge-requests/86/head: success\n--- the last lines of the rehearsal ---\nUsing 2 threads (target: ci)\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nPassed test  assert_orders_one_row_each [1 of 1 in 0.02s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [262ms]\nProcessed: 1 hook | 1 test\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794814042:step_script\n\nsection_start:1794814042:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794814042:after_script\n\nsection_start:1794814042:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814043:cleanup_file_variables\n\nJob succeeded"
       }
      ],
      "evidence": [
@@ -1482,58 +1543,11 @@
        "type": "number",
        "title": "Orders in the shared table",
        "data": {
-        "value": 3435,
+        "value": 3392,
         "unit": "orders",
         "compare": {
          "label": "Different order numbers among them",
-         "value": 3435
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 9.3,
-     "actions": [
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "d8535c51 fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The automatic rehearsal passed.",
-       "details": "pipeline 259 on refs/merge-requests/76/head: success\n--- the last lines of the rehearsal ---\nUsing 2 threads (target: ci)\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nPassed test  assert_orders_one_row_each [1 of 1 in 0.02s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [262ms]\nProcessed: 1 hook | 1 test\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794770449:step_script\n\nsection_start:1794770449:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794770450:after_script\n\nsection_start:1794770450:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794770450:cleanup_file_variables\n\nJob succeeded"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "done",
-        "state_text": "Done",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "done",
-          "state_text": "Done"
-         }
-        ],
-        "failures": []
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3435,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3435
+         "value": 3392
         }
        }
       }
@@ -1543,13 +1557,13 @@
    "summary": "The automatic rehearsal passed.",
    "outcome": "The repaired change passes the rehearsal. Accepting it is the next step, and it is not part of this demo.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T19:20:55+00:00",
+   "recorded_at": "2026-11-16T07:27:24+00:00",
    "durations": [
     9.5,
     9.5,
     9.5,
-    9.5,
-    9.3
+    9.3,
+    9.6
    ],
    "show": [
     "pipeline",
@@ -1559,12 +1573,12 @@
  },
  "prepare": {
   "durations": [
-   1.9,
    1.4,
    7.1,
    12.5,
+   1.4,
    1.4
   ]
  },
- "recorded_at": "2026-11-15T19:20:55+00:00"
+ "recorded_at": "2026-11-16T07:27:24+00:00"
 }

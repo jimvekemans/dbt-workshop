@@ -42,7 +42,7 @@
      ]
     },
     {
-     "t": 1.4,
+     "t": 1.42,
      "actions": [
       {
        "label": "Checking the change against the team's rules",
@@ -64,7 +64,7 @@
      ]
     },
     {
-     "t": 1.41,
+     "t": 1.42,
      "actions": [
       {
        "label": "Checking the change against the team's rules",
@@ -93,7 +93,7 @@
      ]
     },
     {
-     "t": 1.41,
+     "t": 1.42,
      "actions": [
       {
        "label": "Checking the change against the team's rules",
@@ -125,12 +125,12 @@
    "summary": "The robot tidied the layout of 1 file and refused the change: it breaks 2 of the team's rules.",
    "outcome": "The robot tidied the layout and refused the change for 2 reasons: a semicolon at the end of the code and a banned date function.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T19:20:32+00:00",
+   "recorded_at": "2026-11-16T07:27:00+00:00",
    "durations": [
-    1.5,
     1.6,
     1.5,
     1.5,
+    1.4,
     1.4
    ],
    "show": [
@@ -178,7 +178,7 @@
      ]
     },
     {
-     "t": 1.4,
+     "t": 1.37,
      "actions": [
       {
        "label": "Checking the change against the team's rules",
@@ -200,7 +200,7 @@
      ]
     },
     {
-     "t": 1.41,
+     "t": 1.37,
      "actions": [
       {
        "label": "Checking the change against the team's rules",
@@ -226,7 +226,7 @@
      ]
     },
     {
-     "t": 1.41,
+     "t": 1.37,
      "actions": [
       {
        "label": "Checking the change against the team's rules",
@@ -255,7 +255,7 @@
    "summary": "The robot accepted the change: it follows the team's rules.",
    "outcome": "The robot has nothing to refuse, so the corrected code can be saved.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T19:20:34+00:00",
+   "recorded_at": "2026-11-16T07:27:02+00:00",
    "durations": [
     1.4,
     1.4,
@@ -270,12 +270,12 @@
  },
  "prepare": {
   "durations": [
-   32.3,
    37.1,
    5.2,
    5.7,
+   5.2,
    5.2
   ]
  },
- "recorded_at": "2026-11-15T19:20:34+00:00"
+ "recorded_at": "2026-11-16T07:27:02+00:00"
 }

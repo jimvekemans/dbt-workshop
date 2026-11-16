@@ -5,7 +5,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 1.29,
+     "t": 1.27,
      "actions": [],
      "evidence": [
       {
@@ -34,7 +34,7 @@
      ]
     },
     {
-     "t": 1.29,
+     "t": 1.27,
      "actions": [
       {
        "label": "Reading the numbers",
@@ -70,7 +70,7 @@
      ]
     },
     {
-     "t": 1.29,
+     "t": 1.27,
      "actions": [
       {
        "label": "Reading the numbers",
@@ -106,7 +106,7 @@
      ]
     },
     {
-     "t": 2.29,
+     "t": 2.27,
      "actions": [
       {
        "label": "Reading the numbers",
@@ -142,7 +142,7 @@
      ]
     },
     {
-     "t": 3.58,
+     "t": 3.54,
      "actions": [
       {
        "label": "Reading the numbers",
@@ -178,7 +178,7 @@
      ]
     },
     {
-     "t": 3.58,
+     "t": 3.54,
      "actions": [
       {
        "label": "Reading the numbers",
@@ -217,13 +217,13 @@
    "summary": "Reading which version each environment runs.",
    "outcome": "Development, validation and production each run exactly one numbered version, v1.0.0.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T20:49:44+00:00",
+   "recorded_at": "2026-11-16T07:28:19+00:00",
    "durations": [
-    3.6,
     3.6,
     3.7,
     3.6,
-    3.6
+    3.6,
+    3.5
    ],
    "show": [
     "versions"
@@ -233,7 +233,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 1.64,
+     "t": 1.54,
      "actions": [],
      "evidence": [
       {
@@ -278,10 +278,120 @@
      ]
     },
     {
-     "t": 1.64,
+     "t": 1.54,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.8,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.8,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
        "status": "running",
        "summary": "",
        "details": ""
@@ -337,6 +447,12 @@
        "status": "done",
        "summary": "Made a copy of the shared work in progress to work on.",
        "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "283c5042 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
       }
      ],
      "evidence": [
@@ -392,125 +508,9 @@
       },
       {
        "label": "Saving the prepared code change",
-       "status": "running",
-       "summary": "",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "done",
-        "state_text": "Done",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "done",
-          "state_text": "Done"
-         }
-        ],
-        "failures": []
-       }
-      },
-      {
-       "type": "versions",
-       "title": "Version in each environment",
-       "data": {
-        "environments": [
-         {
-          "env": "dev",
-          "label": "Development",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "val",
-          "label": "Validation",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "prd",
-          "label": "Production",
-          "tag": "v1.0.0"
-         }
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "t": 2.48,
-     "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/clearer-description created from dev"
-      },
-      {
-       "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Clearer description for the management delivery report.",
-       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "done",
-        "state_text": "Done",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "done",
-          "state_text": "Done"
-         }
-        ],
-        "failures": []
-       }
-      },
-      {
-       "type": "versions",
-       "title": "Version in each environment",
-       "data": {
-        "environments": [
-         {
-          "env": "dev",
-          "label": "Development",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "val",
-          "label": "Validation",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "prd",
-          "label": "Production",
-          "tag": "v1.0.0"
-         }
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "t": 2.48,
-     "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/clearer-description created from dev"
-      },
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Clearer description for the management delivery report.",
-       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+       "details": "283c5042 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
@@ -562,7 +562,7 @@
      ]
     },
     {
-     "t": 2.67,
+     "t": 2.33,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -574,13 +574,13 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Clearer description for the management delivery report.",
-       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+       "details": "283c5042 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Clearer description of the management report' for review.",
-       "details": "merge request !85: demo/clearer-description -> dev"
+       "details": "merge request !90: demo/clearer-description -> dev"
       }
      ],
      "evidence": [
@@ -626,7 +626,7 @@
      ]
     },
     {
-     "t": 2.67,
+     "t": 2.33,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -638,13 +638,13 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Clearer description for the management delivery report.",
-       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+       "details": "283c5042 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Clearer description of the management report' for review.",
-       "details": "merge request !85: demo/clearer-description -> dev"
+       "details": "merge request !90: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -696,7 +696,7 @@
      ]
     },
     {
-     "t": 2.91,
+     "t": 2.56,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -708,13 +708,13 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Clearer description for the management delivery report.",
-       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+       "details": "283c5042 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Clearer description of the management report' for review.",
-       "details": "merge request !85: demo/clearer-description -> dev"
+       "details": "merge request !90: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -766,7 +766,7 @@
      ]
     },
     {
-     "t": 5.16,
+     "t": 5.03,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -778,83 +778,13 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Clearer description for the management delivery report.",
-       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+       "details": "283c5042 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Clearer description of the management report' for review.",
-       "details": "merge request !85: demo/clearer-description -> dev"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "running",
-       "summary": "Waiting for the automatic checks to start",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "todo",
-        "state_text": "Waiting",
-        "jobs": [
-         {
-          "label": "Trying the change in a private copy",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ],
-        "failures": []
-       }
-      },
-      {
-       "type": "versions",
-       "title": "Version in each environment",
-       "data": {
-        "environments": [
-         {
-          "env": "dev",
-          "label": "Development",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "val",
-          "label": "Validation",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "prd",
-          "label": "Production",
-          "tag": "v1.0.0"
-         }
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "t": 8.74,
-     "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/clearer-description created from dev"
-      },
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Clearer description for the management delivery report.",
-       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Clearer description of the management report' for review.",
-       "details": "merge request !85: demo/clearer-description -> dev"
+       "details": "merge request !90: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -906,7 +836,7 @@
      ]
     },
     {
-     "t": 11.15,
+     "t": 8.53,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -918,13 +848,83 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Clearer description for the management delivery report.",
-       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+       "details": "283c5042 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Clearer description of the management report' for review.",
-       "details": "merge request !85: demo/clearer-description -> dev"
+       "details": "merge request !90: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Waiting for the automatic checks to start",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "The automatic rehearsal",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Trying the change in a private copy",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.84,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Clearer description for the management delivery report.",
+       "details": "283c5042 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Clearer description of the management report' for review.",
+       "details": "merge request !90: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -976,7 +976,7 @@
      ]
     },
     {
-     "t": 11.25,
+     "t": 10.95,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -988,19 +988,19 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Clearer description for the management delivery report.",
-       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+       "details": "283c5042 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Clearer description of the management report' for review.",
-       "details": "merge request !85: demo/clearer-description -> dev"
+       "details": "merge request !90: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The automatic rehearsal passed.",
-       "details": "pipeline 291 on refs/merge-requests/85/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'build' with 2 warnings for target 'ci' [242ms]\n\n=================== Errors and Warnings ====================\n[warning] [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion 'state:modified+' does not match any enabled nodes\n[warning] [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [168ms]\nsection_end:1794775792:step_script\n\nsection_start:1794775792:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [170ms]\nsection_end:1794775792:after_script\n\nsection_start:1794775792:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794775793:cleanup_file_variables\n\nJob succeeded"
+       "details": "pipeline 303 on refs/merge-requests/90/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n=================== Errors and Warnings ====================\n[warning] [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion 'state:modified+' does not match any enabled nodes\n[warning] [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args\n\n==================== Execution Summary =====================\nFinished 'build' with 2 warnings for target 'ci' [234ms]\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794814105:step_script\n\nsection_start:1794814105:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [159ms]\nsection_end:1794814106:after_script\n\nsection_start:1794814106:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814106:cleanup_file_variables\n\nJob succeeded"
       }
      ],
      "evidence": [
@@ -1046,7 +1046,7 @@
      ]
     },
     {
-     "t": 12.34,
+     "t": 12.19,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1058,19 +1058,19 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Clearer description for the management delivery report.",
-       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+       "details": "283c5042 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Clearer description of the management report' for review.",
-       "details": "merge request !85: demo/clearer-description -> dev"
+       "details": "merge request !90: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The automatic rehearsal passed.",
-       "details": "pipeline 291 on refs/merge-requests/85/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'build' with 2 warnings for target 'ci' [242ms]\n\n=================== Errors and Warnings ====================\n[warning] [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion 'state:modified+' does not match any enabled nodes\n[warning] [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [168ms]\nsection_end:1794775792:step_script\n\nsection_start:1794775792:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [170ms]\nsection_end:1794775792:after_script\n\nsection_start:1794775792:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794775793:cleanup_file_variables\n\nJob succeeded"
+       "details": "pipeline 303 on refs/merge-requests/90/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n=================== Errors and Warnings ====================\n[warning] [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion 'state:modified+' does not match any enabled nodes\n[warning] [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args\n\n==================== Execution Summary =====================\nFinished 'build' with 2 warnings for target 'ci' [234ms]\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794814105:step_script\n\nsection_start:1794814105:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [159ms]\nsection_end:1794814106:after_script\n\nsection_start:1794814106:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814106:cleanup_file_variables\n\nJob succeeded"
       }
      ],
      "evidence": [
@@ -1116,7 +1116,7 @@
      ]
     },
     {
-     "t": 13.92,
+     "t": 13.7,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1128,19 +1128,19 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Clearer description for the management delivery report.",
-       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+       "details": "283c5042 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Clearer description of the management report' for review.",
-       "details": "merge request !85: demo/clearer-description -> dev"
+       "details": "merge request !90: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The automatic rehearsal passed.",
-       "details": "pipeline 291 on refs/merge-requests/85/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'build' with 2 warnings for target 'ci' [242ms]\n\n=================== Errors and Warnings ====================\n[warning] [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion 'state:modified+' does not match any enabled nodes\n[warning] [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [168ms]\nsection_end:1794775792:step_script\n\nsection_start:1794775792:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [170ms]\nsection_end:1794775792:after_script\n\nsection_start:1794775792:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794775793:cleanup_file_variables\n\nJob succeeded"
+       "details": "pipeline 303 on refs/merge-requests/90/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n=================== Errors and Warnings ====================\n[warning] [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion 'state:modified+' does not match any enabled nodes\n[warning] [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args\n\n==================== Execution Summary =====================\nFinished 'build' with 2 warnings for target 'ci' [234ms]\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794814105:step_script\n\nsection_start:1794814105:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [159ms]\nsection_end:1794814106:after_script\n\nsection_start:1794814106:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814106:cleanup_file_variables\n\nJob succeeded"
       }
      ],
      "evidence": [
@@ -1186,7 +1186,7 @@
      ]
     },
     {
-     "t": 13.92,
+     "t": 13.7,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1198,19 +1198,19 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Clearer description for the management delivery report.",
-       "details": "3b6310c7 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
+       "details": "283c5042 docs: clearer description of the management KPI\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Clearer description of the management report' for review.",
-       "details": "merge request !85: demo/clearer-description -> dev"
+       "details": "merge request !90: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The automatic rehearsal passed.",
-       "details": "pipeline 291 on refs/merge-requests/85/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'build' with 2 warnings for target 'ci' [242ms]\n\n=================== Errors and Warnings ====================\n[warning] [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion 'state:modified+' does not match any enabled nodes\n[warning] [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [168ms]\nsection_end:1794775792:step_script\n\nsection_start:1794775792:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [170ms]\nsection_end:1794775792:after_script\n\nsection_start:1794775792:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794775793:cleanup_file_variables\n\nJob succeeded"
+       "details": "pipeline 303 on refs/merge-requests/90/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n=================== Errors and Warnings ====================\n[warning] [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion 'state:modified+' does not match any enabled nodes\n[warning] [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args\n\n==================== Execution Summary =====================\nFinished 'build' with 2 warnings for target 'ci' [234ms]\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794814105:step_script\n\nsection_start:1794814105:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [159ms]\nsection_end:1794814106:after_script\n\nsection_start:1794814106:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814106:cleanup_file_variables\n\nJob succeeded"
       }
      ],
      "evidence": [
@@ -1259,13 +1259,13 @@
    "summary": "The automatic rehearsal passed.",
    "outcome": "The change passed its rehearsal. The numbers did not move: nothing is accepted yet.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T20:49:58+00:00",
+   "recorded_at": "2026-11-16T07:28:33+00:00",
    "durations": [
-    13.7,
     13.7,
     14.1,
     13.8,
-    13.9
+    13.9,
+    13.7
    ],
    "show": [
     "pipeline",
@@ -1276,7 +1276,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 1.38,
+     "t": 1.34,
      "actions": [],
      "evidence": [
       {
@@ -1315,7 +1315,7 @@
      ]
     },
     {
-     "t": 1.38,
+     "t": 1.34,
      "actions": [
       {
        "label": "Accepting the proposed change",
@@ -1361,7 +1361,7 @@
      ]
     },
     {
-     "t": 1.88,
+     "t": 1.82,
      "actions": [
       {
        "label": "Accepting the proposed change",
@@ -1407,13 +1407,13 @@
      ]
     },
     {
-     "t": 1.88,
+     "t": 1.82,
      "actions": [
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
       }
      ],
      "evidence": [
@@ -1453,13 +1453,13 @@
      ]
     },
     {
-     "t": 1.88,
+     "t": 1.82,
      "actions": [
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1505,13 +1505,13 @@
      ]
     },
     {
-     "t": 2.02,
+     "t": 1.94,
      "actions": [
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1557,13 +1557,13 @@
      ]
     },
     {
-     "t": 4.82,
+     "t": 4.74,
      "actions": [
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1609,13 +1609,13 @@
      ]
     },
     {
-     "t": 8.44,
+     "t": 8.21,
      "actions": [
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1629,13 +1629,13 @@
        "type": "pipeline",
        "title": "Packaging and putting live",
        "data": {
-        "state": "running",
-        "state_text": "Running",
+        "state": "todo",
+        "state_text": "Waiting",
         "jobs": [
          {
           "label": "Packaging the version",
-          "state": "running",
-          "state_text": "Running"
+          "state": "todo",
+          "state_text": "Waiting"
          },
          {
           "label": "Putting the version live in development",
@@ -1672,18 +1672,18 @@
      ]
     },
     {
-     "t": 10.19,
+     "t": 10.09,
      "actions": [
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "running",
-       "summary": "Automatic checks: putting the version live in development",
+       "summary": "Automatic checks: packaging the version",
        "details": ""
       }
      ],
@@ -1692,13 +1692,13 @@
        "type": "pipeline",
        "title": "Packaging and putting live",
        "data": {
-        "state": "running",
-        "state_text": "Running",
+        "state": "todo",
+        "state_text": "Waiting",
         "jobs": [
          {
           "label": "Packaging the version",
-          "state": "running",
-          "state_text": "Running"
+          "state": "todo",
+          "state_text": "Waiting"
          },
          {
           "label": "Putting the version live in development",
@@ -1735,18 +1735,18 @@
      ]
     },
     {
-     "t": 11.95,
+     "t": 11.77,
      "actions": [
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "running",
-       "summary": "Automatic checks: putting the version live in development",
+       "summary": "Automatic checks: packaging the version",
        "details": ""
       }
      ],
@@ -1798,18 +1798,18 @@
      ]
     },
     {
-     "t": 15.47,
+     "t": 15.28,
      "actions": [
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "running",
-       "summary": "Automatic checks: putting the version live in development",
+       "summary": "Automatic checks: packaging the version",
        "details": ""
       }
      ],
@@ -1843,7 +1843,7 @@
          {
           "env": "dev",
           "label": "Development",
-          "tag": "v1.0.1"
+          "tag": "v1.0.0"
          },
          {
           "env": "val",
@@ -1861,13 +1861,13 @@
      ]
     },
     {
-     "t": 18.37,
+     "t": 18.26,
      "actions": [
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1906,7 +1906,7 @@
          {
           "env": "dev",
           "label": "Development",
-          "tag": "v1.0.1"
+          "tag": "v1.0.0"
          },
          {
           "env": "val",
@@ -1924,19 +1924,82 @@
      ]
     },
     {
-     "t": 18.43,
+     "t": 18.31,
      "actions": [
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in development.",
-       "details": "pipeline 293 on v1.0.1: success"
+       "details": "pipeline 305 on v1.0.1: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Packaging and putting live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in development",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.78,
+     "actions": [
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in development.",
+       "details": "pipeline 305 on v1.0.1: success"
       }
      ],
      "evidence": [
@@ -1987,19 +2050,19 @@
      ]
     },
     {
-     "t": 18.98,
+     "t": 20.23,
      "actions": [
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in development.",
-       "details": "pipeline 293 on v1.0.1: success"
+       "details": "pipeline 305 on v1.0.1: success"
       }
      ],
      "evidence": [
@@ -2050,82 +2113,19 @@
      ]
     },
     {
-     "t": 20.45,
+     "t": 20.23,
      "actions": [
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
+       "details": "merge request !90 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in development.",
-       "details": "pipeline 293 on v1.0.1: success"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "Packaging and putting live",
-       "data": {
-        "state": "done",
-        "state_text": "Done",
-        "jobs": [
-         {
-          "label": "Packaging the version",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Putting the version live in development",
-          "state": "done",
-          "state_text": "Done"
-         }
-        ],
-        "failures": []
-       }
-      },
-      {
-       "type": "versions",
-       "title": "Version in each environment",
-       "data": {
-        "environments": [
-         {
-          "env": "dev",
-          "label": "Development",
-          "tag": "v1.0.1"
-         },
-         {
-          "env": "val",
-          "label": "Validation",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "prd",
-          "label": "Production",
-          "tag": "v1.0.0"
-         }
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "t": 20.45,
-     "actions": [
-      {
-       "label": "Accepting the proposed change",
-       "status": "done",
-       "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !85 merged: demo/clearer-description -> dev"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The version was packaged and put live in development.",
-       "details": "pipeline 293 on v1.0.1: success"
+       "details": "pipeline 305 on v1.0.1: success"
       }
      ],
      "evidence": [
@@ -2179,13 +2179,13 @@
    "summary": "The version was packaged and put live in development.",
    "outcome": "Development runs v1.0.1. Validation and production still run v1.0.0, and everybody can see which.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T20:50:18+00:00",
+   "recorded_at": "2026-11-16T07:28:54+00:00",
    "durations": [
-    20.3,
     20.3,
     20.9,
     20.4,
-    20.4
+    20.4,
+    20.2
    ],
    "show": [
     "pipeline",
@@ -2195,12 +2195,12 @@
  },
  "prepare": {
   "durations": [
-   1.9,
    11.7,
    1.4,
    2.4,
-   16.0
+   16.0,
+   2.3
   ]
  },
- "recorded_at": "2026-11-15T20:50:18+00:00"
+ "recorded_at": "2026-11-16T07:28:54+00:00"
 }

@@ -5,7 +5,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 0.01,
+     "t": 0.02,
      "actions": [],
      "evidence": [
       {
@@ -14,10 +14,10 @@
        "data": {
         "title": "the nightly load",
         "run": {
-         "state": "failed",
-         "state_text": "Failed",
-         "started": "2026-11-15T20:49:06.928340+00:00",
-         "finished": "2026-11-15T20:49:19.961547+00:00"
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-16T07:24:19.979873+00:00",
+         "finished": "2026-11-16T07:24:31.534674+00:00"
         },
         "tasks": [
          {
@@ -27,11 +27,11 @@
          },
          {
           "label": "Building all the reports",
-          "state": "failed",
-          "state_text": "Failed"
+          "state": "done",
+          "state_text": "Done"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
@@ -41,9 +41,10 @@
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
-          "state": "done",
-          "state_text": "Done"
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
          }
         ]
        }
@@ -60,7 +61,7 @@
      ]
     },
     {
-     "t": 0.01,
+     "t": 0.02,
      "actions": [
       {
        "label": "Starting the nightly load",
@@ -76,10 +77,10 @@
        "data": {
         "title": "the nightly load",
         "run": {
-         "state": "failed",
-         "state_text": "Failed",
-         "started": "2026-11-15T20:49:06.928340+00:00",
-         "finished": "2026-11-15T20:49:19.961547+00:00"
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-16T07:24:19.979873+00:00",
+         "finished": "2026-11-16T07:24:31.534674+00:00"
         },
         "tasks": [
          {
@@ -89,11 +90,11 @@
          },
          {
           "label": "Building all the reports",
-          "state": "failed",
-          "state_text": "Failed"
+          "state": "done",
+          "state_text": "Done"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
@@ -103,9 +104,10 @@
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
-          "state": "done",
-          "state_text": "Done"
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
          }
         ]
        }
@@ -138,10 +140,10 @@
        "data": {
         "title": "the nightly load",
         "run": {
-         "state": "failed",
-         "state_text": "Failed",
-         "started": "2026-11-15T20:49:06.928340+00:00",
-         "finished": "2026-11-15T20:49:19.961547+00:00"
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-16T07:24:19.979873+00:00",
+         "finished": "2026-11-16T07:24:31.534674+00:00"
         },
         "tasks": [
          {
@@ -151,11 +153,11 @@
          },
          {
           "label": "Building all the reports",
-          "state": "failed",
-          "state_text": "Failed"
+          "state": "done",
+          "state_text": "Done"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
@@ -165,9 +167,10 @@
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
-          "state": "done",
-          "state_text": "Done"
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
          }
         ]
        }
@@ -184,12 +187,12 @@
      ]
     },
     {
-     "t": 2.6,
+     "t": 2.56,
      "actions": [
       {
        "label": "Starting the nightly load",
        "status": "running",
-       "summary": "Working on the nightly load: getting started",
+       "summary": "Working on the nightly load: Checking for hand-made changes",
        "details": ""
       }
      ],
@@ -200,10 +203,10 @@
        "data": {
         "title": "the nightly load",
         "run": {
-         "state": "failed",
-         "state_text": "Failed",
-         "started": "2026-11-15T20:49:06.928340+00:00",
-         "finished": "2026-11-15T20:49:19.961547+00:00"
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-16T07:24:19.979873+00:00",
+         "finished": "2026-11-16T07:24:31.534674+00:00"
         },
         "tasks": [
          {
@@ -213,11 +216,11 @@
          },
          {
           "label": "Building all the reports",
-          "state": "failed",
-          "state_text": "Failed"
+          "state": "done",
+          "state_text": "Done"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
@@ -227,9 +230,10 @@
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
-          "state": "done",
-          "state_text": "Done"
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
          }
         ]
        }
@@ -246,74 +250,12 @@
      ]
     },
     {
-     "t": 4.04,
+     "t": 4.05,
      "actions": [
       {
        "label": "Starting the nightly load",
        "status": "running",
-       "summary": "Working on the nightly load: getting started",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "tasks",
-       "title": "The nightly load",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 5.61,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: getting started",
+       "summary": "Working on the nightly load: Checking for hand-made changes",
        "details": ""
       }
      ],
@@ -326,19 +268,81 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:27.015963+00:00",
+         "started": "2026-11-16T07:24:51.130205+00:00",
          "finished": null
         },
         "tasks": [
          {
           "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
           "state": "todo",
           "state_text": "Waiting"
          },
          {
-          "label": "Building all the reports",
+          "label": "Checking that every data feed is up to date",
           "state": "todo",
           "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.58,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: Building all the reports",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-16T07:24:51.130205+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "running",
+          "state_text": "Running"
          },
          {
           "label": "Saving the run so it can be resumed",
@@ -375,7 +379,7 @@
       {
        "label": "Starting the nightly load",
        "status": "running",
-       "summary": "Working on the nightly load: getting started",
+       "summary": "Working on the nightly load: Building all the reports",
        "details": ""
       }
      ],
@@ -388,69 +392,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 8.07,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: getting started",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "tasks",
-       "title": "The nightly load",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-15T20:52:27.015963+00:00",
+         "started": "2026-11-16T07:24:51.130205+00:00",
          "finished": null
         },
         "tasks": [
@@ -494,7 +436,7 @@
      ]
     },
     {
-     "t": 8.62,
+     "t": 8.08,
      "actions": [
       {
        "label": "Starting the nightly load",
@@ -512,7 +454,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:27.015963+00:00",
+         "started": "2026-11-16T07:24:51.130205+00:00",
          "finished": null
         },
         "tasks": [
@@ -556,7 +498,7 @@
      ]
     },
     {
-     "t": 10.08,
+     "t": 8.59,
      "actions": [
       {
        "label": "Starting the nightly load",
@@ -574,7 +516,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:27.015963+00:00",
+         "started": "2026-11-16T07:24:51.130205+00:00",
          "finished": null
         },
         "tasks": [
@@ -618,7 +560,7 @@
      ]
     },
     {
-     "t": 11.64,
+     "t": 10.09,
      "actions": [
       {
        "label": "Starting the nightly load",
@@ -636,7 +578,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:27.015963+00:00",
+         "started": "2026-11-16T07:24:51.130205+00:00",
          "finished": null
         },
         "tasks": [
@@ -680,7 +622,7 @@
      ]
     },
     {
-     "t": 12.1,
+     "t": 11.61,
      "actions": [
       {
        "label": "Starting the nightly load",
@@ -698,7 +640,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:27.015963+00:00",
+         "started": "2026-11-16T07:24:51.130205+00:00",
          "finished": null
         },
         "tasks": [
@@ -742,7 +684,7 @@
      ]
     },
     {
-     "t": 14.11,
+     "t": 12.11,
      "actions": [
       {
        "label": "Starting the nightly load",
@@ -760,7 +702,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:27.015963+00:00",
+         "started": "2026-11-16T07:24:51.130205+00:00",
          "finished": null
         },
         "tasks": [
@@ -804,199 +746,13 @@
      ]
     },
     {
-     "t": 14.65,
+     "t": 14.12,
      "actions": [
       {
        "label": "Starting the nightly load",
        "status": "running",
        "summary": "Working on the nightly load: Building all the reports",
        "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "tasks",
-       "title": "The nightly load",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 16.13,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "tasks",
-       "title": "The nightly load",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "failed",
-          "state_text": "Failed"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 17.66,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "done",
-       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-       "details": "run studio__1794775944_c1ee86: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "tasks",
-       "title": "The nightly load",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "failed",
-          "state_text": "Failed"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 17.68,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "done",
-       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-       "details": "run studio__1794775944_c1ee86: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success"
       }
      ],
      "evidence": [
@@ -1008,8 +764,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": "2026-11-15T20:52:40.137031+00:00"
+         "started": "2026-11-16T07:24:51.130205+00:00",
+         "finished": "2026-11-16T07:25:02.617056+00:00"
         },
         "tasks": [
          {
@@ -1023,9 +779,66 @@
           "state_text": "Failed"
          },
          {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
           "label": "Saving the run so it can be resumed",
           "state": "done",
           "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.62,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
+       "details": "run studio__1794813889_e144ec: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-16T07:24:51.130205+00:00",
+         "finished": "2026-11-16T07:25:02.617056+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
          },
          {
           "label": "Sending the failure mail",
@@ -1034,6 +847,73 @@
          },
          {
           "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "result",
+       "title": "What happened",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.64,
+     "actions": [
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
+       "details": "run studio__1794813889_e144ec: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-16T07:24:51.130205+00:00",
+         "finished": "2026-11-16T07:25:02.617056+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
           "state": "done",
           "state_text": "Done"
          }
@@ -1045,7 +925,7 @@
        "title": "What happened",
        "data": {
         "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-        "details": "run studio__1794775944_c1ee86: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success",
+        "details": "run studio__1794813889_e144ec: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success",
         "data": {
          "state": "failed"
         }
@@ -1054,13 +934,13 @@
      ]
     },
     {
-     "t": 17.68,
+     "t": 14.64,
      "actions": [
       {
        "label": "Starting the nightly load",
        "status": "done",
        "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-       "details": "run studio__1794775944_c1ee86: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success"
+       "details": "run studio__1794813889_e144ec: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success"
       }
      ],
      "evidence": [
@@ -1072,8 +952,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": "2026-11-15T20:52:40.137031+00:00"
+         "started": "2026-11-16T07:24:51.130205+00:00",
+         "finished": "2026-11-16T07:25:02.617056+00:00"
         },
         "tasks": [
          {
@@ -1087,17 +967,17 @@
           "state_text": "Failed"
          },
          {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
           "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          },
          {
           "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
           "state": "done",
           "state_text": "Done"
          }
@@ -1109,7 +989,7 @@
        "title": "What happened",
        "data": {
         "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-        "details": "run studio__1794775944_c1ee86: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success",
+        "details": "run studio__1794813889_e144ec: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success",
         "data": {
          "state": "failed"
         }
@@ -1121,13 +1001,13 @@
    "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
    "outcome": "The night ends in red: 1 step failed, the one that builds the reports.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T20:52:40+00:00",
+   "recorded_at": "2026-11-16T07:25:03+00:00",
    "durations": [
-    20.7,
     14.7,
     14.8,
     17.7,
-    17.7
+    17.7,
+    14.6
    ],
    "show": [
     "tasks",
@@ -1138,7 +1018,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 0.04,
+     "t": 0.05,
      "actions": [],
      "evidence": [
       {
@@ -1149,8 +1029,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": "2026-11-15T20:52:40.137031+00:00"
+         "started": "2026-11-16T07:24:51.130205+00:00",
+         "finished": "2026-11-16T07:25:02.617056+00:00"
         },
         "tasks": [
          {
@@ -1164,17 +1044,17 @@
           "state_text": "Failed"
          },
          {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
           "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          },
          {
           "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
           "state": "done",
           "state_text": "Done"
          }
@@ -1185,7 +1065,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -1196,7 +1076,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -1211,19 +1091,19 @@
           "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
           "tables_total": 28,
-          "tables_not_run": 4,
+          "tables_not_run": 0,
           "tables_failed": 0,
           "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
+          "checks_passed": 21,
+          "checks_failed": 0,
           "checks_warned": 0,
-          "checks_not_run": 2,
+          "checks_not_run": 0,
           "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -1232,7 +1112,7 @@
      ]
     },
     {
-     "t": 0.04,
+     "t": 0.05,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -1250,8 +1130,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": "2026-11-15T20:52:40.137031+00:00"
+         "started": "2026-11-16T07:24:51.130205+00:00",
+         "finished": "2026-11-16T07:25:02.617056+00:00"
         },
         "tasks": [
          {
@@ -1265,17 +1145,17 @@
           "state_text": "Failed"
          },
          {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
           "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          },
          {
           "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
           "state": "done",
           "state_text": "Done"
          }
@@ -1286,7 +1166,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -1297,7 +1177,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -1312,19 +1192,19 @@
           "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
           "tables_total": 28,
-          "tables_not_run": 4,
+          "tables_not_run": 0,
           "tables_failed": 0,
           "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
+          "checks_passed": 21,
+          "checks_failed": 0,
           "checks_warned": 0,
-          "checks_not_run": 2,
+          "checks_not_run": 0,
           "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -1333,7 +1213,7 @@
      ]
     },
     {
-     "t": 1.3,
+     "t": 1.31,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -1351,8 +1231,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": "2026-11-15T20:52:40.137031+00:00"
+         "started": "2026-11-16T07:24:51.130205+00:00",
+         "finished": "2026-11-16T07:25:02.617056+00:00"
         },
         "tasks": [
          {
@@ -1366,17 +1246,17 @@
           "state_text": "Failed"
          },
          {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
           "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          },
          {
           "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
           "state": "done",
           "state_text": "Done"
          }
@@ -1387,7 +1267,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -1398,7 +1278,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -1413,19 +1293,19 @@
           "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
           "tables_total": 28,
-          "tables_not_run": 4,
+          "tables_not_run": 0,
           "tables_failed": 0,
           "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
+          "checks_passed": 21,
+          "checks_failed": 0,
           "checks_warned": 0,
-          "checks_not_run": 2,
+          "checks_not_run": 0,
           "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -1434,114 +1314,7 @@
      ]
     },
     {
-     "t": 1.3,
-     "actions": [
-      {
-       "label": "Changing the list of skipped files",
-       "status": "done",
-       "summary": "Changed the list of skipped files in development.",
-       "details": "airflow variables set dbt_daily_load_dbtignore [\"models/*/carrier/\", \"tests/carrier/\", \"models/im_dimensional/mart_olist_management_kpi.sql\", \"models/im_dimensional/olist_management.yml\"]"
-      },
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "tasks",
-       "title": "The nightly load",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "failed",
-         "state_text": "Failed",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": "2026-11-15T20:52:40.137031+00:00"
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "failed",
-          "state_text": "Failed"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "done",
-          "state_text": "Done"
-         }
-        ]
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the orders report",
-       "data": {
-        "value": 3436,
-        "unit": "orders",
-        "compare": null
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "The last two nights",
-       "data": {
-        "runs": [
-         {
-          "started": "2026-11-15T20:52:30.641095",
-          "tables_built": 25,
-          "tables_total": 28,
-          "tables_not_run": 3,
-          "tables_failed": 0,
-          "tables_left_out": 0,
-          "checks_passed": 15,
-          "checks_failed": 1,
-          "checks_warned": 0,
-          "checks_not_run": 5,
-          "retry": false,
-          "state": "bad",
-          "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
-         },
-         {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
-          "tables_total": 28,
-          "tables_not_run": 4,
-          "tables_failed": 0,
-          "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
-          "checks_warned": 0,
-          "checks_not_run": 2,
-          "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
-         }
-        ],
-        "empty": "No run has been recorded yet."
-       }
-      }
-     ]
-    },
-    {
-     "t": 2.07,
+     "t": 1.31,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -1565,8 +1338,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": "2026-11-15T20:52:40.137031+00:00"
+         "started": "2026-11-16T07:24:51.130205+00:00",
+         "finished": "2026-11-16T07:25:02.617056+00:00"
         },
         "tasks": [
          {
@@ -1580,17 +1353,17 @@
           "state_text": "Failed"
          },
          {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
           "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          },
          {
           "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
           "state": "done",
           "state_text": "Done"
          }
@@ -1601,7 +1374,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -1612,7 +1385,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -1627,19 +1400,19 @@
           "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
           "tables_total": 28,
-          "tables_not_run": 4,
+          "tables_not_run": 0,
           "tables_failed": 0,
           "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
+          "checks_passed": 21,
+          "checks_failed": 0,
           "checks_warned": 0,
-          "checks_not_run": 2,
+          "checks_not_run": 0,
           "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -1648,7 +1421,114 @@
      ]
     },
     {
-     "t": 3.89,
+     "t": 2.09,
+     "actions": [
+      {
+       "label": "Changing the list of skipped files",
+       "status": "done",
+       "summary": "Changed the list of skipped files in development.",
+       "details": "airflow variables set dbt_daily_load_dbtignore [\"models/*/carrier/\", \"tests/carrier/\", \"models/im_dimensional/mart_olist_management_kpi.sql\", \"models/im_dimensional/olist_management.yml\"]"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "failed",
+         "state_text": "Failed",
+         "started": "2026-11-16T07:24:51.130205+00:00",
+         "finished": "2026-11-16T07:25:02.617056+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "failed",
+          "state_text": "Failed"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the orders report",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": null
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "The last two nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-16T07:24:52.873278",
+          "tables_built": 25,
+          "tables_total": 28,
+          "tables_not_run": 3,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 15,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 5,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 21,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.84,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -1672,8 +1552,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-15T20:52:27.015963+00:00",
-         "finished": "2026-11-15T20:52:40.137031+00:00"
+         "started": "2026-11-16T07:24:51.130205+00:00",
+         "finished": "2026-11-16T07:25:02.617056+00:00"
         },
         "tasks": [
          {
@@ -1687,17 +1567,17 @@
           "state_text": "Failed"
          },
          {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
           "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          },
          {
           "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
           "state": "done",
           "state_text": "Done"
          }
@@ -1708,7 +1588,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -1719,7 +1599,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -1734,19 +1614,19 @@
           "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
           "tables_total": 28,
-          "tables_not_run": 4,
+          "tables_not_run": 0,
           "tables_failed": 0,
           "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
+          "checks_passed": 21,
+          "checks_failed": 0,
           "checks_warned": 0,
-          "checks_not_run": 2,
+          "checks_not_run": 0,
           "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -1755,7 +1635,114 @@
      ]
     },
     {
-     "t": 4.11,
+     "t": 4.12,
+     "actions": [
+      {
+       "label": "Changing the list of skipped files",
+       "status": "done",
+       "summary": "Changed the list of skipped files in development.",
+       "details": "airflow variables set dbt_daily_load_dbtignore [\"models/*/carrier/\", \"tests/carrier/\", \"models/im_dimensional/mart_olist_management_kpi.sql\", \"models/im_dimensional/olist_management.yml\"]"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "todo",
+         "state_text": "Waiting to start",
+         "started": null,
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the orders report",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": null
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "The last two nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-16T07:24:52.873278",
+          "tables_built": 25,
+          "tables_total": 28,
+          "tables_not_run": 3,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 15,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 5,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
+         },
+         {
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
+          "tables_total": 28,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 21,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.16,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -1779,114 +1766,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:45.093825+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the orders report",
-       "data": {
-        "value": 3436,
-        "unit": "orders",
-        "compare": null
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "The last two nights",
-       "data": {
-        "runs": [
-         {
-          "started": "2026-11-15T20:52:30.641095",
-          "tables_built": 25,
-          "tables_total": 28,
-          "tables_not_run": 3,
-          "tables_failed": 0,
-          "tables_left_out": 0,
-          "checks_passed": 15,
-          "checks_failed": 1,
-          "checks_warned": 0,
-          "checks_not_run": 5,
-          "retry": false,
-          "state": "bad",
-          "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
-         },
-         {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
-          "tables_total": 28,
-          "tables_not_run": 4,
-          "tables_failed": 0,
-          "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
-          "checks_warned": 0,
-          "checks_not_run": 2,
-          "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
-         }
-        ],
-        "empty": "No run has been recorded yet."
-       }
-      }
-     ]
-    },
-    {
-     "t": 6.14,
-     "actions": [
-      {
-       "label": "Changing the list of skipped files",
-       "status": "done",
-       "summary": "Changed the list of skipped files in development.",
-       "details": "airflow variables set dbt_daily_load_dbtignore [\"models/*/carrier/\", \"tests/carrier/\", \"models/im_dimensional/mart_olist_management_kpi.sql\", \"models/im_dimensional/olist_management.yml\"]"
-      },
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: getting started",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "tasks",
-       "title": "The nightly load",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-15T20:52:45.093825+00:00",
+         "started": "2026-11-16T07:25:08.164906+00:00",
          "finished": null
         },
         "tasks": [
@@ -1922,7 +1802,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -1933,7 +1813,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -1948,19 +1828,19 @@
           "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
           "tables_total": 28,
-          "tables_not_run": 4,
+          "tables_not_run": 0,
           "tables_failed": 0,
           "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
+          "checks_passed": 21,
+          "checks_failed": 0,
           "checks_warned": 0,
-          "checks_not_run": 2,
+          "checks_not_run": 0,
           "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -1969,7 +1849,7 @@
      ]
     },
     {
-     "t": 6.91,
+     "t": 6.86,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -1993,7 +1873,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:45.093825+00:00",
+         "started": "2026-11-16T07:25:08.164906+00:00",
          "finished": null
         },
         "tasks": [
@@ -2029,7 +1909,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -2040,7 +1920,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -2055,19 +1935,19 @@
           "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
           "tables_total": 28,
-          "tables_not_run": 4,
+          "tables_not_run": 0,
           "tables_failed": 0,
           "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
+          "checks_passed": 21,
+          "checks_failed": 0,
           "checks_warned": 0,
-          "checks_not_run": 2,
+          "checks_not_run": 0,
           "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -2076,7 +1956,7 @@
      ]
     },
     {
-     "t": 8.17,
+     "t": 8.2,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -2100,7 +1980,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:45.093825+00:00",
+         "started": "2026-11-16T07:25:08.164906+00:00",
          "finished": null
         },
         "tasks": [
@@ -2136,7 +2016,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -2147,7 +2027,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -2162,19 +2042,19 @@
           "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
           "tables_total": 28,
-          "tables_not_run": 4,
+          "tables_not_run": 0,
           "tables_failed": 0,
           "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
+          "checks_passed": 21,
+          "checks_failed": 0,
           "checks_warned": 0,
-          "checks_not_run": 2,
+          "checks_not_run": 0,
           "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -2183,7 +2063,7 @@
      ]
     },
     {
-     "t": 9.92,
+     "t": 9.87,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -2207,7 +2087,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:45.093825+00:00",
+         "started": "2026-11-16T07:25:08.164906+00:00",
          "finished": null
         },
         "tasks": [
@@ -2243,7 +2123,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -2254,7 +2134,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -2269,19 +2149,19 @@
           "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
           "tables_total": 28,
-          "tables_not_run": 4,
+          "tables_not_run": 0,
           "tables_failed": 0,
           "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
+          "checks_passed": 21,
+          "checks_failed": 0,
           "checks_warned": 0,
-          "checks_not_run": 2,
+          "checks_not_run": 0,
           "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -2290,7 +2170,7 @@
      ]
     },
     {
-     "t": 10.21,
+     "t": 10.23,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -2314,7 +2194,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:45.093825+00:00",
+         "started": "2026-11-16T07:25:08.164906+00:00",
          "finished": null
         },
         "tasks": [
@@ -2350,7 +2230,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -2361,7 +2241,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -2376,19 +2256,19 @@
           "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
           "tables_total": 28,
-          "tables_not_run": 4,
+          "tables_not_run": 0,
           "tables_failed": 0,
           "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
+          "checks_passed": 21,
+          "checks_failed": 0,
           "checks_warned": 0,
-          "checks_not_run": 2,
+          "checks_not_run": 0,
           "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -2397,7 +2277,7 @@
      ]
     },
     {
-     "t": 12.52,
+     "t": 12.69,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -2421,7 +2301,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:45.093825+00:00",
+         "started": "2026-11-16T07:25:08.164906+00:00",
          "finished": null
         },
         "tasks": [
@@ -2457,7 +2337,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -2468,7 +2348,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -2483,19 +2363,19 @@
           "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
           "tables_total": 28,
-          "tables_not_run": 4,
+          "tables_not_run": 0,
           "tables_failed": 0,
           "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
+          "checks_passed": 21,
+          "checks_failed": 0,
           "checks_warned": 0,
-          "checks_not_run": 2,
+          "checks_not_run": 0,
           "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -2504,7 +2384,7 @@
      ]
     },
     {
-     "t": 12.94,
+     "t": 12.89,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -2528,7 +2408,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:45.093825+00:00",
+         "started": "2026-11-16T07:25:08.164906+00:00",
          "finished": null
         },
         "tasks": [
@@ -2564,7 +2444,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -2575,7 +2455,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -2590,19 +2470,19 @@
           "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-15T20:49:11.448705",
-          "tables_built": 24,
+          "started": "2026-11-16T07:24:21.317040",
+          "tables_built": 28,
           "tables_total": 28,
-          "tables_not_run": 4,
+          "tables_not_run": 0,
           "tables_failed": 0,
           "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
+          "checks_passed": 21,
+          "checks_failed": 0,
           "checks_warned": 0,
-          "checks_not_run": 2,
+          "checks_not_run": 0,
           "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "state": "good",
+          "summary": "28 of 28 tables built, 21 checks passed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -2611,7 +2491,7 @@
      ]
     },
     {
-     "t": 14.55,
+     "t": 14.73,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -2635,7 +2515,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:45.093825+00:00",
+         "started": "2026-11-16T07:25:08.164906+00:00",
          "finished": null
         },
         "tasks": [
@@ -2656,8 +2536,8 @@
          },
          {
           "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
+          "state": "running",
+          "state_text": "Running"
          },
          {
           "label": "Sending the failure mail",
@@ -2671,7 +2551,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -2682,7 +2562,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:46.320867",
+          "started": "2026-11-16T07:25:09.502887",
           "tables_built": 25,
           "tables_total": 25,
           "tables_not_run": 0,
@@ -2698,7 +2578,7 @@
           "current": true
          },
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -2719,7 +2599,7 @@
      ]
     },
     {
-     "t": 15.95,
+     "t": 15.9,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -2729,9 +2609,9 @@
       },
       {
        "label": "Starting the nightly load",
-       "status": "done",
-       "summary": "The nightly load finished without problems in development.",
-       "details": "run studio__1794775963_bb6b8b: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
       }
      ],
      "evidence": [
@@ -2743,7 +2623,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-15T20:52:45.093825+00:00",
+         "started": "2026-11-16T07:25:08.164906+00:00",
          "finished": null
         },
         "tasks": [
@@ -2764,8 +2644,8 @@
          },
          {
           "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
+          "state": "running",
+          "state_text": "Running"
          },
          {
           "label": "Sending the failure mail",
@@ -2779,7 +2659,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -2790,7 +2670,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:46.320867",
+          "started": "2026-11-16T07:25:09.502887",
           "tables_built": 25,
           "tables_total": 25,
           "tables_not_run": 0,
@@ -2806,7 +2686,7 @@
           "current": true
          },
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -2827,7 +2707,7 @@
      ]
     },
     {
-     "t": 15.98,
+     "t": 16.76,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -2837,9 +2717,9 @@
       },
       {
        "label": "Starting the nightly load",
-       "status": "done",
-       "summary": "The nightly load finished without problems in development.",
-       "details": "run studio__1794775963_bb6b8b: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
       }
      ],
      "evidence": [
@@ -2851,8 +2731,8 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-15T20:52:45.093825+00:00",
-         "finished": "2026-11-15T20:52:56.103437+00:00"
+         "started": "2026-11-16T07:25:08.164906+00:00",
+         "finished": "2026-11-16T07:25:20.296868+00:00"
         },
         "tasks": [
          {
@@ -2888,7 +2768,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -2899,7 +2779,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:46.320867",
+          "started": "2026-11-16T07:25:09.502887",
           "tables_built": 25,
           "tables_total": 25,
           "tables_not_run": 0,
@@ -2915,7 +2795,7 @@
           "current": true
          },
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -2936,7 +2816,7 @@
      ]
     },
     {
-     "t": 15.98,
+     "t": 18.8,
      "actions": [
       {
        "label": "Changing the list of skipped files",
@@ -2946,9 +2826,9 @@
       },
       {
        "label": "Starting the nightly load",
-       "status": "done",
-       "summary": "The nightly load finished without problems in development.",
-       "details": "run studio__1794775963_bb6b8b: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
       }
      ],
      "evidence": [
@@ -2960,8 +2840,8 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-15T20:52:45.093825+00:00",
-         "finished": "2026-11-15T20:52:56.103437+00:00"
+         "started": "2026-11-16T07:25:08.164906+00:00",
+         "finished": "2026-11-16T07:25:20.296868+00:00"
         },
         "tasks": [
          {
@@ -2997,7 +2877,7 @@
        "type": "number",
        "title": "Orders in the orders report",
        "data": {
-        "value": 3436,
+        "value": 3392,
         "unit": "orders",
         "compare": null
        }
@@ -3008,7 +2888,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-15T20:52:46.320867",
+          "started": "2026-11-16T07:25:09.502887",
           "tables_built": 25,
           "tables_total": 25,
           "tables_not_run": 0,
@@ -3024,7 +2904,334 @@
           "current": true
          },
          {
-          "started": "2026-11-15T20:52:30.641095",
+          "started": "2026-11-16T07:24:52.873278",
+          "tables_built": 25,
+          "tables_total": 28,
+          "tables_not_run": 3,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 15,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 5,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.92,
+     "actions": [
+      {
+       "label": "Changing the list of skipped files",
+       "status": "done",
+       "summary": "Changed the list of skipped files in development.",
+       "details": "airflow variables set dbt_daily_load_dbtignore [\"models/*/carrier/\", \"tests/carrier/\", \"models/im_dimensional/mart_olist_management_kpi.sql\", \"models/im_dimensional/olist_management.yml\"]"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794813906_4a57f1: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-16T07:25:08.164906+00:00",
+         "finished": "2026-11-16T07:25:20.296868+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the orders report",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": null
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "The last two nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-16T07:25:09.502887",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-16T07:24:52.873278",
+          "tables_built": 25,
+          "tables_total": 28,
+          "tables_not_run": 3,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 15,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 5,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.96,
+     "actions": [
+      {
+       "label": "Changing the list of skipped files",
+       "status": "done",
+       "summary": "Changed the list of skipped files in development.",
+       "details": "airflow variables set dbt_daily_load_dbtignore [\"models/*/carrier/\", \"tests/carrier/\", \"models/im_dimensional/mart_olist_management_kpi.sql\", \"models/im_dimensional/olist_management.yml\"]"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794813906_4a57f1: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-16T07:25:08.164906+00:00",
+         "finished": "2026-11-16T07:25:20.296868+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the orders report",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": null
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "The last two nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-16T07:25:09.502887",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-16T07:24:52.873278",
+          "tables_built": 25,
+          "tables_total": 28,
+          "tables_not_run": 3,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 15,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 5,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 of 28 tables built, 3 tables and 5 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.96,
+     "actions": [
+      {
+       "label": "Changing the list of skipped files",
+       "status": "done",
+       "summary": "Changed the list of skipped files in development.",
+       "details": "airflow variables set dbt_daily_load_dbtignore [\"models/*/carrier/\", \"tests/carrier/\", \"models/im_dimensional/mart_olist_management_kpi.sql\", \"models/im_dimensional/olist_management.yml\"]"
+      },
+      {
+       "label": "Starting the nightly load",
+       "status": "done",
+       "summary": "The nightly load finished without problems in development.",
+       "details": "run studio__1794813906_4a57f1: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "done",
+         "state_text": "Finished without problems",
+         "started": "2026-11-16T07:25:08.164906+00:00",
+         "finished": "2026-11-16T07:25:20.296868+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "skipped",
+          "state_text": "Skipped",
+          "not_needed": true
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Orders in the orders report",
+       "data": {
+        "value": 3392,
+        "unit": "orders",
+        "compare": null
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "The last two nights",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-16T07:25:09.502887",
+          "tables_built": 25,
+          "tables_total": 25,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 3,
+          "checks_passed": 14,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": false,
+          "state": "good",
+          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-16T07:24:52.873278",
           "tables_built": 25,
           "tables_total": 28,
           "tables_not_run": 3,
@@ -3046,15 +3253,15 @@
     }
    ],
    "summary": "The nightly load finished without problems in development.",
-   "outcome": "The night is green. 25 of 28 tables were built, 3 were left out on purpose, and the orders report still holds 3,436 orders.",
+   "outcome": "The night is green. 25 of 28 tables were built, 3 were left out on purpose, and the orders report still holds 3,392 orders.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T20:52:57+00:00",
+   "recorded_at": "2026-11-16T07:25:22+00:00",
    "durations": [
-    19.0,
     16.2,
     19.3,
     18.9,
-    16.0
+    16.0,
+    19.0
    ],
    "show": [
     "tasks",
@@ -3063,14 +3270,14 @@
    ]
   }
  },
- "recorded_at": "2026-11-15T20:52:57+00:00",
+ "recorded_at": "2026-11-16T07:25:22+00:00",
  "prepare": {
   "durations": [
-   14.3,
    1.5,
    15.5,
    14.2,
-   1.4
+   1.4,
+   14.2
   ]
  }
 }

@@ -2,3 +2,5 @@
 src/*/target
 src/*/.git
 src/**/node_modules
+# local-only copies, never part of the image
+local

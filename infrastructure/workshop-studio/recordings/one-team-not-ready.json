@@ -5,7 +5,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 1.36,
+     "t": 1.35,
      "actions": [],
      "evidence": [
       {
@@ -53,7 +53,7 @@
      ]
     },
     {
-     "t": 1.36,
+     "t": 1.35,
      "actions": [
       {
        "label": "Letting the release go live in validation",
@@ -108,13 +108,13 @@
      ]
     },
     {
-     "t": 1.89,
+     "t": 1.86,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       }
      ],
      "evidence": [
@@ -163,13 +163,13 @@
      ]
     },
     {
-     "t": 1.89,
+     "t": 1.86,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -224,13 +224,13 @@
      ]
     },
     {
-     "t": 2.04,
+     "t": 1.98,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -285,13 +285,13 @@
      ]
     },
     {
-     "t": 4.78,
+     "t": 4.74,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -306,7 +306,7 @@
        "title": "What happened",
        "data": {
         "summary": "The release goes live in validation; production waits for a person.",
-        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'",
         "data": {}
        }
       },
@@ -346,13 +346,13 @@
      ]
     },
     {
-     "t": 8.33,
+     "t": 8.29,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -367,7 +367,7 @@
        "title": "What happened",
        "data": {
         "summary": "The release goes live in validation; production waits for a person.",
-        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'",
         "data": {}
        }
       },
@@ -375,8 +375,8 @@
        "type": "pipeline",
        "title": "Numbering and putting the release live",
        "data": {
-        "state": "running",
-        "state_text": "Running",
+        "state": "todo",
+        "state_text": "Waiting",
         "jobs": [
          {
           "label": "Packaging the version",
@@ -423,13 +423,13 @@
      ]
     },
     {
-     "t": 10.18,
+     "t": 10.15,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -444,7 +444,7 @@
        "title": "What happened",
        "data": {
         "summary": "The release goes live in validation; production waits for a person.",
-        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'",
         "data": {}
        }
       },
@@ -452,8 +452,8 @@
        "type": "pipeline",
        "title": "Numbering and putting the release live",
        "data": {
-        "state": "running",
-        "state_text": "Running",
+        "state": "todo",
+        "state_text": "Waiting",
         "jobs": [
          {
           "label": "Packaging the version",
@@ -500,13 +500,13 @@
      ]
     },
     {
-     "t": 11.91,
+     "t": 11.83,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -521,7 +521,7 @@
        "title": "What happened",
        "data": {
         "summary": "The release goes live in validation; production waits for a person.",
-        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'",
         "data": {}
        }
       },
@@ -577,13 +577,13 @@
      ]
     },
     {
-     "t": 15.47,
+     "t": 15.4,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -598,7 +598,7 @@
        "title": "What happened",
        "data": {
         "summary": "The release goes live in validation; production waits for a person.",
-        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'",
         "data": {}
        }
       },
@@ -654,13 +654,13 @@
      ]
     },
     {
-     "t": 18.36,
+     "t": 18.32,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -675,7 +675,7 @@
        "title": "What happened",
        "data": {
         "summary": "The release goes live in validation; production waits for a person.",
-        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'",
         "data": {}
        }
       },
@@ -731,19 +731,19 @@
      ]
     },
     {
-     "t": 18.48,
+     "t": 18.43,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in validation.",
-       "details": "pipeline 284 on 2026-Q4.0: success"
+       "details": "pipeline 324 on 2026-Q4.0: success"
       }
      ],
      "evidence": [
@@ -752,7 +752,7 @@
        "title": "What happened",
        "data": {
         "summary": "The release goes live in validation; production waits for a person.",
-        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'",
         "data": {}
        }
       },
@@ -808,19 +808,19 @@
      ]
     },
     {
-     "t": 19.0,
+     "t": 18.95,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in validation.",
-       "details": "pipeline 284 on 2026-Q4.0: success"
+       "details": "pipeline 324 on 2026-Q4.0: success"
       }
      ],
      "evidence": [
@@ -829,7 +829,7 @@
        "title": "What happened",
        "data": {
         "summary": "The release goes live in validation; production waits for a person.",
-        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'",
         "data": {}
        }
       },
@@ -885,19 +885,19 @@
      ]
     },
     {
-     "t": 20.52,
+     "t": 20.44,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in validation.",
-       "details": "pipeline 284 on 2026-Q4.0: success"
+       "details": "pipeline 324 on 2026-Q4.0: success"
       }
      ],
      "evidence": [
@@ -906,7 +906,7 @@
        "title": "What happened",
        "data": {
         "summary": "The release goes live in validation; production waits for a person.",
-        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'",
         "data": {}
        }
       },
@@ -962,19 +962,19 @@
      ]
     },
     {
-     "t": 20.52,
+     "t": 20.44,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'"
+       "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in validation.",
-       "details": "pipeline 284 on 2026-Q4.0: success"
+       "details": "pipeline 324 on 2026-Q4.0: success"
       }
      ],
      "evidence": [
@@ -983,7 +983,7 @@
        "title": "What happened",
        "data": {
         "summary": "The release goes live in validation; production waits for a person.",
-        "details": "c4c2085 Merge branch 'release/2026-Q4' into 'main'",
+        "details": "0db1dda Merge branch 'release/2026-Q4' into 'main'",
         "data": {}
        }
       },
@@ -1042,13 +1042,13 @@
    "summary": "The version was packaged and put live in validation.",
    "outcome": "The release is numbered 2026-Q4.0 and runs in validation. The team that was not ready is not in it.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T19:25:43+00:00",
+   "recorded_at": "2026-11-16T07:32:12+00:00",
    "durations": [
-    20.4,
     20.5,
     20.7,
     21.0,
-    20.5
+    20.5,
+    20.4
    ],
    "show": [
     "result",
@@ -1062,7 +1062,7 @@
    },
    "frames": [
     {
-     "t": 1.42,
+     "t": 1.4,
      "actions": [],
      "evidence": [
       {
@@ -1110,7 +1110,7 @@
      ]
     },
     {
-     "t": 1.42,
+     "t": 1.4,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -1165,7 +1165,7 @@
      ]
     },
     {
-     "t": 1.67,
+     "t": 1.65,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -1220,7 +1220,7 @@
      ]
     },
     {
-     "t": 1.67,
+     "t": 1.65,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -1293,7 +1293,7 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       }
      ],
      "evidence": [
@@ -1354,7 +1354,7 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1409,7 +1409,7 @@
      ]
     },
     {
-     "t": 2.34,
+     "t": 2.31,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -1421,7 +1421,7 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1476,7 +1476,7 @@
      ]
     },
     {
-     "t": 4.89,
+     "t": 4.85,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -1488,7 +1488,7 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1503,7 +1503,7 @@
        "title": "What is in the release",
        "data": {
         "summary": "The change was taken out of the copy for the release; everything else is still in.",
-        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
         "data": {
          "reasons": [
           "Taken out: the reviews team's change (v1.2.0), review scores overview",
@@ -1560,7 +1560,7 @@
      ]
     },
     {
-     "t": 8.44,
+     "t": 8.42,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -1572,7 +1572,7 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1587,7 +1587,7 @@
        "title": "What is in the release",
        "data": {
         "summary": "The change was taken out of the copy for the release; everything else is still in.",
-        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
         "data": {
          "reasons": [
           "Taken out: the reviews team's change (v1.2.0), review scores overview",
@@ -1644,7 +1644,7 @@
      ]
     },
     {
-     "t": 10.49,
+     "t": 10.43,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -1656,7 +1656,7 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1671,7 +1671,7 @@
        "title": "What is in the release",
        "data": {
         "summary": "The change was taken out of the copy for the release; everything else is still in.",
-        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
         "data": {
          "reasons": [
           "Taken out: the reviews team's change (v1.2.0), review scores overview",
@@ -1728,7 +1728,7 @@
      ]
     },
     {
-     "t": 11.96,
+     "t": 11.93,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -1740,7 +1740,7 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1755,7 +1755,7 @@
        "title": "What is in the release",
        "data": {
         "summary": "The change was taken out of the copy for the release; everything else is still in.",
-        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
         "data": {
          "reasons": [
           "Taken out: the reviews team's change (v1.2.0), review scores overview",
@@ -1812,7 +1812,7 @@
      ]
     },
     {
-     "t": 15.42,
+     "t": 15.37,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -1824,7 +1824,7 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1839,7 +1839,7 @@
        "title": "What is in the release",
        "data": {
         "summary": "The change was taken out of the copy for the release; everything else is still in.",
-        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
         "data": {
          "reasons": [
           "Taken out: the reviews team's change (v1.2.0), review scores overview",
@@ -1896,7 +1896,7 @@
      ]
     },
     {
-     "t": 18.63,
+     "t": 18.56,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -1908,7 +1908,7 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -1923,7 +1923,7 @@
        "title": "What is in the release",
        "data": {
         "summary": "The change was taken out of the copy for the release; everything else is still in.",
-        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
         "data": {
          "reasons": [
           "Taken out: the reviews team's change (v1.2.0), review scores overview",
@@ -1980,7 +1980,7 @@
      ]
     },
     {
-     "t": 18.68,
+     "t": 18.62,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -1992,13 +1992,13 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The automatic checks passed.",
-       "details": "pipeline 282 on release/2026-Q4: success"
+       "details": "pipeline 322 on release/2026-Q4: success"
       }
      ],
      "evidence": [
@@ -2007,7 +2007,7 @@
        "title": "What is in the release",
        "data": {
         "summary": "The change was taken out of the copy for the release; everything else is still in.",
-        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
         "data": {
          "reasons": [
           "Taken out: the reviews team's change (v1.2.0), review scores overview",
@@ -2064,7 +2064,7 @@
      ]
     },
     {
-     "t": 18.93,
+     "t": 18.83,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -2076,13 +2076,13 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The automatic checks passed.",
-       "details": "pipeline 282 on release/2026-Q4: success"
+       "details": "pipeline 322 on release/2026-Q4: success"
       }
      ],
      "evidence": [
@@ -2091,7 +2091,7 @@
        "title": "What is in the release",
        "data": {
         "summary": "The change was taken out of the copy for the release; everything else is still in.",
-        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
         "data": {
          "reasons": [
           "Taken out: the reviews team's change (v1.2.0), review scores overview",
@@ -2148,7 +2148,7 @@
      ]
     },
     {
-     "t": 20.35,
+     "t": 20.26,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -2160,13 +2160,13 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The automatic checks passed.",
-       "details": "pipeline 282 on release/2026-Q4: success"
+       "details": "pipeline 322 on release/2026-Q4: success"
       }
      ],
      "evidence": [
@@ -2175,7 +2175,7 @@
        "title": "What is in the release",
        "data": {
         "summary": "The change was taken out of the copy for the release; everything else is still in.",
-        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
         "data": {
          "reasons": [
           "Taken out: the reviews team's change (v1.2.0), review scores overview",
@@ -2232,7 +2232,7 @@
      ]
     },
     {
-     "t": 20.35,
+     "t": 20.26,
      "actions": [
       {
        "label": "Making a copy for the release",
@@ -2244,13 +2244,13 @@
        "label": "Taking one team's change out of the copy for the release",
        "status": "done",
        "summary": "The change was taken out of the copy for the release; everything else is still in.",
-       "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
+       "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The automatic checks passed.",
-       "details": "pipeline 282 on release/2026-Q4: success"
+       "details": "pipeline 322 on release/2026-Q4: success"
       }
      ],
      "evidence": [
@@ -2259,7 +2259,7 @@
        "title": "What is in the release",
        "data": {
         "summary": "The change was taken out of the copy for the release; everything else is still in.",
-        "details": "revert applied cleanly\n28491a7 Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
+        "details": "revert applied cleanly\naf877ad Revert \"Merge branch 'demo/feature/team-reviews' into 'dev'\"\nreverted tag v1.2.0 on release/2026-Q4",
         "data": {
          "reasons": [
           "Taken out: the reviews team's change (v1.2.0), review scores overview",
@@ -2319,12 +2319,12 @@
    "summary": "The automatic checks passed.",
    "outcome": "The release holds the shared work minus the chosen team's change. Development still runs both changes.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T19:25:22+00:00",
+   "recorded_at": "2026-11-16T07:31:51+00:00",
    "durations": [
-    20.3,
     37.9,
     28.5,
     21.0,
+    20.3,
     20.3
    ],
    "show": [
@@ -2336,12 +2336,12 @@
  },
  "prepare": {
   "durations": [
-   52.9,
    61.6,
    61.3,
    59.4,
-   58.4
+   58.4,
+   58.7
   ]
  },
- "recorded_at": "2026-11-15T19:25:43+00:00"
+ "recorded_at": "2026-11-16T07:32:12+00:00"
 }

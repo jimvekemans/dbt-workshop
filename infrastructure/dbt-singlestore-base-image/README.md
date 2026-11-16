@@ -20,6 +20,7 @@ dbt-singlestore-base-image/
 ├── .dockerignore                   keeps src/*/.git and src/*/target out of the context
 ├── dbt                             optional prebuilt binary (gitignored)
 ├── libadbc_driver_singlestore.so   optional prebuilt driver (gitignored)
+├── local/                          set-aside prebuilt files of older commits (gitignored, not in the image)
 └── src/
     ├── dbt/                        git submodule
     └── singlestore-adbc-connector/ git submodule

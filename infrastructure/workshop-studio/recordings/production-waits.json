@@ -5,7 +5,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 1.36,
+     "t": 1.35,
      "actions": [],
      "evidence": [
       {
@@ -44,10 +44,108 @@
      ]
     },
     {
-     "t": 1.36,
+     "t": 1.35,
      "actions": [
       {
        "label": "Letting the release go live in validation",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.82,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "todo",
+        "state_text": "Not started yet",
+        "jobs": [],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.82,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
        "status": "running",
        "summary": "",
        "details": ""
@@ -96,105 +194,7 @@
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "Numbering and putting the release live",
-       "data": {
-        "state": "todo",
-        "state_text": "Not started yet",
-        "jobs": [],
-        "failures": []
-       }
-      },
-      {
-       "type": "versions",
-       "title": "Version in each environment",
-       "data": {
-        "environments": [
-         {
-          "env": "dev",
-          "label": "Development",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "val",
-          "label": "Validation",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "prd",
-          "label": "Production",
-          "tag": "v1.0.0"
-         }
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "t": 1.94,
-     "actions": [
-      {
-       "label": "Letting the release go live in validation",
-       "status": "done",
-       "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "running",
-       "summary": "",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "Numbering and putting the release live",
-       "data": {
-        "state": "todo",
-        "state_text": "Not started yet",
-        "jobs": [],
-        "failures": []
-       }
-      },
-      {
-       "type": "versions",
-       "title": "Version in each environment",
-       "data": {
-        "environments": [
-         {
-          "env": "dev",
-          "label": "Development",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "val",
-          "label": "Validation",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "prd",
-          "label": "Production",
-          "tag": "v1.0.0"
-         }
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "t": 2.09,
-     "actions": [
-      {
-       "label": "Letting the release go live in validation",
-       "status": "done",
-       "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -240,13 +240,13 @@
      ]
     },
     {
-     "t": 4.71,
+     "t": 4.74,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -292,13 +292,13 @@
      ]
     },
     {
-     "t": 8.26,
+     "t": 8.24,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -360,13 +360,13 @@
      ]
     },
     {
-     "t": 10.23,
+     "t": 10.06,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -428,13 +428,13 @@
      ]
     },
     {
-     "t": 11.78,
+     "t": 11.74,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -453,8 +453,8 @@
         "jobs": [
          {
           "label": "Packaging the version",
-          "state": "running",
-          "state_text": "Running"
+          "state": "done",
+          "state_text": "Done"
          },
          {
           "label": "Putting the version live in validation",
@@ -502,7 +502,7 @@
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -564,13 +564,13 @@
      ]
     },
     {
-     "t": 18.37,
+     "t": 18.25,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -632,19 +632,19 @@
      ]
     },
     {
-     "t": 18.49,
+     "t": 18.39,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in validation.",
-       "details": "pipeline 289 on 2026-Q4.0: success"
+       "details": "pipeline 329 on 2026-Q4.0: success"
       }
      ],
      "evidence": [
@@ -700,87 +700,19 @@
      ]
     },
     {
-     "t": 18.8,
+     "t": 18.81,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in validation.",
-       "details": "pipeline 289 on 2026-Q4.0: success"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "Numbering and putting the release live",
-       "data": {
-        "state": "done",
-        "state_text": "Done",
-        "jobs": [
-         {
-          "label": "Packaging the version",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Putting the version live in validation",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Putting the version live in production",
-          "state": "todo",
-          "state_text": "Waiting for a person"
-         }
-        ],
-        "failures": []
-       }
-      },
-      {
-       "type": "versions",
-       "title": "Version in each environment",
-       "data": {
-        "environments": [
-         {
-          "env": "dev",
-          "label": "Development",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "val",
-          "label": "Validation",
-          "tag": "2026-Q4.0"
-         },
-         {
-          "env": "prd",
-          "label": "Production",
-          "tag": "v1.0.0"
-         }
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "t": 20.34,
-     "actions": [
-      {
-       "label": "Letting the release go live in validation",
-       "status": "done",
-       "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The version was packaged and put live in validation.",
-       "details": "pipeline 289 on 2026-Q4.0: success"
+       "details": "pipeline 329 on 2026-Q4.0: success"
       }
      ],
      "evidence": [
@@ -836,19 +768,87 @@
      ]
     },
     {
-     "t": 20.34,
+     "t": 20.33,
      "actions": [
       {
        "label": "Letting the release go live in validation",
        "status": "done",
        "summary": "The release goes live in validation; production waits for a person.",
-       "details": "6ebe37f Merge branch 'release/2026-Q4' into 'main'"
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in validation.",
-       "details": "pipeline 289 on 2026-Q4.0: success"
+       "details": "pipeline 329 on 2026-Q4.0: success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "Numbering and putting the release live",
+       "data": {
+        "state": "done",
+        "state_text": "Done",
+        "jobs": [
+         {
+          "label": "Packaging the version",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in validation",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Putting the version live in production",
+          "state": "todo",
+          "state_text": "Waiting for a person"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "2026-Q4.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.33,
+     "actions": [
+      {
+       "label": "Letting the release go live in validation",
+       "status": "done",
+       "summary": "The release goes live in validation; production waits for a person.",
+       "details": "d53521d Merge branch 'release/2026-Q4' into 'main'"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "done",
+       "summary": "The version was packaged and put live in validation.",
+       "details": "pipeline 329 on 2026-Q4.0: success"
       }
      ],
      "evidence": [
@@ -907,12 +907,12 @@
    "summary": "The version was packaged and put live in validation.",
    "outcome": "The release runs in validation. Production has not changed and waits for a person.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T19:26:33+00:00",
+   "recorded_at": "2026-11-16T07:33:02+00:00",
    "durations": [
-    20.5,
     20.5,
     28.4,
     21.0,
+    20.3,
     20.3
    ],
    "show": [
@@ -924,7 +924,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 1.51,
+     "t": 1.5,
      "actions": [],
      "evidence": [
       {
@@ -988,7 +988,7 @@
      ]
     },
     {
-     "t": 1.51,
+     "t": 1.5,
      "actions": [
       {
        "label": "Starting: putting the version live in production",
@@ -1059,7 +1059,7 @@
      ]
     },
     {
-     "t": 1.87,
+     "t": 1.89,
      "actions": [
       {
        "label": "Starting: putting the version live in production",
@@ -1201,7 +1201,7 @@
      ]
     },
     {
-     "t": 8.49,
+     "t": 8.55,
      "actions": [
       {
        "label": "Starting: putting the version live in production",
@@ -1272,7 +1272,7 @@
      ]
     },
     {
-     "t": 9.92,
+     "t": 9.94,
      "actions": [
       {
        "label": "Starting: putting the version live in production",
@@ -1343,7 +1343,7 @@
      ]
     },
     {
-     "t": 11.99,
+     "t": 12.03,
      "actions": [
       {
        "label": "Starting: putting the version live in production",
@@ -1414,7 +1414,7 @@
      ]
     },
     {
-     "t": 15.49,
+     "t": 15.5,
      "actions": [
       {
        "label": "Starting: putting the version live in production",
@@ -1485,7 +1485,7 @@
      ]
     },
     {
-     "t": 17.97,
+     "t": 17.99,
      "actions": [
       {
        "label": "Starting: putting the version live in production",
@@ -1556,13 +1556,13 @@
      ]
     },
     {
-     "t": 17.97,
+     "t": 17.99,
      "actions": [
       {
        "label": "Starting: putting the version live in production",
        "status": "done",
        "summary": "Putting the version live in production: done.",
-       "details": "job deploy_prd (309) success"
+       "details": "job deploy_prd (351) success"
       }
      ],
      "evidence": [
@@ -1627,13 +1627,13 @@
      ]
     },
     {
-     "t": 18.99,
+     "t": 18.96,
      "actions": [
       {
        "label": "Starting: putting the version live in production",
        "status": "done",
        "summary": "Putting the version live in production: done.",
-       "details": "job deploy_prd (309) success"
+       "details": "job deploy_prd (351) success"
       }
      ],
      "evidence": [
@@ -1691,27 +1691,27 @@
        "title": "Who approved",
        "data": {
         "summary": "Putting the version live in production: done.",
-        "details": "job deploy_prd (309) success",
+        "details": "job deploy_prd (351) success",
         "data": {
          "reasons": [
           "Approved by Administrator",
-          "Approved on 15 November, 20:26"
+          "Approved on 16 November, 08:33"
          ],
          "approved_by": "Administrator",
-         "approved_at": "2026-11-15T19:26:38.588Z"
+         "approved_at": "2026-11-16T07:33:06.606Z"
         }
        }
       }
      ]
     },
     {
-     "t": 20.46,
+     "t": 20.45,
      "actions": [
       {
        "label": "Starting: putting the version live in production",
        "status": "done",
        "summary": "Putting the version live in production: done.",
-       "details": "job deploy_prd (309) success"
+       "details": "job deploy_prd (351) success"
       }
      ],
      "evidence": [
@@ -1769,27 +1769,27 @@
        "title": "Who approved",
        "data": {
         "summary": "Putting the version live in production: done.",
-        "details": "job deploy_prd (309) success",
+        "details": "job deploy_prd (351) success",
         "data": {
          "reasons": [
           "Approved by Administrator",
-          "Approved on 15 November, 20:26"
+          "Approved on 16 November, 08:33"
          ],
          "approved_by": "Administrator",
-         "approved_at": "2026-11-15T19:26:38.588Z"
+         "approved_at": "2026-11-16T07:33:06.606Z"
         }
        }
       }
      ]
     },
     {
-     "t": 20.46,
+     "t": 20.45,
      "actions": [
       {
        "label": "Starting: putting the version live in production",
        "status": "done",
        "summary": "Putting the version live in production: done.",
-       "details": "job deploy_prd (309) success"
+       "details": "job deploy_prd (351) success"
       }
      ],
      "evidence": [
@@ -1847,14 +1847,14 @@
        "title": "Who approved",
        "data": {
         "summary": "Putting the version live in production: done.",
-        "details": "job deploy_prd (309) success",
+        "details": "job deploy_prd (351) success",
         "data": {
          "reasons": [
           "Approved by Administrator",
-          "Approved on 15 November, 20:26"
+          "Approved on 16 November, 08:33"
          ],
          "approved_by": "Administrator",
-         "approved_at": "2026-11-15T19:26:38.588Z"
+         "approved_at": "2026-11-16T07:33:06.606Z"
         }
        }
       }
@@ -1864,13 +1864,13 @@
    "summary": "Putting the version live in production: done.",
    "outcome": "Production runs the release that validation ran, and the approval is recorded with a name and a time.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T19:26:54+00:00",
+   "recorded_at": "2026-11-16T07:33:22+00:00",
    "durations": [
     11.4,
-    11.4,
     11.6,
     11.6,
-    20.5
+    20.5,
+    20.4
    ],
    "show": [
     "pipeline",
@@ -1881,12 +1881,12 @@
  },
  "prepare": {
   "durations": [
-   27.0,
    37.1,
    32.7,
    38.2,
-   29.2
+   29.2,
+   28.8
   ]
  },
- "recorded_at": "2026-11-15T19:26:54+00:00"
+ "recorded_at": "2026-11-16T07:33:22+00:00"
 }
