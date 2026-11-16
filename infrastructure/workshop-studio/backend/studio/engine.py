@@ -43,6 +43,9 @@ CHECK_FAILED = "The step finished, but its result could not be checked."
 STOPPED = "Stopped before it finished."
 FULL_CHECK_EVERY = 600.0      # seconds after which a prepare does the full reality check again
 BASELINE_WAIT = 300.0         # seconds a request waits for the running baseline check before it gives up
+DATABASE_WAIT = 300.0         # seconds the baseline check waits for the database after a cold start
+BASELINE_ATTEMPTS = 4          # tries of the baseline check in one go (the Airflows start after the database)
+BASELINE_RETRY_AFTER = 20.0    # seconds between those tries
 WAITING = "Waiting until the practice system is ready."
 RUN_CLOCK_SLACK = timedelta(seconds=2)   # the database clock may run a little behind this one
 
@@ -383,12 +386,43 @@ class Engine:
             "cleanup", None, None, "Putting everything back", self._cleanup_job))
 
     def ensure_baseline(self) -> None:
-        """Check (and where needed repair) the baseline in the background."""
+        """Check (and where needed repair) the baseline in the background. After a cold start of the stack the
+        studio is up before the database and the Airflows are: wait for the database first, and try again a few times
+        when the check fails, instead of leaving "failed" on the home page until somebody opens a scenario."""
         def body(cancel: threading.Event) -> None:
+            self._wait_for_database(cancel)
             self._forget_if_world_gone()
-            self._ensure_baseline(cancel)
+            for attempt in range(BASELINE_ATTEMPTS):
+                if self._ensure_baseline(cancel):
+                    return
+                if attempt + 1 < BASELINE_ATTEMPTS and cancel.wait(BASELINE_RETRY_AFTER):
+                    raise Cancelled()
 
         self._start_job("prepare", None, None, "Checking that the demo stack is ready", body)
+
+    def _wait_for_database(self, cancel: threading.Event) -> None:
+        """Until every environment's database answers, at most DATABASE_WAIT seconds. Returns either way: the
+        baseline check that follows says what is wrong if it still cannot connect."""
+        connect = getattr(getattr(self._get_feeder(), "writer", None), "connect", None)
+        if connect is None:
+            return
+        deadline, said = time.monotonic() + DATABASE_WAIT, False
+        while True:
+            try:
+                for env in ENVIRONMENTS:
+                    connect(env).close()
+                return
+            except Exception:  # noqa: BLE001 - not up yet, whatever the driver calls it
+                if time.monotonic() >= deadline:
+                    log.warning("the database did not answer within %s seconds", int(DATABASE_WAIT))
+                    return
+            if not said:
+                said = True
+                with self._lock:
+                    self._baseline.update(status="preparing", detail="Waiting for the database to start.")
+                self._publish()
+            if cancel.wait(3):
+                raise Cancelled()
 
     def _baseline_job_running(self) -> bool:
         job = self._job

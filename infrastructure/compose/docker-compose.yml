@@ -394,6 +394,9 @@ services:
     depends_on:
       workshop-state-init:
         condition: service_completed_successfully
+      # the studio checks and fills the databases as soon as it starts
+      singlestore:
+        condition: service_healthy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - workshop_dev:/state/dev:ro

@@ -111,47 +111,14 @@
            "owner": "shared"
           },
           "state": null
-         }
-        ],
-        "empty": "No copies yet.",
-        "truncated": false,
-        "footer": null
-       }
-      }
-     ]
-    },
-    {
-     "t": 2.28,
-     "actions": [
-      {
-       "label": "Running the build of the reports",
-       "status": "done",
-       "summary": "The build of the reports finished without problems.",
-       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev1.pu_dev1_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [2 of 2 in 0.18s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [501ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "table",
-       "title": "Copies of the customers table",
-       "data": {
-        "columns": [
-         {
-          "key": "copy",
-          "label": "Table"
          },
          {
-          "key": "owner",
-          "label": "Belongs to"
-         }
-        ],
-        "rows": [
-         {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Customers table (copy of developer one)",
+           "owner": "Developer one"
           },
-          "state": null
+          "state": null,
+          "details": "pu_dev1"
          }
         ],
         "empty": "No copies yet.",
@@ -162,13 +129,13 @@
      ]
     },
     {
-     "t": 2.29,
+     "t": 2.21,
      "actions": [
       {
        "label": "Running the build of the reports",
        "status": "done",
        "summary": "The build of the reports finished without problems.",
-       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev1.pu_dev1_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [2 of 2 in 0.18s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [501ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
+       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev1.pu_dev1_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [2 of 2 in 0.13s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [452ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
       }
      ],
      "evidence": [
@@ -211,13 +178,62 @@
      ]
     },
     {
-     "t": 2.29,
+     "t": 2.21,
      "actions": [
       {
        "label": "Running the build of the reports",
        "status": "done",
        "summary": "The build of the reports finished without problems.",
-       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev1.pu_dev1_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [2 of 2 in 0.18s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [501ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
+       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev1.pu_dev1_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [2 of 2 in 0.13s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [452ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Copies of the customers table",
+       "data": {
+        "columns": [
+         {
+          "key": "copy",
+          "label": "Table"
+         },
+         {
+          "key": "owner",
+          "label": "Belongs to"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "copy": "Customers table (shared)",
+           "owner": "shared"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "copy": "Customers table (copy of developer one)",
+           "owner": "Developer one"
+          },
+          "state": null,
+          "details": "pu_dev1"
+         }
+        ],
+        "empty": "No copies yet.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.21,
+     "actions": [
+      {
+       "label": "Running the build of the reports",
+       "status": "done",
+       "summary": "The build of the reports finished without problems.",
+       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev1.pu_dev1_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [2 of 2 in 0.13s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [452ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
       }
      ],
      "evidence": [
@@ -263,13 +279,13 @@
    "summary": "The build of the reports finished without problems.",
    "outcome": "Developer one has their own copy, and the shared table is still there. 2 tables exist.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T19:20:20+00:00",
+   "recorded_at": "2026-11-16T07:08:58+00:00",
    "durations": [
-    2.2,
     2.3,
     2.7,
     2.7,
-    2.3
+    2.3,
+    2.2
    ],
    "show": [
     "table"
@@ -427,13 +443,13 @@
      ]
     },
     {
-     "t": 2.15,
+     "t": 2.5,
      "actions": [
       {
        "label": "Running the build of the reports",
        "status": "done",
        "summary": "The build of the reports finished without problems.",
-       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev2.pu_dev2_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev2.pu_dev2_dim_olist_customers (table) [2 of 2 in 0.11s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [387ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
+       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev2.pu_dev2_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev2.pu_dev2_dim_olist_customers (table) [2 of 2 in 0.49s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [773ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
       }
      ],
      "evidence": [
@@ -484,13 +500,13 @@
      ]
     },
     {
-     "t": 2.15,
+     "t": 2.5,
      "actions": [
       {
        "label": "Running the build of the reports",
        "status": "done",
        "summary": "The build of the reports finished without problems.",
-       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev2.pu_dev2_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev2.pu_dev2_dim_olist_customers (table) [2 of 2 in 0.11s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [387ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
+       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev2.pu_dev2_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev2.pu_dev2_dim_olist_customers (table) [2 of 2 in 0.49s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [773ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
       }
      ],
      "evidence": [
@@ -541,13 +557,13 @@
      ]
     },
     {
-     "t": 2.15,
+     "t": 2.5,
      "actions": [
       {
        "label": "Running the build of the reports",
        "status": "done",
        "summary": "The build of the reports finished without problems.",
-       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev2.pu_dev2_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev2.pu_dev2_dim_olist_customers (table) [2 of 2 in 0.11s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [387ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
+       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev2.pu_dev2_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev2.pu_dev2_dim_olist_customers (table) [2 of 2 in 0.49s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [773ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
       }
      ],
      "evidence": [
@@ -601,13 +617,13 @@
    "summary": "The build of the reports finished without problems.",
    "outcome": "3 tables now exist side by side. Each developer can check their own numbers in peace.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T19:20:23+00:00",
+   "recorded_at": "2026-11-16T07:09:01+00:00",
    "durations": [
-    2.6,
     2.6,
     2.2,
     2.8,
-    2.2
+    2.2,
+    2.5
    ],
    "show": [
     "table"
@@ -724,13 +740,13 @@
      ]
     },
     {
-     "t": 1.94,
+     "t": 1.92,
      "actions": [
       {
        "label": "Running the maintenance step",
        "status": "done",
        "summary": "The maintenance step finished without problems.",
-       "details": "dbt run-operation cleanup_user_models (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n        select \n            concat('`', table_schema, '`.`', table_name, '`') as identifier,\n            case \n                when table_type = 'BASE TABLE' \n                then 'table'\n                else 'view'\n            end as type\n        from information_schema.tables\n        where table_schema in ('dev_edw_dv_rdv', 'dev_edw_dv_bdv', 'dev_im_dimensional')\n        and create_time < date_sub(NOW(), interval 0 DAY)\n        and table_name like 'pu_dev1_%'\ndrop table if exists `dev_im_dimensional`.`pu_dev1_dim_olist_customers`\ndrop table if exists `dev_edw_dv_bdv`.`pu_dev1_stg_olist_customers`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'default' [172ms]"
+       "details": "dbt run-operation cleanup_user_models (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n        select \n            concat('`', table_schema, '`.`', table_name, '`') as identifier,\n            case \n                when table_type = 'BASE TABLE' \n                then 'table'\n                else 'view'\n            end as type\n        from information_schema.tables\n        where table_schema in ('dev_edw_dv_rdv', 'dev_edw_dv_bdv', 'dev_im_dimensional')\n        and create_time < date_sub(NOW(), interval 0 DAY)\n        and table_name like 'pu_dev1_%'\ndrop table if exists `dev_im_dimensional`.`pu_dev1_dim_olist_customers`\ndrop table if exists `dev_edw_dv_bdv`.`pu_dev1_stg_olist_customers`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'default' [176ms]"
       }
      ],
      "evidence": [
@@ -781,13 +797,13 @@
      ]
     },
     {
-     "t": 1.94,
+     "t": 1.93,
      "actions": [
       {
        "label": "Running the maintenance step",
        "status": "done",
        "summary": "The maintenance step finished without problems.",
-       "details": "dbt run-operation cleanup_user_models (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n        select \n            concat('`', table_schema, '`.`', table_name, '`') as identifier,\n            case \n                when table_type = 'BASE TABLE' \n                then 'table'\n                else 'view'\n            end as type\n        from information_schema.tables\n        where table_schema in ('dev_edw_dv_rdv', 'dev_edw_dv_bdv', 'dev_im_dimensional')\n        and create_time < date_sub(NOW(), interval 0 DAY)\n        and table_name like 'pu_dev1_%'\ndrop table if exists `dev_im_dimensional`.`pu_dev1_dim_olist_customers`\ndrop table if exists `dev_edw_dv_bdv`.`pu_dev1_stg_olist_customers`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'default' [172ms]"
+       "details": "dbt run-operation cleanup_user_models (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n        select \n            concat('`', table_schema, '`.`', table_name, '`') as identifier,\n            case \n                when table_type = 'BASE TABLE' \n                then 'table'\n                else 'view'\n            end as type\n        from information_schema.tables\n        where table_schema in ('dev_edw_dv_rdv', 'dev_edw_dv_bdv', 'dev_im_dimensional')\n        and create_time < date_sub(NOW(), interval 0 DAY)\n        and table_name like 'pu_dev1_%'\ndrop table if exists `dev_im_dimensional`.`pu_dev1_dim_olist_customers`\ndrop table if exists `dev_edw_dv_bdv`.`pu_dev1_stg_olist_customers`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'default' [176ms]"
       }
      ],
      "evidence": [
@@ -830,13 +846,13 @@
      ]
     },
     {
-     "t": 1.94,
+     "t": 1.93,
      "actions": [
       {
        "label": "Running the maintenance step",
        "status": "done",
        "summary": "The maintenance step finished without problems.",
-       "details": "dbt run-operation cleanup_user_models (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n        select \n            concat('`', table_schema, '`.`', table_name, '`') as identifier,\n            case \n                when table_type = 'BASE TABLE' \n                then 'table'\n                else 'view'\n            end as type\n        from information_schema.tables\n        where table_schema in ('dev_edw_dv_rdv', 'dev_edw_dv_bdv', 'dev_im_dimensional')\n        and create_time < date_sub(NOW(), interval 0 DAY)\n        and table_name like 'pu_dev1_%'\ndrop table if exists `dev_im_dimensional`.`pu_dev1_dim_olist_customers`\ndrop table if exists `dev_edw_dv_bdv`.`pu_dev1_stg_olist_customers`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'default' [172ms]"
+       "details": "dbt run-operation cleanup_user_models (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n        select \n            concat('`', table_schema, '`.`', table_name, '`') as identifier,\n            case \n                when table_type = 'BASE TABLE' \n                then 'table'\n                else 'view'\n            end as type\n        from information_schema.tables\n        where table_schema in ('dev_edw_dv_rdv', 'dev_edw_dv_bdv', 'dev_im_dimensional')\n        and create_time < date_sub(NOW(), interval 0 DAY)\n        and table_name like 'pu_dev1_%'\ndrop table if exists `dev_im_dimensional`.`pu_dev1_dim_olist_customers`\ndrop table if exists `dev_edw_dv_bdv`.`pu_dev1_stg_olist_customers`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'default' [176ms]"
       }
      ],
      "evidence": [
@@ -882,12 +898,12 @@
    "summary": "The maintenance step finished without problems.",
    "outcome": "Only developer one's copy is gone. 2 tables remain, the shared one and developer two's copy.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-15T19:20:25+00:00",
+   "recorded_at": "2026-11-16T07:09:03+00:00",
    "durations": [
     1.9,
     1.9,
-    1.9,
     2.2,
+    1.9,
     1.9
    ],
    "show": [
@@ -897,12 +913,12 @@
  },
  "prepare": {
   "durations": [
-   1.8,
    27.7,
    1.4,
    12.5,
+   1.4,
    1.4
   ]
  },
- "recorded_at": "2026-11-15T19:20:25+00:00"
+ "recorded_at": "2026-11-16T07:09:03+00:00"
 }
