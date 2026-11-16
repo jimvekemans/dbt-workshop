@@ -1,3 +1,4 @@
-# The vdp toolkit's source and the optional prebuilt vdp binary are local copies (see README.md)
-src/vdp-rust-utils/
+# Local only: the untouched copy of the vdp source and a binary built from it (see README.md), and an optional
+# prebuilt ./vdp. The cleaned vdp source under src/vdp-rust-utils is in the repository.
+local/
 /vdp

@@ -2,7 +2,7 @@
 # from the submodules under infrastructure/dbt-singlestore-base-image/src/.
 infrastructure/dbt-singlestore-base-image/dbt
 infrastructure/dbt-singlestore-base-image/libadbc_driver_singlestore.so
-# Dev image: the sqlfmt and dbt-bouncer forks are in the repository (src/sqlfmt, src/dbt-bouncer). The vdp toolkit's
-# source and its optional prebuilt binary are local copies and stay out.
-infrastructure/dbt-singlestore-dev-image/src/vdp-rust-utils/
+# Dev image: the tool sources are in the repository (src/sqlfmt, src/dbt-bouncer and a cleaned src/vdp-rust-utils).
+# local/ holds the untouched vdp copy of this machine; ./vdp is an optional prebuilt binary. Both stay out.
+infrastructure/dbt-singlestore-dev-image/local/
 infrastructure/dbt-singlestore-dev-image/vdp

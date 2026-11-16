@@ -1,0 +1,25 @@
+[package]
+name = "vdp-db"
+description = "Database port (SqlSession) and its SingleStore adapter over the SingleStore ADBC driver (as dbt v2)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+adbc_core.workspace = true
+adbc_driver_manager.workspace = true
+arrow-array.workspace = true
+arrow-cast.workspace = true
+arrow-schema.workspace = true
+vdp-sql-script.workspace = true
+secrecy.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

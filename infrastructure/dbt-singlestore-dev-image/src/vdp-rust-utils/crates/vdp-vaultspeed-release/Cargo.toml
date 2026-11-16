@@ -1,0 +1,33 @@
+[package]
+name = "vdp-vaultspeed-release"
+description = "VaultSpeed releases: zip inventory per environment, DROP release branches, merges into environments, guards that keep environment content in its environment."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+# TypeScript bindings of the API types (for the release hub's frontend).
+ts = ["dep:ts-rs", "vdp-release/ts"]
+
+[dependencies]
+vdp-git.workspace = true
+vdp-jira.workspace = true
+vdp-release.workspace = true
+vdp-vaultspeed.workspace = true
+vdp-vaultspeed-domain.workspace = true
+regex.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+similar.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+ts-rs = { workspace = true, optional = true }
+
+[dev-dependencies]
+tempfile.workspace = true
+zip.workspace = true
+
+[lints]
+workspace = true

@@ -14,18 +14,22 @@ Everything is built from this folder, the same way the base image handles dbt an
 
     src/sqlfmt/           sqlfmt fork with SingleStore `:>` casts          in the repository
     src/dbt-bouncer/      dbt-bouncer fork                                 in the repository
-    src/vdp-rust-utils/   vdp toolkit (Rust workspace, crate vdp-cli)      local copy, gitignored
-    vdp                   optional prebuilt release binary of vdp-cli      local copy, gitignored
+    src/vdp-rust-utils/   vdp toolkit (Rust workspace, crate vdp-cli)      in the repository, cleaned (see below)
+    vdp                   optional prebuilt release binary of vdp-cli      gitignored
+    local/                untouched copies kept on the machine they came from, gitignored and not in the image
+
+The vdp source in the repository is a **cleaned copy**: e-mail addresses and host names of the organisation it was
+written for are replaced by placeholders (`person1@example.com`, `git.example.com`, ...), and its fixtures, docs,
+sample configuration and integration tests are left out. The build needs none of those; the workshop configures vdp
+through `dbt-singlestore-workshop/vdp.toml`. Its `Cargo.toml` still states the original licence.
 
 For `vdp`:
 
 - `./vdp` (prebuilt release binary) is copied in as is when present;
 - otherwise `cargo build --release --locked -p vdp-cli` runs on `src/vdp-rust-utils` in a `rust:1.96-trixie` stage
-  (`--build-arg CARGO_BUILD_JOBS=2` on a busy host). Delete `./vdp` to force a rebuild from source;
-- with neither of them (a fresh clone of the repository) the image is built **without vdp**: `dbt` is then the plain
-  engine, and sqlfmt, dbt-bouncer and pre-commit work the same. Only the `vdp:` tasks of the devcontainer and the
-  "Helper tool" line of the Studio's toolbox scenario are missing. To add vdp later, put its source or the binary
-  here and run `make images` again.
+  (`--build-arg CARGO_BUILD_JOBS=2` on a busy host; a few minutes the first time);
+- with neither of them the image is built **without vdp**: `dbt` is then the plain engine, and sqlfmt, dbt-bouncer
+  and pre-commit work the same.
 
 `sqlfmt` and `dbt-bouncer` are pip-installed from their folders into the venv `/opt/devtools`.
 

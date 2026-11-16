@@ -1,0 +1,22 @@
+[package]
+name = "vdp-secrets"
+description = "Secret providers: process environment, dotenv file and HashiCorp Vault (AppRole, KV v2)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+dotenvy.workspace = true
+secrecy.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+ureq.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

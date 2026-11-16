@@ -1,0 +1,20 @@
+[package]
+name = "vdp-qa"
+description = "Quality checks on the dbt manifest: unused tables, views worth materializing."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+vdp-db.workspace = true
+vdp-dbt.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

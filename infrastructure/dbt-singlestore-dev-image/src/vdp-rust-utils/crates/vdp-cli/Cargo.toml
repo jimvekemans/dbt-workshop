@@ -1,0 +1,71 @@
+[package]
+name = "vdp-cli"
+description = "The `vdp` command and the multicall `dbt` wrapper: the toolkit's composition root."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "vdp"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+vdp-core.workspace = true
+vdp-db.workspace = true
+vdp-dbt.workspace = true
+vdp-git = { workspace = true, optional = true }
+vdp-jira = { workspace = true, optional = true }
+vdp-release = { workspace = true, optional = true }
+vdp-release-hub = { workspace = true, optional = true }
+vdp-notify = { workspace = true, optional = true }
+vdp-airflow = { workspace = true, optional = true }
+vdp-sql = { workspace = true, optional = true }
+vdp-qa = { workspace = true, optional = true }
+vdp-vaultspeed = { workspace = true, optional = true }
+vdp-vaultspeed-dags = { workspace = true, optional = true }
+vdp-vaultspeed-domain = { workspace = true, optional = true }
+vdp-vaultspeed-release = { workspace = true, optional = true }
+similar = { workspace = true, optional = true }
+vdp-secrets.workspace = true
+vdp-sources = { workspace = true, optional = true }
+vdp-ssh.workspace = true
+
+[features]
+# Every module is a feature: build only what a deployment needs (`--no-default-features --features sources`).
+default = ["sources", "release", "airflow", "sql", "qa"]
+sources = ["dep:vdp-sources"]
+release = ["dep:vdp-git", "dep:vdp-jira", "dep:vdp-release"]
+# `vdp release serve`: the release hub API behind the release UI.
+# It steers VaultSpeed releases as well (the framework repository), so it includes the `vaultspeed` module.
+release-hub = [
+    "release",
+    "vaultspeed",
+    "dep:vdp-notify",
+    "dep:vdp-release-hub",
+    "dep:vdp-vaultspeed-release",
+]
+airflow = ["dep:vdp-airflow"]
+sql = ["dep:vdp-sql"]
+qa = ["dep:vdp-qa"]
+# VaultSpeed deployments (`vdp vaultspeed`); not default: tree-sitter compiles C.
+vaultspeed = [
+    "dep:vdp-vaultspeed",
+    "dep:vdp-vaultspeed-dags",
+    "dep:vdp-vaultspeed-domain",
+    "dep:similar",
+]
+
+[dev-dependencies]
+serde_json.workspace = true
+tempfile.workspace = true
+
+[lints]
+workspace = true

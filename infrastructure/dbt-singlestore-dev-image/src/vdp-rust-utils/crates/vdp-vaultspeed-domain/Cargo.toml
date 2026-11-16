@@ -1,0 +1,23 @@
+[package]
+name = "vdp-vaultspeed-domain"
+description = "VaultSpeed deployments: the pure domain model (generations, statements, decisions, plans, reports)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+vdp-core.workspace = true
+chrono.workspace = true
+hex.workspace = true
+serde.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
+
+[lints]
+workspace = true

@@ -1,0 +1,18 @@
+[package]
+name = "vdp-sql"
+description = "Ad-hoc SQL against SingleStore: run script files, export a table to CSV."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+vdp-db.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

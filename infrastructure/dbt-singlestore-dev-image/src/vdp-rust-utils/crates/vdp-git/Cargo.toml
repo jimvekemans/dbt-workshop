@@ -1,0 +1,19 @@
+[package]
+name = "vdp-git"
+description = "Git through the system `git` client: history, branches, reverts and cherry-picks for the release flow."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+base64.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

@@ -1,0 +1,27 @@
+[package]
+name = "vdp-notify"
+description = "Release announcements: the release candidate overview (HTML and text) and sending it by SMTP."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+# TypeScript bindings of the announcement types (for the release hub's frontend).
+ts = ["dep:ts-rs", "vdp-release/ts"]
+
+[dependencies]
+lettre.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+ts-rs = { workspace = true, optional = true }
+vdp-release.workspace = true
+vdp-secrets.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
+
+[lints]
+workspace = true
