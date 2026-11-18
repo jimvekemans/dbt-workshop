@@ -16,7 +16,10 @@ ENV = (os.environ.get("DBT_DEPLOY_TARGET", "").strip().lower() or _PILLAR_ENV or
 if RUNTIME == "docker" and ENV not in ENVIRONMENTS:
     raise ValueError(f"DBT_DEPLOY_TARGET must be one of {ENVIRONMENTS}, got {ENV!r}")
 
-# Database dbt connects to (profiles.yml, targets default/run/reload)
+# What the dbt containers get as DBT_DEPLOY_TARGET
+DEPLOY_TARGET = ENV
+
+# Database dbt connects to (profiles.yml, targets default/run/reload), passed as SINGLESTORE_DB
 SINGLESTORE_DB = f"{ENV}_edw_dv_rdv"
 
 # Shared state volume, mounted in this container and (subpath mnt_dbt) in every dbt container
@@ -47,6 +50,8 @@ OPENSHIFT_NAMESPACE = _setting("DBT_OPENSHIFT_NAMESPACE", f"{ENV}-vdp-airflow")
 # An empty value means: no kube config file, use the in-cluster service account / the Kubernetes connection
 OPENSHIFT_KUBE_CONFIG = os.environ.get("DBT_OPENSHIFT_KUBE_CONFIG", "/opt/apache_airflow/.kube/config").strip() or None
 OPENSHIFT_SECRET_NAME = _setting("DBT_OPENSHIFT_SECRET_NAME", f"s-{ENV}-vdp-dbt")
+# Keys of the secret a pod may start without (the others are required)
+OPENSHIFT_OPTIONAL_SECRET_KEYS = ("IKL_HASH_SALT",)
 OPENSHIFT_PVC_CLAIM_NAME = _setting("DBT_OPENSHIFT_PVC_CLAIM_NAME", "pvc-vdp-airflow")
 OPENSHIFT_PVC_SUBPATH = _setting("DBT_OPENSHIFT_PVC_SUBPATH", "dbt")
 OPENSHIFT_IMAGE_REPOSITORY = _setting(

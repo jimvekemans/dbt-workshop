@@ -24,19 +24,30 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, Callable
 
-from airflow.sdk import Variable, task
-from airflow.sdk.exceptions import AirflowException
+try:  # Airflow 3 (Task SDK)
+    from airflow.sdk import Variable, task
+    from airflow.sdk.exceptions import AirflowException, AirflowSkipException
+
+    _VARIABLE_DEFAULT = "default"
+except ImportError:  # Airflow 2
+    from airflow.decorators import task
+    from airflow.exceptions import AirflowException, AirflowSkipException
+    from airflow.models import Variable
+
+    _VARIABLE_DEFAULT = "default_var"
 
 from utils import dbt_state_utils
 from utils.dbt_config import (
     DBT_IMAGE_REPOSITORY,
     DBT_IMAGE_TAG_VARIABLE,
+    DEPLOY_TARGET,
     ENV,
     IMAGE_WORKDIR,
     MOUNT_DIR,
     OPENSHIFT_IMAGE,
     OPENSHIFT_KUBE_CONFIG,
     OPENSHIFT_NAMESPACE,
+    OPENSHIFT_OPTIONAL_SECRET_KEYS,
     OPENSHIFT_PVC_CLAIM_NAME,
     OPENSHIFT_PVC_SUBPATH,
     OPENSHIFT_SECRET_NAME,
@@ -53,10 +64,14 @@ logger = logging.getLogger(__name__)
 REQUIRED_CREDENTIALS = ("SINGLESTORE_HOST", "SINGLESTORE_USER", "SINGLESTORE_PASS")
 OPTIONAL_PASSTHROUGH = ("IKL_HASH_SALT",)
 
+# Where the Kubernetes provider's sidecar reads the XCom of a pod, and the exit code that marks a pod as skipped
+XCOM_FILE = "/airflow/xcom/return.json"
+SKIP_EXIT_CODE = 99
+
 
 def get_variable(key: str, default: Any = None) -> Any:
     """Airflow Variable with a default."""
-    return Variable.get(key, default=default)
+    return Variable.get(key, **{_VARIABLE_DEFAULT: default})
 
 
 # ---------------------------------------------------------------------------
@@ -94,18 +109,42 @@ def normalise_command(cmd: list[Any] | str) -> list[str]:
     return [str(part) for part in cmd]
 
 
-def state_call_command(call: StateCall | None) -> list[str]:
-    """The command that makes a state call in a container that only has python3: the source of dbt_state_utils (it
-    uses the standard library only) followed by the call. Base64, so neither the shell nor Jinja reads it."""
+def state_call_command(call: StateCall | None, do_xcom_push: bool = False, skip_if_missing: bool = False) -> list[str]:
+    """The command that makes a state call in a container that only has python: the source of dbt_state_utils (it
+    uses the standard library only) followed by the call. Base64, so neither the shell nor Jinja reads it.
+
+    With `do_xcom_push` the result is written where the XCom sidecar reads it; with `skip_if_missing` a
+    FileNotFoundError ends the pod with SKIP_EXIT_CODE instead of a failure."""
     if call is None:
-        return ["bash", "-c", "echo 'Nothing to do on the dbt artifacts.'"]
-    script = (
-        inspect.getsource(dbt_state_utils)
-        + "\nlogging.basicConfig(level=logging.INFO, format='%(levelname)s %(message)s')\n"
-        + f"{call.func}(**json.loads({json.dumps(call.kwargs)!r}))\n"
-    )
+        xcom = f" && mkdir -p {os.path.dirname(XCOM_FILE)} && echo null > {XCOM_FILE}" if do_xcom_push else ""
+        return ["bash", "-c", f"echo 'Nothing to do on the dbt artifacts.'{xcom}"]
+    script = "\n".join([
+        inspect.getsource(dbt_state_utils),
+        "import json, logging, os, sys",
+        "logging.basicConfig(level=logging.INFO, format='%(levelname)s %(message)s')",
+        "_result, _exit_code = None, 0",
+        "try:",
+        f"    _result = {call.func}(**json.loads({json.dumps(call.kwargs)!r}))",
+        "except FileNotFoundError as _missing:",
+        f"    if not {bool(skip_if_missing)}:",
+        "        raise",
+        "    print(f'Artifact missing, nothing to do: {_missing}')",
+        f"    _exit_code = {SKIP_EXIT_CODE}",
+        f"if {bool(do_xcom_push)}:",
+        f"    os.makedirs(os.path.dirname({XCOM_FILE!r}), exist_ok=True)",
+        f"    with open({XCOM_FILE!r}, 'w', encoding='utf-8') as _xcom:",
+        "        json.dump(_result, _xcom)",
+        "sys.exit(_exit_code)",
+        "",
+    ])
     payload = base64.b64encode(script.encode("utf-8")).decode("ascii")
-    return ["python3", "-c", f"import base64; exec(base64.b64decode('{payload}').decode('utf-8'))"]
+    code = f"import base64; exec(base64.b64decode('{payload}').decode('utf-8'))"
+    # python3 or python, whichever the image has; the code holds nothing a double-quoted shell string would expand
+    return [
+        "bash", "-c",
+        "PY=$(command -v python3 || command -v python) || { echo 'This image has no python: a python_task cannot "
+        f"run in it.' >&2; exit 127; }}; exec \"$PY\" -c \"{code}\"",
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -140,10 +179,12 @@ def _context_callable(python_callable: Callable, body: Callable[[dict[str, Any]]
 
 def _resolve_command(python_callable: Callable, context: dict[str, Any]) -> list[str]:
     """The dbt command of the task, with the Airflow Variable `dbt_env_vars` exported in front of it (read when the
-    task runs) - see utils/dbt_runtime_overrides.py."""
-    from utils.dbt_runtime_overrides import apply_overrides, read_env_vars
-
+    task runs) - see utils/dbt_runtime_overrides.py, when the project has that module."""
     cmd = _call_with_context(python_callable, context)
+    try:
+        from utils.dbt_runtime_overrides import apply_overrides, read_env_vars
+    except ImportError:  # a project without the runtime overrides
+        return normalise_command(cmd)
     env_vars = read_env_vars(get_variable)
     return normalise_command(apply_overrides(cmd, env_vars=env_vars) if env_vars else cmd)
 
@@ -179,7 +220,7 @@ class DbtTaskRunner(ABC):
         """Decorator for a callable returning a dbt command (shell line or argument list); the command runs in a
         container of the deployed project image."""
         env_vars = {
-            "DBT_DEPLOY_TARGET": ENV,
+            "DBT_DEPLOY_TARGET": DEPLOY_TARGET,
             "LOG_RUN_RESULTS": "TRUE",
             "DBT_TARGET_PATH": target_path,
         }
@@ -192,13 +233,23 @@ class DbtTaskRunner(ABC):
 
         return _decorator
 
-    def python_task(self, task_id: str, trigger_rule: str = "all_done", **kwargs: Any) -> Callable:
+    def python_task(
+        self,
+        task_id: str,
+        trigger_rule: str = "all_done",
+        do_xcom_push: bool = False,
+        skip_if_missing: bool = False,
+        **kwargs: Any,
+    ) -> Callable:
         """Decorator for a callable that works on the dbt artifacts in /mnt/dbt. It gets the Airflow context and
-        returns `state_call(<function of dbt_state_utils>, **kwargs)`, or None when there is nothing to do."""
+        returns `state_call(<function of dbt_state_utils>, **kwargs)`, or None when there is nothing to do.
+
+        `do_xcom_push`: what the function returns (JSON) becomes the XCom of the task.
+        `skip_if_missing`: a FileNotFoundError of the function skips the task instead of failing it."""
 
         def _decorator(python_callable: Callable) -> Any:
             call = _context_callable(python_callable, lambda context: _resolve_state_call(python_callable, context))
-            return self._state_task(task_id, call, trigger_rule, **kwargs)
+            return self._state_task(task_id, call, trigger_rule, do_xcom_push, skip_if_missing, **kwargs)
 
         return _decorator
 
@@ -212,7 +263,8 @@ class DbtTaskRunner(ABC):
 
     @abstractmethod
     def _state_task(
-        self, task_id: str, call: Callable[..., StateCall | None], trigger_rule: str, **kwargs: Any,
+        self, task_id: str, call: Callable[..., StateCall | None], trigger_rule: str, do_xcom_push: bool,
+        skip_if_missing: bool, **kwargs: Any,
     ) -> Any:
         """The Airflow task that makes the state call `call(**context)` returns where /mnt/dbt is mounted."""
 
@@ -252,7 +304,8 @@ class DockerTaskRunner(DbtTaskRunner):
             )
         env = {key: os.environ[key] for key in REQUIRED_CREDENTIALS}
         env.update({key: os.environ[key] for key in OPTIONAL_PASSTHROUGH if os.environ.get(key)})
-        env["SINGLESTORE_DB"] = SINGLESTORE_DB
+        if SINGLESTORE_DB:
+            env["SINGLESTORE_DB"] = SINGLESTORE_DB
         return env
 
     def run_container(self, task_id: str, cmd: list[str], env_vars: dict[str, str], run_id: str = "") -> None:
@@ -310,13 +363,20 @@ class DockerTaskRunner(DbtTaskRunner):
 
         return task(task_id=task_id, trigger_rule=trigger_rule, **kwargs)(_context_callable(command, _run))
 
-    def _state_task(self, task_id, call, trigger_rule, **kwargs):
+    def _state_task(self, task_id, call, trigger_rule, do_xcom_push, skip_if_missing, **kwargs):
         """The Airflow container has the state volume at /mnt/dbt: the call is made right here."""
 
-        def _run(context: dict[str, Any]) -> None:
+        def _run(context: dict[str, Any]) -> Any:
             resolved = call(**context)
-            if resolved is not None:
-                getattr(dbt_state_utils, resolved.func)(**resolved.kwargs)
+            if resolved is None:
+                return None
+            try:
+                result = getattr(dbt_state_utils, resolved.func)(**resolved.kwargs)
+            except FileNotFoundError as missing:
+                if not skip_if_missing:
+                    raise
+                raise AirflowSkipException(f"Artifact missing, nothing to do: {missing}")
+            return result if do_xcom_push else None
 
         return task(task_id=task_id, trigger_rule=trigger_rule, **kwargs)(_context_callable(call, _run))
 
@@ -349,7 +409,7 @@ class OpenShiftTaskRunner(DbtTaskRunner):
                     "secretKeyRef": {
                         "name": OPENSHIFT_SECRET_NAME,
                         "key": key,
-                        **({"optional": True} if key in OPTIONAL_PASSTHROUGH else {}),
+                        **({"optional": True} if key in OPENSHIFT_OPTIONAL_SECRET_KEYS else {}),
                     }
                 },
             }
@@ -392,18 +452,21 @@ class OpenShiftTaskRunner(DbtTaskRunner):
         )(command)
 
     def _command_task(self, task_id, command, env_vars, trigger_rule, **kwargs):
-        env_vars = {"SINGLESTORE_DB": SINGLESTORE_DB, **env_vars}
+        if SINGLESTORE_DB:
+            env_vars = {"SINGLESTORE_DB": SINGLESTORE_DB, **env_vars}
         return self._pod_task(task_id, command, OPENSHIFT_IMAGE, env_vars, trigger_rule, **kwargs)
 
-    def _state_task(self, task_id, call, trigger_rule, **kwargs):
+    def _state_task(self, task_id, call, trigger_rule, do_xcom_push, skip_if_missing, **kwargs):
         def _command(context: dict[str, Any]) -> list[str]:
             resolved = call(**context)
             logger.info(f"[OpenShift Executor] State call of task '{task_id}': {resolved}")
-            return state_call_command(resolved)
+            return state_call_command(resolved, do_xcom_push=do_xcom_push, skip_if_missing=skip_if_missing)
 
+        if skip_if_missing:
+            kwargs.setdefault("skip_on_exit_code", SKIP_EXIT_CODE)
         return self._pod_task(
-            task_id, _context_callable(call, _command), OPENSHIFT_STATE_IMAGE, {"DBT_DEPLOY_TARGET": ENV},
-            trigger_rule, **kwargs,
+            task_id, _context_callable(call, _command), OPENSHIFT_STATE_IMAGE, {"DBT_DEPLOY_TARGET": DEPLOY_TARGET},
+            trigger_rule, do_xcom_push=do_xcom_push, **kwargs,
         )
 
 
