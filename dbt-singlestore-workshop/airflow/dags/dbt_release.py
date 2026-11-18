@@ -43,7 +43,7 @@ from utils.dbt_command_utils import (
     format_dbt_bash_command,
 )
 from utils.dbt_dag_utils import REPORT_TASK_ID, failure_report_task, set_dag_paused_state
-from utils.dbt_pod_utils import dbt_task, python_task
+from utils.dbt_pod_utils import dbt_task, python_task, state_call
 from utils.dbt_state_utils import merge_run_results_and_manifest
 
 logger = logging.getLogger(__name__)
@@ -366,10 +366,11 @@ with DAG(
                 logger.info(
                     f"[DRY RUN] Would merge state artifacts for task '{task_id}'."
                 )
-                return
+                return None
             run_dir, accumulated_dir = _resolve_state_dirs(context["run_id"])
             source_dir = os.path.join(run_dir, task_id)
-            merge_run_results_and_manifest(
+            return state_call(
+                merge_run_results_and_manifest,
                 source_dir=source_dir,
                 accumulated_state_dir=accumulated_dir,
             )

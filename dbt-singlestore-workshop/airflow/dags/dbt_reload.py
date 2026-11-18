@@ -17,7 +17,7 @@ from utils.dbt_command_utils import (
     build_reload_drop_backup_command,
 )
 from utils.dbt_dag_utils import failure_report_task
-from utils.dbt_pod_utils import dbt_task, python_task
+from utils.dbt_pod_utils import dbt_task, python_task, state_call
 from utils.dbt_state_utils import consolidate_reload_artifacts
 
 logger = logging.getLogger(__name__)
@@ -141,12 +141,9 @@ Boundaries: `date_window` needs `start_date` and `end_date` (exclusive); `pit` n
     @python_task(
         task_id="archive_reload_artifacts",
         trigger_rule="none_failed_min_one_success",
-        do_xcom_push=True,
     )
     def archive_reload_artifacts(**context):
-        target_path = _target_path(context)
-        consolidate_reload_artifacts(target_path)
-        return {"model": _conf(context, "model_name"), "path": target_path}
+        return state_call(consolidate_reload_artifacts, target_path=_target_path(context))
 
     @dbt_task(task_id="cleanup_scratch_table", trigger_rule="one_failed")
     def cleanup_scratch_table(**context):

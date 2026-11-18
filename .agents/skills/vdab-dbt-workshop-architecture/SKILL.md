@@ -171,6 +171,13 @@ Release flow and job list: `.agents/skills/dbt-release-flow/SKILL.md`.
 - `dbt_daily_load` tasks: `audit_environment_drift` (report only), `dbt_build`, `persist_artifacts_to_state`,
   `dbt_source_freshness` (informational, own target path), then `send_failure_report`.
 - Airflow imports come from `airflow.sdk`; `get_variable(key, default)` is in `utils/dbt_pod_utils.py`.
+- `utils/dbt_pod_utils.py` has an abstract `DbtTaskRunner` with two implementations, chosen by `DBT_RUNTIME`
+  (`dbt_config.py`): `DockerTaskRunner` (default, this stack) and `OpenShiftTaskRunner` (a pod per task through
+  `@task.kubernetes_cmd`; needs `apache-airflow-providers-cncf-kubernetes`, which the workshop Airflow image does not
+  ship; namespace, secret, PVC and image come from `DBT_OPENSHIFT_*`, defaults are VDAB's). The DAGs only use
+  `dbt_task`, `python_task` and `state_call`. A `python_task` callable returns
+  `state_call(<function of dbt_state_utils>, **json_kwargs)` or None: Docker makes the call in the Airflow container,
+  OpenShift ships it to a pod that needs `python3` (`DBT_OPENSHIFT_STATE_IMAGE`; the workshop's dbt image has none).
 - dbt runs in sibling containers started through the docker socket, `--user root`, `umask 0000` (artifacts stay writable
   for the `airflow` user). The Airflow image ships a docker CLI 29.x (volume subpaths need CLI >= 26) and
   compose sets `DOCKER_API_VERSION=1.47`.
