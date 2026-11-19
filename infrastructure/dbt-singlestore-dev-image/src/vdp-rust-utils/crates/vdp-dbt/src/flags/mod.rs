@@ -46,14 +46,17 @@ pub struct Scope {
 }
 
 impl Scope {
+    /// The flag with the long name `name`, if the scope has it.
     pub fn long(&self, name: &str) -> Option<&FlagSpec> {
         self.flags.iter().find(|f| f.long == name)
     }
 
+    /// The flag with the short name `c`, if the scope has it.
     pub fn short(&self, c: char) -> Option<&FlagSpec> {
         self.flags.iter().find(|f| f.short == Some(c))
     }
 
+    /// The subcommand scope called `name`, if any.
     pub fn command(&self, name: &str) -> Option<&Scope> {
         self.commands.get(name)
     }

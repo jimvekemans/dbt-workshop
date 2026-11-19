@@ -10,6 +10,7 @@ pub struct FailurePolicies {
 }
 
 impl FailurePolicies {
+    /// The policy for `artifact`.
     pub const fn for_artifact(&self, artifact: ArtifactKind) -> FailurePolicy {
         match artifact {
             ArtifactKind::Pml => self.pml,

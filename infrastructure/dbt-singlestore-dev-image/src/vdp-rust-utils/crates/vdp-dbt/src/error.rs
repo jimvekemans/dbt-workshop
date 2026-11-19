@@ -2,12 +2,13 @@ use std::path::PathBuf;
 
 use thiserror::Error;
 
+/// Why dbt could not be located, run or read.
 #[derive(Debug, Error)]
 pub enum DbtError {
     #[error("no dbt binary found: set VDP_DBT_BIN or [dbt].binary, or put dbt v2 on PATH")]
     NotFound,
 
-    #[error("cannot run {binary}: {source}")]
+    #[error("cannot run {binary}")]
     Spawn {
         binary: PathBuf,
         #[source]

@@ -43,6 +43,6 @@ mod tests {
         ];
         assert_eq!(closest("custmer", &tables), ["customer"]);
         assert_eq!(closest("ORDERS", &tables), ["orders"]);
-        assert!(closest("zzz", &tables).is_empty());
+        assert_eq!(closest("zzz", &tables), Vec::<String>::new());
     }
 }

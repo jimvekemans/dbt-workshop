@@ -52,8 +52,10 @@ impl Default for DbtSettings {
 }
 
 impl DbtSettings {
+    /// The name of the config section these settings are read from (`[dbt]`).
     pub const SECTION: &'static str = "dbt";
 
+    /// Whether `user` is a service user: it ends with `service_user_suffix` and does not start with `personal_user_prefix`.
     pub fn is_service_user(&self, user: &str) -> bool {
         user.ends_with(&self.service_user_suffix) && !user.starts_with(&self.personal_user_prefix)
     }

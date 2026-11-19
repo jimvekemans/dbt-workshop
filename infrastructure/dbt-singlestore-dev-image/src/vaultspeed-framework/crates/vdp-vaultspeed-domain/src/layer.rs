@@ -56,6 +56,7 @@ impl Layer {
         }
     }
 
+    /// The layer as `VaultSpeed` spells it (`FOUNDATION_LAYER`, ...); `N/A` for [`Layer::NotApplicable`].
     pub fn as_str(&self) -> &str {
         match self {
             Self::Extraction => "EXTRACTION_LAYER",

@@ -1,5 +1,6 @@
 use thiserror::Error;
 
+/// Why a release flow could not run.
 #[derive(Debug, Error)]
 pub enum VsError {
     #[error(transparent)]

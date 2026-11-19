@@ -17,10 +17,12 @@ pub struct MemoryHistory {
 }
 
 impl MemoryHistory {
+    /// Creates an empty history.
     pub fn new() -> Self {
         Self::default()
     }
 
+    /// The events recorded so far, in order.
     pub fn events(&self) -> Vec<ChangeEvent> {
         self.events.lock().map(|e| e.clone()).unwrap_or_default()
     }

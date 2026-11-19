@@ -48,6 +48,7 @@ pub struct CommitInfo {
 }
 
 impl CommitInfo {
+    /// Summarises `commit`, with its `position` on the source mainline when it has one.
     pub fn from_commit(commit: &Commit, position: Option<usize>) -> Self {
         Self {
             hash: commit.hash.clone(),
@@ -177,6 +178,7 @@ impl crate::TicketEntry {
 }
 
 impl Analysis {
+    /// The ticket entry with this `id`, if the analysis has it.
     pub fn ticket(&self, id: &str) -> Option<&TicketEntry> {
         self.tickets.iter().find(|t| t.id == id)
     }
@@ -199,6 +201,10 @@ impl Analysis {
     }
 
     /// Checks a selection: every id exists and is selectable.
+    ///
+    /// # Errors
+    ///
+    /// [`ReleaseError::Invalid`] when an id of `selection` is not in the analysis or is not selectable.
     pub fn validate_selection(&self, selection: &BTreeSet<String>) -> Result<(), ReleaseError> {
         for id in selection {
             match self.ticket(id) {
@@ -352,6 +358,11 @@ fn draft<'d>(
 
 impl Analyser<'_> {
     /// Analyses the current refs (fetch first).
+    ///
+    /// # Errors
+    ///
+    /// [`ReleaseError::Invalid`] when the fix version does not parse or, for a patch, the compare branch is not a release
+    /// branch; [`ReleaseError::Git`] when a ref cannot be resolved or the history cannot be read.
     pub fn analyse(&self, request: &AnalysisRequest) -> Result<Analysis, ReleaseError> {
         let target: FixVersion = request.fix_version.parse().map_err(ReleaseError::Invalid)?;
         if request.kind == AnalysisKind::Patch {
@@ -399,7 +410,14 @@ impl Analyser<'_> {
             .iter()
             .map(|&position| CommitInfo::from_commit(&history.mainline[position], Some(position)))
             .collect();
-        let release_only = crate::release_only(self.vcs, &source, &compare, &self.ticket_prefix)?;
+        let release_only = crate::release_only(
+            self.vcs,
+            &crate::ReleaseOnlyRequest {
+                source: &source,
+                head: &compare,
+                ticket_prefix: &self.ticket_prefix,
+            },
+        )?;
         let dev_violations = history.violations();
         Ok(Analysis {
             request: AnalysisRequest {
@@ -435,7 +453,12 @@ impl Analyser<'_> {
             main: self.rules.main.clone(),
             release_prefix: self.rules.prefix.clone(),
         };
-        let scan = scan_source(&mainline, &all, prefix, &names);
+        let scan = scan_source(crate::SourceScanInput {
+            mainline: &mainline,
+            all: &all,
+            prefix,
+            names: &names,
+        });
         // Everything the compare branch has since the merge-base, through any parent (main gets its tickets
         // through release-branch merges), with each ticket's net revert state.
         let compare_commits = self.vcs.log(merge_base, compare, false)?;

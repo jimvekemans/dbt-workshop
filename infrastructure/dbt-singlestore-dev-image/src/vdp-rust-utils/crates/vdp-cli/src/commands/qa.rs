@@ -27,6 +27,12 @@ fn manifest(ctx: &Context) -> Result<Manifest> {
     Manifest::load(&path).with_context(|| path.display().to_string())
 }
 
+/// The timings of the latest run in `table`, connecting first (an error from either names the table to the caller).
+fn read_timings(ctx: &Context, table: &str) -> Result<std::collections::HashMap<String, f64>> {
+    let session = ctx.service::<Arc<dyn SqlSession>>()?;
+    Ok(vdp_qa::latest_timings(session.as_ref(), table)?)
+}
+
 pub(super) fn qa(ctx: &Context, command: &QaCommand) -> Result<Outcome> {
     let manifest = manifest(ctx)?;
     match command {
@@ -45,9 +51,9 @@ pub(super) fn qa(ctx: &Context, command: &QaCommand) -> Result<Outcome> {
                 std::collections::HashMap::new()
             } else {
                 let settings: QaSettings = ctx.config().section(QaSettings::SECTION)?;
-                let table = settings.run_results_table_for(ctx.environment().as_str());
-                let session = ctx.service::<Arc<dyn SqlSession>>()?;
-                vdp_qa::latest_timings(session.as_ref(), &table).with_context(|| {
+                let env = ctx.environment();
+                let table = settings.run_results_table_for(env.as_str(), &env.short_name());
+                read_timings(ctx, &table).with_context(|| {
                     format!(
                         "reading {table} (set [qa].run_results_table, or use --no-timings to skip)"
                     )

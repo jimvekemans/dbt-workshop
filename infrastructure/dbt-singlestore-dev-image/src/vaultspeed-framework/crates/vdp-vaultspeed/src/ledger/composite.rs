@@ -13,6 +13,7 @@ pub struct CompositeLedger {
 }
 
 impl CompositeLedger {
+    /// Creates a ledger that reads and sequences in `primary` and mirrors every recorded entry to `mirrors`.
     pub fn new(primary: Arc<dyn Ledger>, mirrors: Vec<Arc<dyn LedgerSink>>) -> Self {
         Self { primary, mirrors }
     }
@@ -50,7 +51,7 @@ impl LedgerWriter for CompositeLedger {
         for mirror in &self.mirrors {
             // The primary is authoritative: a failing mirror is logged, not fatal.
             if let Err(error) = mirror.append(&recorded) {
-                tracing::warn!(%error, sequence = recorded.sequence, "ledger mirror append failed");
+                tracing::warn!(error = %vdp_core::display_chain(&error), sequence = recorded.sequence, "ledger mirror append failed");
             }
         }
         Ok(recorded)

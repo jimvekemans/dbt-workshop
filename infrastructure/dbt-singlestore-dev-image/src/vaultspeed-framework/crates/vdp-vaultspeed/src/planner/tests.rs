@@ -11,7 +11,9 @@ use vdp_vaultspeed_domain::{
 use vdp_vaultspeed_sql::{ArtifactPipeline, NoRewrite, RoutineAwareSplitter};
 
 use crate::config::{StandaloneDropsSetting, VaultspeedSettings};
-use crate::executor::{FailurePolicy, NoClassification, PlanRunner, RunContext, StatementExecutor};
+use crate::executor::{
+    FailurePolicy, NoClassification, PlanRunner, PlanRunnerParts, RunContext, StatementExecutor,
+};
 use crate::ledger::{LedgerReader, MemoryLedger};
 use crate::planner::{CatalogProbe, Planner, ProbeError, ProbeVerdict};
 use crate::sources::{DropCreatePairing, GroupingStrategy};
@@ -101,12 +103,12 @@ impl Lab {
             .planner
             .plan(&SourceKind::Pml, self.groups(sql, 1), self.ledger.as_ref())
             .unwrap();
-        let runner = PlanRunner::new(
-            Arc::new(Succeeds),
-            Arc::new(NoClassification),
-            self.ledger.clone(),
-            false,
-        );
+        let runner = PlanRunner::new(PlanRunnerParts {
+            executor: Arc::new(Succeeds),
+            classifier: Arc::new(NoClassification),
+            ledger: self.ledger.clone(),
+            skip_dependents: false,
+        });
         let ctx = RunContext {
             run_id: RunId::from_string("lab"),
             environment: "LDV".into(),

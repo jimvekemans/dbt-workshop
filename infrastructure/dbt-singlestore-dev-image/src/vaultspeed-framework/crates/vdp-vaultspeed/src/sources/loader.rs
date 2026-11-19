@@ -17,7 +17,17 @@ pub struct ArtifactLoader {
     grouping: Arc<dyn GroupingStrategy>,
 }
 
+/// Inputs for [`ArtifactLoader::load`].
+#[derive(Debug, Clone, Copy)]
+pub struct LoadInput<'a> {
+    pub source: &'a SourceKind,
+    pub generation: Option<GenerationId>,
+    pub root: &'a str,
+    pub files: &'a [SourceFile],
+}
+
 impl ArtifactLoader {
+    /// Creates the loader for `artifact`: `pipeline` turns each file into statements and `grouping` into units.
     pub fn new(
         artifact: ArtifactKind,
         pipeline: ArtifactPipeline,
@@ -30,21 +40,26 @@ impl ArtifactLoader {
         }
     }
 
+    /// The artifact kind the loader loads.
     pub const fn artifact(&self) -> ArtifactKind {
         self.artifact
     }
 
-    /// Loads the `.sql` files below `root` (`""`, `"DDL"`, `"ETL"`). Paths in the
-    /// resulting [`JobInfo`] are relative to `root`; group ids keep the full path.
+    /// Loads the `.sql` files below `input.root` (`""`, `"DDL"`, `"ETL"`). Paths in the
+    /// resulting [`JobInfo`] are relative to `input.root`; group ids keep the full path.
     /// Groups identical to an earlier group of the same job are dropped, as the Python
     /// implementation did with `drop_duplicates`.
-    pub fn load(
-        &self,
-        source: &SourceKind,
-        generation: Option<GenerationId>,
-        root: &str,
-        files: &[SourceFile],
-    ) -> Result<Vec<StatementGroup>, SourceError> {
+    ///
+    /// # Errors
+    ///
+    /// [`SourceError::Sql`] when a file cannot be split into statements.
+    pub fn load(&self, input: LoadInput<'_>) -> Result<Vec<StatementGroup>, SourceError> {
+        let LoadInput {
+            source,
+            generation,
+            root,
+            files,
+        } = input;
         let mut groups = Vec::new();
         let mut seen = HashSet::new();
         for file in files {

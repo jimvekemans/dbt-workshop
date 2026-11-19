@@ -7,6 +7,7 @@ pub struct TextEdit {
 }
 
 impl TextEdit {
+    /// An edit that inserts `text` at byte offset `at`.
     pub fn insert(at: usize, text: impl Into<String>) -> Self {
         Self {
             start: at,

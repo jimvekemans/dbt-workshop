@@ -70,6 +70,13 @@ impl std::fmt::Debug for PatchFlow<'_> {
     }
 }
 
+/// Options for [`PatchFlow::run`].
+#[derive(Debug, Clone, Copy)]
+pub struct PatchOptions {
+    pub dry_run: bool,
+    pub interactive: bool,
+}
+
 impl PatchFlow<'_> {
     /// The changelog stays the branch's last commit: the current one is taken out (dropped at the tip, or
     /// rebased away), and written anew after the steps.
@@ -126,13 +133,23 @@ impl PatchFlow<'_> {
     }
 
     /// Checks out the release branch as it is on origin, applies the steps and pushes (no force).
+    ///
+    /// # Errors
+    ///
+    /// [`ReleaseError::Invalid`] when `analysis` is not a patch analysis, the branch is not a release branch or the selection
+    /// is invalid; [`ReleaseError::Stale`] when a ref moved since the analysis; [`ReleaseError::Refused`] when the work tree
+    /// is dirty; [`ReleaseError::Apply`] when a step fails; [`ReleaseError::Aborted`] when the release manager stops at a
+    /// conflict; [`ReleaseError::Git`] when another git operation fails (including a rejected push).
     pub fn run(
         &self,
         analysis: &Analysis,
         include: &BTreeSet<String>,
-        dry_run: bool,
-        interactive: bool,
+        options: &PatchOptions,
     ) -> Result<Outcome, ReleaseError> {
+        let PatchOptions {
+            dry_run,
+            interactive,
+        } = *options;
         if analysis.request.kind != AnalysisKind::Patch {
             return Err(ReleaseError::Invalid("this is not a patch analysis".into()));
         }

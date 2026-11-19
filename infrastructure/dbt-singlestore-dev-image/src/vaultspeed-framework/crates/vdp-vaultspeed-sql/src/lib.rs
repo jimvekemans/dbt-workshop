@@ -1,8 +1,30 @@
 //! SQL text handling for `VaultSpeed` artifacts.
 //!
-//! The pipeline for one file is: [`StatementSplitter`] → [`SqlPreprocessor`]s →
-//! [`SqlRewriter`] → [`classify`] → fingerprints, assembled by [`ArtifactPipeline`].
-//! Everything here is pure: text in, domain values out.
+//! A building block over `vdp-sql-script` (the lexer and splitters) and `vdp-vaultspeed-domain`: text in, domain values
+//! out. Nothing here performs IO except reading rewrite-rule files.
+//!
+//! # Responsibilities
+//!
+//! - Split a file into statements ([`StatementSplitter`]) and preprocess them ([`SqlPreprocessor`], [`StripComments`]).
+//! - Rewrite what `VaultSpeed` generates into what the platform needs ([`SqlRewriter`], [`RuleSet`] from JSON rule files).
+//! - Classify a statement: what it does and which object it targets ([`classify`]).
+//! - Fingerprint raw and effective text ([`fingerprint`], [`normalize`]).
+//! - Assemble the pipeline for one file: [`StatementSplitter`] → [`SqlPreprocessor`]s → [`SqlRewriter`] → [`classify`] →
+//!   fingerprints ([`ArtifactPipeline`]).
+//!
+//! # Example
+//!
+//! ```
+//! use std::sync::Arc;
+//! use vdp_vaultspeed_sql::{ArtifactPipeline, NoRewrite, RoutineAwareSplitter};
+//!
+//! let pipeline = ArtifactPipeline::new(Arc::new(RoutineAwareSplitter), Vec::new(), Arc::new(NoRewrite));
+//! let statements = pipeline.statements("DROP TABLE IF EXISTS edw.x; CREATE TABLE edw.x (id INT);")?;
+//! assert_eq!(statements.len(), 2);
+//! assert!(statements[0].kind.is_drop());
+//! assert!(statements[1].kind.is_create());
+//! # Ok::<(), vdp_vaultspeed_sql::SqlError>(())
+//! ```
 
 mod classify;
 mod error;

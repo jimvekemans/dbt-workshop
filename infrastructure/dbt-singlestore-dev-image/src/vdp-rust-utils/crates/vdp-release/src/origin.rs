@@ -32,17 +32,36 @@ pub struct ReleaseOnly {
     pub tickets: Vec<String>,
 }
 
+/// Inputs for [`release_only`].
+#[derive(Debug, Clone, Copy)]
+pub struct ReleaseOnlyRequest<'a> {
+    pub source: &'a str,
+    pub head: &'a str,
+    pub ticket_prefix: &'a str,
+}
+
+/// Inputs for [`check_scope`].
+#[derive(Debug, Clone, Copy)]
+pub struct ScopeCheck<'a> {
+    pub rules: &'a BranchRules,
+    pub branch: &'a str,
+    pub action: ScopeAction,
+}
+
 /// The commits of `head` whose change `source` lacks: not merges, reverts or re-enables, not the changelog,
 /// no equivalent change (patch-id) on `source`, and no ticket of theirs merged on `source` since they split
 /// (the developers' own MR to dev carries the same ticket under another patch-id).
+///
+/// # Errors
+///
+/// [`ReleaseError::Git`] when the history cannot be read.
 pub fn release_only(
     vcs: &dyn Vcs,
-    source: &str,
-    head: &str,
-    ticket_prefix: &str,
+    request: &ReleaseOnlyRequest<'_>,
 ) -> Result<Vec<ReleaseOnly>, ReleaseError> {
-    let source = remote_ref(source);
-    let head = remote_ref(head);
+    let source = remote_ref(request.source);
+    let head = remote_ref(request.head);
+    let ticket_prefix = request.ticket_prefix;
     let base = vcs.merge_base(&source, &head)?;
     let on_source = compare_state(&vcs.log(&base, &source, false)?, ticket_prefix).present;
     let commits = vcs.log(&base, &head, false)?;
@@ -95,12 +114,18 @@ pub enum ScopeAction {
 
 /// Refuses actions on release branches outside the newest two (and recreating a promoted one, or cutting a
 /// release older than the newest).
-pub fn check_scope(
-    vcs: &dyn Vcs,
-    rules: &BranchRules,
-    branch: &str,
-    action: ScopeAction,
-) -> Result<(), ReleaseError> {
+///
+/// # Errors
+///
+/// [`ReleaseError::Invalid`] when `branch` is not a release branch, the action is on a release outside the newest two,
+/// recreates a promoted release or cuts one older than the newest; [`ReleaseError::Git`] when the branches cannot be
+/// listed.
+pub fn check_scope(vcs: &dyn Vcs, check: &ScopeCheck<'_>) -> Result<(), ReleaseError> {
+    let ScopeCheck {
+        rules,
+        branch,
+        action,
+    } = *check;
     let branch = rules.release_target(branch)?;
     let branches = release_branches(vcs, &rules.prefix, &rules.main)?;
     let existing = branches.iter().find(|b| b.name == branch);
@@ -144,6 +169,10 @@ pub fn check_scope(
 }
 
 /// `origin/<branch>` now.
+///
+/// # Errors
+///
+/// [`ReleaseError::Git`] when the remote head cannot be read.
 pub fn origin_state(vcs: &dyn Vcs, branch: &str) -> Result<OriginState, ReleaseError> {
     Ok(OriginState {
         branch: branch.to_owned(),

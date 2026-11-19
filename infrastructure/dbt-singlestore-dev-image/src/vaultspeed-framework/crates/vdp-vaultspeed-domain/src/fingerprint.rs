@@ -29,6 +29,7 @@ impl Fingerprint {
         Self(hasher.finalize().into())
     }
 
+    /// The 64 lower-case hex characters of the digest.
     pub fn to_hex(&self) -> String {
         hex::encode(self.0)
     }

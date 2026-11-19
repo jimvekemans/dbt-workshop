@@ -76,16 +76,20 @@ fn ca_check(ctx: &Context) -> Check {
     }
 }
 
-/// The ADBC driver dbt loads for SingleStore: `lib/dbt/libadbc_driver_singlestore.so` in a directory above the
-/// engine binary (dbt walks up to five levels from its own executable).
-fn find_driver(binary: &std::path::Path) -> Option<std::path::PathBuf> {
-    let binary = std::fs::canonicalize(binary).ok()?;
-    binary
-        .ancestors()
-        .skip(1)
-        .take(6)
-        .map(|dir| dir.join("lib/dbt/libadbc_driver_singlestore.so"))
-        .find(|candidate| candidate.is_file())
+/// Checks the SingleStore ADBC driver via [`crate::bootstrap::adbc_driver`].
+fn driver_check(ctx: &Context) -> Check {
+    match crate::bootstrap::adbc_driver(ctx) {
+        vdp_db::DriverSource::File(path) => check(
+            path.is_file(),
+            "singlestore driver",
+            path.display().to_string(),
+        ),
+        vdp_db::DriverSource::System => check(
+            false,
+            "singlestore driver",
+            "lib/dbt/libadbc_driver_singlestore.so not found above the engine binary",
+        ),
+    }
 }
 
 fn doctor(ctx: &Context) -> Result<Outcome> {
@@ -122,21 +126,14 @@ fn doctor(ctx: &Context) -> Result<Outcome> {
                     },
                 ));
             }
-            match find_driver(&binary) {
-                Some(driver) => checks.push(check(
-                    true,
-                    "singlestore driver",
-                    driver.display().to_string(),
-                )),
-                None => checks.push(check(
-                    false,
-                    "singlestore driver",
-                    "lib/dbt/libadbc_driver_singlestore.so not found above the engine binary",
-                )),
-            }
         }
-        Err(error) => checks.push(check(false, "dbt engine", error.to_string())),
+        Err(error) => checks.push(check(
+            false,
+            "dbt engine",
+            vdp_core::display_chain(error.as_ref()),
+        )),
     }
+    checks.push(driver_check(ctx));
     let settings: vdp_dbt::DbtSettings = ctx.config().section(vdp_dbt::DbtSettings::SECTION)?;
     let experimental = std::env::var_os("DBT_ALLOW_EXPERIMENTAL_ADAPTERS").is_some()
         || settings.env.contains_key("DBT_ALLOW_EXPERIMENTAL_ADAPTERS");
@@ -169,7 +166,7 @@ fn doctor(ctx: &Context) -> Result<Outcome> {
             };
             checks.push(check(ok, "vault", detail));
         }
-        Err(error) => checks.push(check(false, "vault", error.to_string())),
+        Err(error) => checks.push(check(false, "vault", vdp_core::display_chain(&error))),
     }
     for c in &checks {
         println!(
@@ -180,4 +177,27 @@ fn doctor(ctx: &Context) -> Result<Outcome> {
         );
     }
     Ok(Outcome::from_success(checks.iter().all(|c| c.ok)))
+}
+
+#[cfg(test)]
+mod tests {
+    use vdp_core::Config;
+
+    use super::*;
+
+    #[test]
+    fn driver_check_honours_configured_adbc_driver() {
+        let dir = tempfile::tempdir().unwrap();
+        let driver = dir.path().join("driver.so");
+        std::fs::write(&driver, b"").unwrap();
+        let toml = format!("[core]\nadbc_driver = {:?}\n", driver.display().to_string());
+        let config =
+            Config::from_documents(vec![("test.toml".into(), toml.parse().unwrap())]).unwrap();
+        let ctx = Context::builder(config)
+            .cwd(dir.path().to_path_buf())
+            .build();
+        let result = driver_check(&ctx);
+        assert!(result.ok, "{}", result.detail);
+        assert_eq!(result.detail, driver.display().to_string());
+    }
 }

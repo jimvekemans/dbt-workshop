@@ -21,10 +21,10 @@ use crate::config::{
     ConfigError, FailurePolicySetting, LedgerBackend, SnapshotSetting, StandaloneDropsSetting,
     VaultspeedSettings, load_fmc_sources,
 };
-use crate::engine::{DagStage, Engine, EngineParts, FailurePolicies};
+use crate::engine::{DagStage, DagStageParts, Engine, EngineParts, FailurePolicies};
 use crate::executor::{
     DryRunExecutor, ErrorClassifier, FailurePolicy, InformationSchemaProbe, MySqlErrorClassifier,
-    NoClassification, PlanRunner, RunContext, SessionExecutor, StatementExecutor,
+    NoClassification, PlanRunner, PlanRunnerParts, RunContext, SessionExecutor, StatementExecutor,
 };
 use crate::ledger::{
     CompositeLedger, JsonlLedger, Ledger, LedgerSink, LedgerTable, OverlayLedger, SqlLedger,
@@ -34,6 +34,7 @@ use crate::planner::{
     ExecutionGuard, IdempotencyPolicy, OnceOnlyPolicy, Planner, PmlPhases, RebuildGuard,
     ReplaceablePolicy, SequentialPhasing, StandaloneDrops,
 };
+use crate::report::{ConsoleSink, ErrorCsvSink, JsonReportSink, JunitSink, ReportSink};
 use crate::sources::{
     ArtifactLoader, DeployedSnapshot, DropCreatePairing, GenerationHandler, PerFileGrouping,
     PmlDiscovery, PmlHandler, PmlLifecycle, ReleaseZipDiscovery, SnapshotMode, SourceDiscovery,
@@ -51,7 +52,7 @@ use vdp_vaultspeed_sql::{
 pub enum WiringError {
     #[error(transparent)]
     Config(#[from] ConfigError),
-    #[error("loading rewrite rules from {path}: {source}")]
+    #[error("loading rewrite rules from {path}")]
     Rules {
         path: PathBuf,
         #[source]
@@ -78,6 +79,11 @@ pub struct Project {
 
 impl Project {
     /// The checkout at `root` with these settings (validated) and its `config/vaultspeed.json`.
+    ///
+    /// # Errors
+    ///
+    /// [`ConfigError::Invalid`] when the settings fail [`VaultspeedSettings::validate`]; [`ConfigError::Io`] or
+    /// [`ConfigError::FmcSources`] when the source list cannot be read.
     pub fn with_config(root: &Path, config: VaultspeedSettings) -> Result<Self, ConfigError> {
         config.validate()?;
         let fmc_sources = load_fmc_sources(&root.join(&config.paths.fmc_sources_file))?;
@@ -89,6 +95,7 @@ impl Project {
         })
     }
 
+    /// The file `path`: as given when absolute or present under the checkout, else in the configured assets directory.
     pub fn asset(&self, path: &Path) -> PathBuf {
         if path.is_absolute() || self.root.join(path).exists() {
             self.root.join(path)
@@ -102,6 +109,7 @@ impl Project {
         self.root.join(&self.config.history.path)
     }
 
+    /// The JSONL mirror of the ledger of `environment`.
     pub fn jsonl_ledger_path(&self, environment: Environment) -> PathBuf {
         self.layout
             .ledger_dir()
@@ -119,6 +127,10 @@ pub struct Pipelines {
 
 /// DDL: split, strip comments (unless they carry SHARD KEY hints), DDL rules.
 /// ETL: split, ETL rules. PML: split only; it is written for the target platform.
+///
+/// # Errors
+///
+/// [`WiringError::Rules`] when a rewrite-rule file cannot be read or parsed.
 pub fn pipelines(project: &Project) -> Result<Pipelines> {
     pipelines_in(project, "")
 }
@@ -126,11 +138,19 @@ pub fn pipelines(project: &Project) -> Result<Pipelines> {
 /// [`pipelines`] for one environment: unqualified object names in the SQL resolve to the environment's
 /// database (`[vaultspeed.environments.<env>].database`), so they are the same objects as their qualified
 /// spellings in the ledger.
+///
+/// # Errors
+///
+/// As [`pipelines`].
 pub fn pipelines_for(project: &Project, environment: Environment) -> Result<Pipelines> {
     pipelines_in(project, &project.config.environment(environment).database)
 }
 
 /// [`pipelines`] with `database` as the database in effect when a script has no `USE` (empty: unknown).
+///
+/// # Errors
+///
+/// As [`pipelines`].
 pub fn pipelines_in(project: &Project, database: &str) -> Result<Pipelines> {
     let rules = |artifact| {
         let dir = project.layout.rules_dir(artifact);
@@ -226,6 +246,7 @@ pub fn planner(config: &VaultspeedSettings, probe: Option<Arc<dyn CatalogProbe>>
     Planner::new(policies, guards, Arc::new(phasing))
 }
 
+/// The configured failure policy for each artifact kind.
 pub fn failure_policies(config: &VaultspeedSettings) -> FailurePolicies {
     let map = |setting| match setting {
         FailurePolicySetting::Continue => FailurePolicy::Continue,
@@ -239,6 +260,7 @@ pub fn failure_policies(config: &VaultspeedSettings) -> FailurePolicies {
     }
 }
 
+/// The `deployed/` mirror as configured; `None` when it is disabled for every artifact kind.
 pub fn snapshot(project: &Project) -> Option<DeployedSnapshot> {
     let settings = &project.config.snapshot;
     let modes: BTreeMap<_, _> = [
@@ -257,6 +279,10 @@ pub fn snapshot(project: &Project) -> Option<DeployedSnapshot> {
 }
 
 /// The in-memory DAG alterations, in the order the Python framework applied them.
+///
+/// # Errors
+///
+/// [`WiringError::Invalid`] when a configured default argument has no Python literal form.
 pub fn dag_pipeline(project: &Project) -> Result<DagAlterationPipeline> {
     let mut transformers: Vec<Arc<dyn DagTransformer>> = Vec::new();
     for arg in &project.config.dags.default_args {
@@ -285,6 +311,11 @@ pub fn dag_pipeline(project: &Project) -> Result<DagAlterationPipeline> {
     ))
 }
 
+/// The context the DAG transformers need for `environment`.
+///
+/// # Errors
+///
+/// [`WiringError::Invalid`] when no dataset token is configured and none can be derived from `singlestore_host`.
 pub fn dag_context(
     project: &Project,
     environment: Environment,
@@ -309,7 +340,7 @@ pub fn dag_context(
     })
 }
 
-/// `singlestore.example.com` → `rel1ldv` (the Python convention).
+/// `singlestore-rel1ldv.example.com` → `rel1ldv` (the Python convention).
 fn derive_dataset_env(host: &str) -> Option<String> {
     let start = host.find("rel1")?;
     Some(
@@ -321,37 +352,34 @@ fn derive_dataset_env(host: &str) -> Option<String> {
     )
 }
 
-fn require(secrets: &dyn SecretProvider, names: &[&str]) -> Result<String> {
-    first_of(secrets, names)
-        .map(|v| v.expose_secret().to_owned())
-        .ok_or_else(|| WiringError::MissingSecret(names.join(" or ")))
-}
-
-/// The SingleStore connection of `environment` from the secrets (`SINGLESTORE_HOST`, `SINGLESTORE_USER`,
-/// `SINGLESTORE_PASS`/`SINGLESTORE_PASSWORD`). A configured CA means TLS with the chain and the host name checked.
+/// The SingleStore connection of `environment` from the secrets (`SINGLESTORE_HOST`/`SERVER`/`URL`,
+/// `SINGLESTORE_USER`/`USERNAME`, `SINGLESTORE_PASS`/`PASSWORD`/`PWD`). A configured CA means TLS with
+/// the chain and the host name checked.
+///
+/// # Errors
+///
+/// [`WiringError::MissingSecret`] when the host, user or password secret is missing; [`WiringError::Invalid`] when the
+/// settings are otherwise invalid (for example a conflicting pair of synonyms).
 pub fn connection_settings(
     project: &Project,
     environment: Environment,
     secrets: &dyn SecretProvider,
 ) -> Result<ConnectionSettings> {
     let env = project.config.environment(environment);
-    let mut settings = ConnectionSettings::new(
-        require(secrets, &["SINGLESTORE_HOST"])?,
-        env.singlestore_port,
-        require(secrets, &["SINGLESTORE_USER"])?,
-    );
-    settings.password = Some(
-        first_of(secrets, &["SINGLESTORE_PASS", "SINGLESTORE_PASSWORD"]).ok_or_else(|| {
-            WiringError::MissingSecret("SINGLESTORE_PASS or SINGLESTORE_PASSWORD".into())
-        })?,
-    );
-    settings.database = Some(env.database.clone());
+    let mut builder = ConnectionSettings::from_secrets(secrets)
+        .prefix("SINGLESTORE_")
+        .port(env.singlestore_port)
+        .database(env.database.clone())
+        .connect_timeout(Duration::from_secs(30));
     if let Some(ca) = env.singlestore_ca_certificate() {
-        settings.ca_certificate = Some(project.asset(Path::new(ca)));
-        settings.tls = TlsMode::VerifyFull;
+        builder = builder
+            .ca_certificate(project.asset(Path::new(ca)))
+            .tls(TlsMode::VerifyFull);
     }
-    settings.connect_timeout = Duration::from_secs(30);
-    Ok(settings)
+    builder.build().map_err(|err| match err {
+        vdp_db::SettingsError::MissingRequired { keys, .. } => WiringError::MissingSecret(keys),
+        other => WiringError::Invalid(vdp_core::display_chain(&other)),
+    })
 }
 
 /// The secrets that describe the Airflow host for DAG uploads (`vdp/airflow` in Vault).
@@ -383,14 +411,26 @@ pub fn placeholder_host(environment: Environment, secrets: Option<&dyn SecretPro
         )
 }
 
+/// Options for [`ledger`].
+#[derive(Debug, Clone, Copy)]
+pub struct LedgerOptions<'a> {
+    pub environment: Environment,
+    pub session: Option<&'a Arc<dyn SqlSession>>,
+    pub mode: RunMode,
+}
+
 /// The ledger for an environment, per configuration. In preview the ledger is a
 /// read-only in-memory snapshot: nothing (no table, no file) is created or written.
-pub fn ledger(
-    project: &Project,
-    environment: Environment,
-    session: Option<&Arc<dyn SqlSession>>,
-    mode: RunMode,
-) -> Result<Arc<dyn Ledger>> {
+///
+/// # Errors
+///
+/// [`WiringError::Ledger`] when the ledger cannot be opened or read (the table, the JSONL file, or an invalid table name).
+pub fn ledger(project: &Project, options: LedgerOptions<'_>) -> Result<Arc<dyn Ledger>> {
+    let LedgerOptions {
+        environment,
+        session,
+        mode,
+    } = options;
     let settings = &project.config.ledger;
     let jsonl_path = project.jsonl_ledger_path(environment);
     // Entries recorded before names were database-qualified are matched against the environment's database.
@@ -443,10 +483,21 @@ pub struct Infrastructure {
 
 impl Infrastructure {
     /// No database, Vault or Airflow: the JSONL ledger (read-only in preview) and a placeholder host.
+    ///
+    /// # Errors
+    ///
+    /// [`WiringError::Ledger`] when the ledger cannot be read.
     pub fn offline(project: &Project, environment: Environment, mode: RunMode) -> Result<Self> {
         Ok(Self {
             session: None,
-            ledger: ledger(project, environment, None, mode)?,
+            ledger: ledger(
+                project,
+                LedgerOptions {
+                    environment,
+                    session: None,
+                    mode,
+                },
+            )?,
             singlestore_host: placeholder_host(environment, None),
             airflow: None,
         })
@@ -462,19 +513,43 @@ pub struct RunOptions {
     pub git_sha: Option<String>,
 }
 
-/// Wires the engine for one run, without an object history.
-pub fn engine(project: &Project, options: &RunOptions, infra: &Infrastructure) -> Result<Engine> {
-    engine_with_history(project, options, infra, Arc::new(NoHistory))
+/// Inputs for [`engine_with_history`].
+#[derive(Debug)]
+pub struct EngineInputs<'a> {
+    pub options: &'a RunOptions,
+    pub infra: &'a Infrastructure,
+    pub history: Arc<dyn ChangeRecorder>,
 }
 
-/// Wires the engine for one run; the plan runner reports every statement to `history`. Preview runs execute
-/// nothing and always use [`NoHistory`], whatever is passed.
-pub fn engine_with_history(
-    project: &Project,
-    options: &RunOptions,
-    infra: &Infrastructure,
-    history: Arc<dyn ChangeRecorder>,
-) -> Result<Engine> {
+/// Wires the engine for one run, without an object history.
+///
+/// # Errors
+///
+/// As [`engine_with_history`].
+pub fn engine(project: &Project, options: &RunOptions, infra: &Infrastructure) -> Result<Engine> {
+    engine_with_history(
+        project,
+        EngineInputs {
+            options,
+            infra,
+            history: Arc::new(NoHistory),
+        },
+    )
+}
+
+/// Wires the engine for one run; the plan runner reports every statement to `inputs.history`. Preview runs
+/// execute nothing and always use [`NoHistory`], whatever is passed.
+///
+/// # Errors
+///
+/// [`WiringError::Invalid`] when applying without a database session, or a DAG setting is invalid;
+/// [`WiringError::Rules`] when a rewrite-rule file cannot be read; [`WiringError::Ledger`] when the ledger cannot be read.
+pub fn engine_with_history(project: &Project, inputs: EngineInputs<'_>) -> Result<Engine> {
+    let EngineInputs {
+        options,
+        infra,
+        history,
+    } = inputs;
     let config = &project.config;
     let preview = options.mode.is_preview();
     let history: Arc<dyn ChangeRecorder> = if preview {
@@ -526,6 +601,37 @@ pub fn engine_with_history(
         )),
     ];
 
+    let dags = dag_stage(project, options, infra)?;
+
+    Ok(Engine::new(EngineParts {
+        environment: options.environment,
+        mode: options.mode,
+        context: RunContext {
+            run_id: RunId::generate(),
+            environment: options.environment.to_string(),
+            git_sha: options.git_sha.clone(),
+        },
+        discoveries,
+        handlers: handlers(config, &pipelines),
+        lifecycles,
+        planner: planner(config, probe),
+        runner: PlanRunner::new(PlanRunnerParts {
+            executor,
+            classifier,
+            ledger: ledger.clone(),
+            skip_dependents: config.failure.skip_dependents,
+        })
+        .with_history(history),
+        ledger,
+        failure: failure_policies(config),
+        snapshot: snapshot(project),
+        dags: Some(dags),
+    }))
+}
+
+fn dag_stage(project: &Project, options: &RunOptions, infra: &Infrastructure) -> Result<DagStage> {
+    let config = &project.config;
+    let preview = options.mode.is_preview();
     let mut publish_kinds = vec![GenerationKind::Fmc];
     if config.dags.publish_comp_dags {
         publish_kinds.push(GenerationKind::Comp);
@@ -545,50 +651,200 @@ pub fn engine_with_history(
             "no AIRFLOW_URL/AIRFLOW_HOST secret: DAGs are rendered into the repository only"
         );
     }
-    let dags = DagStage::new(
-        dag_pipeline(project)?,
-        Arc::new(VaultSpeedDagNamer),
-        Arc::new(CompositePublisher::new(publishers)),
-        dag_context(project, options.environment, &infra.singlestore_host)?,
+    Ok(DagStage::new(DagStageParts {
+        pipeline: dag_pipeline(project)?,
+        namer: Arc::new(VaultSpeedDagNamer),
+        publisher: Arc::new(CompositePublisher::new(publishers)),
+        context: dag_context(project, options.environment, &infra.singlestore_host)?,
         publish_kinds,
-    );
-
-    Ok(Engine::new(EngineParts {
-        environment: options.environment,
-        mode: options.mode,
-        context: RunContext {
-            run_id: RunId::generate(),
-            environment: options.environment.to_string(),
-            git_sha: options.git_sha.clone(),
-        },
-        discoveries,
-        handlers: handlers(config, &pipelines),
-        lifecycles,
-        planner: planner(config, probe),
-        runner: PlanRunner::new(
-            executor,
-            classifier,
-            ledger.clone(),
-            config.failure.skip_dependents,
-        )
-        .with_history(history),
-        ledger,
-        failure: failure_policies(config),
-        snapshot: snapshot(project),
-        dags: Some(dags),
     }))
+}
+
+/// Optional outputs and verbosity for [`report_sinks`].
+#[derive(Debug, Clone)]
+pub struct ReportSinkOptions {
+    pub explain: bool,
+    pub report_out: Option<PathBuf>,
+    pub junit: Option<PathBuf>,
+}
+
+/// Standard report sinks for a run: console stdout, JSON and error CSV in the project's logs directory,
+/// plus optional `--report-out` JSON and `--junit` XML file paths.
+#[must_use]
+pub fn report_sinks(project: &Project, options: ReportSinkOptions) -> Vec<Box<dyn ReportSink>> {
+    let mut sinks: Vec<Box<dyn ReportSink>> = vec![
+        Box::new(ConsoleSink::stdout(options.explain)),
+        Box::new(JsonReportSink::in_dir(project.root.join("logs"))),
+        Box::new(ErrorCsvSink::new(project.layout.logs_dir())),
+    ];
+    if let Some(path) = options.report_out {
+        sinks.push(Box::new(JsonReportSink::to_file(path)));
+    }
+    if let Some(path) = options.junit {
+        sinks.push(Box::new(JunitSink::new(path)));
+    }
+    sinks
 }
 
 #[cfg(test)]
 mod tests {
+    use vdp_secrets::{ChainProvider, MapProvider};
+
     use super::*;
 
     #[test]
     fn dataset_env_follows_the_python_convention() {
         assert_eq!(
-            derive_dataset_env("singlestore.example.com").as_deref(),
+            derive_dataset_env("singlestore-rel1ldv.example.com").as_deref(),
             Some("rel1ldv")
         );
+        assert_eq!(derive_dataset_env("singlestore.example.com"), None);
         assert_eq!(derive_dataset_env("localhost"), None);
+    }
+
+    #[test]
+    fn connection_settings_matches_golden_layout_with_and_without_ca_and_detects_conflicts() {
+        let dir = tempfile::tempdir().unwrap();
+        let config = VaultspeedSettings::default();
+        let project = Project::with_config(dir.path(), config).unwrap();
+        let secrets = MapProvider::new("test")
+            .with("SINGLESTORE_HOST", "s2.example")
+            .with("SINGLESTORE_USER", "admin")
+            .with("SINGLESTORE_PASS", "s3cr3t");
+
+        let with_ca = connection_settings(&project, Environment::LDV, &secrets).unwrap();
+        assert_eq!(with_ca.host, "s2.example");
+        assert_eq!(with_ca.port, 3306);
+        assert_eq!(with_ca.user, "admin");
+        assert_eq!(with_ca.password.as_ref().unwrap().expose_secret(), "s3cr3t");
+        assert_eq!(with_ca.database.as_deref(), Some("edw_dv_rdv"));
+        assert_eq!(with_ca.tls, TlsMode::VerifyFull);
+        assert_eq!(
+            with_ca.ca_certificate.as_deref(),
+            Some(
+                dir.path()
+                    .join("assets/root_intermediate_nonprod.cert")
+                    .as_path()
+            )
+        );
+        assert_eq!(with_ca.connect_timeout, Duration::from_secs(30));
+        assert_eq!(with_ca.endpoint(), "admin@s2.example:3306/edw_dv_rdv");
+        let dbg = format!("{with_ca:?}");
+        assert!(!dbg.contains("s3cr3t"), "password leaked in Debug: {dbg}");
+
+        let mut no_ca_config = VaultspeedSettings::default();
+        no_ca_config
+            .environments
+            .get_mut(&Environment::LDV)
+            .unwrap()
+            .singlestore_ca_certificate = String::new();
+        let no_ca_project = Project::with_config(dir.path(), no_ca_config).unwrap();
+        let alt_secrets = MapProvider::new("test")
+            .with("SINGLESTORE_HOST", "s2.example")
+            .with("SINGLESTORE_USER", "admin")
+            .with("SINGLESTORE_PASSWORD", "s3cr3t");
+        let without_ca =
+            connection_settings(&no_ca_project, Environment::LDV, &alt_secrets).unwrap();
+        assert_eq!(without_ca.tls, TlsMode::Disabled);
+        assert_eq!(without_ca.ca_certificate, None);
+        assert_eq!(without_ca.endpoint(), "admin@s2.example:3306/edw_dv_rdv");
+
+        let conflict = MapProvider::new("test")
+            .with("SINGLESTORE_HOST", "s2.example")
+            .with("SINGLESTORE_USER", "admin")
+            .with("SINGLESTORE_PASS", "one")
+            .with("SINGLESTORE_PASSWORD", "two");
+        let err = connection_settings(&project, Environment::LDV, &conflict).unwrap_err();
+        let msg = err.to_string();
+        assert!(
+            msg.contains("SINGLESTORE_PASS") && msg.contains("SINGLESTORE_PASSWORD"),
+            "{msg}"
+        );
+
+        let with_db_port_env = MapProvider::new("env")
+            .with("SINGLESTORE_HOST", "s2.example")
+            .with("SINGLESTORE_USER", "admin")
+            .with("SINGLESTORE_PASS", "pw")
+            .with("SINGLESTORE_DB", "wrong_db")
+            .with("SINGLESTORE_DATABASE", "wrong_db2")
+            .with("SINGLESTORE_PORT", "1");
+        let preserved = connection_settings(&project, Environment::LDV, &with_db_port_env).unwrap();
+        assert_eq!(preserved.database.as_deref(), Some("edw_dv_rdv"));
+        assert_eq!(preserved.port, 3306);
+
+        let make_env = || {
+            MapProvider::new("env")
+                .with("SINGLESTORE_HOST", "s2.example")
+                .with("SINGLESTORE_USER", "admin")
+                .with("SINGLESTORE_PASS", "from-env")
+        };
+        let make_vault = || {
+            MapProvider::new("vault")
+                .with("SINGLESTORE_PASSWORD", "from-vault")
+                .with("SINGLESTORE_DB", "vault_db")
+        };
+        for layers in [
+            vec![
+                Box::new(make_env()) as Box<dyn SecretProvider>,
+                Box::new(make_vault()),
+            ],
+            vec![
+                Box::new(make_vault()) as Box<dyn SecretProvider>,
+                Box::new(make_env()),
+            ],
+        ] {
+            let chain = ChainProvider::new(layers);
+            let resolved = connection_settings(&project, Environment::LDV, &chain).unwrap();
+            assert_eq!(
+                resolved.password.as_ref().unwrap().expose_secret(),
+                "from-env",
+                "expected first_of order (PASS before PASSWORD) across layers"
+            );
+            assert_eq!(resolved.database.as_deref(), Some("edw_dv_rdv"));
+        }
+    }
+
+    #[test]
+    fn report_sinks_includes_default_and_optional_file_sinks() {
+        let dir = tempfile::tempdir().unwrap();
+        let project = Project::with_config(dir.path(), VaultspeedSettings::default()).unwrap();
+        assert_eq!(
+            report_sinks(
+                &project,
+                ReportSinkOptions {
+                    explain: false,
+                    report_out: None,
+                    junit: None,
+                },
+            )
+            .len(),
+            3
+        );
+
+        let report_out = dir.path().join("custom/report.json");
+        let junit_out = dir.path().join("custom/junit.xml");
+        let sinks = report_sinks(
+            &project,
+            ReportSinkOptions {
+                explain: false,
+                report_out: Some(report_out.clone()),
+                junit: Some(junit_out.clone()),
+            },
+        );
+        assert_eq!(sinks.len(), 5);
+
+        let report = vdp_vaultspeed_domain::RunReport {
+            run_id: RunId::from_string("run-test"),
+            environment: Environment::LDV,
+            mode: RunMode::Preview,
+            started_at: chrono::Utc::now(),
+            finished_at: None,
+            sources: Vec::new(),
+        };
+        for sink in &sinks {
+            sink.write(&report).unwrap();
+        }
+        assert!(report_out.is_file());
+        assert!(junit_out.is_file());
     }
 }

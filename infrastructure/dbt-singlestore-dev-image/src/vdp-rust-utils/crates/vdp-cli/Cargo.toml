@@ -24,9 +24,6 @@ vdp-dbt.workspace = true
 vdp-git = { workspace = true, optional = true }
 vdp-jira = { workspace = true, optional = true }
 vdp-release = { workspace = true, optional = true }
-vdp-release-hub = { workspace = true, optional = true }
-vdp-notify = { workspace = true, optional = true }
-vdp-airflow = { workspace = true, optional = true }
 vdp-sql = { workspace = true, optional = true }
 vdp-qa = { workspace = true, optional = true }
 vdp-secrets.workspace = true
@@ -34,19 +31,16 @@ vdp-sources = { workspace = true, optional = true }
 
 [features]
 # Every module is a feature: build only what a deployment needs (`--no-default-features --features sources`).
-default = ["sources", "release", "airflow", "sql", "qa"]
+default = ["sources", "release", "sql", "qa"]
 sources = ["dep:vdp-sources"]
 release = ["dep:vdp-git", "dep:vdp-jira", "dep:vdp-release"]
-# `vdp release serve`: the release hub API behind the release UI.
-# The hub itself knows dbt releases only; further repositories plug in as extensions (`commands::hub`).
-release-hub = ["release", "dep:vdp-notify", "dep:vdp-release-hub"]
-airflow = ["dep:vdp-airflow"]
 sql = ["dep:vdp-sql"]
 qa = ["dep:vdp-qa"]
 
 [dev-dependencies]
 serde_json.workspace = true
 tempfile.workspace = true
+tiny_http.workspace = true
 
 [lints]
 workspace = true

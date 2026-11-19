@@ -8,6 +8,16 @@ use vdp_vaultspeed_dags::{
 };
 use vdp_vaultspeed_domain::{DagReport, GenerationKind, RunMode, SourceKind};
 
+/// Inputs for constructing a [`DagStage`].
+#[derive(Debug, Clone)]
+pub struct DagStageParts {
+    pub pipeline: DagAlterationPipeline,
+    pub namer: Arc<dyn DagNamer>,
+    pub publisher: Arc<dyn DagPublisher>,
+    pub context: DagContext,
+    pub publish_kinds: Vec<GenerationKind>,
+}
+
 /// Renders a source's DAGs in memory and publishes them with their metadata.
 #[derive(Debug, Clone)]
 pub struct DagStage {
@@ -19,22 +29,18 @@ pub struct DagStage {
 }
 
 impl DagStage {
-    pub fn new(
-        pipeline: DagAlterationPipeline,
-        namer: Arc<dyn DagNamer>,
-        publisher: Arc<dyn DagPublisher>,
-        context: DagContext,
-        publish_kinds: Vec<GenerationKind>,
-    ) -> Self {
+    /// Creates the stage from its parts.
+    pub fn new(parts: DagStageParts) -> Self {
         Self {
-            pipeline,
-            namer,
-            publisher,
-            context,
-            publish_kinds,
+            pipeline: parts.pipeline,
+            namer: parts.namer,
+            publisher: parts.publisher,
+            context: parts.context,
+            publish_kinds: parts.publish_kinds,
         }
     }
 
+    /// Whether `source` is a generation of a kind whose DAGs are published.
     pub fn handles(&self, source: &SourceKind) -> bool {
         matches!(source, SourceKind::Generation(name) if self.publish_kinds.contains(&name.kind()))
     }
@@ -86,7 +92,7 @@ impl DagStage {
                     transformations: Vec::new(),
                     published: false,
                     diff: None,
-                    error: Some(error.to_string()),
+                    error: Some(vdp_core::display_chain(&error)),
                 }),
             }
         }
@@ -111,8 +117,9 @@ impl DagStage {
             Err(error) => (
                 reports,
                 Some(format!(
-                    "publishing to {} failed: {error}",
-                    self.publisher.describe()
+                    "publishing to {} failed: {}",
+                    self.publisher.describe(),
+                    vdp_core::display_chain(&error)
                 )),
             ),
         }

@@ -19,6 +19,7 @@ pub struct Rewritten {
 
 /// Turns `VaultSpeed`'s SQL into the SQL this platform needs.
 pub trait SqlRewriter: Send + Sync + Debug {
+    /// Rewrites one statement, reporting which rules changed it.
     fn rewrite(&self, sql: &str) -> Rewritten;
 }
 

@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use vdp_git::{Commit, RemoteBranch, Vcs};
 use vdp_jira::IssueTracker;
 
-use crate::zips::{ZipCache, parse_zip_name};
+use crate::zips::{ZipCache, ZipLookup, parse_zip_name};
 use crate::{VsError, VsRules};
 
 /// A commit as the UI shows it.
@@ -133,10 +133,13 @@ pub struct TicketCache {
 }
 
 impl TicketCache {
+    /// Forgets every cached ticket.
     pub fn clear(&self) {
         self.lock().clear();
     }
 
+    /// The summary of ticket `key`. A summary comes from the cache or from `tracker`; a lookup that fails, or no tracker, gives
+    /// a summary whose `error` says why, and that is not cached.
     pub fn get(&self, tracker: Option<&dyn IssueTracker>, key: &str) -> TicketSummary {
         if let Some(found) = self.lock().get(key) {
             return found.clone();
@@ -154,7 +157,7 @@ impl TicketCache {
                 summary: String::new(),
                 status: String::new(),
                 fix_versions: Vec::new(),
-                error: Some(error.to_string()),
+                error: Some(vdp_vaultspeed_domain::display_chain(&error)),
             },
             None => TicketSummary {
                 key: key.to_owned(),
@@ -367,7 +370,14 @@ impl Inventory<'_> {
             let Some(row) = self.rows.get_mut(zip) else {
                 continue;
             };
-            match zips.get(self.vcs, rev, path, prefix) {
+            match zips.get(
+                self.vcs,
+                ZipLookup {
+                    rev,
+                    path,
+                    ticket_prefix: prefix,
+                },
+            ) {
                 Ok(info) => {
                     row.vs_release = info.vs_release;
                     row.tickets = info
@@ -376,20 +386,48 @@ impl Inventory<'_> {
                         .map(|key| tickets.get(tracker, key))
                         .collect();
                 }
-                Err(error) => tracing::warn!(%zip, %error, "cannot read the zip"),
+                Err(error) => tracing::warn!(
+                    %zip,
+                    error = %vdp_vaultspeed_domain::display_chain(&error),
+                    "cannot read the zip"
+                ),
             }
         }
     }
 }
 
+/// Inputs for [`status`].
+#[derive(Clone, Copy)]
+pub struct StatusInputs<'a> {
+    pub rules: &'a VsRules,
+    pub zips: &'a ZipCache,
+    pub tickets: &'a TicketCache,
+    pub tracker: Option<&'a dyn IssueTracker>,
+}
+
+impl std::fmt::Debug for StatusInputs<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("StatusInputs")
+            .field("rules", &self.rules)
+            .field("zips", &self.zips)
+            .field("tickets", &self.tickets)
+            .field("tracker", &self.tracker.is_some())
+            .finish()
+    }
+}
+
 /// Everything about the zips, environments and release branches, from the remote-tracking refs (fetch first).
-pub fn status(
-    vcs: &dyn Vcs,
-    rules: &VsRules,
-    zips: &ZipCache,
-    tickets: &TicketCache,
-    tracker: Option<&dyn IssueTracker>,
-) -> Result<Status, VsError> {
+///
+/// # Errors
+///
+/// [`VsError::Git`] when a remote-tracking ref or its history cannot be read; [`VsError::Zip`] when a zip cannot be read.
+pub fn status(vcs: &dyn Vcs, inputs: StatusInputs<'_>) -> Result<Status, VsError> {
+    let StatusInputs {
+        rules,
+        zips,
+        tickets,
+        tracker,
+    } = inputs;
     let main = vcs.commit(&origin(&rules.settings.main))?;
     let mut inventory = Inventory {
         vcs,

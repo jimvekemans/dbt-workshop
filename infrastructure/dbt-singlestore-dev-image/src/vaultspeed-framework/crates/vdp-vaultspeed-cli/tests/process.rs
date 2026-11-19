@@ -106,7 +106,6 @@ fn help_lists_the_core_and_the_vaultspeed_commands() {
         "sources",
         "release",
         "jira",
-        "airflow",
         "sql",
         "qa",
         "env",
@@ -124,6 +123,19 @@ fn help_lists_the_core_and_the_vaultspeed_commands() {
             "`{command}` is missing from:\n{help}"
         );
     }
+}
+
+#[test]
+fn release_serve_and_the_release_commands_of_vdp_are_commands_of_the_binary() {
+    let dir = tempfile::tempdir().unwrap();
+    let out = run(dir.path(), &["release", "serve", "--help"]);
+    assert!(out.status.success(), "{}", stderr(&out));
+    for option in ["--repo-dir", "--port", "--ui-dir", "--validate"] {
+        assert!(stdout(&out).contains(option), "{option}: {}", stdout(&out));
+    }
+    let out = run(dir.path(), &["release", "analyse", "--help"]);
+    assert!(out.status.success(), "{}", stderr(&out));
+    assert!(stdout(&out).contains("--fixversion"), "{}", stdout(&out));
 }
 
 #[test]
@@ -292,4 +304,119 @@ fn history_without_a_file_says_so_and_creates_none() {
         stderr(&out)
     );
     assert!(!file.exists());
+}
+
+#[test]
+fn history_tables_match_golden_output() {
+    let dir = tempfile::tempdir().unwrap();
+    let file = dir.path().join("history.duckdb");
+    seed(&file);
+    let path = file.to_str().unwrap();
+
+    let single_out = run(
+        dir.path(),
+        &[
+            "--env",
+            "LDV",
+            "vaultspeed",
+            "history",
+            "--path",
+            path,
+            "object",
+            "edw.hub_x",
+        ],
+    );
+    assert!(single_out.status.success(), "{}", stderr(&single_out));
+    assert_eq!(
+        stdout(&single_out),
+        concat!(
+            "run_time              operation                 identifier  outcome  rows  duration\n",
+            "2026-01-01T00:00:01Z  CREATE/CREATE TABLE       edw.hub_x   applied  0     12 ms\n",
+            "2026-01-01T00:00:02Z  ALTER/ALTER TABLE RENAME  edw.hub_x   applied  0     12 ms\n",
+        )
+    );
+
+    let list_out = run(
+        dir.path(),
+        &[
+            "--env",
+            "LDV",
+            "vaultspeed",
+            "history",
+            "--path",
+            path,
+            "objects",
+        ],
+    );
+    assert!(list_out.status.success(), "{}", stderr(&list_out));
+    assert_eq!(
+        stdout(&list_out),
+        concat!(
+            "id  type   identifier     first_identifier  status  origin   created               ended\n",
+            "1   table  edw.hub_x_old  edw.hub_x         live    created  2026-01-01T00:00:01Z  -\n",
+        )
+    );
+}
+
+#[test]
+fn missing_history_object_warning_is_captured_in_ndjson_log() {
+    let dir = tempfile::tempdir().unwrap();
+    let file = dir.path().join("history.duckdb");
+    seed(&file);
+    let log = dir.path().join("missing.json");
+
+    let out = run(
+        dir.path(),
+        &[
+            "--log-json",
+            log.to_str().unwrap(),
+            "--env",
+            "LDV",
+            "vaultspeed",
+            "history",
+            "object",
+            "edw.nope",
+            "--path",
+            file.to_str().unwrap(),
+        ],
+    );
+    assert_eq!(out.status.code(), Some(1));
+    assert!(
+        stderr(&out).contains("no object named edw.nope in the LDV history"),
+        "{}",
+        stderr(&out)
+    );
+
+    let content = std::fs::read_to_string(&log).unwrap();
+    let events: Vec<serde_json::Value> = content
+        .lines()
+        .filter(|line| !line.trim().is_empty())
+        .map(|line| serde_json::from_str(line).unwrap())
+        .collect();
+    assert!(
+        events.iter().any(|record| {
+            record["level"] == "WARN"
+                && record["message"]
+                    .as_str()
+                    .is_some_and(|m| m.contains("no object named edw.nope in the LDV history"))
+        }),
+        "expected WARN event in NDJSON log, got: {content}"
+    );
+}
+
+#[test]
+fn dags_render_missing_file_prints_path_and_cause_once() {
+    let dir = tempfile::tempdir().unwrap();
+    let missing = dir.path().join("missing.py");
+    let os_cause = std::fs::read_to_string(&missing).unwrap_err().to_string();
+
+    let out = run(
+        dir.path(),
+        &["--no-vault", "vaultspeed", "dags", "render", "missing.py"],
+    );
+    assert_eq!(out.status.code(), Some(2));
+    assert_eq!(
+        stderr(&out),
+        format!("vdp-vaultspeed: error: {}: {os_cause}\n", missing.display())
+    );
 }

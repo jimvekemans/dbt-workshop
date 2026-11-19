@@ -14,6 +14,7 @@ pub enum ValueSlot {
 }
 
 impl ValueSlot {
+    /// The index of the argv token that holds (the start of) the value.
     pub const fn token(self) -> usize {
         match self {
             Self::Token(token) | Self::Inline { token, .. } => token,
@@ -49,14 +50,17 @@ pub struct Scan {
 }
 
 impl Scan {
+    /// The first command word (`build`, `run-operation`, ...), if any.
     pub fn command(&self) -> Option<&str> {
         self.path.first().map(String::as_str)
     }
 
+    /// Whether the flag called `name` (its long name) was used.
     pub fn uses(&self, name: &str) -> bool {
         self.flags.iter().any(|f| f.name == name)
     }
 
+    /// Whether any of the flags in `names` was used.
     pub fn uses_any(&self, names: &[String]) -> bool {
         names.iter().any(|n| self.uses(n))
     }

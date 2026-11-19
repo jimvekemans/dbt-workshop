@@ -18,6 +18,7 @@ pub struct DagAlterationPipeline {
 }
 
 impl DagAlterationPipeline {
+    /// Creates a pipeline that applies `transformers` in order and then checks the result with `validators`.
     pub fn new(
         transformers: Vec<Arc<dyn DagTransformer>>,
         validators: Vec<Arc<dyn DagValidator>>,
@@ -28,6 +29,13 @@ impl DagAlterationPipeline {
         }
     }
 
+    /// Applies every transformer to `original`, re-parsing after each, then runs the validators.
+    ///
+    /// # Errors
+    ///
+    /// Whatever a transformer or validator returns ([`DagError::NotApplicable`], [`DagError::UnknownSource`],
+    /// [`DagError::Invalid`]); [`DagError::OverlappingEdits`] when one transformer's edits overlap; [`DagError::Unparseable`]
+    /// when an intermediate result is not Python.
     pub fn render(&self, original: DagDocument, ctx: &DagContext) -> Result<RenderedDag, DagError> {
         let mut document = original;
         let mut applied = Vec::new();

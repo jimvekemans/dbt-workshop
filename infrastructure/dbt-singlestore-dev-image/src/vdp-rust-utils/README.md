@@ -11,23 +11,21 @@ dbt build -s my_model                    # the wrapper (a `dbt` link to vdp), or
 vdp sources add edw_inc.new_table        # add a source table, with its columns, from the database
 vdp sources add --missing                # add every source dbt reports as undefined (dbt1048)
 vdp sources rewrite                      # regenerate models/sources/sources_<db>.yml, keep referenced tables
-vdp seeds refresh-metadata               # seeds/meta/dbt_{models,sources}.{csv,yml}
-vdp maintenance export                   # run check_database_maintenance, save maintenance.json
 vdp release create --name release/2026_DROP05 --fixversion 2026_DROP05 [--dry-run] [--force [--accept-losses]]
 vdp release analyse --fixversion 2026_DROP05 [--patch release/2026_DROP04] [--json]
 vdp release patch release/2026_DROP05 --include INTEL-1,INTEL-2 [--dry-run]
 vdp release promote release/2026_DROP05 [--kind auto|new|patch] [--dry-run] [--accept-rollback] [--accept-losses]
 vdp release branches
-vdp release serve [--repo-dir /opt/project] [--port 8765] [--ui-dir build]   # feature `release-hub`
+vdp release-ui release serve [--repo-dir /opt/project] [--port 8765] [--ui-dir build]   # runs the separate `vdp-release-ui` binary (release-ui workspace)
 vdp jira advance --tickets INTEL-1 INTEL-2
-vdp airflow sync --tag v2026.05.1
 vdp sql run query.sql [--csv-dir out]    # vdp sql export edw_inc.t1
 vdp qa orphan-tables                     # vdp qa view-candidates
 vdp --env LDV vaultspeed plan            # runs the separate `vdp-vaultspeed` binary (vaultspeed-framework workspace)
 vdp env show | vdp env doctor
 ```
 
-Global options: `--env LDV|ABT|CBT|PRD` (default `$DBT_DEPLOY_TARGET`, else LDV), `--target`/`--profiles-dir`
+Global options: `--env LDV|ABT|CBT|PRD` (aliases `dev`, `val`, `prd` are LDV, ABT, PRD; default `$DBT_DEPLOY_TARGET`, else
+`[core].default_environment`, LDV unless configured), `--target`/`--profiles-dir`
 (the dbt target and profiles the toolkit itself uses), `--project-dir`, `--config`, `--no-vault`. The `dbt` link
 has no options of its own; it reads `$DBT_DEPLOY_TARGET`, `$VDP_CONFIG`, `$VDP_PROJECT_DIR`, `$VDP_NO_VAULT`.
 
@@ -37,14 +35,12 @@ Every capability is a crate behind a trait and a cargo feature of `vdp-cli`, so 
 
 | Feature | Crates | Commands |
 |---|---|---|
-| always | `vdp-core` (environments, layered config, project, lazy service context), `vdp-secrets`, `vdp-db`, `vdp-ssh`, `vdp-dbt` | `dbt`, `vdp dbt`, `seeds`, `maintenance`, `env`, `dev` |
+| always | `vdp-core` (environments, layered config, project, lazy service context), `vdp-secrets`, `vdp-db`, `vdp-dbt` | `dbt`, `vdp dbt`, `env`, `dev` |
 | `sources` (default) | `vdp-sources` | `sources add`, `sources rewrite` |
 | `release` (default) | `vdp-git`, `vdp-jira`, `vdp-release` | `release create\|analyse\|patch\|promote\|branches`, `jira advance` |
-| `release-hub` | + `vdp-notify`, `vdp-release-hub` | `release serve`: the HTTP API of the release UI (`release-ui` repository), dbt releases; other repositories plug in as hub extensions (`vdp-vaultspeed` adds the VaultSpeed one) |
-| `airflow` (default) | `vdp-airflow` | `airflow sync` |
 | `sql` (default) | `vdp-sql` | `sql run`, `sql export` |
 | `qa` (default) | `vdp-qa` | `qa orphan-tables`, `qa view-candidates` |
-| external | none (the `vaultspeed-framework` workspace) | `vaultspeed ...`: `vdp` hands the command line to the `vdp-vaultspeed` binary (see below) |
+| external | none (the `vaultspeed-framework` and `release-ui` workspaces) | `vaultspeed ...` and `release-ui ...`: `vdp` hands the command line to the `vdp-vaultspeed` and `vdp-release-ui` binaries (see below) |
 
 `cargo build -p vdp-cli --no-default-features --features sources` builds a wrapper with only source maintenance.
 
@@ -54,20 +50,32 @@ factories in the `vdp_core::Context`, and a command asks for what it needs (`Arc
 first use, once. A command that only needs git never logs in to Vault. Every module crate is also a plain
 library.
 
-**The VaultSpeed Automation Framework** is not in this workspace. Its infrastructure (secrets, database, SSH, SQL
-scripts) lives in `vdp-secrets`, `vdp-db`, `vdp-ssh` and `vdp-sql-script`; the framework itself, the `vdp-vaultspeed*`
-crates, is the sibling workspace `vaultspeed-framework` (see its README). It imports this workspace's crates by path
-and builds the `vdp-vaultspeed` binary: the whole `vdp` command line plus `vaultspeed ...`, and `release serve` with
-the VaultSpeed release extension. `vdp-cli` is a library for that: `args::GlobalArgs` and `args::Command` to embed in
-another command line, `bootstrap::context` (the services), `bootstrap::adbc_driver`, `bootstrap::resolve_secrets_from`
-with `SecretSources` and `ResolvedSecrets`, `commands::run_command` for every command the other binary does not
-handle, and `commands::hub::serve` with a factory for hub extensions (feature `release-hub`).
+**The VaultSpeed Automation Framework** is not in this workspace. Its infrastructure for secrets, database and SQL
+scripts lives in `vdp-secrets`, `vdp-db` and `vdp-sql-script`; the framework itself, the `vdp-vaultspeed*` crates and
+`vdp-ssh` (remote access over OpenSSH), is the sibling workspace `vaultspeed-framework` (see its README). It imports
+this workspace's crates by path and builds the `vdp-vaultspeed` binary: the whole `vdp` command line plus
+`vaultspeed ...`, and `release serve` with the VaultSpeed release extension.
 
-`vdp vaultspeed ...` (also with global options first: `vdp --env LDV vaultspeed plan`) replaces the `vdp` process with
-`vdp-vaultspeed`, found next to the `vdp` executable, else on `PATH`, and passes the original arguments unchanged. The
-exit code is that of `vdp-vaultspeed`. Without it, `vdp` exits with code 2 and says so. Any other unknown subcommand
-is an error as before. The same `vdp.toml` serves both binaries, so `vdp` does not warn about the `[vaultspeed]` and
-`[vaultspeed_release]` sections.
+**The release UI's backend** is not in this workspace either. The release hub (`vdp-release-hub`: the HTTP API over one
+clone of the dbt repository, its analyses and release jobs, sign-in and extensions) and the announcements it sends
+(`vdp-notify`) are the sibling workspace `release-ui` (see its README). It builds the `vdp-release-ui` binary: the whole
+`vdp` command line plus `release serve`. The release flows themselves (`vdp-release`) stay here, shared by
+`vdp release ...` and the hub. `vaultspeed-framework` depends on `release-ui` (its hub extension and `release serve`),
+and `release-ui` on this workspace, never the other way round.
+
+`vdp-cli` is a library for these binaries: `args::GlobalArgs` and `args::Command` to build another command line on,
+`bootstrap::context` (the services), `bootstrap::adbc_driver`, `bootstrap::resolve_secrets_from` with `SecretSources`
+and `ResolvedSecrets`, `commands::run_command` for every command the other binary does not handle, and
+`commands::run_dbt_validation` (the dbt validation of releases, which the hub reuses for `--validate`).
+
+`vdp vaultspeed ...` and `vdp release-ui ...` (also with global options first: `vdp --env LDV vaultspeed plan`) replace
+the `vdp` process with `vdp-vaultspeed` and `vdp-release-ui`, found next to the `vdp` executable, else on `PATH`. The
+table is `external::HANDOFFS`. The original arguments are passed unchanged and in order; the one change is that
+`release-ui` itself is dropped, because the binary is the release UI: `vdp release-ui release serve --port 8765` runs
+`vdp-release-ui release serve --port 8765`, whereas `vdp-vaultspeed` has a `vaultspeed` command of its own and gets it.
+The exit code is that of the other binary. Without it, `vdp` exits with code 2 and says so. Any other unknown subcommand
+is an error as before. The same `vdp.toml` serves all binaries, so `vdp` does not warn about the `[vaultspeed]`,
+`[vaultspeed_release]`, `[release_hub]` and `[notify]` sections.
 
 ## Configuration
 
@@ -80,16 +88,31 @@ built-in defaults < /etc/vdp/vdp.toml < <dbt project>/vdp.toml < --config / $VDP
 
 **Environments.** The environment is `--env`, else `$DBT_DEPLOY_TARGET` (`[core].environment_var`), else
 `[core].default_environment`. The four built-in environments (`LDV`, `ABT`, `CBT`, `PRD`) are always defined. A project
-with other names defines them as sections, and those names are then accepted (case-insensitively; `prd` is `PRD`):
+with other names defines them as sections, and those names are then accepted (case-insensitively).
+
+**Aliases.** `dev`, `val` and `prd` are aliases of the built-in `LDV`, `ABT` and `PRD` (`CBT` has none), wherever an
+environment is named: `--env dev`, `$DBT_DEPLOY_TARGET=dev`, `default_environment = "dev"` and `[environments.dev]`
+all mean `LDV`, so `vdp env show` prints `LDV`, and `VDP_ENV` for dbt is `LDV`. `$DBT_DEPLOY_TARGET` itself is never
+rewritten, so a project's `env_var('DBT_DEPLOY_TARGET')` still sees `dev`. An alias section merges key by key into
+the canonical one (`[environments.dev]` over the defaults of `LDV`); when both spellings set the same key, the alias
+section wins, as `prd` always won over `PRD`.
 
 ```toml
 [core]
-default_environment = "dev"
+default_environment = "dev"      # LDV
 
-[environments.dev]   # starts from the non-production defaults
+[environments.dev]               # overrides LDV's defaults key by key
 vault_url = ""
-ca_certificate = ""  # empty: no CA (no TLS, no Vault); `vdp env doctor` does not look for one
+ca_certificate = ""              # empty: no CA (no TLS, no Vault); `vdp env doctor` does not look for one
+
+[environments.qa-1]              # a custom environment starts from the non-production defaults
+vault_url = ""
 ```
+
+**Placeholders.** `{env}` in configuration (Vault paths in `[secrets].precedence`, `[qa].run_results_table`) is the
+lower-case canonical name (`ldv`, `abt`, `cbt`, `prd`; the VDAB convention), `{env_short}` the short name (`dev`,
+`val`, `cbt`, `prd`; a custom environment's lower-case name for both). A project whose databases are prefixed `dev_`,
+`val_`, `prd_` uses `{env_short}`: `{env_short}_vdp_mgmt.dbt_run_results`.
 
 An unknown name stops every command with exit code 2, listing the configured ones.
 
@@ -187,7 +210,6 @@ Each difference is intentional. The test that pins it is named in the last colum
 | Hand-written source files could not be extended | span-preserving insertion | `editor::tests`, `live_sources.rs` |
 | SQL built by string formatting (`download_from_singlestore`, introspection) | bound parameters, quoted identifiers | `vdp-sql`, `catalog.rs` |
 | SQLAlchemy/mysqlclient (Python), the `mysql` crate (the VaultSpeed framework) | every connection goes through SingleStore's ADBC driver, the one dbt v2 uses (`libadbc_driver_singlestore.so`, found like dbt finds it); profile TLS settings map as in dbt v2; a script returns its last result set | `vdp-db` (`tests/live_adbc.rs`) |
-| Seed YAML had `database:`/`schema:` next to `name:` | under `config:` only: dbt v2 rejects the old keys (dbt1060) and every parse failed | `seed_metadata::tests` |
 | Release: EDROP fix versions sorted after DROPs and compared with the target | any EDROP fix version keeps the ticket, in releases and patches (EDROP numbers run on their own) | `policy::tests` |
 | Release UI patch: cherry-picked only the feature tip, so multi-commit features lost commits | the ticket's mainline merges with `-m 1` (the whole feature); a ticket reverted on the branch is re-enabled by reverting the revert | `scenario.rs` |
 | Revert conflicts (a file changed on one side, deleted on the other) stopped the release; cherry-picks deleted the file | the CLI resolves leftover conflicts for the change being applied (`-X theirs` semantics) and names the files; the release UI pauses the job and the release manager decides per file (or a suggested selection change); `strict` surfaces every hunk | `real_repo.rs`, `scenario.rs`, `api.rs` |
@@ -200,7 +222,7 @@ Each difference is intentional. The test that pins it is named in the last colum
 | Any release branch could be changed | only the newest two (`--allow-old-release` in the CLI); a promoted branch is patched, not recreated | `only_the_newest_two_release_branches_can_change` |
 | No record on the branch of what a release contains | `changelog/<DROP>.md` (accepted, added, excluded, patches; JSON front matter) is the branch's last commit; a patch rewrites it at the tip; releases carry the others forward from main | `the_changelog_is_the_last_commit_and_a_patch_rewrites_it` |
 | Push failures were raw git text; git could hang forever | `PushRejection` (non-fast-forward, stale lease, protected, hook, auth, network), verified by a fetch; every git call has a timeout | `real_repo.rs` |
-| Release UI: Jira and SMTP credentials partly sent by the browser | only on the server (secret chain); the API reports readiness | `vdp-release-hub` `api.rs` |
+| Release UI: Jira and SMTP credentials partly sent by the browser | only on the server (secret chain); the API reports readiness | `vdp-release-hub` `api.rs` (release-ui workspace) |
 | Release UI: a commit inside a merged feature naming another ticket became a ticket of its own (its commit reverted separately) | a mainline merge belongs to the first ticket in its message (the branch's); dbt-vdp's INTEL-27178 (inside the INTEL-27128 merge) is the one case in the current history | parity run |
 | Release: merges scanned newest-first, so a revert was seen before its merge and the reverted ticket stayed in scope; feature commits were counted besides merges; ticket ids cut to 11 characters | mainline only, oldest first; whole ids | `scan::tests`, `scenario.rs` |
 | Fix versions compared as strings (`DROP5` > `DROP10`); "Nog in te plannen" never matched, so `--keep-empty-fixversions` kept it | numeric drop number; exclusions apply | `fix_version`, `policy::tests` |
@@ -208,7 +230,6 @@ Each difference is intentional. The test that pins it is named in the last colum
 | Release branch pushed right after creation, before `dbt compile` | pushed only after validation; dry run changes nothing local | `scenario.rs` |
 | Work tree auto-stashed silently | refused when dirty | `flow.rs` |
 | Jira transition by list index; credentials prompted with `input()` | by name (default: the first, as before); secrets only | `jira advance` |
-| Airflow: any host key accepted; `/root/.ssh/known_hosts`; remote failures logged and ignored; `--tag` optional (`reset --hard None`) | strict host keys; failures fail; `--tag` required and validated | `vdp-airflow` tests, `sync_locally.rs` |
 | QA orphans counted tests as readers | tests are not readers | `golden_qa.rs` |
 
 **Migration notes** (dbt v2 itself, not this toolkit):
@@ -235,21 +256,18 @@ Each difference is intentional. The test that pins it is named in the last colum
   `vdp-db/tests/live_adbc.rs` (the session contract: bound parameters of every kind, typed results, scripts and
   their last result set, MySQL error codes, routine bodies).
   The VaultSpeed framework's live tests are in its own workspace.
-- External subcommand (`crates/vdp-cli/tests/external.rs`): `vdp vaultspeed ...` against a stand-in `vdp-vaultspeed`
-  on `PATH`: the original arguments (global options first included) and the exit code pass through; a missing binary
-  is exit code 2 with an explanation; another unknown subcommand is clap's error.
+- External subcommands (`crates/vdp-cli/tests/external.rs`): `vdp vaultspeed ...` and `vdp release-ui ...` against
+  stand-ins for `vdp-vaultspeed` and `vdp-release-ui` on `PATH`: the original arguments (global options first included;
+  without `release-ui` itself for that command) and the exit code pass through; a missing binary is exit code 2 with
+  an explanation; another unknown subcommand is clap's error.
 - The VaultSpeed framework (deployer, planner, object history, VaultSpeed releases and their hub extension) is tested in
   the `vaultspeed-framework` workspace.
 
-- Release hub (`crates/vdp-release-hub/tests/api.rs`): the whole API over HTTP on real repositories (bare origin,
-  developer clone, the hub's own clone made through the API) with a fake Jira and a stub GitLab: clone, analyse
-  (409 while busy), selection (versioned), release, announce (preview), promote (new, then detected as patch),
-  patch with an EDROP, stale 409; a conflict decided over HTTP; a restart mid-conflict (interrupted job, health,
-  repair); sign-in, 401/403 by force-push rights, pushes over HTTPS as the user.
-- Announcement (`crates/vdp-notify/tests/golden.rs`): HTML and text byte-identical to the Python
-  `ReleaseEmailBuilder`; SMTP against a local stub server.
+- The release hub (API over HTTP on real repositories, clone lifecycle, extensions) and the announcements (HTML and text
+  byte-identical to the Python `ReleaseEmailBuilder`; SMTP against a local stub server) are tested in the `release-ui`
+  workspace, with the `release serve` process test.
 - Release flows on real data: a local bare copy of dbt-vdp (12 release branches, 74 tickets since the merge-base)
-  driven through `vdp release serve` and the Svelte UI with a stub Jira and a stub GitLab: release `2026_DROP25`
+  driven through `vdp-release-ui release serve` and the Svelte UI with a stub Jira and a stub GitLab: release `2026_DROP25`
   with two conflicts decided in the UI, repair after a restart, recreate with a lease, a new promotion listing the
   fix only main had, a patch re-enabling a ticket with the changelog rewritten, the patch promotion. `dev`
   unchanged throughout.

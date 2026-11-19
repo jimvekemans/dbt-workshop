@@ -2,6 +2,7 @@ use thiserror::Error;
 
 use crate::planner::ProbeError;
 
+/// Why a source could not be planned.
 #[derive(Debug, Error)]
 pub enum PlanError {
     #[error(transparent)]

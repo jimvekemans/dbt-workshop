@@ -139,7 +139,12 @@ impl VsJobResult {
     /// reason as its result instead of a lost one.
     pub fn into_result(self) -> vdp_release_hub::jobs::JobResult {
         vdp_release_hub::jobs::JobResult::Extension(serde_json::to_value(&self).unwrap_or_else(
-            |e| serde_json::json!({ "type": "vs_error", "message": e.to_string() }),
+            |e| {
+                serde_json::json!({
+                    "type": "vs_error",
+                    "message": vdp_vaultspeed_domain::display_chain(&e)
+                })
+            },
         ))
     }
 }

@@ -91,17 +91,33 @@ fn status_name(status: char) -> &'static str {
     }
 }
 
+/// Inputs for [`file_changes`].
+#[derive(Debug, Clone, Copy)]
+pub struct ChangesRequest<'a> {
+    pub from: &'a str,
+    pub to: &'a str,
+    pub history: Option<(&'a str, &'a str)>,
+}
+
+/// Inputs for [`file_diff`].
+#[derive(Debug, Clone, Copy)]
+pub struct FileDiffRequest<'a> {
+    pub from: &'a str,
+    pub to: &'a str,
+    pub path: &'a str,
+    pub limit: usize,
+}
+
 /// The files that differ between `from` and `to`; with `history` (a commit range), the commits that touched
 /// each file and their authors.
-pub fn file_changes(
-    vcs: &dyn Vcs,
-    from: &str,
-    to: &str,
-    history: Option<(&str, &str)>,
-) -> Result<FileChanges, GitError> {
-    let entries: Vec<DiffEntry> = vcs.diff_files(from, to)?;
+///
+/// # Errors
+///
+/// [`GitError`] when the diff or (with `history`) the commit listing fails.
+pub fn file_changes(vcs: &dyn Vcs, request: &ChangesRequest<'_>) -> Result<FileChanges, GitError> {
+    let entries: Vec<DiffEntry> = vcs.diff_files(request.from, request.to)?;
     let mut by_path: BTreeMap<String, Vec<CommitInfo>> = BTreeMap::new();
-    if let Some((start, end)) = history {
+    if let Some((start, end)) = request.history {
         for touched in vcs.commits_touching(start, end)? {
             let info = CommitInfo::from_commit(&touched.commit, None);
             for file in touched.files {
@@ -110,12 +126,12 @@ pub fn file_changes(
         }
     }
     let mut changes = FileChanges {
-        from: from.to_owned(),
-        to: to.to_owned(),
+        from: request.from.to_owned(),
+        to: request.to.to_owned(),
         files: Vec::new(),
         additions: 0,
         deletions: 0,
-        with_history: history.is_some(),
+        with_history: request.history.is_some(),
         conflicts: Vec::new(),
     };
     for entry in entries {
@@ -150,28 +166,26 @@ pub fn file_changes(
     Ok(changes)
 }
 
-/// One file's unified diff, cut at `limit` bytes.
-pub fn file_diff(
-    vcs: &dyn Vcs,
-    from: &str,
-    to: &str,
-    path: &str,
-    limit: usize,
-) -> Result<FileDiff, GitError> {
-    let mut diff = vcs.diff_text(from, to, path)?;
+/// One file's unified diff, cut at `request.limit` bytes.
+///
+/// # Errors
+///
+/// [`GitError`] when the diff fails.
+pub fn file_diff(vcs: &dyn Vcs, request: &FileDiffRequest<'_>) -> Result<FileDiff, GitError> {
+    let mut diff = vcs.diff_text(request.from, request.to, request.path)?;
     let binary = diff
         .lines()
         .any(|l| l.starts_with("Binary files ") && l.ends_with(" differ"));
-    let truncated = diff.len() > limit;
+    let truncated = diff.len() > request.limit;
     if truncated {
-        let mut cut = limit;
+        let mut cut = request.limit;
         while !diff.is_char_boundary(cut) {
             cut -= 1;
         }
         diff.truncate(cut);
     }
     Ok(FileDiff {
-        path: path.to_owned(),
+        path: request.path.to_owned(),
         diff: if binary { String::new() } else { diff },
         truncated,
         binary,

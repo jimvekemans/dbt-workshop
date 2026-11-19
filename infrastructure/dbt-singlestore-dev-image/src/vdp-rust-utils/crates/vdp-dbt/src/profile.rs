@@ -36,16 +36,37 @@ pub fn profiles_file(project_root: &Path, profiles_dir: Option<&Path>) -> PathBu
         .clone()
 }
 
+/// Options for [`resolve`].
+#[derive(Clone, Copy)]
+pub struct ResolveOptions<'a> {
+    pub profiles_dir: Option<&'a Path>,
+    pub target: Option<&'a str>,
+    pub lookup: &'a dyn Fn(&str) -> Option<String>,
+}
+
+impl std::fmt::Debug for ResolveOptions<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ResolveOptions")
+            .field("profiles_dir", &self.profiles_dir)
+            .field("target", &self.target)
+            .field("lookup", &"<lookup>")
+            .finish()
+    }
+}
+
 /// Reads the profile of `project` and maps its SingleStore target to connection settings.
 ///
-/// `lookup` answers `env_var(...)`: the secrets dbt itself would see (dotenv, Vault, the environment).
+/// `options.lookup` answers `env_var(...)`: the secrets dbt itself would see (dotenv, Vault, the environment).
+///
+/// # Errors
+///
+/// [`DbtError::Profile`] when `profiles.yml` cannot be read or rendered, has no such profile, has no default target
+/// and none was given, has no such target, or the target is not a usable SingleStore target.
 pub fn resolve(
     project: &DbtProject,
-    profiles_dir: Option<&Path>,
-    target: Option<&str>,
-    lookup: &dyn Fn(&str) -> Option<String>,
+    options: ResolveOptions<'_>,
 ) -> Result<ResolvedTarget, DbtError> {
-    let file = profiles_file(&project.root, profiles_dir);
+    let file = profiles_file(&project.root, options.profiles_dir);
     let error = |detail: String| DbtError::Profile {
         path: file.clone(),
         detail,
@@ -54,7 +75,7 @@ pub fn resolve(
     let names = names_in(&text);
     let values: BTreeMap<String, String> = names
         .into_iter()
-        .filter_map(|name| lookup(&name).map(|v| (name, v)))
+        .filter_map(|name| (options.lookup)(&name).map(|v| (name, v)))
         .collect();
     let jinja = jinja(values);
     // As dbt does, only the values of the selected target are rendered: another target's `var('SCHEMA')` or
@@ -83,10 +104,11 @@ pub fn resolve(
     let default_target = profile
         .get("target")
         .and_then(scalar)
-        .map(&render)
+        .map(render)
         .transpose()
         .map_err(|e| error(format!("target: {e}")))?;
-    let target_name = target
+    let target_name = options
+        .target
         .map(str::to_owned)
         .or(default_target)
         .ok_or_else(|| {
@@ -246,14 +268,38 @@ mod tests {
             "SINGLESTORE_PASS" => Some("pw".to_owned()),
             _ => None,
         };
-        let resolved = resolve(&project, Some(dir.path()), None, &lookup).unwrap();
+        let resolved = resolve(
+            &project,
+            ResolveOptions {
+                profiles_dir: Some(dir.path()),
+                target: None,
+                lookup: &lookup,
+            },
+        )
+        .unwrap();
         assert_eq!(resolved.target, "dev");
         assert_eq!(resolved.settings.endpoint(), "jdoe@127.0.0.1:3306/db1");
         assert_eq!(resolved.settings.tls, TlsMode::Disabled);
-        let tls = resolve(&project, Some(dir.path()), Some("tls"), &lookup).unwrap();
+        let tls = resolve(
+            &project,
+            ResolveOptions {
+                profiles_dir: Some(dir.path()),
+                target: Some("tls"),
+                lookup: &lookup,
+            },
+        )
+        .unwrap();
         // Certificates without ssl_mode mean verify_ca, as in dbt.
         assert_eq!(tls.settings.tls, TlsMode::VerifyCa);
-        let missing = resolve(&project, Some(dir.path()), None, &|_| None).unwrap_err();
+        let missing = resolve(
+            &project,
+            ResolveOptions {
+                profiles_dir: Some(dir.path()),
+                target: None,
+                lookup: &|_| None,
+            },
+        )
+        .unwrap_err();
         assert!(
             missing.to_string().contains("SINGLESTORE_USER"),
             "{missing}"
@@ -268,11 +314,27 @@ mod tests {
         let profiles = "p:\n  target: \"{{ env_var('DBT_TARGET', 'default') }}\"\n  outputs:\n    default:\n      type: singlestore\n      host: h\n      user: u\n      database: \"{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_edw_dv_rdv\"\n    run:\n      type: singlestore\n      host: h\n      user: \"{{ env_var('RUN_USER') }}\"\n      database: d\n      schema: \"{{ var('SCHEMA', '') }}\"\n      threads: \"{{ var('THREADS', 4) }}\"\n    strict:\n      type: singlestore\n      host: h\n      user: u\n      database: \"{{ var('DATABASE') }}\"\n";
         let project = project(dir.path(), profiles);
         let none = |_: &str| None;
-        let default = resolve(&project, Some(dir.path()), None, &none).unwrap();
+        let default = resolve(
+            &project,
+            ResolveOptions {
+                profiles_dir: Some(dir.path()),
+                target: None,
+                lookup: &none,
+            },
+        )
+        .unwrap();
         assert_eq!(default.target, "default");
         assert_eq!(default.settings.database.as_deref(), Some("dev_edw_dv_rdv"));
         let val = |name: &str| (name == "DBT_DEPLOY_TARGET").then(|| "val".to_owned());
-        let default = resolve(&project, Some(dir.path()), None, &val).unwrap();
+        let default = resolve(
+            &project,
+            ResolveOptions {
+                profiles_dir: Some(dir.path()),
+                target: None,
+                lookup: &val,
+            },
+        )
+        .unwrap();
         assert_eq!(default.settings.database.as_deref(), Some("val_edw_dv_rdv"));
 
         let run = |name: &str| match name {
@@ -280,16 +342,40 @@ mod tests {
             "DBT_TARGET" => Some("run".to_owned()),
             _ => None,
         };
-        let selected = resolve(&project, Some(dir.path()), None, &run).unwrap();
+        let selected = resolve(
+            &project,
+            ResolveOptions {
+                profiles_dir: Some(dir.path()),
+                target: None,
+                lookup: &run,
+            },
+        )
+        .unwrap();
         assert_eq!(
             selected.target, "run",
             "the default target name is rendered too"
         );
         assert_eq!(selected.settings.endpoint(), "runner@h:3306/d");
         // The run target needs RUN_USER: only when it is the one selected.
-        let error = resolve(&project, Some(dir.path()), Some("run"), &none).unwrap_err();
+        let error = resolve(
+            &project,
+            ResolveOptions {
+                profiles_dir: Some(dir.path()),
+                target: Some("run"),
+                lookup: &none,
+            },
+        )
+        .unwrap_err();
         assert!(error.to_string().contains("RUN_USER"), "{error}");
-        let error = resolve(&project, Some(dir.path()), Some("strict"), &none).unwrap_err();
+        let error = resolve(
+            &project,
+            ResolveOptions {
+                profiles_dir: Some(dir.path()),
+                target: Some("strict"),
+                lookup: &none,
+            },
+        )
+        .unwrap_err();
         assert!(
             error.to_string().contains("var('DATABASE') has no default"),
             "{error}"
@@ -302,7 +388,15 @@ mod tests {
         let dir = tempfile::tempdir().unwrap();
         let profiles = "p:\n  target: dev\n  outputs:\n{% for t in ['dev', 'val'] %}\n    {{ t }}:\n      type: singlestore\n      host: h\n      user: u\n      database: \"{{ t }}_db\"\n{% endfor %}\n";
         let project = project(dir.path(), profiles);
-        let val = resolve(&project, Some(dir.path()), Some("val"), &|_| None).unwrap();
+        let val = resolve(
+            &project,
+            ResolveOptions {
+                profiles_dir: Some(dir.path()),
+                target: Some("val"),
+                lookup: &|_| None,
+            },
+        )
+        .unwrap();
         assert_eq!(val.settings.database.as_deref(), Some("val_db"));
     }
 }

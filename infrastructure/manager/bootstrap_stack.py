@@ -9,6 +9,8 @@ Bootstrap of the dbt x SingleStore workshop stack (runs in the manager container
 3. Images: dbt-singlestore-base:1.11.11 and dbt-singlestore-dev:1.11.11; the GitLab runner (docker executor, docker socket).
 4. The dbt project (../../dbt-singlestore-workshop) is pushed with branches dev and main plus the first tag v1.0.0;
    the tag pipeline builds the dbt-vdp image and deploys it to dev. Bootstrap waits for that pipeline and reports it.
+5. Workshop Studio: it starts with the stack, before any of the above exists, so its first baseline check fails. Bootstrap
+   ends by resetting the studio (`studio.reset --wait`), which stops that check and runs a new one, and waits for it.
 """
 
 import json
@@ -45,6 +47,9 @@ S2_PORT = int(os.environ.get("S2_PORT", os.environ.get("WORKSHOP_S2_PORT", "2330
 # Containers are named workshop-<service> (docker-compose.yml): the stack never collides with other projects
 GITLAB_CONTAINER = os.environ.get("GITLAB_CONTAINER", "workshop-gitlab")
 RUNNER_CONTAINER = os.environ.get("RUNNER_CONTAINER", "workshop-gitlab-runner")
+STUDIO_CONTAINER = os.environ.get("STUDIO_CONTAINER", "workshop-studio")
+STUDIO_READY_TIMEOUT = 600          # seconds the studio gets to rebuild its baseline (about 70 s when all is empty)
+STUDIO_RESET_CMD = f"docker exec {STUDIO_CONTAINER} python -m studio.reset --wait {STUDIO_READY_TIMEOUT}"
 AIRFLOW_PORTS = {
     "dev": os.environ.get("WORKSHOP_AIRFLOW_DEV_PORT", "8088"),
     "val": os.environ.get("WORKSHOP_AIRFLOW_VAL_PORT", "8089"),
@@ -467,6 +472,30 @@ def restart_airflow_and_docs():
             time.sleep(5)
 
 
+def reset_studio(pipeline_status):
+    """Last step. Workshop Studio starts with `up`, before the landing tables and `dbt-vdp:v1.0.0` exist, so its first
+    baseline check ends `failed` and stays that way. Reset it now (this stops that check, forgets its state and starts
+    a new one) and wait until the baseline is ready. Never fatal: everything else is done, so on a problem only a
+    warning with the manual command is printed. Returns True when the studio is ready."""
+    print("  -> Resetting Workshop Studio and waiting for its baseline (data, version and tables in dev, val, prd)...")
+    if pipeline_status != "success":
+        print(f"  !! The first pipeline is {pipeline_status}, so dbt-vdp:{FIRST_TAG} was not built and the studio cannot "
+              f"get ready. Fix the pipeline, then run: {STUDIO_RESET_CMD}")
+        return False
+    try:
+        # the output (progress lines of the wait) goes straight to the console
+        code = subprocess.run(["docker", "exec", STUDIO_CONTAINER, "python", "-m", "studio.reset",
+                               "--wait", str(STUDIO_READY_TIMEOUT)], timeout=STUDIO_READY_TIMEOUT + 120).returncode
+    except (OSError, subprocess.TimeoutExpired) as e:
+        code = f"{type(e).__name__}: {e}"
+    if code == 0:
+        print("  -> Workshop Studio is ready.")
+        return True
+    print(f"  !! Workshop Studio is not ready ({'exit code ' + str(code) if isinstance(code, int) else code}). "
+          f"Check `docker logs {STUDIO_CONTAINER}`, then run: {STUDIO_RESET_CMD}")
+    return False
+
+
 def main():
     seed_singlestore()
     pat = bootstrap_gitlab_rails()
@@ -477,7 +506,8 @@ def main():
     previous = latest_pipeline_id(pat, pid)
     push_baseline(pat, pid)
     status = wait_for_pipeline(pat, pid, newer_than=previous)
-    print(f"\nWorkshop stack is ready (first pipeline: {status}). Password for the GitLab users and pu_*: {SHARED_USER_PWD}")
+    studio = reset_studio(status)
+    print(f"\nWorkshop stack is ready (first pipeline: {status}, Workshop Studio: {'ready' if studio else 'NOT ready, see above'}). Password for the GitLab users and pu_*: {SHARED_USER_PWD}")
 
 
 if __name__ == "__main__":

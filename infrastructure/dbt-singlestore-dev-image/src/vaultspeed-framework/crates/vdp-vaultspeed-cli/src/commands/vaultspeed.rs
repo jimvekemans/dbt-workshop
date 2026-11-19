@@ -9,13 +9,11 @@ use anyhow::{Context as _, Result, bail};
 use similar::TextDiff;
 use vdp_core::{Context, Environment, Outcome};
 use vdp_vaultspeed::ledger::LegacyImporter;
-use vdp_vaultspeed::report::{ConsoleSink, ErrorCsvSink, JsonReportSink, JunitSink, ReportSink};
-use vdp_vaultspeed::sources::{ArtifactReader, DirectoryReader, SourceFile, ZipArchiveReader};
-use vdp_vaultspeed::wiring::{self, Project, RunOptions};
+use vdp_vaultspeed::report::ReportSink;
+use vdp_vaultspeed::sources::load_path;
+use vdp_vaultspeed::wiring::{self, EngineInputs, Project, ReportSinkOptions, RunOptions};
 use vdp_vaultspeed_dags::{DagDocument, DagNamer, VaultSpeedDagNamer};
-use vdp_vaultspeed_domain::{
-    ChangeRecorder, NoHistory, ObjectRef, RelPath, RunId, RunMode, RunReport,
-};
+use vdp_vaultspeed_domain::{ChangeRecorder, NoHistory, ObjectRef, RunId, RunMode, RunReport};
 use vdp_vaultspeed_history::DuckDbHistory;
 
 use vdp_cli::args::GlobalArgs;
@@ -28,6 +26,10 @@ use crate::args::{
 use crate::bootstrap as infra;
 
 /// `--env` wins; otherwise `$TARGET_BRANCH`, which the framework's CI sets to the environment branch.
+///
+/// # Errors
+///
+/// An error when `$TARGET_BRANCH` is set but is not a valid environment name.
 pub fn environment_override(global: &GlobalArgs) -> Result<Option<Environment>> {
     if global.environment.is_some() {
         return Ok(global.environment);
@@ -43,6 +45,11 @@ pub fn environment_override(global: &GlobalArgs) -> Result<Option<Environment>> 
 }
 
 /// Runs a `vaultspeed` command in a context made for the environment [`environment_override`] gave.
+///
+/// # Errors
+///
+/// An error when the framework checkout cannot be set up, the infrastructure cannot be reached, or the command fails.
+/// A run that applies with failures is not an error: it is the [`Outcome`].
 pub fn run(ctx: &Context, global: &GlobalArgs, args: &VaultspeedArgs) -> Result<Outcome> {
     if let VaultspeedCommand::History(history_args) = &args.command {
         return history::run(ctx, args.framework_dir.as_deref(), history_args);
@@ -69,6 +76,23 @@ pub fn run(ctx: &Context, global: &GlobalArgs, args: &VaultspeedArgs) -> Result<
     }
 }
 
+/// What [`deploy`] asks [`infra::infrastructure`] for: `--offline` from the run args, Vault from the global
+/// `--no-vault`. Pure, so the two bools cannot be swapped unnoticed. Both the `deploy` and the `plan` command run
+/// through [`deploy`] (`plan` is a preview); the ledger commands build their own [`infra::InfrastructureOptions`].
+fn deploy_infrastructure_options(
+    environment: Environment,
+    args: &VaultspeedRunArgs,
+    mode: RunMode,
+    use_vault: bool,
+) -> infra::InfrastructureOptions {
+    infra::InfrastructureOptions {
+        environment,
+        offline: args.offline,
+        use_vault,
+        mode,
+    }
+}
+
 fn deploy(
     ctx: &Context,
     project: &Project,
@@ -85,7 +109,11 @@ fn deploy(
     } else {
         RunMode::Apply
     };
-    let resolved = infra::infrastructure(ctx, project, environment, args.offline, use_vault, mode)?;
+    let resolved = infra::infrastructure(
+        ctx,
+        project,
+        deploy_infrastructure_options(environment, args, mode, use_vault),
+    )?;
     let options = RunOptions {
         environment,
         mode,
@@ -93,19 +121,24 @@ fn deploy(
         git_sha: std::env::var("CI_COMMIT_SHA").ok(),
     };
     let history = open_history(project, mode, args.offline);
-    let report = wiring::engine_with_history(project, &options, &resolved.infra, history)?.run()?;
+    let report = wiring::engine_with_history(
+        project,
+        EngineInputs {
+            options: &options,
+            infra: &resolved.infra,
+            history,
+        },
+    )?
+    .run()?;
 
-    let mut sinks: Vec<Box<dyn ReportSink>> = vec![
-        Box::new(ConsoleSink::stdout(args.explain)),
-        Box::new(JsonReportSink::in_dir(project.root.join("logs"))),
-        Box::new(ErrorCsvSink::new(project.layout.logs_dir())),
-    ];
-    if let Some(path) = &args.report_out {
-        sinks.push(Box::new(JsonReportSink::to_file(ctx.cwd().join(path))));
-    }
-    if let Some(path) = &args.junit {
-        sinks.push(Box::new(JunitSink::new(ctx.cwd().join(path))));
-    }
+    let sinks = wiring::report_sinks(
+        project,
+        ReportSinkOptions {
+            explain: args.explain,
+            report_out: args.report_out.as_ref().map(|p| ctx.cwd().join(p)),
+            junit: args.junit.as_ref().map(|p| ctx.cwd().join(p)),
+        },
+    );
     write_reports(&report, &sinks);
     Ok(if report.has_failures() {
         Outcome::Failures
@@ -124,7 +157,11 @@ fn open_history(project: &Project, mode: RunMode, offline: bool) -> Arc<dyn Chan
     match DuckDbHistory::open(&path) {
         Ok(history) => Arc::new(history),
         Err(error) => {
-            tracing::warn!(path = %path.display(), %error, "object history unavailable; continuing without it");
+            tracing::warn!(
+                path = %path.display(),
+                error = %vdp_core::display_chain(&error),
+                "object history unavailable; continuing without it"
+            );
             Arc::new(NoHistory)
         }
     }
@@ -136,7 +173,9 @@ fn write_reports(report: &RunReport, sinks: &[Box<dyn ReportSink>]) {
             Ok(paths) => paths
                 .iter()
                 .for_each(|p| tracing::info!(path = %p.display(), "report written")),
-            Err(error) => tracing::error!(%error, "could not write report"),
+            Err(error) => {
+                tracing::error!(error = %vdp_core::display_chain(&error), "could not write report");
+            }
         }
     }
 }
@@ -152,10 +191,12 @@ fn ledger_import(
     let resolved = infra::infrastructure(
         ctx,
         project,
-        environment,
-        offline,
-        use_vault,
-        RunMode::Apply,
+        infra::InfrastructureOptions {
+            environment,
+            offline,
+            use_vault,
+            mode: RunMode::Apply,
+        },
     )?;
     let ledger = &resolved.infra.ledger;
     let existing = ledger.last_sequence()?;
@@ -188,10 +229,12 @@ fn ledger_stats(
     let resolved = infra::infrastructure(
         ctx,
         project,
-        environment,
-        offline,
-        use_vault,
-        RunMode::Preview,
+        infra::InfrastructureOptions {
+            environment,
+            offline,
+            use_vault,
+            mode: RunMode::Preview,
+        },
     )?;
     let ledger = &resolved.infra.ledger;
     let entries = ledger.entries()?;
@@ -247,20 +290,7 @@ fn dags_render(
     environment: Environment,
     host: Option<String>,
 ) -> Result<Outcome> {
-    let files: Vec<SourceFile> = if path
-        .extension()
-        .is_some_and(|e| e.eq_ignore_ascii_case("zip"))
-    {
-        ZipArchiveReader::new(path.to_owned()).read()?
-    } else if path.is_dir() {
-        DirectoryReader::new(path.to_owned()).read()?
-    } else {
-        let name = path.file_name().unwrap_or_default().to_string_lossy();
-        vec![SourceFile::new(
-            RelPath::new(name),
-            fs::read_to_string(path)?,
-        )]
-    };
+    let files = load_path(path)?;
     let host = host.unwrap_or_else(|| format!("singlestore-rel1{}.invalid", environment.lower()));
     let pipeline = wiring::dag_pipeline(project)?;
     let context = wiring::dag_context(project, environment, &host)?;
@@ -284,7 +314,7 @@ fn dags_render(
             }
             Err(error) => {
                 failed = true;
-                eprintln!("# {name}: {error}");
+                tracing::error!("# {name}: {}", vdp_core::display_chain(&error));
             }
         }
     }
@@ -293,4 +323,44 @@ fn dags_render(
     } else {
         Outcome::Success
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn run_args(offline: bool) -> VaultspeedRunArgs {
+        VaultspeedRunArgs {
+            offline,
+            files: None,
+            preview: false,
+            explain: false,
+            report_out: None,
+            junit: None,
+        }
+    }
+
+    #[test]
+    fn deploy_options_map_each_field_from_its_own_source() {
+        let offline_no_vault = deploy_infrastructure_options(
+            Environment::PRD,
+            &run_args(true),
+            RunMode::Preview,
+            false,
+        );
+        assert_eq!(offline_no_vault.environment, Environment::PRD);
+        assert!(offline_no_vault.offline, "offline comes from --offline");
+        assert!(
+            !offline_no_vault.use_vault,
+            "use_vault comes from the global flag"
+        );
+        assert_eq!(offline_no_vault.mode, RunMode::Preview);
+
+        let online_vault =
+            deploy_infrastructure_options(Environment::LDV, &run_args(false), RunMode::Apply, true);
+        assert_eq!(online_vault.environment, Environment::LDV);
+        assert!(!online_vault.offline);
+        assert!(online_vault.use_vault);
+        assert_eq!(online_vault.mode, RunMode::Apply);
+    }
 }

@@ -17,6 +17,7 @@ pub struct ServiceError {
 }
 
 impl ServiceError {
+    /// Creates an error for `service` with `message`.
     pub fn new(service: impl Into<String>, message: impl fmt::Display) -> Self {
         Self {
             service: service.into(),
@@ -40,6 +41,7 @@ enum SlotState {
 }
 
 struct Slot {
+    name: String,
     factory: Factory,
     state: Mutex<SlotState>,
 }
@@ -72,6 +74,7 @@ impl fmt::Debug for Context {
 }
 
 impl Context {
+    /// Starts a context on `config`: the default environment, no project, the current directory and not in CI.
     pub fn builder(config: Config) -> ContextBuilder {
         ContextBuilder {
             context: Self {
@@ -85,14 +88,17 @@ impl Context {
         }
     }
 
+    /// The environment commands run against.
     pub const fn environment(&self) -> Environment {
         self.environment
     }
 
+    /// The merged configuration.
     pub const fn config(&self) -> &Config {
         &self.config
     }
 
+    /// The working directory.
     pub fn cwd(&self) -> &Path {
         &self.cwd
     }
@@ -103,12 +109,17 @@ impl Context {
     }
 
     /// The dbt project, or an error naming where it was looked for.
+    ///
+    /// # Errors
+    ///
+    /// [`CoreError::NoProject`] when no dbt project was found at or above the working directory.
     pub fn project(&self) -> Result<&ProjectLayout, CoreError> {
         self.project
             .as_ref()
             .ok_or_else(|| CoreError::NoProject(self.cwd.clone()))
     }
 
+    /// The dbt project, if one was found.
     pub const fn project_opt(&self) -> Option<&ProjectLayout> {
         self.project.as_ref()
     }
@@ -128,6 +139,11 @@ impl Context {
     }
 
     /// The shared service of type `T`, created on first use.
+    ///
+    /// # Errors
+    ///
+    /// [`ServiceError`] when no provider for `T` is registered, when its factory failed (the failure is cached and returned
+    /// again on later calls), or when the services depend on each other in a cycle.
     pub fn service<T: Any + Send + Sync + Clone>(&self) -> Result<T, ServiceError> {
         let slot = self.slots.get(&TypeId::of::<T>()).ok_or_else(|| {
             ServiceError::of::<T>("not available in this build or command (no provider registered)")
@@ -150,6 +166,8 @@ impl Context {
             Ok(value) => {
                 let typed = downcast::<T>(&value);
                 *state = SlotState::Ready(value);
+                drop(state);
+                crate::milestone::initialized_debug(&slot.name, "service initialized");
                 Ok(typed)
             }
             Err(error) => {
@@ -195,6 +213,38 @@ fn short_type_name<T>() -> String {
     out.trim_end().to_owned()
 }
 
+fn human_service_name<T>() -> String {
+    let short = short_type_name::<T>();
+    let ident = short
+        .trim_end_matches('>')
+        .split(['<', ':', ' '])
+        .rfind(|part| !part.is_empty() && *part != "dyn")
+        .unwrap_or("service");
+    let mut human = String::with_capacity(ident.len() + 4);
+    let mut prev_lower_or_digit = false;
+    for ch in ident.chars() {
+        if ch == '_' {
+            if !human.is_empty() && !human.ends_with(' ') {
+                human.push(' ');
+            }
+            prev_lower_or_digit = false;
+            continue;
+        }
+        if ch.is_uppercase() && prev_lower_or_digit {
+            human.push(' ');
+        }
+        for lower in ch.to_lowercase() {
+            human.push(lower);
+        }
+        prev_lower_or_digit = ch.is_lowercase() || ch.is_ascii_digit();
+    }
+    if human.is_empty() {
+        "service".into()
+    } else {
+        human
+    }
+}
+
 /// Assembles a [`Context`].
 #[derive(Debug)]
 pub struct ContextBuilder {
@@ -202,33 +252,47 @@ pub struct ContextBuilder {
 }
 
 impl ContextBuilder {
+    /// Sets the environment.
     #[must_use]
     pub fn environment(mut self, environment: Environment) -> Self {
         self.context.environment = environment;
         self
     }
 
+    /// Sets the dbt project (`None`: no project).
     #[must_use]
     pub fn project(mut self, project: Option<ProjectLayout>) -> Self {
         self.context.project = project;
         self
     }
 
+    /// Sets the working directory.
     #[must_use]
     pub fn cwd(mut self, cwd: PathBuf) -> Self {
         self.context.cwd = cwd;
         self
     }
 
+    /// Sets whether the process runs in CI.
     #[must_use]
     pub fn in_ci(mut self, in_ci: bool) -> Self {
         self.context.in_ci = in_ci;
         self
     }
 
-    /// Registers the factory for service `T`, replacing an earlier one.
+    /// Registers the factory for service `T` with a human-readable default name, replacing an earlier one.
     #[must_use]
-    pub fn provide<T, F>(mut self, factory: F) -> Self
+    pub fn provide<T, F>(self, factory: F) -> Self
+    where
+        T: Any + Send + Sync + Clone,
+        F: Fn(&Context) -> Result<T, ServiceError> + Send + Sync + 'static,
+    {
+        self.provide_named(human_service_name::<T>(), factory)
+    }
+
+    /// Registers the factory for service `T` under `name` (reported in init milestones), replacing an earlier one.
+    #[must_use]
+    pub fn provide_named<T, F>(mut self, name: impl Into<String>, factory: F) -> Self
     where
         T: Any + Send + Sync + Clone,
         F: Fn(&Context) -> Result<T, ServiceError> + Send + Sync + 'static,
@@ -238,6 +302,7 @@ impl ContextBuilder {
         self.context.slots.insert(
             TypeId::of::<T>(),
             Slot {
+                name: name.into(),
                 factory,
                 state: Mutex::new(SlotState::Empty),
             },
@@ -251,6 +316,17 @@ impl ContextBuilder {
         self.provide(move |_| Ok(value.clone()))
     }
 
+    /// Registers a ready-made value for service `T` under `name`.
+    #[must_use]
+    pub fn provide_value_named<T: Any + Send + Sync + Clone>(
+        self,
+        name: impl Into<String>,
+        value: T,
+    ) -> Self {
+        self.provide_named(name, move |_| Ok(value.clone()))
+    }
+
+    /// Finishes the context.
     pub fn build(self) -> Context {
         self.context
     }
@@ -321,5 +397,96 @@ mod tests {
             .build();
         let error = context.service::<Name>().err().unwrap();
         assert!(error.to_string().contains("cycle"), "{error}");
+    }
+
+    #[test]
+    fn service_init_emits_structured_initialized_milestone_once() {
+        use std::fmt::Debug;
+
+        use tracing::Subscriber;
+        use tracing::field::{Field, Visit};
+        use tracing_subscriber::layer::{Context as LayerContext, Layer, SubscriberExt as _};
+
+        #[derive(Default)]
+        struct FieldVisitor {
+            milestone: Option<String>,
+            subject: Option<String>,
+            message: Option<String>,
+        }
+
+        impl Visit for FieldVisitor {
+            fn record_str(&mut self, field: &Field, value: &str) {
+                match field.name() {
+                    "milestone" => self.milestone = Some(value.to_owned()),
+                    "subject" => self.subject = Some(value.to_owned()),
+                    "message" => self.message = Some(value.to_owned()),
+                    _ => {}
+                }
+            }
+
+            fn record_debug(&mut self, field: &Field, value: &dyn Debug) {
+                if field.name() == "message" {
+                    self.message = Some(format!("{value:?}"));
+                }
+            }
+        }
+
+        type CapturedMilestones = Arc<Mutex<Vec<(tracing::Level, String, String, String)>>>;
+        struct MilestoneLayer(CapturedMilestones);
+
+        impl<S: Subscriber> Layer<S> for MilestoneLayer {
+            fn on_event(&self, event: &tracing::Event<'_>, _ctx: LayerContext<'_, S>) {
+                let mut visitor = FieldVisitor::default();
+                event.record(&mut visitor);
+                if let Some(milestone) = visitor.milestone {
+                    self.0
+                        .lock()
+                        .unwrap_or_else(std::sync::PoisonError::into_inner)
+                        .push((
+                            *event.metadata().level(),
+                            milestone,
+                            visitor.subject.unwrap_or_default(),
+                            visitor.message.unwrap_or_default(),
+                        ));
+                }
+            }
+        }
+
+        let captured = Arc::new(Mutex::new(Vec::new()));
+        let subscriber = tracing_subscriber::registry().with(MilestoneLayer(Arc::clone(&captured)));
+        let context = Context::builder(Config::default())
+            .provide(|_| Ok(Name("vdp".into())))
+            .provide(|ctx| {
+                let name = ctx.service::<Name>()?;
+                Ok(Arc::new(Hello(name.0)) as Arc<dyn Greeter>)
+            })
+            .build();
+
+        tracing::subscriber::with_default(subscriber, || {
+            let _ = context.service::<Arc<dyn Greeter>>().unwrap();
+            let _ = context.service::<Arc<dyn Greeter>>().unwrap();
+        });
+
+        let events = captured
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .clone();
+        assert_eq!(
+            events,
+            vec![
+                (
+                    tracing::Level::DEBUG,
+                    "initialized".into(),
+                    "name".into(),
+                    "service initialized".into()
+                ),
+                (
+                    tracing::Level::DEBUG,
+                    "initialized".into(),
+                    "greeter".into(),
+                    "service initialized".into()
+                ),
+            ]
+        );
     }
 }

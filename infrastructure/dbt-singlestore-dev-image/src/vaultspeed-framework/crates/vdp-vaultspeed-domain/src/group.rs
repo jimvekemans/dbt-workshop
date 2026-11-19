@@ -10,10 +10,12 @@ use crate::{ArtifactKind, Fingerprint, JobName, Layer, ObjectRef, OrderKey, RelP
 pub struct GroupId(String);
 
 impl GroupId {
+    /// The id of the group at position `ordinal` of the file `rel_path` of `source`, as `source:rel_path#ordinal`.
     pub fn new(source: &str, rel_path: &RelPath, ordinal: usize) -> Self {
         Self(format!("{source}:{rel_path}#{ordinal}"))
     }
 
+    /// The id as text.
     pub fn as_str(&self) -> &str {
         &self.0
     }
@@ -60,14 +62,17 @@ impl StatementGroup {
             .expect("a statement group is never empty")
     }
 
+    /// The ordering rank of the group's head statement (see [`crate::StatementKind::rank`]).
     pub fn rank(&self) -> u8 {
         self.head().kind.rank()
     }
 
+    /// The raw fingerprints of all statements, combined in order.
     pub fn raw_fp(&self) -> Fingerprint {
         Fingerprint::combine(self.statements.iter().map(|s| &s.raw_fp))
     }
 
+    /// The objects the statements target, in statement order.
     pub fn targets(&self) -> impl Iterator<Item = &ObjectRef> {
         self.statements.iter().filter_map(|s| s.target.as_ref())
     }

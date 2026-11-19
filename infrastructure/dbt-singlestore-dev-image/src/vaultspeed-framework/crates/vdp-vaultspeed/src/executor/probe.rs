@@ -11,6 +11,7 @@ pub struct InformationSchemaProbe {
 }
 
 impl InformationSchemaProbe {
+    /// Creates a probe that asks `information_schema` through `session`.
     pub fn new(session: Arc<dyn SqlSession>) -> Self {
         Self { session }
     }
@@ -23,7 +24,7 @@ impl InformationSchemaProbe {
                  WHERE LOWER(TABLE_SCHEMA) = ? AND LOWER(TABLE_NAME) = ?",
                 &[schema.into(), table.into()],
             )
-            .map_err(|e| ProbeError(e.to_string()))?;
+            .map_err(|e| ProbeError(vdp_core::display_chain(&e)))?;
         Ok(!rows.is_empty())
     }
 
@@ -40,7 +41,7 @@ impl InformationSchemaProbe {
                  WHERE LOWER(TABLE_SCHEMA) = ? AND LOWER(TABLE_NAME) = ? AND LOWER(COLUMN_NAME) = ?",
                 &[schema.into(), table.into(), column.into()],
             )
-            .map_err(|e| ProbeError(e.to_string()))?;
+            .map_err(|e| ProbeError(vdp_core::display_chain(&e)))?;
         Ok(rows.first().map(|row| {
             row.first()
                 .and_then(SqlValue::as_text)

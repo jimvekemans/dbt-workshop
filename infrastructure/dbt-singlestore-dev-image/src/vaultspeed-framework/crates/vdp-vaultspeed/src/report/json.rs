@@ -27,6 +27,7 @@ impl JsonReportSink {
         }
     }
 
+    /// Writes the report to `path`.
     pub const fn to_file(path: PathBuf) -> Self {
         Self {
             target: Target::File(path),

@@ -13,9 +13,14 @@ use crate::planner::{DecisionContext, PlanError};
 
 /// A veto on executing a group.
 pub trait ExecutionGuard: Send + Sync + Debug {
+    /// The guard's name, shown with its refusal.
     fn name(&self) -> &'static str;
 
     /// `Some(reason)` refuses the group.
+    ///
+    /// # Errors
+    ///
+    /// [`PlanError::Ledger`] when the ledger cannot be read.
     fn veto(
         &self,
         group: &StatementGroup,
@@ -38,6 +43,7 @@ pub struct RebuildGuard {
 }
 
 impl RebuildGuard {
+    /// Creates the guard for the order numbers in `protected_order_numbers`.
     pub const fn new(protected_order_numbers: Vec<u32>) -> Self {
         Self {
             protected_order_numbers,

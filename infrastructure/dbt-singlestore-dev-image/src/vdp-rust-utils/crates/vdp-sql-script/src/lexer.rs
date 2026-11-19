@@ -43,6 +43,7 @@ impl Token<'_> {
         )
     }
 
+    /// Whether the token is a line or block comment.
     pub const fn is_comment(&self) -> bool {
         matches!(self.kind, TokenKind::LineComment | TokenKind::BlockComment)
     }
@@ -52,6 +53,7 @@ impl Token<'_> {
         self.kind == TokenKind::Word && self.text.eq_ignore_ascii_case(keyword)
     }
 
+    /// The byte offset just past the token.
     pub const fn end(&self) -> usize {
         self.start + self.text.len()
     }

@@ -63,6 +63,7 @@ impl Default for VsReleaseSettings {
 }
 
 impl VsReleaseSettings {
+    /// The name of the config section these settings are read from (`[vaultspeed_release]`).
     pub const SECTION: &'static str = "vaultspeed_release";
 }
 
@@ -78,14 +79,17 @@ fn drop_pattern() -> Regex {
 }
 
 impl VsRules {
+    /// Creates the rules from `settings`.
     pub fn new(settings: VsReleaseSettings) -> Self {
         Self { settings }
     }
 
+    /// The environment branches, lowest first.
     pub fn environments(&self) -> &[String] {
         &self.settings.environments
     }
 
+    /// Whether `branch` is an environment branch.
     pub fn is_environment(&self, branch: &str) -> bool {
         self.settings.environments.iter().any(|e| e == branch)
     }
@@ -102,17 +106,23 @@ impl VsRules {
             .map(|i| self.settings.environments[i].as_str())
     }
 
+    /// Whether `branch` is a zip branch (it starts with the zip prefix and has something after it).
     pub fn is_zip_branch(&self, branch: &str) -> bool {
         branch.starts_with(&self.settings.zip_prefix)
             && branch.len() > self.settings.zip_prefix.len()
     }
 
+    /// Whether `branch` is a release branch (it starts with the release prefix and has something after it).
     pub fn is_release_branch(&self, branch: &str) -> bool {
         branch.starts_with(&self.settings.release_prefix)
             && branch.len() > self.settings.release_prefix.len()
     }
 
     /// The release branch for a DROP name (`feature/2026_DROP25.1`).
+    ///
+    /// # Errors
+    ///
+    /// [`VsError::Invalid`] when `drop` is not `<year>_DROP<n>` or `<year>_DROP<n>.<m>` (EDROP is accepted).
     pub fn release_branch(&self, drop: &str) -> Result<String, VsError> {
         let drop = drop.trim();
         if !drop_pattern().is_match(drop) {
@@ -154,6 +164,10 @@ impl VsRules {
     }
 
     /// `Err` when a commit on `main` would touch a path that belongs to the environments.
+    ///
+    /// # Errors
+    ///
+    /// [`VsError::Refused`] when a path starts with one of the excluded skeleton prefixes.
     pub fn check_skeleton<'a>(
         &self,
         paths: impl IntoIterator<Item = &'a str>,

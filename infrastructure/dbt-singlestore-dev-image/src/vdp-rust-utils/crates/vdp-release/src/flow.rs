@@ -108,6 +108,7 @@ pub enum Step {
 }
 
 impl Step {
+    /// The hash of the commit the step applies.
     pub fn commit(&self) -> &str {
         match self {
             Self::Revert { commit, .. }
@@ -117,6 +118,7 @@ impl Step {
         }
     }
 
+    /// A one-line description for logs and prompts, for example `revert INTEL-1 (abc1234)`.
     pub fn describe(&self) -> String {
         let short = &self.commit()[..self.commit().len().min(7)];
         match self {
@@ -249,7 +251,7 @@ impl StepRunner<'_> {
     fn apply(&self, step: &Step) -> Result<StepOutcome, ReleaseError> {
         let failed = |e: vdp_git::GitError| ReleaseError::Apply {
             action: step.describe(),
-            detail: e.to_string(),
+            detail: vdp_core::display_chain(&e),
         };
         let operation = conflicts::operation(step);
         let options = self.conflicts.options;
@@ -380,7 +382,8 @@ pub(crate) fn check_fresh(
 ) -> Result<(), ReleaseError> {
     if let Err(error) = vcs.fetch_all() {
         progress(&format!(
-            "fetch failed (continuing with local refs): {error}"
+            "fetch failed (continuing with local refs): {}",
+            vdp_core::display_chain(&error)
         ));
     }
     let gone = |name: &str| {
@@ -423,9 +426,11 @@ impl ReleaseFlow<'_> {
         if origin.head.is_some() {
             outcome.losses = release_only(
                 self.vcs,
-                &analysis.source_head,
-                branch,
-                &self.rules.ticket_prefix,
+                &crate::ReleaseOnlyRequest {
+                    source: &analysis.source_head,
+                    head: branch,
+                    ticket_prefix: &self.rules.ticket_prefix,
+                },
             )?;
         }
         outcome.origin = Some(origin.clone());
@@ -475,6 +480,17 @@ impl ReleaseFlow<'_> {
         (self.progress)(&format!("[dry run] would push {branch}"));
     }
 
+    /// Cuts the release branch for `analysis`: reverts the tickets in `revert` (newest first), carries over the compare
+    /// branch's reverts, optionally commits the changelog, validates and pushes. With `options.dry_run` it only plans.
+    ///
+    /// # Errors
+    ///
+    /// [`ReleaseError::Invalid`] when the branch is not a release branch or the selection is invalid;
+    /// [`ReleaseError::Stale`] when a ref moved or disappeared since the analysis or origin's branch moved since the preview;
+    /// [`ReleaseError::Refused`] when the branch exists on origin and `force` is off, dropped commits were not accepted, or
+    /// the work tree is dirty; [`ReleaseError::Apply`] when a step fails; [`ReleaseError::Aborted`] when the release manager
+    /// stops at a conflict; [`ReleaseError::Validation`] when the validation hook fails (nothing is pushed);
+    /// [`ReleaseError::Git`] when another git operation fails (including a rejected push).
     pub fn run(
         &self,
         analysis: &Analysis,

@@ -13,6 +13,7 @@ pub enum ErrorVerdict {
 
 /// Decides whether a database error is a real failure.
 pub trait ErrorClassifier: Send + Sync + Debug {
+    /// Decides whether `error` of `statement` proves its effect already holds, or is a failure.
     fn classify(&self, statement: &Statement, error: &DbError) -> ErrorVerdict;
 }
 

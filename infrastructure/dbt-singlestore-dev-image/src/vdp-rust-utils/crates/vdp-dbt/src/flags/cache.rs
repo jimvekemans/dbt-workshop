@@ -55,7 +55,7 @@ pub fn for_binary(binary: &Path) -> Grammar {
             grammar
         }
         Err(error) => {
-            tracing::debug!(%error, "cannot derive the dbt grammar from the engine; using the embedded one");
+            tracing::debug!(error = %vdp_core::display_chain(&error), "cannot derive the dbt grammar from the engine; using the embedded one");
             Grammar::embedded()
         }
     }

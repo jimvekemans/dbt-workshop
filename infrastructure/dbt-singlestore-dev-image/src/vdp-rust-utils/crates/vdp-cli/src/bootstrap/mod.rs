@@ -2,7 +2,6 @@
 
 mod secrets;
 
-use std::io::IsTerminal;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
@@ -26,17 +25,7 @@ pub const PROJECT_CONFIG: &str = "vdp.toml";
 
 /// Logs go to stderr; `VDP_LOG` overrides the default filter.
 pub fn init_logging(verbose: bool, default_filter: &str) {
-    let filter = if verbose { "debug" } else { default_filter };
-    let _ = tracing_subscriber::fmt()
-        .with_env_filter(
-            tracing_subscriber::EnvFilter::try_from_env("VDP_LOG")
-                .unwrap_or_else(|_| filter.into()),
-        )
-        .with_writer(std::io::stderr)
-        .with_ansi(std::io::stderr().is_terminal())
-        .with_target(false)
-        .without_time()
-        .try_init();
+    crate::runtime::init_stderr_logging(if verbose { "debug" } else { default_filter }, false);
 }
 
 /// The configuration files that apply, lowest priority first, with whether each must exist.
@@ -64,6 +53,11 @@ pub fn locate_project(project_dir: Option<&Path>, cwd: &Path) -> Option<ProjectL
 
 /// `--env`, else the configured variable (`DBT_DEPLOY_TARGET`), else the configured default; it must be one of the
 /// configured environments (the four built-in ones, plus any `[environments.<name>]`), spelled as configured.
+///
+/// # Errors
+///
+/// An error when the environment (`explicit`, or the one named by the configured environment variable) is not one of
+/// the configured environments or is not a valid name.
 pub fn select_environment(explicit: Option<Environment>, config: &Config) -> Result<Environment> {
     if let Some(env) = explicit {
         return Ok(config.known_environment(env)?);
@@ -129,6 +123,12 @@ pub fn adbc_driver(ctx: &Context) -> DriverSource {
 }
 
 /// Builds the context with every service this build offers.
+///
+/// # Errors
+///
+/// An error when a configuration file cannot be read or is invalid, or the selected environment is unknown. Services
+/// (secrets, the dbt project and profile, the database session, ...) are created on first use, so their failures
+/// surface then, not here.
 pub fn context(global: &GlobalArgs, cwd: &Path) -> Result<Context> {
     let project = locate_project(global.project_dir.as_deref(), cwd);
     let config = Config::load(&config_files(project.as_ref(), global.config.as_deref()))?;
@@ -143,25 +143,30 @@ pub fn context(global: &GlobalArgs, cwd: &Path) -> Result<Context> {
         .project(project)
         .cwd(cwd.to_owned())
         .in_ci(std::env::var_os("CI_PROJECT_DIR").is_some())
-        .provide(move |ctx: &Context| Ok(Arc::new(resolve_secrets(ctx, use_vault)?)))
-        .provide(|ctx: &Context| {
+        .provide_named("secrets", move |ctx: &Context| {
+            Ok(Arc::new(resolve_secrets(ctx, use_vault)?))
+        })
+        .provide_named("secret provider", |ctx: &Context| {
             let resolved = ctx.service::<Arc<ResolvedSecrets>>()?;
             Ok(resolved as Arc<dyn SecretProvider>)
         })
-        .provide_value(DbtSelection {
-            target: global.target.clone(),
-            profiles_dir: global.profiles_dir.as_ref().map(|d| cwd.join(d)),
-        })
-        .provide(|ctx: &Context| {
+        .provide_value_named(
+            "dbt selection",
+            DbtSelection {
+                target: global.target.clone(),
+                profiles_dir: global.profiles_dir.as_ref().map(|d| cwd.join(d)),
+            },
+        )
+        .provide_named("dbt project", |ctx: &Context| {
             let root = &ctx
                 .project()
-                .map_err(|e| ServiceError::new("dbt project", e))?
+                .map_err(|e| ServiceError::new("dbt project", vdp_core::display_chain(&e)))?
                 .root;
             DbtProject::load(root)
                 .map(Arc::new)
-                .map_err(|e| ServiceError::new("dbt project", e))
+                .map_err(|e| ServiceError::new("dbt project", vdp_core::display_chain(&e)))
         })
-        .provide(|ctx: &Context| {
+        .provide_named("dbt profile", |ctx: &Context| {
             let project = ctx.service::<Arc<DbtProject>>()?;
             let selection = ctx.service::<DbtSelection>()?;
             let secrets = ctx.service::<Arc<dyn SecretProvider>>()?;
@@ -173,30 +178,38 @@ pub fn context(global: &GlobalArgs, cwd: &Path) -> Result<Context> {
             };
             profile::resolve(
                 &project,
-                selection.profiles_dir.as_deref(),
-                selection.target.as_deref(),
-                &lookup,
+                profile::ResolveOptions {
+                    profiles_dir: selection.profiles_dir.as_deref(),
+                    target: selection.target.as_deref(),
+                    lookup: &lookup,
+                },
             )
             .map(Arc::new)
-            .map_err(|e| ServiceError::new("dbt profile", e))
+            .map_err(|e| ServiceError::new("dbt profile", vdp_core::display_chain(&e)))
         })
-        .provide(|ctx: &Context| {
+        .provide_named("database", |ctx: &Context| {
             let target = ctx.service::<Arc<ResolvedTarget>>()?;
-            let session = AdbcSession::connect(&adbc_driver(ctx), &target.settings)
-                .map_err(|e| service("database")(format!("{}: {e}", target.settings.endpoint())))?;
+            let session =
+                AdbcSession::connect(&adbc_driver(ctx), &target.settings).map_err(|e| {
+                    service("database")(format!(
+                        "{}: {}",
+                        target.settings.endpoint(),
+                        vdp_core::display_chain(&e)
+                    ))
+                })?;
             Ok(Arc::new(session) as Arc<dyn SqlSession>)
         })
-        .provide(|ctx: &Context| {
+        .provide_named("dbt", |ctx: &Context| {
             let settings: DbtSettings = ctx
                 .config()
                 .section(DbtSettings::SECTION)
-                .map_err(|e| ServiceError::new("dbt", e))?;
+                .map_err(|e| ServiceError::new("dbt", vdp_core::display_chain(&e)))?;
             let binary = vdp_dbt::locate_engine(Some(&settings.binary))
-                .map_err(|e| ServiceError::new("dbt", e))?;
+                .map_err(|e| ServiceError::new("dbt", vdp_core::display_chain(&e)))?;
             let secrets = ctx.service::<Arc<dyn SecretProvider>>().ok();
             vdp_dbt::wrapper::module_engine(ctx, binary, secrets.as_deref())
                 .map(|engine| Arc::new(engine) as Arc<dyn DbtEngine>)
-                .map_err(|e| ServiceError::new("dbt", e))
+                .map_err(|e| ServiceError::new("dbt", vdp_core::display_chain(&e)))
         });
     #[cfg(feature = "release")]
     let builder = release_services(builder);
@@ -207,7 +220,7 @@ pub fn context(global: &GlobalArgs, cwd: &Path) -> Result<Context> {
 #[cfg(feature = "release")]
 fn release_services(builder: vdp_core::ContextBuilder) -> vdp_core::ContextBuilder {
     builder
-        .provide(|ctx: &Context| {
+        .provide_named("git", |ctx: &Context| {
             // The repository of the dbt project, else the current directory.
             let root = ctx.project_opt().map_or_else(
                 || ctx.cwd().to_owned(),
@@ -217,20 +230,20 @@ fn release_services(builder: vdp_core::ContextBuilder) -> vdp_core::ContextBuild
             let release: vdp_release::ReleaseSettings = ctx
                 .config()
                 .section(vdp_release::ReleaseSettings::SECTION)
-                .map_err(|e| ServiceError::new("git", e))?;
+                .map_err(|e| ServiceError::new("git", vdp_core::display_chain(&e)))?;
             let guard = vdp_release::BranchRules::from_settings(&release).guard();
             Ok(Arc::new(vdp_git::GitCli::new(&root).with_guard(guard)) as Arc<dyn vdp_git::Vcs>)
         })
-        .provide(|ctx: &Context| {
+        .provide_named("jira", |ctx: &Context| {
             let settings: vdp_jira::JiraSettings = ctx
                 .config()
                 .section(vdp_jira::JiraSettings::SECTION)
-                .map_err(|e| ServiceError::new("jira", e))?;
+                .map_err(|e| ServiceError::new("jira", vdp_core::display_chain(&e)))?;
             let secrets = ctx.service::<Arc<dyn SecretProvider>>()?;
             let user = vdp_secrets::require(secrets.as_ref(), &[settings.user_secret.as_str()])
-                .map_err(|e| ServiceError::new("jira", e))?;
+                .map_err(|e| ServiceError::new("jira", vdp_core::display_chain(&e)))?;
             let token = vdp_secrets::require(secrets.as_ref(), &[settings.token_secret.as_str()])
-                .map_err(|e| ServiceError::new("jira", e))?;
+                .map_err(|e| ServiceError::new("jira", vdp_core::display_chain(&e)))?;
             let client = vdp_jira::JiraClient::new(&settings.base_url, &user, &token)
                 .with_sprint_field(&settings.sprint_field);
             Ok(Arc::new(client) as Arc<dyn vdp_jira::IssueTracker>)

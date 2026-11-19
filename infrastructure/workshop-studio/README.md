@@ -12,7 +12,10 @@ It is part of the default stack (`make up`, service `workshop-studio`) and is pu
 token and the database root password, so never expose it. Requests need the header `X-Studio: 1` and a local `Host`.
 
 At startup it checks the baseline (landing data, a deployed version, built tables in dev, val and prd) and repairs
-what is missing; progress is in `GET /api/state` (`baseline`). Getting ready (`prepare`) does that full check
+what is missing; progress is in `GET /api/state` (`baseline`). It waits first until every environment's landing tables
+exist (at most five minutes). On the very first start it is up long before bootstrap has created the tables and built
+`dbt-vdp:v1.0.0`, so that first check cannot succeed: `make bootstrap` therefore ends by resetting the studio (see
+"After `make reset`") and waiting until its baseline is ready. Getting ready (`prepare`) does that full check
 (data, version and tables of every environment; the version read goes through the Airflow CLI and takes seconds)
 only after start-up or a reset, after a failed or cancelled job, for an environment where a `version:` or `variable:`
 leftover was just put back, and when the last full check is older than 10 minutes. Otherwise it runs a quick check:
@@ -80,8 +83,10 @@ docker exec workshop-studio python -m studio.reset
 
 It forgets what demos left behind, the feeder state and the saved code baseline, then the app checks data, version and
 tables of every environment again (progress in `GET /api/state`, `baseline`; about 70 seconds when everything has to be
-rebuilt, a few seconds when it is intact). It refuses with a plain sentence while a job runs (a demo step, getting
-ready, clean-up, the baseline check); wait or press Cancel, then run it again. No file has to be deleted by hand and
+rebuilt, a few seconds when it is intact). A baseline check that is still running (the one from a cold start) is stopped and replaced by a new one. It
+refuses with a plain sentence while any other job runs (a demo step, getting ready for a scenario, clean-up); wait or
+press Cancel, then run it again. `docker exec workshop-studio python -m studio.reset --wait 600` also waits until the
+baseline is ready and exits 1 when it fails or the time is up (that is what bootstrap runs). No file has to be deleted by hand and
 the service does not need a restart. It uses `POST /api/reset` (with the `X-Studio: 1` header).
 
 A request to open a scenario or to clean up that arrives while the baseline check runs waits for it (at most five

@@ -11,6 +11,7 @@ publish.workspace = true
 serde.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
+vdp-core.workspace = true
 vdp-db.workspace = true
 vdp-dbt.workspace = true
 yaml-rust2.workspace = true

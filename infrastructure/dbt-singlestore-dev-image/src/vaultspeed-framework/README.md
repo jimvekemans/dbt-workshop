@@ -5,8 +5,8 @@ PML scripts and the VaultSpeed generations staged in a framework checkout to Sin
 of what it ran, and keeps a local history of every database object it changed.
 
 One binary, `vdp-vaultspeed`: the whole `vdp` command line (dbt wrapper, sources, releases, ...) plus the VaultSpeed
-commands, and `release serve` with the VaultSpeed release extension. `vdp vaultspeed ...` runs this binary (see
-`vdp-rust-utils/README.md`).
+commands, and `release serve` (the release UI's hub) with the VaultSpeed release extension. `vdp vaultspeed ...` runs this
+binary (see `vdp-rust-utils/README.md`).
 
 ```
 vdp-vaultspeed --env LDV vaultspeed plan                    # what a deploy would run, changing nothing
@@ -22,6 +22,9 @@ vdp-vaultspeed release serve                                # the release hub, w
 The environment is `--env`, else `$TARGET_BRANCH` (set by the framework's CI for the environment branch) for the
 `vaultspeed` commands, else `$DBT_DEPLOY_TARGET`, else `[core].default_environment`. The framework checkout is
 `--framework-dir` (`$VDP_VAULTSPEED_DIR`), else `[vaultspeed].project_dir`, relative to the current directory.
+Environment names are resolved as in `vdp`: `dev`, `val` and `prd` are aliases of `LDV`, `ABT` and `PRD`, so a
+`[vaultspeed.environments.dev]` section configures `LDV` (merged key by key with a `LDV` section, the alias winning a
+conflict). Any other name is a custom environment, ordered after the built-in ones.
 
 ## Build
 
@@ -29,8 +32,10 @@ The environment is `--env`, else `$TARGET_BRANCH` (set by the framework's CI for
 cargo build --release --locked -p vdp-vaultspeed-cli      # target/release/vdp-vaultspeed
 ```
 
-The workspace imports the `vdp-*` toolkit crates by path (`../vdp-rust-utils/crates/<name>`), so both folders must sit
-next to each other. The external dependencies have the versions of `vdp-rust-utils`, and `Cargo.lock` was
+The workspace imports the `vdp-*` toolkit crates by path (`../vdp-rust-utils/crates/<name>`) and the release hub
+(`vdp-release-hub`, `vdp-notify`) and the `release serve` command (`vdp-release-ui-cli`) from the `release-ui` workspace
+(`../release-ui/crates/<name>`), so the three folders must sit next to each other. The dependencies run
+`vdp-rust-utils` <- `release-ui` <- `vaultspeed-framework`. The external dependencies have the versions of `vdp-rust-utils`, and `Cargo.lock` was
 started from its lock file. DuckDB is compiled from source (`bundled`, C++) and tree-sitter compiles C, so the first
 build takes a while. Rust 1.96 (`rust-toolchain.toml`). Put `vdp-vaultspeed` next to `vdp` or on `PATH`.
 
@@ -41,16 +46,19 @@ build takes a while. Rust 1.96 (`rust-toolchain.toml`). Put `vdp-vaultspeed` nex
 | `vdp-vaultspeed-domain` | the pure model: generations, statements, decisions, plans, reports, ledger entries, lifespans, change events |
 | `vdp-vaultspeed-sql` | lexing, routine-aware splitting, rewrite rules, classification and fingerprints (on `vdp-sql-script`) |
 | `vdp-vaultspeed-dags` | in-memory Airflow DAG alteration (tree-sitter) and publication |
+| `vdp-ssh` | remote access over the system OpenSSH client (strict host keys, atomic SFTP uploads, checked remote commands); the DAG publication uses it. It moved here from `vdp-rust-utils`, which has no use for it |
 | `vdp-vaultspeed` | staged sources, ledger, planner, executor, engine, reports and their wiring |
 | `vdp-vaultspeed-history` | the DuckDB object history |
 | `vdp-vaultspeed-release` | VaultSpeed releases: the zip inventory per environment, DROP release branches, merges into environments, the guards that keep an environment's content in it |
 | `vdp-vaultspeed-hub` | the VaultSpeed side of the release hub, a `vdp-release-hub` extension below `/api/v1/vaultspeed/` |
 | `vdp-vaultspeed-cli` | the composition root and the `vdp-vaultspeed` binary |
 
-`vdp-vaultspeed-cli` embeds `vdp-cli` as a library: it parses `vdp_cli::args::GlobalArgs` and its own command enum
-(`vaultspeed`, or any `vdp` command), runs every other command through `vdp_cli::commands::run_command`, and starts the
-release hub through `vdp_cli::commands::hub::serve` with the VaultSpeed extension (`[release_hub.vaultspeed]`,
-`[vaultspeed_release]`, `[vaultspeed]`).
+`vdp-vaultspeed-cli` embeds `vdp-cli` and `vdp-release-ui-cli` as libraries: it parses `vdp_cli::args::GlobalArgs` and its
+own command enum (`vaultspeed`, or any command of `vdp-release-ui`: `vdp`'s and `release serve`), runs every other
+command through `vdp_release_ui_cli::run_command`, and starts the release hub through `vdp_release_ui_cli::hub::serve`
+with the VaultSpeed extension (`[release_hub.vaultspeed]`, `[vaultspeed_release]`, `[vaultspeed]`). The hub itself, with
+its TypeScript bindings (`VDP_TS_OUT=<file> cargo test -p vdp-release-hub --features ts export_bindings`), is in
+`release-ui`; the VaultSpeed types are exported here with `cargo test -p vdp-vaultspeed-hub --features ts export_bindings`.
 
 ## Configuration
 
@@ -164,7 +172,7 @@ It reads that from the ledger, following renames back to the name an object was 
 - The framework's golden, decision, edge-case, runner and scenario tests are in the `vdp-vaultspeed*` crates; the
   history's in `vdp-vaultspeed-history` (lifespans across renames, drops and re-creations, every outcome).
 - Process tests of the binary (`crates/vdp-vaultspeed-cli/tests/process.rs`): `--help` lists the `vdp` and the
-  VaultSpeed commands; `vaultspeed history` reads a file seeded through `DuckDbHistory`.
+  VaultSpeed commands; `release serve --help` and `release analyse --help` work; `vaultspeed history` reads a file seeded through `DuckDbHistory`.
 - VaultSpeed releases (`vdp-vaultspeed-release`, `vdp-vaultspeed-hub/tests/hub.rs`): on a framework repository shaped
   like the real one, the zip status per environment, building and extending a release with a lease, merges with CI's
   message, the guards (environment content never leaves its environment, `main` stays the skeleton, zip branches are

@@ -4,6 +4,11 @@ use crate::{DagDocument, DagError};
 
 /// Checks a rendered DAG before it may be published.
 pub trait DagValidator: Send + Sync + Debug {
+    /// Checks `doc`.
+    ///
+    /// # Errors
+    ///
+    /// [`DagError::Invalid`] when the document is not acceptable.
     fn validate(&self, doc: &DagDocument) -> Result<(), DagError>;
 }
 

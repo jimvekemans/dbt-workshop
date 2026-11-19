@@ -2,16 +2,17 @@ use std::path::PathBuf;
 
 use thiserror::Error;
 
+/// Why the files of a source could not be found, read or interpreted.
 #[derive(Debug, Error)]
 pub enum SourceError {
-    #[error("{path}: {source}")]
+    #[error("{path}")]
     Io {
         path: PathBuf,
         #[source]
         source: std::io::Error,
     },
 
-    #[error("{path} is not a readable zip archive: {source}")]
+    #[error("{path} is not a readable zip archive")]
     Zip {
         path: PathBuf,
         #[source]
@@ -24,7 +25,7 @@ pub enum SourceError {
     #[error("{archive} expands to more than {limit} bytes; refusing to read it")]
     TooLarge { archive: PathBuf, limit: u64 },
 
-    #[error("staged release `{file}` has an invalid name: {source}")]
+    #[error("staged release `{file}` has an invalid name")]
     InvalidGenerationName {
         file: String,
         #[source]
@@ -34,7 +35,7 @@ pub enum SourceError {
     #[error("requested generation(s) not staged: {0}")]
     NotStaged(String),
 
-    #[error("{path}: {source}")]
+    #[error("{path}")]
     Sql {
         path: String,
         #[source]

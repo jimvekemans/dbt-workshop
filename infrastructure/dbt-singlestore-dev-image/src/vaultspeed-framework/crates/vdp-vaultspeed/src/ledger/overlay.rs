@@ -15,6 +15,11 @@ pub struct OverlayLedger {
 }
 
 impl OverlayLedger {
+    /// Layers an empty in-memory overlay over `base`; new sequences continue after the base's last one.
+    ///
+    /// # Errors
+    ///
+    /// The errors of `base` when its last sequence cannot be read.
     pub fn new(base: Arc<dyn LedgerReader>) -> Result<Self, LedgerError> {
         let offset = base.last_sequence()?;
         Ok(Self {
@@ -24,6 +29,11 @@ impl OverlayLedger {
     }
 
     /// Entries written to the overlay only.
+    ///
+    /// # Errors
+    ///
+    /// [`LedgerError::Poisoned`] when the ledger's lock was poisoned by a panic. A ledger that reads from a store (a file or a
+    /// table) also returns that store's errors.
     pub fn pending(&self) -> Result<Vec<LedgerEntry>, LedgerError> {
         self.overlay.entries()
     }

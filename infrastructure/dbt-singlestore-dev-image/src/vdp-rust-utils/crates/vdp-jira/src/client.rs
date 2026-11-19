@@ -24,6 +24,7 @@ impl fmt::Debug for JiraClient {
 }
 
 impl JiraClient {
+    /// Creates a client for `base_url` that authenticates with basic auth (`user` and API `token`).
     pub fn new(base_url: &str, user: &SecretString, token: &SecretString) -> Self {
         let credentials = format!("{}:{}", user.expose_secret(), token.expose_secret());
         let encoded = base64::engine::general_purpose::STANDARD.encode(credentials);
@@ -45,6 +46,7 @@ impl JiraClient {
         self
     }
 
+    /// The Jira base URL, without a trailing slash.
     pub fn base_url(&self) -> &str {
         &self.base_url
     }
@@ -54,13 +56,17 @@ impl JiraClient {
     }
 
     fn get(&self, url: &str) -> Result<Value, JiraError> {
-        self.agent
+        let mut response = self
+            .agent
             .get(url)
             .header("Authorization", self.authorization.expose_secret())
             .header("Accept", "application/json")
             .call()
-            .and_then(|mut r| r.body_mut().read_json())
-            .map_err(|e| JiraError::Request {
+            .map_err(|e| map_ureq_error(url, &e))?;
+        response
+            .body_mut()
+            .read_json()
+            .map_err(|e| JiraError::Response {
                 url: url.to_owned(),
                 detail: e.to_string(),
             })
@@ -152,10 +158,25 @@ impl IssueTracker for JiraClient {
             .header("Accept", "application/json")
             .send_json(json!({ "transition": { "id": transition_id } }))
             .map(|_| ())
-            .map_err(|e| JiraError::Request {
-                url,
-                detail: e.to_string(),
-            })
+            .map_err(|e| map_ureq_error(&url, &e))
+    }
+}
+
+fn map_ureq_error(url: &str, error: &ureq::Error) -> JiraError {
+    match error {
+        ureq::Error::StatusCode(status @ (401 | 403)) => JiraError::Auth {
+            url: url.to_owned(),
+            status: *status,
+            detail: error.to_string(),
+        },
+        ureq::Error::StatusCode(_) => JiraError::Request {
+            url: url.to_owned(),
+            detail: error.to_string(),
+        },
+        _ => JiraError::Transport {
+            url: url.to_owned(),
+            detail: error.to_string(),
+        },
     }
 }
 
@@ -180,5 +201,25 @@ mod tests {
         assert_eq!(ticket.sprint.as_deref(), Some("S2"));
         assert_eq!(ticket.release().unwrap().name(), "2026_DROP05");
         assert_eq!(ticket.emergency_drops()[0].name(), "2026_EDROP03");
+    }
+
+    #[test]
+    fn ureq_errors_classify_auth_transport_and_per_issue_requests() {
+        let url = "https://jira.example/rest/api/2/issue/INTEL-1";
+        let auth = map_ureq_error(url, &ureq::Error::StatusCode(401));
+        assert!(auth.is_fatal());
+        assert!(matches!(auth, JiraError::Auth { status: 401, .. }));
+
+        let forbidden = map_ureq_error(url, &ureq::Error::StatusCode(403));
+        assert!(forbidden.is_fatal());
+        assert!(matches!(forbidden, JiraError::Auth { status: 403, .. }));
+
+        let transport = map_ureq_error(url, &ureq::Error::HostNotFound);
+        assert!(transport.is_fatal());
+        assert!(matches!(transport, JiraError::Transport { .. }));
+
+        let server = map_ureq_error(url, &ureq::Error::StatusCode(500));
+        assert!(!server.is_fatal());
+        assert!(matches!(server, JiraError::Request { .. }));
     }
 }

@@ -9,6 +9,12 @@ use crate::DbtError;
 use crate::flags::{Arity, FlagSpec, Grammar, HIDDEN_ALIASES, Scope};
 
 /// Runs `dbt completions fish` and `dbt <path> --help` for every scope.
+///
+/// # Errors
+///
+/// [`DbtError::Spawn`] when the binary cannot be started; [`DbtError::Grammar`] when one of its commands fails or
+/// prints nothing, the completions cannot be parsed, or the grammar lacks the `build`, `run`, `run-operation` and
+/// `parse` commands or the `--select` flag (so something that is not dbt v2 is refused).
 pub fn from_binary(binary: &Path) -> Result<Grammar, DbtError> {
     let version = run(binary, ["--version"])?;
     let fish = run(binary, ["completions", "fish"])?;
@@ -113,6 +119,10 @@ fn scope_mut<'a>(root: &'a mut Scope, path: &[String]) -> &'a mut Scope {
 }
 
 /// Parses clap's fish completion script.
+///
+/// # Errors
+///
+/// [`DbtError::Grammar`] when a `complete -c dbt` line cannot be split into words (an unterminated quote).
 pub fn from_fish(script: &str) -> Result<Grammar, DbtError> {
     let mut root = Scope::default();
     for line in logical_lines(script) {

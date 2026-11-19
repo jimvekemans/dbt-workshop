@@ -5,6 +5,7 @@ pub struct SourceResolver {
 }
 
 impl SourceResolver {
+    /// Creates a resolver that knows the source systems `known` (compared in lower case).
     pub fn new(known: impl IntoIterator<Item = impl Into<String>>) -> Self {
         Self {
             known: known.into_iter().map(|s| s.into().to_lowercase()).collect(),

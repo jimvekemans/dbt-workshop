@@ -15,6 +15,10 @@ pub struct LedgerTable {
 
 impl LedgerTable {
     /// Identifiers are restricted to `[A-Za-z0-9_]` because they are interpolated into DDL.
+    ///
+    /// # Errors
+    ///
+    /// [`LedgerError::MalformedRow`] when an identifier is empty or has a character outside `[A-Za-z0-9_]`.
     pub fn new(schema: &str, table: &str) -> Result<Self, LedgerError> {
         let valid =
             |s: &str| !s.is_empty() && s.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_');
@@ -55,12 +59,21 @@ pub struct SqlLedger {
 
 impl SqlLedger {
     /// Creates the table when missing (the schema must exist) and loads all rows.
+    ///
+    /// # Errors
+    ///
+    /// [`LedgerError::Database`] when the table cannot be created, altered or read; [`LedgerError::MalformedRow`] when a row
+    /// cannot be read as a ledger entry.
     pub fn open(session: Arc<dyn SqlSession>, table: LedgerTable) -> Result<Self, LedgerError> {
         Self::open_in(session, table, "")
     }
 
     /// Like [`SqlLedger::open`]; unqualified object keys of older rows are qualified with `database`, the
     /// environment's default, in memory only (see [`MemoryLedger::from_entries_in`]).
+    ///
+    /// # Errors
+    ///
+    /// As [`SqlLedger::open`].
     pub fn open_in(
         session: Arc<dyn SqlSession>,
         table: LedgerTable,
@@ -103,6 +116,11 @@ impl SqlLedger {
 
     /// Reads all rows without creating the table (preview runs). A missing table is an
     /// empty ledger.
+    ///
+    /// # Errors
+    ///
+    /// [`LedgerError::Database`] when the table cannot be read (a missing table is not an error); [`LedgerError::MalformedRow`]
+    /// when a row cannot be read as a ledger entry.
     pub fn snapshot(
         session: &dyn SqlSession,
         table: &LedgerTable,
@@ -112,6 +130,10 @@ impl SqlLedger {
 
     /// Like [`SqlLedger::snapshot`], qualifying unqualified object keys with `database`. A table without
     /// the `renamed_to` column is read as if the column were empty; a snapshot never alters the table.
+    ///
+    /// # Errors
+    ///
+    /// As [`SqlLedger::snapshot`].
     pub fn snapshot_in(
         session: &dyn SqlSession,
         table: &LedgerTable,

@@ -1,7 +1,42 @@
 //! Git for the release flow, through the system `git` client.
 //!
-//! The Python utilities used GitPython. The system client is what developers and CI run anyway, it handles
-//! every conflict and hook case the same way as on the command line, and it needs no native library.
+//! A building block. The Python utilities used GitPython; the system client is what developers and CI run anyway, it
+//! handles every conflict and hook case the same way as on the command line, and it needs no native library. The release
+//! crates depend on the [`Vcs`] port, and tests fake it.
+//!
+//! # Responsibilities
+//!
+//! - Define the [`Vcs`] port: the git operations the toolkit needs, with their value types ([`Commit`], [`Applied`],
+//!   [`Conflict`], [`PushMode`], ...).
+//! - Implement it over the `git` binary in a work tree ([`GitCli`]), with a timeout, a commit identity and a push target.
+//! - Refuse writes to branches a client may not touch ([`WriteGuard`]).
+//! - Classify why a push was rejected ([`PushRejection`]) so a UI can act on it.
+//!
+//! # Example
+//!
+//! ```
+//! use vdp_git::WriteGuard;
+//!
+//! let guard = WriteGuard {
+//!     protected: vec!["dev".into()],
+//!     writable: vec!["release/".into(), "main".into()],
+//! };
+//! assert!(guard.check("release/2026_DROP05").is_ok());
+//! assert!(guard.check("dev").is_err());
+//! ```
+//!
+//! Running git (no network or repository is touched until a method is called):
+//!
+//! ```no_run
+//! use std::path::Path;
+//! use vdp_git::{GitCli, Vcs};
+//!
+//! let git = GitCli::new(Path::new("/work/dbt-vdp"));
+//! git.fetch()?;
+//! let base = git.merge_base("origin/dev", "origin/main")?;
+//! println!("{} commits since {base}", git.log(&base, "origin/dev", true)?.len());
+//! # Ok::<(), vdp_git::GitError>(())
+//! ```
 
 mod cli;
 mod error;
@@ -66,6 +101,7 @@ pub struct PathCommit {
 }
 
 impl Commit {
+    /// Whether the commit has more than one parent.
     pub fn is_merge(&self) -> bool {
         self.parents.len() > 1
     }
@@ -75,6 +111,7 @@ impl Commit {
         self.message.lines().next().unwrap_or_default()
     }
 
+    /// The first seven characters of the hash.
     pub fn short(&self) -> &str {
         &self.hash[..self.hash.len().min(7)]
     }
@@ -104,6 +141,7 @@ pub enum Operation {
 }
 
 impl Operation {
+    /// The git sub-command (`revert`, `cherry-pick`, `merge`).
     pub const fn command(self) -> &'static str {
         match self {
             Self::Revert => "revert",
@@ -220,6 +258,7 @@ pub struct Identity {
 }
 
 impl Identity {
+    /// Whether the name is not blank and the email contains an `@`.
     pub fn is_complete(&self) -> bool {
         !self.name.trim().is_empty() && self.email.contains('@')
     }
@@ -254,6 +293,10 @@ pub struct WriteGuard {
 
 impl WriteGuard {
     /// `Err` with the reason when `branch` may not be written.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Guard`] when `branch` is protected, or when a non-empty `writable` list does not include it.
     pub fn check(&self, branch: &str) -> Result<(), GitError> {
         let branch = branch.trim();
         let branch = branch
@@ -381,29 +424,116 @@ impl PushRejection {
 
 /// The git operations the toolkit needs. A [`GitCli`] in production, a fake in tests.
 pub trait Vcs: Send + Sync + Debug {
+    /// Fetches `origin` (pruning deleted branches).
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
     fn fetch(&self) -> Result<(), GitError>;
+    /// The best common ancestor of `a` and `b`.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. The revisions must exist and share history.
     fn merge_base(&self, a: &str, b: &str) -> Result<String, GitError>;
     /// Commits in `from..to`, oldest first; `first_parent` follows only the mainline.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. [`GitError::Parse`] when git's output cannot be read.
     fn log(&self, from: &str, to: &str, first_parent: bool) -> Result<Vec<Commit>, GitError>;
+    /// The commit `rev` points to.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. [`GitError::Parse`] when `rev` does not resolve to a commit.
     fn commit(&self, rev: &str) -> Result<Commit, GitError>;
     /// The latest `limit` commits of `rev`, newest first (`first_parent`: its own history only).
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. [`GitError::Parse`] when git's output cannot be read.
     fn recent(&self, rev: &str, limit: usize, first_parent: bool) -> Result<Vec<Commit>, GitError>;
+    /// Whether the work tree has uncommitted changes to tracked files.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
     fn is_dirty(&self) -> Result<bool, GitError>;
+    /// Whether a local branch called `name` exists.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Spawn`] when git cannot be started; [`GitError::Timeout`] when it outlives the client's timeout. A missing branch is `false`, not an error.
     fn branch_exists(&self, name: &str) -> Result<bool, GitError>;
     /// Creates `name` at `start` (replacing an existing branch with `force`) and checks it out.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the branch `name`. [`GitError::Command`] also when `name` cannot be created (for example it exists and `force` is not set).
     fn create_branch(&self, name: &str, start: &str, force: bool) -> Result<(), GitError>;
+    /// Checks out the branch `name`.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the branch `name`. [`GitError::Command`] also when `name` does not exist.
     fn checkout(&self, name: &str) -> Result<(), GitError>;
     /// Reverts `hash` (a merge against its first parent), preferring the reverted side on conflicts.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the checked-out branch (a detached HEAD included). A conflict is not an error: it is [`Applied::Conflicted`] or resolved, per [`ApplyOptions`].
     fn revert(&self, hash: &str) -> Result<Applied, GitError> {
         self.revert_with(hash, ApplyOptions::default())
     }
     /// Cherry-picks `hash`, preferring the picked side on conflicts and resolving modify/delete by deleting.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the checked-out branch (a detached HEAD included). A conflict is not an error: it is [`Applied::Conflicted`] or resolved, per [`ApplyOptions`].
     fn cherry_pick(&self, hash: &str) -> Result<Applied, GitError> {
         self.cherry_pick_with(hash, ApplyOptions::default())
     }
+    /// Like [`Vcs::revert`], with `options` for conflicts and the merge strategy.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the checked-out branch (a detached HEAD included). When the conflict cannot be resolved the operation is aborted and
+    /// [`GitError::Command`] is returned.
     fn revert_with(&self, hash: &str, options: ApplyOptions) -> Result<Applied, GitError>;
+    /// Like [`Vcs::cherry_pick`], with `options` for conflicts and the merge strategy.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the checked-out branch (a detached HEAD included). When the conflict cannot be resolved the operation is aborted and
+    /// [`GitError::Command`] is returned.
     fn cherry_pick_with(&self, hash: &str, options: ApplyOptions) -> Result<Applied, GitError>;
     /// `merge --no-ff -m message rev` with the conflict handling of `options`.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the checked-out branch (a detached HEAD included). When the conflict cannot be resolved the operation is aborted and
+    /// [`GitError::Command`] is returned.
     fn merge_with(
         &self,
         rev: &str,
@@ -411,72 +541,240 @@ pub trait Vcs: Send + Sync + Debug {
         options: ApplyOptions,
     ) -> Result<Applied, GitError>;
     /// The three versions of a path in the conflict in progress, each cut at `limit` bytes.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Spawn`] when git cannot be started; [`GitError::Timeout`] when it outlives the client's timeout. A version that does not exist is `None`.
     fn conflict_versions(&self, path: &str, limit: usize) -> Result<ConflictVersions, GitError>;
+    /// Resolves `path` in the conflict in progress with `choice`.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the checked-out branch (a detached HEAD included).
     fn resolve_path(&self, path: &str, choice: Choice) -> Result<(), GitError>;
     /// Commits the operation in progress once every path is resolved (`Conflicted` when some are not).
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the checked-out branch (a detached HEAD included).
     fn continue_op(&self, operation: Operation, commit: &str) -> Result<Applied, GitError>;
     /// Drops the change in progress (a revert or cherry-pick) and goes on without it.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. Not guarded: it only drops a change already in progress.
     fn skip_op(&self, operation: Operation) -> Result<(), GitError>;
     /// Abandons the operation in progress; the work tree is as before it.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
     fn abort_op(&self, operation: Operation) -> Result<(), GitError>;
+    /// Pushes `branch` to the push target, with the replacement rules of `mode`.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Guard`] when the write guard refuses `branch`; [`GitError::Push`] when the remote rejects the push (with the
+    /// [`PushRejection`] reason); [`GitError::Spawn`] when git cannot be started; [`GitError::Timeout`] when it outlives the
+    /// client's timeout.
     fn push(&self, branch: &str, mode: PushMode) -> Result<(), GitError>;
     /// Clones `url` into the (empty or missing) work tree, with every branch.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. [`GitError::Spawn`] also when the work tree directory cannot be created.
     fn clone_from(&self, url: &str) -> Result<(), GitError>;
+    /// Whether the work tree is a git repository.
     fn is_repository(&self) -> bool;
     /// `fetch --all --prune --force --tags`.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
     fn fetch_all(&self) -> Result<(), GitError>;
+    /// The full hash of the commit `rev` points to.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. Also when `rev` is not a commit.
     fn rev_parse(&self, rev: &str) -> Result<String, GitError>;
+    /// Whether `ancestor` is an ancestor of (or equal to) `descendant`.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. An unknown revision is an error, not `false`.
     fn is_ancestor(&self, ancestor: &str, descendant: &str) -> Result<bool, GitError>;
     /// Remote-tracking branches of origin under `prefix` (e.g. `release/`).
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. [`GitError::Parse`] when git's output cannot be read.
     fn remote_branches(&self, prefix: &str) -> Result<Vec<RemoteBranch>, GitError>;
     /// `checkout -B name start`: the branch is (re)set to `start` and checked out.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the branch `name`.
     fn checkout_reset(&self, name: &str, start: &str) -> Result<(), GitError>;
+    /// Resets the checked-out branch and the work tree to `rev`, discarding local changes.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the checked-out branch (a detached HEAD included).
     fn reset_hard(&self, rev: &str) -> Result<(), GitError>;
     /// `merge --no-ff -m message rev`; a conflicting merge is aborted.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the checked-out branch (a detached HEAD included). A conflicting merge is aborted and reported as [`GitError::Command`].
     fn merge_no_ff(&self, rev: &str, message: &str) -> Result<(), GitError>;
     /// The identity commits are made with: the one given to the client, else the repository's own config
     /// (`--local`: a global identity does not count, so a shared clone asks who is releasing).
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Spawn`] when git cannot be started; [`GitError::Timeout`] when it outlives the client's timeout. An identity that is not set is `None`.
     fn identity(&self) -> Result<Option<Identity>, GitError>;
     /// Stores the identity in the repository's own config.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
     fn set_identity(&self, identity: &Identity) -> Result<(), GitError>;
+    /// The URL of `origin`, `None` when there is no such remote.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Spawn`] when git cannot be started; [`GitError::Timeout`] when it outlives the client's timeout.
     fn origin_url(&self) -> Result<Option<String>, GitError>;
     /// The checked-out branch; `None` when HEAD is detached.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Spawn`] when git cannot be started; [`GitError::Timeout`] when it outlives the client's timeout.
     fn current_branch(&self) -> Result<Option<String>, GitError>;
     /// Detaches HEAD at `rev` (discarding local changes), so no branch is checked out.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
     fn detach_at(&self, rev: &str) -> Result<(), GitError>;
     /// Deletes every local branch (HEAD must be detached); returns their names. Release work always starts
     /// from origin, so local branches only hold leftovers.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. [`GitError::Guard`] when HEAD is not detached.
     fn delete_local_branches(&self) -> Result<Vec<String>, GitError>;
     /// `git cherry upstream head`: the commits of `head` not in `upstream`, each with whether an equivalent
     /// change (same patch-id) is in `upstream` anyway.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
     fn cherry(&self, upstream: &str, head: &str) -> Result<Vec<(String, bool)>, GitError>;
     /// Where origin has `branch`, from the remote-tracking ref (`None`: origin does not have it).
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Spawn`] when git cannot be started; [`GitError::Timeout`] when it outlives the client's timeout.
     fn remote_head(&self, branch: &str) -> Result<Option<String>, GitError>;
     /// Mainline commits in `from..to` whose change (against their first parent) touches `path`.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
     fn touching(&self, from: &str, to: &str, path: &str) -> Result<Vec<String>, GitError>;
     /// Writes `files` (path, content) into the work tree and commits them on the checked-out branch.
     /// `None`: they were already like that, nothing was committed.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the checked-out branch (a detached HEAD included). [`GitError::Guard`] also when a path is absolute or leaves the repository;
+    /// [`GitError::Spawn`] also when a file cannot be written.
     fn commit_files(
         &self,
         files: &[(String, String)],
         message: &str,
     ) -> Result<Option<String>, GitError>;
     /// A file's content at `rev` (`None` when it has no such file).
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Spawn`] when git cannot be started; [`GitError::Timeout`] when it outlives the client's timeout.
     fn show_file(&self, rev: &str, path: &str) -> Result<Option<String>, GitError>;
     /// The files that differ between two commits or trees, with line counts (renames detected).
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. [`GitError::Parse`] when git's output cannot be read.
     fn diff_files(&self, from: &str, to: &str) -> Result<Vec<DiffEntry>, GitError>;
     /// The unified diff of one path between two commits or trees (empty when it did not change).
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
     fn diff_text(&self, from: &str, to: &str, path: &str) -> Result<String, GitError>;
     /// Non-merge commits in `from..to`, oldest first, each with the paths it changed (against its parent).
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. [`GitError::Parse`] when git's output cannot be read.
     fn commits_touching(&self, from: &str, to: &str) -> Result<Vec<PathCommit>, GitError>;
     /// The tree `git merge` of `theirs` into `ours` would produce, without touching the work tree or any ref.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. [`GitError::Parse`] when git writes no tree.
     fn merge_tree(&self, ours: &str, theirs: &str) -> Result<MergeTree, GitError>;
     /// The object id of the file at `rev` (`None` when there is no such file): it changes when the content does.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Spawn`] when git cannot be started; [`GitError::Timeout`] when it outlives the client's timeout.
     fn blob_id(&self, rev: &str, path: &str) -> Result<Option<String>, GitError>;
     /// A file's bytes at `rev` (`None` when it has no such file), for binary files such as zips.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Spawn`] when git cannot be started; [`GitError::Timeout`] when it outlives the client's timeout.
     fn show_bytes(&self, rev: &str, path: &str) -> Result<Option<Vec<u8>>, GitError>;
     /// Writes, replaces or deletes files in the work tree and commits that on the checked-out branch.
     /// `None`: nothing changed, nothing was committed.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the checked-out branch (a detached HEAD included). [`GitError::Spawn`] also when a file cannot be written or deleted.
     fn commit_changes(
         &self,
         changes: &[FileChange],
@@ -484,9 +782,25 @@ pub trait Vcs: Send + Sync + Debug {
     ) -> Result<Option<String>, GitError>;
     /// Mainline commits in `from..to`, oldest first, each with the files it changed under `dir` (against its
     /// first parent). Commits that changed nothing there are left out.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout. [`GitError::Parse`] when git's output cannot be read.
     fn path_log(&self, from: &str, to: &str, dir: &str) -> Result<Vec<PathCommit>, GitError>;
     /// The files under `dir` at `rev`.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
     fn files_at(&self, rev: &str, dir: &str) -> Result<Vec<String>, GitError>;
     /// `rebase --onto onto upstream` of the checked-out branch; a conflicting rebase is aborted.
+    ///
+    /// # Errors
+    ///
+    /// [`GitError::Command`] when git fails (for example an unknown revision); [`GitError::Spawn`] when it cannot be started;
+    /// [`GitError::Timeout`] when it outlives the client's timeout.
+    /// [`GitError::Guard`] when the write guard refuses the checked-out branch (a detached HEAD included). A conflicting rebase is aborted and reported as [`GitError::Command`].
     fn rebase_onto(&self, onto: &str, upstream: &str) -> Result<(), GitError>;
 }

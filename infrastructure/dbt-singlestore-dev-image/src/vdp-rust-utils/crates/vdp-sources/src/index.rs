@@ -32,6 +32,7 @@ impl SourceDecl {
         settings.physical_of(&value)
     }
 
+    /// Whether the source declares a table called `table`.
     pub fn declares(&self, table: &str) -> bool {
         self.tables.iter().any(|t| t == table)
     }
@@ -44,6 +45,11 @@ pub struct SourceIndex {
 }
 
 impl SourceIndex {
+    /// Reads every source declared in the YAML files under `model_paths`.
+    ///
+    /// # Errors
+    ///
+    /// [`SourcesError::Io`] when a YAML file cannot be read; [`SourcesError::Yaml`] when one cannot be parsed.
     pub fn scan(model_paths: &[PathBuf]) -> Result<Self, SourcesError> {
         let mut files = Vec::new();
         for dir in model_paths {
@@ -70,6 +76,7 @@ impl SourceIndex {
         Ok(Self { sources })
     }
 
+    /// The source called `name`, if declared.
     pub fn find(&self, name: &str) -> Option<&SourceDecl> {
         self.sources.iter().find(|s| s.name == name)
     }

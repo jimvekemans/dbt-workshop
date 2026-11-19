@@ -1,4 +1,4 @@
-# The build needs the Dockerfile, the optional prebuilt ./vdp and the three tool sources under src/.
+# The build needs the Dockerfile, the optional prebuilt ./vdp and the tool sources under src/.
 # Keep build output, virtualenvs and git metadata out of the context.
 **/.git
 **/target

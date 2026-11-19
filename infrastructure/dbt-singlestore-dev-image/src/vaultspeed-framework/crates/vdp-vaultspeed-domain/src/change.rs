@@ -24,6 +24,7 @@ pub enum ChangeOutcome {
 }
 
 impl ChangeOutcome {
+    /// The lower-case name of the outcome, as stored (`applied`, `not_run`, ...).
     pub const fn as_str(self) -> &'static str {
         match self {
             Self::Applied => "applied",
@@ -131,6 +132,7 @@ impl ChangeEvent {
 pub struct HistoryError(pub String);
 
 impl HistoryError {
+    /// Creates an error from `message`.
     pub fn new(message: impl fmt::Display) -> Self {
         Self(message.to_string())
     }
@@ -141,6 +143,12 @@ impl HistoryError {
 /// The history is an audit record: it never decides what runs (the ledger does), so callers log a failing
 /// recorder and carry on.
 pub trait ChangeRecorder: Send + Sync + fmt::Debug {
+    /// Records one statement event.
+    ///
+    /// # Errors
+    ///
+    /// [`HistoryError`] when the recorder cannot store the event. Callers log it and carry on: the history never decides what
+    /// runs.
     fn record(&self, event: &ChangeEvent) -> Result<(), HistoryError>;
 }
 

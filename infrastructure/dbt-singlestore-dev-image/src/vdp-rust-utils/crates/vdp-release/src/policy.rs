@@ -15,10 +15,12 @@ pub enum Classification {
 }
 
 impl Classification {
+    /// Whether the ticket stays in the release.
     pub const fn is_keep(&self) -> bool {
         matches!(self, Self::Keep(_))
     }
 
+    /// Whether the ticket is reverted out of the release.
     pub const fn is_revert(&self) -> bool {
         matches!(self, Self::Revert(_))
     }
@@ -32,6 +34,7 @@ pub enum Decision {
 }
 
 impl Decision {
+    /// Whether the decision is to revert.
     pub const fn reverts(&self) -> bool {
         matches!(self, Self::Revert(_))
     }
@@ -53,6 +56,7 @@ pub struct ReleasePolicy {
 }
 
 impl ReleasePolicy {
+    /// Classifies `ticket` against the target fix version.
     pub fn classify(&self, ticket: &Ticket) -> Classification {
         let emergency = ticket.emergency_drops();
         if !emergency.is_empty() {

@@ -1,0 +1,33 @@
+[package]
+name = "vdp-release-hub"
+description = "The release hub: a cloned repository, its analyses and release jobs behind an HTTP API (`vdp-release-ui release serve`)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+# TypeScript bindings of the API (`cargo test -p vdp-release-hub --features ts export_bindings`).
+ts = ["dep:ts-rs", "vdp-release/ts", "vdp-notify/ts"]
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tiny_http.workspace = true
+tracing.workspace = true
+ts-rs = { workspace = true, optional = true }
+ureq.workspace = true
+vdp-core.workspace = true
+vdp-git.workspace = true
+vdp-jira.workspace = true
+vdp-notify.workspace = true
+vdp-release.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+vdp-secrets.workspace = true
+
+[lints]
+workspace = true

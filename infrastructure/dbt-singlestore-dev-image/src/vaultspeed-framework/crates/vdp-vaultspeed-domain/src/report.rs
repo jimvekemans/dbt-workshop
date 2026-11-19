@@ -20,11 +20,13 @@ pub enum StatementOutcome {
 }
 
 impl StatementOutcome {
+    /// Whether the statement failed.
     pub const fn is_failure(&self) -> bool {
         matches!(self, Self::Failed { .. })
     }
 }
 
+/// The result of one statement.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct StatementReport {
     pub kind: String,
@@ -34,6 +36,7 @@ pub struct StatementReport {
     pub outcome: StatementOutcome,
 }
 
+/// The result of one statement group.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct GroupReport {
     pub group_id: String,
@@ -46,11 +49,13 @@ pub struct GroupReport {
 }
 
 impl GroupReport {
+    /// Whether any statement failed.
     pub fn failed(&self) -> bool {
         self.statements.iter().any(|s| s.outcome.is_failure())
     }
 }
 
+/// The result of publishing one DAG.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct DagReport {
     pub source_file: String,
@@ -62,6 +67,7 @@ pub struct DagReport {
     pub error: Option<String>,
 }
 
+/// What happened to one source (PML or a generation).
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct SourceReport {
     pub source: String,
@@ -76,6 +82,7 @@ pub struct SourceReport {
 }
 
 impl SourceReport {
+    /// Creates an empty report for `source`.
     pub fn new(source: impl Into<String>) -> Self {
         Self {
             source: source.into(),
@@ -87,6 +94,7 @@ impl SourceReport {
         }
     }
 
+    /// Whether the source has an error, a failed statement or a DAG that failed.
     pub fn has_failures(&self) -> bool {
         !self.errors.is_empty()
             || self.groups.iter().any(GroupReport::failed)
@@ -94,6 +102,7 @@ impl SourceReport {
     }
 }
 
+/// Counts over a whole run: statements applied, satisfied and failed, groups executed and skipped, DAGs published.
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RunTotals {
     pub applied: usize,
@@ -104,6 +113,7 @@ pub struct RunTotals {
     pub dags: usize,
 }
 
+/// The result of one run over every source.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RunReport {
     pub run_id: RunId,
@@ -115,10 +125,12 @@ pub struct RunReport {
 }
 
 impl RunReport {
+    /// Whether any source has failures.
     pub fn has_failures(&self) -> bool {
         self.sources.iter().any(SourceReport::has_failures)
     }
 
+    /// Adds up the statement outcomes, group decisions and published DAGs of every source.
     pub fn totals(&self) -> RunTotals {
         let mut totals = RunTotals::default();
         for source in &self.sources {

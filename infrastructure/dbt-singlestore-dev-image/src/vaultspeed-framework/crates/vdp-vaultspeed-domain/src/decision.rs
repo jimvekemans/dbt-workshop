@@ -53,10 +53,12 @@ pub enum Decision {
 }
 
 impl Decision {
+    /// Whether the group will run.
     pub const fn is_execute(&self) -> bool {
         matches!(self, Self::Execute(_))
     }
 
+    /// Whether the planner refused the group.
     pub const fn is_refused(&self) -> bool {
         matches!(self, Self::Refuse { .. })
     }

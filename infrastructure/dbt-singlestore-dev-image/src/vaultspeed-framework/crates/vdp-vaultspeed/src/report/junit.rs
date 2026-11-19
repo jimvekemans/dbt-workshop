@@ -14,6 +14,7 @@ pub struct JunitSink {
 }
 
 impl JunitSink {
+    /// Writes the XML to `path`.
     pub const fn new(path: PathBuf) -> Self {
         Self { path }
     }

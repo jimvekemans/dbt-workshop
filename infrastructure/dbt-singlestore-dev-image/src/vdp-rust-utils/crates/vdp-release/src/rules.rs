@@ -21,6 +21,7 @@ pub struct BranchRules {
 }
 
 impl BranchRules {
+    /// Takes the branch names and ticket prefix from `settings`.
     pub fn from_settings(settings: &ReleaseSettings) -> Self {
         Self {
             prefix: settings.branch_prefix.clone(),
@@ -32,6 +33,11 @@ impl BranchRules {
 
     /// The local name of a release branch the flows may create, patch or promote; anything else (`dev`,
     /// `main`, `feature/x`, an invalid ref name) is refused.
+    ///
+    /// # Errors
+    ///
+    /// [`ReleaseError::Invalid`] when `name` is the source or main branch, does not start with the release prefix (or has
+    /// nothing after it), or is not a valid branch name.
     pub fn release_target(&self, name: &str) -> Result<String, ReleaseError> {
         let branch = local_name(name);
         if branch == self.source || branch == self.main {
@@ -66,6 +72,33 @@ impl BranchRules {
             protected: vec![self.source.clone()],
             writable: vec![self.prefix.clone(), self.main.clone()],
         }
+    }
+
+    /// Resolves the Jira `fixVersion` from an explicit `--fixversion` argument or from the branch suffix
+    /// after [`Self::prefix`].
+    ///
+    /// # Errors
+    ///
+    /// [`ReleaseError::Invalid`] when `given` is absent and the branch suffix is not a fix version. A given value is returned
+    /// as it is.
+    pub fn fix_version_of(
+        &self,
+        given: Option<&str>,
+        branch: &str,
+    ) -> Result<String, ReleaseError> {
+        if let Some(version) = given {
+            return Ok(version.to_owned());
+        }
+        let local = local_name(branch);
+        let suffix = local.strip_prefix(&self.prefix).unwrap_or(&local);
+        suffix
+            .parse::<vdp_jira::FixVersion>()
+            .map(|v| v.name().to_owned())
+            .map_err(|_| {
+                ReleaseError::Invalid(format!(
+                    "{branch} has no fix version suffix; pass --fixversion"
+                ))
+            })
     }
 }
 
@@ -133,5 +166,34 @@ mod tests {
         assert!(guard.check("release/").is_err());
         assert!(guard.check("release/2026_DROP25").is_ok());
         assert!(guard.check("main").is_ok());
+    }
+
+    #[test]
+    fn fix_version_of_uses_given_or_branch_suffix() {
+        let rules = rules();
+        assert_eq!(
+            rules
+                .fix_version_of(Some("2026_DROP99"), "origin/feature/foo")
+                .unwrap(),
+            "2026_DROP99"
+        );
+        assert_eq!(
+            rules
+                .fix_version_of(None, "origin/release/2026_DROP25")
+                .unwrap(),
+            "2026_DROP25"
+        );
+        assert_eq!(
+            rules.fix_version_of(None, "release/2026_EDROP2").unwrap(),
+            "2026_EDROP2"
+        );
+        let err = rules
+            .fix_version_of(None, "origin/feature/foo")
+            .unwrap_err()
+            .to_string();
+        assert!(
+            err.contains("has no fix version suffix; pass --fixversion"),
+            "{err}"
+        );
     }
 }

@@ -1,23 +1,26 @@
 use std::process::ExitCode;
 
 use clap::{CommandFactory as _, Parser as _};
-use vdp_cli::args::{Command as Core, ReleaseCommand};
-use vdp_cli::{bootstrap, commands as core_commands};
+use vdp_cli::args::Command as Core;
+use vdp_cli::{bootstrap, runtime};
 use vdp_core::Outcome;
+use vdp_release_ui_cli::args::Command as UiCommand;
 use vdp_vaultspeed_cli::args::{Cli, Command};
 use vdp_vaultspeed_cli::commands::vaultspeed;
 use vdp_vaultspeed_cli::hub;
 
 fn main() -> ExitCode {
     let cli = Cli::parse();
-    bootstrap::init_logging(cli.verbose, if cli.is_wrapper() { "warn" } else { "info" });
-    match run(cli) {
-        Ok(outcome) => ExitCode::from(outcome.exit_code()),
-        Err(error) => {
-            eprintln!("vdp-vaultspeed: error: {error:#}");
-            ExitCode::from(2)
-        }
-    }
+    let global = cli.global.clone();
+    let is_wrapper = cli.is_wrapper();
+    runtime::run(
+        runtime::RunContext {
+            program: "vdp-vaultspeed",
+            global: &global,
+            is_wrapper,
+        },
+        || run(cli),
+    )
 }
 
 fn run(cli: Cli) -> anyhow::Result<Outcome> {
@@ -33,12 +36,8 @@ fn run(cli: Cli) -> anyhow::Result<Outcome> {
             let ctx = bootstrap::context(&global, &std::env::current_dir()?)?;
             vaultspeed::run(&ctx, &global, &args)
         }
-        // The hub gets the VaultSpeed extension; every other command is `vdp`'s.
-        Command::Core(Core::Release(command @ ReleaseCommand::Serve { .. })) => {
-            let ctx = bootstrap::context(&global, &std::env::current_dir()?)?;
-            core_commands::hub::serve(&ctx, &command, &hub::extensions)
-        }
-        Command::Core(Core::External(external)) => Cli::command()
+        // `vdp`'s hand-offs to other binaries (`vdp vaultspeed ...`) are not commands here.
+        Command::Core(UiCommand::Core(Core::External(external))) => Cli::command()
             .error(
                 clap::error::ErrorKind::InvalidSubcommand,
                 format!(
@@ -49,6 +48,9 @@ fn run(cli: Cli) -> anyhow::Result<Outcome> {
                 ),
             )
             .exit(),
-        Command::Core(command) => core_commands::run_command(&global, command),
+        // `release serve` gets the VaultSpeed extension; every other command is `vdp`'s.
+        Command::Core(command) => {
+            vdp_release_ui_cli::run_command(&global, command, &hub::extensions)
+        }
     }
 }

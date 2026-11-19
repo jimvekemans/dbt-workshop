@@ -17,6 +17,7 @@ pub enum Verdict {
 }
 
 impl Verdict {
+    /// Whether the command may run (every verdict but [`Verdict::Refused`]).
     pub const fn allowed(&self) -> bool {
         !matches!(self, Self::Refused { .. })
     }

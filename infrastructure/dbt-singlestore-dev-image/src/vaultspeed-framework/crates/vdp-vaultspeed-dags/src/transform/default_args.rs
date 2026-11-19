@@ -18,6 +18,7 @@ pub struct DefaultArgsEntry {
 }
 
 impl DefaultArgsEntry {
+    /// Ensures that `default_args` has `key` set to `value`.
     pub fn new(key: impl Into<String>, value: PyLiteral) -> Self {
         let key = key.into();
         Self {

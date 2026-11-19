@@ -58,6 +58,11 @@ fn statement_row(row: &Row<'_>) -> duckdb::Result<StatementRow> {
 impl DuckDbHistory {
     /// Every lifespan that ever carried `identifier` (`database.name`), oldest first. A name can be used by
     /// several objects over time (renamed away, recreated), and an object keeps matching its old names.
+    ///
+    /// # Errors
+    ///
+    /// [`DuckDbHistoryError::Poisoned`] when the connection lock was poisoned by a panic; [`DuckDbHistoryError::Db`] when the
+    /// query fails.
     pub fn lifespans(
         &self,
         environment: &str,
@@ -75,6 +80,10 @@ impl DuckDbHistory {
 
     /// All statements of the object that is (or was most recently) known under `identifier`, following its
     /// identity across renames, oldest first. Empty when the name was never seen.
+    ///
+    /// # Errors
+    ///
+    /// As [`DuckDbHistory::lifespans`].
     pub fn lifespan(
         &self,
         environment: &str,
@@ -94,6 +103,10 @@ impl DuckDbHistory {
     }
 
     /// The objects of an environment, optionally only live or only dropped ones.
+    ///
+    /// # Errors
+    ///
+    /// As [`DuckDbHistory::lifespans`].
     pub fn objects(
         &self,
         environment: &str,

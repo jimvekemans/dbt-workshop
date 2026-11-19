@@ -22,9 +22,14 @@ pub struct SourceOutcome<'a> {
 
 /// What happens to a source's staged files after processing.
 pub trait SourceLifecycle: Send + Sync + Debug {
+    /// Whether the lifecycle handles sources of `kind`.
     fn supports(&self, kind: &SourceKind) -> bool;
 
     /// Returns human-readable notes for the report. Must not touch anything in preview.
+    ///
+    /// # Errors
+    ///
+    /// [`SourceError::Io`] when a file cannot be read or written while moving or removing files.
     fn complete(
         &self,
         outcome: &SourceOutcome<'_>,
@@ -41,6 +46,7 @@ pub struct PmlLifecycle {
 }
 
 impl PmlLifecycle {
+    /// Creates the lifecycle that moves completed scripts into `deployed_pml_dir`.
     pub const fn new(deployed_pml_dir: PathBuf) -> Self {
         Self {
             deployed_dir: deployed_pml_dir,
@@ -108,6 +114,7 @@ pub struct ZipArchiveLifecycle {
 }
 
 impl ZipArchiveLifecycle {
+    /// Creates the lifecycle that moves processed zips into `archive_dir`; with `archive_on_failure` also zips with failures.
     pub const fn new(archive_dir: PathBuf, archive_on_failure: bool) -> Self {
         Self {
             archive_dir,

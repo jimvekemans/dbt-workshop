@@ -8,6 +8,7 @@ pub struct SourceFile {
 }
 
 impl SourceFile {
+    /// Creates a file from already decoded text.
     pub fn new(path: RelPath, content: impl Into<String>) -> Self {
         Self {
             path,

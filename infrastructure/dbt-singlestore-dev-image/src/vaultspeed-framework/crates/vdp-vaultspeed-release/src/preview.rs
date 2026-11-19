@@ -29,6 +29,7 @@ pub struct SourcePreview {
     pub problems: Vec<String>,
 }
 
+/// What CI would deploy for the staged sources of one environment.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "ts", derive(ts_rs::TS))]
 pub struct PlanPreview {
@@ -57,8 +58,8 @@ impl Write for Buffer {
     }
 }
 
-fn plan_error(e: impl std::fmt::Display) -> VsError {
-    VsError::Plan(e.to_string())
+fn plan_error(e: impl std::error::Error) -> VsError {
+    VsError::Plan(vdp_vaultspeed_domain::display_chain(&e))
 }
 
 /// The ledger the environment branch carries: its JSONL mirror, else its legacy `deployed/` state imported in
@@ -86,6 +87,10 @@ fn preview_ledger(
 }
 
 /// Plans what is staged in `work_tree` for `environment`.
+///
+/// # Errors
+///
+/// [`VsError::Plan`] when the project cannot be loaded, the ledger cannot be read or the plan cannot be built.
 pub fn plan_preview(
     work_tree: &Path,
     settings: &VaultspeedSettings,

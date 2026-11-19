@@ -29,5 +29,6 @@ impl Default for ReleaseSettings {
 }
 
 impl ReleaseSettings {
+    /// The name of the config section these settings are read from (`[release]`).
     pub const SECTION: &'static str = "release";
 }

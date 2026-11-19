@@ -11,10 +11,12 @@ use crate::DomainError;
 pub struct GenerationId(u32);
 
 impl GenerationId {
+    /// Wraps the number.
     pub const fn new(id: u32) -> Self {
         Self(id)
     }
 
+    /// The number.
     pub const fn get(self) -> u32 {
         self.0
     }
@@ -51,6 +53,7 @@ impl GenerationKind {
         }
     }
 
+    /// The token as it appears in generation names (`DDL`, `ETL`, `FMC`, `COMP`).
     pub const fn as_str(self) -> &'static str {
         match self {
             Self::Ddl => "DDL",
@@ -79,10 +82,12 @@ pub struct GenerationName {
 }
 
 impl GenerationName {
+    /// The numeric part of the name.
     pub const fn id(&self) -> GenerationId {
         self.id
     }
 
+    /// What the generation contains.
     pub const fn kind(&self) -> GenerationKind {
         self.kind
     }

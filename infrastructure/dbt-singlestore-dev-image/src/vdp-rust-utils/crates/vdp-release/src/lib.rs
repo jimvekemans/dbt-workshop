@@ -1,13 +1,36 @@
 //! The dbt DROP release flows, shared by `vdp release ...` and the release hub.
 //!
-//! - [`Analyser`] builds an [`Analysis`]: the tickets merged on the source mainline since the merge-base with
-//!   the compare branch (oldest first, a later revert cancels a merge, hotfix/bugfix branches as pseudo-tickets),
-//!   the reverts on the compare branch, direct ("uncoupled") commits, Jira data per ticket, and the
-//!   [`ReleasePolicy`] classification with a default selection.
-//! - [`ReleaseFlow`] cuts a release branch with a selection of tickets reverted (newest first) and the compare
-//!   branch's reverts of out-of-scope tickets carried over; [`PatchFlow`] adds tickets to a release branch
-//!   (re-enabling reverted ones, cherry-picking merges with `-m 1`); [`Promotion`] brings a release to main.
+//! A domain orchestrator: it sequences the [`vdp_git::Vcs`] and [`vdp_jira::IssueTracker`] ports into analyses and
+//! flows, and owns the rules of the release managers. The CLI and the hub (`vdp-release-hub`) run the same code.
+//!
+//! # Responsibilities
+//!
+//! - [`Analyser`] builds an [`Analysis`]: the tickets merged on the source mainline since the merge-base with the compare
+//!   branch (oldest first, a later revert cancels a merge, hotfix/bugfix branches as pseudo-tickets), the reverts on the
+//!   compare branch, direct ("uncoupled") commits, Jira data per ticket, and the [`ReleasePolicy`] classification with a
+//!   default selection.
+//! - [`ReleaseFlow`] cuts a release branch with a selection of tickets reverted (newest first) and the compare branch's
+//!   reverts of out-of-scope tickets carried over; [`PatchFlow`] adds tickets to a release branch (re-enabling reverted
+//!   ones, cherry-picking merges with `-m 1`); [`Promotion`] brings a release to main.
 //! - Every flow refuses an analysis whose refs moved, refuses a dirty work tree, and changes nothing in a dry run.
+//! - [`BranchRules`] names the branches a flow may write; conflicts are put to a release manager ([`Conflicts`]).
+//!
+//! # Example
+//!
+//! ```
+//! use vdp_release::BranchRules;
+//!
+//! let rules = BranchRules {
+//!     prefix: "release/".into(),
+//!     source: "dev".into(),
+//!     main: "main".into(),
+//!     ticket_prefix: "INTEL".into(),
+//! };
+//! assert_eq!(rules.release_target("origin/release/2026_DROP05")?, "release/2026_DROP05");
+//! // The source branch is never written.
+//! assert!(rules.release_target("dev").is_err());
+//! # Ok::<(), vdp_release::ReleaseError>(())
+//! ```
 
 mod analysis;
 mod branches;
@@ -39,16 +62,16 @@ pub use flow::{
     ChangelogFile, Outcome, ReleaseFlow, ReleaseOptions, Step, StepOutcome, release_steps,
 };
 pub use origin::{
-    BranchRole, CHANGELOG_TRAILER, OriginState, ReleaseOnly, ScopeAction, check_scope,
-    origin_state, release_only,
+    BranchRole, CHANGELOG_TRAILER, OriginState, ReleaseOnly, ReleaseOnlyRequest, ScopeAction,
+    ScopeCheck, check_scope, origin_state, release_only,
 };
-pub use patch::{PatchFlow, patch_steps};
+pub use patch::{PatchFlow, PatchOptions, patch_steps};
 pub use policy::{Classification, Decision, ReleasePolicy};
 pub use promote::{Detection, PromoteOptions, Promoted, Promotion, PromotionKind, detect};
 pub use rules::BranchRules;
 pub use scan::{
-    CompareState, MergedTicket, RawViolation, ScanNames, SourceScan, TicketKind, ViolationVia,
-    compare_state, merged_tickets, scan_source,
+    CompareState, MergedTicket, RawViolation, ScanNames, SourceScan, SourceScanInput, TicketKind,
+    ViolationVia, compare_state, merged_tickets, scan_source,
 };
 pub use settings::ReleaseSettings;
 

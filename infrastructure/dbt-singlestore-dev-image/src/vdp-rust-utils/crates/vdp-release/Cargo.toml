@@ -17,6 +17,7 @@ serde_json.workspace = true
 ts-rs = { workspace = true, optional = true }
 thiserror.workspace = true
 tracing.workspace = true
+vdp-core.workspace = true
 vdp-git.workspace = true
 vdp-jira.workspace = true
 

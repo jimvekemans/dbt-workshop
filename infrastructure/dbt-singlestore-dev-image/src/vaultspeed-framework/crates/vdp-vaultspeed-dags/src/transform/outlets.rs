@@ -21,6 +21,7 @@ pub struct MappingTaskOutlets {
 }
 
 impl MappingTaskOutlets {
+    /// Creates the transformer: mapping names that start with one of `prefixes` get a dataset outlet.
     pub fn new(prefixes: Vec<String>) -> Self {
         Self {
             task_variable: "task".into(),
@@ -81,6 +82,7 @@ pub struct LoadSuccessOutlet {
 }
 
 impl LoadSuccessOutlet {
+    /// Creates the transformer; `sources` determines the source system of the DAG.
     pub fn new(sources: SourceResolver) -> Self {
         Self {
             task_variable: "fmc_load_success".into(),

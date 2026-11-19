@@ -12,6 +12,11 @@ pub struct DagDocument {
 }
 
 impl DagDocument {
+    /// Parses `text` as Python; `name` identifies the DAG in errors.
+    ///
+    /// # Errors
+    ///
+    /// [`DagError::Unparseable`] when the text cannot be parsed as Python.
     pub fn parse(name: impl Into<String>, text: impl Into<String>) -> Result<Self, DagError> {
         let name = name.into();
         let text = text.into();
@@ -20,23 +25,32 @@ impl DagDocument {
         Ok(Self { name, text, tree })
     }
 
+    /// The DAG's name (its file name).
     pub fn name(&self) -> &str {
         &self.name
     }
 
+    /// The source text.
     pub fn text(&self) -> &str {
         &self.text
     }
 
+    /// The root node of the syntax tree.
     pub fn root(&self) -> Node<'_> {
         self.tree.root_node()
     }
 
+    /// The source text of `node`.
     pub fn node_text(&self, node: Node<'_>) -> &str {
         &self.text[node.byte_range()]
     }
 
     /// Returns a new document with the edits applied and re-parsed.
+    ///
+    /// # Errors
+    ///
+    /// [`DagError::OverlappingEdits`] when `edits` overlap; [`DagError::Unparseable`] when the result is not parseable
+    /// Python. `transformer` names the transformer in the error.
     pub fn with_edits(&self, edits: Vec<TextEdit>, transformer: &str) -> Result<Self, DagError> {
         let text =
             TextEdit::apply_all(&self.text, edits).ok_or_else(|| DagError::OverlappingEdits {

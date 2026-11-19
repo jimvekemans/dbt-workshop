@@ -41,6 +41,11 @@ pub struct Detection {
 /// - main shares a commit with the release that the source does not have (its reverts, its changelog) → a
 ///   patch of the release main has;
 /// - otherwise a new release.
+///
+/// # Errors
+///
+/// [`ReleaseError::Invalid`] when `branch` is not a release branch; [`ReleaseError::Git`] when a ref (the release, main)
+/// cannot be resolved or the history cannot be read.
 pub fn detect(vcs: &dyn Vcs, branch: &str, rules: &BranchRules) -> Result<Detection, ReleaseError> {
     let branch = rules.release_target(branch)?;
     let release = remote_ref(&branch);
@@ -239,9 +244,11 @@ impl Promotion<'_> {
             .collect();
         Ok(release_only(
             self.vcs,
-            &self.rules.source,
-            main,
-            &self.rules.ticket_prefix,
+            &crate::ReleaseOnlyRequest {
+                source: &self.rules.source,
+                head: main,
+                ticket_prefix: &self.rules.ticket_prefix,
+            },
         )?
         .into_iter()
         .filter(|lost| !in_release.contains(&lost.commit.hash))
@@ -279,10 +286,21 @@ impl Promotion<'_> {
         Ok(())
     }
 
+    /// Promotes the release `branch` to main, as detected or as `options.kind` says; with `options.dry_run` it only
+    /// reports what would happen.
+    ///
+    /// # Errors
+    ///
+    /// [`ReleaseError::Invalid`] when `branch` is not a release branch or does not exist on origin; [`ReleaseError::Stale`]
+    /// when main moved since the preview (`options.expect_main`); [`ReleaseError::Refused`] when a rollback or dropped
+    /// commits were not accepted, or the work tree is dirty; [`ReleaseError::Apply`] / [`ReleaseError::Aborted`] when a
+    /// step fails or the release manager stops; [`ReleaseError::Git`] when another git operation fails (including a
+    /// rejected push).
     pub fn run(&self, branch: &str, options: &PromoteOptions) -> Result<Promoted, ReleaseError> {
         if let Err(error) = self.vcs.fetch_all() {
             (self.progress)(&format!(
-                "fetch failed (continuing with local refs): {error}"
+                "fetch failed (continuing with local refs): {}",
+                vdp_core::display_chain(&error)
             ));
         }
         let branch = self.rules.release_target(branch)?;

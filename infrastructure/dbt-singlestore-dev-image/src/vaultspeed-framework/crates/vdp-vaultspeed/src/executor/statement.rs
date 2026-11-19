@@ -7,6 +7,10 @@ use vdp_db::{DbError, SqlSession};
 pub trait StatementExecutor: Send + Sync + Debug {
     /// Runs the statement and returns the number of rows the database reported as affected, when it
     /// reported one.
+    ///
+    /// # Errors
+    ///
+    /// [`DbError`] when the database rejects the statement.
     fn execute(&self, sql: &str) -> Result<Option<i64>, DbError>;
 }
 
@@ -17,6 +21,7 @@ pub struct SessionExecutor {
 }
 
 impl SessionExecutor {
+    /// Creates an executor on `session`.
     pub fn new(session: Arc<dyn SqlSession>) -> Self {
         Self { session }
     }

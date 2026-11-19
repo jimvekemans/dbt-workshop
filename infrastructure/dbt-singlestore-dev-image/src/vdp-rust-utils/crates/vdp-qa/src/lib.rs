@@ -1,9 +1,27 @@
 //! Manifest analyses (`scripts/qa`).
 //!
-//! - [`orphan_tables`]: table models nothing reads (`detect_tables_with_no_deps.py`). Tests no longer count as
-//!   readers: the Python script counted every node, so a table with only a `not_null` test looked used.
-//! - [`view_candidates`]: views whose downstream tables take long to build, so materializing the view may pay
-//!   off (`analyze_views_downstream_timings.py`), with the same traversal, ranking and CSV columns.
+//! A small domain module: pure analyses over dbt's `manifest.json` (read with [`vdp_dbt::artifacts`]) plus one query for
+//! the timings of the latest run. `vdp qa` in `vdp-cli` prints them.
+//!
+//! # Responsibilities
+//!
+//! - [`orphan_tables`]: table models nothing reads (`detect_tables_with_no_deps.py`). Tests no longer count as readers:
+//!   the Python script counted every node, so a table with only a `not_null` test looked used.
+//! - [`view_candidates`]: views whose downstream tables take long to build, so materializing the view may pay off
+//!   (`analyze_views_downstream_timings.py`), with the same traversal, ranking and CSV columns.
+//! - [`latest_timings`]: the execution times of the latest run, by unique id, from the run-results table.
+//! - [`candidates_csv`]: the Python CSV, with the same columns.
+//!
+//! # Example
+//!
+//! ```
+//! use vdp_dbt::artifacts::Manifest;
+//!
+//! // An empty manifest has nothing to report.
+//! let manifest = Manifest::default();
+//! assert!(vdp_qa::orphan_tables(&manifest).is_empty());
+//! assert!(vdp_qa::view_candidates(&manifest, &std::collections::HashMap::new()).is_empty());
+//! ```
 
 use std::collections::{BTreeMap, BTreeSet, HashMap, VecDeque};
 use std::hash::BuildHasher;
@@ -17,8 +35,9 @@ use vdp_dbt::artifacts::{Manifest, Node};
 #[serde(deny_unknown_fields, default)]
 pub struct QaSettings {
     /// Table with the run results of past dbt runs (`unique_id`, `execution_time`, `run_started_at`), as
-    /// `database.table`. `{env}` is the lower-case environment, for projects whose management database differs per
-    /// environment (`{env}_vdp_mgmt.dbt_run_results` is `dev_vdp_mgmt.dbt_run_results` on `dev`).
+    /// `database.table`, for projects whose management database differs per environment. `{env}` is the lower-case
+    /// environment (`ldv`, `abt`, `cbt`, `prd`) and `{env_short}` its short name (`dev`, `val`, `cbt`, `prd`):
+    /// `{env_short}_vdp_mgmt.dbt_run_results` is `dev_vdp_mgmt.dbt_run_results` on `LDV`.
     pub run_results_table: String,
 }
 
@@ -31,12 +50,15 @@ impl Default for QaSettings {
 }
 
 impl QaSettings {
+    /// The name of the config section these settings are read from (`[qa]`).
     pub const SECTION: &'static str = "qa";
 
-    /// [`QaSettings::run_results_table`] for an environment.
-    pub fn run_results_table_for(&self, environment: &str) -> String {
+    /// [`QaSettings::run_results_table`] for an environment: `environment` is its name (rendered lower-case for
+    /// `{env}`) and `short_name` its short name (for `{env_short}`, as `vdp_core::Environment::short_name` gives it).
+    pub fn run_results_table_for(&self, environment: &str, short_name: &str) -> String {
         self.run_results_table
             .replace("{env}", &environment.to_ascii_lowercase())
+            .replace("{env_short}", short_name)
     }
 }
 
@@ -126,8 +148,11 @@ fn downstream<'a>(
     found
 }
 
+/// Rounds to two decimals. Never returns `-0.0`: an empty `f64` sum is `-0.0` on current Rust, and a small negative
+/// value rounds to it, which would print as `-0.00`.
 fn round2(value: f64) -> f64 {
-    (value * 100.0).round() / 100.0
+    let rounded = (value * 100.0).round() / 100.0;
+    if rounded == 0.0 { 0.0 } else { rounded }
 }
 
 /// Views ranked by the build time of the tables downstream of them. Views with a `t_<view>` table counterpart
@@ -168,6 +193,7 @@ pub fn view_candidates<S: BuildHasher>(
                 }
             }
         }
+        // `round2` turns the `-0.0` of an empty sum into `0.0`.
         let total = round2(table_timings.iter().map(|(_, s)| s).sum());
         // In traversal order, like the Python dict (serde_json's map would sort the keys).
         let json = format!(
@@ -222,6 +248,10 @@ fn python_json(value: &serde_json::Value) -> String {
 }
 
 /// Execution times of the latest run, by unique id.
+///
+/// # Errors
+///
+/// [`DbError`] when the query fails. Rows without a text id are skipped.
 #[allow(
     clippy::cast_precision_loss,
     reason = "execution times in seconds are far below 2^52"
@@ -331,14 +361,27 @@ mod tests {
     fn the_run_results_table_follows_the_configuration_and_environment() {
         let default = QaSettings::default();
         assert_eq!(
-            default.run_results_table_for("LDV"),
+            default.run_results_table_for("LDV", "dev"),
             "vdp_mgmt.dbt_run_results"
         );
         let workshop = QaSettings {
             run_results_table: "{env}_vdp_mgmt.dbt_run_results".into(),
         };
-        let table = workshop.run_results_table_for("dev");
+        let table = workshop.run_results_table_for("dev", "dev");
         assert_eq!(table, "dev_vdp_mgmt.dbt_run_results");
+        // `{env}` is the canonical name, `{env_short}` the short one.
+        let both = QaSettings {
+            run_results_table: "{env}_{env_short}.t".into(),
+        };
+        assert_eq!(both.run_results_table_for("LDV", "dev"), "ldv_dev.t");
+        assert_eq!(both.run_results_table_for("CBT", "cbt"), "cbt_cbt.t");
+        let short = QaSettings {
+            run_results_table: "{env_short}_vdp_mgmt.dbt_run_results".into(),
+        };
+        assert_eq!(
+            short.run_results_table_for("ABT", "val"),
+            "val_vdp_mgmt.dbt_run_results"
+        );
         let session = RunResults(std::sync::Mutex::new(Vec::new()));
         let timings = latest_timings(&session, &table).unwrap();
         assert!((timings["model.p.t1"] - 12.5).abs() < f64::EPSILON);
@@ -367,6 +410,25 @@ mod tests {
     #[test]
     fn orphans_ignore_tests() {
         assert_eq!(orphan_tables(&manifest()), ["model.p.after"]);
+    }
+
+    /// A view whose only downstream model is not a table has no timings; its total must be `0.0`, not `-0.0`.
+    #[test]
+    fn a_total_without_timings_is_positive_zero() {
+        let manifest: Manifest = serde_json::from_str(
+            r#"{"nodes":{
+              "model.p.v":{"unique_id":"model.p.v","resource_type":"model","name":"v","config":{"materialized":"view"},"original_file_path":"models/v.sql"},
+              "model.p.e":{"unique_id":"model.p.e","resource_type":"model","name":"e","config":{"materialized":"ephemeral"},"depends_on":{"nodes":["model.p.v"]}}
+            }}"#,
+        )
+        .unwrap();
+        let candidates = view_candidates(&manifest, &HashMap::new());
+        assert_eq!(candidates.len(), 1);
+        let total = candidates[0].total_downstream_time_seconds;
+        assert!(total.is_sign_positive(), "total is {total:?}");
+        assert!(!format!("{total:.2}").contains('-'));
+        assert!(!candidates_csv(&candidates).contains("-0.0"));
+        assert!(round2(-0.001).is_sign_positive());
     }
 
     #[test]

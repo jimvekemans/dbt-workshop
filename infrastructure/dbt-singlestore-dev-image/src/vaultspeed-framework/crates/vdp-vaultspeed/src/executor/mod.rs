@@ -12,5 +12,7 @@ mod statement;
 
 pub use classifier::{ErrorClassifier, ErrorVerdict, MySqlErrorClassifier, NoClassification};
 pub use probe::InformationSchemaProbe;
-pub use runner::{ExecError, FailurePolicy, Halt, HaltScope, PlanRunner, RunContext, SourceRun};
+pub use runner::{
+    ExecError, FailurePolicy, Halt, HaltScope, PlanRunner, PlanRunnerParts, RunContext, SourceRun,
+};
 pub use statement::{DryRunExecutor, SessionExecutor, StatementExecutor};

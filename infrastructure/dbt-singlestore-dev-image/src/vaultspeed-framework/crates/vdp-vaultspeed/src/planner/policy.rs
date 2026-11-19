@@ -20,7 +20,13 @@ pub struct DecisionContext<'a> {
 
 /// One rule of the decision chain. Returns `None` when it has no opinion.
 pub trait IdempotencyPolicy: Send + Sync + Debug {
+    /// The policy's name.
     fn name(&self) -> &'static str;
+    /// The decision for `group`, `None` when the policy has no opinion.
+    ///
+    /// # Errors
+    ///
+    /// [`PlanError::Ledger`] when the ledger cannot be read; [`PlanError::Probe`] when the catalog probe fails.
     fn decide(
         &self,
         group: &StatementGroup,
@@ -47,6 +53,8 @@ pub struct ExclusionPolicy {
 }
 
 impl ExclusionPolicy {
+    /// Creates the policy: skip jobs whose name contains one of `job_substrings`, files whose path contains one of
+    /// `path_substrings`, and standalone drops as `standalone_drops` says.
     pub const fn new(
         job_substrings: Vec<String>,
         path_substrings: Vec<String>,
@@ -105,6 +113,7 @@ pub struct AlwaysRunPolicy {
 }
 
 impl AlwaysRunPolicy {
+    /// Creates the policy: groups of these artifact kinds run whenever they are present.
     pub const fn new(artifacts: Vec<ArtifactKind>) -> Self {
         Self { artifacts }
     }
@@ -155,6 +164,7 @@ pub struct ReplaceablePolicy {
 }
 
 impl ReplaceablePolicy {
+    /// Creates the policy; with a `probe`, a group the ledger knows is run again when its table or view has vanished.
     pub const fn new(probe: Option<Arc<dyn CatalogProbe>>) -> Self {
         Self { probe }
     }
@@ -219,6 +229,7 @@ pub struct OnceOnlyPolicy {
 }
 
 impl OnceOnlyPolicy {
+    /// Creates the policy; with a `probe`, the catalog can prove a missing statement is already in effect.
     pub const fn new(probe: Option<Arc<dyn CatalogProbe>>) -> Self {
         Self { probe }
     }

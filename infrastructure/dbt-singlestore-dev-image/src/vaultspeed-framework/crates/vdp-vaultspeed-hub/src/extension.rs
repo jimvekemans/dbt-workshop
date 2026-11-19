@@ -8,12 +8,12 @@ use vdp_jira::IssueTracker;
 use vdp_release::Resolution;
 use vdp_release_hub::http::{API, Reply};
 use vdp_release_hub::{
-    Actor, ExtensionRequest, GitLab, HubError, HubExtension, Need, api::CloneRequest,
+    Actor, ActorRequest, ExtensionRequest, GitLab, HubError, HubExtension, Need, api::CloneRequest,
     auth::BranchRight,
 };
 
 use crate::api::{VsCommitCreate, VsMergeCreate, VsReleaseCreate, VsResetCreate};
-use crate::hub::{VsConfig, VsHub};
+use crate::hub::{ChangeFileRequest, VsConfig, VsHub};
 
 /// The URL segment, and the key in the hub's status and in a signed-in user's rights.
 pub const SEGMENT: &str = "vaultspeed";
@@ -27,12 +27,12 @@ impl VsHub {
         branch: &str,
         need: Need,
     ) -> Result<Actor, HubError> {
-        request.actor(
+        request.actor(&ActorRequest {
             branch,
-            &self.rights_branch(branch),
+            rights_branch: &self.rights_branch(branch),
             need,
-            self.config().gitlab.as_ref(),
-        )
+            push_to: self.config().gitlab.as_ref(),
+        })
     }
 
     /// Changing the clone itself (clone, repair, decisions on a waiting job): any push right in the repository.
@@ -55,6 +55,7 @@ pub struct VaultspeedExtension {
 }
 
 impl VaultspeedExtension {
+    /// Creates the VaultSpeed side of the hub from its configuration and, optionally, a Jira tracker for ticket details.
     pub fn new(config: VsConfig, tracker: Option<Arc<dyn IssueTracker>>) -> Self {
         Self {
             vs: VsHub::new(config, tracker),
@@ -96,7 +97,11 @@ impl HubExtension for VaultspeedExtension {
                     branch,
                     push: false,
                     force: false,
-                    reason: Some(format!("{}: {error}", gitlab.project)),
+                    reason: Some(format!(
+                        "{}: {}",
+                        gitlab.project,
+                        vdp_vaultspeed_domain::display_chain(&error)
+                    )),
                 })
                 .collect(),
         }
@@ -142,12 +147,12 @@ impl HubExtension for VaultspeedExtension {
             ("GET", ["changes"]) => Reply::from(200, vs.changes(&param("from"), &param("to"))),
             ("GET", ["changes", "file"]) => Reply::from(
                 200,
-                vs.change_file(
-                    &param("from"),
-                    &param("to"),
-                    &param("path"),
-                    request.param_opt("entry").as_deref(),
-                ),
+                vs.change_file(&ChangeFileRequest {
+                    from: &param("from"),
+                    to: &param("to"),
+                    path: &param("path"),
+                    entry: request.param_opt("entry").as_deref(),
+                }),
             ),
             ("GET", ["tree"]) => Reply::from(200, vs.tree(&param("branch"), &param("dir"))),
             ("GET", ["history"]) => Reply::from(
@@ -160,7 +165,9 @@ impl HubExtension for VaultspeedExtension {
                     let branch = vs
                         .rules()
                         .release_branch(&create.request.drop)
-                        .map_err(|e| HubError::BadRequest(e.to_string()))?;
+                        .map_err(|e| {
+                            HubError::BadRequest(vdp_vaultspeed_domain::display_chain(&e))
+                        })?;
                     let need = if create.request.recreate {
                         Need::Force
                     } else {

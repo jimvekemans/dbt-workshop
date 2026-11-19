@@ -5,6 +5,11 @@ use crate::DbtError;
 
 /// The dbt engine: `explicit` (config), else `$VDP_DBT_BIN`, else the first `dbt` on `PATH` that is not the
 /// running wrapper (so `/usr/local/bin/dbt -> vdp` never calls itself).
+///
+/// # Errors
+///
+/// [`DbtError::NotFound`] when no engine is configured, `$VDP_DBT_BIN` is unset or empty and `PATH` holds no `dbt`
+/// other than the running wrapper. A configured path is returned as given, without checking that it exists.
 pub fn locate_engine(explicit: Option<&Path>) -> Result<PathBuf, DbtError> {
     let env = std::env::var_os("VDP_DBT_BIN").filter(|v| !v.is_empty());
     let path = std::env::var_os("PATH").unwrap_or_default();

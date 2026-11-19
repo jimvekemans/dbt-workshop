@@ -18,10 +18,12 @@ pub enum LedgerOutcome {
 }
 
 impl LedgerOutcome {
+    /// Whether the outcome counts as "has run" (everything but a failure).
     pub const fn counts_as_applied(self) -> bool {
         !matches!(self, Self::Failed)
     }
 
+    /// The lower-case name of the outcome, as stored.
     pub const fn as_str(self) -> &'static str {
         match self {
             Self::Applied => "applied",

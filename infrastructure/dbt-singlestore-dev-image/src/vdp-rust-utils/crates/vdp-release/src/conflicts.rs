@@ -38,6 +38,7 @@ pub enum OnConflictChoice {
     Theirs,
 }
 
+/// Which merge strategy a request wants (the serialisable form of [`Strategy`]).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[cfg_attr(feature = "ts", derive(ts_rs::TS))]
 #[serde(rename_all = "snake_case")]
@@ -49,6 +50,7 @@ pub enum StrategyChoice {
     Strict,
 }
 
+/// The git [`ApplyOptions`] for the two choices.
 pub fn apply_options(on_conflict: OnConflictChoice, strategy: StrategyChoice) -> ApplyOptions {
     ApplyOptions {
         on_conflict: match on_conflict {
@@ -73,6 +75,7 @@ pub struct ConflictFile {
     pub touched_by: Vec<String>,
 }
 
+/// How a [`Suggestion`] changes the selection.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "ts", derive(ts_rs::TS))]
 #[serde(rename_all = "snake_case")]
@@ -130,6 +133,7 @@ impl From<FileChoice> for Choice {
     }
 }
 
+/// What the release manager decided for a conflicting step.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "ts", derive(ts_rs::TS))]
 #[serde(rename_all = "snake_case")]
@@ -152,6 +156,7 @@ pub struct Resolution {
 }
 
 impl Resolution {
+    /// A resolution that stops the run.
     pub fn abort() -> Self {
         Self {
             choices: BTreeMap::new(),

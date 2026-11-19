@@ -77,6 +77,7 @@ pub(crate) fn qualify_key(key: &str, database: &str) -> String {
 }
 
 impl MemoryLedger {
+    /// Creates an empty ledger.
     pub fn new() -> Self {
         Self::default()
     }

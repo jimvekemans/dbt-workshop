@@ -12,6 +12,7 @@ pub struct EnsureImport {
 }
 
 impl EnsureImport {
+    /// Ensures `from module import name`, placed after `from anchor_module import ...` when there is one.
     pub fn new(module: &str, name: &str, anchor_module: &str) -> Self {
         Self {
             id: format!("import:{module}.{name}"),

@@ -14,7 +14,11 @@ serde_json.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
 ureq.workspace = true
+vdp-core.workspace = true
 vdp-secrets.workspace = true
+
+[dev-dependencies]
+tiny_http.workspace = true
 
 [lints]
 workspace = true

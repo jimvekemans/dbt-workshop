@@ -20,6 +20,11 @@ struct LegacySource {
 
 /// Reads source names from the Python framework's `config/vaultspeed.json`.
 /// A missing file yields no sources.
+///
+/// # Errors
+///
+/// [`ConfigError::Io`] when the file exists but cannot be read; [`ConfigError::FmcSources`] when it is not valid JSON of
+/// the expected shape.
 pub fn load_fmc_sources(path: &Path) -> Result<Vec<String>, ConfigError> {
     if !path.exists() {
         return Ok(Vec::new());

@@ -12,6 +12,7 @@ pub struct FixVersion {
 }
 
 impl FixVersion {
+    /// The name as Jira spells it, for example `2026_DROP05`.
     pub fn name(&self) -> &str {
         &self.name
     }

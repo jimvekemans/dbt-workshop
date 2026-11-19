@@ -20,6 +20,11 @@ pub struct DbtProject {
 }
 
 impl DbtProject {
+    /// Reads the `dbt_project.yml` of the project at `root`.
+    ///
+    /// # Errors
+    ///
+    /// [`DbtError::Project`] when the file cannot be read, is not valid YAML or has no `name`.
     pub fn load(root: &Path) -> Result<Self, DbtError> {
         let path = root.join("dbt_project.yml");
         let text = std::fs::read_to_string(&path).map_err(|e| DbtError::Project {
@@ -56,6 +61,7 @@ impl DbtProject {
         })
     }
 
+    /// The `manifest.json` in the project's target path.
     pub fn manifest_path(&self) -> PathBuf {
         self.target_path.join("manifest.json")
     }

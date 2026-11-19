@@ -14,6 +14,7 @@ pub struct MissingSource {
 }
 
 impl MissingSource {
+    /// The `source.table` name, as in `{{ source('source', 'table') }}`.
     pub fn qualified(&self) -> String {
         format!("{}.{}", self.source, self.table)
     }

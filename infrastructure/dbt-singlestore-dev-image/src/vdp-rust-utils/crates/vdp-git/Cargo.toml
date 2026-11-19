@@ -11,6 +11,7 @@ publish.workspace = true
 base64.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
+vdp-core.workspace = true
 
 [dev-dependencies]
 tempfile.workspace = true

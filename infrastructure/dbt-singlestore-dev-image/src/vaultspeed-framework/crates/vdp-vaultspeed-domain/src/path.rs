@@ -11,6 +11,7 @@ use serde::{Deserialize, Serialize};
 pub struct RelPath(String);
 
 impl RelPath {
+    /// Normalises `path`: both `\` and `/` separate, empty parts and `.` are dropped.
     pub fn new(path: impl AsRef<str>) -> Self {
         let normalised = path
             .as_ref()
@@ -21,14 +22,17 @@ impl RelPath {
         Self(normalised)
     }
 
+    /// The normalised path.
     pub fn as_str(&self) -> &str {
         &self.0
     }
 
+    /// The non-empty parts of the path.
     pub fn components(&self) -> impl Iterator<Item = &str> {
         self.0.split('/').filter(|c| !c.is_empty())
     }
 
+    /// The last part.
     pub fn file_name(&self) -> &str {
         self.0.rsplit('/').next().unwrap_or_default()
     }
@@ -39,10 +43,12 @@ impl RelPath {
         name.rsplit_once('.').map_or(name, |(stem, _)| stem)
     }
 
+    /// The text after the last `.` of the file name, if any.
     pub fn extension(&self) -> Option<&str> {
         self.file_name().rsplit_once('.').map(|(_, ext)| ext)
     }
 
+    /// Whether the extension equals `ext`, ignoring ASCII case.
     pub fn has_extension(&self, ext: &str) -> bool {
         self.extension()
             .is_some_and(|e| e.eq_ignore_ascii_case(ext))
@@ -71,6 +77,7 @@ impl RelPath {
             .map(Self::new)
     }
 
+    /// The path with `child` appended.
     #[must_use]
     pub fn join(&self, child: &str) -> Self {
         Self::new(format!("{}/{child}", self.0))

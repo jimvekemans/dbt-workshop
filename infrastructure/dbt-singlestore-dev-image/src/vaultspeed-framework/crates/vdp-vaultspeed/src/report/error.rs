@@ -2,23 +2,24 @@ use std::path::PathBuf;
 
 use thiserror::Error;
 
+/// Why a report could not be written.
 #[derive(Debug, Error)]
 pub enum ReportError {
-    #[error("{path}: {source}")]
+    #[error("{path}")]
     Io {
         path: PathBuf,
         #[source]
         source: std::io::Error,
     },
 
-    #[error("{path}: {source}")]
+    #[error("{path}")]
     Csv {
         path: PathBuf,
         #[source]
         source: csv::Error,
     },
 
-    #[error("cannot serialise report: {0}")]
+    #[error("cannot serialise report")]
     Json(#[from] serde_json::Error),
 }
 

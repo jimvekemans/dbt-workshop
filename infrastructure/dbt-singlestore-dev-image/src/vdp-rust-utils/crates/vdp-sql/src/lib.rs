@@ -1,25 +1,46 @@
 //! `vdp sql run` (`call_sql.py`) and `vdp sql export` (`download_from_singlestore.py`).
 //!
-//! The Python export formatted the table name into `SELECT * FROM {name}`; here names are validated and
-//! quoted. `run` no longer prompts: results print, and `--csv-dir` saves them.
+//! A small domain module over the [`vdp_db::SqlSession`] port. The Python export formatted the table name into
+//! `SELECT * FROM {name}`; here names are validated and quoted. `run` no longer prompts: results print, and `--csv-dir`
+//! saves them.
+//!
+//! # Responsibilities
+//!
+//! - Validate and quote a table name ([`quote_table`]).
+//! - Run a SQL file, one or more statements, and return the last result set ([`run_file`], [`read_sql_file`]).
+//! - Export a table ([`export_table`]).
+//! - Save a result set as CSV ([`save_csv`]).
+//!
+//! # Example
+//!
+//! ```
+//! use vdp_sql::quote_table;
+//!
+//! assert_eq!(quote_table("edw_dv_rdv.hub_customer")?, "`edw_dv_rdv`.`hub_customer`");
+//! // Anything that is not a plain name is refused instead of formatted into SQL.
+//! assert!(quote_table("hub; DROP TABLE x").is_err());
+//! # Ok::<(), vdp_sql::SqlError>(())
+//! ```
 
 use std::fmt::Write as _;
 use std::path::{Path, PathBuf};
 
 use thiserror::Error;
+use vdp_core::present::Table;
 use vdp_db::{DbError, ResultSet, SqlSession, write_csv};
 
+/// Why a SQL command failed.
 #[derive(Debug, Error)]
 pub enum SqlError {
     #[error("`{0}` is not a table name (database.table, letters, digits, _ and $)")]
     InvalidName(String),
-    #[error("{path}: {source}")]
+    #[error("{path}")]
     Io {
         path: PathBuf,
         #[source]
         source: std::io::Error,
     },
-    #[error("{0}")]
+    #[error(transparent)]
     Db(#[from] DbError),
 }
 
@@ -31,6 +52,10 @@ fn io(path: &Path) -> impl FnOnce(std::io::Error) -> SqlError + '_ {
 }
 
 /// `db.table` or `table`, quoted for SingleStore: `` `db`.`table` ``.
+///
+/// # Errors
+///
+/// [`SqlError::InvalidName`] when `name` is not `table` or `db.table` made of letters, digits, `_` and `$`.
 pub fn quote_table(name: &str) -> Result<String, SqlError> {
     let parts: Vec<&str> = name.split('.').collect();
     let valid = (1..=2).contains(&parts.len())
@@ -49,19 +74,40 @@ pub fn quote_table(name: &str) -> Result<String, SqlError> {
         .join("."))
 }
 
+/// Reads a SQL file from disk without connecting to the database.
+///
+/// # Errors
+///
+/// [`SqlError::Io`] when the file cannot be read.
+pub fn read_sql_file(file: &Path) -> Result<String, SqlError> {
+    std::fs::read_to_string(file).map_err(io(file))
+}
+
 /// Runs a SQL file (one or more statements); returns the last result set with columns.
+///
+/// # Errors
+///
+/// [`SqlError::Io`] when the file cannot be read; [`SqlError::Db`] when a statement fails.
 pub fn run_file(session: &dyn SqlSession, file: &Path) -> Result<ResultSet, SqlError> {
-    let sql = std::fs::read_to_string(file).map_err(io(file))?;
+    let sql = read_sql_file(file)?;
     Ok(session.query_table(&sql, &[])?)
 }
 
 /// `SELECT *` of a table.
+///
+/// # Errors
+///
+/// [`SqlError::InvalidName`] when `name` is not a valid table name; [`SqlError::Db`] when the query fails.
 pub fn export_table(session: &dyn SqlSession, name: &str) -> Result<ResultSet, SqlError> {
     let sql = format!("SELECT * FROM {}", quote_table(name)?);
     Ok(session.query_table(&sql, &[])?)
 }
 
 /// Writes a result set as CSV, creating the directory.
+///
+/// # Errors
+///
+/// [`SqlError::Io`] when the directory or file cannot be created or written.
 pub fn save_csv(result: &ResultSet, path: &Path) -> Result<(), SqlError> {
     if let Some(dir) = path.parent() {
         std::fs::create_dir_all(dir).map_err(io(dir))?;
@@ -81,47 +127,13 @@ pub fn render(result: &ResultSet, limit: usize) -> String {
         .take(limit)
         .map(|row| row.iter().map(ToString::to_string).collect())
         .collect();
-    let widths: Vec<usize> = result
-        .columns
-        .iter()
-        .enumerate()
-        .map(|(i, c)| {
-            rows.iter()
-                .map(|r| r.get(i).map_or(0, |v| v.chars().count()))
-                .chain([c.chars().count()])
-                .max()
-                .unwrap_or(0)
-                .min(60)
-        })
-        .collect();
-    let line = |cells: &[String]| -> String {
-        cells
-            .iter()
-            .zip(&widths)
-            .map(|(cell, width)| {
-                let cell: String = cell.chars().take(*width).collect();
-                format!("{cell:<width$}")
-            })
-            .collect::<Vec<_>>()
-            .join(" | ")
-            .trim_end()
-            .to_owned()
-    };
-    let mut out = String::new();
-    let _ = writeln!(out, "{}", line(&result.columns));
-    let _ = writeln!(
-        out,
-        "{}",
-        widths
-            .iter()
-            .map(|w| "-".repeat(*w))
-            .collect::<Vec<_>>()
-            .join("-+-")
-    );
-    for row in &rows {
-        let _ = writeln!(out, "{}", line(row));
-    }
     let shown = rows.len();
+    let mut out = Table::new(&result.columns)
+        .rows(rows)
+        .separator(" | ")
+        .divider("-+-")
+        .max_col_width(60)
+        .render();
     let total = result.rows.len();
     if total > shown {
         let _ = writeln!(out, "... {} more rows", total - shown);

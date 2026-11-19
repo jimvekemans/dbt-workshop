@@ -64,7 +64,9 @@ then `init_global.sql`; create the GitLab root token, the Airflow OAuth applicat
 `admins`, `maintainers`, `users`; root owns all three), the project `workshop/dbt-vdp`, one maintainer and the users `pu_dev1..3`; build the base
 image and check that the dev image exists; register the runner; recreate the three Airflows and the docs server; push
 the dbt project (branches `dev` and `main`, tag `v1.0.0`) and wait for the pipeline of that tag, which builds
-`dbt-vdp:v1.0.0` and deploys it to dev.
+`dbt-vdp:v1.0.0` and deploys it to dev. Bootstrap ends by resetting the Workshop Studio (`studio.reset --wait`) and
+waiting for its baseline: the studio starts with `up`, before the tables and the image exist, so its first check fails
+(a failure here is only a warning with the manual command).
 **Reset** (`reset_workshop.py`): drop and re-create the environment databases and `vdp_ci`, reset the GitLab repository
 to the baseline (which starts the first pipeline again), delete the Airflow runtime-override Variables
 (`disabled_dbt_models`, `dbt_daily_load_dbtignore`, `dbt_env_vars`).

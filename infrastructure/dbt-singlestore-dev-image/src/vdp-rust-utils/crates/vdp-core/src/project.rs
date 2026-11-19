@@ -12,10 +12,15 @@ pub struct ProjectLayout {
 }
 
 impl ProjectLayout {
+    /// The file that marks a dbt project root.
     pub const PROJECT_FILE: &'static str = "dbt_project.yml";
 
     /// Walks up from `start` to the nearest directory with a `dbt_project.yml`. Running from `models/` or any
     /// other sub-folder therefore works (the Python utilities used the current directory as the project).
+    ///
+    /// # Errors
+    ///
+    /// [`CoreError::NoProject`] when neither `start` nor any parent directory holds a `dbt_project.yml`.
     pub fn discover(start: &Path) -> Result<Self, CoreError> {
         let start = absolute(start);
         let root = start
@@ -36,6 +41,7 @@ impl ProjectLayout {
         Self { root, repo_root }
     }
 
+    /// The path of the project's `dbt_project.yml`.
     pub fn project_file(&self) -> PathBuf {
         self.root.join(Self::PROJECT_FILE)
     }

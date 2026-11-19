@@ -17,12 +17,21 @@ pub struct JsonlLedger {
 
 impl JsonlLedger {
     /// Opens (creating if needed) the ledger file and loads all entries.
+    ///
+    /// # Errors
+    ///
+    /// [`LedgerError::Io`] when the file cannot be created, read or appended to; [`LedgerError::Corrupt`] when a line is not
+    /// a ledger entry.
     pub fn open(path: impl Into<PathBuf>) -> Result<Self, LedgerError> {
         Self::open_in(path, "")
     }
 
     /// Like [`JsonlLedger::open`]; unqualified object keys of older lines are qualified with `database` in
     /// memory (see [`MemoryLedger::from_entries_in`]). The file is never rewritten.
+    ///
+    /// # Errors
+    ///
+    /// As [`JsonlLedger::open`].
     pub fn open_in(path: impl Into<PathBuf>, database: &str) -> Result<Self, LedgerError> {
         let path = path.into();
         let io = |source| LedgerError::Io {
@@ -50,11 +59,19 @@ impl JsonlLedger {
     }
 
     /// Reads the file into memory without creating or locking anything (preview runs).
+    ///
+    /// # Errors
+    ///
+    /// [`LedgerError::Io`] when the file exists but cannot be read; [`LedgerError::Corrupt`] when a line is not a ledger entry.
     pub fn snapshot(path: &Path) -> Result<MemoryLedger, LedgerError> {
         Self::snapshot_in(path, "")
     }
 
     /// Like [`JsonlLedger::snapshot`], qualifying unqualified keys with `database`.
+    ///
+    /// # Errors
+    ///
+    /// As [`JsonlLedger::snapshot`].
     pub fn snapshot_in(path: &Path, database: &str) -> Result<MemoryLedger, LedgerError> {
         let entries = if path.exists() {
             read_entries(path)?
@@ -64,6 +81,7 @@ impl JsonlLedger {
         Ok(MemoryLedger::from_entries_in(database, entries))
     }
 
+    /// The ledger file.
     pub fn path(&self) -> &Path {
         &self.path
     }

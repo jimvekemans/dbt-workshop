@@ -15,6 +15,7 @@ pub enum ArtifactKind {
 }
 
 impl ArtifactKind {
+    /// The short name of the kind (`PML`, `DDL`, `ETL`).
     pub const fn as_str(self) -> &'static str {
         match self {
             Self::Pml => "PML",

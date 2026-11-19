@@ -72,18 +72,42 @@ pub struct Prepared {
     pub notices: Vec<argv::Notice>,
 }
 
+/// Inputs for [`prepare`].
+#[derive(Clone, Copy)]
+pub struct PrepareContext<'a> {
+    pub args: &'a [OsString],
+    pub scan: &'a Scan,
+    pub settings: &'a DbtSettings,
+    pub secrets: Option<&'a dyn SecretProvider>,
+}
+
+impl std::fmt::Debug for PrepareContext<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PrepareContext")
+            .field("args", &self.args)
+            .field("scan", &self.scan)
+            .field("settings", &self.settings)
+            .field("secrets", &self.secrets.map(|_| "<secrets>"))
+            .finish()
+    }
+}
+
+/// Target binary and arguments for [`run`].
+#[derive(Debug, Clone, Copy)]
+pub struct RunRequest<'a> {
+    pub binary: &'a Path,
+    pub args: &'a [OsString],
+    pub scan: &'a Scan,
+}
+
 /// Applies the guard and the value fixes.
-pub fn prepare(
-    args: &[OsString],
-    scan: &Scan,
-    settings: &DbtSettings,
-    secrets: Option<&dyn SecretProvider>,
-) -> Prepared {
-    let user = secrets
-        .and_then(|s| s.get(&settings.user_secret))
+pub fn prepare(ctx: PrepareContext<'_>) -> Prepared {
+    let user = ctx
+        .secrets
+        .and_then(|s| s.get(&ctx.settings.user_secret))
         .map(|u| u.expose_secret().to_owned());
-    let verdict = guard::decide(scan, settings, user.as_deref());
-    let (args, notices) = argv::prepare(args, scan);
+    let verdict = guard::decide(ctx.scan, ctx.settings, user.as_deref());
+    let (args, notices) = argv::prepare(ctx.args, ctx.scan);
     Prepared {
         args,
         verdict,
@@ -91,17 +115,19 @@ pub fn prepare(
     }
 }
 
-/// Runs the wrapper for `args` (without the program name), already scanned with the engine's grammar.
-pub fn run(
-    ctx: &Context,
-    binary: &Path,
-    args: &[OsString],
-    scan: &Scan,
-) -> Result<Outcome, DbtError> {
+/// Runs the wrapper for `request.args` (without the program name), already scanned with the engine's grammar.
+///
+/// # Errors
+///
+/// [`DbtError::Grammar`] when the `[dbt]` config section is invalid; [`DbtError::Spawn`] when dbt cannot be started;
+/// [`DbtError::Signals`] when the interactive run cannot install its signal handlers.
+/// A refused command and dbt's own failures are not errors: they come back as the [`Outcome`] (an exit code).
+pub fn run(ctx: &Context, request: RunRequest<'_>) -> Result<Outcome, DbtError> {
+    let RunRequest { binary, args, scan } = request;
     let settings: DbtSettings = ctx
         .config()
         .section(DbtSettings::SECTION)
-        .map_err(|e| DbtError::Grammar(e.to_string()))?;
+        .map_err(|e| DbtError::Grammar(vdp_core::display_chain(&e)))?;
     let offline = is_offline(scan, &settings);
     let secrets = if offline {
         None
@@ -109,14 +135,19 @@ pub fn run(
         match ctx.service::<std::sync::Arc<dyn SecretProvider>>() {
             Ok(secrets) => Some(secrets),
             Err(error) => {
-                tracing::warn!(%error, "running dbt without the VDP secrets");
+                tracing::warn!(error = %vdp_core::display_chain(&error), "running dbt without the VDP secrets");
                 None
             }
         }
     };
     let secrets_ref = secrets.as_deref();
 
-    let prepared = prepare(args, scan, &settings, secrets_ref);
+    let prepared = prepare(PrepareContext {
+        args,
+        scan,
+        settings: &settings,
+        secrets: secrets_ref,
+    });
     if let Verdict::Refused { command } = &prepared.verdict {
         eprintln!(
             "vdp: 'dbt {command}' without a selector would build the whole project. Select nodes with \
@@ -191,6 +222,10 @@ fn hint_missing_sources(log: &Path, start: u64) {
 }
 
 /// An engine for modules: the subprocess with the same environment the wrapper gives dbt.
+///
+/// # Errors
+///
+/// [`DbtError::Grammar`] when the `[dbt]` config section is invalid.
 pub fn module_engine(
     ctx: &Context,
     binary: PathBuf,
@@ -199,9 +234,34 @@ pub fn module_engine(
     let settings: DbtSettings = ctx
         .config()
         .section(DbtSettings::SECTION)
-        .map_err(|e| DbtError::Grammar(e.to_string()))?;
+        .map_err(|e| DbtError::Grammar(vdp_core::display_chain(&e)))?;
     Ok(SubprocessDbt::new(
         binary,
         child_env(ctx, &settings, secrets),
     ))
+}
+
+#[cfg(test)]
+mod tests {
+    use vdp_core::{Config, Environment};
+
+    use super::*;
+
+    fn value<'a>(env: &'a [(String, SecretString)], key: &str) -> Option<&'a str> {
+        env.iter()
+            .find(|(k, _)| k == key)
+            .map(|(_, v)| v.expose_secret())
+    }
+
+    /// `dev` is an alias of `LDV`: dbt gets `VDP_ENV=LDV`, and vdp adds nothing for `DBT_DEPLOY_TARGET`, so the
+    /// child sees the value its parent has, `dev` for the workshop.
+    #[test]
+    fn vdp_env_is_the_canonical_name_and_the_deploy_target_is_left_alone() {
+        let ctx = Context::builder(Config::default())
+            .environment(Environment::named("dev").unwrap())
+            .build();
+        let env = child_env(&ctx, &DbtSettings::default(), None);
+        assert_eq!(value(&env, "VDP_ENV"), Some("LDV"));
+        assert_eq!(value(&env, "DBT_DEPLOY_TARGET"), None);
+    }
 }

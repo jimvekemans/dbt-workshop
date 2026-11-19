@@ -23,6 +23,7 @@ pub struct SourcePlan {
     pub phases: Vec<PlanPhase>,
 }
 
+/// How many groups a plan executes and how many it skips (a refused group counts as skipped).
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct PlanCounts {
     pub execute: usize,
@@ -30,12 +31,14 @@ pub struct PlanCounts {
 }
 
 impl SourcePlan {
+    /// Every group of the plan with the phase it is in, in order.
     pub fn groups(&self) -> impl Iterator<Item = (&PlanPhase, &PlannedGroup)> {
         self.phases
             .iter()
             .flat_map(|phase| phase.groups.iter().map(move |g| (phase, g)))
     }
 
+    /// Counts the groups that execute and the others.
     pub fn counts(&self) -> PlanCounts {
         self.groups()
             .fold(PlanCounts::default(), |mut counts, (_, planned)| {

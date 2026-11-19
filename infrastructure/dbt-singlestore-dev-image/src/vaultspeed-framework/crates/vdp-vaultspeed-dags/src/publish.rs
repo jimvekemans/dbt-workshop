@@ -27,7 +27,14 @@ pub struct PublishBundle {
 /// Publishes a bundle somewhere. Implementations publish **metadata before DAGs**:
 /// Airflow parses a DAG as soon as it appears and the DAG opens its metadata files.
 pub trait DagPublisher: Send + Sync + Debug {
+    /// A short description of the target for logs.
     fn describe(&self) -> String;
+    /// Publishes the bundle, metadata first.
+    ///
+    /// # Errors
+    ///
+    /// [`DagError::Io`] when a local file cannot be written; [`DagError::Upload`] when the remote transfer fails. A composite
+    /// publisher returns the first failure and does not try the remaining targets.
     fn publish(&self, bundle: &PublishBundle) -> Result<(), DagError>;
 }
 
@@ -38,6 +45,7 @@ pub struct CompositePublisher {
 }
 
 impl CompositePublisher {
+    /// Creates a publisher that publishes to each of `publishers` in order.
     pub fn new(publishers: Vec<Arc<dyn DagPublisher>>) -> Self {
         Self { publishers }
     }
@@ -66,6 +74,7 @@ pub struct RepoDirPublisher {
 }
 
 impl RepoDirPublisher {
+    /// Creates a publisher for the repository directories `dags_dir` and `meta_dir`.
     pub const fn new(dags_dir: PathBuf, meta_dir: PathBuf) -> Self {
         Self { dags_dir, meta_dir }
     }
@@ -113,6 +122,7 @@ pub struct SftpPublisher {
 }
 
 impl SftpPublisher {
+    /// Creates a publisher that uploads through `transport` to the two remote directories.
     pub fn new(
         transport: Arc<dyn RemoteTransport>,
         remote_dags_dir: String,

@@ -15,6 +15,7 @@ pub enum SourceKind {
 }
 
 impl SourceKind {
+    /// The source's name (`PML`, or the generation name).
     pub fn label(&self) -> &str {
         match self {
             Self::Pml => "PML",
@@ -45,13 +46,16 @@ impl fmt::Display for SourceKind {
 pub struct Priority(u64);
 
 impl Priority {
+    /// The priority of PML: it runs before everything.
     pub const HIGHEST: Self = Self(0);
     const GENERATION_BASE: u64 = 1_000;
 
+    /// Wraps the value; a lower value runs first.
     pub const fn new(value: u64) -> Self {
         Self(value)
     }
 
+    /// The value.
     pub const fn get(self) -> u64 {
         self.0
     }

@@ -10,6 +10,7 @@ use crate::doc::Doc;
 use crate::editor::TableEntry;
 use crate::{SourceTarget, SourcesError, tree};
 
+/// The generated file of `database` in `generated_dir` (`sources_<database>.yml`).
 pub fn path(generated_dir: &Path, database: &str) -> PathBuf {
     generated_dir.join(format!("sources_{database}.yml"))
 }
@@ -25,6 +26,12 @@ pub fn is_generated(generated_dir: &Path, file: &Path) -> bool {
         })
 }
 
+/// Reads a generated file; `None` when it does not exist or is empty.
+///
+/// # Errors
+///
+/// [`SourcesError::Io`] when the file cannot be read; [`SourcesError::Yaml`] when it is not valid YAML the toolkit
+/// supports.
 pub fn load(file: &Path) -> Result<Option<Doc>, SourcesError> {
     let text = match std::fs::read_to_string(file) {
         Ok(text) => text,
@@ -46,6 +53,11 @@ pub fn load(file: &Path) -> Result<Option<Doc>, SourcesError> {
     }
 }
 
+/// Writes `doc` to `file`, creating the directory.
+///
+/// # Errors
+///
+/// [`SourcesError::Io`] when the directory or the file cannot be written.
 pub fn write(file: &Path, doc: &Doc) -> Result<(), SourcesError> {
     let io = |source| SourcesError::Io {
         path: file.to_owned(),
@@ -138,22 +150,24 @@ fn same(database: &str) -> SourceTarget {
     }
 }
 
+/// Table entries and column inclusion flag for [`upsert`], [`upsert_target`], [`replace_all`], and
+/// [`replace_all_target`].
+#[derive(Debug, Clone, Copy)]
+pub struct TablesUpdate<'a> {
+    pub tables: &'a [TableEntry],
+    pub include_columns: bool,
+}
+
 /// Adds or refreshes tables in the source of `database` (named after it); returns which tables were new.
-pub fn upsert(
-    doc: Option<Doc>,
-    database: &str,
-    tables: &[TableEntry],
-    include_columns: bool,
-) -> (Doc, Vec<String>) {
-    upsert_target(doc, &same(database), tables, include_columns)
+pub fn upsert(doc: Option<Doc>, database: &str, update: TablesUpdate<'_>) -> (Doc, Vec<String>) {
+    upsert_target(doc, &same(database), update)
 }
 
 /// [`upsert`] for a source whose name and database differ (`[sources.database_prefix]`).
 pub fn upsert_target(
     doc: Option<Doc>,
     target: &SourceTarget,
-    tables: &[TableEntry],
-    include_columns: bool,
+    update: TablesUpdate<'_>,
 ) -> (Doc, Vec<String>) {
     let mut doc = doc.unwrap_or_else(|| empty(target));
     let source = source_mut(&mut doc, target);
@@ -165,19 +179,19 @@ pub fn upsert_target(
         .and_then(Doc::items_mut)
         .expect("ensured");
     let mut added = Vec::new();
-    for table in tables {
+    for table in update.tables {
         match list
             .iter_mut()
             .find(|t| t.name() == Some(table.name.as_str()))
         {
             Some(existing) => {
-                if include_columns {
+                if update.include_columns {
                     let merged = merge_columns(existing.get("columns"), &table.columns);
                     existing.set("columns", merged);
                 }
             }
             None => {
-                list.push(table.to_doc(include_columns));
+                list.push(table.to_doc(update.include_columns));
                 added.push(table.name.clone());
             }
         }
@@ -186,24 +200,18 @@ pub fn upsert_target(
     (doc, added)
 }
 
-/// Replaces the tables of the source of `database` with exactly `tables` (keeping metadata of survivors).
-pub fn replace_all(
-    doc: Option<Doc>,
-    database: &str,
-    tables: &[TableEntry],
-    include_columns: bool,
-) -> Doc {
-    replace_all_target(doc, &same(database), tables, include_columns)
+/// Replaces the tables of the source of `database` with exactly `update.tables` (keeping metadata of survivors).
+pub fn replace_all(doc: Option<Doc>, database: &str, update: TablesUpdate<'_>) -> Doc {
+    replace_all_target(doc, &same(database), update)
 }
 
 /// [`replace_all`] for a source whose name and database differ (`[sources.database_prefix]`).
 pub fn replace_all_target(
     doc: Option<Doc>,
     target: &SourceTarget,
-    tables: &[TableEntry],
-    include_columns: bool,
+    update: TablesUpdate<'_>,
 ) -> Doc {
-    let keep: BTreeSet<&str> = tables.iter().map(|t| t.name.as_str()).collect();
+    let keep: BTreeSet<&str> = update.tables.iter().map(|t| t.name.as_str()).collect();
     let mut doc = doc.unwrap_or_else(|| empty(target));
     if let Some(list) = source_mut(&mut doc, target)
         .get_mut("tables")
@@ -211,7 +219,7 @@ pub fn replace_all_target(
     {
         list.retain(|t| t.name().is_some_and(|n| keep.contains(n)));
     }
-    upsert_target(Some(doc), target, tables, include_columns).0
+    upsert_target(Some(doc), target, update).0
 }
 
 /// Keeps only the referenced tables of each source; returns `None` when nothing is left.
@@ -248,8 +256,10 @@ mod tests {
         let (doc, added) = upsert(
             Some(doc),
             "db",
-            &[table("b", &["id", "new"]), table("a", &["x"])],
-            true,
+            TablesUpdate {
+                tables: &[table("b", &["id", "new"]), table("a", &["x"])],
+                include_columns: true,
+            },
         );
         assert_eq!(added, ["a"]);
         assert_eq!(
@@ -261,7 +271,14 @@ mod tests {
 
     #[test]
     fn trim_drops_unreferenced_tables_and_empty_files() {
-        let (doc, _) = upsert(None, "db", &[table("a", &[]), table("b", &[])], false);
+        let (doc, _) = upsert(
+            None,
+            "db",
+            TablesUpdate {
+                tables: &[table("a", &[]), table("b", &[])],
+                include_columns: false,
+            },
+        );
         let keep: BTreeSet<(String, String)> = [("db".to_owned(), "b".to_owned())].into();
         let trimmed = trim(doc.clone(), &keep).unwrap();
         assert!(trimmed.emit().contains("- name: b") && !trimmed.emit().contains("- name: a"));

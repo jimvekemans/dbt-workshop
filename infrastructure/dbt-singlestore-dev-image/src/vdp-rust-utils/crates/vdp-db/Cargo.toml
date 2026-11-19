@@ -13,6 +13,7 @@ adbc_driver_manager.workspace = true
 arrow-array.workspace = true
 arrow-cast.workspace = true
 arrow-schema.workspace = true
+vdp-secrets.workspace = true
 vdp-sql-script.workspace = true
 secrecy.workspace = true
 thiserror.workspace = true

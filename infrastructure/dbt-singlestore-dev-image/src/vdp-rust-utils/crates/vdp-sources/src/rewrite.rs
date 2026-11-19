@@ -11,6 +11,8 @@ use crate::editor::TableEntry;
 use crate::index::SourceIndex;
 use crate::{SourcesError, SourcesSettings, generated};
 
+pub use vdp_core::FileStatus;
+
 /// What the refresh did per database.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Refreshed {
@@ -18,6 +20,7 @@ pub enum Refreshed {
         database: String,
         file: PathBuf,
         tables: usize,
+        status: FileStatus,
     },
     /// A hand-written file declares a source with this name; a generated file would duplicate it.
     SkippedHandWritten {
@@ -29,15 +32,47 @@ pub enum Refreshed {
     },
 }
 
+/// Inputs for [`refresh`].
+#[derive(Clone, Copy)]
+pub struct RefreshOptions<'a> {
+    pub project_root: &'a Path,
+    pub model_paths: &'a [PathBuf],
+    pub settings: &'a SourcesSettings,
+    pub catalog: &'a dyn Catalog,
+    pub databases: &'a [String],
+    pub dry_run: bool,
+}
+
+impl std::fmt::Debug for RefreshOptions<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("RefreshOptions")
+            .field("project_root", &self.project_root)
+            .field("model_paths", &self.model_paths)
+            .field("settings", &self.settings)
+            .field("catalog", &"<catalog>")
+            .field("databases", &self.databases)
+            .field("dry_run", &self.dry_run)
+            .finish()
+    }
+}
+
 /// Step 1: every table of every configured database into its generated file (named after the source:
-/// `sources_landing.yml` for `dev_landing` under `[sources.database_prefix]`).
-pub fn refresh(
-    project_root: &Path,
-    model_paths: &[PathBuf],
-    settings: &SourcesSettings,
-    catalog: &dyn Catalog,
-    databases: &[String],
-) -> Result<Vec<Refreshed>, SourcesError> {
+/// `sources_landing.yml` for `dev_landing` under `[sources.database_prefix]`), skipping writes when `dry_run` is
+/// true.
+///
+/// # Errors
+///
+/// [`SourcesError::Catalog`] when the catalog cannot be read; [`SourcesError::Io`] when a file cannot be read or written;
+/// [`SourcesError::Yaml`] when an existing generated file cannot be parsed.
+pub fn refresh(options: RefreshOptions<'_>) -> Result<Vec<Refreshed>, SourcesError> {
+    let RefreshOptions {
+        project_root,
+        model_paths,
+        settings,
+        catalog,
+        databases,
+        dry_run,
+    } = options;
     let generated_dir = project_root.join(&settings.generated_dir);
     let index = SourceIndex::scan(model_paths)?;
     let mut report = Vec::new();
@@ -73,17 +108,36 @@ pub fn refresh(
         let doc = generated::replace_all_target(
             generated::load(&file)?,
             &target,
-            &tables,
-            settings.include_columns,
+            generated::TablesUpdate {
+                tables: &tables,
+                include_columns: settings.include_columns,
+            },
         );
-        generated::write(&file, &doc)?;
+        let rendered = doc.emit();
+        let status = FileStatus::diff(&file, &rendered).map_err(|source| SourcesError::Io {
+            path: file.clone(),
+            source,
+        })?;
+        if !dry_run {
+            generated::write(&file, &doc)?;
+        }
         report.push(Refreshed::Written {
             database: database.clone(),
             file,
             tables: tables.len(),
+            status,
         });
     }
     Ok(report)
+}
+
+/// Inputs for [`trim`].
+#[derive(Debug, Clone, Copy)]
+pub struct TrimOptions<'a> {
+    pub project_root: &'a Path,
+    pub settings: &'a SourcesSettings,
+    pub manifest: &'a Manifest,
+    pub databases: &'a [String],
 }
 
 /// What trimming did per generated file.
@@ -94,12 +148,18 @@ pub enum Trimmed {
 }
 
 /// Step 3: keep only referenced tables in the generated files of `databases`; delete files left empty.
-pub fn trim(
-    project_root: &Path,
-    settings: &SourcesSettings,
-    manifest: &Manifest,
-    databases: &[String],
-) -> Result<Vec<Trimmed>, SourcesError> {
+///
+/// # Errors
+///
+/// [`SourcesError::Io`] when a generated file cannot be read, written or deleted; [`SourcesError::Yaml`] when it cannot be
+/// parsed.
+pub fn trim(options: TrimOptions<'_>) -> Result<Vec<Trimmed>, SourcesError> {
+    let TrimOptions {
+        project_root,
+        settings,
+        manifest,
+        databases,
+    } = options;
     let generated_dir = project_root.join(&settings.generated_dir);
     let referenced: BTreeSet<(String, String)> = crate::referenced_sources(manifest);
     let mut report = Vec::new();

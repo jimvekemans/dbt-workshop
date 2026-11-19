@@ -3,6 +3,10 @@ use std::io::{self, Write};
 use crate::ResultSet;
 
 /// Writes a result set as RFC 4180 CSV with a header row. `NULL` becomes an empty cell.
+///
+/// # Errors
+///
+/// The [`io::Error`] of `out` when a write fails.
 pub fn write_csv(result: &ResultSet, out: &mut dyn Write) -> io::Result<()> {
     write_record(out, result.columns.iter().map(String::as_str))?;
     for row in &result.rows {

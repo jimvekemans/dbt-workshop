@@ -4,12 +4,15 @@ use vdp_vaultspeed_domain::{ArtifactKind, Layer, StatementGroup};
 
 /// Orders the groups of one artifact kind into named phases.
 pub trait ArtifactPhases: Send + Sync + Debug {
+    /// The artifact kind this strategy orders.
     fn artifact(&self) -> ArtifactKind;
+    /// The groups of the artifact kind as named phases, each ordered.
     fn phases(&self, groups: Vec<StatementGroup>) -> Vec<(String, Vec<StatementGroup>)>;
 }
 
 /// Orders all groups of a source into named phases.
 pub trait PhaseStrategy: Send + Sync + Debug {
+    /// The groups of the source as named phases, in the order they must run.
     fn phases(&self, groups: Vec<StatementGroup>) -> Vec<(String, Vec<StatementGroup>)>;
 }
 
@@ -21,6 +24,7 @@ pub struct SequentialPhasing {
 }
 
 impl SequentialPhasing {
+    /// Creates the strategy from the per-artifact `strategies`, in the order the artifacts run.
     pub fn new(strategies: Vec<Box<dyn ArtifactPhases>>) -> Self {
         Self { strategies }
     }
@@ -71,6 +75,7 @@ pub struct DdlPhases {
 }
 
 impl DdlPhases {
+    /// Creates the strategy; groups with one of `rdv_order_numbers` run last.
     pub const fn new(rdv_order_numbers: Vec<u32>) -> Self {
         Self { rdv_order_numbers }
     }
@@ -103,6 +108,7 @@ pub struct EtlPhases {
 }
 
 impl EtlPhases {
+    /// Creates the strategy; the layers in `layer_priority` run first, in that order.
     pub const fn new(layer_priority: Vec<Layer>) -> Self {
         Self { layer_priority }
     }

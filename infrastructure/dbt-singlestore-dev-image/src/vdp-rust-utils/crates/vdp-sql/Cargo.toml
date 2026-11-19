@@ -9,6 +9,7 @@ publish.workspace = true
 
 [dependencies]
 thiserror.workspace = true
+vdp-core.workspace = true
 vdp-db.workspace = true
 
 [dev-dependencies]

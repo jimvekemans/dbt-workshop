@@ -9,7 +9,9 @@ use crate::lexer::tokenize;
 
 /// A deterministic text transformation applied to each statement before rewrite rules.
 pub trait SqlPreprocessor: Send + Sync + Debug {
+    /// A short identifier for logs.
     fn id(&self) -> &str;
+    /// The transformed statement; borrows `sql` when nothing changed.
     fn apply<'a>(&self, sql: &'a str) -> Cow<'a, str>;
 }
 
@@ -24,10 +26,12 @@ pub struct StripComments {
 }
 
 impl StripComments {
+    /// Strips the comments of every statement.
     pub const fn always() -> Self {
         Self { keep_when: None }
     }
 
+    /// Strips comments unless the statement matches `keep_when`.
     pub const fn unless(keep_when: Regex) -> Self {
         Self {
             keep_when: Some(keep_when),

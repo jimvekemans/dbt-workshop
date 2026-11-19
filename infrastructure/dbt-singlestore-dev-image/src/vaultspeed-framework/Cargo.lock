@@ -2335,18 +2335,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "accd4ea62f7bb7a82fe23066fb0957d48ef677f6eeb8215f372f52e48bb32426"
 
 [[package]]
-name = "vdp-airflow"
-version = "0.1.0"
-dependencies = [
- "serde",
- "tempfile",
- "thiserror",
- "tracing",
- "vdp-secrets",
- "vdp-ssh",
-]
-
-[[package]]
 name = "vdp-cli"
 version = "0.1.0"
 dependencies = [
@@ -2356,16 +2344,13 @@ dependencies = [
  "serde_json",
  "tracing",
  "tracing-subscriber",
- "vdp-airflow",
  "vdp-core",
  "vdp-db",
  "vdp-dbt",
  "vdp-git",
  "vdp-jira",
- "vdp-notify",
  "vdp-qa",
  "vdp-release",
- "vdp-release-hub",
  "vdp-secrets",
  "vdp-sources",
  "vdp-sql",
@@ -2393,6 +2378,7 @@ dependencies = [
  "secrecy",
  "thiserror",
  "tracing",
+ "vdp-secrets",
  "vdp-sql-script",
 ]
 
@@ -2420,6 +2406,7 @@ dependencies = [
  "base64 0.22.1",
  "thiserror",
  "tracing",
+ "vdp-core",
 ]
 
 [[package]]
@@ -2432,6 +2419,7 @@ dependencies = [
  "thiserror",
  "tracing",
  "ureq",
+ "vdp-core",
  "vdp-secrets",
 ]
 
@@ -2467,6 +2455,7 @@ dependencies = [
  "thiserror",
  "tracing",
  "ts-rs",
+ "vdp-core",
  "vdp-git",
  "vdp-jira",
 ]
@@ -2482,10 +2471,28 @@ dependencies = [
  "tracing",
  "ts-rs",
  "ureq",
+ "vdp-core",
  "vdp-git",
  "vdp-jira",
  "vdp-notify",
  "vdp-release",
+]
+
+[[package]]
+name = "vdp-release-ui-cli"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "tracing",
+ "vdp-cli",
+ "vdp-core",
+ "vdp-dbt",
+ "vdp-jira",
+ "vdp-notify",
+ "vdp-release",
+ "vdp-release-hub",
+ "vdp-secrets",
 ]
 
 [[package]]
@@ -2507,6 +2514,7 @@ dependencies = [
  "serde",
  "thiserror",
  "tracing",
+ "vdp-core",
  "vdp-db",
  "vdp-dbt",
  "yaml-rust2",
@@ -2517,6 +2525,7 @@ name = "vdp-sql"
 version = "0.1.0"
 dependencies = [
  "thiserror",
+ "vdp-core",
  "vdp-db",
 ]
 
@@ -2548,6 +2557,7 @@ dependencies = [
  "thiserror",
  "toml",
  "tracing",
+ "tracing-subscriber",
  "vdp-core",
  "vdp-db",
  "vdp-secrets",
@@ -2574,6 +2584,7 @@ dependencies = [
  "vdp-core",
  "vdp-db",
  "vdp-release-hub",
+ "vdp-release-ui-cli",
  "vdp-secrets",
  "vdp-ssh",
  "vdp-vaultspeed",

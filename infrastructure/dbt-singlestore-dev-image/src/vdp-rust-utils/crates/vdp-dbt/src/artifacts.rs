@@ -10,6 +10,7 @@ use serde::Deserialize;
 
 use crate::DbtError;
 
+/// The parts of dbt's `manifest.json` the toolkit reads: nodes, sources, macros and the dependency maps.
 #[derive(Debug, Clone, Default, Deserialize)]
 pub struct Manifest {
     #[serde(default)]
@@ -24,6 +25,7 @@ pub struct Manifest {
     pub parent_map: BTreeMap<String, Vec<String>>,
 }
 
+/// A model, seed, snapshot, test or other node of the manifest.
 #[derive(Debug, Clone, Default, Deserialize)]
 pub struct Node {
     pub unique_id: String,
@@ -45,18 +47,21 @@ pub struct Node {
     pub depends_on: DependsOn,
 }
 
+/// The part of a node's config the toolkit reads.
 #[derive(Debug, Clone, Default, Deserialize)]
 pub struct NodeConfig {
     #[serde(default)]
     pub materialized: Option<String>,
 }
 
+/// The nodes another node depends on.
 #[derive(Debug, Clone, Default, Deserialize)]
 pub struct DependsOn {
     #[serde(default)]
     pub nodes: Vec<String>,
 }
 
+/// A source table of the manifest.
 #[derive(Debug, Clone, Default, Deserialize)]
 pub struct Source {
     pub unique_id: String,
@@ -74,6 +79,7 @@ pub struct Source {
     pub original_file_path: String,
 }
 
+/// A macro of the manifest.
 #[derive(Debug, Clone, Default, Deserialize)]
 pub struct Macro {
     #[serde(default)]
@@ -83,6 +89,12 @@ pub struct Macro {
 }
 
 impl Manifest {
+    /// Reads and parses the `manifest.json` at `path`.
+    ///
+    /// # Errors
+    ///
+    /// [`DbtError::Artifact`] when the file cannot be read or is not a manifest this reader understands (invalid JSON,
+    /// or a field with the wrong type).
     pub fn load(path: &Path) -> Result<Self, DbtError> {
         let text = std::fs::read_to_string(path).map_err(|e| DbtError::Artifact {
             path: path.to_owned(),
@@ -92,12 +104,5 @@ impl Manifest {
             path: path.to_owned(),
             detail: e.to_string(),
         })
-    }
-
-    /// Nodes of the given resource types (`model`, `seed`, `snapshot`, ...).
-    pub fn nodes_of<'a>(&'a self, types: &'a [&str]) -> impl Iterator<Item = &'a Node> + 'a {
-        self.nodes
-            .values()
-            .filter(move |n| types.contains(&n.resource_type.as_str()))
     }
 }

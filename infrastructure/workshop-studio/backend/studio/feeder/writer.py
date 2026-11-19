@@ -57,6 +57,19 @@ class Writer:
     def __init__(self, connect: Callable[[str], Any]):
         self.connect = connect
 
+    def landing_ready(self, env: str) -> bool:
+        """True when `<env>_landing` has every landing table. The schema comes first, the tables only once bootstrap
+        has applied the environment's SQL, so a connection alone does not mean the landing area exists yet."""
+        _check_env(env)
+        conn = self.connect(env)          # raises while the schema does not exist
+        try:
+            with conn.cursor() as cur:
+                cur.execute("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %s AND table_name IN ("
+                            + ", ".join(["%s"] * len(COLUMNS)) + ")", (f"{env}_landing", *COLUMNS))
+                return int(cur.fetchone()[0]) >= len(COLUMNS)
+        finally:
+            conn.close()
+
     def insert(self, env: str, rows_by_table: dict[str, list[dict[str, Any]]], batch: int = BATCH_ROWS) -> dict[str, int]:
         """Insert rows; returns rows written per table."""
         _check_env(env)

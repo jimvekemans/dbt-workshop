@@ -2,6 +2,7 @@ use std::path::PathBuf;
 
 use thiserror::Error;
 
+/// Why a secret could not be read or resolved.
 #[derive(Debug, Error)]
 pub enum SecretError {
     #[error("secret {keys} not found in {provider}")]

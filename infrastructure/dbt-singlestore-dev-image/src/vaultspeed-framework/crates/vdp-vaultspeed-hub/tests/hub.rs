@@ -7,9 +7,9 @@ use std::time::Duration;
 use serde_json::{Value, json};
 use vdp_notify::{Announcement, Delivery, Mailer, NotifyError};
 use vdp_release::ReleaseSettings;
-use vdp_release_hub::http::{Reply, route};
+use vdp_release_hub::http::{HttpRequest, Reply, route};
 use vdp_release_hub::jobs::JobResult;
-use vdp_release_hub::{Hub, HubConfig, HubExtension};
+use vdp_release_hub::{Hub, HubConfig, HubExtension, HubServices};
 use vdp_vaultspeed::VaultspeedSettings;
 use vdp_vaultspeed_hub::api::VsJobResult;
 use vdp_vaultspeed_hub::{VaultspeedExtension, VsConfig};
@@ -57,15 +57,26 @@ fn hub(dir: &std::path::Path) -> Arc<Hub> {
             state_dir: None,
             gitlab: None,
         },
-        Err("no Jira in tests".into()),
-        Arc::new(SilentMailer),
-        None,
-        vec![extension],
+        HubServices {
+            tracker: Err("no Jira in tests".into()),
+            mailer: Arc::new(SilentMailer),
+            validator: None,
+            extensions: vec![extension],
+        },
     )
 }
 
 fn call(hub: &Arc<Hub>, method: &str, path: &str, query: &str, body: &str) -> (u16, Value) {
-    let Reply { status, body, .. } = route(hub, method, path, query, body.as_bytes(), None);
+    let Reply { status, body, .. } = route(
+        hub,
+        HttpRequest {
+            method,
+            path,
+            query,
+            body: body.as_bytes(),
+            session: None,
+        },
+    );
     (status, serde_json::from_slice(&body).unwrap())
 }
 

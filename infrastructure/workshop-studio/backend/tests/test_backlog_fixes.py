@@ -10,8 +10,10 @@ from fastapi.testclient import TestClient
 
 from studio import evidence, names, reset
 from studio.actions import clients
+from studio.actions.base import Cancelled
 from studio.catalog import CatalogError, load_catalog
 from studio.engine import WAITING, Conflict
+from studio.feeder.writer import Writer
 from studio.main import create_app
 from tests.conftest import FakeFeeder, TODAY, scenario, write_catalog
 from tests.test_engine import live, make_engine, open_demo, run  # noqa: F401  (fixtures)
@@ -202,6 +204,158 @@ def test_reset_is_refused_while_a_step_runs(live, stack):
     with pytest.raises(Conflict, match="Not now: \"Rebuilding\" is still running"):
         live.reset_state()
     stack.gate.set()
+
+
+class Landing:
+    """Stands in for SingleStore's landing area: the schema `<env>_landing` first, its tables later."""
+
+    def __init__(self, tables_total=6):
+        self.schema, self.tables, self.total, self.queries = False, 0, tables_total, []
+
+    def connect(self, env):
+        db = self
+
+        class Cursor:
+            def __enter__(self): return self
+            def __exit__(self, *a): return False
+
+            def execute(self, sql, params=None):
+                db.queries.append((sql, params))
+
+            def fetchone(self):
+                return (db.tables,)
+
+        class Conn:
+            def cursor(self): return Cursor()
+            def close(self): pass
+
+        if not db.schema:
+            raise RuntimeError("Unknown database 'dev_landing'")
+        return Conn()
+
+
+@pytest.fixture
+def landing(live, monkeypatch):
+    monkeypatch.setattr("studio.engine.DATABASE_POLL", 0.02, raising=False)
+    db = Landing()
+    live._get_feeder().writer = Writer(db.connect)
+    return db
+
+
+def wait_for(condition, seconds=5):
+    for _ in range(int(seconds / 0.02)):
+        if condition():
+            return True
+        threading.Event().wait(0.02)
+    return False
+
+
+def test_the_baseline_check_waits_for_the_landing_tables_not_just_the_schema(live, landing):
+    done = threading.Event()
+    threading.Thread(target=lambda: (live._wait_for_database(threading.Event()), done.set()), daemon=True).start()
+    landing.schema = True                                   # the schema is there, bootstrap has not made the tables
+    assert not done.wait(0.3), "it went on with an empty database"
+    assert live.state()["baseline"]["detail"] == "Waiting for the database to start."
+    landing.tables = 6
+    assert done.wait(5)
+    sql, params = landing.queries[-1]
+    assert "information_schema.tables" in sql and params[0] == "prd_landing" and "raw_olist_customers" in params
+
+
+def test_a_partly_created_landing_area_is_not_ready(live, landing):
+    landing.schema, landing.tables = True, 3
+    assert not live._get_feeder().writer.landing_ready("dev")
+    landing.tables = 6
+    assert live._get_feeder().writer.landing_ready("dev")
+
+
+def test_waiting_for_the_database_gives_up_after_the_limit(live, landing, monkeypatch):
+    monkeypatch.setattr("studio.engine.DATABASE_WAIT", 0.1)
+    landing.schema = True                                   # the tables never come
+    live._wait_for_database(threading.Event())              # returns: the check that follows reports the problem
+
+
+@pytest.fixture
+def cold_start(live):
+    """A baseline check that is still waiting for the database, as after a cold start. Set the event to let it go on."""
+    started, opened = threading.Event(), threading.Event()
+
+    def wait(cancel):
+        started.set()
+        while not opened.is_set():
+            if cancel.wait(0.02):
+                raise Cancelled()
+
+    live._wait_for_database = wait
+    live.ensure_baseline()
+    assert started.wait(5) and live.state()["job"]["scenario"] is None
+    return opened
+
+
+def test_reset_stops_a_running_baseline_check_instead_of_refusing(live, cold_start):
+    first = live._thread
+    live.reset_state()                                      # no Conflict
+    assert not first.is_alive() and live._thread is not first
+    assert live.state()["job"]["scenario"] is None          # a new baseline check runs
+    cold_start.set()                                        # bootstrap has finished: the new check goes through
+    live.wait_idle(10)
+    state = live.state()
+    assert state["baseline"]["status"] == "ready" and state["job"] is None and state["notice"] is None
+
+
+def test_reset_drops_a_request_that_waited_for_the_baseline_check(live, cold_start):
+    live.prepare("demo-one")
+    assert live.state()["waiting"]["text"] == WAITING
+    live.reset_state()
+    assert live.state()["waiting"] is None and live.state()["demo"] is None
+    for thread in [t for t in threading.enumerate() if t.name == "wait-baseline"]:
+        thread.join(5)
+    assert live.state()["demo"] is None                    # the dropped request did not start its demo
+    cold_start.set()
+    live.wait_idle(10)
+    assert live.state()["baseline"]["status"] == "ready"
+
+
+def test_reset_is_still_refused_while_a_scenario_is_getting_ready(live, stack):
+    live._start_job("prepare", "demo-one", None, "Opening the scenario", lambda cancel: stack.gate.wait(5))
+    with pytest.raises(Conflict, match="Not now: \"Opening the scenario\" is still running"):
+        live.reset_state()
+    assert live.state()["job"] is not None and not live._cancel.is_set()      # and it was left alone
+    stack.gate.set()
+
+
+def test_reset_is_still_refused_during_a_cleanup(live, stack):
+    live._start_job("cleanup", None, None, "Putting everything back", lambda cancel: stack.gate.wait(5))
+    with pytest.raises(Conflict, match="Putting everything back"):
+        live.reset_state()
+    assert not live._cancel.is_set()
+    stack.gate.set()
+
+
+def test_reset_command_can_wait_until_the_baseline_is_ready(monkeypatch, capsys):
+    states = iter([("missing", "Not checked yet.", True), ("failed", "Version v1.0.0 has not been built yet.", True),
+                   ("preparing", "Checking the demo stack.", True), ("ready", "Every environment ...", False)])
+    monkeypatch.setattr(reset, "read_baseline", lambda port: next(states))
+    monkeypatch.setattr(reset.time, "sleep", lambda s: None)
+    assert reset.wait_until_ready(8085, 600) == 0              # a "failed" while it still retries does not end it
+    assert "ready" in capsys.readouterr().out
+
+
+def test_reset_command_wait_reports_a_final_failure_and_a_timeout(monkeypatch, capsys):
+    monkeypatch.setattr(reset.time, "sleep", lambda s: None)
+    monkeypatch.setattr(reset, "read_baseline", lambda port: ("failed", "Version v1.0.0 has not been built yet.", False))
+    assert reset.wait_until_ready(8085, 600) == 1 and "has not been built yet" in capsys.readouterr().out
+    monkeypatch.setattr(reset, "read_baseline", lambda port: ("preparing", "Checking the demo stack.", True))
+    monkeypatch.setattr(reset.time, "monotonic", iter([0, 1, 700, 701]).__next__)
+    assert reset.wait_until_ready(8085, 600) == 1 and "not ready within 600 seconds" in capsys.readouterr().out
+
+
+def test_reset_command_with_wait_exits_with_the_outcome(settings, monkeypatch):
+    monkeypatch.setattr(reset, "ask_app", lambda port: (202, "Forgotten."))
+    monkeypatch.setattr(reset, "wait_until_ready", lambda port, wait: 1)
+    assert reset.main(settings, wait=30) == 1 and reset.main(settings) == 0
+    monkeypatch.setattr(reset, "ask_app", lambda port: (409, "Not now: it runs."))
+    assert reset.main(settings, wait=30) == 1
 
 
 def test_reset_over_http(settings, stack):

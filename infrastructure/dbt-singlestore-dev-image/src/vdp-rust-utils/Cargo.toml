@@ -14,15 +14,11 @@ publish = false
 vdp-core = { path = "crates/vdp-core" }
 vdp-secrets = { path = "crates/vdp-secrets" }
 vdp-db = { path = "crates/vdp-db" }
-vdp-ssh = { path = "crates/vdp-ssh" }
 vdp-dbt = { path = "crates/vdp-dbt" }
 vdp-sources = { path = "crates/vdp-sources" }
 vdp-git = { path = "crates/vdp-git" }
 vdp-jira = { path = "crates/vdp-jira" }
 vdp-release = { path = "crates/vdp-release" }
-vdp-notify = { path = "crates/vdp-notify" }
-vdp-release-hub = { path = "crates/vdp-release-hub" }
-vdp-airflow = { path = "crates/vdp-airflow" }
 vdp-sql = { path = "crates/vdp-sql" }
 vdp-sql-script = { path = "crates/vdp-sql-script" }
 vdp-qa = { path = "crates/vdp-qa" }
@@ -69,7 +65,7 @@ pedantic = { level = "warn", priority = -1 }
 module_name_repetitions = "allow"
 # Doc prose names products (SingleStore, AppRole, Jira); backticking them hurts readability.
 doc_markdown = "allow"
-missing_errors_doc = "allow"
+missing_errors_doc = "warn"
 missing_panics_doc = "allow"
 must_use_candidate = "allow"
 # A two-armed `match` reads better than `if let ... else` for Option/Result handling.

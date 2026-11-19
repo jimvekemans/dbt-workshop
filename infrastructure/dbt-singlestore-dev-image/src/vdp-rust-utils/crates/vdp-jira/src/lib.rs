@@ -1,11 +1,30 @@
 //! Jira for the release flow.
 //!
-//! - [`FixVersion`]: `2026_DROP05` / `2026_EDROP01`, ordered like the Python string comparison (year, then
-//!   DROP before EDROP) but with numeric drop numbers, so `DROP10` comes after `DROP9`.
-//! - [`Ticket`] keeps every raw fix version name, so exclusions such as "Nog in te plannen" work (the Python
-//!   code dropped every name that was not a DROP before checking them).
+//! A building block. The release crates depend on the [`IssueTracker`] port; [`JiraClient`] is the REST adapter.
+//!
+//! # Responsibilities
+//!
+//! - [`FixVersion`]: `2026_DROP05` / `2026_EDROP01`, ordered like the Python string comparison (year, then DROP before
+//!   EDROP) but with numeric drop numbers, so `DROP10` comes after `DROP9`.
+//! - [`Ticket`] keeps every raw fix version name, so exclusions such as "Nog in te plannen" work (the Python code dropped
+//!   every name that was not a DROP before checking them).
 //! - [`IssueTracker`]: the port the release flow uses; [`JiraClient`] is the REST adapter.
+//! - [`advance_tickets`]: move tickets to their next status, isolating per-ticket errors but stopping on authentication
+//!   or transport failures.
+//!
+//! # Example
+//!
+//! ```
+//! use vdp_jira::FixVersion;
+//!
+//! let nine: FixVersion = "2026_DROP09".parse()?;
+//! let ten: FixVersion = "2026_DROP10".parse()?;
+//! assert!(nine < ten); // numeric, not lexical
+//! assert_eq!(ten.name(), "2026_DROP10");
+//! # Ok::<(), String>(())
+//! ```
 
+mod advance;
 mod client;
 mod error;
 mod fix_version;
@@ -13,6 +32,10 @@ mod settings;
 
 use std::fmt::Debug;
 
+pub use advance::{
+    AdvanceRecord, AdvanceReport, AdvanceRequest, TicketAdvance, advance_tickets,
+    advance_tickets_with,
+};
 pub use client::JiraClient;
 pub use error::JiraError;
 pub use fix_version::FixVersion;
@@ -65,8 +88,25 @@ pub struct Transition {
     pub to: String,
 }
 
+/// The Jira operations the release flow uses.
 pub trait IssueTracker: Send + Sync + Debug {
+    /// The ticket `key` with its summary, status and fix versions.
+    ///
+    /// # Errors
+    ///
+    /// [`JiraError::Auth`] on HTTP 401/403; [`JiraError::Transport`] when Jira is unreachable; [`JiraError::Request`] on
+    /// any other HTTP error status; [`JiraError::Response`] when the response is not the expected JSON.
     fn ticket(&self, key: &str) -> Result<Ticket, JiraError>;
+    /// The transitions `key` can make from its current status.
+    ///
+    /// # Errors
+    ///
+    /// As [`IssueTracker::ticket`].
     fn transitions(&self, key: &str) -> Result<Vec<Transition>, JiraError>;
+    /// Moves `key` through the transition with `transition_id`.
+    ///
+    /// # Errors
+    ///
+    /// As [`IssueTracker::ticket`].
     fn transition(&self, key: &str, transition_id: &str) -> Result<(), JiraError>;
 }

@@ -168,6 +168,13 @@ fn encode(value: &str) -> String {
 }
 
 impl AdbcSession {
+    /// Opens a session to `settings` through the driver loaded from `driver`.
+    ///
+    /// # Errors
+    ///
+    /// [`DbError`] without a code when the driver library cannot be loaded; [`DbError`] when the driver cannot create the
+    /// database or connection (unreachable server, rejected credentials, bad TLS material), carrying the driver's vendor
+    /// code when it reports one.
     pub fn connect(driver: &DriverSource, settings: &ConnectionSettings) -> Result<Self, DbError> {
         let mut loaded = driver.load()?;
         let database = loaded
@@ -182,6 +189,7 @@ impl AdbcSession {
         })
     }
 
+    /// The driver this session was opened with.
     pub fn driver(&self) -> &DriverSource {
         &self.driver
     }

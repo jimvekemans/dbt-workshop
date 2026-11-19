@@ -8,14 +8,17 @@ use serde::{Deserialize, Serialize};
 pub struct RunId(String);
 
 impl RunId {
+    /// Creates a random run id (a UUID v4).
     pub fn generate() -> Self {
         Self(uuid::Uuid::new_v4().to_string())
     }
 
+    /// Wraps an existing id.
     pub fn from_string(id: impl Into<String>) -> Self {
         Self(id.into())
     }
 
+    /// The id as text.
     pub fn as_str(&self) -> &str {
         &self.0
     }
@@ -37,6 +40,7 @@ pub enum RunMode {
 }
 
 impl RunMode {
+    /// Whether the run only previews.
     pub const fn is_preview(self) -> bool {
         matches!(self, Self::Preview)
     }

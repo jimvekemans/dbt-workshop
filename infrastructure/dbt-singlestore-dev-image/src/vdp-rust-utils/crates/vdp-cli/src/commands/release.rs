@@ -1,22 +1,23 @@
 //! `vdp release ...` and `vdp jira ...`
 
 use std::collections::BTreeSet;
-use std::io::{BufRead, Write};
 use std::sync::Arc;
 
 use anyhow::{Result, bail};
 use vdp_core::{Context, Outcome};
-use vdp_dbt::{DbtEngine, DbtProject, Invocation};
 use vdp_git::Vcs;
 use vdp_jira::{IssueTracker, JiraSettings};
 use vdp_release::{
-    Analyser, Analysis, AnalysisKind, AnalysisRequest, BranchRules, Classification, PatchFlow,
-    Progress, PromoteOptions, Promotion, PromotionKind, ReleaseFlow, ReleaseOptions,
-    ReleaseSettings, Step, ViolationVia, check_scope, local_name, release_branches, remote_ref,
+    Analyser, Analysis, AnalysisKind, AnalysisRequest, BranchRules, PatchFlow, Progress,
+    PromoteOptions, Promotion, PromotionKind, ReleaseFlow, ReleaseOptions, ReleaseSettings,
+    check_scope, local_name, release_branches, remote_ref,
 };
 
+use super::common::validate_project;
+use super::release_present::{
+    confirm, print_analysis, print_branches, print_jira_advance, print_outcome, print_promotion,
+};
 use crate::args::{JiraCommand, PromoteKind, ReleaseCommand};
-use crate::bootstrap::DbtSelection;
 
 pub(super) fn release(ctx: &Context, command: &ReleaseCommand) -> Result<Outcome> {
     let settings: ReleaseSettings = ctx.config().section(ReleaseSettings::SECTION)?;
@@ -26,8 +27,6 @@ pub(super) fn release(ctx: &Context, command: &ReleaseCommand) -> Result<Outcome
         ReleaseCommand::Patch { .. } => patch(ctx, &settings, command),
         ReleaseCommand::Promote { .. } => promote(ctx, &settings, command),
         ReleaseCommand::Branches => branches(ctx, &settings),
-        #[cfg(feature = "release-hub")]
-        ReleaseCommand::Serve { .. } => super::hub::serve(ctx, command, &super::hub::no_extensions),
     }
 }
 
@@ -63,14 +62,16 @@ fn create(ctx: &Context, settings: &ReleaseSettings, command: &ReleaseCommand) -
     }
     print_analysis(&analysis);
     let vcs = ctx.service::<Arc<dyn Vcs>>()?;
-    let validate = || validate(ctx, &settings.validate);
+    let validate = || validate_project(ctx, &settings.validate);
     let rules = BranchRules::from_settings(settings);
     if !allow_old_release {
         check_scope(
             vcs.as_ref(),
-            &rules,
-            name,
-            vdp_release::ScopeAction::Release { recreate: true },
+            &vdp_release::ScopeCheck {
+                rules: &rules,
+                branch: name,
+                action: vdp_release::ScopeAction::Release { recreate: true },
+            },
         )?;
     }
     let flow = ReleaseFlow {
@@ -78,7 +79,7 @@ fn create(ctx: &Context, settings: &ReleaseSettings, command: &ReleaseCommand) -
         rules: &rules,
         validate: Some(&validate),
         confirm: &confirm,
-        progress: &|message| eprintln!("{message}"),
+        progress: &|message| tracing::info!("{message}"),
         conflicts: vdp_release::Conflicts::default(),
     };
     let outcome = flow.run(
@@ -114,12 +115,13 @@ fn analyse_command(
     else {
         unreachable!("dispatched by variant")
     };
+    let rules = BranchRules::from_settings(settings);
     let request = match patch {
         Some(branch) => AnalysisRequest {
             kind: AnalysisKind::Patch,
             source: from.clone().unwrap_or_else(|| settings.from.clone()),
             compare: remote_ref(&local_name(branch)),
-            fix_version: fix_version_of(fixversion.as_deref(), branch, settings)?,
+            fix_version: rules.fix_version_of(fixversion.as_deref(), branch)?,
         },
         None => AnalysisRequest {
             kind: AnalysisKind::Release,
@@ -153,11 +155,12 @@ fn patch(ctx: &Context, settings: &ReleaseSettings, command: &ReleaseCommand) ->
     else {
         unreachable!("dispatched by variant")
     };
+    let rules = BranchRules::from_settings(settings);
     let request = AnalysisRequest {
         kind: AnalysisKind::Patch,
         source: from.clone().unwrap_or_else(|| settings.from.clone()),
         compare: remote_ref(&local_name(branch)),
-        fix_version: fix_version_of(fixversion.as_deref(), branch, settings)?,
+        fix_version: rules.fix_version_of(fixversion.as_deref(), branch)?,
     };
     let analysis = analyse(ctx, settings, &request, false, true)?;
     print_analysis(&analysis);
@@ -166,24 +169,32 @@ fn patch(ctx: &Context, settings: &ReleaseSettings, command: &ReleaseCommand) ->
         None => analysis.default_selection(),
     };
     let vcs = ctx.service::<Arc<dyn Vcs>>()?;
-    let rules = BranchRules::from_settings(settings);
     if !allow_old_release {
         check_scope(
             vcs.as_ref(),
-            &rules,
-            branch,
-            vdp_release::ScopeAction::Patch,
+            &vdp_release::ScopeCheck {
+                rules: &rules,
+                branch,
+                action: vdp_release::ScopeAction::Patch,
+            },
         )?;
     }
     let flow = PatchFlow {
         vcs: vcs.as_ref(),
         rules: &rules,
         confirm: &confirm,
-        progress: &|message| eprintln!("{message}"),
+        progress: &|message| tracing::info!("{message}"),
         conflicts: vdp_release::Conflicts::default(),
         changelog: !no_changelog,
     };
-    print_outcome(&flow.run(&analysis, &selection, *dry_run, *interactive)?);
+    print_outcome(&flow.run(
+        &analysis,
+        &selection,
+        &vdp_release::PatchOptions {
+            dry_run: *dry_run,
+            interactive: *interactive,
+        },
+    )?);
     Ok(Outcome::Success)
 }
 
@@ -204,7 +215,7 @@ fn promote(ctx: &Context, settings: &ReleaseSettings, command: &ReleaseCommand) 
     let promotion = Promotion {
         vcs: vcs.as_ref(),
         rules: &rules,
-        progress: &|message| eprintln!("{message}"),
+        progress: &|message| tracing::info!("{message}"),
         conflicts: vdp_release::Conflicts::default(),
     };
     let kind = match kind {
@@ -215,9 +226,11 @@ fn promote(ctx: &Context, settings: &ReleaseSettings, command: &ReleaseCommand) 
     if !allow_old_release {
         check_scope(
             vcs.as_ref(),
-            &rules,
-            branch,
-            vdp_release::ScopeAction::Promote,
+            &vdp_release::ScopeCheck {
+                rules: &rules,
+                branch,
+                action: vdp_release::ScopeAction::Promote,
+            },
         )?;
     }
     let done = promotion.run(
@@ -230,66 +243,21 @@ fn promote(ctx: &Context, settings: &ReleaseSettings, command: &ReleaseCommand) 
             accept_losses: *accept_losses,
         },
     )?;
-    if done.nothing_to_promote {
-        println!(
-            "nothing to promote: {} is already on {}",
-            done.branch, rules.main
-        );
-        return Ok(Outcome::Success);
-    }
-    for lost in &done.losses {
-        println!(
-            "drops from {}: {} {} (not on {})",
-            rules.main, lost.commit.short, lost.commit.subject, rules.source
-        );
-    }
-    println!(
-        "{} {} to {} ({:?}: {}){}",
-        if done.pushed {
-            "promoted"
-        } else {
-            "would promote"
-        },
-        done.branch,
-        local_name(&settings.to),
-        done.kind.unwrap_or(PromotionKind::New),
-        done.reason,
-        done.main_head
-            .map(|h| format!(", main is now {}", &h[..h.len().min(12)]))
-            .unwrap_or_default()
-    );
+    print_promotion(&done, &rules, &settings.to);
     Ok(Outcome::Success)
 }
 
 fn branches(ctx: &Context, settings: &ReleaseSettings) -> Result<Outcome> {
     let vcs = ctx.service::<Arc<dyn Vcs>>()?;
     if let Err(error) = vcs.fetch_all() {
-        eprintln!("fetch failed (showing local refs): {error}");
-    }
-    for branch in release_branches(vcs.as_ref(), &settings.branch_prefix, &settings.to)? {
-        println!(
-            "{:<28} {} {}",
-            branch.name,
-            &branch.head[..branch.head.len().min(10)],
-            if branch.promoted { "on main" } else { "" }
+        tracing::warn!(
+            "fetch failed (showing local refs): {}",
+            vdp_core::display_chain(&error)
         );
     }
+    let list = release_branches(vcs.as_ref(), &settings.branch_prefix, &settings.to)?;
+    print_branches(&list);
     Ok(Outcome::Success)
-}
-
-/// The fix version of a patch: given, else the release branch's suffix.
-fn fix_version_of(given: Option<&str>, branch: &str, settings: &ReleaseSettings) -> Result<String> {
-    if let Some(version) = given {
-        return Ok(version.to_owned());
-    }
-    let local = local_name(branch);
-    let suffix = local
-        .strip_prefix(&settings.branch_prefix)
-        .unwrap_or(&local);
-    suffix
-        .parse::<vdp_jira::FixVersion>()
-        .map(|v| v.name().to_owned())
-        .map_err(|_| anyhow::anyhow!("{branch} has no fix version suffix; pass --fixversion"))
 }
 
 /// Runs an analysis with progress on stderr; Jira is optional (tickets then show a Jira error).
@@ -304,13 +272,16 @@ fn analyse(
     let vcs = ctx.service::<Arc<dyn Vcs>>()?;
     let tracker = ctx.service::<Arc<dyn IssueTracker>>().ok();
     if let Err(error) = vcs.fetch_all() {
-        eprintln!("fetch failed (continuing with local refs): {error}");
+        tracing::warn!(
+            "fetch failed (continuing with local refs): {}",
+            vdp_core::display_chain(&error)
+        );
     }
     let progress = |p: Progress| {
         if verbose {
             match p {
-                Progress::Step(message) => eprintln!("{message}"),
-                Progress::Jira(done, total, key) => eprintln!("jira {done}/{total} {key}"),
+                Progress::Step(message) => tracing::info!("{message}"),
+                Progress::Jira(done, total, key) => tracing::info!("jira {done}/{total} {key}"),
             }
         }
     };
@@ -328,202 +299,300 @@ fn analyse(
     Ok(analyser.analyse(request)?)
 }
 
-/// Reverts on the source (dev), which must never have one: reported, never repeated.
-fn print_violations(analysis: &Analysis) {
-    if analysis.dev_violations.is_empty() {
-        return;
-    }
-    eprintln!(
-        "WARNING: {} has {} revert(s); it must never have one (the release accounts for them):",
-        analysis.request.source,
-        analysis.dev_violations.len()
-    );
-    for violation in &analysis.dev_violations {
-        let via = match &violation.via {
-            ViolationVia::Direct => "committed directly".to_owned(),
-            ViolationVia::RevertMerge { merge } => {
-                format!(
-                    "merged from a revert branch ({})",
-                    &merge[..merge.len().min(8)]
-                )
-            }
-            ViolationVia::BackMerge { from, .. } => format!("brought by merging {from}"),
-        };
-        eprintln!(
-            "  {} {} {} ({via})",
-            violation.commit.short,
-            if violation.reapply {
-                "re-applies"
-            } else {
-                "reverts"
-            },
-            violation.tickets.join(", ")
-        );
-    }
-}
-
-fn print_analysis(analysis: &Analysis) {
-    let request = &analysis.request;
-    println!(
-        "{:?} {} vs {} for {} (merge-base {})",
-        request.kind,
-        request.source,
-        request.compare,
-        request.fix_version,
-        &analysis.merge_base[..analysis.merge_base.len().min(12)]
-    );
-    for ticket in &analysis.tickets {
-        let mark = match (request.kind, ticket.selected_by_default) {
-            (AnalysisKind::Release, true) => "revert ",
-            (AnalysisKind::Release, false) => "keep   ",
-            (AnalysisKind::Patch, true) => "include",
-            (AnalysisKind::Patch, false) => "       ",
-        };
-        let why = match &ticket.classification {
-            Classification::Keep(reason) | Classification::Revert(reason) => reason.clone(),
-            Classification::NoFixVersion => ticket
-                .jira_error
-                .clone()
-                .unwrap_or_else(|| "no fix version".into()),
-        };
-        let mut flags = Vec::new();
-        if ticket.reverted_on_compare.is_some() {
-            flags.push("reverted on compare");
-        }
-        if ticket.already_on_compare {
-            flags.push("already on compare");
-        }
-        println!(
-            "{mark} {:<28} {} merge(s)  {why}{}",
-            ticket.id,
-            ticket.merges.len(),
-            if flags.is_empty() {
-                String::new()
-            } else {
-                format!("  [{}]", flags.join(", "))
-            }
-        );
-    }
-    print_violations(analysis);
-    if !analysis.uncoupled.is_empty() {
-        println!(
-            "{} commit(s) on the source without a ticket:",
-            analysis.uncoupled.len()
-        );
-        for commit in &analysis.uncoupled {
-            println!(
-                "        {} {} ({})",
-                commit.short, commit.subject, commit.author
-            );
-        }
-    }
-}
-
-fn print_outcome(outcome: &vdp_release::Outcome) {
-    for (step, state) in &outcome.steps {
-        println!(
-            "{:<10} {}",
-            format!("{state:?}").to_lowercase(),
-            step.describe()
-        );
-    }
-    if outcome.pushed {
-        println!("pushed {}", outcome.branch);
-    } else if outcome.dry_run {
-        println!(
-            "DRY RUN: nothing changed; {} would be pushed",
-            outcome.branch
-        );
-    }
-}
-
-/// Runs the configured dbt validation in the project.
-fn validate(ctx: &Context, args: &[String]) -> Result<(), String> {
-    let project = ctx
-        .service::<Arc<DbtProject>>()
-        .map_err(|e| e.to_string())?;
-    let engine = ctx
-        .service::<Arc<dyn DbtEngine>>()
-        .map_err(|e| e.to_string())?;
-    let selection = ctx.service::<DbtSelection>().map_err(|e| e.to_string())?;
-    let args: Vec<&str> = args.iter().map(String::as_str).collect();
-    eprintln!("validating: dbt {}", args.join(" "));
-    let done = engine
-        .invoke(&Invocation {
-            args: selection.args(&project.root, &args),
-            cwd: Some(project.root.clone()),
-            capture: true,
-        })
-        .map_err(|e| e.to_string())?;
-    if done.success() {
-        return Ok(());
-    }
-    let output = done.stdout_text();
-    let errors: Vec<&str> = output
-        .lines()
-        .filter(|l| l.contains("[error]"))
-        .take(10)
-        .collect();
-    Err(if errors.is_empty() {
-        format!("dbt exited with {}", done.exit_code())
-    } else {
-        errors.join("\n")
-    })
-}
-
-fn confirm(step: &Step, index: usize, total: usize) -> bool {
-    print!(
-        "[{index:02}/{total:02}] {}. Proceed? [Y/n] ",
-        step.describe()
-    );
-    let _ = std::io::stdout().flush();
-    let mut answer = String::new();
-    if std::io::stdin().lock().read_line(&mut answer).is_err() {
-        return false;
-    }
-    matches!(answer.trim().to_lowercase().as_str(), "" | "y" | "yes")
-}
-
 pub(super) fn jira(ctx: &Context, command: &JiraCommand) -> Result<Outcome> {
     let JiraCommand::Advance {
         tickets,
         transition,
+        dry_run,
     } = command;
     let settings: JiraSettings = ctx.config().section(JiraSettings::SECTION)?;
     let wanted = transition
-        .clone()
-        .unwrap_or_else(|| settings.advance_transition.clone());
+        .as_deref()
+        .unwrap_or(&settings.advance_transition);
     let tracker = ctx.service::<Arc<dyn IssueTracker>>()?;
-    let mut ok = true;
-    for key in tickets {
-        let before = tracker.ticket(key)?;
-        let options = tracker.transitions(key)?;
-        let chosen = if wanted.is_empty() {
-            options.first()
-        } else {
-            options.iter().find(|t| {
-                t.name.eq_ignore_ascii_case(&wanted) || t.to.eq_ignore_ascii_case(&wanted)
+    let report = vdp_jira::advance_tickets_with(
+        tracker.as_ref(),
+        &vdp_jira::AdvanceRequest {
+            tickets,
+            wanted_transition: wanted,
+            dry_run: *dry_run,
+        },
+        print_jira_advance,
+    )?;
+    Ok(report.outcome())
+}
+
+#[cfg(test)]
+mod tests {
+    use std::collections::HashSet;
+    use std::sync::Mutex;
+
+    use vdp_core::Config;
+    use vdp_jira::{JiraError, Ticket, Transition};
+
+    use super::*;
+
+    #[derive(Debug, Default)]
+    struct FakeTracker {
+        failing_key: String,
+        fail_after_read_key: String,
+        fatal_error: Option<(String, JiraError)>,
+        requested: Mutex<Vec<String>>,
+        moved: Mutex<Vec<(String, String)>>,
+        done: Mutex<HashSet<String>>,
+    }
+
+    impl FakeTracker {
+        fn failing(key: &str) -> Arc<Self> {
+            Arc::new(Self {
+                failing_key: key.to_owned(),
+                ..Self::default()
             })
-        };
-        let Some(chosen) = chosen else {
-            ok = false;
-            let names: Vec<&str> = options.iter().map(|t| t.name.as_str()).collect();
-            eprintln!(
-                "{key}: no transition {wanted:?} from '{}' (offered: {})",
-                before.status,
-                names.join(", ")
-            );
-            continue;
-        };
-        tracker.transition(key, &chosen.id)?;
-        let after = tracker.ticket(key)?;
-        println!(
-            "{key}: '{}' -> '{}' ({})",
-            before.status, after.status, chosen.name
+        }
+
+        fn failing_followup(key: &str) -> Arc<Self> {
+            Arc::new(Self {
+                fail_after_read_key: key.to_owned(),
+                ..Self::default()
+            })
+        }
+
+        fn fatal(key: &str, err: JiraError) -> Arc<Self> {
+            Arc::new(Self {
+                fatal_error: Some((key.to_owned(), err)),
+                ..Self::default()
+            })
+        }
+
+        fn requested(&self) -> Vec<String> {
+            self.requested.lock().unwrap().clone()
+        }
+
+        fn transitioned(&self) -> Vec<(String, String)> {
+            self.moved.lock().unwrap().clone()
+        }
+    }
+
+    impl IssueTracker for FakeTracker {
+        fn ticket(&self, key: &str) -> Result<Ticket, JiraError> {
+            self.requested.lock().unwrap().push(key.to_owned());
+            if let Some((target, err)) = &self.fatal_error
+                && target == key
+            {
+                return Err(err.clone());
+            }
+            if key == self.failing_key {
+                return Err(JiraError::Request {
+                    url: format!("https://jira.example/rest/api/2/issue/{key}"),
+                    detail: "HTTP 500 Internal Server Error".into(),
+                });
+            }
+            let is_done = self.done.lock().unwrap().contains(key);
+            if is_done && key == self.fail_after_read_key {
+                return Err(JiraError::Request {
+                    url: format!("https://jira.example/rest/api/2/issue/{key}"),
+                    detail: "HTTP 500 on follow-up read".into(),
+                });
+            }
+            let status = if is_done { "In Progress" } else { "Open" };
+            Ok(Ticket {
+                key: key.to_owned(),
+                status: status.to_owned(),
+                ..Ticket::default()
+            })
+        }
+
+        fn transitions(&self, _key: &str) -> Result<Vec<Transition>, JiraError> {
+            Ok(vec![Transition {
+                id: "11".into(),
+                name: "Start Progress".into(),
+                to: "In Progress".into(),
+            }])
+        }
+
+        fn transition(&self, key: &str, transition_id: &str) -> Result<(), JiraError> {
+            self.moved
+                .lock()
+                .unwrap()
+                .push((key.to_owned(), transition_id.to_owned()));
+            self.done.lock().unwrap().insert(key.to_owned());
+            Ok(())
+        }
+    }
+
+    #[test]
+    fn jira_advance_isolates_per_ticket_failures_and_returns_failures_outcome() {
+        let tracker = FakeTracker::failing("INTEL-2");
+        let ctx = Context::builder(Config::default())
+            .provide_value(tracker.clone() as Arc<dyn IssueTracker>)
+            .build();
+        let outcome = super::jira(
+            &ctx,
+            &JiraCommand::Advance {
+                tickets: vec!["INTEL-1".into(), "INTEL-2".into(), "INTEL-3".into()],
+                transition: None,
+                dry_run: false,
+            },
+        )
+        .expect("per-ticket Jira failures should return Outcome::Failures, not Err");
+        assert_eq!(outcome, Outcome::Failures);
+        assert_eq!(outcome.exit_code(), 1);
+        assert_eq!(
+            tracker.transitioned(),
+            [
+                ("INTEL-1".into(), "11".into()),
+                ("INTEL-3".into(), "11".into()),
+            ]
         );
     }
-    if !ok {
-        bail!("some tickets were not moved");
+
+    #[test]
+    fn jira_advance_returns_success_when_all_tickets_transition() {
+        let tracker = FakeTracker::failing("NONE");
+        let ctx = Context::builder(Config::default())
+            .provide_value(tracker.clone() as Arc<dyn IssueTracker>)
+            .build();
+        let outcome = super::jira(
+            &ctx,
+            &JiraCommand::Advance {
+                tickets: vec!["INTEL-1".into(), "INTEL-3".into()],
+                transition: Some("In Progress".into()),
+                dry_run: false,
+            },
+        )
+        .unwrap();
+        assert_eq!(outcome, Outcome::Success);
+        assert_eq!(outcome.exit_code(), 0);
+        assert_eq!(
+            tracker.transitioned(),
+            [
+                ("INTEL-1".into(), "11".into()),
+                ("INTEL-3".into(), "11".into()),
+            ]
+        );
     }
-    Ok(Outcome::Success)
+
+    #[test]
+    fn jira_advance_returns_err_on_auth_or_transport_failure() {
+        let tracker = FakeTracker::fatal(
+            "INTEL-1",
+            JiraError::Auth {
+                url: "https://jira.example/rest/api/2/issue/INTEL-1".into(),
+                status: 403,
+                detail: "HTTP 403".into(),
+            },
+        );
+        let ctx = Context::builder(Config::default())
+            .provide_value(tracker.clone() as Arc<dyn IssueTracker>)
+            .build();
+        let err = super::jira(
+            &ctx,
+            &JiraCommand::Advance {
+                tickets: vec!["INTEL-1".into(), "INTEL-2".into()],
+                transition: None,
+                dry_run: false,
+            },
+        )
+        .unwrap_err();
+        assert!(err.to_string().contains("403"), "{err}");
+        assert_eq!(tracker.requested(), ["INTEL-1"]);
+    }
+
+    #[test]
+    fn jira_advance_exits_zero_when_followup_read_fails_after_transition() {
+        use std::fmt::Debug;
+
+        use tracing::Subscriber;
+        use tracing::field::{Field, Visit};
+        use tracing_subscriber::layer::{Context as LayerContext, Layer, SubscriberExt as _};
+
+        #[derive(Default)]
+        struct MsgVisitor(Option<String>);
+
+        impl Visit for MsgVisitor {
+            fn record_debug(&mut self, field: &Field, value: &dyn Debug) {
+                if field.name() == "message" {
+                    self.0 = Some(format!("{value:?}"));
+                }
+            }
+
+            fn record_str(&mut self, field: &Field, value: &str) {
+                if field.name() == "message" {
+                    self.0 = Some(value.to_owned());
+                }
+            }
+        }
+
+        struct WarnLayer(Arc<Mutex<Vec<String>>>);
+
+        impl<S: Subscriber> Layer<S> for WarnLayer {
+            fn on_event(&self, event: &tracing::Event<'_>, _ctx: LayerContext<'_, S>) {
+                if *event.metadata().level() != tracing::Level::WARN {
+                    return;
+                }
+                let mut visitor = MsgVisitor::default();
+                event.record(&mut visitor);
+                if let Some(msg) = visitor.0 {
+                    self.0.lock().unwrap().push(msg);
+                }
+            }
+        }
+
+        let tracker = FakeTracker::failing_followup("INTEL-1");
+        let ctx = Context::builder(Config::default())
+            .provide_value(tracker.clone() as Arc<dyn IssueTracker>)
+            .build();
+        let warnings = Arc::new(Mutex::new(Vec::new()));
+        let subscriber = tracing_subscriber::registry().with(WarnLayer(Arc::clone(&warnings)));
+
+        let outcome = tracing::subscriber::with_default(subscriber, || {
+            super::jira(
+                &ctx,
+                &JiraCommand::Advance {
+                    tickets: vec!["INTEL-1".into()],
+                    transition: None,
+                    dry_run: false,
+                },
+            )
+            .unwrap()
+        });
+        assert_eq!(outcome, Outcome::Success);
+        assert_eq!(outcome.exit_code(), 0);
+        assert_eq!(tracker.transitioned(), [("INTEL-1".into(), "11".into())]);
+
+        let warnings = warnings.lock().unwrap();
+        assert_eq!(warnings.len(), 1, "expected 1 warning, got: {warnings:?}");
+        assert!(
+            warnings[0].starts_with(
+                "INTEL-1: transitioned via 'Start Progress', could not re-read status:"
+            ),
+            "unexpected warning format: {:?}",
+            warnings[0]
+        );
+        assert!(
+            !warnings[0].contains("warning:"),
+            "duplicate 'warning:' prefix in {:?}",
+            warnings[0]
+        );
+    }
+
+    #[test]
+    fn jira_advance_dry_run_resolves_without_mutating_tracker() {
+        let tracker = FakeTracker::failing("NONE");
+        let ctx = Context::builder(Config::default())
+            .provide_value(tracker.clone() as Arc<dyn IssueTracker>)
+            .build();
+        let outcome = super::jira(
+            &ctx,
+            &JiraCommand::Advance {
+                tickets: vec!["INTEL-1".into(), "INTEL-3".into()],
+                transition: Some("In Progress".into()),
+                dry_run: true,
+            },
+        )
+        .unwrap();
+        assert_eq!(outcome, Outcome::Success);
+        assert_eq!(tracker.transitioned(), []);
+        assert_eq!(tracker.requested(), ["INTEL-1", "INTEL-3"]);
+    }
 }

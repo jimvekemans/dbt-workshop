@@ -26,6 +26,7 @@ pub enum FailurePolicy {
     HaltRun,
 }
 
+/// How far a halt reaches.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum HaltScope {
     Source,
@@ -52,7 +53,7 @@ impl fmt::Display for Halt {
 /// Fatal runner errors. Statement failures are not errors: they are reported.
 #[derive(Debug, Error)]
 pub enum ExecError {
-    #[error("cannot record to the ledger, stopping to avoid unrecorded changes: {0}")]
+    #[error("cannot record to the ledger, stopping to avoid unrecorded changes")]
     Ledger(#[from] LedgerError),
 }
 
@@ -117,21 +118,25 @@ struct Site<'a> {
     decision: &'a str,
 }
 
+/// Dependencies for [`PlanRunner::new`].
+#[derive(Debug, Clone)]
+pub struct PlanRunnerParts {
+    pub executor: Arc<dyn StatementExecutor>,
+    pub classifier: Arc<dyn ErrorClassifier>,
+    pub ledger: Arc<dyn LedgerWriter>,
+    pub skip_dependents: bool,
+}
+
 impl PlanRunner {
-    /// With `skip_dependents`, groups touching an object whose creation failed earlier in
+    /// With `parts.skip_dependents`, groups touching an object whose creation failed earlier in
     /// the same source are skipped instead of producing a cascade of errors.
-    pub fn new(
-        executor: Arc<dyn StatementExecutor>,
-        classifier: Arc<dyn ErrorClassifier>,
-        ledger: Arc<dyn LedgerWriter>,
-        skip_dependents: bool,
-    ) -> Self {
+    pub fn new(parts: PlanRunnerParts) -> Self {
         Self {
-            executor,
-            classifier,
-            ledger,
+            executor: parts.executor,
+            classifier: parts.classifier,
+            ledger: parts.ledger,
             history: Arc::new(NoHistory),
-            skip_dependents,
+            skip_dependents: parts.skip_dependents,
         }
     }
 
@@ -144,6 +149,13 @@ impl PlanRunner {
         self
     }
 
+    /// Executes the plan phase by phase, recording every outcome in the ledger and the history as it happens; `policy` says what
+    /// a failing group does to the rest.
+    ///
+    /// # Errors
+    ///
+    /// [`ExecError::Ledger`] when an entry cannot be recorded in the ledger (the run stops rather than leave changes
+    /// unrecorded). A failing statement is not an error: it is in the returned reports.
     pub fn run(
         &self,
         plan: &SourcePlan,
@@ -515,12 +527,12 @@ mod tests {
     fn every_statement_of_every_group_becomes_one_event() {
         let ledger = Arc::new(MemoryLedger::new());
         let history = Arc::new(MemoryHistory::new());
-        let runner = PlanRunner::new(
-            Arc::new(Fake),
-            Arc::new(NoClassification),
-            ledger.clone(),
-            false,
-        )
+        let runner = PlanRunner::new(PlanRunnerParts {
+            executor: Arc::new(Fake),
+            classifier: Arc::new(NoClassification),
+            ledger: ledger.clone(),
+            skip_dependents: false,
+        })
         .with_history(history.clone());
 
         // WholeFileSplitter keeps a script as one statement, so every group is built from one-statement
@@ -623,12 +635,12 @@ mod tests {
                 Err(vdp_vaultspeed_domain::HistoryError::new("disk full"))
             }
         }
-        let runner = PlanRunner::new(
-            Arc::new(Fake),
-            Arc::new(NoClassification),
-            Arc::new(MemoryLedger::new()),
-            false,
-        )
+        let runner = PlanRunner::new(PlanRunnerParts {
+            executor: Arc::new(Fake),
+            classifier: Arc::new(NoClassification),
+            ledger: Arc::new(MemoryLedger::new()),
+            skip_dependents: false,
+        })
         .with_history(Arc::new(Broken));
         let plan = SourcePlan {
             source: SourceKind::Pml,

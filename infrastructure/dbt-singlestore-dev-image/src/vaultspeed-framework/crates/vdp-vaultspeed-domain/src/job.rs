@@ -15,6 +15,7 @@ use crate::GenerationId;
 pub struct JobName(String);
 
 impl JobName {
+    /// Derives the job name from a file stem: purely numeric segments are dropped, the rest is upper-cased.
     pub fn from_file_stem(stem: &str) -> Self {
         let name = stem
             .split('_')
@@ -25,10 +26,12 @@ impl JobName {
         Self(name)
     }
 
+    /// The name as text.
     pub fn as_str(&self) -> &str {
         &self.0
     }
 
+    /// The `_`-separated words of the name.
     pub fn tokens(&self) -> impl Iterator<Item = &str> {
         self.0.split('_')
     }
@@ -54,10 +57,13 @@ impl OrderKey {
     const MAX_SEGMENTS: usize = 3;
     const MAX_DIGITS: usize = 4;
 
+    /// Creates a key from its numeric parts.
     pub fn new(parts: Vec<u32>) -> Self {
         Self(parts)
     }
 
+    /// Reads up to three leading numeric segments of `stem` (at most four digits each, and only when another segment follows);
+    /// the segment equal to `generation` is removed.
     pub fn from_file_stem(stem: &str, generation: Option<GenerationId>) -> Self {
         let mut segments = stem.split('_').peekable();
         let mut parts = Vec::new();
@@ -82,10 +88,12 @@ impl OrderKey {
         Self(parts)
     }
 
+    /// The first part, if any.
     pub fn first(&self) -> Option<u32> {
         self.0.first().copied()
     }
 
+    /// All parts, in order.
     pub fn parts(&self) -> &[u32] {
         &self.0
     }

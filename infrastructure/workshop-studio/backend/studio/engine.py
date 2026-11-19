@@ -46,6 +46,8 @@ BASELINE_WAIT = 300.0         # seconds a request waits for the running baseline
 DATABASE_WAIT = 300.0         # seconds the baseline check waits for the database after a cold start
 BASELINE_ATTEMPTS = 4          # tries of the baseline check in one go (the Airflows start after the database)
 BASELINE_RETRY_AFTER = 20.0    # seconds between those tries
+DATABASE_POLL = 3.0            # seconds between looks at the database while the check waits for it
+RESET_CANCEL_WAIT = 60.0       # seconds a reset waits for a running baseline check to stop
 WAITING = "Waiting until the practice system is ready."
 RUN_CLOCK_SLACK = timedelta(seconds=2)   # the database clock may run a little behind this one
 
@@ -291,6 +293,8 @@ class Engine:
     def _job_main(self, body: Callable[[threading.Event], None], cancel: threading.Event) -> None:
         try:
             body(cancel)
+        except Cancelled:                # Cancel (or a reset) stopped it: nothing crashed
+            self._full_due = True
         except Exception:  # noqa: BLE001 - a job must never leave the engine stuck as busy
             log.exception("job crashed")
             self._full_due = True
@@ -401,27 +405,28 @@ class Engine:
         self._start_job("prepare", None, None, "Checking that the demo stack is ready", body)
 
     def _wait_for_database(self, cancel: threading.Event) -> None:
-        """Until every environment's database answers, at most DATABASE_WAIT seconds. Returns either way: the
+        """Until every environment's landing tables exist, at most DATABASE_WAIT seconds. The schema alone is not
+        enough: on a first start the studio is up before bootstrap has created the tables. Returns either way: the
         baseline check that follows says what is wrong if it still cannot connect."""
-        connect = getattr(getattr(self._get_feeder(), "writer", None), "connect", None)
-        if connect is None:
+        ready = getattr(getattr(self._get_feeder(), "writer", None), "landing_ready", None)
+        if ready is None:
             return
         deadline, said = time.monotonic() + DATABASE_WAIT, False
         while True:
             try:
-                for env in ENVIRONMENTS:
-                    connect(env).close()
-                return
-            except Exception:  # noqa: BLE001 - not up yet, whatever the driver calls it
-                if time.monotonic() >= deadline:
-                    log.warning("the database did not answer within %s seconds", int(DATABASE_WAIT))
+                if all(ready(env) for env in ENVIRONMENTS):
                     return
+            except Exception:  # noqa: BLE001 - not up yet, whatever the driver calls it
+                pass
+            if time.monotonic() >= deadline:
+                log.warning("the landing tables did not appear within %s seconds", int(DATABASE_WAIT))
+                return
             if not said:
                 said = True
                 with self._lock:
                     self._baseline.update(status="preparing", detail="Waiting for the database to start.")
                 self._publish()
-            if cancel.wait(3):
+            if cancel.wait(DATABASE_POLL):
                 raise Cancelled()
 
     def _baseline_job_running(self) -> bool:
@@ -451,7 +456,9 @@ class Engine:
             thread.join(BASELINE_WAIT)
         late = thread is not None and thread.is_alive()
         with self._lock:
-            self._queued = None
+            dropped, self._queued = self._queued is None, None      # a reset drops what was waiting
+        if dropped:
+            return
         try:
             if late:
                 raise Conflict("The practice system is taking longer than usual. Please try again in a minute.")
@@ -467,9 +474,20 @@ class Engine:
 
     def reset_state(self) -> None:
         """Forget everything the studio saved (what demos left behind, the feeder, the code baseline) and check the
-        baseline again, whatever the stack looks like now."""
+        baseline again, whatever the stack looks like now. A running baseline check (the one from a cold start, which
+        finds an empty stack) is stopped first; a running demo step or clean-up is not touched."""
+        with self._lock:
+            baseline_thread = self._thread if self._baseline_job_running() else None
+            if baseline_thread is not None:
+                self._cancel.set()
+                self._queued = None          # a request that waits for that check must not start after it
+        if baseline_thread is not None:
+            baseline_thread.join(RESET_CANCEL_WAIT)
         with self._lock:
             if self._job:
+                if self._baseline_job_running():
+                    raise Conflict("Not now: the check of the demo stack is still stopping. Wait a moment, then run "
+                                   "this again.")
                 raise Conflict(f"Not now: \"{self._job['label']}\" is still running. Wait until it has finished "
                                "(or press Cancel in the app), then run this again.")
             self._forget_saved_state()

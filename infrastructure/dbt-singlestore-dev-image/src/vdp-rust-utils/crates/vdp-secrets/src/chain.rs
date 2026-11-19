@@ -11,16 +11,19 @@ pub struct ChainProvider {
 }
 
 impl ChainProvider {
+    /// Creates a chain from `providers`, highest priority first.
     pub fn new(providers: Vec<Box<dyn SecretProvider>>) -> Self {
         Self { providers }
     }
 
+    /// Returns the chain with `provider` added as the lowest priority.
     #[must_use]
     pub fn with(mut self, provider: Box<dyn SecretProvider>) -> Self {
         self.providers.push(provider);
         self
     }
 
+    /// Adds `provider` as the lowest priority.
     pub fn push(&mut self, provider: Box<dyn SecretProvider>) {
         self.providers.push(provider);
     }
@@ -54,6 +57,10 @@ impl SecretProvider for ChainProvider {
             keys.extend(provider.keys());
         }
         keys.into_iter().collect()
+    }
+
+    fn layers(&self) -> Vec<&dyn SecretProvider> {
+        self.providers.iter().flat_map(|p| p.layers()).collect()
     }
 }
 

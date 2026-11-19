@@ -69,7 +69,8 @@ impl CoreSettings {
 pub struct SecretsSettings {
     /// KV v2 mount of the VDP secrets.
     pub vault_mount: String,
-    /// Sources, highest priority first: `vault:<path>` (`{env}` = lower-case environment), `dotenv`, `env`.
+    /// Sources, highest priority first: `vault:<path>` (`{env}` = lower-case environment, `ldv`; `{env_short}` = its
+    /// short name, `dev`), `dotenv`, `env`.
     pub precedence: Vec<String>,
     /// Fail when Vault cannot be read. When false (the Python behaviour) the toolkit warns and goes on with
     /// local secrets.
@@ -129,6 +130,7 @@ impl EnvironmentSettings {
         }
     }
 
+    /// The defaults for the production Vault (`CBT` and `PRD` credentials).
     pub fn production() -> Self {
         Self {
             vault_url: "https://vault.example.com:8200".into(),
@@ -178,6 +180,11 @@ impl Config {
 
     /// Loads and merges files in order (later files win key by key). Missing files are skipped unless they are
     /// `required`.
+    ///
+    /// # Errors
+    ///
+    /// [`CoreError::Read`] when a file exists (or is `required`) but cannot be read; [`CoreError::Config`] when a file is
+    /// not valid TOML, a core section has the wrong shape, or `[core].default_environment` is not a defined environment.
     pub fn load(files: &[(PathBuf, bool)]) -> Result<Self, CoreError> {
         let mut documents = Vec::new();
         for (path, required) in files {
@@ -202,6 +209,11 @@ impl Config {
     }
 
     /// Builds the configuration from parsed documents (`(origin, table)`), overlaid on the built-in defaults.
+    ///
+    /// # Errors
+    ///
+    /// [`CoreError::Config`] when the `[core]`, `[secrets]` or `[environments]` section has the wrong shape, or
+    /// `[core].default_environment` is not a defined environment.
     pub fn from_documents(documents: Vec<(String, Table)>) -> Result<Self, CoreError> {
         let mut document = Self::core_defaults();
         let mut origins = vec!["built-in defaults".to_owned()];
@@ -231,11 +243,20 @@ impl Config {
     }
 
     /// The configured environment called `name` (case-insensitive), as the configuration spells it.
+    ///
+    /// # Errors
+    ///
+    /// [`CoreError::UnknownEnvironment`] when `name` is not a valid environment name or the configuration does not
+    /// define it.
     pub fn environment_named(&self, name: &str) -> Result<Environment, CoreError> {
         self.known_environment(Environment::named(name)?)
     }
 
     /// `env` if the configuration defines it (case-insensitive), as the configuration spells it.
+    ///
+    /// # Errors
+    ///
+    /// [`CoreError::UnknownEnvironment`] when the configuration does not define `env`.
     pub fn known_environment(&self, env: Environment) -> Result<Environment, CoreError> {
         self.environments
             .keys()
@@ -291,6 +312,10 @@ impl Config {
     }
 
     /// A module's section, with the module's defaults for everything not configured.
+    ///
+    /// # Errors
+    ///
+    /// [`CoreError::Config`] when the section exists but does not deserialize into `T`.
     pub fn section<T: DeserializeOwned + Default>(&self, name: &str) -> Result<T, CoreError> {
         match self.document.get(name) {
             None => Ok(T::default()),
@@ -312,6 +337,8 @@ impl Config {
         &self.origins
     }
 
+    /// The Vault settings of `env`: the configured ones, else the production defaults for `PRD` and the non-production
+    /// defaults for every other environment.
     pub fn environment(&self, env: Environment) -> EnvironmentSettings {
         self.environments.get(&env).cloned().unwrap_or_else(|| {
             if env == Environment::PRD {
@@ -323,8 +350,15 @@ impl Config {
     }
 }
 
-/// `[environments.prd]` and `[environments.PRD]` are the same section: the built-in names are written in capitals
-/// before merging, so a lower-case section overrides the built-in defaults key by key instead of replacing them.
+/// `[environments.prd]` and `[environments.PRD]` are the same section, and so are `[environments.dev]` and
+/// `[environments.LDV]` (`val` is `ABT`, see [`Environment::ALIASES`]): the built-in names are written in capitals
+/// before merging, so an alias or lower-case section overrides the built-in defaults key by key instead of replacing
+/// them.
+///
+/// When several spellings of one environment are present (`[environments.LDV]` and `[environments.dev]`, or `PRD` and
+/// `prd`), they are merged key by key, the non-canonical spelling over the canonical one, so a conflicting value
+/// comes from the non-canonical section. Between two non-canonical spellings the later key in alphabetical order
+/// wins (`ldv` over `dev`).
 fn canonical_environment_keys(document: &mut Table) {
     let Some(Value::Table(environments)) = document.get_mut("environments") else {
         return;
@@ -332,9 +366,8 @@ fn canonical_environment_keys(document: &mut Table) {
     let renames: Vec<(String, &str)> = environments
         .keys()
         .filter_map(|key| {
-            Environment::ALL
-                .into_iter()
-                .find(|e| e.as_str().eq_ignore_ascii_case(key) && e.as_str() != key)
+            Environment::built_in(key)
+                .filter(|e| e.as_str() != key)
                 .map(|e| (key.clone(), e.as_str()))
         })
         .collect();
@@ -438,20 +471,25 @@ mod tests {
         assert!(Config::load(&[(dir.path().join("missing.toml"), true)]).is_err());
     }
 
-    /// The dbt workshop: DBT_DEPLOY_TARGET=dev|val|prd, no Vault, no TLS.
+    /// The dbt workshop: DBT_DEPLOY_TARGET=dev|val|prd, no Vault, no TLS. `dev`, `val` and `prd` are the aliases of
+    /// `LDV`, `ABT` and `PRD`, so their sections override those environments' defaults key by key.
     #[test]
     fn environments_are_the_configured_sections() {
         let config = Config::from_documents(vec![doc("[core]\ndefault_environment = \"dev\"\n\
              [environments.dev]\nvault_url = \"\"\nca_certificate = \"\"\n\
              [environments.val]\nvault_url = \"\"\n\
-             [environments.prd]\nvault_url = \"\"\n")])
+             [environments.prd]\nvault_url = \"\"\n\
+             [environments.qa-1]\nvault_url = \"\"\n")])
         .unwrap();
         let dev = config.environment_named("DEV").unwrap();
-        assert_eq!(dev.as_str(), "dev", "spelled as configured");
+        assert_eq!(dev, Environment::LDV);
         assert_eq!(config.core.default_environment, dev);
         assert_eq!(config.environment(dev).ca_certificate, "");
-        // A new environment starts from the non-production defaults.
+        assert_eq!(config.environment(dev).vault_url, "");
+        // `val` is ABT: the section overrides the non-production defaults key by key.
         let val = config.environment_named("val").unwrap();
+        assert_eq!(val, Environment::ABT);
+        assert_eq!(config.environment(val).vault_url, "");
         assert_eq!(
             config.environment(val).role_id_vars[1],
             "KEYVAULT_ROLE_ID_LDV_ABT"
@@ -464,14 +502,22 @@ mod tests {
             config.environment(prd).ca_certificate,
             "root_intermediate_prod.cert"
         );
+        // A genuinely custom environment is kept as written and starts from the non-production defaults.
+        let qa = config.environment_named("QA-1").unwrap();
+        assert_eq!(qa.as_str(), "qa-1", "spelled as configured");
+        assert!(!qa.is_built_in());
         let error = config.environment_named("tst").unwrap_err().to_string();
         assert!(
-            error.contains("'tst'") && error.contains("dev, val"),
-            "{error}"
+            error.contains("'tst'") && error.contains("(configured: LDV, ABT, CBT, PRD, qa-1;"),
+            "no dev/val/prd duplicates: {error}"
         );
-        // Without sections only the four built-in environments exist.
+        // Without sections only the four built-in environments exist, and `dev` is one of them.
+        assert_eq!(
+            Config::default().environment_named("dev").unwrap(),
+            Environment::LDV
+        );
         let error = Config::default()
-            .environment_named("dev")
+            .environment_named("xyz")
             .unwrap_err()
             .to_string();
         assert!(error.contains("LDV, ABT, CBT, PRD"), "{error}");
@@ -479,5 +525,31 @@ mod tests {
             .unwrap_err()
             .to_string();
         assert!(error.contains("default_environment"), "{error}");
+    }
+
+    /// An alias section and the canonical one are the same section: merged key by key, the alias over the canonical
+    /// one, exactly as `prd` over `PRD` always was.
+    #[test]
+    fn alias_and_canonical_sections_merge_and_the_alias_wins_conflicts() {
+        let config = Config::from_documents(vec![doc(
+            "[environments.LDV]\nvault_url = \"https://canonical:8200\"\nca_certificate = \"canonical.cert\"\n\
+             [environments.dev]\nvault_url = \"https://alias:8200\"\n\
+             [environments.PRD]\nvault_url = \"https://canonical-prd:8200\"\n\
+             [environments.prd]\nvault_url = \"https://lower-prd:8200\"\n",
+        )])
+        .unwrap();
+        let ldv = config.environment(Environment::LDV);
+        assert_eq!(ldv.vault_url, "https://alias:8200", "the alias wins");
+        assert_eq!(ldv.ca_certificate, "canonical.cert", "keys of both survive");
+        assert_eq!(
+            config.environment(Environment::PRD).vault_url,
+            "https://lower-prd:8200",
+            "`prd` over `PRD`, as before aliases existed"
+        );
+        let error = config.environment_named("xyz").unwrap_err().to_string();
+        assert!(
+            error.contains("(configured: LDV, ABT, CBT, PRD;"),
+            "{error}"
+        );
     }
 }

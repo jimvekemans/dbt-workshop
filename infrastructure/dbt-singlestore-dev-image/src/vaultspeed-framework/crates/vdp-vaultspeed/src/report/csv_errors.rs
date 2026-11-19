@@ -15,6 +15,7 @@ pub struct ErrorCsvSink {
 }
 
 impl ErrorCsvSink {
+    /// Creates the sink; the files go under `logs_dir`.
     pub const fn new(logs_dir: PathBuf) -> Self {
         Self { logs_dir }
     }

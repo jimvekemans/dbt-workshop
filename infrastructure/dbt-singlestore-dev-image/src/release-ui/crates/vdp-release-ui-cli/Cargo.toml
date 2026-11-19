@@ -1,0 +1,31 @@
+[package]
+name = "vdp-release-ui-cli"
+description = "The `vdp-release-ui` command: the whole `vdp` command line plus `release serve`, the release hub behind the release UI."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "vdp-release-ui"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+tracing.workspace = true
+vdp-cli = { workspace = true, features = ["sources", "release", "sql", "qa"] }
+vdp-core.workspace = true
+vdp-dbt.workspace = true
+vdp-jira.workspace = true
+vdp-notify.workspace = true
+vdp-release.workspace = true
+vdp-release-hub.workspace = true
+vdp-secrets.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

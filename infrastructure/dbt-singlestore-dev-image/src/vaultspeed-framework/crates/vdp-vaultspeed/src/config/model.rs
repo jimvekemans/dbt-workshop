@@ -16,7 +16,8 @@ use crate::config::ConfigError;
 pub struct VaultspeedSettings {
     /// The vaultspeed-automation-framework checkout (relative to the current directory).
     pub project_dir: PathBuf,
-    /// Secret sources in precedence order, as `[secrets].precedence` (`{env}` = the lower-case environment).
+    /// Secret sources in precedence order, as `[secrets].precedence` (`{env}` = the lower-case environment, `ldv`;
+    /// `{env_short}` = its short name, `dev`).
     pub secrets_precedence: Vec<String>,
     pub paths: PathSettings,
     pub planning: PlanningSettings,
@@ -31,7 +32,14 @@ pub struct VaultspeedSettings {
 }
 
 /// `[vaultspeed.environments.<ENV>]` keys, each laid over the defaults of that environment (so a CBT section that
-/// only sets `database` keeps CBT's certificate, not LDV's).
+/// only sets `database` keeps CBT's certificate, not LDV's). Built-in environments are always present; custom
+/// environments configured in TOML are preserved and ordered after the built-ins.
+///
+/// Names go through [`Environment::named`], as everywhere else: `dev`, `val` and `prd` are the aliases of `LDV`, `ABT`
+/// and `PRD`, and several spellings of one environment (`[environments.LDV]` and `[environments.dev]`) are merged key
+/// by key, as in the shared `[environments]` sections of `vdp-core`: the canonical spelling (`LDV`) is applied first and
+/// every other spelling after it, so an alias wins a conflict whatever its case (`DEV`, `Dev` and `dev` all win over
+/// `LDV`). Between two aliases the later key in alphabetical order wins (`dev` over `DEV`).
 fn environments_over_defaults<'de, D: serde::Deserializer<'de>>(
     deserializer: D,
 ) -> Result<BTreeMap<Environment, EnvironmentSettings>, D::Error> {
@@ -43,34 +51,37 @@ fn environments_over_defaults<'de, D: serde::Deserializer<'de>>(
         singlestore_port: Option<u16>,
         dataset_env: Option<String>,
     }
-    let given = BTreeMap::<Environment, Partial>::deserialize(deserializer)?;
-    Ok(Environment::ALL
+    let given = BTreeMap::<String, Partial>::deserialize(deserializer)?;
+    let mut environments: BTreeMap<Environment, EnvironmentSettings> = Environment::ALL
         .into_iter()
-        .map(|env| {
-            let mut settings = EnvironmentSettings::defaults_for(env);
-            if let Some(partial) = given.get(&env) {
-                let Partial {
-                    singlestore_ca_certificate,
-                    database,
-                    singlestore_port,
-                    dataset_env,
-                } = partial;
-                if let Some(v) = singlestore_ca_certificate {
-                    settings.singlestore_ca_certificate.clone_from(v);
-                }
-                if let Some(v) = database {
-                    settings.database.clone_from(v);
-                }
-                if let Some(v) = singlestore_port {
-                    settings.singlestore_port = *v;
-                }
-                if let Some(v) = dataset_env {
-                    settings.dataset_env.clone_from(v);
-                }
-            }
-            (env, settings)
-        })
-        .collect())
+        .map(|env| (env, EnvironmentSettings::defaults_for(env)))
+        .collect();
+    let mut sections = Vec::with_capacity(given.len());
+    for (name, partial) in given {
+        let env = Environment::named(&name).map_err(serde::de::Error::custom)?;
+        sections.push((env, name, partial));
+    }
+    // The canonical spelling first, every other spelling after it (in key order), so an alias wins a conflict however
+    // it is capitalised; the sort is stable, so key order is kept within each group.
+    sections.sort_by_key(|(env, name, _)| name != env.as_str());
+    for (env, _, partial) in sections {
+        let settings = environments
+            .entry(env)
+            .or_insert_with(|| EnvironmentSettings::defaults_for(env));
+        if let Some(v) = partial.singlestore_ca_certificate {
+            settings.singlestore_ca_certificate = v;
+        }
+        if let Some(v) = partial.database {
+            settings.database = v;
+        }
+        if let Some(v) = partial.singlestore_port {
+            settings.singlestore_port = v;
+        }
+        if let Some(v) = partial.dataset_env {
+            settings.dataset_env = v;
+        }
+    }
+    Ok(environments)
 }
 
 impl Default for VaultspeedSettings {
@@ -99,6 +110,7 @@ impl Default for VaultspeedSettings {
 }
 
 impl VaultspeedSettings {
+    /// The name of the config section these settings are read from (`[vaultspeed]`).
     pub const SECTION: &'static str = "vaultspeed";
 
     /// The settings of `environment` (its defaults when the configuration has no section for it).
@@ -110,6 +122,10 @@ impl VaultspeedSettings {
     }
 
     /// Rejects values the planner cannot work with.
+    ///
+    /// # Errors
+    ///
+    /// [`ConfigError::Invalid`] when `planning.rdv_order_numbers` is empty or a `dags.default_args` entry has an empty key.
     pub fn validate(&self) -> Result<(), ConfigError> {
         if self.planning.rdv_order_numbers.is_empty() {
             return Err(ConfigError::Invalid(
@@ -131,6 +147,7 @@ impl VaultspeedSettings {
     }
 }
 
+/// Where the framework keeps its directories and files, relative to the project directory.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, default)]
 pub struct PathSettings {
@@ -155,6 +172,7 @@ impl Default for PathSettings {
     }
 }
 
+/// Whether a DDL `DROP` that no `CREATE` follows is skipped or executed.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum StandaloneDropsSetting {
@@ -162,6 +180,7 @@ pub enum StandaloneDropsSetting {
     Execute,
 }
 
+/// The `[vaultspeed.planning]` settings: exclusions, phase ordering and the safeguards the planner applies.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, default)]
 #[allow(clippy::struct_excessive_bools)]
@@ -202,6 +221,7 @@ impl Default for PlanningSettings {
     }
 }
 
+/// What to do when a group of an artifact kind fails.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum FailurePolicySetting {
@@ -210,6 +230,7 @@ pub enum FailurePolicySetting {
     HaltRun,
 }
 
+/// The `[vaultspeed.failure]` settings: the failure policy per artifact kind and what happens to dependents and archives.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, default)]
 pub struct FailureSettings {
@@ -236,6 +257,7 @@ impl Default for FailureSettings {
     }
 }
 
+/// How a `deployed/` mirror file is maintained: appended to, overwritten, or not written.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum SnapshotSetting {
@@ -263,6 +285,7 @@ impl Default for SnapshotSettings {
     }
 }
 
+/// Where the ledger is kept.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum LedgerBackend {
@@ -272,6 +295,7 @@ pub enum LedgerBackend {
     Jsonl,
 }
 
+/// The `[vaultspeed.ledger]` settings: the backend and, for the database, the schema and table.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, default)]
 pub struct LedgerSettings {
@@ -321,6 +345,7 @@ pub struct DefaultArg {
     pub value: serde_json::Value,
 }
 
+/// The `[vaultspeed.dags]` settings: how DAGs are altered and where they are published.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, default)]
 pub struct DagSettings {
@@ -407,10 +432,12 @@ impl EnvironmentSettings {
         }
     }
 
+    /// The dataset token for `vdp://<token>/...` URIs, `None` when it is derived from the host.
     pub fn dataset_env(&self) -> Option<&str> {
         Some(self.dataset_env.as_str()).filter(|s| !s.is_empty())
     }
 
+    /// The CA certificate file for the SingleStore connection, `None` when there is no TLS.
     pub fn singlestore_ca_certificate(&self) -> Option<&str> {
         Some(self.singlestore_ca_certificate.as_str()).filter(|s| !s.is_empty())
     }
@@ -491,6 +518,110 @@ mod tests {
                 .unwrap()
                 .validate()
                 .is_err()
+        );
+    }
+
+    #[test]
+    fn custom_environments_are_merged_and_ordered_after_builtins() {
+        let settings = parse(
+            "[environments.sandbox]\ndatabase = \"sandbox_db\"\nsinglestore_port = 3307\n\
+             [environments.qa-2]\nsinglestore_ca_certificate = \"\"\ndatabase = \"qa2_db\"\ndataset_env = \"qa\"\n\
+             [environments.qa-1]\ndatabase = \"qa_db\"\n",
+        )
+        .unwrap();
+
+        let keys: Vec<&str> = settings.environments.keys().map(|e| e.as_str()).collect();
+        assert_eq!(
+            keys,
+            ["LDV", "ABT", "CBT", "PRD", "qa-1", "qa-2", "sandbox"]
+        );
+
+        let qa2 = settings.environment(Environment::named("qa-2").unwrap());
+        assert_eq!(qa2.database, "qa2_db");
+        assert_eq!(qa2.singlestore_ca_certificate, "");
+        assert_eq!(qa2.singlestore_port, 3306);
+        assert_eq!(qa2.dataset_env, "qa");
+
+        let sandbox = settings.environment(Environment::named("sandbox").unwrap());
+        assert_eq!(sandbox.database, "sandbox_db");
+        assert_eq!(sandbox.singlestore_port, 3307);
+        assert_eq!(
+            sandbox.singlestore_ca_certificate,
+            "root_intermediate_nonprod.cert"
+        );
+
+        let qa = settings.environment(Environment::named("qa-1").unwrap());
+        assert_eq!(qa.database, "qa_db");
+
+        // Built-ins remain defaulted.
+        assert_eq!(
+            settings
+                .environment(Environment::PRD)
+                .singlestore_ca_certificate,
+            "root_intermediate_prod.cert"
+        );
+        // Invalid environment names are still rejected.
+        assert!(parse("[environments.\"bad name\"]\ndatabase = \"x\"\n").is_err());
+    }
+
+    /// The canonical section is applied first and every alias after it, whatever the spelling or case of the alias:
+    /// `DEV`, `Dev` and `dev` all win a conflict over `LDV`, as in `vdp-core`. (Plain key order would let `LDV` win
+    /// over `DEV` and `Dev`, which sort before it.)
+    #[test]
+    fn an_alias_section_wins_over_the_canonical_one_whatever_its_case() {
+        for alias in ["DEV", "Dev", "dev"] {
+            let settings = parse(&format!(
+                "[environments.LDV]\ndatabase = \"ldv_db\"\nsinglestore_port = 3307\n\
+                 [environments.{alias}]\ndatabase = \"alias_db\"\ndataset_env = \"alias\"\n"
+            ))
+            .unwrap();
+            let ldv = settings.environment(Environment::LDV);
+            assert_eq!(
+                ldv.database, "alias_db",
+                "[environments.{alias}] wins over LDV"
+            );
+            assert_eq!(ldv.singlestore_port, 3307, "{alias}: keys of both survive");
+            assert_eq!(ldv.dataset_env, "alias");
+            let keys: Vec<&str> = settings.environments.keys().map(|e| e.as_str()).collect();
+            assert_eq!(
+                keys,
+                ["LDV", "ABT", "CBT", "PRD"],
+                "{alias}: nothing custom"
+            );
+        }
+    }
+
+    /// `dev`, `val` and `prd` are aliases of `LDV`, `ABT` and `PRD`: their sections land on the built-ins, over those
+    /// environments' own defaults, and merge with a section written under the canonical name.
+    #[test]
+    fn alias_sections_land_on_the_built_in_environments() {
+        let settings = parse(
+            "[environments.dev]\ndatabase = \"dev_db\"\ndataset_env = \"dev\"\n\
+             [environments.LDV]\ndatabase = \"ldv_db\"\nsinglestore_port = 3307\n\
+             [environments.val]\ndatabase = \"val_db\"\n\
+             [environments.prd]\nsinglestore_ca_certificate = \"\"\n",
+        )
+        .unwrap();
+
+        let keys: Vec<&str> = settings.environments.keys().map(|e| e.as_str()).collect();
+        assert_eq!(
+            keys,
+            ["LDV", "ABT", "CBT", "PRD"],
+            "nothing custom is added"
+        );
+
+        let ldv = settings.environment(Environment::LDV);
+        assert_eq!(ldv.database, "dev_db", "the alias wins a conflict");
+        assert_eq!(ldv.singlestore_port, 3307, "keys of both sections survive");
+        assert_eq!(ldv.dataset_env, "dev");
+        assert_eq!(settings.environment(Environment::ABT).database, "val_db");
+        let prd = settings.environment(Environment::PRD);
+        assert_eq!(prd.singlestore_ca_certificate, "");
+        assert_eq!(prd.database, "edw_dv_rdv");
+        // The alias resolves to the same settings as the canonical name.
+        assert_eq!(
+            settings.environment(Environment::named("dev").unwrap()),
+            ldv
         );
     }
 }

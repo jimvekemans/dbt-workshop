@@ -30,5 +30,6 @@ impl Default for JiraSettings {
 }
 
 impl JiraSettings {
+    /// The name of the config section these settings are read from (`[jira]`).
     pub const SECTION: &'static str = "jira";
 }

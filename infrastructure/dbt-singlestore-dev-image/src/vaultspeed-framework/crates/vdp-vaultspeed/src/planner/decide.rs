@@ -34,6 +34,13 @@ impl Planner {
         }
     }
 
+    /// Plans `source`: orders `groups` into phases, decides every group and skips repeats of statements an earlier group of the
+    /// plan already executes.
+    ///
+    /// # Errors
+    ///
+    /// [`PlanError::Ledger`] when the ledger cannot be read; [`PlanError::Probe`] when the catalog probe fails;
+    /// [`PlanError::Undecided`] when no policy decided a group.
     pub fn plan(
         &self,
         source: &SourceKind,

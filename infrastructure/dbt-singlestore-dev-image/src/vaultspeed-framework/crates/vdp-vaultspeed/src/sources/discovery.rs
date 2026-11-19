@@ -25,6 +25,12 @@ pub struct DiscoveredSource {
 /// Finds sources of one kind. The engine merges all discoveries and orders the result
 /// by [`Priority`]; adding a new flow means adding a discovery, not editing the engine.
 pub trait SourceDiscovery: Send + Sync + Debug {
+    /// The sources this discovery finds, unordered.
+    ///
+    /// # Errors
+    ///
+    /// [`SourceError::Io`] when the staging directory cannot be read; [`SourceError::InvalidGenerationName`] when a staged zip
+    /// is not named like a generation; [`SourceError::NotStaged`] when a requested generation is not staged.
     fn discover(&self) -> Result<Vec<DiscoveredSource>, SourceError>;
 }
 
@@ -36,6 +42,7 @@ pub struct PmlDiscovery {
 }
 
 impl PmlDiscovery {
+    /// Creates the discovery for the PML directory `dir`.
     pub const fn new(dir: PathBuf) -> Self {
         Self { dir }
     }
@@ -73,6 +80,7 @@ pub struct ReleaseZipDiscovery {
 }
 
 impl ReleaseZipDiscovery {
+    /// Creates the discovery for the directory `dir` of staged generation zips.
     pub const fn new(dir: PathBuf) -> Self {
         Self { dir, only: None }
     }

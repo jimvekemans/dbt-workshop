@@ -40,8 +40,15 @@ impl Default for LegacyImporter {
 }
 
 impl LegacyImporter {
+    /// The `source` stamped on imported entries.
     pub const SOURCE: &'static str = "legacy:deployed";
 
+    /// Imports every `.sql` file under `deployed_dir/{PML,DDL,ETL}` into `ledger` as `Imported` entries.
+    ///
+    /// # Errors
+    ///
+    /// [`LedgerError::Io`] when a file cannot be read; [`LedgerError::Legacy`] when a file cannot be split into statements;
+    /// the errors of `ledger` when an entry cannot be recorded.
     pub fn import(
         &self,
         deployed_dir: &Path,

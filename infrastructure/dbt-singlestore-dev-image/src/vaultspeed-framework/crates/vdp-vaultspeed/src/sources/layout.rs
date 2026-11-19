@@ -9,10 +9,12 @@ pub struct StagingLayout {
 }
 
 impl StagingLayout {
+    /// Creates the layout below `root`, the `vaultspeed/` directory.
     pub fn new(root: impl Into<PathBuf>) -> Self {
         Self { root: root.into() }
     }
 
+    /// The root directory.
     pub fn root(&self) -> &Path {
         &self.root
     }
@@ -50,6 +52,7 @@ impl StagingLayout {
         self.root.join("airflow").join("dags")
     }
 
+    /// `airflow/meta`: the metadata files the rendered DAGs read.
     pub fn airflow_meta_dir(&self) -> PathBuf {
         self.root.join("airflow").join("meta")
     }

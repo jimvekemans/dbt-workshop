@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 use std::fs::{self, File};
 use std::io::Read;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use vdp_vaultspeed_domain::RelPath;
 use walkdir::WalkDir;
@@ -10,6 +10,13 @@ use crate::sources::{SourceError, SourceFile, SourceLocation};
 
 /// Reads every file of an artifact into memory, sorted by path.
 pub trait ArtifactReader: Send + Sync + Debug {
+    /// Reads every file of the artifact, sorted by path.
+    ///
+    /// # Errors
+    ///
+    /// [`SourceError::Io`] when a file or directory cannot be read; for a zip [`SourceError::Zip`] when it is not a readable
+    /// archive, [`SourceError::UnsafeEntry`] for an entry name that leaves the archive and [`SourceError::TooLarge`] when it
+    /// expands beyond the limit.
     fn read(&self) -> Result<Vec<SourceFile>, SourceError>;
 }
 
@@ -18,6 +25,26 @@ pub fn open_reader(location: &SourceLocation) -> Box<dyn ArtifactReader> {
     match location {
         SourceLocation::Zip(path) => Box::new(ZipArchiveReader::new(path.clone())),
         SourceLocation::Directory(path) => Box::new(DirectoryReader::new(path.clone())),
+    }
+}
+
+/// Loads source files from a `.zip` archive, a directory, or a single file path.
+///
+/// # Errors
+///
+/// As [`ArtifactReader::read`] for the kind of path (zip, directory or single file).
+pub fn load_path(path: &Path) -> Result<Vec<SourceFile>, SourceError> {
+    if path
+        .extension()
+        .is_some_and(|e| e.eq_ignore_ascii_case("zip"))
+    {
+        ZipArchiveReader::new(path.to_owned()).read()
+    } else if path.is_dir() {
+        DirectoryReader::new(path.to_owned()).read()
+    } else {
+        let name = path.file_name().unwrap_or_default().to_string_lossy();
+        let content = fs::read_to_string(path).map_err(SourceError::io(path))?;
+        Ok(vec![SourceFile::new(RelPath::new(name), content)])
     }
 }
 
@@ -34,6 +61,7 @@ impl ZipArchiveReader {
     /// Generations are a few MB; anything beyond this is treated as a zip bomb.
     pub const DEFAULT_LIMIT: u64 = 1 << 30;
 
+    /// Creates a reader for the zip at `path` with the default size limit ([`ZipArchiveReader::DEFAULT_LIMIT`]).
     pub const fn new(path: PathBuf) -> Self {
         Self {
             path,
@@ -51,6 +79,7 @@ impl ZipArchiveReader {
         }
     }
 
+    /// Sets the limit for the total size of the unpacked entries.
     #[must_use]
     pub const fn with_limit(mut self, max_total_bytes: u64) -> Self {
         self.max_total_bytes = max_total_bytes;
@@ -118,6 +147,7 @@ pub struct DirectoryReader {
 }
 
 impl DirectoryReader {
+    /// Creates a reader for the directory `root`; a missing directory has no files.
     pub const fn new(root: PathBuf) -> Self {
         Self { root }
     }
@@ -148,5 +178,51 @@ impl ArtifactReader for DirectoryReader {
             ));
         }
         Ok(files)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::io::Write;
+
+    use super::*;
+
+    #[test]
+    fn load_path_reads_single_file_directory_and_zip() {
+        let tmp = tempfile::tempdir().unwrap();
+
+        let single = tmp.path().join("dag_one.py");
+        fs::write(&single, "print('single')\n").unwrap();
+        let loaded_single = load_path(&single).unwrap();
+        assert_eq!(
+            loaded_single,
+            vec![SourceFile::new(
+                RelPath::new("dag_one.py"),
+                "print('single')\n"
+            )]
+        );
+
+        let dir = tmp.path().join("dags");
+        fs::create_dir_all(dir.join("nested")).unwrap();
+        fs::write(dir.join("nested/a.py"), "print('a')\n").unwrap();
+        let loaded_dir = load_path(&dir).unwrap();
+        assert_eq!(loaded_dir.len(), 1);
+        assert_eq!(loaded_dir[0].path, RelPath::new("nested/a.py"));
+        assert_eq!(loaded_dir[0].content, "print('a')\n");
+
+        let zip_path = tmp.path().join("bundle.ZIP");
+        let zip_file = File::create(&zip_path).unwrap();
+        let mut writer = zip::ZipWriter::new(zip_file);
+        writer
+            .start_file("sub/b.py", zip::write::SimpleFileOptions::default())
+            .unwrap();
+        writer.write_all(b"print('b')\n").unwrap();
+        writer.finish().unwrap();
+
+        let loaded_zip = load_path(&zip_path).unwrap();
+        assert_eq!(
+            loaded_zip,
+            vec![SourceFile::new(RelPath::new("sub/b.py"), "print('b')\n")]
+        );
     }
 }

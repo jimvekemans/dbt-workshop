@@ -1,0 +1,43 @@
+use std::process::ExitCode;
+
+use clap::{CommandFactory as _, Parser as _};
+use vdp_cli::args::Command as Core;
+use vdp_cli::runtime;
+use vdp_core::Outcome;
+use vdp_release_ui_cli::args::{Cli, Command};
+use vdp_release_ui_cli::hub;
+
+fn main() -> ExitCode {
+    let cli = Cli::parse();
+    let global = cli.global.clone();
+    let is_wrapper = cli.is_wrapper();
+    runtime::run(
+        runtime::RunContext {
+            program: "vdp-release-ui",
+            global: &global,
+            is_wrapper,
+        },
+        || run(cli),
+    )
+}
+
+fn run(cli: Cli) -> anyhow::Result<Outcome> {
+    let Cli {
+        global, command, ..
+    } = cli;
+    match command {
+        // `vdp`'s hand-offs to other binaries (`vdp vaultspeed ...`) are not commands here.
+        Command::Core(Core::External(external)) => Cli::command()
+            .error(
+                clap::error::ErrorKind::InvalidSubcommand,
+                format!(
+                    "unrecognized subcommand '{}'",
+                    external
+                        .first()
+                        .map_or_else(String::new, |a| a.to_string_lossy().into_owned())
+                ),
+            )
+            .exit(),
+        command => vdp_release_ui_cli::run_command(&global, command, &hub::no_extensions),
+    }
+}

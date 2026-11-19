@@ -16,6 +16,7 @@ pub enum ObjectType {
 }
 
 impl ObjectType {
+    /// The lower-case name of the type (`object` for [`ObjectType::Other`]).
     pub const fn as_str(self) -> &'static str {
         match self {
             Self::Table => "table",
@@ -44,6 +45,8 @@ pub struct ObjectRef {
 }
 
 impl ObjectRef {
+    /// Creates a reference; identifiers are trimmed of backticks and double quotes and lower-cased, and a blank schema counts
+    /// as none.
     pub fn new(object_type: ObjectType, schema: Option<&str>, name: &str) -> Self {
         Self {
             object_type,
@@ -52,6 +55,7 @@ impl ObjectRef {
         }
     }
 
+    /// `schema.name`, or `name` without a schema.
     pub fn qualified_name(&self) -> String {
         match &self.schema {
             Some(schema) => format!("{schema}.{}", self.name),
@@ -64,6 +68,7 @@ impl ObjectRef {
         self.schema == other.schema && self.name == other.name
     }
 
+    /// The same schema and name with another type.
     #[must_use]
     pub fn with_type(&self, object_type: ObjectType) -> Self {
         Self {
@@ -104,6 +109,7 @@ pub struct ObjectKey {
 }
 
 impl ObjectKey {
+    /// The key of the object's definition (CREATE, DROP, RENAME).
     pub const fn definition(object: ObjectRef) -> Self {
         Self {
             object,
@@ -111,6 +117,7 @@ impl ObjectKey {
         }
     }
 
+    /// The key of the table comment.
     pub const fn comment(object: ObjectRef) -> Self {
         Self {
             object,
@@ -118,6 +125,7 @@ impl ObjectKey {
         }
     }
 
+    /// Whether the key is about the definition of the object.
     pub fn is_definition(&self) -> bool {
         self.facet == Facet::Definition
     }

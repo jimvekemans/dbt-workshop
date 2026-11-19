@@ -10,6 +10,7 @@ use crate::lexer::{Token, TokenKind, tokenize};
 /// markers) so that rewrite rules written against the Python implementation still
 /// see them; fragments without any SQL are dropped.
 pub trait StatementSplitter: Send + Sync + Debug {
+    /// The statements of `script`, as slices of it, without their terminators.
     fn split<'a>(&self, script: &'a str) -> Vec<&'a str>;
 }
 

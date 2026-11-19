@@ -25,7 +25,17 @@ pub struct DeployedSnapshot {
     modes: BTreeMap<ArtifactKind, SnapshotMode>,
 }
 
+/// Entry to record via [`DeployedSnapshot::write`].
+#[derive(Debug, Clone, Copy)]
+pub struct SnapshotEntry<'a> {
+    pub artifact: ArtifactKind,
+    pub rel_dir: &'a RelPath,
+    pub job: &'a JobName,
+    pub statements: &'a [&'a str],
+}
+
 impl DeployedSnapshot {
+    /// Creates the mirror below `deployed_dir`, with the update `modes` per artifact kind.
     pub fn new(deployed_dir: PathBuf, modes: BTreeMap<ArtifactKind, SnapshotMode>) -> Self {
         Self {
             deployed_dir,
@@ -33,6 +43,7 @@ impl DeployedSnapshot {
         }
     }
 
+    /// The mode for `artifact` ([`SnapshotMode::Append`] when none is configured).
     pub fn mode(&self, artifact: ArtifactKind) -> SnapshotMode {
         self.modes
             .get(&artifact)
@@ -41,13 +52,17 @@ impl DeployedSnapshot {
     }
 
     /// Writes the statements executed for one job file and returns the path written.
-    pub fn write(
-        &self,
-        artifact: ArtifactKind,
-        rel_dir: &RelPath,
-        job: &JobName,
-        statements: &[&str],
-    ) -> Result<PathBuf, SourceError> {
+    ///
+    /// # Errors
+    ///
+    /// [`SourceError::Io`] when a file cannot be read or written.
+    pub fn write(&self, entry: SnapshotEntry<'_>) -> Result<PathBuf, SourceError> {
+        let SnapshotEntry {
+            artifact,
+            rel_dir,
+            job,
+            statements,
+        } = entry;
         let dir = self
             .deployed_dir
             .join(artifact.as_str())
@@ -90,19 +105,39 @@ mod tests {
         let job = JobName::from_file_stem("HUB_X_INCR");
         let dir_etl = RelPath::new("INCR/FOUNDATION_LAYER");
         snapshot
-            .write(ArtifactKind::Etl, &dir_etl, &job, &["v1"])
+            .write(SnapshotEntry {
+                artifact: ArtifactKind::Etl,
+                rel_dir: &dir_etl,
+                job: &job,
+                statements: &["v1"],
+            })
             .unwrap();
         let path = snapshot
-            .write(ArtifactKind::Etl, &dir_etl, &job, &["v2"])
+            .write(SnapshotEntry {
+                artifact: ArtifactKind::Etl,
+                rel_dir: &dir_etl,
+                job: &job,
+                statements: &["v2"],
+            })
             .unwrap();
         assert_eq!(fs::read_to_string(path).unwrap(), "v2;\n");
 
         let ddl_job = JobName::from_file_stem("GENERATE_DDL_ALTER");
         snapshot
-            .write(ArtifactKind::Ddl, &RelPath::new(""), &ddl_job, &["a1"])
+            .write(SnapshotEntry {
+                artifact: ArtifactKind::Ddl,
+                rel_dir: &RelPath::new(""),
+                job: &ddl_job,
+                statements: &["a1"],
+            })
             .unwrap();
         let path = snapshot
-            .write(ArtifactKind::Ddl, &RelPath::new(""), &ddl_job, &["a2"])
+            .write(SnapshotEntry {
+                artifact: ArtifactKind::Ddl,
+                rel_dir: &RelPath::new(""),
+                job: &ddl_job,
+                statements: &["a2"],
+            })
             .unwrap();
         assert_eq!(fs::read_to_string(path).unwrap(), "\na1;\n\na2;\n");
     }

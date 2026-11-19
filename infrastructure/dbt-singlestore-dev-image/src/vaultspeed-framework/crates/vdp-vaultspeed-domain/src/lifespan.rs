@@ -40,6 +40,10 @@ impl Lifespan {
 /// nothing lives there (if nothing was found before it); a CREATE or rename into the name means something
 /// lives there, and a rename's origin is the origin of the object under its old name *before the rename*.
 /// Only ordered entries take part: imported legacy entries never prove an order.
+///
+/// # Errors
+///
+/// Whatever error `history` returns for a key; it is passed on unchanged.
 pub fn current_lifespan<E>(
     key: &str,
     history: &mut dyn FnMut(&str) -> Result<Vec<LedgerEntry>, E>,

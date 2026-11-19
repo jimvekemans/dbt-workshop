@@ -10,12 +10,16 @@ use vdp_db::{AdbcSession, SqlSession};
 use vdp_secrets::SecretProvider;
 use vdp_ssh::{OpenSshTransport, RemoteTransport, SshAccess};
 use vdp_vaultspeed::VaultspeedSettings;
-use vdp_vaultspeed::wiring::{self, Infrastructure, Project};
+use vdp_vaultspeed::wiring::{self, Infrastructure, LedgerOptions, Project};
 use vdp_vaultspeed_domain::RunMode;
 
 use vdp_cli::bootstrap::{ResolvedSecrets, SecretSources, adbc_driver, resolve_secrets_from};
 
 /// The framework checkout: `--framework-dir`, else `[vaultspeed].project_dir`, relative to the current directory.
+///
+/// # Errors
+///
+/// An error when the `[vaultspeed]` configuration section is invalid or the framework checkout cannot be set up.
 pub fn project(ctx: &Context, framework_dir: Option<&Path>) -> Result<Project> {
     let settings: VaultspeedSettings = ctx.config().section(VaultspeedSettings::SECTION)?;
     let root = ctx
@@ -27,6 +31,11 @@ pub fn project(ctx: &Context, framework_dir: Option<&Path>) -> Result<Project> {
 
 /// The VaultSpeed secret chain: `[vaultspeed].secrets_precedence`, the framework's dotenv file and its CA
 /// certificates; Vault (URL, AppRole, mount) as for every other module.
+///
+/// # Errors
+///
+/// An error when the secret sources cannot be resolved (an unknown source, an unreadable dotenv file, or a required Vault
+/// that cannot be read; see [`vdp_cli::bootstrap::resolve_secrets_from`]).
 pub fn secrets(ctx: &Context, project: &Project, use_vault: bool) -> Result<ResolvedSecrets> {
     let sources = SecretSources {
         origin: "[vaultspeed].secrets_precedence",
@@ -44,23 +53,47 @@ pub struct Resolved {
     _airflow: Option<SshAccess>,
 }
 
+/// Options for [`infrastructure`].
+#[derive(Debug, Clone, Copy)]
+pub struct InfrastructureOptions {
+    pub environment: Environment,
+    pub offline: bool,
+    pub use_vault: bool,
+    pub mode: RunMode,
+}
+
 /// Secrets, the database session, the ledger and Airflow access. Offline: no Vault, no database, no Airflow; the
 /// JSONL ledger (read-only in preview).
+///
+/// # Errors
+///
+/// An error when the secrets cannot be resolved, the database connection settings are incomplete or the connection
+/// fails, the ledger cannot be opened, or the Airflow secrets are invalid. Offline, none of the network parts is tried.
 pub fn infrastructure(
     ctx: &Context,
     project: &Project,
-    environment: Environment,
-    offline: bool,
-    use_vault: bool,
-    mode: RunMode,
+    options: InfrastructureOptions,
 ) -> Result<Resolved> {
+    let InfrastructureOptions {
+        environment,
+        offline,
+        use_vault,
+        mode,
+    } = options;
     let secrets = secrets(ctx, project, use_vault && !offline)?;
     let provider: &dyn SecretProvider = &secrets;
     if offline {
         return Ok(Resolved {
             infra: Infrastructure {
                 session: None,
-                ledger: wiring::ledger(project, environment, None, mode)?,
+                ledger: wiring::ledger(
+                    project,
+                    LedgerOptions {
+                        environment,
+                        session: None,
+                        mode,
+                    },
+                )?,
                 singlestore_host: wiring::placeholder_host(environment, Some(provider)),
                 airflow: None,
             },
@@ -82,7 +115,14 @@ pub fn infrastructure(
         .map(|a| Arc::new(OpenSshTransport::new(a.endpoint.clone())) as Arc<dyn RemoteTransport>);
     Ok(Resolved {
         infra: Infrastructure {
-            ledger: wiring::ledger(project, environment, Some(&session), mode)?,
+            ledger: wiring::ledger(
+                project,
+                LedgerOptions {
+                    environment,
+                    session: Some(&session),
+                    mode,
+                },
+            )?,
             session: Some(session),
             singlestore_host: settings.host.clone(),
             airflow,

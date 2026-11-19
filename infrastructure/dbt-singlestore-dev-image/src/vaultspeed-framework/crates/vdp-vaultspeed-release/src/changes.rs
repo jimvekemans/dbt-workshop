@@ -5,6 +5,7 @@ use std::path::PathBuf;
 
 use similar::TextDiff;
 use vdp_git::Vcs;
+pub use vdp_release::changes::FileDiffRequest;
 use vdp_release::changes::{ArchiveEntry, FileDiff, file_diff};
 use vdp_vaultspeed::sources::{ArtifactReader, SourceFile, ZipArchiveReader};
 
@@ -23,7 +24,7 @@ fn entries(vcs: &dyn Vcs, rev: &str, path: &str) -> Result<Vec<SourceFile>, VsEr
             .read()
             .map_err(|e| VsError::Zip {
                 name: path.to_owned(),
-                detail: e.to_string(),
+                detail: vdp_vaultspeed_domain::display_chain(&e),
             }),
     }
 }
@@ -33,15 +34,19 @@ fn size(file: &SourceFile) -> u64 {
 }
 
 /// One file's change; for a zip, its entries compared (added, deleted, modified, unchanged).
-pub fn file_change(
-    vcs: &dyn Vcs,
-    from: &str,
-    to: &str,
-    path: &str,
-    limit: usize,
-) -> Result<FileDiff, VsError> {
+///
+/// # Errors
+///
+/// [`VsError::Zip`] when a zip cannot be read; [`VsError::Git`] when a git operation fails (including a rejected push).
+pub fn file_change(vcs: &dyn Vcs, request: &FileDiffRequest<'_>) -> Result<FileDiff, VsError> {
+    let FileDiffRequest {
+        from,
+        to,
+        path,
+        limit: _,
+    } = *request;
     if !is_zip(path) {
-        return Ok(file_diff(vcs, from, to, path, limit)?);
+        return Ok(file_diff(vcs, request)?);
     }
     let old = entries(vcs, from, path)?;
     let new = entries(vcs, to, path)?;
@@ -83,15 +88,29 @@ pub fn file_change(
     })
 }
 
+/// Request parameters for [`entry_change`].
+#[derive(Debug, Clone, Copy)]
+pub struct EntryDiffRequest<'a> {
+    pub from: &'a str,
+    pub to: &'a str,
+    pub path: &'a str,
+    pub entry: &'a str,
+    pub limit: usize,
+}
+
 /// The unified diff of one entry of a zip between the two states.
-pub fn entry_change(
-    vcs: &dyn Vcs,
-    from: &str,
-    to: &str,
-    path: &str,
-    entry: &str,
-    limit: usize,
-) -> Result<FileDiff, VsError> {
+///
+/// # Errors
+///
+/// [`VsError::Zip`] when a zip cannot be read; [`VsError::Git`] when a git operation fails (including a rejected push).
+pub fn entry_change(vcs: &dyn Vcs, request: &EntryDiffRequest<'_>) -> Result<FileDiff, VsError> {
+    let EntryDiffRequest {
+        from,
+        to,
+        path,
+        entry,
+        limit,
+    } = *request;
     let text = |files: &[SourceFile]| {
         files
             .iter()
@@ -129,7 +148,7 @@ mod tests {
     use std::process::Command;
 
     use vdp_git::GitCli;
-    use vdp_release::changes::file_changes;
+    use vdp_release::changes::{ChangesRequest, file_changes};
 
     use super::*;
 
@@ -161,6 +180,10 @@ mod tests {
 
     /// A zip that VaultSpeed delivered again: entries compared one by one, each with its own diff.
     #[test]
+    #[allow(
+        clippy::too_many_lines,
+        reason = "struct-literal call sites grew existing test past 100 lines"
+    )]
     fn a_changed_zip_is_compared_entry_by_entry() {
         let dir = tempfile::tempdir().unwrap();
         let repo = dir.path();
@@ -192,11 +215,28 @@ mod tests {
         let to = git(repo, &["rev-parse", "HEAD"]);
         let vcs = GitCli::new(repo);
 
-        let files = file_changes(&vcs, &from, &to, None).unwrap();
+        let files = file_changes(
+            &vcs,
+            &ChangesRequest {
+                from: &from,
+                to: &to,
+                history: None,
+            },
+        )
+        .unwrap();
         assert_eq!(files.files.len(), 1);
         assert!(files.files[0].binary, "git only says the zip changed");
 
-        let change = file_change(&vcs, &from, &to, zip, 1 << 20).unwrap();
+        let change = file_change(
+            &vcs,
+            &FileDiffRequest {
+                from: &from,
+                to: &to,
+                path: zip,
+                limit: 1 << 20,
+            },
+        )
+        .unwrap();
         let by_name: Vec<(&str, &str)> = change
             .entries
             .iter()
@@ -214,7 +254,17 @@ mod tests {
         assert_eq!(change.entries[1].new_size, None);
         assert_eq!(change.entries[1].old_size, Some(14));
 
-        let entry = entry_change(&vcs, &from, &to, zip, "DDL/a.sql", 1 << 20).unwrap();
+        let entry = entry_change(
+            &vcs,
+            &EntryDiffRequest {
+                from: &from,
+                to: &to,
+                path: zip,
+                entry: "DDL/a.sql",
+                limit: 1 << 20,
+            },
+        )
+        .unwrap();
         assert!(
             entry.diff.contains("-CREATE TABLE a (id INT);"),
             "{}",
@@ -225,9 +275,29 @@ mod tests {
             "{}",
             entry.diff
         );
-        let deleted = entry_change(&vcs, &from, &to, zip, "DDL/b.sql", 1 << 20).unwrap();
+        let deleted = entry_change(
+            &vcs,
+            &EntryDiffRequest {
+                from: &from,
+                to: &to,
+                path: zip,
+                entry: "DDL/b.sql",
+                limit: 1 << 20,
+            },
+        )
+        .unwrap();
         assert!(deleted.diff.contains("-DROP TABLE b;"), "{}", deleted.diff);
-        let cut = entry_change(&vcs, &from, &to, zip, "DDL/a.sql", 10).unwrap();
+        let cut = entry_change(
+            &vcs,
+            &EntryDiffRequest {
+                from: &from,
+                to: &to,
+                path: zip,
+                entry: "DDL/a.sql",
+                limit: 10,
+            },
+        )
+        .unwrap();
         assert!(cut.truncated && cut.diff.len() <= 10);
 
         // A file that is not a zip gets git's own diff.
@@ -235,8 +305,17 @@ mod tests {
         git(repo, &["add", "-A"]);
         git(repo, &["commit", "-q", "-m", "PML"]);
         let pml = git(repo, &["rev-parse", "HEAD"]);
-        let plain = file_change(&vcs, &to, &pml, "pml.sql", 1 << 20).unwrap();
-        assert!(plain.entries.is_empty());
+        let plain = file_change(
+            &vcs,
+            &FileDiffRequest {
+                from: &to,
+                to: &pml,
+                path: "pml.sql",
+                limit: 1 << 20,
+            },
+        )
+        .unwrap();
+        assert_eq!(plain.entries, []);
         assert!(plain.diff.contains("+select 1;"), "{}", plain.diff);
     }
 }

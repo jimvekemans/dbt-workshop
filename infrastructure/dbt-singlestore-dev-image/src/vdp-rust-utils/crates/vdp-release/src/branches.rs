@@ -26,6 +26,10 @@ pub struct ReleaseBranch {
 
 /// `origin/<prefix>*`, newest first: by fix version when the suffix is one (numerically, so DROP10 after
 /// DROP9), others after, by name. The Python version sorted names as strings.
+///
+/// # Errors
+///
+/// [`ReleaseError::Git`] when the remote branches cannot be listed.
 pub fn release_branches(
     vcs: &dyn Vcs,
     prefix: &str,

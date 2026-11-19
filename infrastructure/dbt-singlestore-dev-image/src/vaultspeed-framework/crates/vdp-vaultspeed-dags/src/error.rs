@@ -2,6 +2,7 @@ use std::path::PathBuf;
 
 use thiserror::Error;
 
+/// Why a DAG could not be altered, validated or published.
 #[derive(Debug, Error)]
 pub enum DagError {
     #[error("tree-sitter could not load the Python grammar: {0}")]
@@ -26,7 +27,7 @@ pub enum DagError {
     #[error("cannot determine the source system of {dag}; add it to `fmc_sources`")]
     UnknownSource { dag: String },
 
-    #[error("{path}: {source}")]
+    #[error("{path}")]
     Io {
         path: PathBuf,
         #[source]

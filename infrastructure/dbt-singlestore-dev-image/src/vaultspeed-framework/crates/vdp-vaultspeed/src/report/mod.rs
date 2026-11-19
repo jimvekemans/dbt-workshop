@@ -18,5 +18,11 @@ use vdp_vaultspeed_domain::RunReport;
 
 /// Writes a finished run report somewhere; returns the files it created.
 pub trait ReportSink: Send + Sync + Debug {
+    /// Writes the report and returns the files it created.
+    ///
+    /// # Errors
+    ///
+    /// [`ReportError::Io`] when a file or directory cannot be written, or the output cannot be flushed; [`ReportError::Csv`]
+    /// when the CSV cannot be written; [`ReportError::Json`] when the report cannot be serialised.
     fn write(&self, report: &RunReport) -> Result<Vec<PathBuf>, ReportError>;
 }

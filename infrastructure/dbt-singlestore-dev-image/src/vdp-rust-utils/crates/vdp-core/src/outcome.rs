@@ -10,6 +10,7 @@ pub enum Outcome {
 }
 
 impl Outcome {
+    /// The process exit code: 0 for success, 1 for failures, the carried code for [`Outcome::Exit`].
     pub const fn exit_code(self) -> u8 {
         match self {
             Self::Success => 0,

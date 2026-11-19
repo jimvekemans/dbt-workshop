@@ -1,7 +1,9 @@
 # Project-level vdp configuration, layered over the built-in defaults key by key.
 
 [core]
-# The workshop environments (DBT_DEPLOY_TARGET = dev | val | prd), defined below.
+# The workshop environments (DBT_DEPLOY_TARGET = dev | val | prd). vdp knows them as the aliases of LDV, ABT and PRD,
+# so the sections below override those environments' defaults, `vdp env show` prints LDV for `dev`, and `{env}` renders
+# the canonical `ldv`; `{env_short}` renders the workshop name (`dev`).
 default_environment = "dev"
 dotenv = ".devcontainer/.env"
 
@@ -9,7 +11,7 @@ dotenv = ".devcontainer/.env"
 [secrets]
 precedence = ["dotenv", "env"]
 
-# The workshop stack has neither Vault nor TLS.
+# The workshop stack has neither Vault nor TLS. `dev` is LDV, `val` is ABT.
 [environments.dev]
 vault_url = ""
 ca_certificate = ""
@@ -33,4 +35,5 @@ physical = "dev_"
 jinja = "{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_"
 
 [qa]
-run_results_table = "{env}_vdp_mgmt.dbt_run_results"
+# `{env_short}` is dev | val | prd, the prefix of the physical databases (`{env}` would be ldv | abt | prd).
+run_results_table = "{env_short}_vdp_mgmt.dbt_run_results"

@@ -1,8 +1,9 @@
 use thiserror::Error;
 
+/// Why a git operation failed.
 #[derive(Debug, Error)]
 pub enum GitError {
-    #[error("cannot run git: {0}")]
+    #[error("cannot run git")]
     Spawn(#[from] std::io::Error),
 
     #[error("`git {command}` failed: {detail}")]

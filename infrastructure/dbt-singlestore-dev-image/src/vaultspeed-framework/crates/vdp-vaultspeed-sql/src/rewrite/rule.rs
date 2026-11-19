@@ -59,10 +59,12 @@ impl RewriteRule {
         })
     }
 
+    /// The rule id, `<file>#<index>`.
     pub fn id(&self) -> &str {
         &self.id
     }
 
+    /// Why the rule exists.
     pub fn reason(&self) -> &str {
         &self.reason
     }

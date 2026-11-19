@@ -12,10 +12,19 @@ pub struct CatalogColumn {
     pub column: String,
 }
 
+/// The database side of source maintenance: which tables and columns exist.
 pub trait Catalog: Send + Sync + Debug {
     /// Tables and views of a database.
+    ///
+    /// # Errors
+    ///
+    /// [`DbError`] when the query fails.
     fn tables(&self, database: &str) -> Result<Vec<String>, DbError>;
     /// Columns, of all tables or of the given ones, ordered by table and then by column (name or position).
+    ///
+    /// # Errors
+    ///
+    /// [`DbError`] when the query fails.
     fn columns(
         &self,
         database: &str,
@@ -31,6 +40,7 @@ pub struct SqlCatalog {
 }
 
 impl SqlCatalog {
+    /// Creates a catalog over `session`; `column_order` is `ordinal` to order columns by position, anything else orders them by name.
     pub fn new(session: Arc<dyn SqlSession>, column_order: &str) -> Self {
         Self {
             session,

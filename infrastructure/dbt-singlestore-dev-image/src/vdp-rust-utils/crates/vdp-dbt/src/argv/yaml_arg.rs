@@ -34,6 +34,10 @@ pub enum Fix {
 }
 
 /// `check_key_value_cli_arg` of dbt v2.
+///
+/// # Errors
+///
+/// A message when `value` is empty, or is neither a YAML nor a JSON mapping.
 pub fn dbt_parse(value: &str) -> Result<Mapping, String> {
     if value.trim().is_empty() {
         return Err("Empty input is not valid".into());
@@ -77,6 +81,10 @@ pub fn recover_unspaced_colon_pairs(mut map: Mapping) -> Mapping {
 }
 
 /// dbt's full reading of a `--vars` value (parse, then recovery for flow style).
+///
+/// # Errors
+///
+/// A message when [`dbt_parse`] rejects `value`.
 pub fn dbt_read_vars(value: &str) -> Result<Mapping, String> {
     let map = dbt_parse(value)?;
     Ok(if is_flow_style(value) {

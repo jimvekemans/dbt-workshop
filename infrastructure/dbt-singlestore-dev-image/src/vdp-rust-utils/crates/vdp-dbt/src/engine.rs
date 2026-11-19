@@ -50,6 +50,7 @@ pub struct Completed {
 }
 
 impl Completed {
+    /// Whether the process exited with code 0.
     pub const fn success(&self) -> bool {
         matches!(self.code, Some(0))
     }
@@ -63,6 +64,7 @@ impl Completed {
         }
     }
 
+    /// What dbt printed on stdout, with invalid UTF-8 replaced.
     pub fn stdout_text(&self) -> String {
         String::from_utf8_lossy(&self.stdout).into_owned()
     }
@@ -80,7 +82,14 @@ impl Completed {
 
 /// Runs dbt. Modules depend on this trait, never on the subprocess.
 pub trait DbtEngine: Send + Sync + fmt::Debug {
+    /// The dbt binary this engine runs.
     fn binary(&self) -> &Path;
+    /// Runs dbt with `invocation` and waits for it to end. A non-zero exit status is not an error: it is in the result.
+    ///
+    /// # Errors
+    ///
+    /// [`DbtError::Spawn`] when the binary cannot be started or waited for; [`DbtError::Signals`] when an interactive
+    /// run cannot install its signal handlers.
     fn invoke(&self, invocation: &Invocation) -> Result<Completed, DbtError>;
 }
 
@@ -100,6 +109,7 @@ impl fmt::Debug for SubprocessDbt {
 }
 
 impl SubprocessDbt {
+    /// Creates an engine for `binary`; `env` is added to the environment of the child process only.
     pub fn new(binary: PathBuf, env: Vec<(String, SecretString)>) -> Self {
         Self { binary, env }
     }

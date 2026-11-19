@@ -71,10 +71,12 @@ impl StatementKind {
         }
     }
 
+    /// Whether the statement is a DROP.
     pub const fn is_drop(&self) -> bool {
         matches!(self, Self::Drop { .. })
     }
 
+    /// Whether the statement is a CREATE.
     pub const fn is_create(&self) -> bool {
         matches!(self, Self::Create { .. })
     }

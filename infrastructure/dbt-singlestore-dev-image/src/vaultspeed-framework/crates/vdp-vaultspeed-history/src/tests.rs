@@ -182,7 +182,7 @@ fn failed_create_starts_nothing_and_skipped_links_to_live_object() {
         "CREATE TABLE edw.t (a INT)",
         ChangeOutcome::Failed,
     );
-    assert!(f.history.objects(ENV, None).unwrap().is_empty());
+    assert_eq!(f.history.objects(ENV, None).unwrap(), []);
     assert_eq!(
         count(
             &f.history,

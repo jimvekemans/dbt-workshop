@@ -38,6 +38,10 @@ pub fn parse_zip_name(file: &str) -> Option<(String, u64, String)> {
 }
 
 /// Reads the zip in memory and collects the tickets from the comment headers.
+///
+/// # Errors
+///
+/// [`VsError::Zip`] when `file` is not named `<number>_<TYPE>.zip` or the archive cannot be read.
 pub fn inspect(file: &str, bytes: Vec<u8>, ticket_prefix: &str) -> Result<ZipInfo, VsError> {
     let (name, number, kind) = parse_zip_name(file).ok_or_else(|| VsError::Zip {
         name: file.to_owned(),
@@ -47,7 +51,7 @@ pub fn inspect(file: &str, bytes: Vec<u8>, ticket_prefix: &str) -> Result<ZipInf
         .read()
         .map_err(|e| VsError::Zip {
             name: name.clone(),
-            detail: e.to_string(),
+            detail: vdp_vaultspeed_domain::display_chain(&e),
         })?;
     let ticket = Regex::new(&format!(r"(?i)\b{}-\d+\b", regex::escape(ticket_prefix)))
         .expect("valid pattern");
@@ -89,15 +93,26 @@ pub struct ZipCache {
     by_blob: Mutex<HashMap<String, ZipInfo>>,
 }
 
+/// Lookup key for [`ZipCache::get`].
+#[derive(Debug, Clone, Copy)]
+pub struct ZipLookup<'a> {
+    pub rev: &'a str,
+    pub path: &'a str,
+    pub ticket_prefix: &'a str,
+}
+
 impl ZipCache {
-    /// The zip at `rev:path`, inspected once per blob.
-    pub fn get(
-        &self,
-        vcs: &dyn Vcs,
-        rev: &str,
-        path: &str,
-        ticket_prefix: &str,
-    ) -> Result<ZipInfo, VsError> {
+    /// The zip at `lookup.rev:lookup.path`, inspected once per blob.
+    ///
+    /// # Errors
+    ///
+    /// [`VsError::Zip`] when the zip is not at that revision or cannot be read; [`VsError::Git`] when git fails.
+    pub fn get(&self, vcs: &dyn Vcs, lookup: ZipLookup<'_>) -> Result<ZipInfo, VsError> {
+        let ZipLookup {
+            rev,
+            path,
+            ticket_prefix,
+        } = lookup;
         let blob = vcs.blob_id(rev, path)?.ok_or_else(|| VsError::Zip {
             name: path.to_owned(),
             detail: format!("not in {rev}"),
@@ -169,5 +184,27 @@ mod tests {
         );
         assert_eq!(parse_zip_name("readme.txt"), None);
         assert_eq!(parse_zip_name("x_FMC.zip"), None);
+    }
+
+    #[test]
+    fn corrupt_zip_error_detail_includes_cause() {
+        let err = inspect(
+            "vaultspeed/staging/release/1182_FMC.zip",
+            b"not a zip".to_vec(),
+            "INTEL",
+        )
+        .unwrap_err();
+        let VsError::Zip { name, detail } = err else {
+            panic!("expected Zip error, got {err:?}");
+        };
+        assert_eq!(name, "1182_FMC");
+        let prefix = "vaultspeed/staging/release/1182_FMC.zip is not a readable zip archive: ";
+        let cause = detail
+            .strip_prefix(prefix)
+            .unwrap_or_else(|| panic!("expected detail starting with {prefix:?}, got {detail:?}"));
+        assert!(
+            !cause.is_empty(),
+            "expected non-empty zip cause in {detail:?}"
+        );
     }
 }

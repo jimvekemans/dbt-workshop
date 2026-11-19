@@ -12,6 +12,7 @@ pub struct MapProvider {
 }
 
 impl MapProvider {
+    /// Creates an empty provider that reports itself as `label`.
     pub fn new(label: impl Into<String>) -> Self {
         Self {
             label: label.into(),
@@ -19,12 +20,14 @@ impl MapProvider {
         }
     }
 
+    /// Returns the provider with `key` set to `value`.
     #[must_use]
     pub fn with(mut self, key: impl Into<String>, value: impl Into<String>) -> Self {
         self.insert(key, value);
         self
     }
 
+    /// Sets `key` to `value`, replacing an earlier value.
     pub fn insert(&mut self, key: impl Into<String>, value: impl Into<String>) {
         self.values
             .insert(key.into(), SecretString::from(value.into()));

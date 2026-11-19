@@ -3,7 +3,7 @@ use std::sync::Arc;
 
 use vdp_vaultspeed_domain::{GenerationKind, SourceKind, StatementGroup};
 
-use crate::sources::{ArtifactLoader, DiscoveredSource, SourceError, SourceFile};
+use crate::sources::{ArtifactLoader, DiscoveredSource, LoadInput, SourceError, SourceFile};
 
 /// Airflow files of a source.
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
@@ -13,6 +13,7 @@ pub struct DagFiles {
 }
 
 impl DagFiles {
+    /// Whether there are no DAG and no metadata files.
     pub fn is_empty(&self) -> bool {
         self.dags.is_empty() && self.metadata.is_empty()
     }
@@ -27,7 +28,13 @@ pub struct SourceContent {
 
 /// Interprets the files of a source.
 pub trait SourceHandler: Send + Sync + Debug {
+    /// Whether the handler interprets sources of `kind`.
     fn supports(&self, kind: &SourceKind) -> bool;
+    /// Interprets `files` of `source`: the statement groups and the DAG files.
+    ///
+    /// # Errors
+    ///
+    /// [`SourceError::Sql`] when a file cannot be split into statements.
     fn load(
         &self,
         source: &DiscoveredSource,
@@ -42,6 +49,7 @@ pub struct PmlHandler {
 }
 
 impl PmlHandler {
+    /// Creates the handler for PML; `loader` turns the scripts into groups.
     pub const fn new(loader: Arc<ArtifactLoader>) -> Self {
         Self { loader }
     }
@@ -58,7 +66,12 @@ impl SourceHandler for PmlHandler {
         files: &[SourceFile],
     ) -> Result<SourceContent, SourceError> {
         Ok(SourceContent {
-            groups: self.loader.load(&source.kind, None, "", files)?,
+            groups: self.loader.load(LoadInput {
+                source: &source.kind,
+                generation: None,
+                root: "",
+                files,
+            })?,
             dags: DagFiles::default(),
         })
     }
@@ -83,6 +96,7 @@ pub struct GenerationHandler {
 }
 
 impl GenerationHandler {
+    /// Creates a handler for generations of `kind` without sections.
     pub const fn new(kind: GenerationKind) -> Self {
         Self {
             kind,
@@ -91,6 +105,7 @@ impl GenerationHandler {
         }
     }
 
+    /// Adds the SQL files below `root` (`""` for the whole zip), loaded by `loader`.
     #[must_use]
     pub fn with_sql(mut self, root: &str, loader: Arc<ArtifactLoader>) -> Self {
         self.sections.push(SqlSection {
@@ -144,12 +159,12 @@ impl SourceHandler for GenerationHandler {
         };
         let mut content = SourceContent::default();
         for section in &self.sections {
-            content.groups.extend(section.loader.load(
-                &source.kind,
-                Some(name.id()),
-                &section.root,
+            content.groups.extend(section.loader.load(LoadInput {
+                source: &source.kind,
+                generation: Some(name.id()),
+                root: &section.root,
                 files,
-            )?);
+            })?);
         }
         if let Some(root) = &self.dag_root {
             content.dags = Self::collect_dags(root, files);

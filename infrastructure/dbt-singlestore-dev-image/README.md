@@ -16,6 +16,7 @@ Everything is built from this folder, the same way the base image handles dbt an
     src/dbt-bouncer/      dbt-bouncer fork                                 in the repository
     src/vdp-rust-utils/   vdp toolkit (Rust workspace, crate vdp-cli)      in the repository, cleaned (see below)
     src/vaultspeed-framework/  VaultSpeed framework (workspace, crate vdp-vaultspeed-cli) in the repository, not built into the image
+    src/release-ui/       release UI backend (workspace, crate vdp-release-ui-cli)  in the repository, not built into the image
     vdp                   optional prebuilt release binary of vdp-cli      gitignored
     local/                untouched copies kept on the machine they came from, gitignored and not in the image
 
@@ -32,8 +33,19 @@ For `vdp`:
 - with neither of them the image is built **without vdp**: `dbt` is then the plain engine, and sqlfmt, dbt-bouncer
   and pre-commit work the same.
 
-`src/vaultspeed-framework/` imports crates from `src/vdp-rust-utils/` and builds `vdp-vaultspeed`, which `vdp vaultspeed ...`
-runs. It is not built into the image; build it in that folder with `cargo build --release --locked -p vdp-vaultspeed-cli`.
+`src/vaultspeed-framework/` and `src/release-ui/` are workspaces of their own next to `src/vdp-rust-utils/`. They are not
+built into the image (the image builds `-p vdp-cli` from `src/vdp-rust-utils/` only, which depends on neither); build them by
+hand in their folders:
+
+- `src/release-ui/`: the release UI's backend (the release hub and the announcements it sends). It imports crates from
+  `src/vdp-rust-utils/` and builds `vdp-release-ui`, which `vdp release-ui ...` runs:
+  `cargo build --release --locked -p vdp-release-ui-cli`.
+- `src/vaultspeed-framework/`: imports crates from `src/vdp-rust-utils/` and `src/release-ui/` and builds `vdp-vaultspeed`,
+  which `vdp vaultspeed ...` runs: `cargo build --release --locked -p vdp-vaultspeed-cli`. The `vdp-ssh` crate (remote
+  access over OpenSSH) belongs to that workspace, not to `src/vdp-rust-utils/`.
+
+Put the binaries next to `vdp` (`/usr/local/bin`) or on `PATH`. The dependencies run `vdp-rust-utils` <- `release-ui` <-
+`vaultspeed-framework`.
 
 `sqlfmt` and `dbt-bouncer` are pip-installed from their folders into the venv `/opt/devtools`.
 

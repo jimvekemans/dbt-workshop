@@ -20,11 +20,17 @@ pub struct RuleSet {
 }
 
 impl RuleSet {
+    /// A set without rules: it rewrites nothing.
     pub const fn empty() -> Self {
         Self { rules: Vec::new() }
     }
 
     /// Parses one rule file's content; rule ids are `<file_id>#<index>`.
+    ///
+    /// # Errors
+    ///
+    /// [`SqlError::InvalidRuleFile`] when `json` is not a rule file; [`SqlError::InvalidRulePattern`] when a rule has an
+    /// invalid regular expression.
     pub fn from_json(file_id: &str, json: &str, origin: &Path) -> Result<Self, SqlError> {
         let file: RuleFile =
             serde_json::from_str(json).map_err(|source| SqlError::InvalidRuleFile {
@@ -42,6 +48,10 @@ impl RuleSet {
 
     /// Loads **every** `*.json` file of a directory in file-name order. A missing
     /// directory yields an empty rule set.
+    ///
+    /// # Errors
+    ///
+    /// [`SqlError::RuleIo`] when the directory or a file cannot be read; otherwise as [`RuleSet::from_json`] for each file.
     pub fn from_dir(dir: &Path) -> Result<Self, SqlError> {
         if !dir.is_dir() {
             return Ok(Self::empty());
@@ -76,14 +86,17 @@ impl RuleSet {
         Ok(set)
     }
 
+    /// The rules in application order.
     pub fn rules(&self) -> &[RewriteRule] {
         &self.rules
     }
 
+    /// The number of rules.
     pub fn len(&self) -> usize {
         self.rules.len()
     }
 
+    /// Whether there are no rules.
     pub fn is_empty(&self) -> bool {
         self.rules.is_empty()
     }

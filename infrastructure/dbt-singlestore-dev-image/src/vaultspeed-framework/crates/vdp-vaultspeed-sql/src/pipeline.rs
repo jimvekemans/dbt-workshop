@@ -21,6 +21,7 @@ pub struct ArtifactPipeline {
 }
 
 impl ArtifactPipeline {
+    /// Creates a pipeline from its three stages: the splitter, the preprocessors (in order) and the rewriter.
     pub fn new(
         splitter: Arc<dyn StatementSplitter>,
         preprocessors: Vec<Arc<dyn SqlPreprocessor>>,
@@ -50,6 +51,10 @@ impl ArtifactPipeline {
     /// The fingerprint of the raw (`VaultSpeed`) text drives decisions; classification
     /// uses the effective text because rewrite rules change the real target objects
     /// (`ami_inc.x` → `edw_inc.ami_x`).
+    ///
+    /// # Errors
+    ///
+    /// [`SqlError::UnsupportedDirective`] when a raw statement starts with the client directive `DELIMITER` or `SOURCE`, which is not SQL.
     pub fn statements(&self, script: &str) -> Result<Vec<Statement>, SqlError> {
         let mut statements = Vec::new();
         let mut database = self.default_database.clone();

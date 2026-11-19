@@ -4,6 +4,7 @@
 
 use crate::tree::{YNode, YValue};
 
+/// A YAML value: a scalar, a sequence or a mapping that keeps its key order.
 #[derive(Debug, Clone, PartialEq)]
 pub enum Doc {
     /// A scalar; `plain` remembers whether it was written unquoted.
@@ -16,12 +17,14 @@ pub enum Doc {
 }
 
 impl Doc {
+    /// A string scalar, quoted only when YAML would otherwise read it back as something else.
     pub fn str(text: impl Into<String>) -> Self {
         let text = text.into();
         let plain = !needs_quotes(&text);
         Self::Scalar { text, plain }
     }
 
+    /// A mapping with `entries` in the given order.
     pub fn map(entries: Vec<(&str, Self)>) -> Self {
         Self::Map(
             entries
@@ -31,6 +34,7 @@ impl Doc {
         )
     }
 
+    /// The text of a scalar, `None` for a sequence or a mapping.
     pub fn as_str(&self) -> Option<&str> {
         match self {
             Self::Scalar { text, .. } => Some(text),
@@ -38,6 +42,7 @@ impl Doc {
         }
     }
 
+    /// The value of `key` in a mapping, `None` for another value or a missing key.
     pub fn get(&self, key: &str) -> Option<&Self> {
         match self {
             Self::Map(entries) => entries.iter().find(|(k, _)| k == key).map(|(_, v)| v),
@@ -45,6 +50,7 @@ impl Doc {
         }
     }
 
+    /// Like [`Doc::get`], mutable.
     pub fn get_mut(&mut self, key: &str) -> Option<&mut Self> {
         match self {
             Self::Map(entries) => entries.iter_mut().find(|(k, _)| k == key).map(|(_, v)| v),
@@ -62,6 +68,7 @@ impl Doc {
         }
     }
 
+    /// The items of a sequence, `None` for another value.
     pub fn items_mut(&mut self) -> Option<&mut Vec<Self>> {
         match self {
             Self::Seq(items) => Some(items),
@@ -75,6 +82,10 @@ impl Doc {
     }
 
     /// Converts a parsed tree. Aliases are not supported in files the toolkit regenerates.
+    ///
+    /// # Errors
+    ///
+    /// A message naming the line when the tree has an alias, or a mapping key that is not a scalar.
     pub fn from_node(node: &YNode) -> Result<Self, String> {
         Ok(match &node.value {
             YValue::Scalar { text, plain, .. } => Self::Scalar {

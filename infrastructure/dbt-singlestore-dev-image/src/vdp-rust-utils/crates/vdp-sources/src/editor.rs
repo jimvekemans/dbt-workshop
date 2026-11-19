@@ -17,6 +17,7 @@ pub struct TableEntry {
 }
 
 impl TableEntry {
+    /// The table as a document: its name and, with `include_columns` and when it has columns, the column names.
     pub fn to_doc(&self, include_columns: bool) -> Doc {
         let mut entries = vec![("name", Doc::str(self.name.clone()))];
         if include_columns && !self.columns.is_empty() {
@@ -42,13 +43,26 @@ fn scalar(text: &str) -> String {
     }
 }
 
-/// `text` with `entry` added to the tables of source `source`.
-pub fn insert_table(
-    text: &str,
-    source: &str,
-    entry: &TableEntry,
-    include_columns: bool,
-) -> Result<String, String> {
+/// Inputs for [`insert_table`].
+#[derive(Debug, Clone, Copy)]
+pub struct InsertTable<'a> {
+    pub source: &'a str,
+    pub entry: &'a TableEntry,
+    pub include_columns: bool,
+}
+
+/// `text` with `insert.entry` added to the tables of source `insert.source`.
+///
+/// # Errors
+///
+/// A message when `text` is not parseable YAML or is empty, has no `sources:` entry called `insert.source`, that entry has
+/// no `tables:` list (add the first table by hand), or the layout of the first table cannot be located to copy it.
+pub fn insert_table(text: &str, insert: InsertTable<'_>) -> Result<String, String> {
+    let InsertTable {
+        source,
+        entry,
+        include_columns,
+    } = insert;
     let root = tree::parse(text)?.ok_or("the file is empty")?;
     let tables = find_tables(&root, source)?;
     let items = tables.items();
@@ -263,9 +277,11 @@ sources:
     fn inserts_after_the_last_table_with_the_files_own_indentation() {
         let out = insert_table(
             HAND_WRITTEN,
-            "tpch_raw",
-            &entry("new_t", &["id", "yes"]),
-            true,
+            InsertTable {
+                source: "tpch_raw",
+                entry: &entry("new_t", &["id", "yes"]),
+                include_columns: true,
+            },
         )
         .unwrap();
         let expected = HAND_WRITTEN.replace(
@@ -277,7 +293,15 @@ sources:
 
     #[test]
     fn follows_unusual_indentation() {
-        let out = insert_table(HAND_WRITTEN, "other", &entry("y", &[]), false).unwrap();
+        let out = insert_table(
+            HAND_WRITTEN,
+            InsertTable {
+                source: "other",
+                entry: &entry("y", &[]),
+                include_columns: false,
+            },
+        )
+        .unwrap();
         // `y` is a YAML 1.1 boolean, so it is quoted.
         assert!(
             out.ends_with("    -   name: x\n    -   name: 'y'\n"),
@@ -289,17 +313,42 @@ sources:
     fn refuses_what_it_cannot_edit_safely() {
         let flow = "sources:\n  - name: s\n    tables: [{name: a}]\n";
         assert!(
-            insert_table(flow, "s", &entry("b", &[]), false)
-                .unwrap_err()
-                .contains("flow")
+            insert_table(
+                flow,
+                InsertTable {
+                    source: "s",
+                    entry: &entry("b", &[]),
+                    include_columns: false,
+                },
+            )
+            .unwrap_err()
+            .contains("flow")
         );
-        assert!(insert_table(HAND_WRITTEN, "nope", &entry("b", &[]), false).is_err());
+        assert!(
+            insert_table(
+                HAND_WRITTEN,
+                InsertTable {
+                    source: "nope",
+                    entry: &entry("b", &[]),
+                    include_columns: false,
+                },
+            )
+            .is_err()
+        );
     }
 
     #[test]
     fn handles_a_file_without_final_newline() {
         let text = "sources:\n  - name: s\n    tables:\n      - name: a";
-        let out = insert_table(text, "s", &entry("b", &[]), false).unwrap();
+        let out = insert_table(
+            text,
+            InsertTable {
+                source: "s",
+                entry: &entry("b", &[]),
+                include_columns: false,
+            },
+        )
+        .unwrap();
         assert_eq!(
             out,
             "sources:\n  - name: s\n    tables:\n      - name: a\n      - name: b\n"

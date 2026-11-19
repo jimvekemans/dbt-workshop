@@ -76,6 +76,7 @@ fn normalized(text: &str) -> String {
 }
 
 impl SourcesSettings {
+    /// The name of the config section these settings are read from (`[sources]`).
     pub const SECTION: &'static str = "sources";
 
     /// The source a physical database is written as: `dev_landing` is `landing` with database

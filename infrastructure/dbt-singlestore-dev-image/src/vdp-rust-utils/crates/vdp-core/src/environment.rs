@@ -10,8 +10,13 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use crate::CoreError;
 
 /// A deployment environment: the built-in ones (`LDV`, `ABT`, `CBT`, `PRD`, always known) or any other name a project
-/// configures under `[environments.<name>]` (`dev`, `val`, `prd` in the dbt workshop). Which names are valid is
-/// the configuration's business ([`crate::Config::environment_named`]); this type only carries the name.
+/// configures under `[environments.<name>]`. Which names are valid is the configuration's business
+/// ([`crate::Config::environment_named`]); this type only carries the name.
+///
+/// The short names `dev`, `val` and `prd` are aliases of the built-ins `LDV`, `ABT` and `PRD` (see
+/// [`Environment::ALIASES`]): [`Environment::named`] resolves them, so `--env dev`, `$DBT_DEPLOY_TARGET=dev`, an
+/// `[environments.dev]` section and `default_environment = "dev"` all mean `LDV`. [`Environment::short_name`] is the
+/// way back.
 ///
 /// The name is interned, so the type stays `Copy` like the enum it replaced.
 #[derive(Clone, Copy)]
@@ -21,13 +26,22 @@ pub struct Environment(&'static str);
 static INTERNED: Mutex<BTreeSet<&'static str>> = Mutex::new(BTreeSet::new());
 
 impl Environment {
+    /// The LDV environment.
     pub const LDV: Self = Self("LDV");
+    /// The ABT environment.
     pub const ABT: Self = Self("ABT");
+    /// The CBT environment.
     pub const CBT: Self = Self("CBT");
+    /// The PRD environment.
     pub const PRD: Self = Self("PRD");
 
     /// The built-in environments, lowest first. The built-in configuration knows these four.
     pub const ALL: [Self; 4] = [Self::LDV, Self::ABT, Self::CBT, Self::PRD];
+
+    /// Short names of built-in environments, as the dbt workshop calls them: `dev` is `LDV`, `val` is `ABT` and `prd`
+    /// is `PRD` (`CBT` has none). Matched case-insensitively, like the built-in names themselves.
+    pub const ALIASES: [(&'static str, Self); 3] =
+        [("dev", Self::LDV), ("val", Self::ABT), ("prd", Self::PRD)];
 
     /// `LDV`, `ABT`, `CBT`, `PRD`, or a configured name as written in the configuration.
     pub const fn as_str(self) -> &'static str {
@@ -39,19 +53,45 @@ impl Environment {
         self.0.to_ascii_lowercase()
     }
 
+    /// The short name of the environment: `dev` for `LDV`, `val` for `ABT`, `prd` for `PRD` (the inverse of
+    /// [`Environment::ALIASES`]), and the lower-case name for every other one (`cbt`, `qa-1`). The `{env_short}`
+    /// placeholder of the configuration renders it, where `{env}` renders [`Environment::lower`] (`ldv`).
+    pub fn short_name(self) -> String {
+        Self::ALIASES
+            .iter()
+            .find(|(_, env)| *env == self)
+            .map_or_else(|| self.lower(), |(alias, _)| (*alias).to_owned())
+    }
+
+    /// The built-in environment `name` stands for: a built-in name or one of the [`Environment::ALIASES`], matched
+    /// case-insensitively after trimming. `None` for any other name.
+    pub fn built_in(name: &str) -> Option<Self> {
+        let name = name.trim();
+        Self::ALL
+            .into_iter()
+            .find(|e| e.0.eq_ignore_ascii_case(name))
+            .or_else(|| {
+                Self::ALIASES
+                    .iter()
+                    .find(|(alias, _)| alias.eq_ignore_ascii_case(name))
+                    .map(|(_, env)| *env)
+            })
+    }
+
     /// One of the four built-in environments.
     pub fn is_built_in(self) -> bool {
         Self::ALL.contains(&self)
     }
 
-    /// A name as given: a built-in matched case-insensitively (`prd` is `PRD`), anything else kept as written.
-    /// Names are letters, digits, `_` and `-`.
+    /// A name as given: a built-in or one of its [`Environment::ALIASES`] matched case-insensitively (`prd` is `PRD`,
+    /// `dev` is `LDV`, `val` is `ABT`), anything else kept as written. Names are letters, digits, `_` and `-`.
+    ///
+    /// # Errors
+    ///
+    /// [`CoreError::UnknownEnvironment`] when `value` is empty or has a character other than letters, digits, `_` and `-`.
     pub fn named(value: &str) -> Result<Self, CoreError> {
         let value = value.trim();
-        if let Some(env) = Self::ALL
-            .into_iter()
-            .find(|e| e.0.eq_ignore_ascii_case(value))
-        {
+        if let Some(env) = Self::built_in(value) {
             return Ok(env);
         }
         if value.is_empty()
@@ -153,6 +193,8 @@ impl<'de> Deserialize<'de> for Environment {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::BTreeMap;
+
     use super::*;
 
     #[test]
@@ -161,6 +203,49 @@ mod tests {
         assert_eq!(" PRD ".parse::<Environment>().unwrap(), Environment::PRD);
         assert_eq!(Environment::CBT.lower(), "cbt");
         assert!(Environment::CBT.is_built_in());
+    }
+
+    #[test]
+    fn dev_val_prd_are_aliases_of_the_built_ins() {
+        for dev in ["dev", "DEV", " Dev "] {
+            assert_eq!(Environment::named(dev).unwrap(), Environment::LDV, "{dev}");
+        }
+        for val in ["val", "VAL", " Val "] {
+            assert_eq!(Environment::named(val).unwrap(), Environment::ABT, "{val}");
+        }
+        for prd in ["prd", "Prd", " PRD "] {
+            assert_eq!(Environment::named(prd).unwrap(), Environment::PRD, "{prd}");
+        }
+        // Resolved, not kept as written: the alias leaves no trace in the name.
+        assert_eq!(Environment::named("dev").unwrap().as_str(), "LDV");
+        assert_eq!("val".parse::<Environment>().unwrap(), Environment::ABT);
+        // CBT has no alias, and other names stay custom.
+        assert_eq!(Environment::named("cbt").unwrap(), Environment::CBT);
+        let custom = Environment::named("qa-1").unwrap();
+        assert_eq!(custom.as_str(), "qa-1");
+        assert!(!custom.is_built_in());
+        assert_eq!(
+            Environment::named("development").unwrap().as_str(),
+            "development"
+        );
+        assert_eq!(Environment::built_in("xyz"), None);
+        assert_eq!(Environment::built_in(" DEV "), Some(Environment::LDV));
+        // Deserialisation goes through `named`.
+        let holder: BTreeMap<String, Environment> = toml::from_str("env = \"dev\"").unwrap();
+        assert_eq!(holder["env"], Environment::LDV);
+    }
+
+    #[test]
+    fn short_names_are_the_inverse_of_the_aliases() {
+        assert_eq!(Environment::LDV.short_name(), "dev");
+        assert_eq!(Environment::ABT.short_name(), "val");
+        assert_eq!(Environment::PRD.short_name(), "prd");
+        assert_eq!(Environment::CBT.short_name(), "cbt");
+        assert_eq!(Environment::named("Qa-1").unwrap().short_name(), "qa-1");
+        for (alias, env) in Environment::ALIASES {
+            assert_eq!(Environment::named(&env.short_name()).unwrap(), env);
+            assert_eq!(env.short_name(), alias);
+        }
     }
 
     #[test]

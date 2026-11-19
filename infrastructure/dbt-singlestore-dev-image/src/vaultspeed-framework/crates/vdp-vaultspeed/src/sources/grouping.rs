@@ -5,6 +5,7 @@ use vdp_vaultspeed_domain::Statement;
 
 /// Partitions the statements of one file into execution units, preserving order.
 pub trait GroupingStrategy: Send + Sync + Debug {
+    /// Splits `statements` into units, in order. A unit is decided, executed and recorded as a whole.
     fn group(&self, statements: Vec<Statement>) -> Vec<Vec<Statement>>;
 }
 

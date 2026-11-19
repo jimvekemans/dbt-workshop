@@ -2,6 +2,7 @@ use std::fmt::Debug;
 
 /// Decides the published file name of a DAG.
 pub trait DagNamer: Send + Sync + Debug {
+    /// The file name to publish the DAG `source_name` under.
     fn target_name(&self, source_name: &str) -> String;
 }
 
