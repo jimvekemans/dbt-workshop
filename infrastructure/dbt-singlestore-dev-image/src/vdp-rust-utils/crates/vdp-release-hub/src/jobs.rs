@@ -19,7 +19,7 @@ pub(crate) fn now_ms() -> i64 {
         .map_or(0, |d| i64::try_from(d.as_millis()).unwrap_or(i64::MAX))
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "ts", derive(ts_rs::TS))]
 #[serde(rename_all = "snake_case")]
 pub enum JobKind {
@@ -30,14 +30,9 @@ pub enum JobKind {
     Patch,
     Promotion,
     Repair,
-    /// VaultSpeed: build or extend a release branch.
-    VsRelease,
-    /// VaultSpeed: merge into an environment.
-    VsMerge,
-    /// VaultSpeed: a direct fix.
-    VsCommit,
-    /// VaultSpeed: a branch back to an earlier commit.
-    VsReset,
+    /// A job of a hub extension, under the extension's own name for it (e.g. `vs_release`).
+    #[serde(untagged)]
+    Other(String),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -94,19 +89,15 @@ pub enum JobResult {
     Promotion {
         promoted: Promoted,
     },
-    VsRelease {
-        outcome: vdp_vaultspeed_release::flows::BuildOutcome,
-    },
-    VsMerge {
-        outcome: vdp_vaultspeed_release::flows::MergeOutcome,
-        plan: Option<vdp_vaultspeed_release::preview::PlanPreview>,
-    },
-    VsCommit {
-        outcome: vdp_vaultspeed_release::flows::CommitOutcome,
-    },
-    VsReset {
-        outcome: vdp_vaultspeed_release::flows::ResetOutcome,
-    },
+    /// What a job of a hub extension produced: its own document, which carries its own `type`.
+    #[serde(untagged)]
+    Extension(
+        #[cfg_attr(
+            feature = "ts",
+            ts(type = "{ type: string } & { [key: string]: unknown }")
+        )]
+        serde_json::Value,
+    ),
 }
 
 /// A job as the API shows it.

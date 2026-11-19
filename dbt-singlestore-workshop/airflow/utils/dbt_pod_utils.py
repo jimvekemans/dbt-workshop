@@ -24,17 +24,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, Callable
 
-try:  # Airflow 3 (Task SDK)
-    from airflow.sdk import Variable, task
-    from airflow.sdk.exceptions import AirflowException, AirflowSkipException
-
-    _VARIABLE_DEFAULT = "default"
-except ImportError:  # Airflow 2
-    from airflow.decorators import task
-    from airflow.exceptions import AirflowException, AirflowSkipException
-    from airflow.models import Variable
-
-    _VARIABLE_DEFAULT = "default_var"
+from airflow.sdk import Variable, task
+from airflow.sdk.exceptions import AirflowException, AirflowSkipException
 
 from utils import dbt_state_utils
 from utils.dbt_config import (
@@ -71,7 +62,7 @@ SKIP_EXIT_CODE = 99
 
 def get_variable(key: str, default: Any = None) -> Any:
     """Airflow Variable with a default."""
-    return Variable.get(key, **{_VARIABLE_DEFAULT: default})
+    return Variable.get(key, default=default)
 
 
 # ---------------------------------------------------------------------------

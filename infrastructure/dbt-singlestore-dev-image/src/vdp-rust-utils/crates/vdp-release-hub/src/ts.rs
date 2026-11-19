@@ -6,8 +6,7 @@ use crate::api::{
     AnalysisCreate, AnalysisSummary, AnalysisView, AnnouncementSend, AnnouncementSent, ApiError,
     CloneRequest, ConflictVersionsView, Defaults, GitIdentity, HealthProblem, PatchCreate,
     PromotionChoice, PromotionCreate, Readiness, ReleaseCreate, RepoStatus, SelectionUpdate,
-    SignIn, Status, VsCommitCreate, VsFile, VsMergeCreate, VsReleaseCreate, VsResetCreate, VsRun,
-    VsSummary,
+    SignIn, Status,
 };
 use crate::jobs::{Job, JobKind, JobResult, JobStatus, JobStep, Level};
 
@@ -17,9 +16,20 @@ macro_rules! declarations {
     };
 }
 
-/// Every API type as `export type ...`, in a stable order.
-#[allow(clippy::too_many_lines, reason = "one list of types")]
+/// One type as `export type ...`, for [`typescript_with`] (what an extension crate contributes).
+pub fn declaration<T: TS + ?Sized>() -> String {
+    let cfg = Config::new().with_large_int("number");
+    format!("export {}", T::decl(&cfg))
+}
+
+/// Every API type of the hub as `export type ...`, in a stable order.
 pub fn typescript() -> String {
+    typescript_with(&[])
+}
+
+/// The hub's types plus the declarations of its extensions (see [`declaration`]), in one module.
+#[allow(clippy::too_many_lines, reason = "one list of types")]
+pub fn typescript_with(extensions: &[String]) -> String {
     let cfg = Config::new().with_large_int("number");
     let cfg = &cfg;
     let decls = declarations![cfg;
@@ -61,28 +71,6 @@ pub fn typescript() -> String {
         vdp_notify::AnnouncementRow,
         vdp_notify::Announcement,
         vdp_notify::Delivery,
-        vdp_vaultspeed_release::zips::ZipInfo,
-        vdp_vaultspeed_release::status::CommitRef,
-        vdp_vaultspeed_release::status::EnvironmentState,
-        vdp_vaultspeed_release::status::ZipEnvironment,
-        vdp_vaultspeed_release::status::TicketSummary,
-        vdp_vaultspeed_release::status::ZipRow,
-        vdp_vaultspeed_release::status::ReleaseState,
-        vdp_vaultspeed_release::status::Status,
-        vdp_vaultspeed_release::flows::MergeStep,
-        vdp_vaultspeed_release::flows::PmlChange,
-        vdp_vaultspeed_release::flows::BuildRequest,
-        vdp_vaultspeed_release::flows::BuildOutcome,
-        vdp_vaultspeed_release::flows::MergeRequest,
-        vdp_vaultspeed_release::flows::LowerWarning,
-        vdp_vaultspeed_release::flows::MergeOutcome,
-        vdp_vaultspeed_release::flows::FileEdit,
-        vdp_vaultspeed_release::flows::CommitRequest,
-        vdp_vaultspeed_release::flows::CommitOutcome,
-        vdp_vaultspeed_release::flows::ResetRequest,
-        vdp_vaultspeed_release::flows::ResetOutcome,
-        vdp_vaultspeed_release::preview::SourcePreview,
-        vdp_vaultspeed_release::preview::PlanPreview,
         RepoStatus,
         HealthProblem,
         crate::auth::BranchRight,
@@ -93,14 +81,7 @@ pub fn typescript() -> String {
         GitIdentity,
         Readiness,
         Defaults,
-        VsSummary,
         Status,
-        VsRun,
-        VsReleaseCreate,
-        VsMergeCreate,
-        VsCommitCreate,
-        VsResetCreate,
-        VsFile,
         CloneRequest,
         AnalysisCreate,
         AnalysisView,
@@ -124,8 +105,8 @@ pub fn typescript() -> String {
         "// Generated from the Rust API types (vdp-release-hub, feature `ts`). Do not edit:\n\
          // VDP_TS_OUT=<this file> cargo test -p vdp-release-hub --features ts export_bindings\n\n",
     );
-    for decl in decls {
-        out.push_str(&decl);
+    for decl in decls.iter().chain(extensions) {
+        out.push_str(decl);
         out.push_str("\n\n");
     }
     out.trim_end().to_owned() + "\n"

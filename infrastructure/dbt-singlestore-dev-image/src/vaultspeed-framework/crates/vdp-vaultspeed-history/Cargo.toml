@@ -1,0 +1,22 @@
+[package]
+name = "vdp-vaultspeed-history"
+description = "VaultSpeed deployments: the local DuckDB object history (every statement per object, lifespans across renames)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+vdp-vaultspeed-domain.workspace = true
+chrono.workspace = true
+duckdb.workspace = true
+serde.workspace = true
+sqlformat.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

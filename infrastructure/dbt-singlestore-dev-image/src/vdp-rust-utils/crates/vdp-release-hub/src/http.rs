@@ -11,11 +11,11 @@ use tiny_http::{Header, Request, Response, Server};
 
 use crate::api::{
     AnalysisCreate, AnnouncementSend, ApiError, CloneRequest, GitIdentity, PatchCreate,
-    PromotionCreate, ReleaseCreate, SelectionUpdate, SignIn, VsCommitCreate, VsMergeCreate,
-    VsReleaseCreate, VsResetCreate,
+    PromotionCreate, ReleaseCreate, SelectionUpdate, SignIn,
 };
 use crate::auth::SESSION_HOURS;
 use crate::error::HubError;
+use crate::extension::ExtensionRequest;
 use crate::hub::Hub;
 use vdp_release::Resolution;
 
@@ -37,7 +37,7 @@ pub struct Reply {
 pub const SESSION_COOKIE: &str = "vdp_session";
 
 impl Reply {
-    fn json<T: Serialize>(status: u16, value: &T) -> Self {
+    pub fn json<T: Serialize>(status: u16, value: &T) -> Self {
         match serde_json::to_vec(value) {
             Ok(body) => Self {
                 status,
@@ -49,7 +49,7 @@ impl Reply {
         }
     }
 
-    fn error(error: &HubError) -> Self {
+    pub fn error(error: &HubError) -> Self {
         Self::json(
             error.status(),
             &ApiError {
@@ -59,7 +59,7 @@ impl Reply {
         )
     }
 
-    fn from<T: Serialize>(status: u16, result: Result<T, HubError>) -> Self {
+    pub fn from<T: Serialize>(status: u16, result: Result<T, HubError>) -> Self {
         match result {
             Ok(value) => Self::json(status, &value),
             Err(error) => Self::error(&error),
@@ -101,14 +101,15 @@ fn percent_decode(text: &str, query: bool) -> String {
     String::from_utf8_lossy(&out).into_owned()
 }
 
-fn query_param(query: &str, name: &str) -> Option<String> {
+/// A query parameter, decoded.
+pub(crate) fn query_param(query: &str, name: &str) -> Option<String> {
     query.split('&').find_map(|pair| {
         let (key, value) = pair.split_once('=').unwrap_or((pair, ""));
         (percent_decode(key, true) == name).then(|| percent_decode(value, true))
     })
 }
 
-fn parse<T: DeserializeOwned>(body: &[u8]) -> Result<T, HubError> {
+pub(crate) fn parse_body<T: DeserializeOwned>(body: &[u8]) -> Result<T, HubError> {
     let body = if body.iter().all(u8::is_ascii_whitespace) {
         b"{}".as_slice()
     } else {
@@ -117,7 +118,6 @@ fn parse<T: DeserializeOwned>(body: &[u8]) -> Result<T, HubError> {
     serde_json::from_slice(body).map_err(|e| HubError::BadRequest(format!("request body: {e}")))
 }
 
-/// Routes one API request. `path` is below [`API`], undecoded; `query` without the `?`.
 /// Routes one API request. `path` is below [`API`], undecoded; `query` without the `?`; `session` the session
 /// cookie. Everything but `/status` and `/session` needs a sign-in (with GitLab sign-in on); what changes the
 /// clone or pushes needs release rights.
@@ -144,23 +144,34 @@ pub fn route(
     if !public && let Err(error) = hub.actor(session, false) {
         return Reply::error(&error);
     }
-    if let ["vaultspeed", rest @ ..] = segments.as_slice() {
-        return vaultspeed_route(hub, method, rest, query, body, session);
+    if let [first, rest @ ..] = segments.as_slice()
+        && let Some(extension) = hub.extension(first)
+    {
+        return extension.handle(&ExtensionRequest {
+            method,
+            segments: rest,
+            query,
+            body,
+            session,
+            host: &hub.host_of(extension.as_ref()),
+        });
     }
     let writer = || hub.actor(session, true);
     match (method, segments.as_slice()) {
         ("GET", ["status"]) => Reply::json(200, &hub.status(session)),
-        ("POST", ["session"]) => match parse::<SignIn>(body).and_then(|s| hub.sign_in(&s.token)) {
-            Ok((id, user)) => {
-                let mut reply = Reply::json(200, &user);
-                reply.set_cookie = Some(format!(
-                    "{SESSION_COOKIE}={id}; HttpOnly; SameSite=Strict; Path=/; Max-Age={}",
-                    SESSION_HOURS * 3600
-                ));
-                reply
+        ("POST", ["session"]) => {
+            match parse_body::<SignIn>(body).and_then(|s| hub.sign_in(&s.token)) {
+                Ok((id, user)) => {
+                    let mut reply = Reply::json(200, &user);
+                    reply.set_cookie = Some(format!(
+                        "{SESSION_COOKIE}={id}; HttpOnly; SameSite=Strict; Path=/; Max-Age={}",
+                        SESSION_HOURS * 3600
+                    ));
+                    reply
+                }
+                Err(error) => Reply::error(&error),
             }
-            Err(error) => Reply::error(&error),
-        },
+        }
         ("GET", ["session"]) => match hub.session_user(session) {
             Some(user) => Reply::json(200, &user),
             None => Reply::error(&HubError::Unauthorized("not signed in".into())),
@@ -178,17 +189,18 @@ pub fn route(
         }
         ("PUT", ["identity"]) => Reply::from(
             200,
-            parse::<GitIdentity>(body).and_then(|i| hub.set_identity(&i)),
+            parse_body::<GitIdentity>(body).and_then(|i| hub.set_identity(&i)),
         ),
         ("POST", ["repo", "clone"]) => Reply::from(
             202,
-            writer().and_then(|_| parse::<CloneRequest>(body).and_then(|r| hub.clone_repo(&r))),
+            writer()
+                .and_then(|_| parse_body::<CloneRequest>(body).and_then(|r| hub.clone_repo(&r))),
         ),
         ("POST", ["repo", "sync"]) => Reply::from(202, hub.sync()),
         ("POST", ["repo", "repair"]) => Reply::from(202, writer().and_then(|_| hub.repair())),
         ("POST", ["repo", "reclone"]) => Reply::from(
             202,
-            writer().and_then(|_| parse::<CloneRequest>(body).and_then(|r| hub.reclone(&r))),
+            writer().and_then(|_| parse_body::<CloneRequest>(body).and_then(|r| hub.reclone(&r))),
         ),
         ("GET", ["release-branches"]) => Reply::from(200, hub.release_branches()),
         // Branch names contain slashes: /release-branches/release/2026_DROP24/promotion.
@@ -217,12 +229,12 @@ pub fn route(
         ("GET", ["analyses"]) => Reply::json(200, &hub.analyses()),
         ("POST", ["analyses"]) => Reply::from(
             202,
-            parse::<AnalysisCreate>(body).and_then(|c| hub.create_analysis(&c)),
+            parse_body::<AnalysisCreate>(body).and_then(|c| hub.create_analysis(&c)),
         ),
         ("GET", ["analyses", id]) => Reply::from(200, hub.analysis(id)),
         ("PUT", ["analyses", id, "selection"]) => Reply::from(
             200,
-            parse::<SelectionUpdate>(body).and_then(|s| hub.set_selection(id, &s)),
+            parse_body::<SelectionUpdate>(body).and_then(|s| hub.set_selection(id, &s)),
         ),
         ("GET", ["analyses", id, "announcement"]) => Reply::from(
             200,
@@ -231,30 +243,30 @@ pub fn route(
         ("POST", ["releases"]) => Reply::from(
             202,
             writer().and_then(|actor| {
-                parse::<ReleaseCreate>(body).and_then(|c| hub.create_release(&c, actor))
+                parse_body::<ReleaseCreate>(body).and_then(|c| hub.create_release(&c, actor))
             }),
         ),
         ("POST", ["patches"]) => Reply::from(
             202,
             writer().and_then(|actor| {
-                parse::<PatchCreate>(body).and_then(|c| hub.create_patch(&c, actor))
+                parse_body::<PatchCreate>(body).and_then(|c| hub.create_patch(&c, actor))
             }),
         ),
         ("POST", ["promotions"]) => Reply::from(
             202,
             writer().and_then(|actor| {
-                parse::<PromotionCreate>(body).and_then(|c| hub.create_promotion(&c, actor))
+                parse_body::<PromotionCreate>(body).and_then(|c| hub.create_promotion(&c, actor))
             }),
         ),
         ("POST", ["announcements"]) => Reply::from(
             200,
-            parse::<AnnouncementSend>(body).and_then(|s| hub.send_announcement(&s)),
+            parse_body::<AnnouncementSend>(body).and_then(|s| hub.send_announcement(&s)),
         ),
         ("GET", ["jobs"]) => Reply::json(200, &hub.jobs()),
         ("POST", ["jobs", id, "resolution"]) => Reply::from(
             200,
             writer().and_then(|actor| {
-                parse::<Resolution>(body)
+                parse_body::<Resolution>(body)
                     .and_then(|r| hub.resolve(id, r, &actor).and_then(|()| hub.job(id, 0)))
             }),
         ),
@@ -269,127 +281,6 @@ pub fn route(
             Reply::from(200, hub.job(id, after))
         }
         _ => Reply::error(&HubError::NotFound(format!("{method} {API}{path}"))),
-    }
-}
-
-/// `/vaultspeed/...`: the framework repository. Reading needs a sign-in; each write needs the GitLab right on the
-/// branch it changes (push, or force push for resets and recreated releases).
-#[allow(clippy::too_many_lines, reason = "one route table")]
-fn vaultspeed_route(
-    hub: &Arc<Hub>,
-    method: &str,
-    segments: &[&str],
-    query: &str,
-    body: &[u8],
-    session: Option<&str>,
-) -> Reply {
-    use crate::vaultspeed::Need;
-    let vs = match hub.vaultspeed() {
-        Ok(vs) => Arc::clone(vs),
-        Err(error) => return Reply::error(&error),
-    };
-    let param = |name: &str| query_param(query, name).unwrap_or_default();
-    // Changing the clone itself (clone, repair, decisions on a waiting job): any push right in the repository.
-    let maintainer = || {
-        let main = vs.rules().settings.main.clone();
-        hub.vaultspeed_actor(session, &main, Need::Push)
-            .or_else(|first| {
-                vs.rules()
-                    .environments()
-                    .iter()
-                    .find_map(|env| hub.vaultspeed_actor(session, env, Need::Push).ok())
-                    .ok_or(first)
-            })
-    };
-    match (method, segments) {
-        ("GET", ["status"]) => Reply::from(200, vs.status(param("jira") == "refresh")),
-        ("POST", ["repo", "clone"]) => Reply::from(
-            202,
-            maintainer().and_then(|_| parse::<CloneRequest>(body).and_then(|r| vs.clone_repo(&r))),
-        ),
-        ("POST", ["repo", "sync"]) => Reply::from(202, vs.sync()),
-        ("POST", ["repo", "repair"]) => Reply::from(202, maintainer().and_then(|_| vs.repair())),
-        ("POST", ["repo", "reclone"]) => Reply::from(
-            202,
-            maintainer().and_then(|_| parse::<CloneRequest>(body).and_then(|r| vs.reclone(&r))),
-        ),
-        ("GET", ["pipeline"]) => Reply::from(200, hub.vaultspeed_pipeline(session, &param("sha"))),
-        ("GET", ["file"]) => Reply::from(200, vs.file(&param("branch"), &param("path"))),
-        ("GET", ["changes"]) => Reply::from(200, vs.changes(&param("from"), &param("to"))),
-        ("GET", ["changes", "file"]) => Reply::from(
-            200,
-            vs.change_file(
-                &param("from"),
-                &param("to"),
-                &param("path"),
-                query_param(query, "entry").as_deref(),
-            ),
-        ),
-        ("GET", ["tree"]) => Reply::from(200, vs.tree(&param("branch"), &param("dir"))),
-        ("GET", ["history"]) => Reply::from(
-            200,
-            vs.history(&param("branch"), param("limit").parse().unwrap_or(30)),
-        ),
-        ("POST", ["releases"]) => Reply::from(
-            202,
-            parse::<VsReleaseCreate>(body).and_then(|create| {
-                let branch = vs
-                    .rules()
-                    .release_branch(&create.request.drop)
-                    .map_err(|e| HubError::BadRequest(e.to_string()))?;
-                let need = if create.request.recreate {
-                    Need::Force
-                } else {
-                    Need::Push
-                };
-                let actor = hub.vaultspeed_actor(session, &branch, need)?;
-                vs.create_release(&create, actor)
-            }),
-        ),
-        ("POST", ["merges"]) => Reply::from(
-            202,
-            parse::<VsMergeCreate>(body).and_then(|create| {
-                let actor =
-                    hub.vaultspeed_actor(session, &create.request.environment, Need::Push)?;
-                vs.create_merge(&create, actor)
-            }),
-        ),
-        ("POST", ["commits"]) => Reply::from(
-            202,
-            parse::<VsCommitCreate>(body).and_then(|create| {
-                let actor = hub.vaultspeed_actor(session, &create.request.branch, Need::Push)?;
-                vs.create_commit(&create, actor)
-            }),
-        ),
-        ("POST", ["resets"]) => Reply::from(
-            202,
-            parse::<VsResetCreate>(body).and_then(|create| {
-                let actor = hub.vaultspeed_actor(session, &create.request.branch, Need::Force)?;
-                vs.create_reset(&create, actor)
-            }),
-        ),
-        ("GET", ["jobs"]) => Reply::json(200, &vs.jobs()),
-        ("POST", ["jobs", id, "resolution"]) => Reply::from(
-            200,
-            maintainer().and_then(|_| {
-                parse::<Resolution>(body)
-                    .and_then(|r| vs.resolve(id, r).and_then(|()| vs.job(id, 0)))
-            }),
-        ),
-        ("GET", ["jobs", id, "conflict"]) => match query_param(query, "path") {
-            Some(path) => Reply::from(200, vs.conflict_versions(id, &path)),
-            None => Reply::error(&HubError::BadRequest("path is required".into())),
-        },
-        ("GET", ["jobs", id]) => {
-            let after = query_param(query, "after")
-                .and_then(|a| a.parse().ok())
-                .unwrap_or(0);
-            Reply::from(200, vs.job(id, after))
-        }
-        _ => Reply::error(&HubError::NotFound(format!(
-            "{method} {API}/vaultspeed/{}",
-            segments.join("/")
-        ))),
     }
 }
 

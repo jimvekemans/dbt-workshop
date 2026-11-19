@@ -1,8 +1,6 @@
 //! Wiring: configuration discovery, the environment, the project and the services every module may ask for.
 
 mod secrets;
-#[cfg(feature = "vaultspeed")]
-pub mod vaultspeed;
 
 use std::io::IsTerminal;
 use std::path::{Path, PathBuf};

@@ -1,0 +1,85 @@
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.96"
+license = "LicenseRef-VDAB-internal"
+publish = false
+
+[workspace.dependencies]
+# the VaultSpeed framework
+vdp-vaultspeed = { path = "crates/vdp-vaultspeed" }
+vdp-vaultspeed-domain = { path = "crates/vdp-vaultspeed-domain" }
+vdp-vaultspeed-sql = { path = "crates/vdp-vaultspeed-sql" }
+vdp-vaultspeed-dags = { path = "crates/vdp-vaultspeed-dags" }
+vdp-vaultspeed-release = { path = "crates/vdp-vaultspeed-release" }
+vdp-vaultspeed-history = { path = "crates/vdp-vaultspeed-history" }
+vdp-vaultspeed-hub = { path = "crates/vdp-vaultspeed-hub" }
+vdp-vaultspeed-cli = { path = "crates/vdp-vaultspeed-cli" }
+
+# vdp-rust-utils (the sibling workspace)
+vdp-core = { path = "../vdp-rust-utils/crates/vdp-core" }
+vdp-secrets = { path = "../vdp-rust-utils/crates/vdp-secrets" }
+vdp-db = { path = "../vdp-rust-utils/crates/vdp-db" }
+vdp-ssh = { path = "../vdp-rust-utils/crates/vdp-ssh" }
+vdp-sql-script = { path = "../vdp-rust-utils/crates/vdp-sql-script" }
+vdp-git = { path = "../vdp-rust-utils/crates/vdp-git" }
+vdp-jira = { path = "../vdp-rust-utils/crates/vdp-jira" }
+vdp-release = { path = "../vdp-rust-utils/crates/vdp-release" }
+vdp-notify = { path = "../vdp-rust-utils/crates/vdp-notify" }
+vdp-release-hub = { path = "../vdp-rust-utils/crates/vdp-release-hub" }
+# the `vdp` command line as a library; the features are chosen where it is used
+vdp-cli = { path = "../vdp-rust-utils/crates/vdp-cli", default-features = false }
+
+# external
+anyhow = "1"
+chrono = { version = "0.4", default-features = false, features = ["clock", "serde", "std"] }
+clap = { version = "4", features = ["derive", "env"] }
+csv = "1"
+# The local object history of VaultSpeed deployments; `bundled` compiles DuckDB (C++) once, no system library.
+duckdb = { version = "1.20000", features = ["bundled"] }
+hex = "0.4"
+regex = "1"
+sha2 = "0.10"
+similar = "3"
+sqlformat = "0.5"
+secrecy = "0.10"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tempfile = "3"
+thiserror = "2"
+ts-rs = { version = "12", default-features = false, features = ["serde-compat"] }
+toml = "1"
+tracing = "0.1"
+# tree-sitter compiles C (the DAG alteration of `vdp-vaultspeed-dags`).
+tree-sitter = "0.27"
+tree-sitter-python = "0.25"
+uuid = { version = "1", features = ["v4"] }
+walkdir = "2"
+zip = { version = "9", default-features = false, features = ["deflate-flate2-zlib-rs"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+unreachable_pub = "warn"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+module_name_repetitions = "allow"
+# Doc prose names products (SingleStore, AppRole, Jira); backticking them hurts readability.
+doc_markdown = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+must_use_candidate = "allow"
+# A two-armed `match` reads better than `if let ... else` for Option/Result handling.
+single_match_else = "allow"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true

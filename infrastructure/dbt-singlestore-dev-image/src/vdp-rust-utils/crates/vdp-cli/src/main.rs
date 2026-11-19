@@ -3,8 +3,8 @@ use std::path::Path;
 use std::process::ExitCode;
 
 use clap::Parser;
-use vdp_cli::args::Cli;
-use vdp_cli::{bootstrap, commands};
+use vdp_cli::args::{Cli, Command};
+use vdp_cli::{bootstrap, commands, external};
 
 fn main() -> ExitCode {
     let mut raw = std::env::args_os();
@@ -19,6 +19,11 @@ fn main() -> ExitCode {
         ));
     }
     let cli = Cli::parse();
+    if let Command::External(external) = &cli.command {
+        // The original arguments, not the parsed ones: whatever the other binary understands passes through.
+        let argv: Vec<OsString> = std::env::args_os().skip(1).collect();
+        return external::run(external, &argv);
+    }
     bootstrap::init_logging(cli.verbose, if cli.is_wrapper() { "warn" } else { "info" });
     exit(commands::run(cli))
 }

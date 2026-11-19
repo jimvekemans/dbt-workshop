@@ -180,7 +180,7 @@ Release flow and job list: `.agents/skills/dbt-release-flow/SKILL.md`.
   OpenShift ships it to a pod that needs python (`DBT_OPENSHIFT_STATE_IMAGE`; the workshop's dbt image has none).
   `python_task(do_xcom_push=True)` makes the function's result the XCom, `skip_if_missing=True` turns its
   FileNotFoundError into a skipped task. The same `dbt_pod_utils.py` and `tests/test_pod_utils.py` are used by the
-  VDAB `dbt-vdp` project (Airflow 2 and 3 imports); project differences live in `dbt_config.py`.
+  VDAB `dbt-vdp` project (Airflow 3.4 as well); project differences live in `dbt_config.py`.
 - dbt runs in sibling containers started through the docker socket, `--user root`, `umask 0000` (artifacts stay writable
   for the `airflow` user). The Airflow image ships a docker CLI 29.x (volume subpaths need CLI >= 26) and
   compose sets `DOCKER_API_VERSION=1.47`.

@@ -1,0 +1,5 @@
+[toolchain]
+# Same channel as /opt/dbt (dbt v2) and the image's build stage.
+channel = "1.96"
+components = ["rustfmt", "clippy"]
+profile = "minimal"

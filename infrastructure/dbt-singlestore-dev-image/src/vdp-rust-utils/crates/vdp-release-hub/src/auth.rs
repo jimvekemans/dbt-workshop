@@ -2,7 +2,7 @@
 //! release; the hub checks that through the GitLab API and then pushes as them (over HTTPS, with their token),
 //! so GitLab itself enforces it. Tokens live in memory only.
 
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 use std::fmt::Write as _;
 use std::io::Read;
 use std::sync::Mutex;
@@ -190,7 +190,7 @@ impl GitLab {
             email: user.email,
             can_release: reasons.is_empty(),
             reasons,
-            vaultspeed: None,
+            rights: BTreeMap::new(),
         })
     }
 }
@@ -341,14 +341,17 @@ pub struct SessionUser {
     pub can_release: bool,
     /// Why not, when not.
     pub reasons: Vec<String>,
-    /// Per branch of the VaultSpeed framework repository (when the hub steers it).
-    pub vaultspeed: Option<Vec<BranchRight>>,
+    /// Per extension (by its URL segment, e.g. `vaultspeed`) and per branch of its repository: what this person
+    /// may push. Serialised next to the other fields, so the UI reads `user.vaultspeed`.
+    #[serde(flatten)]
+    #[cfg_attr(feature = "ts", ts(flatten))]
+    pub rights: BTreeMap<String, Vec<BranchRight>>,
 }
 
 impl SessionUser {
-    /// The VaultSpeed right for `branch` (exact names first, then patterns such as `feature/*`).
-    pub fn vaultspeed_right(&self, branch: &str) -> Option<&BranchRight> {
-        let rights = self.vaultspeed.as_ref()?;
+    /// The right of an extension for `branch` (exact names first, then patterns such as `feature/*`).
+    pub fn right(&self, extension: &str, branch: &str) -> Option<&BranchRight> {
+        let rights = self.rights.get(extension)?;
         rights
             .iter()
             .find(|r| r.branch == branch)

@@ -9,7 +9,7 @@ publish.workspace = true
 
 [features]
 # TypeScript bindings of the API (`cargo test -p vdp-release-hub --features ts export_bindings`).
-ts = ["dep:ts-rs", "vdp-release/ts", "vdp-notify/ts", "vdp-vaultspeed-release/ts"]
+ts = ["dep:ts-rs", "vdp-release/ts", "vdp-notify/ts"]
 
 [dependencies]
 serde.workspace = true
@@ -23,9 +23,6 @@ vdp-git.workspace = true
 vdp-jira.workspace = true
 vdp-notify.workspace = true
 vdp-release.workspace = true
-vdp-vaultspeed.workspace = true
-vdp-vaultspeed-domain.workspace = true
-vdp-vaultspeed-release.workspace = true
 
 [dev-dependencies]
 tempfile.workspace = true

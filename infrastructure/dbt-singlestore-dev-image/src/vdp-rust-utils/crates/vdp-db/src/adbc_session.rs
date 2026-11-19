@@ -229,6 +229,17 @@ impl SqlSession for AdbcSession {
         })
     }
 
+    fn execute_counted(&self, sql: &str) -> Result<Option<i64>, DbError> {
+        self.with_connection(|connection| {
+            let mut statement = connection.new_statement()?;
+            statement.set_sql_query(sql)?;
+            // ADBC reports "unknown" as a negative count (or none at all).
+            statement
+                .execute_update()
+                .map(|rows| rows.filter(|n| *n >= 0))
+        })
+    }
+
     fn execute_with(&self, sql: &str, params: &[SqlValue]) -> Result<(), DbError> {
         self.with_connection(|connection| {
             let mut statement = connection.new_statement()?;

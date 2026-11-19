@@ -27,7 +27,7 @@ pub(super) fn release(ctx: &Context, command: &ReleaseCommand) -> Result<Outcome
         ReleaseCommand::Promote { .. } => promote(ctx, &settings, command),
         ReleaseCommand::Branches => branches(ctx, &settings),
         #[cfg(feature = "release-hub")]
-        ReleaseCommand::Serve { .. } => super::hub::serve(ctx, settings, command),
+        ReleaseCommand::Serve { .. } => super::hub::serve(ctx, command, &super::hub::no_extensions),
     }
 }
 

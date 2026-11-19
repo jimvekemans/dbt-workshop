@@ -23,8 +23,7 @@ vdp jira advance --tickets INTEL-1 INTEL-2
 vdp airflow sync --tag v2026.05.1
 vdp sql run query.sql [--csv-dir out]    # vdp sql export edw_inc.t1
 vdp qa orphan-tables                     # vdp qa view-candidates
-vdp --env LDV vaultspeed plan            # feature `vaultspeed`: what a VaultSpeed deploy would run (docs/vaultspeed)
-vdp --env LDV vaultspeed deploy          # deploy staged PML and generations to SingleStore and Airflow
+vdp --env LDV vaultspeed plan            # runs the separate `vdp-vaultspeed` binary (vaultspeed-framework workspace)
 vdp env show | vdp env doctor
 ```
 
@@ -41,11 +40,11 @@ Every capability is a crate behind a trait and a cargo feature of `vdp-cli`, so 
 | always | `vdp-core` (environments, layered config, project, lazy service context), `vdp-secrets`, `vdp-db`, `vdp-ssh`, `vdp-dbt` | `dbt`, `vdp dbt`, `seeds`, `maintenance`, `env`, `dev` |
 | `sources` (default) | `vdp-sources` | `sources add`, `sources rewrite` |
 | `release` (default) | `vdp-git`, `vdp-jira`, `vdp-release` | `release create\|analyse\|patch\|promote\|branches`, `jira advance` |
-| `release-hub` | + `vdp-notify`, `vdp-release-hub`, `vdp-vaultspeed-release` (and `vaultspeed`) | `release serve`: the HTTP API of the release UI (`release-ui` repository), dbt and VaultSpeed releases |
+| `release-hub` | + `vdp-notify`, `vdp-release-hub` | `release serve`: the HTTP API of the release UI (`release-ui` repository), dbt releases; other repositories plug in as hub extensions (`vdp-vaultspeed` adds the VaultSpeed one) |
 | `airflow` (default) | `vdp-airflow` | `airflow sync` |
 | `sql` (default) | `vdp-sql` | `sql run`, `sql export` |
 | `qa` (default) | `vdp-qa` | `qa orphan-tables`, `qa view-candidates` |
-| `vaultspeed` | `vdp-vaultspeed`, `vdp-vaultspeed-domain`, `vdp-vaultspeed-sql`, `vdp-vaultspeed-dags` | `vaultspeed deploy\|plan\|ledger\|rules\|dags`: the VaultSpeed Automation Framework's deployer ([docs/vaultspeed](docs/vaultspeed/README.md)); not default (tree-sitter compiles C) |
+| external | none (the `vaultspeed-framework` workspace) | `vaultspeed ...`: `vdp` hands the command line to the `vdp-vaultspeed` binary (see below) |
 
 `cargo build -p vdp-cli --no-default-features --features sources` builds a wrapper with only source maintenance.
 
@@ -53,9 +52,22 @@ Modules never name each other's concrete types. The composition root (`crates/vd
 factories in the `vdp_core::Context`, and a command asks for what it needs (`Arc<dyn SecretProvider>`,
 `Arc<dyn SqlSession>`, `Arc<dyn DbtEngine>`, `Arc<dyn Vcs>`, `Arc<dyn IssueTracker>`). Services are created on
 first use, once. A command that only needs git never logs in to Vault. Every module crate is also a plain
-library. All of the VaultSpeed Automation Framework's code lives here too (it was a separate `vsaf` workspace): its
-infrastructure merged into `vdp-secrets`, `vdp-db` and `vdp-ssh`, the rest became the `vdp-vaultspeed*` crates. The
-framework repository keeps only its skeleton and builds `vdp` from a `vdp-rust-utils` submodule.
+library.
+
+**The VaultSpeed Automation Framework** is not in this workspace. Its infrastructure (secrets, database, SSH, SQL
+scripts) lives in `vdp-secrets`, `vdp-db`, `vdp-ssh` and `vdp-sql-script`; the framework itself, the `vdp-vaultspeed*`
+crates, is the sibling workspace `vaultspeed-framework` (see its README). It imports this workspace's crates by path
+and builds the `vdp-vaultspeed` binary: the whole `vdp` command line plus `vaultspeed ...`, and `release serve` with
+the VaultSpeed release extension. `vdp-cli` is a library for that: `args::GlobalArgs` and `args::Command` to embed in
+another command line, `bootstrap::context` (the services), `bootstrap::adbc_driver`, `bootstrap::resolve_secrets_from`
+with `SecretSources` and `ResolvedSecrets`, `commands::run_command` for every command the other binary does not
+handle, and `commands::hub::serve` with a factory for hub extensions (feature `release-hub`).
+
+`vdp vaultspeed ...` (also with global options first: `vdp --env LDV vaultspeed plan`) replaces the `vdp` process with
+`vdp-vaultspeed`, found next to the `vdp` executable, else on `PATH`, and passes the original arguments unchanged. The
+exit code is that of `vdp-vaultspeed`. Without it, `vdp` exits with code 2 and says so. Any other unknown subcommand
+is an error as before. The same `vdp.toml` serves both binaries, so `vdp` does not warn about the `[vaultspeed]` and
+`[vaultspeed_release]` sections.
 
 ## Configuration
 
@@ -89,7 +101,7 @@ own command line, so a `var()` without a default in the selected target is an er
 **Database.** Every connection to SingleStore goes through its ADBC driver, the one dbt v2 uses
 (`libadbc_driver_singlestore.so`, loaded at runtime). vdp finds it like dbt does, in `lib/dbt/` above the dbt
 executable or above vdp itself (the image's `/usr/local/lib/dbt/`), unless `$VDP_ADBC_DRIVER` or `[core].adbc_driver`
-names it; else the library search path. Connection settings come from the dbt profile (or, for VaultSpeed, the
+names it; else the library search path. Connection settings come from the dbt profile (or, for `vdp-vaultspeed`, the
 secrets) and map to the driver as in dbt v2 (`ssl_mode`, `ssl_ca`, client certificates); the password is passed as
 a driver option, never in the URI.
 
@@ -97,7 +109,7 @@ a driver option, never in the URI.
 `.devcontainer/.env` > Vault `vdp/<env>/dbt` > process environment):
 - The Vault TLS certificate is verified with the organisation's CA (Python used `verify=False`).
 - Values are never written to the process environment. Only child processes (dbt) get them.
-- Modules may use their own precedence: VaultSpeed deployments read `[vaultspeed].secrets_precedence` (its own
+- Modules may use their own precedence: `vdp-vaultspeed` deployments read `[vaultspeed].secrets_precedence` (its own
   Vault path, the framework's dotenv file and CA folder); Vault itself (URL, AppRole, CA name) is shared.
 - Without AppRole credentials, Vault is skipped quietly. A failing Vault login warns, unless
   `[secrets].vault_required` is set.
@@ -221,16 +233,13 @@ Each difference is intentional. The test that pins it is named in the last colum
   `live_sources.rs` runs the whole undefined-source scenario on a copy of the project, over the ADBC driver.
 - Against SingleStore through the real ADBC driver (opt-in, `VDP_ADBC_DRIVER`, `VDP_DB_PASSWORD`):
   `vdp-db/tests/live_adbc.rs` (the session contract: bound parameters of every kind, typed results, scripts and
-  their last result set, MySQL error codes, routine bodies) and `vdp-vaultspeed/tests/live_adbc.rs` (the ledger,
-  the executor with the error classifier, the catalog probe).
-- VaultSpeed (`--features vaultspeed`): the framework's golden, decision, edge-case, runner and scenario tests
-  (`crates/vdp-vaultspeed*`), the process tests `vdp-cli/tests/vaultspeed.rs`, and the parity check against the
-  former `vsaf` binary on real data ([docs/vaultspeed](docs/vaultspeed/README.md#verification)).
-- VaultSpeed releases (`crates/vdp-vaultspeed-release/tests/scenario.rs`, `vdp-release-hub/tests/vaultspeed_api.rs`):
-  on a framework repository shaped like the real one, the zip status per environment, building and extending a
-  release with a lease, merges with CI's message, the guards (environment content never leaves its environment,
-  `main` stays the skeleton, zip branches are never written), conflicts, resets with their drop list, the offline
-  plan preview, and rights per branch from a stub GitLab.
+  their last result set, MySQL error codes, routine bodies).
+  The VaultSpeed framework's live tests are in its own workspace.
+- External subcommand (`crates/vdp-cli/tests/external.rs`): `vdp vaultspeed ...` against a stand-in `vdp-vaultspeed`
+  on `PATH`: the original arguments (global options first included) and the exit code pass through; a missing binary
+  is exit code 2 with an explanation; another unknown subcommand is clap's error.
+- The VaultSpeed framework (deployer, planner, object history, VaultSpeed releases and their hub extension) is tested in
+  the `vaultspeed-framework` workspace.
 
 - Release hub (`crates/vdp-release-hub/tests/api.rs`): the whole API over HTTP on real repositories (bare origin,
   developer clone, the hub's own clone made through the API) with a fake Jira and a stub GitLab: clone, analyse

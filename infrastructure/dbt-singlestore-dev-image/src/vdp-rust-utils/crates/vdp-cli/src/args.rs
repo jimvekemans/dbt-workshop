@@ -10,7 +10,8 @@ use vdp_core::Environment;
 #[command(
     name = "vdp",
     version,
-    about = "VDP toolkit for dbt v2 on SingleStore: the dbt wrapper, source maintenance, releases and more"
+    about = "VDP toolkit for dbt v2 on SingleStore: the dbt wrapper, source maintenance, releases and more",
+    after_help = "VaultSpeed deployments (`vdp vaultspeed ...`) are run by the separate `vdp-vaultspeed` binary."
 )]
 pub struct Cli {
     #[command(flatten)]
@@ -107,12 +108,13 @@ pub enum Command {
     /// Inspect the resolved environment.
     #[command(subcommand)]
     Env(EnvCommand),
-    /// VaultSpeed deployments: PML scripts and VaultSpeed generations to SingleStore and Airflow.
-    #[cfg(feature = "vaultspeed")]
-    Vaultspeed(VaultspeedArgs),
     /// Maintenance of the toolkit itself.
     #[command(subcommand)]
     Dev(DevCommand),
+    /// A command of another binary of the toolkit (`vdp vaultspeed ...` runs `vdp-vaultspeed`). Holds the
+    /// subcommand and everything after it; [`crate::external`] hands the original arguments over.
+    #[command(external_subcommand)]
+    External(Vec<OsString>),
 }
 
 #[cfg(feature = "sources")]
@@ -385,113 +387,4 @@ pub fn parse_environment(value: &str) -> Result<Environment, String> {
     value
         .parse()
         .map_err(|e: vdp_core::CoreError| e.to_string())
-}
-
-/// `vdp vaultspeed ...`. The environment is `--env`, else `$TARGET_BRANCH` (set by the framework's CI), else the
-/// usual `$DBT_DEPLOY_TARGET`/default.
-#[cfg(feature = "vaultspeed")]
-#[derive(Debug, Args)]
-pub struct VaultspeedArgs {
-    /// The vaultspeed-automation-framework checkout (default: `[vaultspeed].project_dir`, the current directory).
-    #[arg(long, global = true, env = "VDP_VAULTSPEED_DIR")]
-    pub framework_dir: Option<PathBuf>,
-
-    #[command(subcommand)]
-    pub command: VaultspeedCommand,
-}
-
-#[cfg(feature = "vaultspeed")]
-#[derive(Debug, Subcommand)]
-pub enum VaultspeedCommand {
-    /// Deploy everything staged: PML first, then generations in numeric order.
-    Deploy(VaultspeedRunArgs),
-    /// Show what `deploy` would do, changing nothing (same as `deploy --preview`).
-    Plan(VaultspeedRunArgs),
-    /// Ledger maintenance.
-    #[command(subcommand)]
-    Ledger(VaultspeedLedgerCommand),
-    /// Rewrite-rule tooling.
-    #[command(subcommand)]
-    Rules(VaultspeedRulesCommand),
-    /// DAG tooling.
-    #[command(subcommand)]
-    Dags(VaultspeedDagsCommand),
-}
-
-#[cfg(feature = "vaultspeed")]
-#[derive(Debug, Clone, Args)]
-pub struct VaultspeedRunArgs {
-    /// Use only the JSONL ledger and no database or Vault (implies preview).
-    #[arg(long)]
-    pub offline: bool,
-
-    /// Only these generations (e.g. `1134_FMC 1133_DDL`); staged PML always runs.
-    #[arg(long, num_args = 1..)]
-    pub files: Option<Vec<String>>,
-
-    /// Plan and render everything without changing anything.
-    #[arg(long)]
-    pub preview: bool,
-
-    /// Print every group's decision and every DAG diff.
-    #[arg(long)]
-    pub explain: bool,
-
-    /// Also write the full report (the plan, in preview) to this JSON file.
-    #[arg(long)]
-    pub report_out: Option<PathBuf>,
-
-    /// Also write a JUnit XML report (for GitLab test reports).
-    #[arg(long)]
-    pub junit: Option<PathBuf>,
-}
-
-#[cfg(feature = "vaultspeed")]
-#[derive(Debug, Subcommand)]
-pub enum VaultspeedLedgerCommand {
-    /// Seed the ledger from the legacy `vaultspeed/deployed` files.
-    Import {
-        /// Use only the JSONL ledger and no database or Vault.
-        #[arg(long)]
-        offline: bool,
-        /// Import even when the ledger already has entries.
-        #[arg(long)]
-        force: bool,
-    },
-    /// Summarise the ledger.
-    Stats {
-        /// Use only the JSONL ledger and no database or Vault.
-        #[arg(long)]
-        offline: bool,
-    },
-}
-
-#[cfg(feature = "vaultspeed")]
-#[derive(Debug, Clone, Copy, clap::ValueEnum)]
-pub enum RuleArtifact {
-    Ddl,
-    Etl,
-}
-
-#[cfg(feature = "vaultspeed")]
-#[derive(Debug, Subcommand)]
-pub enum VaultspeedRulesCommand {
-    /// Show how the pipeline splits, rewrites and classifies a SQL file.
-    Test {
-        file: PathBuf,
-        #[arg(long, value_enum, default_value = "ddl")]
-        artifact: RuleArtifact,
-    },
-}
-
-#[cfg(feature = "vaultspeed")]
-#[derive(Debug, Subcommand)]
-pub enum VaultspeedDagsCommand {
-    /// Render the DAGs of an FMC zip, a directory or a `.py` file and print the diffs.
-    Render {
-        path: PathBuf,
-        /// SingleStore host embedded in dataset URIs (defaults to `SINGLESTORE_HOST`).
-        #[arg(long, env = "SINGLESTORE_HOST")]
-        host: Option<String>,
-    },
 }

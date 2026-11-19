@@ -9,65 +9,79 @@ use vdp_dbt::{DbtEngine, Invocation};
 use vdp_jira::{IssueTracker, JiraSettings};
 use vdp_notify::{NotifySettings, SmtpMailer};
 use vdp_release::ReleaseSettings;
-use vdp_release_hub::{GitLab, Hub, HubConfig, HubServer, HubSettings, ServeOptions, Validator};
+use vdp_release_hub::{
+    GitLab, Hub, HubConfig, HubExtension, HubServer, HubSettings, ServeOptions, Validator,
+};
 use vdp_secrets::SecretProvider;
 
 use crate::args::ReleaseCommand;
 
-/// The VaultSpeed side (`[release_hub.vaultspeed]`, `[vaultspeed_release]`, `[vaultspeed]`), when enabled.
-fn vaultspeed_config(
-    ctx: &Context,
-    settings: &HubSettings,
-    sign_in: bool,
-) -> Result<Option<vdp_release_hub::VsConfig>> {
-    let vs = &settings.vaultspeed;
-    if !vs.enabled {
-        return Ok(None);
-    }
-    let gitlab = if sign_in {
-        let mut gitlab = GitLab::from_repo_url(&vs.repo_url).unwrap_or(GitLab {
-            url: String::new(),
-            project: String::new(),
-            push_url: String::new(),
-        });
-        if let Some(url) = non_empty(&vs.gitlab_url).or_else(|| non_empty(&settings.gitlab_url)) {
-            gitlab.url = url;
-        }
-        if let Some(project) = non_empty(&vs.gitlab_project) {
-            gitlab.project = project;
-        }
-        if let Some(push) = non_empty(&vs.push_url) {
-            gitlab.push_url = push;
-        }
-        if gitlab.url.is_empty() || gitlab.project.is_empty() || gitlab.push_url.is_empty() {
-            bail!(
-                "[release_hub.vaultspeed] needs gitlab_url, gitlab_project and push_url (not derivable from {})",
-                vs.repo_url
-            );
-        }
-        Some(gitlab)
-    } else {
-        None
-    };
-    Ok(Some(vdp_release_hub::VsConfig {
-        repo_dir: ctx.cwd().join(&vs.repo_dir),
-        repo_url: vs.repo_url.clone(),
-        gitlab,
-        release: ctx
-            .config()
-            .section(vdp_vaultspeed_release::VsReleaseSettings::SECTION)?,
-        vaultspeed: ctx
-            .config()
-            .section(vdp_vaultspeed::VaultspeedSettings::SECTION)?,
-        keep_jobs: settings.keep_jobs,
-        git_timeout: (settings.git_timeout_secs > 0)
-            .then(|| std::time::Duration::from_secs(settings.git_timeout_secs)),
-        conflict_timeout: std::time::Duration::from_secs(settings.conflict_timeout_secs),
-        state_dir: non_empty(&settings.state_dir).map(|d| PathBuf::from(d).join("vaultspeed")),
-    }))
+/// What an extension factory may use of the hub being started.
+#[derive(Debug)]
+pub struct ExtensionInputs<'a> {
+    /// `[release_hub]`, whose `extensions` table holds the segments' settings (see [`HubSettings::extension`]).
+    pub settings: &'a HubSettings,
+    /// Whether sign-in is on, so the extension must know its GitLab.
+    pub sign_in: bool,
+    /// The Jira client, when Jira is configured.
+    pub tracker: Option<Arc<dyn IssueTracker>>,
 }
 
-fn non_empty(value: &str) -> Option<String> {
+/// Builds the hub extensions of a binary (further repositories next to the dbt one).
+pub type ExtensionFactory<'a> =
+    &'a dyn Fn(&Context, &ExtensionInputs<'_>) -> Result<Vec<Arc<dyn HubExtension>>>;
+
+/// The factory of `vdp`: no extensions. A `[release_hub.<segment>]` table that nothing serves is said, not ignored.
+#[allow(clippy::unnecessary_wraps, reason = "an `ExtensionFactory`")]
+pub fn no_extensions(
+    _: &Context,
+    inputs: &ExtensionInputs<'_>,
+) -> Result<Vec<Arc<dyn HubExtension>>> {
+    for segment in inputs.settings.extensions.keys() {
+        tracing::warn!(
+            "[release_hub.{segment}] is set, but this binary serves no such release extension"
+        );
+    }
+    Ok(Vec::new())
+}
+
+/// `[release_hub].auth`'s GitLab for an extension's own repository: `repo_url` gives the defaults, `gitlab_url`
+/// (else the hub's), `gitlab_project` and `push_url` override. For extension factories; `None` when sign-in is off.
+pub fn extension_gitlab(
+    inputs: &ExtensionInputs<'_>,
+    section: &str,
+    repo_url: &str,
+    gitlab_url: &str,
+    gitlab_project: &str,
+    push_url: &str,
+) -> Result<Option<GitLab>> {
+    if !inputs.sign_in {
+        return Ok(None);
+    }
+    let mut gitlab = GitLab::from_repo_url(repo_url).unwrap_or(GitLab {
+        url: String::new(),
+        project: String::new(),
+        push_url: String::new(),
+    });
+    if let Some(url) = non_empty(gitlab_url).or_else(|| non_empty(&inputs.settings.gitlab_url)) {
+        gitlab.url = url;
+    }
+    if let Some(project) = non_empty(gitlab_project) {
+        gitlab.project = project;
+    }
+    if let Some(push) = non_empty(push_url) {
+        gitlab.push_url = push;
+    }
+    if gitlab.url.is_empty() || gitlab.project.is_empty() || gitlab.push_url.is_empty() {
+        bail!(
+            "{section} needs gitlab_url, gitlab_project and push_url (not derivable from {repo_url})"
+        );
+    }
+    Ok(Some(gitlab))
+}
+
+/// The trimmed value, `None` when it is empty.
+pub fn non_empty(value: &str) -> Option<String> {
     Some(value.trim().to_owned()).filter(|v| !v.is_empty())
 }
 
@@ -137,10 +151,13 @@ fn gitlab(settings: &HubSettings) -> Result<Option<GitLab>> {
     })
 }
 
-pub(super) fn serve(
+/// `vdp release serve`, with the extensions `extensions` builds (`vdp` passes [`no_extensions`]).
+///
+/// `command` must be [`ReleaseCommand::Serve`].
+pub fn serve(
     ctx: &Context,
-    release: ReleaseSettings,
     command: &ReleaseCommand,
+    extensions: ExtensionFactory<'_>,
 ) -> Result<Outcome> {
     let ReleaseCommand::Serve {
         repo_dir,
@@ -153,6 +170,7 @@ pub(super) fn serve(
     else {
         unreachable!("dispatched on Serve")
     };
+    let release: ReleaseSettings = ctx.config().section(ReleaseSettings::SECTION)?;
     let settings: HubSettings = ctx.config().section(HubSettings::SECTION)?;
     let jira: JiraSettings = ctx.config().section(JiraSettings::SECTION)?;
     let notify: NotifySettings = ctx.config().section(NotifySettings::SECTION)?;
@@ -193,6 +211,14 @@ pub(super) fn serve(
         None
     };
     let gitlab = gitlab(&settings)?;
+    let extensions = extensions(
+        ctx,
+        &ExtensionInputs {
+            settings: &settings,
+            sign_in: gitlab.is_some(),
+            tracker: tracker.as_ref().ok().cloned(),
+        },
+    )?;
     let hub = Hub::new(
         HubConfig {
             repo_dir: repo_dir.clone(),
@@ -206,12 +232,12 @@ pub(super) fn serve(
                 .then(|| std::time::Duration::from_secs(settings.git_timeout_secs)),
             conflict_timeout: std::time::Duration::from_secs(settings.conflict_timeout_secs),
             state_dir: non_empty(&settings.state_dir).map(PathBuf::from),
-            vaultspeed: vaultspeed_config(ctx, &settings, gitlab.is_some())?,
             gitlab,
         },
         tracker,
         Arc::new(mailer),
         validator,
+        extensions,
     );
     let server = HubServer::bind(
         &addr,

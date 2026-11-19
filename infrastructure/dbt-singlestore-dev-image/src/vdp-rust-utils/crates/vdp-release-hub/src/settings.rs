@@ -1,8 +1,11 @@
+use std::collections::BTreeMap;
+
+use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 
 /// `[release_hub]`.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields, default)]
+#[serde(default)]
 pub struct HubSettings {
     /// The clone the hub analyses and releases from (a volume in the container).
     pub repo_dir: String,
@@ -33,35 +36,10 @@ pub struct HubSettings {
     pub gitlab_project: String,
     /// Where pushes go. Empty: the project's HTTPS URL.
     pub push_url: String,
-    /// The VaultSpeed framework repository, steered from the same UI.
-    pub vaultspeed: VaultspeedHubSettings,
-}
-
-/// `[release_hub.vaultspeed]`: the vaultspeed-automation-framework repository (its own clone and GitLab project).
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields, default)]
-pub struct VaultspeedHubSettings {
-    /// Offer VaultSpeed releases in the UI.
-    pub enabled: bool,
-    pub repo_dir: String,
-    pub repo_url: String,
-    /// As for dbt: empty means derived from `repo_url`.
-    pub gitlab_url: String,
-    pub gitlab_project: String,
-    pub push_url: String,
-}
-
-impl Default for VaultspeedHubSettings {
-    fn default() -> Self {
-        Self {
-            enabled: true,
-            repo_dir: "/opt/vaultspeed".into(),
-            repo_url: "git@git.example.com:vdp/vaultspeed-automation-framework.git".into(),
-            gitlab_url: String::new(),
-            gitlab_project: String::new(),
-            push_url: String::new(),
-        }
-    }
+    /// The settings of the extensions, by segment (`[release_hub.vaultspeed]`): only the extension knows what
+    /// they mean, see [`HubSettings::extension`].
+    #[serde(flatten)]
+    pub extensions: BTreeMap<String, serde_json::Value>,
 }
 
 impl Default for HubSettings {
@@ -82,11 +60,21 @@ impl Default for HubSettings {
             gitlab_url: String::new(),
             gitlab_project: String::new(),
             push_url: String::new(),
-            vaultspeed: VaultspeedHubSettings::default(),
+            extensions: BTreeMap::new(),
         }
     }
 }
 
 impl HubSettings {
     pub const SECTION: &'static str = "release_hub";
+
+    /// The settings table of one extension (`[release_hub.<name>]`); its defaults when the table is absent.
+    /// Typos in other keys of `[release_hub]` end up here unread, so this refuses a table that is not one.
+    pub fn extension<T: DeserializeOwned + Default>(&self, name: &str) -> Result<T, String> {
+        match self.extensions.get(name) {
+            None => Ok(T::default()),
+            Some(value) => serde_json::from_value(value.clone())
+                .map_err(|e| format!("[{}.{name}]: {e}", Self::SECTION)),
+        }
+    }
 }

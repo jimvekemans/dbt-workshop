@@ -92,112 +92,30 @@ pub struct Status {
     pub smtp: Readiness,
     pub active_job: Option<Job>,
     pub defaults: Defaults,
-    /// The VaultSpeed side, when the hub steers the framework repository.
-    pub vaultspeed: Option<VsSummary>,
+    /// The registered extensions' summaries by segment (`vaultspeed`: the framework repository), serialised next
+    /// to the other fields.
+    #[serde(flatten)]
+    #[cfg_attr(feature = "ts", ts(flatten))]
+    pub extensions: std::collections::BTreeMap<String, ExtensionSummary>,
 }
 
-/// The VaultSpeed side at a glance.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+/// One extension's summary: arbitrary JSON, which the hub only passes on.
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "ts", derive(ts_rs::TS))]
-pub struct VsSummary {
-    pub repo: RepoStatus,
-    pub repo_url: String,
-    pub active_job: Option<Job>,
-    /// Environment branches, lowest first.
-    pub environments: Vec<String>,
-    pub direct_merge_environments: Vec<String>,
-    pub main: String,
-    pub zip_prefix: String,
-    pub release_prefix: String,
-    pub pml_dir: String,
+#[cfg_attr(feature = "ts", ts(type = "unknown"))]
+pub struct ExtensionSummary(pub serde_json::Value);
+
+// By hand: `#[serde(transparent)]` is not understood by the TypeScript derive next to `ts(type)`.
+impl Serialize for ExtensionSummary {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        self.0.serialize(serializer)
+    }
 }
 
-/// How a VaultSpeed run handles conflicts, and whether it only previews.
-#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Deserialize)]
-#[cfg_attr(feature = "ts", derive(ts_rs::TS))]
-#[serde(deny_unknown_fields)]
-pub struct VsRun {
-    #[serde(default)]
-    #[cfg_attr(feature = "ts", ts(optional))]
-    pub dry_run: Option<bool>,
-    #[serde(default)]
-    #[cfg_attr(feature = "ts", ts(optional))]
-    pub on_conflict: Option<OnConflictChoice>,
-    #[serde(default)]
-    #[cfg_attr(feature = "ts", ts(optional))]
-    pub strategy: Option<StrategyChoice>,
-}
-
-/// `POST /vaultspeed/releases`: build or extend `feature/<drop>`. `expect`: the branch head the preview saw
-/// (`null`: it did not exist); ignored in a dry run.
-#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
-#[cfg_attr(feature = "ts", derive(ts_rs::TS))]
-#[serde(deny_unknown_fields)]
-pub struct VsReleaseCreate {
-    pub request: vdp_vaultspeed_release::flows::BuildRequest,
-    #[serde(default)]
-    #[cfg_attr(feature = "ts", ts(optional))]
-    pub expect: Option<String>,
-    #[serde(default)]
-    #[cfg_attr(feature = "ts", ts(optional))]
-    pub run: Option<VsRun>,
-}
-
-/// `POST /vaultspeed/merges`. `expect`: the environment's head the preview saw. `plan`: also plan what CI would
-/// deploy (offline, on the merged tree).
-#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
-#[cfg_attr(feature = "ts", derive(ts_rs::TS))]
-#[serde(deny_unknown_fields)]
-pub struct VsMergeCreate {
-    pub request: vdp_vaultspeed_release::flows::MergeRequest,
-    #[serde(default)]
-    #[cfg_attr(feature = "ts", ts(optional))]
-    pub expect: Option<String>,
-    #[serde(default)]
-    #[cfg_attr(feature = "ts", ts(optional))]
-    pub plan: Option<bool>,
-    #[serde(default)]
-    #[cfg_attr(feature = "ts", ts(optional))]
-    pub run: Option<VsRun>,
-}
-
-/// `POST /vaultspeed/commits`.
-#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
-#[cfg_attr(feature = "ts", derive(ts_rs::TS))]
-#[serde(deny_unknown_fields)]
-pub struct VsCommitCreate {
-    pub request: vdp_vaultspeed_release::flows::CommitRequest,
-    #[serde(default)]
-    #[cfg_attr(feature = "ts", ts(optional))]
-    pub expect: Option<String>,
-    #[serde(default)]
-    #[cfg_attr(feature = "ts", ts(optional))]
-    pub dry_run: Option<bool>,
-}
-
-/// `POST /vaultspeed/resets`.
-#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
-#[cfg_attr(feature = "ts", derive(ts_rs::TS))]
-#[serde(deny_unknown_fields)]
-pub struct VsResetCreate {
-    pub request: vdp_vaultspeed_release::flows::ResetRequest,
-    #[serde(default)]
-    #[cfg_attr(feature = "ts", ts(optional))]
-    pub expect: Option<String>,
-    #[serde(default)]
-    #[cfg_attr(feature = "ts", ts(optional))]
-    pub dry_run: Option<bool>,
-}
-
-/// `GET /vaultspeed/file?branch=&path=`: a file as origin has it.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[cfg_attr(feature = "ts", derive(ts_rs::TS))]
-pub struct VsFile {
-    pub branch: String,
-    pub path: String,
-    /// `None`: the branch has no such file.
-    pub content: Option<String>,
-    pub head: String,
+impl<'de> Deserialize<'de> for ExtensionSummary {
+    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        serde_json::Value::deserialize(deserializer).map(Self)
+    }
 }
 
 /// `POST /repo/clone`.

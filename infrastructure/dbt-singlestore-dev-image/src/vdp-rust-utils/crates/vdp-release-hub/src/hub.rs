@@ -19,11 +19,12 @@ use vdp_release::{
 
 use crate::api::{
     AnalysisCreate, AnalysisSummary, AnalysisView, AnnouncementSend, AnnouncementSent,
-    CloneRequest, ConflictVersionsView, Defaults, GitIdentity, HealthProblem, PatchCreate,
-    PromotionCreate, Readiness, ReleaseCreate, RepoStatus, SelectionUpdate, Status,
+    CloneRequest, ConflictVersionsView, Defaults, ExtensionSummary, GitIdentity, HealthProblem,
+    PatchCreate, PromotionCreate, Readiness, ReleaseCreate, RepoStatus, SelectionUpdate, Status,
 };
 use crate::auth::{GitLab, SessionUser, Sessions};
 use crate::error::HubError;
+use crate::extension::{ExtensionHost, HubExtension, Need};
 use crate::jobs::{Job, JobKind, JobLog, JobResult, Jobs, now_ms};
 
 /// Runs dbt validation in the clone before a release is pushed; `Err` holds the reason.
@@ -47,8 +48,6 @@ pub struct HubConfig {
     pub state_dir: Option<PathBuf>,
     /// Sign-in with GitLab tokens (`None`: no sign-in; commits use the clone's identity, pushes go to origin).
     pub gitlab: Option<GitLab>,
-    /// The VaultSpeed side (`None`: dbt releases only).
-    pub vaultspeed: Option<crate::vaultspeed::VsConfig>,
 }
 
 /// Who a request acts as: the commit identity and where pushes go.
@@ -111,7 +110,7 @@ pub struct Hub {
     sessions: Sessions,
     analyses: Mutex<BTreeMap<u64, Stored>>,
     next_analysis: AtomicU64,
-    vaultspeed: Option<Arc<crate::vaultspeed::VsHub>>,
+    extensions: Vec<Arc<dyn HubExtension>>,
 }
 
 impl std::fmt::Debug for Hub {
@@ -144,18 +143,15 @@ impl Hub {
         tracker: Result<Arc<dyn IssueTracker>, String>,
         mailer: Arc<dyn Mailer>,
         validator: Option<Validator>,
+        extensions: Vec<Arc<dyn HubExtension>>,
     ) -> Arc<Self> {
         let saved: SavedAnalyses = config
             .state_dir
             .as_deref()
             .and_then(|dir| load_json(dir, "analyses.json"))
             .unwrap_or_default();
-        let vaultspeed = config
-            .vaultspeed
-            .clone()
-            .map(|vs| crate::vaultspeed::VsHub::new(vs, tracker.as_ref().ok().cloned()));
         Arc::new(Self {
-            vaultspeed,
+            extensions,
             jobs: Arc::new(Jobs::new(config.keep_jobs, config.state_dir.clone())),
             sessions: Sessions::default(),
             rules: BranchRules::from_settings(&config.release),
@@ -246,121 +242,31 @@ impl Hub {
             return Err(HubError::BadRequest("a token is required".into()));
         }
         let mut user = gitlab.sign_in(token, &self.rules.main, &self.rules.prefix)?;
-        if let Some(vs) = &self.vaultspeed {
-            user.vaultspeed = Some(Self::vaultspeed_rights(vs, gitlab, token));
+        for extension in &self.extensions {
+            user.rights.insert(
+                extension.segment().to_owned(),
+                extension.rights(gitlab, token),
+            );
         }
         let id = self.sessions.create(user.clone(), token.to_owned());
         tracing::info!(user = %user.username, can_release = user.can_release, "signed in");
         Ok((id, user))
     }
 
-    /// Per branch of the framework repository; a GitLab error refuses everything (with the reason).
-    fn vaultspeed_rights(
-        vs: &crate::vaultspeed::VsHub,
-        dbt: &GitLab,
-        token: &str,
-    ) -> Vec<crate::auth::BranchRight> {
-        let samples = vs.rights_samples();
-        let gitlab = vs.config().gitlab.clone().unwrap_or_else(|| dbt.clone());
-        let rights = gitlab
-            .user(token)
-            .and_then(|user| gitlab.rights(token, &user, &samples));
-        match rights {
-            Ok(rights) => rights,
-            Err(error) => samples
-                .into_iter()
-                .map(|(branch, _)| crate::auth::BranchRight {
-                    branch,
-                    push: false,
-                    force: false,
-                    reason: Some(format!("{}: {error}", gitlab.project)),
-                })
-                .collect(),
-        }
+    /// The extension served below `/api/v1/<segment>`, if one is registered.
+    pub fn extension(&self, segment: &str) -> Option<&Arc<dyn HubExtension>> {
+        self.extensions.iter().find(|e| e.segment() == segment)
     }
 
-    /// The VaultSpeed side, or 404 when this hub does not steer it.
-    pub fn vaultspeed(&self) -> Result<&Arc<crate::vaultspeed::VsHub>, HubError> {
-        self.vaultspeed
-            .as_ref()
-            .ok_or_else(|| HubError::NotFound("VaultSpeed releases are not configured".into()))
-    }
-
-    /// Who a VaultSpeed write acts as: signed in, with the GitLab right on `branch` (push, or force push), and
-    /// pushing to the framework project as themselves.
-    pub fn vaultspeed_actor(
-        &self,
-        session: Option<&str>,
-        branch: &str,
-        need: crate::vaultspeed::Need,
-    ) -> Result<Actor, HubError> {
-        let vs = self.vaultspeed()?;
-        let Some(dbt_gitlab) = &self.config.gitlab else {
-            // No sign-in (local use): the dbt clone's identity, pushing to origin.
-            return self.actor(session, false);
-        };
-        let session = session
-            .and_then(|id| self.sessions.get(id))
-            .ok_or_else(|| HubError::Unauthorized("sign in with your GitLab token".into()))?;
-        let rights_branch = vs.rights_branch(branch);
-        let right = session
-            .user
-            .vaultspeed_right(&rights_branch)
-            .cloned()
-            .ok_or_else(|| {
-                HubError::Forbidden(format!("no rights known for {branch}: sign in again"))
-            })?;
-        let allowed = match need {
-            crate::vaultspeed::Need::Push => right.push,
-            crate::vaultspeed::Need::Force => right.force,
-        };
-        if !allowed {
-            return Err(HubError::Forbidden(right.reason.unwrap_or_else(|| {
-                format!(
-                    "you may not {} {branch}",
-                    if need == crate::vaultspeed::Need::Force {
-                        "force-push"
-                    } else {
-                        "push to"
-                    }
-                )
-            })));
+    /// What `extension` may ask of the hub while it handles a request.
+    pub(crate) fn host_of<'a>(
+        &'a self,
+        extension: &'a dyn HubExtension,
+    ) -> impl ExtensionHost + 'a {
+        Host {
+            hub: self,
+            segment: extension.segment(),
         }
-        if session.user.email.is_empty() {
-            return Err(HubError::Forbidden(
-                "your GitLab account has no commit email: set one, commits need it".into(),
-            ));
-        }
-        let gitlab = vs
-            .config()
-            .gitlab
-            .clone()
-            .unwrap_or_else(|| dbt_gitlab.clone());
-        Ok(Actor {
-            identity: Some(session.identity()),
-            push: session.push_target(&gitlab),
-        })
-    }
-
-    /// The CI pipeline for a commit of the framework repository, read with the signed-in person's token.
-    pub fn vaultspeed_pipeline(
-        &self,
-        session: Option<&str>,
-        sha: &str,
-    ) -> Result<Option<crate::auth::Pipeline>, HubError> {
-        let vs = self.vaultspeed()?;
-        let Some(dbt_gitlab) = &self.config.gitlab else {
-            return Ok(None);
-        };
-        let session = session
-            .and_then(|id| self.sessions.get(id))
-            .ok_or_else(|| HubError::Unauthorized("sign in with your GitLab token".into()))?;
-        let gitlab = vs
-            .config()
-            .gitlab
-            .clone()
-            .unwrap_or_else(|| dbt_gitlab.clone());
-        gitlab.pipeline(session.token(), sha)
     }
 
     pub fn session_user(&self, session: Option<&str>) -> Option<SessionUser> {
@@ -498,7 +404,11 @@ impl Hub {
                 ticket_prefix: release.ticket_prefix.clone(),
                 recipients: self.config.default_recipients.clone(),
             },
-            vaultspeed: self.vaultspeed.as_ref().map(|vs| vs.summary()),
+            extensions: self
+                .extensions
+                .iter()
+                .map(|e| (e.segment().to_owned(), ExtensionSummary(e.summary())))
+                .collect(),
         }
     }
 
@@ -1142,7 +1052,7 @@ impl Hub {
 }
 
 /// The clone in `dir`: cloned, origin, HEAD, last fetch and (while no job runs) its health.
-pub(crate) fn repo_status_of(dir: &std::path::Path, busy: bool, protected: &str) -> RepoStatus {
+pub fn repo_status_of(dir: &std::path::Path, busy: bool, protected: &str) -> RepoStatus {
     let git = GitCli::new(dir);
     let shown = dir.display().to_string();
     if !git.is_repository() {
@@ -1223,4 +1133,78 @@ pub(crate) fn health(git: &GitCli, protected: &str) -> Vec<HealthProblem> {
         );
     }
     problems
+}
+
+/// The hub as one extension sees it: rights are looked up under the extension's own segment.
+struct Host<'a> {
+    hub: &'a Hub,
+    segment: &'a str,
+}
+
+impl ExtensionHost for Host<'_> {
+    fn actor(
+        &self,
+        session: Option<&str>,
+        branch: &str,
+        rights_branch: &str,
+        need: Need,
+        push_to: Option<&GitLab>,
+    ) -> Result<Actor, HubError> {
+        let hub = self.hub;
+        let Some(hub_gitlab) = &hub.config.gitlab else {
+            // No sign-in (local use): the clone's identity, pushing to origin.
+            return hub.actor(session, false);
+        };
+        let session = session
+            .and_then(|id| hub.sessions.get(id))
+            .ok_or_else(|| HubError::Unauthorized("sign in with your GitLab token".into()))?;
+        let right = session
+            .user
+            .right(self.segment, rights_branch)
+            .cloned()
+            .ok_or_else(|| {
+                HubError::Forbidden(format!("no rights known for {branch}: sign in again"))
+            })?;
+        let allowed = match need {
+            Need::Push => right.push,
+            Need::Force => right.force,
+        };
+        if !allowed {
+            return Err(HubError::Forbidden(right.reason.unwrap_or_else(|| {
+                format!(
+                    "you may not {} {branch}",
+                    if need == Need::Force {
+                        "force-push"
+                    } else {
+                        "push to"
+                    }
+                )
+            })));
+        }
+        if session.user.email.is_empty() {
+            return Err(HubError::Forbidden(
+                "your GitLab account has no commit email: set one, commits need it".into(),
+            ));
+        }
+        Ok(Actor {
+            identity: Some(session.identity()),
+            push: session.push_target(push_to.unwrap_or(hub_gitlab)),
+        })
+    }
+
+    fn pipeline(
+        &self,
+        session: Option<&str>,
+        sha: &str,
+        project: Option<&GitLab>,
+    ) -> Result<Option<crate::auth::Pipeline>, HubError> {
+        let hub = self.hub;
+        let Some(hub_gitlab) = &hub.config.gitlab else {
+            return Ok(None);
+        };
+        let session = session
+            .and_then(|id| hub.sessions.get(id))
+            .ok_or_else(|| HubError::Unauthorized("sign in with your GitLab token".into()))?;
+        project.unwrap_or(hub_gitlab).pipeline(session.token(), sha)
+    }
 }

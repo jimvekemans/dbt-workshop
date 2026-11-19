@@ -26,11 +26,6 @@ vdp-airflow = { path = "crates/vdp-airflow" }
 vdp-sql = { path = "crates/vdp-sql" }
 vdp-sql-script = { path = "crates/vdp-sql-script" }
 vdp-qa = { path = "crates/vdp-qa" }
-vdp-vaultspeed = { path = "crates/vdp-vaultspeed" }
-vdp-vaultspeed-domain = { path = "crates/vdp-vaultspeed-domain" }
-vdp-vaultspeed-sql = { path = "crates/vdp-vaultspeed-sql" }
-vdp-vaultspeed-dags = { path = "crates/vdp-vaultspeed-dags" }
-vdp-vaultspeed-release = { path = "crates/vdp-vaultspeed-release" }
 
 # external
 # The SingleStore ADBC driver (libadbc_driver_singlestore.so, the one dbt v2 uses) is loaded at runtime.
@@ -41,18 +36,12 @@ arrow-cast = "60"
 arrow-schema = "60"
 anyhow = "1"
 base64 = "0.22"
-chrono = { version = "0.4", default-features = false, features = ["clock", "serde", "std"] }
 clap = { version = "4", features = ["derive", "env"] }
-csv = "1"
 # The YAML parser dbt v2 itself uses (same version and `yaml_11` as /opt/dbt/Cargo.toml), so `--vars`/`--args`
 # are read exactly as dbt reads them.
 dbt-yaml = { version = "=0.9.6", features = ["yaml_11"] }
 dotenvy = "0.15"
-hex = "0.4"
 lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "rustls-tls", "hostname"] }
-regex = "1"
-sha2 = "0.10"
-similar = "3"
 nix = { version = "0.31", default-features = false, features = ["signal"] }
 minijinja = { version = "3", default-features = false, features = ["builtins", "debug"] }
 secrecy = "0.10"
@@ -65,12 +54,6 @@ tiny_http = "0.12"
 ts-rs = { version = "12", default-features = false, features = ["serde-compat"] }
 toml = "1"
 tracing = "0.1"
-# tree-sitter compiles C: only the `vaultspeed` feature of vdp-cli pulls it in.
-tree-sitter = "0.27"
-tree-sitter-python = "0.25"
-uuid = { version = "1", features = ["v4"] }
-walkdir = "2"
-zip = { version = "9", default-features = false, features = ["deflate-flate2-zlib-rs"] }
 yaml-rust2 = "0.13"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
 ureq = { version = "3", features = ["json"] }

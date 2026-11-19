@@ -6,25 +6,25 @@
 //! - Git work runs as [`jobs`], one at a time, with a step log read by cursor (`GET /jobs/{id}?after=<seq>`).
 //! - Credentials stay on the server: Jira and SMTP come from the vdp secrets.
 //! - [`http`] serves `/api/v1` with tiny_http and, optionally, the built Svelte frontend.
-//! - VaultSpeed releases (`/api/v1/vaultspeed/...`): a second clone, of the framework repository, with its own
-//!   jobs; see `vdp_vaultspeed_release` for the branch model and the guards.
+//! - Further repositories plug in as [`HubExtension`]s below their own URL segment (VaultSpeed releases:
+//!   `/api/v1/vaultspeed/...`, in `vdp-vaultspeed-hub`); the hub keeps sign-in, sessions and the status for all.
 
 pub mod api;
 pub mod auth;
 mod error;
+pub mod extension;
 pub mod http;
 mod hub;
 pub mod jobs;
 mod settings;
 #[cfg(feature = "ts")]
 mod ts;
-mod vaultspeed;
 
 pub use auth::GitLab;
 pub use error::HubError;
+pub use extension::{ExtensionHost, ExtensionRequest, HubExtension, Need};
 pub use http::{HubServer, ServeOptions};
-pub use hub::{Actor, Hub, HubConfig, Validator};
-pub use settings::{HubSettings, VaultspeedHubSettings};
+pub use hub::{Actor, Hub, HubConfig, Validator, repo_status_of};
+pub use settings::HubSettings;
 #[cfg(feature = "ts")]
-pub use ts::typescript;
-pub use vaultspeed::{VsConfig, VsHub};
+pub use ts::{declaration, typescript, typescript_with};

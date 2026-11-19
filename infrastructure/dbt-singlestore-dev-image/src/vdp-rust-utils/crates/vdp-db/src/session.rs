@@ -108,6 +108,12 @@ pub trait SqlSession: Send + Sync + Debug {
     /// Executes a statement without parameters, discarding any result.
     fn execute(&self, sql: &str) -> Result<(), DbError>;
 
+    /// Like [`SqlSession::execute`], returning the number of rows the server reported as affected. `None` when
+    /// the driver reports no count (the default implementation never does).
+    fn execute_counted(&self, sql: &str) -> Result<Option<i64>, DbError> {
+        self.execute(sql).map(|()| None)
+    }
+
     /// Executes a parameterised statement (`?` placeholders), discarding any result.
     fn execute_with(&self, sql: &str, params: &[SqlValue]) -> Result<(), DbError>;
 

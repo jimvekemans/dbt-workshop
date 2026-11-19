@@ -1,0 +1,33 @@
+[package]
+name = "vdp-vaultspeed-hub"
+description = "The VaultSpeed side of the release hub: a clone of the framework repository with its own jobs, as a `vdp-release-hub` extension."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+# TypeScript bindings of the VaultSpeed API types (`cargo test -p vdp-vaultspeed-hub --features ts export_bindings`).
+ts = ["dep:ts-rs", "vdp-release-hub/ts", "vdp-vaultspeed-release/ts"]
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+ts-rs = { workspace = true, optional = true }
+vdp-git.workspace = true
+vdp-jira.workspace = true
+vdp-release.workspace = true
+vdp-release-hub.workspace = true
+vdp-vaultspeed.workspace = true
+vdp-vaultspeed-domain.workspace = true
+vdp-vaultspeed-release.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+vdp-notify.workspace = true
+
+[lints]
+workspace = true
