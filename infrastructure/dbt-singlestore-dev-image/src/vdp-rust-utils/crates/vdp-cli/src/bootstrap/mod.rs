@@ -23,11 +23,6 @@ pub const SYSTEM_CONFIG: &str = "/etc/vdp/vdp.toml";
 /// Per-project configuration, next to `dbt_project.yml`.
 pub const PROJECT_CONFIG: &str = "vdp.toml";
 
-/// Logs go to stderr; `VDP_LOG` overrides the default filter.
-pub fn init_logging(verbose: bool, default_filter: &str) {
-    crate::runtime::init_stderr_logging(if verbose { "debug" } else { default_filter }, false);
-}
-
 /// The configuration files that apply, lowest priority first, with whether each must exist.
 pub fn config_files(
     project: Option<&ProjectLayout>,
@@ -232,7 +227,14 @@ fn release_services(builder: vdp_core::ContextBuilder) -> vdp_core::ContextBuild
                 .section(vdp_release::ReleaseSettings::SECTION)
                 .map_err(|e| ServiceError::new("git", vdp_core::display_chain(&e)))?;
             let guard = vdp_release::BranchRules::from_settings(&release).guard();
-            Ok(Arc::new(vdp_git::GitCli::new(&root).with_guard(guard)) as Arc<dyn vdp_git::Vcs>)
+            let settings: vdp_git::GitSettings = ctx
+                .config()
+                .section(vdp_git::GitSettings::SECTION)
+                .map_err(|e| ServiceError::new("git", vdp_core::display_chain(&e)))?;
+            let git = vdp_git::GitCli::new(&root)
+                .with_guard(guard)
+                .with_timeout(settings.timeout());
+            Ok(Arc::new(git) as Arc<dyn vdp_git::Vcs>)
         })
         .provide_named("jira", |ctx: &Context| {
             let settings: vdp_jira::JiraSettings = ctx

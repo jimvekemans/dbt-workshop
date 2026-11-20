@@ -1,6 +1,6 @@
 //! The `dbt` command: dbt v2 plus the organisation's environment, the selection guard and helpful hints.
 //!
-//! Port of `dbt_wrapper.py` / `dbt_manager.wrapper` / `ProjectManager.setup_env`, with one overriding rule:
+//! Replaces the Python dbt wrapper of the old utilities, with one overriding rule:
 //! every argv dbt accepts reaches dbt with the same meaning. Tokens are forwarded byte for byte; the only values
 //! that ever change are `--args`/`--vars` values dbt would misread or reject (see [`crate::argv::yaml_arg`]).
 

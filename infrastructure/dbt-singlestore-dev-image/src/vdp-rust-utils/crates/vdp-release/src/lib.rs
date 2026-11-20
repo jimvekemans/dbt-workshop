@@ -75,7 +75,7 @@ pub use scan::{
 };
 pub use settings::ReleaseSettings;
 
-/// `dev` → `origin/dev`; `origin/...` and commit hashes stay as they are (`_to_ref` in `release_service.py`).
+/// `dev` → `origin/dev`; `origin/...` and commit hashes stay as they are (as the Python release service resolved refs).
 pub fn remote_ref(name: &str) -> String {
     let name = name.trim();
     let is_hash = (7..=40).contains(&name.len()) && name.chars().all(|c| c.is_ascii_hexdigit());

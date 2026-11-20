@@ -144,7 +144,8 @@ def revert_on_release(ctx: Ctx, p: RevertParams) -> Result:
 
 
 def promote(ctx: Ctx, repo: str, branch: str) -> str:
-    """merge-base reset + `--no-ff` merge + force push: what the job promote_release_to_main does."""
+    """merge-base reset + `--no-ff` merge + force push of `main`: what a release manager does to promote a release.
+    The merge commit's subject names the release branch, which is how the CI job `tag_main` names the release tag."""
     git(ctx, repo, "fetch", "--quiet", "origin", branch)
     git(ctx, repo, "checkout", "-B", "main", "origin/main")
     base = git(ctx, repo, "merge-base", "main", f"origin/{branch}").stdout.strip()

@@ -8,10 +8,18 @@ stack ships without data. The participant-facing overview is in `README.md`.
 
 - `dbt-singlestore-workshop/`: the dbt project, its `Dockerfile`, Airflow DAGs/utils/tests and `.gitlab-ci.yml`. It's
   pushed to the workshop GitLab as `dbt-vdp`.
-- `infrastructure/`: everything that runs the stack (compose, manager, Airflow, GitLab, SingleStore SQL, nginx, images).
-  The root `Makefile` is the entry point.
+- `infrastructure/`: everything that runs the stack (compose, manager, Airflow, GitLab, SingleStore SQL, nginx, the
+  overview page in `overview/`, the Workshop Studio, images). The root `Makefile` is the entry point.
+- `infrastructure/dbt-singlestore-dev-image/`: the developer image on top of the base image. Its `src/` holds the
+  `sqlfmt` and `dbt-bouncer` forks and three tracked Rust workspaces: `vdp-rust-utils` (the `vdp` toolkit, built into
+  the dev image) and `release-ui` and `vaultspeed-framework` (standalone: built into no image, not used by compose,
+  the Makefile, nginx, the overview or CI). `local/` there is gitignored (untouched client copies).
 - `.agents/skills/`: the workshop skills (see below), symlinked into `.claude/skills/` so Claude Code loads them.
-  `.claude/skills/dbt-base-image` lives there directly.
+  `.claude/skills/dbt-base-image` lives there directly; the three Rust skills live in their workspaces.
+- `.claude/launch.json`: the dev server `studio-frontend-mock` (Workshop Studio frontend on port 5199; open `/?mock`
+  for a fake API).
+- `requirements.md`: the owner's own minimum requirements for the stack. The stack exceeds them: three environments
+  (dev, val, prd), not two.
 
 ## Ground rules
 
@@ -21,6 +29,14 @@ stack ships without data. The participant-facing overview is in `README.md`.
   target it. Workshop containers are named `workshop-*`.
 - `infrastructure/dbt-singlestore-base-image/src/` contains git submodules: a large Rust repo and a Go repo. Leave
   them out of searches unless the task is about building dbt or the driver.
+- The Rust workspaces under `infrastructure/dbt-singlestore-dev-image/src/` have `target/` build folders: leave them
+  out of searches too (like the submodules). The workspaces and `local/` are described in the skills below.
+- Check the Rust workspaces with the Makefile too, so the host needs no Rust toolchain: `make rust-check` (fmt, clippy,
+  tests, docs; per-feature clippy for `vdp-rust-utils`), `make rust-test`, `make rust-cargo S="<cargo arguments>"`;
+  `W=vdp-rust-utils|release-ui|vaultspeed-framework` limits them to one workspace (default: all three). They run in a
+  `rust:<version>-trixie` container as the host user, with the cargo registry and the build output in Docker volumes
+  (`make rust-clean` removes them). A host `cargo` (rustup picks up the pinned toolchain) works as well, but its
+  `target/` folders are large; neither is part of `make test` or `make bootstrap`.
 - `infrastructure/workshop-studio/` is the presenter's app (scenarios, live demos, data feeder). Its scenario files
   are validated by `docker exec workshop-studio python -m studio.catalog --check`; read its README before changing it.
 
@@ -33,3 +49,6 @@ stack ships without data. The participant-facing overview is in `README.md`.
 | Reload pipeline | [.agents/skills/dbt-reload-pipeline/SKILL.md](.agents/skills/dbt-reload-pipeline/SKILL.md) | Blue/green chunked full-refresh via the Airflow `dbt_reload` DAG: `meta.reload_strategy`, `reload_helpers.sql`, batch/retry handling, delegation from `dbt_release`, `dummy_reload_*` models. |
 | Base image | [.claude/skills/dbt-base-image/SKILL.md](.claude/skills/dbt-base-image/SKILL.md) | The `dbt-singlestore-base` image: Fusion dbt binary + SingleStore ADBC driver, local prebuilt files or built from the submodules; the dev image on top of it. |
 | Studio scenarios | [.agents/skills/workshop-studio-scenarios/SKILL.md](.agents/skills/workshop-studio-scenarios/SKILL.md) | Adding or changing a Workshop Studio scenario: the four-part file, content rules for a non-technical audience, actions and evidence, patches, new backend actions, and the validate / run live / record / capture / review loop (with a runner script). |
+| Rust toolkit (`vdp-rust-utils`) | [infrastructure/dbt-singlestore-dev-image/src/vdp-rust-utils/.agents/skills/vdp-rust-utils/SKILL.md](infrastructure/dbt-singlestore-dev-image/src/vdp-rust-utils/.agents/skills/vdp-rust-utils/SKILL.md) | The `vdp` toolkit (dbt wrapper, sources, release flows, sql, qa): crate map, rules, how a new command, crate or binary fits the dev image and its consumers. |
+| Release hub (`vdp-release-ui`) | [infrastructure/dbt-singlestore-dev-image/src/release-ui/.agents/skills/vdp-release-ui/SKILL.md](infrastructure/dbt-singlestore-dev-image/src/release-ui/.agents/skills/vdp-release-ui/SKILL.md) | `release-ui`: the release hub backend (HTTP API, jobs, extension SPI, announcements) and how it would be wired into the stack. |
+| VaultSpeed deployer (`vdp-vaultspeed-framework`) | [infrastructure/dbt-singlestore-dev-image/src/vaultspeed-framework/.agents/skills/vdp-vaultspeed-framework/SKILL.md](infrastructure/dbt-singlestore-dev-image/src/vaultspeed-framework/.agents/skills/vdp-vaultspeed-framework/SKILL.md) | `vaultspeed-framework`: the VaultSpeed deployer (planner, ledger, history, releases, hub extension), build and fit. |

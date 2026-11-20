@@ -71,8 +71,9 @@ line numbers stay the file's) and `` ``double backticks`` `` of comment and docs
 
 ## After `make reset`
 
-`make reset` drops and re-creates the environment databases and rebuilds `dbt-vdp:v1.0.0` from the project in the repo.
-The studio notices this by itself: when every environment has lost its data, it forgets its saved state (what demos
+`make reset` drops and re-creates the environment databases and rebuilds `dbt-vdp:v1.0.0` from the project in the repo,
+and then runs `docker exec workshop-studio python -m studio.reset` itself (the Makefile does; it only prints a warning
+when the studio is not running or a demo is busy). Without that call the studio notices by itself: when every environment has lost its data, it forgets its saved state (what demos
 left behind, the saved code baseline) the next time it checks the baseline, and an environment that had to be reseeded
 also gets the baseline version deployed again, even when its `dbt_image_tag` setting is still there. To do it on
 purpose, or when the studio keeps talking about something that is gone, forget the saved state and start a new check:
@@ -105,8 +106,12 @@ script are in the skill `.agents/skills/workshop-studio-scenarios/`. The field-l
 2. Fill the four parts. Use only actions and evidence types that exist (`feed.*`, `airflow.*`, `dbt.run`, `sql.exec`,
    `gitlab.*`, `git.*`, `deploy.set_version`, `precommit.run`, `mail.clear`, `wait`, `docs.read_description`,
    `image.versions`; evidence `table`, `bars`,
-   `number`, `tasks`, `pipeline`, `mail`, `versions`, `result`, `freshness`, `run_history`). Cleanup is derived from
-   what the actions touched; only `sql.exec` needs an `undo`.
+   `number`, `tasks`, `pipeline`, `mail`, `versions`, `result`, `freshness`, `run_history`, `stack`). `stack` is the
+   check behind the status row of the home page (`stack` in `GET /api/state`, read every 10 seconds in Live mode, empty
+   in Replay): per service (code storage, database, one scheduler per environment, mailbox, data delivery) a `status`
+   `up`, `starting` or `down` and a plain `detail`; a service that cannot be reached is `down`, never an error. No
+   scenario uses it and the frontend has no card for it. Cleanup is derived from what the actions touched; only
+   `sql.exec` needs an `undo`.
 3. Write for people who do not know the terms; technical words go in the glossary and appear as `[[term]]`.
    Optional fields (all of them may be left out):
    - `outcome` of a step is a sentence (`{{ value }}` is shown with thousands separators when it is a whole number: 3,432), or an object that is honest about the result:
@@ -175,7 +180,8 @@ Every container the studio starts for one step (`studio-<8 hex>`: a dbt run, the
 copying the project out of a package, reading a file from a package, deploying a version) carries the label
 `workshop.studio.throwaway=1` and is removed when its step ends, also when the step fails or is cancelled. A restart
 in the middle of a step cannot do that, so at start-up the studio removes every container with that name pattern AND
-label (and nothing else: `studio-feeder`, `workshop-studio` and the personal `singlestore` are never touched).
+label (and nothing else: `workshop-studio` and the personal `singlestore` are never touched; the feeder is no
+container but a thread named `studio-feeder` inside the app).
 
 ## Replay
 
@@ -187,6 +193,8 @@ in the UI, as is the time of getting ready). A step whose `show` types no longer
 recorded.
 
 ## Tests
+
+Backend unit tests, in a throwaway container, from this folder (`infrastructure/workshop-studio/`):
 
 ```bash
 docker run --rm -v "$PWD/backend:/b" -w /b python:3.13-slim sh -c "pip install -q -r requirements.txt && python -m pytest -q"

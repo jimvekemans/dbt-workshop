@@ -121,9 +121,7 @@ def test_wait_pipeline_outcomes(tmp_path, monkeypatch):
 def test_what_a_merge_or_job_changes():
     assert gitlab.versions_touched("dev") == {"version:dev"} and gitlab.versions_touched("main") == {"version:val"}
     assert gitlab.versions_touched("release/2026-Q1") == set()
-    assert gitlab.job_versions("deploy_prd") == {"version:prd"} and gitlab.job_versions("promote_release_to_main") == {
-        "version:val"
-    }
+    assert gitlab.job_versions("deploy_prd") == {"version:prd"} and gitlab.job_versions("tag_main") == {"version:val"}
 
 
 def test_snapshot_is_recorded_once_and_renewed_when_stale(tmp_path):

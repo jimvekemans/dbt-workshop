@@ -6,5 +6,6 @@
 **/__pycache__
 **/node_modules
 src/*/.claude
+src/*/.agents
 # local-only copies, never part of the image
 local

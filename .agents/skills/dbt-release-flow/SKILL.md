@@ -48,7 +48,7 @@ flowchart LR
    ```
    `tag_main` reads the release name from the last commit message (`release/\K[^ ']+`), so keep that merge message. With no
    release name it takes the latest `YYYY-Qx` tag, else the current year with `-Q1`. There is no CI job for the promotion:
-   it is done by hand.
+   it is done by hand, or by the Studio's `git.promote_release` action in a demo (§5).
 5. A pipeline on `release/YYYY-Qx` (push) or an MR to `main` runs `verify_release` (full build); a failing verify is the
    reason to revert a feature on the release branch.
 
@@ -79,7 +79,7 @@ relations; GitLab does not expand `${VAR:-default}` in `variables:`.
 ## 3. Airflow `dbt_release` DAG (`airflow/dags/dbt_release.py`)
 ```
 audit_environment_drift >> pause_daily_load >> run_operation__database_maintenance
-  >> prep_upstream__<step1> >> step1 >> merge_state__step1 >> ...
+  >> prep_upstream__<step1> >> merge_state__prep_upstream__<step1> >> step1 >> merge_state__step1 >> ...
   >> reload step (TriggerDagRunOperator -> dbt_reload) >> merge_state__...
   >> run_operation__sync_grants >> run_operation__clean_orphaned_models
   >> [cleanup_temporary_artifacts, unpause_daily_load]
@@ -101,8 +101,19 @@ audit_environment_drift >> pause_daily_load >> run_operation__database_maintenan
 ## 4. Reset
 `make reset` drops and re-creates the environment databases and `vdp_ci`, resets the GitLab repository to the baseline
 (`dev`, `main`, tag `v1.0.0`, which starts the first pipeline again) and deletes the runtime-override Variables. The
-landing tables stay empty. `dbt_image_tag` is not cleared; the new `v1.0.0` deploy sets it again.
+landing tables stay empty (`reset_workshop.py` does not fill them). `dbt_image_tag` is not cleared; the new `v1.0.0`
+deploy sets it again. `make reset` also resets the Workshop Studio's state (`docker exec workshop-studio python -m
+studio.reset`: what demos left behind, the feeder state, the saved code baseline); the studio then checks and repairs
+the baseline of the three environments and seeds the landing tables again.
 
 ## 5. Workshop Studio
-The Workshop Studio (`infrastructure/workshop-studio/`, compose profile `studio`) is out of date with this refactor and
-will be revised later to feed data. Do not use it for this flow.
+The Workshop Studio (`infrastructure/workshop-studio/`, service `workshop-studio`) has no compose profile: it is part of
+the default stack (`make up`) and presents 20 scenarios; read its `README.md`. Its demos drive this flow on the real
+stack: feature branch, MR and squash merge to `dev`, the tags and the `build_image` / `deploy_*` pipelines,
+`deploy.set_version` (the `dbt_image_tag` Variable) and `gitlab.play_job` for the manual `deploy_prd`. Two actions
+automate the manual git steps of §1 rules 3-4 in a temporary clone: `git.revert_on_release` (`git revert` of a `vX.Y.Z`
+tag on the release branch; an optional `resolution` patch can settle a known conflict, no shipped scenario uses one;
+scenario `one-team-not-ready`) and `git.promote_release`
+(merge-base reset, `--no-ff` merge with the message of rule 4, force push to `main`; scenarios `one-team-not-ready` and
+`production-waits`). Clean-up puts `dev` and `main` back on their baseline commits and deletes demo and release branches
+and newer tags. Changing a scenario: the `workshop-studio-scenarios` skill.

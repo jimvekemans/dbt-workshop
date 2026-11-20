@@ -18,8 +18,8 @@ FROM rust:${RUST_VERSION}-trixie AS vdp-build
 ARG CARGO_BUILD_JOBS=
 # The Dockerfile is listed so the COPY never matches nothing when ./vdp is absent.
 COPY Dockerfile vdp* /prebuilt/
-# The whole src/ folder is mounted, not src/vdp-rust-utils: a mount of a folder that is not there fails the build,
-# and a clone of the repository has no vdp source (see README.md). Then the image is built without vdp.
+# The whole src/ folder is mounted, not src/vdp-rust-utils: a mount of a folder that is not there fails the build, so
+# the stage also works in a stripped copy without src/vdp-rust-utils (the image is then built without vdp).
 RUN --mount=type=bind,source=src,target=/src-all \
     --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/usr/local/cargo/git \

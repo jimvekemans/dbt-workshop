@@ -10,8 +10,11 @@ BASE_URL=http://127.0.0.1:8085/ SCENARIOS=all OUT=... ./e2e/run.sh   # the real 
 ```
 
 Env: `BASE_URL` (default `http://127.0.0.1:5199/?mock`), `OUT` (default `./review`), `SCENARIOS` (comma list or `all`;
-default: the two fully written mock scenarios), `WORKERS` (parallel pages in the interaction sweep, default 4),
-`SKIP_SWEEP=1` (skip the slow per-control sweep), `PW_VERSION`.
+default: the three fully written mock scenarios `switchover-date`, `one-clear-mail` and `states-test`), `WORKERS`
+(parallel pages in the interaction sweep, default 4), `SKIP_SWEEP=1` (skip the slow per-control sweep), `NO_TAB=1` (skip
+the Tab-order pass after each screenshot, the `tab` entry in `inventory.json`), `PW_VERSION` (Playwright version and
+the tag of the container image, default `1.56.0`), `AXE_VERSION` (axe-core version installed in the container, default
+`4.10.2`).
 
 Everything mock-specific (scenario ids, which step fails, replay ids) is in `CONFIG` at the top of `capture.mjs`.
 The scenario list is taken from `GET /api/catalog` when reachable (the mock is in-browser, so it falls back to CONFIG).
@@ -28,11 +31,11 @@ BASE_URL=http://127.0.0.1:8085/ SCENARIOS=all OUT=/path/to/review ./e2e/run.sh  
 BASE_URL=http://127.0.0.1:5198/ SCENARIOS=all OUT=...  ./e2e/run.sh                  # your working tree (npm run dev:live)
 ```
 
-Without `?mock` the harness switches the backend to replay first (nothing in the stack changes), presses "Get the demo
-ready" itself, blocks every page request that would switch to Live or touch the feeder (HTTP 409 from the harness), skips
+Without `?mock` the harness switches the backend to replay first (nothing in the stack changes), presses "Prepare this
+demo" itself, blocks every page request that would switch to Live or touch the feeder (HTTP 409 from the harness), skips
 the mock-only checks (feeder toggle, expected failing step, leftovers) and, at the end, puts mode and feeder back as they
-were (`meta.backend_before` / `backend_after` in `INDEX.md`). A run of all sixteen scenarios with the sweep takes a long time; use
-`SCENARIOS=a,b` and `SKIP_SWEEP=1` while iterating.
+were (`meta.backend_before` / `backend_after` in `INDEX.md`). A run of all twenty scenarios (`SCENARIOS=all`: every id
+in the real catalog) with the sweep takes a long time; use `SCENARIOS=a,b` and `SKIP_SWEEP=1` while iterating.
 
 ## Checks added in the third review round
 

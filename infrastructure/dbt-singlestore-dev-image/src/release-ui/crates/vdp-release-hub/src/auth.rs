@@ -36,6 +36,36 @@ pub struct GitLabSource<'a> {
     pub push_url: &'a str,
 }
 
+/// Items per page asked of GitLab (its maximum).
+const PAGE_SIZE: usize = 100;
+/// Pages read at most: a server that ignores `page` would otherwise hand out the first one for ever.
+const MAX_PAGES: u32 = 50;
+
+/// Reads a list page by page (`page(1)`, `page(2)`, ...) until a page is not full, and returns all its items.
+///
+/// # Errors
+///
+/// The error of `page`; [`HubError::Internal`] when the list is longer than `MAX_PAGES` full pages.
+fn read_pages(
+    mut page: impl FnMut(u32) -> Result<Value, HubError>,
+) -> Result<Vec<Value>, HubError> {
+    let mut all = Vec::new();
+    for number in 1..=MAX_PAGES {
+        let Value::Array(items) = page(number)? else {
+            return Ok(all);
+        };
+        let last = items.len() < PAGE_SIZE;
+        all.extend(items);
+        if last {
+            return Ok(all);
+        }
+    }
+    Err(HubError::Internal(format!(
+        "GitLab returned more than {} protected branches",
+        PAGE_SIZE * MAX_PAGES as usize
+    )))
+}
+
 /// The trimmed string, or `None` when it is empty.
 pub fn non_empty(value: &str) -> Option<String> {
     let value = value.trim();
@@ -179,6 +209,11 @@ impl GitLab {
         }
     }
 
+    /// Every item of a list endpoint (`path` without a query string), page after page.
+    fn get_all(&self, token: &str, path: &str) -> Result<Vec<Value>, HubError> {
+        read_pages(|number| self.get(token, &format!("{path}?per_page={PAGE_SIZE}&page={number}")))
+    }
+
     /// Who the token belongs to.
     ///
     /// # Errors
@@ -223,14 +258,10 @@ impl GitLab {
                 .unwrap_or(0)
         };
         let level = access("project_access").max(access("group_access"));
-        let protected = self.get(
+        let protected = self.get_all(
             token,
-            &format!(
-                "/projects/{}/protected_branches?per_page=100",
-                project["id"]
-            ),
+            &format!("/projects/{}/protected_branches", project["id"]),
         )?;
-        let protected = protected.as_array().cloned().unwrap_or_default();
         Ok(branches
             .iter()
             .map(|(label, sample)| branch_right(level, user.id, &protected, sample, label))
@@ -572,6 +603,90 @@ impl Sessions {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn page_of(first: usize, count: usize) -> Value {
+        Value::Array(
+            (first..first + count)
+                .map(|n| serde_json::json!({"name": format!("b{n}")}))
+                .collect(),
+        )
+    }
+
+    #[test]
+    fn a_list_is_read_page_after_page_until_one_is_not_full() {
+        let mut asked = Vec::new();
+        let all = read_pages(|number| {
+            asked.push(number);
+            Ok(match number {
+                1 => page_of(0, 100),
+                2 => page_of(100, 100),
+                _ => page_of(200, 37),
+            })
+        })
+        .unwrap();
+        assert_eq!(asked, [1, 2, 3]);
+        assert_eq!(all.len(), 237);
+        assert_eq!(all[236]["name"], "b236");
+    }
+
+    #[test]
+    fn a_list_of_exactly_full_pages_ends_at_the_empty_one() {
+        let mut asked = 0;
+        let all = read_pages(|number| {
+            asked += 1;
+            Ok(if number == 1 {
+                page_of(0, 100)
+            } else {
+                page_of(0, 0)
+            })
+        })
+        .unwrap();
+        assert_eq!((asked, all.len()), (2, 100));
+    }
+
+    #[test]
+    fn a_short_first_page_is_the_whole_list_and_a_non_list_is_empty() {
+        let mut asked = 0;
+        let all = read_pages(|_| {
+            asked += 1;
+            Ok(page_of(0, 3))
+        })
+        .unwrap();
+        assert_eq!((asked, all.len()), (1, 3));
+        assert!(
+            read_pages(|_| Ok(serde_json::json!({"message": "x"})))
+                .unwrap()
+                .is_empty()
+        );
+    }
+
+    #[test]
+    fn paging_stops_with_an_error_for_a_server_that_never_ends_it() {
+        let mut asked = 0;
+        let error = read_pages(|_| {
+            asked += 1;
+            Ok(page_of(0, 100))
+        })
+        .unwrap_err();
+        assert_eq!(asked, MAX_PAGES);
+        assert!(
+            matches!(&error, HubError::Internal(m) if m.contains("more than 5000")),
+            "{error:?}"
+        );
+    }
+
+    #[test]
+    fn a_page_that_fails_fails_the_list() {
+        let error = read_pages(|number| {
+            if number == 1 {
+                Ok(page_of(0, 100))
+            } else {
+                Err(HubError::Unauthorized("token".into()))
+            }
+        })
+        .unwrap_err();
+        assert!(matches!(error, HubError::Unauthorized(_)));
+    }
     use serde_json::json;
 
     #[test]

@@ -40,11 +40,13 @@
 
 mod cli;
 mod error;
+mod settings;
 
 use std::fmt::Debug;
 
 pub use cli::GitCli;
 pub use error::GitError;
+pub use settings::GitSettings;
 
 /// One commit.
 #[derive(Debug, Clone, PartialEq, Eq)]

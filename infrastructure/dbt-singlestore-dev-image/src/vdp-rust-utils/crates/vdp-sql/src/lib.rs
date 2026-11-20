@@ -1,4 +1,4 @@
-//! `vdp sql run` (`call_sql.py`) and `vdp sql export` (`download_from_singlestore.py`).
+//! `vdp sql run` and `vdp sql export`.
 //!
 //! A small domain module over the [`vdp_db::SqlSession`] port. The Python export formatted the table name into
 //! `SELECT * FROM {name}`; here names are validated and quoted. `run` no longer prompts: results print, and `--csv-dir`

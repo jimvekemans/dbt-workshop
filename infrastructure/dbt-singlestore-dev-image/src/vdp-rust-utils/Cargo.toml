@@ -37,7 +37,6 @@ clap = { version = "4", features = ["derive", "env"] }
 # are read exactly as dbt reads them.
 dbt-yaml = { version = "=0.9.6", features = ["yaml_11"] }
 dotenvy = "0.15"
-lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "rustls-tls", "hostname"] }
 nix = { version = "0.31", default-features = false, features = ["signal"] }
 minijinja = { version = "3", default-features = false, features = ["builtins", "debug"] }
 secrecy = "0.10"

@@ -104,7 +104,6 @@ RELEASE_STEPS: list[dict[str, Any]] = [
         "batch_count": 5,
         "run_tests": True,
         "cleanup_backup": True,
-        "vars": {"simulate_oom": False},
     },
     {
         "task_name": "build_remaining",

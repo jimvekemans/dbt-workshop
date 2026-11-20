@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 pub struct SourcesSettings {
     /// Where generated `sources_<database>.yml` files live, relative to the dbt project.
     pub generated_dir: String,
-    /// Databases `vdp sources rewrite` regenerates (the list `update_source_files.py` had).
+    /// Databases `vdp sources rewrite` regenerates (the list the Python script had).
     pub databases: Vec<String>,
     /// Write column names into source tables.
     pub include_columns: bool,

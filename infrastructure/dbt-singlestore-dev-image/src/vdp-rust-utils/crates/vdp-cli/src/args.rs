@@ -89,7 +89,7 @@ pub struct GlobalArgs {
         help_heading = "Global options",
         env = "VDP_NO_VAULT",
         action = clap::ArgAction::SetTrue,
-        value_parser = clap::builder::BoolishValueParser::new(),
+        value_parser = parse_no_vault,
         long_help = help::GLOBAL_NO_VAULT_LONG
     )]
     pub no_vault: bool,
@@ -406,7 +406,7 @@ pub enum PromoteKind {
 #[cfg(feature = "release")]
 #[derive(Debug, Subcommand)]
 pub enum JiraCommand {
-    /// Move tickets to their next status (`update_ticket.py`)
+    /// Move tickets to their next status
     #[command(
         long_about = help::JIRA_ADVANCE_LONG_ABOUT,
         after_long_help = help::JIRA_ADVANCE_AFTER_LONG_HELP
@@ -545,9 +545,42 @@ pub fn parse_environment(value: &str) -> Result<Environment, String> {
         .map_err(|e: vdp_core::CoreError| vdp_core::display_chain(&e))
 }
 
+/// Reads `--no-vault` and `$VDP_NO_VAULT`; `vdp` and the `dbt` link both use it, so they agree. A boolean, case does not
+/// matter: `1`, `true`, `yes`, `on` (also `y`, `t`) turn Vault off; `0`, `false`, `no`, `off` (also `n`, `f`) leave it on;
+/// an empty value counts as not set (Vault on).
+///
+/// # Errors
+///
+/// A message that lists the accepted values when `value` is none of them.
+pub fn parse_no_vault(value: &str) -> Result<bool, String> {
+    match value.to_lowercase().as_str() {
+        "1" | "true" | "yes" | "on" | "y" | "t" => Ok(true),
+        "" | "0" | "false" | "no" | "off" | "n" | "f" => Ok(false),
+        _ => Err(format!(
+            "`{value}` is not a boolean: use 1, true, yes or on (no Vault), or 0, false, no or off"
+        )),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn no_vault_is_a_boolean_and_an_empty_value_is_off() {
+        for on in ["1", "true", "yes", "on", "y", "t", "TRUE", "On", "Yes"] {
+            assert_eq!(parse_no_vault(on), Ok(true), "{on}");
+        }
+        for off in ["", "0", "false", "no", "off", "n", "f", "FALSE", "Off"] {
+            assert_eq!(parse_no_vault(off), Ok(false), "{off}");
+        }
+        for bad in ["2", "maybe", "disable", " 1", "1 "] {
+            let message = parse_no_vault(bad).unwrap_err();
+            assert!(
+                message.contains(&format!("`{bad}`")) && message.contains("0, false, no or off")
+            );
+        }
+    }
 
     #[test]
     fn parses_existing_and_new_global_flags_before_and_after_subcommand() {

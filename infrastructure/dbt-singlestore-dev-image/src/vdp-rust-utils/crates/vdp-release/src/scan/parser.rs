@@ -30,7 +30,7 @@ pub(crate) fn ticket_ids(text: &str, prefix: &str) -> Vec<String> {
     ids
 }
 
-/// The first `hotfix/<slug>` or `bugfix/<slug>` in a message (as `release_service.py` matched it).
+/// The first `hotfix/<slug>` or `bugfix/<slug>` in a message (as the Python release service matched it).
 pub(super) fn branch_change(message: &str) -> Option<(TicketKind, String)> {
     let bytes = message.as_bytes();
     let mut found: Option<(usize, TicketKind)> = None;

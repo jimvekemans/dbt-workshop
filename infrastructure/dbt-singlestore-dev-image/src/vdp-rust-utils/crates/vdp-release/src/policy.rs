@@ -117,7 +117,7 @@ mod tests {
         }
     }
 
-    /// The Python test matrix (test_release_manager.py), plus the cases it got wrong.
+    /// The Python test matrix, plus the cases it got wrong.
     #[test]
     fn python_matrix() {
         assert!(policy(false).decide(&ticket(&[])).reverts());

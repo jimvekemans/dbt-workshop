@@ -74,7 +74,8 @@ with `make up S=workshop-studio`. A file that does not validate stops the app fr
 
 ## 3. The file
 
-Copy the closest existing scenario. Skeleton with the limits the catalog enforces:
+Copy the closest existing scenario. Skeleton; its comments are the house rules (section 4), which for some fields are
+tighter than the schema (`backend/studio/models.py`, see the list below the skeleton):
 
 ```yaml
 id: only-what-changed            # = file name
@@ -99,7 +100,7 @@ idea:
 
 code:                            # one to three blocks
   - title: ...                   # plain words
-    file: models/.../x.sql       # in the dbt project; singlestore/<file>.sql or dev-image/Dockerfile also work
+    file: models/.../x.sql       # in the dbt project, or one of the two other roots below
     file_label: ...              # plain words for what the file is
     from: "text of the first line"
     to: "text of the last line"
@@ -120,6 +121,23 @@ demo:
       show: [ {type: ..., title: ..., caption: ...}, ... ]
       outcome: ...               # a sentence, or {check, good_when, good, not_quite}
 ```
+
+Where the schema is wider than the house rule: a demo takes 2 to 4 steps (house: at most three); `max_lines` is 1 to 80
+(house: 12); a block takes 1 to 4 notes of up to 200 characters (house: 2 to 4 notes of at most 15 words); a headline
+may be up to 90 characters (house: 12 words); `say` up to 300 characters (house: two short sentences); a flow may have
+at most one `fix` node (house: exactly one). Enforced as written: title, promise, the `related` sentence, the story's
+40 to 90 words, exactly three points (each up to 160 characters), one to three code blocks, flow label length.
+
+A code block's `file` names one of three roots (`_block_path` in `backend/studio/catalog.py`); anything else fails
+validation:
+
+| Root | `file:` | Real example |
+|---|---|---|
+| The dbt project | a path inside it | `models/edw_dv_bdv/dummy_reload_hkey_mod.sql`, `.gitlab-ci.yml` |
+| Database setup files | `../infrastructure/singlestore/<name>` (also `.sql.tmpl`) | `../infrastructure/singlestore/init_env.sql.tmpl` |
+| Developer image recipe | `dev-image/<name>` | `dev-image/Dockerfile` |
+
+The last two take a plain file name only (no sub-folder, no other `..`, nothing hidden) and have no GitLab link.
 
 Visuals: `timeline` (5 to 8 `days` with `label`, `state`, `note`, optional `marker: {after, label}`), `flow` (3 to 6
 `nodes` with `id`, `label` <= 30 characters, `state` ok/bad/warn/idle/fix, `note`; every box needs an arrow in and
@@ -170,11 +188,13 @@ Actions (`do:` and `setup:` items; each validates its parameters at load time):
 | `mail.clear`, `wait` | housekeeping |
 
 Evidence (`show:` items): `bars`, `number` (with `compare_to`), `table`, `tasks`, `pipeline`, `run_history`,
-`freshness`, `versions`, `result` (plain lines, also from an action's `reasons` via `from_action`), `mail`. Any item
+`freshness`, `versions`, `result` (plain lines, also from an action's `reasons` via `from_action`), `mail`, `stack`
+(up, starting or down per service of the stack, the data of the home page's status row; no scenario uses it and the
+frontend draws no card for it). Any item
 takes `title` and `caption`; `before_of: <step id>` shows the same item of an earlier step as the "Before" picture.
 
 Clean-up is automatic: each action reports what it touched (`variable:dev:...`, `feed:...`, `git`, `version:prd`,
-`models:dev`, `developer:...`, `sql`, `mail`, `landing:dev`), and the matching cleaner undoes it before the next
+`models:dev`, `developer:...`, `ci`, `sql`, `mail`, `landing:dev`), and the matching cleaner undoes it before the next
 scenario. A scenario never contains clean-up steps. Only `sql.exec` needs its own `undo`.
 
 Prefer reusing these. New backend code is justified when the proof needs data the stack has but no action or
@@ -193,8 +213,8 @@ evidence exposes; it is not justified to decorate.
   `frontend/src/api/types.ts`, with every new field optional (old recordings lack it).
 - Parameter models forbid unknown keys, so a scenario cannot use an option before the backend has it: the app would
   refuse to start.
-- Add unit tests in `backend/tests/` (fakes in `conftest.py`); run them in a throwaway container:
-  `docker run --rm -v "$PWD/backend:/b" -w /b python:3.13-slim sh -c "pip install -q -r requirements.txt && python -m pytest -q"`.
+- Add unit tests in `backend/tests/` (fakes in `conftest.py`); the studio README, section "Tests", has the command (a
+  throwaway container, run from `infrastructure/workshop-studio/`, not from the repository root).
 
 ## 7. The loop
 
@@ -233,7 +253,8 @@ Run everything from the repository root; the stack must be up (`make up`).
   whether an environment is built.
 - "Seeded" means the 90-day baseline is there, not "the table has rows": the background feeder adds today's rows to
   an emptied table within a minute.
-- Code blocks can only read the dbt project, `infrastructure/singlestore/` and `infrastructure/dbt-singlestore-dev-image/`.
+- Code blocks can only read the dbt project, `infrastructure/singlestore/` and `infrastructure/dbt-singlestore-dev-image/`
+  (the last two by plain file name, see section 3).
 - Durations vary run to run; the app shows the median of the recorded runs. Do not write them into text.
 - Production is part of the practice stack, but keep demos out of it unless production is the point
   (`right-keys-only`, `production-waits`); the `version:prd` cleaner puts it back.

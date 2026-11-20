@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(default)]
 pub struct HubSettings {
-    /// The clone the hub analyses and releases from (a volume in the container).
+    /// The clone the hub analyses and releases from; the hub's jobs create and sync it (a container needs a volume here).
     pub repo_dir: String,
     /// The repository the clone action proposes.
     pub repo_url: String,
@@ -15,7 +15,8 @@ pub struct HubSettings {
     pub port: u16,
     /// `Access-Control-Allow-Origin` for a frontend on another origin (`npm run dev`). Empty: same origin only.
     pub cors_origin: String,
-    /// The built frontend to serve next to the API. Empty: API only (nginx serves the frontend).
+    /// The built frontend to serve next to the API. Empty: API only (the frontend, a separate project, then needs a web
+    /// server or proxy of its own).
     pub ui_dir: String,
     /// Run `[release].validate` (dbt) in the clone before a release is pushed.
     pub validate: bool,

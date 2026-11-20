@@ -22,7 +22,8 @@ Everything is built from this folder, the same way the base image handles dbt an
 
 The vdp source in the repository is a **cleaned copy**: e-mail addresses and host names of the organisation it was
 written for are replaced by placeholders (`person1@example.com`, `git.example.com`, ...), and its fixtures, docs,
-sample configuration and integration tests are left out. The build needs none of those; the workshop configures vdp
+sample configuration and the golden, differential and live test suites that need them are left out (the unit and
+process tests that need none stay, about 250 in `src/vdp-rust-utils`). The build needs none of those; the workshop configures vdp
 through `dbt-singlestore-workshop/vdp.toml`. Its `Cargo.toml` still states the original licence.
 
 For `vdp`:
@@ -47,8 +48,34 @@ hand in their folders:
 Put the binaries next to `vdp` (`/usr/local/bin`) or on `PATH`. The dependencies run `vdp-rust-utils` <- `release-ui` <-
 `vaultspeed-framework`.
 
+The code of all three workspaces is checked in Docker from the repository root, so the host needs no Rust toolchain:
+`make rust-check` (formatting, clippy, tests and docs; `W=vdp-rust-utils`, `W=release-ui` or `W=vaultspeed-framework` for one),
+`make rust-test` and `make rust-cargo S="<cargo arguments>"`. They use a `rust:<version>-trixie` image (`../rust-check/`) whose version is the
+`RUST_VERSION` of this Dockerfile, mount this `src/` folder and keep the registry and build output in Docker volumes (`make rust-clean`
+removes them). A host `cargo` works as well; each workspace's README lists the commands.
+
 `sqlfmt` and `dbt-bouncer` are pip-installed from their folders into the venv `/opt/devtools`.
 
     docker build -t dbt-singlestore-dev:1.11.11 .
 
 `--build-arg BASE_IMAGE=...` picks another base image. `make images` at the repository root builds this image.
+
+## Skills and docs
+
+Each Rust workspace has a skill and a README:
+
+- `src/vdp-rust-utils/`: [skill](src/vdp-rust-utils/.agents/skills/vdp-rust-utils/SKILL.md),
+  [README](src/vdp-rust-utils/README.md)
+- `src/release-ui/`: [skill](src/release-ui/.agents/skills/vdp-release-ui/SKILL.md), [README](src/release-ui/README.md)
+- `src/vaultspeed-framework/`: [skill](src/vaultspeed-framework/.agents/skills/vdp-vaultspeed-framework/SKILL.md),
+  [README](src/vaultspeed-framework/README.md)
+
+The stack around them is described in §12 of the
+[architecture skill](../../.agents/skills/vdab-dbt-workshop-architecture/SKILL.md).
+
+## Workshop Studio
+
+The Workshop Studio mounts this folder read-only (`/workshop/dev-image`). Its scenario `same-toolbox`
+(`infrastructure/workshop-studio/scenarios/same-toolbox.yaml`) quotes the `Dockerfile` between
+`RUN --mount=type=bind,source=src/sqlfmt` and `ln -s`, and its demo runs `vdp --version` and the other tools in fresh
+containers of this image. After editing the Dockerfile run `docker exec workshop-studio python -m studio.catalog --check`.

@@ -36,7 +36,6 @@ pub const MODULE_SECTIONS: &[&str] = &[
     "git",
     "jira",
     "release",
-    "sql",
     "qa",
     // Read by the VaultSpeed framework binary (`vdp-vaultspeed`) and the release UI's binary (`vdp-release-ui`),
     // not by `vdp`. The same `vdp.toml` serves all of them, so `vdp` must not warn about these sections.
@@ -45,30 +44,6 @@ pub const MODULE_SECTIONS: &[&str] = &[
     "release_hub",
     "notify",
 ];
-
-/// Asserts that every module section in `config` equals the module's defaults (for the example-config test).
-pub fn assert_module_defaults(config: &vdp_core::Config) {
-    fn same<T: serde::de::DeserializeOwned + Default + PartialEq + std::fmt::Debug>(
-        config: &vdp_core::Config,
-        section: &str,
-    ) {
-        let parsed: T = config.section(section).unwrap();
-        assert_eq!(
-            parsed,
-            T::default(),
-            "[{section}] in config/vdp.toml differs from the defaults"
-        );
-    }
-    same::<vdp_dbt::DbtSettings>(config, "dbt");
-    #[cfg(feature = "sources")]
-    same::<vdp_sources::SourcesSettings>(config, "sources");
-    #[cfg(feature = "release")]
-    same::<vdp_jira::JiraSettings>(config, "jira");
-    #[cfg(feature = "release")]
-    same::<vdp_release::ReleaseSettings>(config, "release");
-    #[cfg(feature = "qa")]
-    same::<vdp_qa::QaSettings>(config, "qa");
-}
 
 /// The `vdp` binary's entry point: `command` with the global options.
 ///

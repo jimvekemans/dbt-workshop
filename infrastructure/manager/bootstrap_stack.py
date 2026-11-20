@@ -6,7 +6,8 @@ Bootstrap of the dbt x SingleStore workshop stack (runs in the manager container
    (singlestore/init_env.sql.tmpl), then the global part (singlestore/init_global.sql): vdp_ci, CI user, developers, admin.
 2. GitLab: root token, the Airflow OAuth application (credentials written to compose/.env), group/project 'workshop/dbt-vdp',
    one maintainer and three developers (pu_dev1..3), protected branches dev and main.
-3. Images: dbt-singlestore-base:1.11.11 and dbt-singlestore-dev:1.11.11; the GitLab runner (docker executor, docker socket).
+3. Images: checks that dbt-singlestore-base:1.11.11 and dbt-singlestore-dev:1.11.11 exist (the Makefile builds them);
+   registers the GitLab runner (docker executor, docker socket).
 4. The dbt project (../../dbt-singlestore-workshop) is pushed with branches dev and main plus the first tag v1.0.0;
    the tag pipeline builds the dbt-vdp image and deploys it to dev. Bootstrap waits for that pipeline and reports it.
 5. Workshop Studio: it starts with the stack, before any of the above exists, so its first baseline check fails. Bootstrap

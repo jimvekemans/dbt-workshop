@@ -264,6 +264,16 @@ mod tests {
     }
 
     #[test]
+    fn the_ui_dir_help_does_not_say_the_workshop_serves_the_frontend() {
+        // The release hub is not part of the workshop stack: no nginx route, no compose service.
+        let help = crate::help::SERVE_UI_DIR_LONG.to_lowercase();
+        assert!(
+            !help.contains("nginx") && !help.contains("workshop"),
+            "{help}"
+        );
+    }
+
+    #[test]
     fn help_lines_stay_within_100_columns() {
         let root = built();
         let mut wide = Vec::new();

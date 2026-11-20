@@ -12,7 +12,10 @@ fn main() -> ExitCode {
     // Installed as `dbt` (a link to `vdp`), it is the dbt wrapper and every argument belongs to dbt.
     if invoked_as_dbt(&program) {
         let dbt_args: Vec<OsString> = raw.collect();
-        let global = commands::dbt::multicall_globals();
+        let global = match commands::dbt::multicall_globals() {
+            Ok(global) => global,
+            Err(error) => return runtime::exit("vdp", Err(error)),
+        };
         runtime::init_logging(&global, true);
         return runtime::exit("vdp", commands::dbt::wrapper(&global, &dbt_args));
     }

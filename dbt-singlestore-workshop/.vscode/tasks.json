@@ -243,7 +243,7 @@
         },
         {
             "label": "vdp: qa view candidates",
-            "detail": "Views whose downstream tables are candidates to materialize (without run timings)",
+            "detail": "Views whose downstream tables are candidates to materialize, ranked by the build times recorded in the environment's dbt_run_results",
             "type": "shell",
             "command": "vdp qa view-candidates",
             "options": {

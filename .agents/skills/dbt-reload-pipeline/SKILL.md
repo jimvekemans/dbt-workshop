@@ -45,9 +45,15 @@ description: >-
     -e DBT_DEPLOY_TARGET=dev dbt-vdp:<tag> \
     bash -c "dbt run -s dummy_reload_date_window --full-refresh --target reload --target-path /tmp/t"
   ```
-  This writes into the `dev_*` databases. In Airflow the same runs as sibling containers started by
-  `utils/dbt_pod_utils.py` (image `dbt-vdp:<Variable dbt_image_tag>`, only `mnt_dbt` of `WORKSHOP_STATE_VOLUME` mounted).
+  This writes into the `dev_*` databases. In Airflow, with `DBT_RUNTIME=docker` (the workshop stack), every dbt task runs
+  as a sibling container started by `utils/dbt_pod_utils.py` (image `dbt-vdp:<Variable dbt_image_tag>`, only `mnt_dbt` of
+  `WORKSHOP_STATE_VOLUME` mounted); `archive_reload_artifacts` is a `python_task` that returns a `state_call` and runs
+  in the Airflow container itself (OpenShift runs it in a pod).
 - The swap is two sequential renames: for a fraction of a second (about 0.1 s measured; SingleStore rejected a single-statement swap) `<m>` does not exist, so the swap is not zero-downtime; nothing in the workshop queries during the swap.
 - Triggering by hand: `docker exec workshop-airflow-<dev|val|prd> airflow dags trigger dbt_reload --conf '{"model_name": "dummy_reload_hkey_mod", "batch_count": 4}'`
   (UIs: dev http://localhost:8088, val 8089, prd 8090).
-- There are no OOM simulation vars; to test halving, force a failing first attempt in Airflow.
+- There are no OOM simulation vars; to test halving, force a failing first attempt in Airflow. A reload step in
+  `RELEASE_STEPS` (`dbt_release.py`) takes only `task_name`, `defer_to_reload`, `model`, `threads` and what `reload_conf` forwards
+  (`batch_count`, `start_date`, `end_date`, `limit`, `run_tests`, `cleanup_backup`); any other key, `vars` included, is dropped
+  (`airflow/tests/test_release_steps.py` checks it). The step used to carry `"vars": {"simulate_oom": False}`; removing it reaches an
+  environment only with the next deployed tag (a deploy job copies `airflow/dags` out of the tag's image into the environment).

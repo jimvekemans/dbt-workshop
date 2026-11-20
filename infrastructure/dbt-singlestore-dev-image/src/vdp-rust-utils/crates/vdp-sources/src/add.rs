@@ -19,7 +19,7 @@ pub struct AddRequest {
 }
 
 impl AddRequest {
-    /// `database.table` (split at the first dot, as `add_source.py` did).
+    /// `database.table` (split at the first dot, as the Python script did).
     ///
     /// # Errors
     ///

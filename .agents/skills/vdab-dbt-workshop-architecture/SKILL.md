@@ -5,18 +5,17 @@ description: >-
   repo layout, the root Makefile entry point and the manager container (bootstrap, reset), the workshop-* containers and
   ports, the three environments dev/val/prd (Airflow, state volume, docs site, prefixed SingleStore databases, roles and
   service user each), Docker volumes, the base, dev and dbt-vdp images, image-based deploys, Airflow 3.4.0 patterns, the overview page, the
-  failure e-mail and Mailpit, the drift audit and the tests. Use it when starting, bootstrapping, resetting, debugging,
-  testing or changing any part of the workshop stack.
+  failure e-mail and Mailpit, the drift audit, the tests and the Rust toolkit workspaces. Use it when starting,
+  bootstrapping, resetting, debugging, testing or changing any part of the workshop stack.
 ---
 
 # dbt-singlestore workshop: architecture & runbook
 
-Not yet re-verified end to end after the dev/val/prd refactor (bootstrap, first pipeline, DAG runs, e-mail).
-
 ## 0. Ground rules
 - **One entry point, no host Python for running the stack**: the root `Makefile` (`make help` lists the targets). The
   host needs Docker with the compose plugin and `make`; only `make test` also needs `python3` with `pytest`. Do not call
-  the manager scripts directly.
+  the manager scripts directly. The Rust workspaces (§12) need no host toolchain either: `make rust-check` and friends
+  run their quality gate in a container.
 - **Self-contained**: containers are `workshop-<service>`, volumes `workshop_*`, network `workshop_net`, compose project
   `dbt-workshop`. The user's personal SingleStore (container `singlestore`, host 3306) belongs to other projects: never
   stop, change or target it.
@@ -26,13 +25,18 @@ Not yet re-verified end to end after the dev/val/prd refactor (bootstrap, first 
   under a demo's conditions. It also builds each environment once and deploys the baseline version to validation and
   production. Its scenarios, engine and clean-up model are described in `infrastructure/workshop-studio/README.md`.
 - `infrastructure/dbt-singlestore-base-image/src/` holds git submodules (large); leave them out of searches.
-  `.claude/skills/*` symlinks to `.agents/skills/*`.
+  `.claude/skills/*` are symlinks to `.agents/skills/*`, except `dbt-base-image`, which lives in `.claude/skills/`
+  itself. The Rust workspaces under `infrastructure/dbt-singlestore-dev-image/src/` have `target/` folders: leave them
+  out of searches too.
 
 ## 1. Repository layout
 ```
 dbt-workshop/
 ├── Makefile                   the entry point (§2)
+├── requirements.md            the owner's own minimum requirements (the stack exceeds them: three environments)
 ├── .agents/skills/            these skills
+├── .claude/                   skills/ (links to .agents/skills, plus dbt-base-image itself), launch.json (dev server
+│                              `studio-frontend-mock`: Studio frontend on port 5199, `/?mock`)
 ├── dbt-singlestore-workshop/  the dbt project, Dockerfile, .gitlab-ci.yml, airflow/{dags,utils,tests}, .devcontainer/,
 │                              .pre-commit-config.yaml, dbt-bouncer.yml, vdp.toml, tests/setup_tests.sh
 │                              (pushed to GitLab as workshop/dbt-vdp)
@@ -43,8 +47,11 @@ dbt-workshop/
     ├── gitlab/                gitlab.rb (Omnibus config of the upstream gitlab/gitlab-ce image)
     ├── singlestore/           init_global.sql, init_env.sql.tmpl
     ├── nginx/                 nginx.conf (docs sites)
+    ├── overview/              the overview page: app.py, index.html, services.json (§3)
     ├── dbt-singlestore-base-image/   Fusion dbt + ADBC driver image (§5)
-    ├── dbt-singlestore-dev-image/    developer image (§5)
+    ├── dbt-singlestore-dev-image/    developer image (§5); src/ has sqlfmt, dbt-bouncer and the Rust workspaces
+    │                                 vdp-rust-utils, release-ui, vaultspeed-framework (§12)
+    ├── rust-check/            toolchain image (Dockerfile) and check.sh behind `make rust-check` / `rust-test` (§12)
     └── workshop-studio/       scenarios, live demos and the data feeder (§0; its own README)
 ```
 
@@ -54,15 +61,20 @@ dbt-workshop/
 | `up` | `docker compose up -d --build` (the manager has the profile `manager` and is not started) |
 | `down` / `stop` / `ps` / `logs` | the plain compose commands; `S=<service>` limits them, e.g. `make logs S=airflow-dev` |
 | `images` | builds `dbt-singlestore-base:1.11.11`, `dbt-singlestore-dev:1.11.11` and the Airflow and manager images |
-| `bootstrap` | `up`, then `bootstrap_stack.py` in the manager |
-| `reset` | `reset_workshop.py` in the manager |
+| `bootstrap` | builds the base image on the host, then `up`, then `bootstrap_stack.py` in the manager |
+| `reset` | `reset_workshop.py` in the manager, then `docker exec workshop-studio python -m studio.reset` (only a warning when the studio is not running or busy) |
 | `shell` | bash in the manager |
 | `test` | `pytest -q tests` in `dbt-singlestore-workshop/airflow` on the host, then `docker compose config -q` (also with the profile `manager`) |
+| `rust-check` | the whole quality gate of the Rust workspaces in a container: fmt, clippy (`vdp-rust-utils`: also per cargo feature), tests, docs; `W=vdp-rust-utils\|release-ui\|vaultspeed-framework\|all` (default all) |
+| `rust-test` | only the tests of `W`; `S=` goes to `cargo test`, e.g. `make rust-test W=vdp-rust-utils S="-p vdp-dbt"` |
+| `rust-cargo` | any cargo command in the same container: `make rust-cargo W=release-ui S="fmt"` (`S` is required) |
+| `rust-clean` | removes the toolchain image and the cache volumes of the three targets above |
 
 **Bootstrap** (`infrastructure/manager/bootstrap_stack.py`), in order: apply `init_env.sql.tmpl` once per environment,
 then `init_global.sql`; create the GitLab root token, the Airflow OAuth application and the group `workshop` (subgroups
-`admins`, `maintainers`, `users`; root owns all three), the project `workshop/dbt-vdp`, one maintainer and the users `pu_dev1..3`; build the base
-image and check that the dev image exists; register the runner; recreate the three Airflows and the docs server; push
+`admins`, `maintainers`, `users`; root owns all three), the project `workshop/dbt-vdp`, one maintainer and the users `pu_dev1..3`; check that the base
+image exists (it must: the Makefile builds it, the manager's docker CLI has no BuildKit) and note when the dev image is
+missing (`make images` builds it); register the runner; recreate the three Airflows and the docs server; push
 the dbt project (branches `dev` and `main`, tag `v1.0.0`) and wait for the pipeline of that tag, which builds
 `dbt-vdp:v1.0.0` and deploys it to dev. Bootstrap ends by resetting the Workshop Studio (`studio.reset --wait`) and
 waiting for its baseline: the studio starts with `up`, before the tables and the image exist, so its first check fails
@@ -78,7 +90,7 @@ compose. The Makefile runs it with the repo mounted at its **host** path, becaus
 
 ## 3. Containers, ports, credentials (`infrastructure/compose/docker-compose.yml`)
 Upstream images are pinned to exact versions (bump deliberately, then bootstrap on a fresh stack). Built here: the Airflow
-image, the manager, the studio, and the dbt images.
+image, the manager, the overview, the studio, and the dbt images.
 
 | Container (in-network host) | Host port | Notes |
 | :-- | :-- | :-- |
@@ -146,7 +158,9 @@ keeps the volumes; `docker compose down -v` (run in `infrastructure/compose`) de
   is `vdp`, which runs the real binary from `/usr/local/libexec/dbt/dbt`), the `sqlfmt` and `dbt-bouncer` forks and
   `pre-commit` in `/opt/devtools`. Everything is built from the image folder, like the base image: `vdp` is the
   prebuilt `./vdp` when present, else a release build of `src/vdp-rust-utils`; `src/sqlfmt` and `src/dbt-bouncer` are
-  pip-installed. `src/` and `./vdp` are gitignored (local copies of the client repos). See its `README.md`.
+  pip-installed. `src/` (sqlfmt, dbt-bouncer, vdp-rust-utils, vaultspeed-framework, release-ui) is tracked and the vdp
+  source is a cleaned copy; only `local/` (the untouched client copies) and `./vdp` are gitignored. See its `README.md`
+  and §12.
 - **Project** `dbt-vdp:<git tag>`: built by CI from `dbt-singlestore-workshop/Dockerfile` (`FROM
   dbt-singlestore-base:1.11.11`, project copied to `/usr/app/dbt/workspace` including `airflow/dags` and
   `airflow/utils`, `dbt deps` run at build). There is no registry: runner and Airflow use the host Docker daemon, so the
@@ -163,7 +177,7 @@ A tag builds `dbt-vdp:<tag>` (`build_image`); a deploy job then, for environment
 `docker run --rm --network workshop_net` of `dbt-vdp:<Variable dbt_image_tag>` with only the `mnt_dbt` subpath of its
 state volume mounted (`airflow/utils/dbt_pod_utils.py`, `dbt_config.py`). If the Variable is unset the task fails with a
 message saying so. **Rollback** = set the Variable to an older tag (the DAG files stay those of the last deploy).
-Release flow and job list: `.agents/skills/dbt-release-flow/SKILL.md`.
+Release flow and job list (its §2 repeats this deploy): `.agents/skills/dbt-release-flow/SKILL.md`.
 
 ## 7. Airflow patterns (`dbt-singlestore-workshop/airflow/`)
 - DAGs: `dbt_daily_load` (plain schedule from `DBT_DAILY_LOAD_SCHEDULE`, default `@daily`, `none` = manual; trigger by
@@ -182,7 +196,11 @@ Release flow and job list: `.agents/skills/dbt-release-flow/SKILL.md`.
   OpenShift ships it to a pod that needs python (`DBT_OPENSHIFT_STATE_IMAGE`; the workshop's dbt image has none).
   `python_task(do_xcom_push=True)` makes the function's result the XCom, `skip_if_missing=True` turns its
   FileNotFoundError into a skipped task. The same `dbt_pod_utils.py` and `tests/test_pod_utils.py` are used by the
-  VDAB `dbt-vdp` project (Airflow 3.4 as well); project differences live in `dbt_config.py`.
+  VDAB `dbt-vdp` project (no Airflow 2 fallback imports remain); project differences live in
+  `dbt_config.py`, which derives `DEPLOY_TARGET` and `SINGLESTORE_DB` (`<env>_edw_dv_rdv`) for the dbt containers, falls
+  back to the platform's `IFW_PILLAR` when `DBT_DEPLOY_TARGET` is unset and holds the OpenShift settings, among them
+  `DBT_OPENSHIFT_KUBE_CONFIG` (empty = in-cluster) and `OPENSHIFT_OPTIONAL_SECRET_KEYS` (secret keys a pod may start
+  without: `IKL_HASH_SALT`).
 - dbt runs in sibling containers started through the docker socket, `--user root`, `umask 0000` (artifacts stay writable
   for the `airflow` user). The Airflow image ships a docker CLI 29.x (volume subpaths need CLI >= 26) and
   compose sets `DOCKER_API_VERSION=1.47`.
@@ -194,13 +212,14 @@ Release flow and job list: `.agents/skills/dbt-release-flow/SKILL.md`.
 - Run state comes from leaf tasks: never make an `all_done` task the only leaf (`dbt_release` pairs
   `cleanup_temporary_artifacts` with `unpause_daily_load`).
 - **Runtime levers** (`utils/dbt_runtime_overrides.py`, read when a task starts): Variable `dbt_env_vars` (JSON env for
-  every dbt task; `SINGLESTORE_*` and `DBT_DEPLOY_TARGET` are refused), `dbt_daily_load_dbtignore` (JSON list appended to
+  every dbt task; `SINGLESTORE_*`, `DBT_DEPLOY_TARGET`, `IKL_HASH_SALT`, `DBT_PROFILES_DIR`, `DBT_TARGET_PATH`, `PATH` and
+  `HOME` are refused), `dbt_daily_load_dbtignore` (JSON list appended to
   `.dbtignore` for the build and the freshness task), `disabled_dbt_models` (appended to `--exclude`).
 - **Failure e-mail** (`utils/dbt_failure_report.py`, task `send_failure_report` with `trigger_rule="one_failed"` in
   `dbt_daily_load` and `dbt_release`): one HTML mail per DAG run with the errors and warnings parsed from the task logs,
   `run_results.json` when it exists, and the log tail. The Airflow containers send it to `mailpit:1025`
   (`DBT_REPORT_SMTP_HOST`, `DBT_REPORT_SMTP_PORT`, `DBT_REPORT_MAIL_FROM=airflow-<env>@workshop.local`,
-  `DBT_FAILURE_EMAIL_RECIPIENTS`); read the mails at http://localhost:8025. The patterns target real dbt 2.0.11 output (fixtures in `airflow/tests/fixtures`); only the failed-MODEL line is still inferred from the failed-test line. Subject: `[dev] Nightly load failed: 1 check failed, 12 tables skipped`.
+  `DBT_FAILURE_EMAIL_RECIPIENTS`); read the mails at http://localhost:8025. The patterns target real dbt 2.0.11 output (fixtures in `airflow/tests/fixtures`); only the failed-MODEL line is still inferred from the failed-test line. Subject: `[development] Nightly load failed: 1 check failed, 6 steps not run` (the studio finds the mail by `Nightly load failed`).
 
 ## 8. `dbt_release`, drift audit
 - Task order: `audit_environment_drift` (gate) -> `pause_daily_load` -> `run_operation__database_maintenance` -> the steps
@@ -218,7 +237,7 @@ Release flow and job list: `.agents/skills/dbt-release-flow/SKILL.md`.
 ## 9. SingleStore layout, RBAC, quirks (`infrastructure/singlestore/`)
 - **One instance, separate databases per environment E** (applied from `init_env.sql.tmpl`, `__ENV__` is replaced):
   `E_landing` (empty landing tables), `E_edw_dv_rdv`, `E_edw_dv_bdv`, `E_im_dimensional`, `E_vdp_mgmt` (run log
-  `dbt_run_results`, `vdp_parameters`, `qa_test_result`; the reload macros create `reload_state` there on demand). Global (`init_global.sql`): `vdp_ci`, the CI
+  `dbt_run_results`, `vdp_parameters`; the reload macros create `reload_state` there on demand). Global (`init_global.sql`): `vdp_ci`, the CI
   scratch database.
 - **Roles** (user -> group `grp_<role>` -> role -> privileges, grants written per database): per environment `E_admin`
   (ALL), `E_dbt` (ALL on the four model/management databases, SELECT on `E_landing`) and `E_reader` (SELECT); globally
@@ -248,7 +267,9 @@ Release flow and job list: `.agents/skills/dbt-release-flow/SKILL.md`.
 `initializeCommand` runs `make up` on the host). `post_create.sh` asks for a `pu_dev*` account and its password and writes
 `.devcontainer/.env` (gitignored; template `.env.example`), runs `dbt deps` and `pre-commit install`.
 `.pre-commit-config.yaml` runs `sqlfmt`, `dbt parse` and `dbt-bouncer` (`dbt-bouncer.yml`). `vdp.toml` defines the
-environments dev, val and prd for `vdp` (no Vault, no CA certificate), the `dev_` databases its source commands
+environments dev, val and prd for `vdp` (no Vault, no CA certificate; they are aliases of vdp's built-in LDV, ABT and
+PRD, so `{env}` renders `ldv`/`abt`/`prd` and `{env_short}` renders `dev`/`val`/`prd`, and `[qa] run_results_table =
+"{env_short}_vdp_mgmt.dbt_run_results"` points the qa commands at the run log of §9), the `dev_` databases its source commands
 work on, and `[sources.database_prefix]`: `vdp` writes `{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_<name>` instead of
 the literal `dev_<name>`, so generated sources (`models/sources/sources_<name>.yml`) are valid in every
 environment and the hand-written sources that use the expression can be extended.
@@ -260,10 +281,44 @@ nothing references), `sql run`, `sql export`, `qa orphan-tables`, `qa view-candi
 `vdp`, which lets `.devcontainer/.env` override the process environment.
 
 ## 11. Tests and experiments
-- `make test` (host `pytest` for `airflow/tests`: `test_runtime_overrides.py`, `test_failure_report.py`; compose config check).
+- `make test` (host `pytest` for `airflow/tests`: `test_runtime_overrides.py`, `test_failure_report.py`, `test_pod_utils.py`, `test_release_steps.py`; compose config check).
 - SQL or dbt experiments go to a throwaway SingleStore, never the workshop stack or the personal container:
   ```bash
   docker run -d --name ms_s2 -p 127.0.0.1:33306:3306 -e ROOT_PASSWORD=<pick one> ghcr.io/singlestore-labs/singlestoredb-dev:0.2.90
   ```
   Create the databases and roles by applying `init_env.sql.tmpl` (replace `__ENV__`) and `init_global.sql` to it, put it on its
   own docker network with a dbt container from `dbt-singlestore-base:1.11.11`, and run dbt with `SINGLESTORE_HOST` set to it.
+
+## 12. Rust toolkit workspaces (`infrastructure/dbt-singlestore-dev-image/src/`)
+Three tracked Cargo workspaces (Rust 1.96), each with its own skill. Only `vdp` is built into an image.
+
+| Workspace | Binary (crate to build) | Built where | Consumers | Skill |
+| :-- | :-- | :-- | :-- | :-- |
+| `vdp-rust-utils` | `vdp` (`cargo build --release --locked -p vdp-cli`) | dev image, stage `vdp-build` (`rust:1.96-trixie`); a prebuilt `./vdp` wins; with neither the image has plain `dbt` | `.devcontainer` + `vdp.toml`, the `vdp:` tasks in `.vscode/tasks.json`, pre-commit (`dbt parse`) and `tests/setup_tests.sh` (both call `dbt`, the link), Workshop Studio | `src/vdp-rust-utils/.agents/skills/vdp-rust-utils/SKILL.md` |
+| `release-ui` | `vdp-release-ui` (`-p vdp-release-ui-cli`) | by hand, in no image | none in the stack | `src/release-ui/.agents/skills/vdp-release-ui/SKILL.md` |
+| `vaultspeed-framework` | `vdp-vaultspeed` (`-p vdp-vaultspeed-cli`) | by hand, in no image | none in the stack | `src/vaultspeed-framework/.agents/skills/vdp-vaultspeed-framework/SKILL.md` |
+
+- In the dev image `dbt` on the PATH is a link to `vdp`; the real engine is `/usr/local/libexec/dbt/dbt` (`VDP_DBT_BIN`).
+  CI, Airflow and the project image run the plain `dbt` of the base image.
+- `vdp vaultspeed ...` and `vdp release-ui ...` replace `vdp` by `vdp-vaultspeed` / `vdp-release-ui`, found next to `vdp`
+  or on `PATH`; without the binary `vdp` says so and exits 2. Neither workspace is referenced by compose, the Makefile,
+  nginx, the overview, CI or `vdp.toml`.
+- Path dependencies run `vdp-rust-utils` <- `release-ui` <- `vaultspeed-framework`: keep the three folders side by side.
+- **Checks run in Docker, not on the host.** `make rust-check` (fmt, clippy, tests, docs; `vdp-rust-utils` also clippy per
+  cargo feature), `make rust-test` (`S=` goes to `cargo test`) and `make rust-cargo S="<cargo arguments>"` run in the image
+  `workshop-rust-check:<version>` (`infrastructure/rust-check/`: `rust:<version>-trixie` plus rustfmt and clippy under the
+  channel name the workspaces pin). `W=<workspace>` picks one workspace (default all three, in dependency order). The
+  version is read from `ARG RUST_VERSION` of the dev image Dockerfile, so a toolchain bump touches that line, the three
+  `rust-toolchain.toml` files and `rust-version`. The container mounts all of `src/` (read-write, because the workspaces
+  reach each other by path) at `/src`, works in `/src/<workspace>` and runs as the host user, so nothing root-owned
+  appears. Named volumes keep the cargo registry (`workshop-rust-registry`, `workshop-rust-git`) and one build folder per
+  workspace (`workshop-rust-target-<workspace>`, `CARGO_TARGET_DIR=/cargo-target`); no build output lands in the
+  repository. The image sets `CARGO_PROFILE_DEV_DEBUG=0` (no debug info: the build output of `vaultspeed-framework`
+  was over 20 GB with it and takes 2.5 times as long). Measured on a 20-core machine, all three workspaces cold
+  (image built, volumes empty): `vdp-rust-utils` 33 s, `release-ui` 21 s, `vaultspeed-framework` 83 s, 2.5 minutes in
+  all; warm, a few seconds each. The volumes hold about 7 GB, the image 3 GB. `CARGO_BUILD_JOBS=<n>` limits the compile parallelism like in the dev image build; `make rust-clean` removes
+  the image and the volumes. The targets are not part of `make test` or `make bootstrap`. A host `cargo` with `rustup`
+  still works (the pinned toolchain installs itself), at the price of large `target/` folders next to the sources.
+- Workshop Studio: the `image.versions` action runs `vdp --version` (among other tools) in throwaway dev-image
+  containers, and the scenario `same-toolbox` quotes the dev image's Dockerfile (from `RUN --mount=type=bind,source=src/sqlfmt`
+  to `ln -s`). After editing that Dockerfile run `docker exec workshop-studio python -m studio.catalog --check`.

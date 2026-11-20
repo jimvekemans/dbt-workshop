@@ -574,7 +574,7 @@ from the secrets (JIRA_USER and JIRA_TOKEN by default). The credentials are neve
 
 #[cfg(feature = "release")]
 pub(crate) const JIRA_ADVANCE_LONG_ABOUT: &str = "\
-Move tickets to their next status (`update_ticket.py`).
+Move tickets to their next status.
 
 Each ticket is read, the transition is picked and performed, and the ticket is read again to show
 its new status. The transition is --transition, else [jira].advance_transition (both matched
@@ -882,8 +882,9 @@ project directory and ~/.dbt that has a profiles.yml.";
 
 pub(crate) const GLOBAL_NO_VAULT_LONG: &str = "\
 Do not log in to Vault: secrets come from the project's dotenv file and the process
-environment only. As $VDP_NO_VAULT it takes a boolean: `1`, `true`, `yes` or `on` turn
-it on; `0`, `false`, `no` or `off` leave it off.";
+environment only. As $VDP_NO_VAULT (read the same way by the `dbt` link) it takes a
+boolean: `1`, `true`, `yes` or `on` turn it on; `0`, `false`, `no` or `off` leave it
+off. Case does not matter, an empty value counts as unset, anything else is an error.";
 
 pub(crate) const GLOBAL_VERBOSE_LONG: &str = "\
 Debug logging on stderr (and in the --log-json file). $VDP_LOG, when set, overrides

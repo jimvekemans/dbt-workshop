@@ -17,8 +17,9 @@ a live demo on this stack. It cleans up after each demo by itself. See its
 
 ## Prerequisites
 
-- Linux on x86-64 with Docker Engine 27 or newer, its compose plugin (v2) and `make`. That is what the stack is
-  built and tested on; nothing is installed on the host besides Docker.
+- Linux on x86-64 with Docker Engine 27.2 or newer (the Airflow and Studio containers pin the Docker API to 1.47), its compose
+  plugin (v2) and `make`. That is what the stack is built and tested on; nothing is installed on the host besides
+  Docker.
 - about 16 GB of free memory (SingleStore is capped at 6 GB, GitLab at 4 GB) and 40 GB of disk for images and volumes
 - these host ports free: 80 and 2222 (GitLab), 8025 (Mailpit), 8081, 8082, 8086 (dbt docs), 8083 and 23306
   (SingleStore), 8085 (Studio), 8088 to 8090 (Airflow), 8099 (overview). Most can be moved with the
@@ -36,7 +37,7 @@ cd dbt-workshop
 echo "127.0.0.1 gitlab.local" | sudo tee -a /etc/hosts   # once per machine
 make images                   # base, dev, Airflow and manager images
 make bootstrap                # start the stack and provision everything (SingleStore, GitLab, runner, first pipeline)
-make help                     # all targets: up, down, stop, ps, logs, images, bootstrap, reset, shell, test
+make help                     # all targets: up, down, stop, ps, logs, images, bootstrap, reset, shell, test, rust-*
 ```
 
 Then open the Workshop Studio at http://localhost:8085. It fills the practice data and prepares the three environments
@@ -50,8 +51,16 @@ If you cloned without `--recurse-submodules`, run `git submodule update --init` 
 compile, copy `dbt` and `libadbc_driver_singlestore.so` from a machine that has them into
 `infrastructure/dbt-singlestore-base-image/`; they are used as they are when present.
 
-`make reset` goes back to the baseline: databases, GitLab repository, Airflow overrides. `make stop` leaves the stack
-stopped; the data stays in Docker volumes. Credentials are fixtures for a local practice stack; they are defined in
+The Rust code next to the developer image (three Cargo workspaces under `infrastructure/dbt-singlestore-dev-image/src/`) is
+checked in Docker as well, so you need no Rust toolchain: `make rust-check` runs formatting, clippy, tests and docs for
+all three (`W=vdp-rust-utils`, `W=release-ui` or `W=vaultspeed-framework` for one), `make rust-test` only the tests and
+`make rust-cargo S="<cargo arguments>"` any other cargo command. The first run downloads the Rust image and compiles every
+dependency (2.5 minutes for all three on a 20-core machine, DuckDB makes `vaultspeed-framework` the slowest; later runs
+take seconds); the image (3 GB), the cargo registry and the build output (7 GB together) stay in Docker volumes that
+`make rust-clean` removes. These targets are not part of `make test` or `make bootstrap`.
+
+`make reset` goes back to the baseline: databases, GitLab repository, Airflow overrides and the Studio's saved state.
+`make stop` leaves the stack stopped; the data stays in Docker volumes. Credentials are fixtures for a local practice stack; they are defined in
 [init_global.sql](infrastructure/singlestore/init_global.sql),
 [init_env.sql.tmpl](infrastructure/singlestore/init_env.sql.tmpl),
 [bootstrap_stack.py](infrastructure/manager/bootstrap_stack.py) and
@@ -87,9 +96,16 @@ builds land in the `dev_*` databases with their user name as prefix.
 
 ## Go deeper
 
-The skills in `.agents/skills/` are the technical reference:
+The skills are the technical reference: most in `.agents/skills/`, the base-image skill in `.claude/skills/`, and
+three next to the Rust sources of the dev image:
 
 - [Workshop architecture](.agents/skills/vdab-dbt-workshop-architecture/SKILL.md): the single source for the stack
 - [Release flow](.agents/skills/dbt-release-flow/SKILL.md): branches, tags, CI jobs, deploys, `dbt_release`
 - [Reload pipeline](.agents/skills/dbt-reload-pipeline/SKILL.md): blue/green reloads with `dbt_reload`
 - [Base image](.claude/skills/dbt-base-image/SKILL.md): the dbt Fusion + ADBC driver image
+- [Studio scenarios](.agents/skills/workshop-studio-scenarios/SKILL.md): adding or changing a Workshop Studio scenario
+- [vdp toolkit](infrastructure/dbt-singlestore-dev-image/src/vdp-rust-utils/.agents/skills/vdp-rust-utils/SKILL.md): the Rust toolkit that fronts `dbt` in the dev image
+- [Release hub](infrastructure/dbt-singlestore-dev-image/src/release-ui/.agents/skills/vdp-release-ui/SKILL.md): the release UI's backend (standalone, not part of the stack)
+- [VaultSpeed deployer](infrastructure/dbt-singlestore-dev-image/src/vaultspeed-framework/.agents/skills/vdp-vaultspeed-framework/SKILL.md): the VaultSpeed framework's deployer (standalone, not part of the stack)
+
+The developer image has its own [README](infrastructure/dbt-singlestore-dev-image/README.md).

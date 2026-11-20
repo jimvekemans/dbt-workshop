@@ -1,12 +1,13 @@
 ---
 name: dbt-base-image
 description: >-
-  Inner workings of the workshop's dbt-singlestore base image (infrastructure/dbt-singlestore-base-image): the three-stage
-  Dockerfile that uses a prebuilt Fusion dbt binary and SingleStore ADBC driver when present and otherwise builds them
-  from git submodules (src/dbt = jimvekemans/dbt feat/backfill-hardening-pr, src/singlestore-adbc-connector =
-  singlestore-labs/singlestore-adbc-connector main), driver discovery via lib/dbt/, DBT_ALLOW_EXPERIMENTAL_ADAPTERS,
-  image tags and consumers (including the dev image and the dbt-vdp project image built on it), and build pitfalls. Use when building, rebuilding, debugging or changing the base image, the
-  dbt binary, the ADBC driver, the submodules, or when dbt in CI/Airflow/devcontainer fails to start or reach SingleStore.
+  Inner workings of the workshop's dbt-singlestore base image (infrastructure/dbt-singlestore-base-image): the
+  three-stage Dockerfile that uses a prebuilt Fusion dbt binary and SingleStore ADBC driver when present and otherwise
+  builds them from the git submodules src/dbt (jimvekemans/dbt, feat/backfill-hardening-pr) and
+  src/singlestore-adbc-connector (singlestore-labs, main); driver discovery via lib/dbt/,
+  DBT_ALLOW_EXPERIMENTAL_ADAPTERS, image tags, consumers (dev image, dbt-vdp project image) and build pitfalls. Use when
+  building, rebuilding, debugging or changing the base image, the dbt binary, the ADBC driver or the submodules, or when
+  dbt in CI/Airflow/devcontainer fails to start or reach SingleStore.
 ---
 
 # dbt-singlestore base image
@@ -48,10 +49,11 @@ How the "use it if present" check works, which is easy to break:
   well guarantees the COPY never has zero sources, because that's an error. Don't rename the submodule dirs to
   anything starting with `dbt` or `libadbc` at the context root, or the glob picks them up. That's why they live
   under `src/`.
-- The sources come in through `RUN --mount=type=bind,source=src/...` (read-only), not `COPY`, so a prebuilt build
-  doesn't add the source tree to a layer. Cargo writes to `CARGO_TARGET_DIR=/cargo-target`, a cache mount, because
-  the bind mount is read-only. The binary is copied to `/out` because cache-mount contents never end up in the
-  image.
+- The sources come in through `RUN --mount=type=bind,source=src/...,rw`, not `COPY`, so a prebuilt build doesn't add
+  the source tree to a layer. Both mounts are `rw` (the dbt one because the fork has no `Cargo.lock` in git and cargo
+  writes one); writes land in the build's own copy and reach neither the host nor the image. Cargo's output goes to
+  `CARGO_TARGET_DIR=/cargo-target`, a cache mount, so rebuilds are incremental; the binary is copied to `/out` because
+  cache-mount contents never end up in the image.
 - If the prebuilt file is missing and the submodule dir is empty (not initialized), the step fails with a message
   saying to run `git submodule update --init`.
 - Toolchains are installed inside the `else` branch only, so a prebuilt build stays fast and pulls nothing extra.
@@ -83,7 +85,7 @@ How the "use it if present" check works, which is easy to break:
 - Go comes from the go.dev tarball for the exact version on the `go` line of `go/go.mod`, matched to
   `dpkg --print-architecture`.
 - Upstream's official route is `pixi run make` (adbc-drivers/dev's `adbc-make`), which needs pixi and Python. The
-  plain `go build` produces an equivalent shared library (verified: about 39 MB, loads fine) without either.
+  plain `go build` produces an equivalent shared library (verified: roughly 40-50 MB, loads fine) without either.
 
 ## 3. Submodules
 
@@ -96,16 +98,18 @@ them.
   `https://github.com/singlestore-labs/singlestore-adbc-connector.git`, branch `main`. There's no repo called
   `singlestore-adbc-driver`. Earlier binaries were built from a `feat/singlestore-improvements` branch; if the
   `main` driver behaves differently, that's the first thing to check.
-- `.dockerignore` excludes `src/*/.git`, `src/*/target` and `node_modules`, which keeps the context small (a submodule's
-  `.git` is just a pointer file anyway).
+- `.dockerignore` excludes `src/*/.git`, `src/*/target`, `node_modules` and `local/`, which keeps the context small (a
+  submodule's `.git` is just a pointer file anyway).
 - The prebuilt `dbt` and `libadbc_driver_singlestore.so` are gitignored in the root `.gitignore`. After you bump a
   submodule, **delete the matching prebuilt file**, or the image keeps shipping the old binary.
 
 ## 4. Who builds and consumes it
 
-- `make images` and `bootstrap_stack.py::build_images()` run `docker build -t dbt-singlestore-base:1.11.11 <this folder>`.
-  The tag is not changed or pushed. `bootstrap_stack.py::register_runner()` registers the GitLab runner with
-  `--docker-image dbt-singlestore-base:1.11.11` and `--docker-pull-policy if-not-present`.
+- `make images` and `make bootstrap` run `docker build -t dbt-singlestore-base:1.11.11 <this folder>` on the host (the
+  Dockerfile needs BuildKit for `RUN --mount`, which the docker CLI in the manager container lacks).
+  `bootstrap_stack.py::build_images()` only runs `docker image inspect`: it stops when the base image is missing and
+  just notes a missing dev image. The tag is not changed or pushed. `bootstrap_stack.py::register_runner()` registers
+  the GitLab runner with `--docker-image dbt-singlestore-base:1.11.11` and `--docker-pull-policy if-not-present`.
 - Consumers: `dbt-singlestore-workshop/.gitlab-ci.yml` (default job image), `dbt-singlestore-workshop/Dockerfile`
   (`FROM`, argument `BASE_IMAGE`), `infrastructure/dbt-singlestore-dev-image/Dockerfile` (`FROM`), and through the project
   image the Airflow dbt tasks. See the `vdab-dbt-workshop-architecture` skill in `.agents/skills/` for the wider stack.

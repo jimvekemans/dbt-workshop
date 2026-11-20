@@ -113,7 +113,7 @@ fn parse_sources(ctx: &Context, sources: &SecretSources) -> Result<Vec<Source>, 
 
 /// Resolves the secret chain for the context's environment.
 ///
-/// Mirrors `ProjectManager.setup_env` of the Python utilities: the AppRole credentials come from the dotenv file
+/// Mirrors the environment setup of the Python utilities: the AppRole credentials come from the dotenv file
 /// or the environment (`KEYVAULT_ROLE_ID`, else the environment-specific variable), Vault is read with the CA of
 /// the environment, and a Vault failure only warns unless `[secrets].vault_required` is set.
 ///

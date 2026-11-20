@@ -278,7 +278,8 @@ impl Jobs {
     ///
     /// # Errors
     ///
-    /// [`HubError::Busy`] when another job is running; [`HubError::Internal`] when the job's thread cannot be started.
+    /// [`HubError::Busy`] when another job is running; [`HubError::Internal`] when the job's thread cannot be started (the
+    /// job is then not kept and the next one can start).
     pub fn start<F>(
         self: &Arc<Self>,
         kind: JobKind,
@@ -287,6 +288,24 @@ impl Jobs {
     ) -> Result<Job, HubError>
     where
         F: FnOnce(&JobLog) -> Result<JobResult, String> + Send + 'static,
+    {
+        self.start_on(kind, title, work, |name, run| {
+            std::thread::Builder::new().name(name).spawn(run).map(drop)
+        })
+    }
+
+    /// [`Jobs::start`] with the way the thread is started given (`spawn` gets the thread's name and what it runs), so that
+    /// a test can make the start fail.
+    fn start_on<F, S>(
+        self: &Arc<Self>,
+        kind: JobKind,
+        title: impl Into<String>,
+        work: F,
+        spawn: S,
+    ) -> Result<Job, HubError>
+    where
+        F: FnOnce(&JobLog) -> Result<JobResult, String> + Send + 'static,
+        S: FnOnce(String, Box<dyn FnOnce() + Send>) -> std::io::Result<()>,
     {
         let job = {
             let mut inner = self.lock();
@@ -322,33 +341,44 @@ impl Jobs {
             jobs: Arc::clone(self),
             id: n,
         };
-        std::thread::Builder::new()
-            .name(format!("job-{n}"))
-            .spawn(move || {
-                let result = catch_unwind(AssertUnwindSafe(|| work(&log)))
-                    .unwrap_or_else(|_| Err("internal error (the job panicked)".into()));
-                if let Err(error) = &result {
-                    log.log(Level::Error, error.clone());
-                }
-                let mut inner = log.jobs.lock();
-                if let Some(job) = inner.jobs.get_mut(&n) {
-                    job.finished = Some(now_ms());
-                    match result {
-                        Ok(value) => {
-                            job.status = JobStatus::Done;
-                            job.result = Some(value);
-                        }
-                        Err(error) => {
-                            job.status = JobStatus::Failed;
-                            job.error = Some(error);
-                        }
+        let run = move || {
+            let result = catch_unwind(AssertUnwindSafe(|| work(&log)))
+                .unwrap_or_else(|_| Err("internal error (the job panicked)".into()));
+            if let Err(error) = &result {
+                log.log(Level::Error, error.clone());
+            }
+            let mut inner = log.jobs.lock();
+            if let Some(job) = inner.jobs.get_mut(&n) {
+                job.finished = Some(now_ms());
+                match result {
+                    Ok(value) => {
+                        job.status = JobStatus::Done;
+                        job.result = Some(value);
+                    }
+                    Err(error) => {
+                        job.status = JobStatus::Failed;
+                        job.error = Some(error);
                     }
                 }
-                inner.active = None;
-                drop(inner);
-                log.jobs.save();
-            })
-            .map_err(|e| HubError::Internal(format!("could not start the job: {e}")))?;
+            }
+            inner.active = None;
+            drop(inner);
+            log.jobs.save();
+        };
+        if let Err(error) = spawn(format!("job-{n}"), Box::new(run)) {
+            // The job never ran: take it back, or the hub would answer `busy` until it is restarted.
+            {
+                let mut inner = self.lock();
+                inner.jobs.remove(&n);
+                if inner.active == Some(n) {
+                    inner.active = None;
+                }
+            }
+            self.save();
+            return Err(HubError::Internal(format!(
+                "could not start the job: {error}"
+            )));
+        }
         Ok(view)
     }
 
@@ -498,6 +528,37 @@ mod tests {
         assert_eq!(after.steps.len(), 1);
         assert_eq!(after.steps[0].message, "two");
         assert!(jobs.active().is_none());
+    }
+
+    #[test]
+    fn a_thread_that_cannot_start_does_not_leave_the_hub_busy() {
+        let jobs = Arc::new(Jobs::new(10, None));
+        let refused = jobs.start_on(
+            JobKind::Sync,
+            "sync",
+            |_| {
+                Ok(JobResult::Analysis {
+                    analysis_id: "a1".into(),
+                })
+            },
+            |_, _| Err(std::io::Error::other("no more threads")),
+        );
+        assert!(
+            matches!(&refused, Err(HubError::Internal(m)) if m.contains("could not start the job: no more threads")),
+            "{refused:?}"
+        );
+        // Nothing is left of it: not active, not in the history.
+        assert!(jobs.active().is_none());
+        assert!(jobs.list().is_empty());
+        // The next job starts (not `busy`) and runs.
+        let next = jobs
+            .start(JobKind::Sync, "again", |_| {
+                Ok(JobResult::Analysis {
+                    analysis_id: "a2".into(),
+                })
+            })
+            .unwrap();
+        assert_eq!(wait(&jobs, &next.id).status, JobStatus::Done);
     }
 
     #[test]

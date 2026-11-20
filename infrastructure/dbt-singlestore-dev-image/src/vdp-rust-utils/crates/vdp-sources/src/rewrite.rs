@@ -1,5 +1,5 @@
 //! `vdp sources rewrite`: regenerate the generated files from the catalog, then keep only what the project
-//! references (`update_source_files.py`).
+//! references.
 
 use std::collections::BTreeSet;
 use std::path::{Path, PathBuf};

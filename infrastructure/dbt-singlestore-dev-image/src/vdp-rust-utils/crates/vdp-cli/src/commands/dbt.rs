@@ -3,28 +3,43 @@
 use std::ffi::OsString;
 use std::path::Path;
 
-use anyhow::{Context as _, Result};
+use anyhow::{Context as _, Result, anyhow};
 use vdp_core::{Config, Outcome};
 use vdp_dbt::{DbtSettings, wrapper};
 
-use crate::args::GlobalArgs;
+use crate::args::{GlobalArgs, parse_no_vault};
 use crate::bootstrap;
 
 /// Global options for the `dbt` link, which has no options of its own: `$DBT_DEPLOY_TARGET`, `$VDP_CONFIG`,
-/// `$VDP_PROJECT_DIR` and `$VDP_NO_VAULT`.
-pub fn multicall_globals() -> GlobalArgs {
-    let var = |name: &str| std::env::var_os(name).filter(|v| !v.is_empty());
-    GlobalArgs {
+/// `$VDP_PROJECT_DIR` and `$VDP_NO_VAULT` (a boolean, read exactly as `vdp --no-vault` reads it: [`parse_no_vault`]).
+///
+/// # Errors
+///
+/// An error when `$VDP_NO_VAULT` is not a boolean.
+pub fn multicall_globals() -> Result<GlobalArgs> {
+    multicall_globals_from(|name| std::env::var_os(name))
+}
+
+fn multicall_globals_from(get: impl Fn(&str) -> Option<OsString>) -> Result<GlobalArgs> {
+    let var = |name: &str| get(name).filter(|v| !v.is_empty());
+    let no_vault = match var("VDP_NO_VAULT") {
+        None => false,
+        Some(raw) => raw
+            .to_str()
+            .ok_or_else(|| anyhow!("$VDP_NO_VAULT is not valid UTF-8"))
+            .and_then(|raw| parse_no_vault(raw).map_err(|e| anyhow!("$VDP_NO_VAULT: {e}")))?,
+    };
+    Ok(GlobalArgs {
         environment: None,
         project_dir: var("VDP_PROJECT_DIR").map(Into::into),
         config: var("VDP_CONFIG").map(Into::into),
         target: None,
         profiles_dir: None,
-        no_vault: var("VDP_NO_VAULT").is_some_and(|v| v != "0" && v != "false"),
+        no_vault,
         verbose: false,
         quiet: false,
         log_json: None,
-    }
+    })
 }
 
 /// Runs dbt with `args`.
@@ -73,4 +88,45 @@ pub fn wrapper(global: &GlobalArgs, args: &[OsString]) -> Result<Outcome> {
 pub fn engine_binary(config: &Config) -> Result<std::path::PathBuf> {
     let settings: DbtSettings = config.section(DbtSettings::SECTION)?;
     Ok(vdp_dbt::locate_engine(Some(Path::new(&settings.binary)))?)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn link_reads(no_vault: Option<&str>) -> Result<bool> {
+        multicall_globals_from(|name| {
+            (name == "VDP_NO_VAULT")
+                .then(|| no_vault.map(OsString::from))
+                .flatten()
+        })
+        .map(|global| global.no_vault)
+    }
+
+    #[test]
+    fn the_link_reads_vdp_no_vault_exactly_as_vdp_does() {
+        assert!(!link_reads(None).unwrap());
+        for value in [
+            "", "1", "true", "yes", "on", "y", "t", "TRUE", "0", "false", "no", "off", "n", "f",
+            "Off",
+        ] {
+            assert_eq!(
+                link_reads(Some(value)).unwrap(),
+                parse_no_vault(value).unwrap(),
+                "{value:?}"
+            );
+        }
+        // Before this rule the link turned Vault off for any non-empty value but `0` and `false`.
+        assert!(link_reads(Some("on")).unwrap() && !link_reads(Some("off")).unwrap());
+        assert!(!link_reads(Some("no")).unwrap() && !link_reads(Some("")).unwrap());
+    }
+
+    #[test]
+    fn the_link_refuses_a_vdp_no_vault_that_is_not_a_boolean() {
+        let error = link_reads(Some("maybe")).unwrap_err().to_string();
+        assert!(
+            error.starts_with("$VDP_NO_VAULT: `maybe` is not a boolean"),
+            "{error}"
+        );
+    }
 }

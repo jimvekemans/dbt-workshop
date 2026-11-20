@@ -5,10 +5,10 @@
 //!
 //! # Responsibilities
 //!
-//! - [`orphan_tables`]: table models nothing reads (`detect_tables_with_no_deps.py`). Tests no longer count as readers:
+//! - [`orphan_tables`]: table models nothing reads. Tests no longer count as readers:
 //!   the Python script counted every node, so a table with only a `not_null` test looked used.
 //! - [`view_candidates`]: views whose downstream tables take long to build, so materializing the view may pay off
-//!   (`analyze_views_downstream_timings.py`), with the same traversal, ranking and CSV columns.
+//!   (as the Python script ranked them), with the same traversal, ranking and CSV columns.
 //! - [`latest_timings`]: the execution times of the latest run, by unique id, from the run-results table.
 //! - [`candidates_csv`]: the Python CSV, with the same columns.
 //!

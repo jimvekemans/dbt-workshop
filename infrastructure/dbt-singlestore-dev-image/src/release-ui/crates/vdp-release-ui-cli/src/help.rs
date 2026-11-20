@@ -112,7 +112,8 @@ pub(crate) const SERVE_UI_DIR_LONG: &str = "\
 The built frontend (a directory with an `index.html`; the command refuses to start
 without one). The hub serves its files next to the API and answers unknown paths with
 `index.html`, as a single-page app needs. Default: [release_hub].ui_dir; when that is
-empty too, the hub is API only (nginx serves the frontend in the workshop).";
+empty too, the hub is API only: serve the frontend some other way (a web server or
+proxy in front).";
 
 pub(crate) const SERVE_CORS_ORIGIN_LONG: &str = "\
 Allow a frontend served from this origin, by answering with it as
