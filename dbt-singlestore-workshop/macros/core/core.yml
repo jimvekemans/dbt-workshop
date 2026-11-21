@@ -1,0 +1,71 @@
+version: 2
+
+macros:
+  - name: should_execute
+    description: |
+      True only when SQL may really be run for side effects: `execute` is on (not the parse phase), the command is one of
+      build, run, run-operation or snapshot, and `--empty` is not active.
+
+      Put it around every `run_query` of a hook or an operation that WRITES (history rows, deletes, grants). A plain
+      `execute` guard is not enough: `dbt build --empty` and `dbt compile` also have `execute` on, and would write rows that
+      claim a load took place.
+
+      Usage Example:
+        {% raw %}{%- if should_execute() -%} {%- do run_query(update_query) -%} {%- endif -%}{% endraw %}
+
+      Used by `open_load_cycle` and `close_load_cycle` (loading history of `dummy_reload_pit_with_deps`).
+
+  - name: should_log_results
+    description: |
+      True when the results of a run belong in the run logbook (`<env>_vdp_mgmt.dbt_run_results`): `execute` is on and the
+      command is a real `build`, `run`, `run-operation` or `snapshot` (this is `should_execute()`), or a real `test` or `seed`.
+      False for `--empty`, the parse phase and commands that build nothing (`compile`, `ls`, `parse`, `docs`). `dbt retry`
+      reports the command it repeats (a retried build is `build`), so a retry is logged like the original.
+
+      The same switch as `should_execute()`, widened by the two commands that write results worth keeping but no history
+      rows: a check-only `dbt test` and a reference-data `dbt seed`.
+
+      Used by the `on-run-end` hook of `dbt_project.yml`.
+
+  - name: should_full_refresh
+    description: |
+      Override of dbt's built-in `should_full_refresh()`, which the materializations and `is_incremental()` call to decide
+      whether a model is rebuilt from scratch. The built-in rule (model config `full_refresh` when set, otherwise the
+      `--full-refresh` flag) stays, with two additions.
+
+      1. Per model, on the command line: the variable `full_refresh_models` (a list of model names). When it is given and not
+      empty, exactly the listed models are fully refreshed and every other selected model runs normally (incrementally),
+      with or without `--full-refresh`. The list wins over the model config `full_refresh`. A name that matches no selected
+      model does nothing.
+
+      2. Protection: a model with `meta: {full_refresh_only_when_listed: true}` is never fully refreshed by a bare
+      `--full-refresh`, only by the list. Use it for tables that hold history (`dummy_load_cycles`). A model config
+      `full_refresh` still decides first, as in dbt.
+
+      Usage Example:
+        dbt build --select +fct_olist_orders+ --vars '{full_refresh_models: [stg_olist_orders, fct_olist_orders]}'
+        dbt build --full-refresh    # everything except the models marked full_refresh_only_when_listed
+        dbt build --full-refresh --select dummy_load_cycles --vars '{full_refresh_models: [dummy_load_cycles]}'
+
+      Replaces the pattern of one project variable plus one `check_full_refresh_<table>` macro per protected table.
+
+  - name: generate_schema_name
+    description: |
+      Schema of a model. By default the target schema (the user name of a developer run, empty in the run targets) or the
+      custom schema of the model.
+
+      On target `collibra` (data catalogue artifacts) it is the database the model lives in, computed with
+      `generate_database_name`, so the catalogue lists `<env>_edw_dv_bdv`.`<model>`: the real names, without user or branch
+      prefix. The other targets are unchanged.
+
+      Usage Example:
+        dbt compile --target collibra --target-path target/collibra
+
+  - name: generate_alias_name
+    description: |
+      Name of the relation of a model: `<schema>_<name>` when the target has a schema (developer runs: `<user>_<model>`), the
+      plain name otherwise, and a `__new_` prefix for models with `meta.reload_strategy` on target `reload` (blue/green
+      reload, see `reload_helpers`).
+
+      On target `collibra` it is always the plain model name (or the custom alias): the relation name as it really is in the
+      database. The other targets are unchanged.

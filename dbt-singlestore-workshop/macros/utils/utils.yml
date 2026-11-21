@@ -3,22 +3,37 @@
 macros:
   - name: perform_database_maintenance
     description: |
-      Automates database maintenance by revoking all grants and dropping orphaned objects (tables/views) created by dbt for a specified database.
+      The maintenance step of an environment: removes the tables and views the project no longer has. It takes no arguments
+      and always runs for real (no dry run): it calls `check_database_maintenance(db, dry_run=false)` for the three working
+      databases of the environment (`<env>_edw_dv_rdv`, `<env>_edw_dv_bdv`, `<env>_im_dimensional`, with `<env>` from
+      `DBT_DEPLOY_TARGET`) and prints one JSON report of the drops and revokes per database. The landing and logbook
+      databases are never touched.
 
-      Parameters:
-        - database_name (required): The name of the database to maintain.
-        - dry_run (optional, default: False): If True, logs actions without executing them.
-
-      Functionality:
-        1. Finds all objects created by target.user in the specified database.
-        2. Identifies objects not present in the dbt manifest (orphaned).
-        3. Collects all grants on these orphaned objects.
-        4. Generates and executes (or logs) REVOKE statements for each grant.
-        5. Generates and executes (or logs) DROP statements for each orphaned object.
-        6. Logs the number of grants revoked and objects dropped.
+      What it removes: only objects CREATED BY THE ACCOUNT THAT RUNS IT (`create_user = target.user`, so run it as the
+      robot of the environment) whose name `<database>.<table>` is not a model, seed or snapshot of the project, ignoring
+      names that contain `__dbt_`. Before each drop it revokes the grants on that object. A developer who runs it removes
+      all of his own prefixed copies, because their names (`<user>_<model>`) never match a model name.
 
       Usage Example:
-        dbt run-operation perform_database_maintenance --args \'{"database_name": "my_db", "dry_run": true}\'
+        dbt run-operation perform_database_maintenance --target run
+
+  - name: check_database_maintenance
+    description: |
+      The work of `perform_database_maintenance` for ONE database. It returns `{"drops": [...], "revokes": [...]}`; with
+      `dry_run=true` (the default) nothing is executed and nothing is printed, so a dry run needs a small macro that calls
+      it and prints the result. With `dry_run=false` it runs the revokes and then the drops and logs each statement
+      (`Executed: ...`).
+
+    arguments:
+      - name: database_name
+        type: string
+        description: The database to maintain, for example `dev_edw_dv_bdv`.
+      - name: dry_run
+        type: boolean
+        description: "true (default): only return what would be done; false: do it."
+      - name: ignore_dbt_artifacts
+        type: boolean
+        description: "true (default): leave out names that contain `__dbt_` (temporary and backup tables of an interrupted run)."
 
   - name: sync_grants_with_singlestore
     description: |
@@ -127,3 +142,52 @@ macros:
 
       If you want to keep your recent pu-models and drop old models then use this command:
       `$ dbt run-operation cleanup_user_models --args \'{keep_younger_than_days: 7}\'`
+
+  - name: open_load_cycle
+    description: |
+      Pre-hook of a model with a loading history: adds a row (`success_flag` 0, no end time) for the object to the history
+      model `dummy_load_cycles`, with the next `load_cycle_id` of that object and the `invocation_id` of the run. A build that
+      fails leaves its row open.
+
+      Guarded by `should_execute()`: with `--empty` (or any dry command) no row is written. Also skipped on targets `ci` and
+      `reload`, and when the history table does not exist yet (a log line says so).
+
+      Usage Example (properties file of the model):
+        {% raw %}
+        config:
+          pre_hook: "{{ open_load_cycle(ref('dummy_load_cycles'), this.identifier) }}"
+          post_hook: "{{ close_load_cycle(ref('dummy_load_cycles'), this.identifier) }}"
+        {% endraw %}
+    arguments:
+      - name: history
+        type: relation
+        description: The history model, `ref('dummy_load_cycles')`.
+      - name: object_name
+        type: string
+        description: The object that is loaded, normally `this.identifier`.
+
+  - name: close_load_cycle
+    description: |
+      Post-hook counterpart of `open_load_cycle`: marks the newest open cycle of the object in the history model as successful
+      (`success_flag` 1) and sets `load_end_date`. Guarded by `should_execute()` in the same way.
+    arguments:
+      - name: history
+        type: relation
+        description: The history model, `ref('dummy_load_cycles')`.
+      - name: object_name
+        type: string
+        description: The object that is loaded, normally `this.identifier`.
+
+  - name: log_dbt_results
+    description: |
+      On-run-end hook (see `dbt_project.yml`): adds one row per model, seed, snapshot and test of the run to the run logbook
+      `<env>_vdp_mgmt.dbt_run_results` (name, status, failures, times, rows affected, compiled code).
+
+      The hook calls it only when the environment variable `LOG_RUN_RESULTS` is `TRUE`, the target is `run` AND
+      `should_log_results()` is true: a real `build`, `run`, `test`, `seed` or `snapshot` (a `dbt retry` counts as the command
+      it repeats). An `--empty` build, `dbt compile` and other dry commands write no rows, so the logbook never claims that
+      tables were built when no data was loaded.
+    arguments:
+      - name: results
+        type: list
+        description: The `results` of the run, as dbt hands them to an on-run-end hook.

@@ -84,9 +84,9 @@ class Settings:
 
     def live_problem(self) -> str | None:
         """A plain sentence on why live mode cannot work, or None when everything it needs is configured."""
-        missing = [name for name, value in (("the database password", self.s2_root_pwd),
-                                            ("the GitLab access token", self.gitlab_pat)) if not value]
+        missing = [name for name, value in (("het databasewachtwoord", self.s2_root_pwd),
+                                            ("de toegangssleutel van GitLab", self.gitlab_pat)) if not value]
         if not missing:
             return None
-        return f"Live mode needs {' and '.join(missing)}, which {'is' if len(missing) == 1 else 'are'} not set. " \
-               "Replay mode works without them."
+        return f"De livemodus heeft {' en '.join(missing)} nodig, maar {'die is' if len(missing) == 1 else 'die zijn'} " \
+               "niet ingesteld. De opnamemodus werkt zonder."

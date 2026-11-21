@@ -7,13 +7,13 @@ import { ArrowRightIcon } from './icons'
 import styles from './VersionsView.module.css'
 
 const PLAIN: Record<EnvName, string> = {
-  dev: 'where changes are tried first',
-  val: 'where they are checked',
-  prd: 'what the business uses',
+  dev: 'waar wijzigingen eerst uitgeprobeerd worden',
+  val: 'waar ze nagekeken worden',
+  prd: 'wat de business gebruikt',
 }
 
 /**
- * Three environments side by side. A version that changed is unmistakable: accent frame, "Changed" label, old number.
+ * Three environments side by side. A version that changed is unmistakable: accent frame, "Gewijzigd" label, old number.
  * `previous` is what the environment ran when the step started; the backend does not send it, the app remembers it.
  */
 export function VersionsView({ data, previous }: { data: VersionsData; previous?: VersionTags }) {
@@ -31,18 +31,18 @@ export function VersionsView({ data, previous }: { data: VersionsData; previous?
             <p className={styles.env}>{ENV_NAME[env]}</p>
             <p className={styles.plain}>{PLAIN[env]}</p>
             <p className={styles.tag} key={tag ?? 'none'}>
-              {tag ?? 'not running'}
+              {tag ?? 'draait niet'}
             </p>
             <p className={styles.delta}>
               {changed ? (
                 <>
-                  <b className={styles.flag}>Changed</b>
+                  <b className={styles.flag}>Gewijzigd</b>
                   <span>
-                    was <s>{before ?? 'nothing'}</s> <ArrowRightIcon size="0.9em" /> now <b>{tag ?? 'nothing'}</b>
+                    was <s>{before ?? 'niets'}</s> <ArrowRightIcon size="0.9em" /> nu <b>{tag ?? 'niets'}</b>
                   </span>
                 </>
               ) : (
-                <span className={styles.same}>{previous ? 'Unchanged' : ' '}</span>
+                <span className={styles.same}>{previous ? 'Ongewijzigd' : ' '}</span>
               )}
             </p>
           </li>

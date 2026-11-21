@@ -5,20 +5,25 @@
    "inputs": {},
    "frames": [
     {
-     "t": 0.38,
+     "t": 0.3,
      "actions": [],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "done",
-        "state_text": "Done",
+        "state_text": "Klaar",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
          }
         ],
         "failures": []
@@ -26,23 +31,23 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 0.38,
+     "t": 0.3,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "running",
        "summary": "",
        "details": ""
@@ -51,15 +56,20 @@
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "done",
-        "state_text": "Done",
+        "state_text": "Klaar",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
          }
         ],
         "failures": []
@@ -67,40 +77,45 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 1.79,
+     "t": 0.54,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "done",
-        "state_text": "Done",
+        "state_text": "Klaar",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
          }
         ],
         "failures": []
@@ -108,29 +123,29 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 1.79,
+     "t": 0.54,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       },
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "running",
        "summary": "",
        "details": ""
@@ -139,15 +154,20 @@
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "done",
-        "state_text": "Done",
+        "state_text": "Klaar",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
          }
         ],
         "failures": []
@@ -155,46 +175,51 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 2.2,
+     "t": 0.95,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       },
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "done",
-        "state_text": "Done",
+        "state_text": "Klaar",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
          }
         ],
         "failures": []
@@ -202,35 +227,35 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 2.2,
+     "t": 0.95,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       },
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Proposing the change for review",
+       "label": "De wijziging als voorstel indienen",
        "status": "running",
        "summary": "",
        "details": ""
@@ -239,15 +264,20 @@
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "done",
-        "state_text": "Done",
+        "state_text": "Klaar",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
          }
         ],
         "failures": []
@@ -255,52 +285,57 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 2.48,
+     "t": 1.18,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       },
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Proposing the change for review",
+       "label": "De wijziging als voorstel indienen",
        "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !86: demo/orders-calendar -> dev"
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "done",
-        "state_text": "Done",
+        "state_text": "Klaar",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
          }
         ],
         "failures": []
@@ -308,41 +343,41 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 2.48,
+     "t": 1.18,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       },
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Proposing the change for review",
+       "label": "De wijziging als voorstel indienen",
        "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !86: demo/orders-calendar -> dev"
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
       },
       {
-       "label": "Waiting for the automatic checks",
+       "label": "Wachten op de automatische checks",
        "status": "running",
        "summary": "",
        "details": ""
@@ -351,15 +386,20 @@
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "done",
-        "state_text": "Done",
+        "state_text": "Klaar",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
          }
         ],
         "failures": []
@@ -367,164 +407,127 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 2.65,
+     "t": 1.48,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       },
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Proposing the change for review",
+       "label": "De wijziging als voorstel indienen",
        "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !86: demo/orders-calendar -> dev"
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
       },
       {
-       "label": "Waiting for the automatic checks",
+       "label": "Wachten op de automatische checks",
        "status": "running",
-       "summary": "",
+       "summary": "Wachten tot de automatische checks starten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "done",
+        "state_text": "Klaar",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.64,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Wachten tot de automatische checks starten",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
        "data": {
         "state": "todo",
-        "state_text": "Not started yet",
-        "jobs": [],
-        "failures": []
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3392,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 2.76,
-     "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/orders-calendar created from dev"
-      },
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !86: demo/orders-calendar -> dev"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "running",
-       "summary": "Waiting for the automatic checks to start",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "todo",
-        "state_text": "Not started yet",
-        "jobs": [],
-        "failures": []
-       }
-      },
-      {
-       "type": "number",
-       "title": "Orders in the shared table",
-       "data": {
-        "value": 3392,
-        "unit": "orders",
-        "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
-        }
-       }
-      }
-     ]
-    },
-    {
-     "t": 4.99,
-     "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/orders-calendar created from dev"
-      },
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !86: demo/orders-calendar -> dev"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "running",
-       "summary": "Waiting for the automatic checks to start",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "pipeline",
-       "title": "The automatic rehearsal",
-       "data": {
-        "state": "running",
-        "state_text": "Running",
+        "state_text": "Wacht",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
-          "state": "running",
-          "state_text": "Running"
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
          }
         ],
         "failures": []
@@ -532,58 +535,63 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 7.23,
+     "t": 4.88,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       },
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Proposing the change for review",
+       "label": "De wijziging als voorstel indienen",
        "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !86: demo/orders-calendar -> dev"
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
       },
       {
-       "label": "Waiting for the automatic checks",
+       "label": "Wachten op de automatische checks",
        "status": "running",
-       "summary": "Waiting for the automatic checks to start",
+       "summary": "Wachten tot de automatische checks starten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "running",
-        "state_text": "Running",
+        "state_text": "Bezig",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
          }
         ],
         "failures": []
@@ -591,58 +599,63 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 9.45,
+     "t": 7.12,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       },
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Proposing the change for review",
+       "label": "De wijziging als voorstel indienen",
        "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !86: demo/orders-calendar -> dev"
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
       },
       {
-       "label": "Waiting for the automatic checks",
+       "label": "Wachten op de automatische checks",
        "status": "running",
-       "summary": "Waiting for the automatic checks to start",
+       "summary": "Wachten tot de automatische checks starten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "running",
-        "state_text": "Running",
+        "state_text": "Bezig",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
          }
         ],
         "failures": []
@@ -650,58 +663,63 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 10.94,
+     "t": 9.42,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       },
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Proposing the change for review",
+       "label": "De wijziging als voorstel indienen",
        "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !86: demo/orders-calendar -> dev"
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
       },
       {
-       "label": "Waiting for the automatic checks",
+       "label": "Wachten op de automatische checks",
        "status": "running",
-       "summary": "Automatic checks: waiting for the next step",
+       "summary": "Wachten tot de automatische checks starten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "running",
-        "state_text": "Running",
+        "state_text": "Bezig",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
          }
         ],
         "failures": []
@@ -709,58 +727,63 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 11.11,
+     "t": 9.69,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       },
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Proposing the change for review",
+       "label": "De wijziging als voorstel indienen",
        "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !86: demo/orders-calendar -> dev"
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
       },
       {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The automatic rehearsal failed, as expected: trying the change in a private copy.",
-       "details": "pipeline 298 on refs/merge-requests/86/head: failed\n--- verify_feature_to_dev (failed) ---\n2026-11-16T07:27:13.177706Z 01O Finished 'build' with 1 error for target 'ci' [2.3s]\n2026-11-16T07:27:13.177706Z 01O Processed: 1 hook | 3 models | 3 tests\n2026-11-16T07:27:13.177706Z 01O Summary: 7 total | 1 success | 1 error | 5 skipped\n2026-11-16T07:27:13.267878Z 00O section_end:1794814033:step_script\n\u001b[0K\n2026-11-16T07:27:13.268040Z 00O+section_start:1794814033:after_script\n\u001b[0K\n2026-11-16T07:27:13.268043Z 00O+\u001b[0K\u001b[36;1mRunning after_script\u001b[0;m\u001b[0;m\n2026-11-16T07:27:13.338184Z 01O \u001b[32;1mRunning after script...\u001b[0;m\n2026-11-16T07:27:13.338197Z 01O \u001b[32;1m$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\u001b[0;m\n2026-11-16T07:27:13.344722Z 01O    dbt-oss 2.0.11\n2026-11-16T07:27:13.345291Z 01O    Loading profiles.yml\n2026-11-16T07:27:13.346019Z 01O    Loading packages.yml\n2026-11-16T07:27:13.349128Z 01O      Using 2 threads (target: ci)\n2026-11-16T07:27:13.509377Z 01O \n2026-11-16T07:27:13.509383Z 01O ==================== Execution Summary =====================\n2026-11-16T07:27:13.509384Z 01O Finished 'run-operation' successfully for target 'ci' [164ms]\n2026-11-16T07:27:13.592425Z 00O section_end:1794814033:after_script\n\u001b[0K\n2026-11-16T07:27:13.592833Z 00O+section_start:1794814033:cleanup_file_variables\n\u001b[0K\n2026-11-16T07:27:13.592836Z 00O+\u001b[0K\u001b[36;1mCleaning up project directory and file based variables\u001b[0;m\u001b[0;m\n2026-11-16T07:27:13.763026Z 00O section_end:1794814033:cleanup_file_variables\n\u001b[0K\n2026-11-16T07:27:13.804689Z 00O \u001b[31;1mERROR: Job failed: exit code 1\u001b[0;m\n--- the last lines of the rehearsal ---\nFinished [  0.01s] downloading deferred relations (1 items)\nFailed model demo_orders_calendar.demo_orders_calendar_fct_olist_orders (table) [1 of 6 in 2.08s]\nSkipped test  assert_orders_one_row_each (tests/assert_orders_one_row_each.sql) [2 of 6]\nSkipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [5 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [3 of 6]\nSkipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_olist_management_kpi (table) [4 of 6]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n\n==================== Execution Summary =====================\nFinished 'build' with 1 error for target 'ci' [2.3s]\nProcessed: 1 hook | 3 models | 3 tests\nSummary: 7 total | 1 success | 1 error | 5 skipped\nsection_end:1794814033:step_script\n\nsection_start:1794814033:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794814033:after_script\n\nsection_start:1794814033:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814033:cleanup_file_variables\n\nERROR: Job failed: exit code 1"
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: lege kopieën van de gewijzigde tabellen builden",
+       "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "running",
-        "state_text": "Running",
+        "state_text": "Bezig",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
          }
         ],
         "failures": []
@@ -768,161 +791,1166 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 11.34,
+     "t": 11.64,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       },
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Proposing the change for review",
+       "label": "De wijziging als voorstel indienen",
        "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !86: demo/orders-calendar -> dev"
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
       },
       {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The automatic rehearsal failed, as expected: trying the change in a private copy.",
-       "details": "pipeline 298 on refs/merge-requests/86/head: failed\n--- verify_feature_to_dev (failed) ---\n2026-11-16T07:27:13.177706Z 01O Finished 'build' with 1 error for target 'ci' [2.3s]\n2026-11-16T07:27:13.177706Z 01O Processed: 1 hook | 3 models | 3 tests\n2026-11-16T07:27:13.177706Z 01O Summary: 7 total | 1 success | 1 error | 5 skipped\n2026-11-16T07:27:13.267878Z 00O section_end:1794814033:step_script\n\u001b[0K\n2026-11-16T07:27:13.268040Z 00O+section_start:1794814033:after_script\n\u001b[0K\n2026-11-16T07:27:13.268043Z 00O+\u001b[0K\u001b[36;1mRunning after_script\u001b[0;m\u001b[0;m\n2026-11-16T07:27:13.338184Z 01O \u001b[32;1mRunning after script...\u001b[0;m\n2026-11-16T07:27:13.338197Z 01O \u001b[32;1m$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\u001b[0;m\n2026-11-16T07:27:13.344722Z 01O    dbt-oss 2.0.11\n2026-11-16T07:27:13.345291Z 01O    Loading profiles.yml\n2026-11-16T07:27:13.346019Z 01O    Loading packages.yml\n2026-11-16T07:27:13.349128Z 01O      Using 2 threads (target: ci)\n2026-11-16T07:27:13.509377Z 01O \n2026-11-16T07:27:13.509383Z 01O ==================== Execution Summary =====================\n2026-11-16T07:27:13.509384Z 01O Finished 'run-operation' successfully for target 'ci' [164ms]\n2026-11-16T07:27:13.592425Z 00O section_end:1794814033:after_script\n\u001b[0K\n2026-11-16T07:27:13.592833Z 00O+section_start:1794814033:cleanup_file_variables\n\u001b[0K\n2026-11-16T07:27:13.592836Z 00O+\u001b[0K\u001b[36;1mCleaning up project directory and file based variables\u001b[0;m\u001b[0;m\n2026-11-16T07:27:13.763026Z 00O section_end:1794814033:cleanup_file_variables\n\u001b[0K\n2026-11-16T07:27:13.804689Z 00O \u001b[31;1mERROR: Job failed: exit code 1\u001b[0;m\n--- the last lines of the rehearsal ---\nFinished [  0.01s] downloading deferred relations (1 items)\nFailed model demo_orders_calendar.demo_orders_calendar_fct_olist_orders (table) [1 of 6 in 2.08s]\nSkipped test  assert_orders_one_row_each (tests/assert_orders_one_row_each.sql) [2 of 6]\nSkipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [5 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [3 of 6]\nSkipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_olist_management_kpi (table) [4 of 6]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n\n==================== Execution Summary =====================\nFinished 'build' with 1 error for target 'ci' [2.3s]\nProcessed: 1 hook | 3 models | 3 tests\nSummary: 7 total | 1 success | 1 error | 5 skipped\nsection_end:1794814033:step_script\n\nsection_start:1794814033:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794814033:after_script\n\nsection_start:1794814033:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814033:cleanup_file_variables\n\nERROR: Job failed: exit code 1"
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: lege kopieën van de gewijzigde tabellen builden",
+       "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "running",
+        "state_text": "Bezig",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 13.87,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: lege kopieën van de gewijzigde tabellen builden",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "running",
+        "state_text": "Bezig",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 16.13,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: lege kopieën van de gewijzigde tabellen builden",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "running",
+        "state_text": "Bezig",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.88,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: lege kopieën van de gewijzigde tabellen builden",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "running",
+        "state_text": "Bezig",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.39,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: lege kopieën van de gewijzigde tabellen builden",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "running",
+        "state_text": "Bezig",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 20.64,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: lege kopieën van de gewijzigde tabellen builden",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "running",
+        "state_text": "Bezig",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 22.9,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: lege kopieën van de gewijzigde tabellen builden",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "running",
+        "state_text": "Bezig",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 25.18,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: lege kopieën van de gewijzigde tabellen builden",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "running",
+        "state_text": "Bezig",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "running",
+          "state_text": "Bezig"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 26.12,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: de wijziging uitproberen met echte data en checks",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "running",
+        "state_text": "Bezig",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "running",
+          "state_text": "Bezig"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 27.41,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: de wijziging uitproberen met echte data en checks",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "running",
+        "state_text": "Bezig",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "running",
+          "state_text": "Bezig"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 29.67,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: de wijziging uitproberen met echte data en checks",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
        "data": {
         "state": "failed",
-        "state_text": "Failed",
+        "state_text": "Mislukt",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          }
         ],
         "failures": [
          {
           "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "text": "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden.",
           "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
          }
         ]
        }
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 11.34,
+     "t": 31.92,
      "actions": [
       {
-       "label": "Making a copy of the shared work in progress",
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
        "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
        "details": "branch demo/orders-calendar created from dev"
       },
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Add the delivery calendar to the orders table (wrong join: every order appears three times).",
-       "details": "d5e14c7f fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Proposing the change for review",
+       "label": "De wijziging als voorstel indienen",
        "status": "done",
-       "summary": "Proposed the change 'Add the delivery calendar to the orders table' for review.",
-       "details": "merge request !86: demo/orders-calendar -> dev"
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
       },
       {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The automatic rehearsal failed, as expected: trying the change in a private copy.",
-       "details": "pipeline 298 on refs/merge-requests/86/head: failed\n--- verify_feature_to_dev (failed) ---\n2026-11-16T07:27:13.177706Z 01O Finished 'build' with 1 error for target 'ci' [2.3s]\n2026-11-16T07:27:13.177706Z 01O Processed: 1 hook | 3 models | 3 tests\n2026-11-16T07:27:13.177706Z 01O Summary: 7 total | 1 success | 1 error | 5 skipped\n2026-11-16T07:27:13.267878Z 00O section_end:1794814033:step_script\n\u001b[0K\n2026-11-16T07:27:13.268040Z 00O+section_start:1794814033:after_script\n\u001b[0K\n2026-11-16T07:27:13.268043Z 00O+\u001b[0K\u001b[36;1mRunning after_script\u001b[0;m\u001b[0;m\n2026-11-16T07:27:13.338184Z 01O \u001b[32;1mRunning after script...\u001b[0;m\n2026-11-16T07:27:13.338197Z 01O \u001b[32;1m$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\u001b[0;m\n2026-11-16T07:27:13.344722Z 01O    dbt-oss 2.0.11\n2026-11-16T07:27:13.345291Z 01O    Loading profiles.yml\n2026-11-16T07:27:13.346019Z 01O    Loading packages.yml\n2026-11-16T07:27:13.349128Z 01O      Using 2 threads (target: ci)\n2026-11-16T07:27:13.509377Z 01O \n2026-11-16T07:27:13.509383Z 01O ==================== Execution Summary =====================\n2026-11-16T07:27:13.509384Z 01O Finished 'run-operation' successfully for target 'ci' [164ms]\n2026-11-16T07:27:13.592425Z 00O section_end:1794814033:after_script\n\u001b[0K\n2026-11-16T07:27:13.592833Z 00O+section_start:1794814033:cleanup_file_variables\n\u001b[0K\n2026-11-16T07:27:13.592836Z 00O+\u001b[0K\u001b[36;1mCleaning up project directory and file based variables\u001b[0;m\u001b[0;m\n2026-11-16T07:27:13.763026Z 00O section_end:1794814033:cleanup_file_variables\n\u001b[0K\n2026-11-16T07:27:13.804689Z 00O \u001b[31;1mERROR: Job failed: exit code 1\u001b[0;m\n--- the last lines of the rehearsal ---\nFinished [  0.01s] downloading deferred relations (1 items)\nFailed model demo_orders_calendar.demo_orders_calendar_fct_olist_orders (table) [1 of 6 in 2.08s]\nSkipped test  assert_orders_one_row_each (tests/assert_orders_one_row_each.sql) [2 of 6]\nSkipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [5 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [3 of 6]\nSkipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 6]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_olist_management_kpi (table) [4 of 6]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n\n==================== Execution Summary =====================\nFinished 'build' with 1 error for target 'ci' [2.3s]\nProcessed: 1 hook | 3 models | 3 tests\nSummary: 7 total | 1 success | 1 error | 5 skipped\nsection_end:1794814033:step_script\n\nsection_start:1794814033:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [164ms]\nsection_end:1794814033:after_script\n\nsection_start:1794814033:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814033:cleanup_file_variables\n\nERROR: Job failed: exit code 1"
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: de wijziging uitproberen met echte data en checks",
+       "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "failed",
-        "state_text": "Failed",
+        "state_text": "Mislukt",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          }
         ],
         "failures": [
          {
           "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "text": "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden.",
           "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
          }
         ]
        }
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 34.25,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: de wijziging uitproberen met echte data en checks",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "failed",
+        "state_text": "Mislukt",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "failed",
+          "state_text": "Mislukt"
+         }
+        ],
+        "failures": [
+         {
+          "kind": "table",
+          "text": "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden.",
+          "rows": null,
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 34.4,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: wachten op de volgende stap",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "failed",
+        "state_text": "Mislukt",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "failed",
+          "state_text": "Mislukt"
+         }
+        ],
+        "failures": [
+         {
+          "kind": "table",
+          "text": "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden.",
+          "rows": null,
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 34.64,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "done",
+       "summary": "De automatische testrun is mislukt, zoals verwacht: de wijziging uitproberen met echte data en checks.",
+       "details": "pipeline 243 on refs/merge-requests/126/head: failed\n--- verify_feature_to_dev (failed) ---\n2026-11-21T22:13:33.041270Z 01O Processed: 1 hook | 4 models | 6 tests\n2026-11-21T22:13:33.041270Z 01O Summary: 11 total | 1 success | 1 error | 9 skipped\n2026-11-21T22:13:33.135776Z 00O section_end:1795299213:step_script\n\u001b[0K\n2026-11-21T22:13:33.135937Z 00O+section_start:1795299213:after_script\n\u001b[0K\n2026-11-21T22:13:33.135940Z 00O+\u001b[0K\u001b[36;1mRunning after_script\u001b[0;m\u001b[0;m\n2026-11-21T22:13:33.234575Z 01O \u001b[32;1mRunning after script...\u001b[0;m\n2026-11-21T22:13:33.234589Z 01O \u001b[32;1m$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\u001b[0;m\n2026-11-21T22:13:33.242076Z 01O    dbt-oss 2.0.11\n2026-11-21T22:13:33.242763Z 01O    Loading profiles.yml\n2026-11-21T22:13:33.243666Z 01O    Started resolving packages from packages.yml\n2026-11-21T22:13:33.377755Z 01O   Finished [  0.13s] resolving packages from packages.yml (1 items)\n2026-11-21T22:13:33.381430Z 01O      Using 2 threads (target: ci)\n2026-11-21T22:13:33.533602Z 01O \n2026-11-21T22:13:33.533607Z 01O ==================== Execution Summary =====================\n2026-11-21T22:13:33.533608Z 01O Finished 'run-operation' successfully for target 'ci' [291ms]\n2026-11-21T22:13:33.605846Z 00O section_end:1795299213:after_script\n\u001b[0K\n2026-11-21T22:13:33.606212Z 00O+section_start:1795299213:cleanup_file_variables\n\u001b[0K\n2026-11-21T22:13:33.606215Z 00O+\u001b[0K\u001b[36;1mCleaning up project directory and file based variables\u001b[0;m\u001b[0;m\n2026-11-21T22:13:33.789479Z 00O section_end:1795299213:cleanup_file_variables\n\u001b[0K\n2026-11-21T22:13:33.826141Z 00O \u001b[31;1mERROR: Job failed: exit code 1\u001b[0;m\n--- the last lines of the rehearsal ---\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [5 of 10]\nSkipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 10]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_olist_customer_cohorts (table) [7 of 10]\nSkipped test  not_null_mart_olist_customer_cohorts_cohort_maand (models/im_dimensional/on_demand/on_demand.yml:19:13) [8 of 10]\nSkipped test  dbt_utils_unique_combination_of_columns_mart_olist_customer_cohorts_cohort_maand__maanden_sinds_eerste_order (models/im_dimensional/on_demand/on_demand.yml:10:9) [9 of 10]\nSkipped test  not_null_mart_olist_customer_cohorts_maanden_sinds_eerste_order (models/im_dimensional/on_demand/on_demand.yml:23:13) [10 of 10]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n\n==================== Execution Summary =====================\nFinished 'build' with 1 error for target 'ci' [2.5s]\nProcessed: 1 hook | 4 models | 6 tests\nSummary: 11 total | 1 success | 1 error | 9 skipped\nsection_end:1795299213:step_script\n\nsection_start:1795299213:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nStarted resolving packages from packages.yml\nFinished [  0.13s] resolving packages from packages.yml (1 items)\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [291ms]\nsection_end:1795299213:after_script\n\nsection_start:1795299213:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1795299213:cleanup_file_variables\n\nERROR: Job failed: exit code 1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "failed",
+        "state_text": "Mislukt",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "failed",
+          "state_text": "Mislukt"
+         }
+        ],
+        "failures": [
+         {
+          "kind": "table",
+          "text": "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden.",
+          "rows": null,
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 35.13,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "done",
+       "summary": "De automatische testrun is mislukt, zoals verwacht: de wijziging uitproberen met echte data en checks.",
+       "details": "pipeline 243 on refs/merge-requests/126/head: failed\n--- verify_feature_to_dev (failed) ---\n2026-11-21T22:13:33.041270Z 01O Processed: 1 hook | 4 models | 6 tests\n2026-11-21T22:13:33.041270Z 01O Summary: 11 total | 1 success | 1 error | 9 skipped\n2026-11-21T22:13:33.135776Z 00O section_end:1795299213:step_script\n\u001b[0K\n2026-11-21T22:13:33.135937Z 00O+section_start:1795299213:after_script\n\u001b[0K\n2026-11-21T22:13:33.135940Z 00O+\u001b[0K\u001b[36;1mRunning after_script\u001b[0;m\u001b[0;m\n2026-11-21T22:13:33.234575Z 01O \u001b[32;1mRunning after script...\u001b[0;m\n2026-11-21T22:13:33.234589Z 01O \u001b[32;1m$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\u001b[0;m\n2026-11-21T22:13:33.242076Z 01O    dbt-oss 2.0.11\n2026-11-21T22:13:33.242763Z 01O    Loading profiles.yml\n2026-11-21T22:13:33.243666Z 01O    Started resolving packages from packages.yml\n2026-11-21T22:13:33.377755Z 01O   Finished [  0.13s] resolving packages from packages.yml (1 items)\n2026-11-21T22:13:33.381430Z 01O      Using 2 threads (target: ci)\n2026-11-21T22:13:33.533602Z 01O \n2026-11-21T22:13:33.533607Z 01O ==================== Execution Summary =====================\n2026-11-21T22:13:33.533608Z 01O Finished 'run-operation' successfully for target 'ci' [291ms]\n2026-11-21T22:13:33.605846Z 00O section_end:1795299213:after_script\n\u001b[0K\n2026-11-21T22:13:33.606212Z 00O+section_start:1795299213:cleanup_file_variables\n\u001b[0K\n2026-11-21T22:13:33.606215Z 00O+\u001b[0K\u001b[36;1mCleaning up project directory and file based variables\u001b[0;m\u001b[0;m\n2026-11-21T22:13:33.789479Z 00O section_end:1795299213:cleanup_file_variables\n\u001b[0K\n2026-11-21T22:13:33.826141Z 00O \u001b[31;1mERROR: Job failed: exit code 1\u001b[0;m\n--- the last lines of the rehearsal ---\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [5 of 10]\nSkipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 10]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_olist_customer_cohorts (table) [7 of 10]\nSkipped test  not_null_mart_olist_customer_cohorts_cohort_maand (models/im_dimensional/on_demand/on_demand.yml:19:13) [8 of 10]\nSkipped test  dbt_utils_unique_combination_of_columns_mart_olist_customer_cohorts_cohort_maand__maanden_sinds_eerste_order (models/im_dimensional/on_demand/on_demand.yml:10:9) [9 of 10]\nSkipped test  not_null_mart_olist_customer_cohorts_maanden_sinds_eerste_order (models/im_dimensional/on_demand/on_demand.yml:23:13) [10 of 10]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n\n==================== Execution Summary =====================\nFinished 'build' with 1 error for target 'ci' [2.5s]\nProcessed: 1 hook | 4 models | 6 tests\nSummary: 11 total | 1 success | 1 error | 9 skipped\nsection_end:1795299213:step_script\n\nsection_start:1795299213:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nStarted resolving packages from packages.yml\nFinished [  0.13s] resolving packages from packages.yml (1 items)\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [291ms]\nsection_end:1795299213:after_script\n\nsection_start:1795299213:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1795299213:cleanup_file_variables\n\nERROR: Job failed: exit code 1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "failed",
+        "state_text": "Mislukt",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "failed",
+          "state_text": "Mislukt"
+         }
+        ],
+        "failures": [
+         {
+          "kind": "table",
+          "text": "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden.",
+          "rows": null,
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 35.13,
+     "actions": [
+      {
+       "label": "Een kopie maken van het gedeelde werk in opbouw",
+       "status": "done",
+       "summary": "Kopie gemaakt van het gedeelde werk in opbouw, om aan te werken.",
+       "details": "branch demo/orders-calendar created from dev"
+      },
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De leveringskalender toevoegen aan de bestellingentabel (foute koppeling: elke bestelling komt drie keer voor).",
+       "details": "2bd77677 fix: attach the next days of the calendar to every order\ntests/assert_orders_one_row_each.sql\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "De wijziging als voorstel indienen",
+       "status": "done",
+       "summary": "Voorstel ingediend: 'Leveringskalender toevoegen aan de bestellingentabel'.",
+       "details": "merge request !126: demo/orders-calendar -> dev"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "done",
+       "summary": "De automatische testrun is mislukt, zoals verwacht: de wijziging uitproberen met echte data en checks.",
+       "details": "pipeline 243 on refs/merge-requests/126/head: failed\n--- verify_feature_to_dev (failed) ---\n2026-11-21T22:13:33.041270Z 01O Processed: 1 hook | 4 models | 6 tests\n2026-11-21T22:13:33.041270Z 01O Summary: 11 total | 1 success | 1 error | 9 skipped\n2026-11-21T22:13:33.135776Z 00O section_end:1795299213:step_script\n\u001b[0K\n2026-11-21T22:13:33.135937Z 00O+section_start:1795299213:after_script\n\u001b[0K\n2026-11-21T22:13:33.135940Z 00O+\u001b[0K\u001b[36;1mRunning after_script\u001b[0;m\u001b[0;m\n2026-11-21T22:13:33.234575Z 01O \u001b[32;1mRunning after script...\u001b[0;m\n2026-11-21T22:13:33.234589Z 01O \u001b[32;1m$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\u001b[0;m\n2026-11-21T22:13:33.242076Z 01O    dbt-oss 2.0.11\n2026-11-21T22:13:33.242763Z 01O    Loading profiles.yml\n2026-11-21T22:13:33.243666Z 01O    Started resolving packages from packages.yml\n2026-11-21T22:13:33.377755Z 01O   Finished [  0.13s] resolving packages from packages.yml (1 items)\n2026-11-21T22:13:33.381430Z 01O      Using 2 threads (target: ci)\n2026-11-21T22:13:33.533602Z 01O \n2026-11-21T22:13:33.533607Z 01O ==================== Execution Summary =====================\n2026-11-21T22:13:33.533608Z 01O Finished 'run-operation' successfully for target 'ci' [291ms]\n2026-11-21T22:13:33.605846Z 00O section_end:1795299213:after_script\n\u001b[0K\n2026-11-21T22:13:33.606212Z 00O+section_start:1795299213:cleanup_file_variables\n\u001b[0K\n2026-11-21T22:13:33.606215Z 00O+\u001b[0K\u001b[36;1mCleaning up project directory and file based variables\u001b[0;m\u001b[0;m\n2026-11-21T22:13:33.789479Z 00O section_end:1795299213:cleanup_file_variables\n\u001b[0K\n2026-11-21T22:13:33.826141Z 00O \u001b[31;1mERROR: Job failed: exit code 1\u001b[0;m\n--- the last lines of the rehearsal ---\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_web_conversion (table) [5 of 10]\nSkipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [6 of 10]\nSkipped model demo_orders_calendar.demo_orders_calendar_mart_olist_customer_cohorts (table) [7 of 10]\nSkipped test  not_null_mart_olist_customer_cohorts_cohort_maand (models/im_dimensional/on_demand/on_demand.yml:19:13) [8 of 10]\nSkipped test  dbt_utils_unique_combination_of_columns_mart_olist_customer_cohorts_cohort_maand__maanden_sinds_eerste_order (models/im_dimensional/on_demand/on_demand.yml:10:9) [9 of 10]\nSkipped test  not_null_mart_olist_customer_cohorts_maanden_sinds_eerste_order (models/im_dimensional/on_demand/on_demand.yml:23:13) [10 of 10]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n\n==================== Execution Summary =====================\nFinished 'build' with 1 error for target 'ci' [2.5s]\nProcessed: 1 hook | 4 models | 6 tests\nSummary: 11 total | 1 success | 1 error | 9 skipped\nsection_end:1795299213:step_script\n\nsection_start:1795299213:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nStarted resolving packages from packages.yml\nFinished [  0.13s] resolving packages from packages.yml (1 items)\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [291ms]\nsection_end:1795299213:after_script\n\nsection_start:1795299213:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1795299213:cleanup_file_variables\n\nERROR: Job failed: exit code 1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "failed",
+        "state_text": "Mislukt",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "failed",
+          "state_text": "Mislukt"
+         }
+        ],
+        "failures": [
+         {
+          "kind": "table",
+          "text": "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden.",
+          "rows": null,
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+         }
+        ]
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     }
    ],
-   "summary": "The automatic rehearsal failed, as expected: trying the change in a private copy.",
-   "outcome": "The rehearsal failed because the same order number would have been stored more than once. This change cannot be accepted, and the shared table is unchanged.",
+   "summary": "De automatische testrun is mislukt, zoals verwacht: de wijziging uitproberen met echte data en checks.",
+   "outcome": "De testrun is mislukt omdat eenzelfde bestelnummer meer dan één keer opgeslagen zou worden. Deze wijziging kan niet goedgekeurd worden, en de gedeelde tabel is ongewijzigd.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:27:15+00:00",
+   "recorded_at": "2026-11-21T22:13:40+00:00",
    "durations": [
-    10.4,
-    9.9,
-    10.0,
-    10.0,
-    11.3
+    9.6,
+    35.3,
+    34.7,
+    34.7,
+    35.1
    ],
    "show": [
     "pipeline",
@@ -933,51 +1961,56 @@
    "inputs": {},
    "frames": [
     {
-     "t": 0.23,
+     "t": 0.41,
      "actions": [],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "failed",
-        "state_text": "Failed",
+        "state_text": "Mislukt",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          }
         ],
         "failures": [
          {
           "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "text": "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden.",
           "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
          }
         ]
        }
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 0.23,
+     "t": 0.41,
      "actions": [
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "running",
        "summary": "",
        "details": ""
@@ -986,100 +2019,110 @@
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "failed",
-        "state_text": "Failed",
+        "state_text": "Mislukt",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          }
         ],
         "failures": [
          {
           "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "text": "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden.",
           "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
          }
         ]
        }
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 0.57,
+     "t": 0.73,
      "actions": [
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "failed",
-        "state_text": "Failed",
+        "state_text": "Mislukt",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          }
         ],
         "failures": [
          {
           "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "text": "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden.",
           "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
          }
         ]
        }
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 0.57,
+     "t": 0.73,
      "actions": [
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Waiting for the automatic checks",
+       "label": "Wachten op de automatische checks",
        "status": "running",
        "summary": "",
        "details": ""
@@ -1088,123 +2131,138 @@
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "failed",
-        "state_text": "Failed",
+        "state_text": "Mislukt",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          }
         ],
         "failures": [
          {
           "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "text": "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden.",
           "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
          }
         ]
        }
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 0.84,
+     "t": 1.01,
      "actions": [
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Waiting for the automatic checks",
+       "label": "Wachten op de automatische checks",
        "status": "running",
-       "summary": "Waiting for the automatic checks to start",
+       "summary": "Wachten tot de automatische checks starten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "failed",
-        "state_text": "Failed",
+        "state_text": "Mislukt",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          }
         ],
         "failures": [
          {
           "kind": "table",
-          "text": "Orders table could not be built: the same order number would be stored more than once.",
+          "text": "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden.",
           "rows": null,
-          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'c3b4e62d263805d61cb0edcb36705ec3' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
+          "details": "[error] [DbDriverFailed (dbt1308)]: Database Error in model demo_orders_calendar_fct_olist_orders (target/run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)\n[singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1062 (23000): Leaf Error (127.0.0.1:3307): Duplicate entry 'b83661f8f0599d03ec25f667a5fc4982' for key 'PRIMARY'\n(in run/dbt_swf/models/im_dimensional/demo_orders_calendar_fct_olist_orders.sql)"
          }
         ]
        }
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 2.49,
+     "t": 2.66,
      "actions": [
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Waiting for the automatic checks",
+       "label": "Wachten op de automatische checks",
        "status": "running",
-       "summary": "Waiting for the automatic checks to start",
+       "summary": "Wachten tot de automatische checks starten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
-        "state": "todo",
-        "state_text": "Waiting",
+        "state": "running",
+        "state_text": "Bezig",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ],
         "failures": []
@@ -1212,46 +2270,51 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 4.82,
+     "t": 4.91,
      "actions": [
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Waiting for the automatic checks",
+       "label": "Wachten op de automatische checks",
        "status": "running",
-       "summary": "Waiting for the automatic checks to start",
+       "summary": "Wachten tot de automatische checks starten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "running",
-        "state_text": "Running",
+        "state_text": "Bezig",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
          }
         ],
         "failures": []
@@ -1259,46 +2322,51 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 7.05,
+     "t": 7.16,
      "actions": [
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Waiting for the automatic checks",
+       "label": "Wachten op de automatische checks",
        "status": "running",
-       "summary": "Waiting for the automatic checks to start",
+       "summary": "Wachten tot de automatische checks starten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "running",
-        "state_text": "Running",
+        "state_text": "Bezig",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
-          "state": "running",
-          "state_text": "Running"
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
          }
         ],
         "failures": []
@@ -1306,46 +2374,51 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 9.03,
+     "t": 9.23,
      "actions": [
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Waiting for the automatic checks",
+       "label": "Wachten op de automatische checks",
        "status": "running",
-       "summary": "Automatic checks: waiting for the next step",
+       "summary": "Automatische checks: de wijziging uitproberen met echte data en checks",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "running",
-        "state_text": "Running",
+        "state_text": "Bezig",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
-          "state": "running",
-          "state_text": "Running"
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "todo",
+          "state_text": "Wacht"
          }
         ],
         "failures": []
@@ -1353,46 +2426,51 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 9.18,
+     "t": 9.45,
      "actions": [
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The automatic rehearsal passed.",
-       "details": "pipeline 299 on refs/merge-requests/86/head: success\n--- the last lines of the rehearsal ---\nUsing 2 threads (target: ci)\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nPassed test  assert_orders_one_row_each [1 of 1 in 0.02s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [262ms]\nProcessed: 1 hook | 1 test\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794814042:step_script\n\nsection_start:1794814042:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794814042:after_script\n\nsection_start:1794814042:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814043:cleanup_file_variables\n\nJob succeeded"
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: de wijziging uitproberen met echte data en checks",
+       "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "running",
-        "state_text": "Running",
+        "state_text": "Bezig",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          }
         ],
         "failures": []
@@ -1400,46 +2478,51 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 9.35,
+     "t": 11.71,
      "actions": [
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The automatic rehearsal passed.",
-       "details": "pipeline 299 on refs/merge-requests/86/head: success\n--- the last lines of the rehearsal ---\nUsing 2 threads (target: ci)\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nPassed test  assert_orders_one_row_each [1 of 1 in 0.02s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [262ms]\nProcessed: 1 hook | 1 test\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794814042:step_script\n\nsection_start:1794814042:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794814042:after_script\n\nsection_start:1794814042:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814043:cleanup_file_variables\n\nJob succeeded"
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: de wijziging uitproberen met echte data en checks",
+       "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
-        "state": "done",
-        "state_text": "Done",
+        "state": "running",
+        "state_text": "Bezig",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "running",
+          "state_text": "Bezig"
          }
         ],
         "failures": []
@@ -1447,46 +2530,51 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 9.58,
+     "t": 13.95,
      "actions": [
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The automatic rehearsal passed.",
-       "details": "pipeline 299 on refs/merge-requests/86/head: success\n--- the last lines of the rehearsal ---\nUsing 2 threads (target: ci)\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nPassed test  assert_orders_one_row_each [1 of 1 in 0.02s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [262ms]\nProcessed: 1 hook | 1 test\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794814042:step_script\n\nsection_start:1794814042:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794814042:after_script\n\nsection_start:1794814042:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814043:cleanup_file_variables\n\nJob succeeded"
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: de wijziging uitproberen met echte data en checks",
+       "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "done",
-        "state_text": "Done",
+        "state_text": "Klaar",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
          }
         ],
         "failures": []
@@ -1494,46 +2582,51 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     },
     {
-     "t": 9.58,
+     "t": 16.18,
      "actions": [
       {
-       "label": "Saving the prepared code change",
+       "label": "De voorbereide codewijziging bewaren",
        "status": "done",
-       "summary": "Saved the change: Put the calendar join back (every order appears once again).",
-       "details": "f755097f fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
       },
       {
-       "label": "Waiting for the automatic checks",
-       "status": "done",
-       "summary": "The automatic rehearsal passed.",
-       "details": "pipeline 299 on refs/merge-requests/86/head: success\n--- the last lines of the rehearsal ---\nUsing 2 threads (target: ci)\nStarted downloading deferred relations (1 items)\nFinished [  0.01s] downloading deferred relations (1 items)\nPassed test  assert_orders_one_row_each [1 of 1 in 0.02s]\nFinished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'ci' [262ms]\nProcessed: 1 hook | 1 test\nSummary: 2 total | 2 success\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [162ms]\nsection_end:1794814042:step_script\n\nsection_start:1794814042:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nLoading packages.yml\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [160ms]\nsection_end:1794814042:after_script\n\nsection_start:1794814042:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1794814043:cleanup_file_variables\n\nJob succeeded"
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: de wijziging uitproberen met echte data en checks",
+       "details": ""
       }
      ],
      "evidence": [
       {
        "type": "pipeline",
-       "title": "The automatic rehearsal",
+       "title": "De automatische testrun",
        "data": {
         "state": "done",
-        "state_text": "Done",
+        "state_text": "Klaar",
         "jobs": [
          {
-          "label": "Trying the change in a private copy",
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
          }
         ],
         "failures": []
@@ -1541,29 +2634,237 @@
       },
       {
        "type": "number",
-       "title": "Orders in the shared table",
+       "title": "Bestellingen in de gedeelde tabel",
        "data": {
-        "value": 3392,
-        "unit": "orders",
+        "value": 3448,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Different order numbers among them",
-         "value": 3392
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.42,
+     "actions": [
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "running",
+       "summary": "Automatische checks: wachten op de volgende stap",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "done",
+        "state_text": "Klaar",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.56,
+     "actions": [
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "done",
+       "summary": "De automatische testrun is geslaagd.",
+       "details": "pipeline 244 on refs/merge-requests/126/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nStarted resolving packages from packages.yml\nFinished [  0.11s] resolving packages from packages.yml (1 items)\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [282ms]\nsection_end:1795299232:step_script\n\nsection_start:1795299232:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nStarted resolving packages from packages.yml\nFinished [  0.10s] resolving packages from packages.yml (1 items)\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [266ms]\nsection_end:1795299232:after_script\n\nsection_start:1795299232:archive_cache\n\nSaving cache for successful job\nCreating cache 0_packages-a066071c5682df91b6a3152fcddb9b60f65b698c-protected...\ndbt_packages/: found 268 matching artifact files and directories\nPrimary cache does not exist remotely, uploading existing archive\nNo URL provided, cache will not be uploaded to shared cache server. Cache will be stored only locally.\nCreated cache\nsection_end:1795299232:archive_cache\n\nsection_start:1795299232:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1795299233:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "done",
+        "state_text": "Klaar",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.8,
+     "actions": [
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "done",
+       "summary": "De automatische testrun is geslaagd.",
+       "details": "pipeline 244 on refs/merge-requests/126/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nStarted resolving packages from packages.yml\nFinished [  0.11s] resolving packages from packages.yml (1 items)\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [282ms]\nsection_end:1795299232:step_script\n\nsection_start:1795299232:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nStarted resolving packages from packages.yml\nFinished [  0.10s] resolving packages from packages.yml (1 items)\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [266ms]\nsection_end:1795299232:after_script\n\nsection_start:1795299232:archive_cache\n\nSaving cache for successful job\nCreating cache 0_packages-a066071c5682df91b6a3152fcddb9b60f65b698c-protected...\ndbt_packages/: found 268 matching artifact files and directories\nPrimary cache does not exist remotely, uploading existing archive\nNo URL provided, cache will not be uploaded to shared cache server. Cache will be stored only locally.\nCreated cache\nsection_end:1795299232:archive_cache\n\nsection_start:1795299232:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1795299233:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "done",
+        "state_text": "Klaar",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.8,
+     "actions": [
+      {
+       "label": "De voorbereide codewijziging bewaren",
+       "status": "done",
+       "summary": "Wijziging bewaard: De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor).",
+       "details": "f80477da fix: join the calendar on the order day only\nmodels/im_dimensional/fct_olist_orders.sql"
+      },
+      {
+       "label": "Wachten op de automatische checks",
+       "status": "done",
+       "summary": "De automatische testrun is geslaagd.",
+       "details": "pipeline 244 on refs/merge-requests/126/head: success\n--- the last lines of the rehearsal ---\nLoading profiles.yml\nStarted resolving packages from packages.yml\nFinished [  0.11s] resolving packages from packages.yml (1 items)\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [282ms]\nsection_end:1795299232:step_script\n\nsection_start:1795299232:after_script\n\nRunning after_script\nRunning after script...\n$ dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\ndbt-oss 2.0.11\nLoading profiles.yml\nStarted resolving packages from packages.yml\nFinished [  0.10s] resolving packages from packages.yml (1 items)\nUsing 2 threads (target: ci)\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'ci' [266ms]\nsection_end:1795299232:after_script\n\nsection_start:1795299232:archive_cache\n\nSaving cache for successful job\nCreating cache 0_packages-a066071c5682df91b6a3152fcddb9b60f65b698c-protected...\ndbt_packages/: found 268 matching artifact files and directories\nPrimary cache does not exist remotely, uploading existing archive\nNo URL provided, cache will not be uploaded to shared cache server. Cache will be stored only locally.\nCreated cache\nsection_end:1795299232:archive_cache\n\nsection_start:1795299232:cleanup_file_variables\n\nCleaning up project directory and file based variables\nsection_end:1795299233:cleanup_file_variables\n\nJob succeeded"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De automatische testrun",
+       "data": {
+        "state": "done",
+        "state_text": "Klaar",
+        "jobs": [
+         {
+          "label": "Lege kopieën van de gewijzigde tabellen builden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De wijziging uitproberen met echte data en checks",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "number",
+       "title": "Bestellingen in de gedeelde tabel",
+       "data": {
+        "value": 3448,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Daarvan verschillende bestelnummers",
+         "value": 3448
         }
        }
       }
      ]
     }
    ],
-   "summary": "The automatic rehearsal passed.",
-   "outcome": "The repaired change passes the rehearsal. Accepting it is the next step, and it is not part of this demo.",
+   "summary": "De automatische testrun is geslaagd.",
+   "outcome": "De herstelde wijziging komt door de testrun. Goedkeuren is de volgende stap, maar die zit niet in deze demo.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:27:24+00:00",
+   "recorded_at": "2026-11-21T22:13:58+00:00",
    "durations": [
     9.5,
-    9.5,
-    9.5,
-    9.3,
-    9.6
+    17.6,
+    18.4,
+    17.7,
+    17.8
    ],
    "show": [
     "pipeline",
@@ -1573,12 +2874,12 @@
  },
  "prepare": {
   "durations": [
+   1.3,
    1.4,
-   7.1,
-   12.5,
+   5.3,
    1.4,
-   1.4
+   1.5
   ]
  },
- "recorded_at": "2026-11-16T07:27:24+00:00"
+ "recorded_at": "2026-11-21T22:13:58+00:00"
 }

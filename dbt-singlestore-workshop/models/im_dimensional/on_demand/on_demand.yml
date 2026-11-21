@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: mart_olist_customer_cohorts
+    description: "On-demand report (tag on-demand, not in the nightly load): repeat-purchase cohorts per month of the first order, with the number of returning customers, orders and delivery time per month since that first order."
+    config:
+      meta:
+        owner_team: core
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - cohort_maand
+              - maanden_sinds_eerste_order
+    columns:
+      - name: cohort_maand
+        description: "Month of the first order of the customers in this cohort (YYYY-MM)."
+        data_tests:
+          - not_null
+      - name: maanden_sinds_eerste_order
+        description: "Months since the first order (0 = the month of the first order itself)."
+        data_tests:
+          - not_null
+      - name: cohort_klanten
+        description: "Number of customers in the cohort."
+      - name: aantal_klanten
+        description: "Customers of the cohort that ordered in this month."
+      - name: aantal_orders
+        description: "Orders of the cohort in this month."
+      - name: pct_van_cohort
+        description: "% of the cohort that ordered in this month."
+      - name: gem_levertermijn_dagen
+        description: "Average delivery time in days of the orders of this month."

@@ -1,106 +1,109 @@
 id: production-waits
 group: releases
-title: Production gets a release only when a person approves
-promise: A release goes live in validation by itself, and the same package reaches production after one approval.
+title: Productie wacht op de goedkeuring van een persoon
+promise: Een release gaat vanzelf live in validatie, en hetzelfde package bereikt productie na één goedkeuring.
 minutes: 3
+feature: "Productie pas na goedkeuring door een persoon"
+status: today
+tech: ["deploy_prd (manual)", "deploy_val", "release tag"]
 environment: val
 related:
   - id: numbered-versions
-    why: The numbered package that validation and production run is explained there.
+    why: Daar wordt het genummerde package uitgelegd dat validatie en productie draaien.
   - id: one-team-not-ready
-    why: That scenario builds the release. Here we look at the last step, the approval for production.
+    why: Dat scenario stelt de release samen. Hier kijken we naar de laatste stap, de goedkeuring voor productie.
 
 problem:
-  headline: A release nobody approved goes live for every customer
+  headline: Een release die niemand goedkeurde, gaat live voor alle klanten
   story: |
-    A release is finished late on Thursday afternoon. The automatic go-live is set up so that it simply continues:
-    validation, then production, straight after each other. Nobody looked at the release in validation, and nobody
-    was asked. On Friday morning every customer sees wrong delivery figures, and the team that built the release
-    will not be back until Monday.
-  cost: Every customer sees wrong figures for the whole weekend, and nobody can say who allowed the release.
+    Donderdagnamiddag, laat, is een [[release]] klaar. De automatische deploy is zo ingesteld dat ze gewoon
+    doorloopt: validatie, dan productie, meteen na elkaar. Niemand bekeek de release in validatie, en niemand werd
+    iets gevraagd. Vrijdagochtend zien alle klanten foute leveringscijfers, en het team dat de release maakte, is pas
+    maandag terug.
+  cost: Alle klanten zien het hele weekend foute cijfers, en niemand kan zeggen wie de release toeliet.
   visual:
     type: flow
     nodes:
-      - {id: release, label: Finished release, state: ok, note: "Thursday afternoon"}
-      - {id: val, label: Validation, state: warn, note: "Thursday evening: nobody looks at it"}
-      - {id: prd, label: Production, state: bad, note: "Thursday night: goes live by itself"}
-      - {id: shop, label: Every customer, state: bad, note: "Friday morning: sees the wrong figures"}
+      - {id: release, label: Afgewerkte release, state: ok, note: "Donderdagnamiddag"}
+      - {id: val, label: Validatie, state: warn, note: "Donderdagavond: niemand kijkt ernaar"}
+      - {id: prd, label: Productie, state: bad, note: "Donderdagnacht: gaat vanzelf live"}
+      - {id: shop, label: Alle klanten, state: bad, note: "Vrijdagochtend: zien de foute cijfers"}
     links: [[release, val], [val, prd], [prd, shop]]
-    caption: One automatic chain, and nobody in it who can say stop.
+    caption: Eén automatische keten, en niemand erin die stop kan zeggen.
 
 idea:
-  headline: Validation goes live by itself, production waits for a person
+  headline: Validatie gaat vanzelf live, productie wacht op een persoon
   points:
-    - The release goes live in validation automatically, so everybody can look at it there first.
-    - The same sealed package is offered to production, but that step waits until a person presses approve, and until then production keeps running its old version.
-    - The step records who approved and when; who may press it is a setting of the team, and in this practice system it is not restricted.
+    - De release gaat automatisch live in validatie, zodat iedereen er daar eerst naar kan kijken.
+    - Hetzelfde verzegelde package wordt aan productie aangeboden, maar die stap wacht tot een persoon goedkeurt. Tot dan draait productie haar oude versie.
+    - De stap legt vast wie goedkeurde en wanneer; wie mag drukken is een [[instelling]] van het team, en in dit oefensysteem is dat niet beperkt.
   visual:
     type: flow
     nodes:
-      - {id: release, label: Numbered release, state: ok, note: "One sealed package"}
-      - {id: val, label: Validation, state: ok, note: "Goes live by itself"}
-      - {id: approve, label: A person approves, state: fix, note: "Production waits for this"}
-      - {id: prd, label: Production, state: ok, note: "The same package"}
+      - {id: release, label: Genummerde release, state: ok, note: "Eén verzegeld package"}
+      - {id: val, label: Validatie, state: ok, note: "Gaat vanzelf live"}
+      - {id: approve, label: Een persoon keurt goed, state: fix, note: "Productie wacht hierop"}
+      - {id: prd, label: Productie, state: ok, note: "Hetzelfde package"}
     links: [[release, val], [val, approve], [approve, prd]]
-    caption: Only the last step needs a decision, and it is recorded.
+    caption: Enkel de laatste stap vraagt een beslissing, en die wordt vastgelegd.
 
 code:
-  - title: Production starts only when a person says so
+  - title: Productie start pas als een persoon het zegt
     file: .gitlab-ci.yml
-    file_label: The instructions for putting a version live
+    file_label: De instructies om een versie live te zetten
     from: "deploy_prd:"
     to: "when: manual"
     max_lines: 12
     notes:
       - line: "extends: .deploy"
-        says: Production uses the same steps for going live as every other environment.
-      - line: "needs: [build_image, deploy_val]"
-        says: Production is offered only after validation has finished.
+        says: Productie gebruikt dezelfde stappen om live te gaan als elke andere omgeving.
+      - line: "needs: [build_image, publish_artifacts, deploy_val]"
+        says: Productie wordt pas aangeboden nadat het package, de opgeslagen beschrijving en validatie klaar zijn.
       - line: "- if: *release_tag"
-        says: Production is offered only for numbered releases.
+        says: Productie wordt enkel aangeboden voor genummerde releases.
       - line: "when: manual"
-        says: Even then it waits until a person presses the button.
-  - title: Validation starts by itself
+        says: Zelfs dan wacht ze tot een persoon op de knop drukt.
+  - title: Validatie start vanzelf
     file: .gitlab-ci.yml
-    file_label: The instructions for putting a version live
+    file_label: De instructies om een versie live te zetten
     from: "deploy_val:"
     to: "- if: *release_tag"
     max_lines: 12
     notes:
       - line: "extends: .deploy"
-        says: Validation uses the same steps for going live.
+        says: Validatie gebruikt dezelfde stappen om live te gaan.
       - line: "- if: *release_tag"
-        says: It starts by itself for every numbered release.
+        says: Ze start vanzelf voor elke genummerde release.
 
 demo:
   intro: >-
-    A release is prepared and goes live in validation by itself. Production waits. Then a person approves, and the
-    same package goes live in production.
+    Een release wordt voorbereid en gaat vanzelf live in validatie. Productie wacht. Dan keurt een persoon goed, en
+    hetzelfde package gaat live in productie.
   setup:
     - {action: gitlab.branch, name: release/2026-Q4, from: dev}
     - {action: gitlab.wait_pipeline, for: "ref:release/2026-Q4", expect: success, timeout: 900}
   steps:
     - id: release
-      title: Hand over the release
-      say: The checked release is handed over. Validation goes live by itself, production waits.
-      button: Hand over the release
+      title: De release doorgeven
+      say: De gecontroleerde release wordt doorgegeven. Validatie gaat vanzelf live, productie wacht.
+      button: De release doorgeven
       inputs: []
       do:
         - {action: git.promote_release, branch: release/2026-Q4}
         - {action: gitlab.wait_pipeline, for: "tag:^2026-Q4\\.", expect: success, timeout: 900}
       show:
-        - {type: pipeline, for: "tag:^2026-Q4\\.", title: "Numbering and putting the release live", caption: "Look at the last line: production waits for a person."}
-        - {type: versions, title: "Version in each environment", caption: "Validation runs the new release 2026-Q4.0 (fourth quarter 2026, first release) and can be looked at now. Production still runs its old version."}
-      outcome: The release runs in validation. Production has not changed and waits for a person.
+        - {type: pipeline, for: "tag:^2026-Q4\\.", title: "De release nummeren en live zetten", caption: "Kijk naar de laatste regel: productie wacht op een persoon."}
+        - {type: versions, title: "Versie in elke omgeving", caption: "Validatie draait de nieuwe release 2026-Q4.0 (vierde kwartaal 2026, eerste release) en kan nu bekeken worden. Productie draait nog haar oude versie."}
+      outcome: De release draait in validatie. Productie is niet gewijzigd en wacht op een persoon.
     - id: approve
-      title: Approve production
-      say: A person presses approve on the waiting step. The same package goes live in production.
-      button: Approve production
+      title: Productie goedkeuren
+      say: Een persoon drukt op goedkeuren bij de wachtende stap. Hetzelfde package gaat live in productie.
+      button: Productie goedkeuren
       inputs: []
       do:
         - {action: gitlab.play_job, job: deploy_prd, for: "tag:^2026-Q4\\.", timeout: 600}
       show:
-        - {type: pipeline, before_of: release, for: "tag:^2026-Q4\\.", title: "Numbering and putting the release live", caption: "The last line was waiting for a person. Now it is done."}
-        - {type: versions, before_of: release, title: "Version in each environment", caption: "Production now runs the same release as validation."}
-        - {type: result, from_action: gitlab.play_job, title: "Who approved", caption: "The name and time of whoever pressed the button are kept with this release. Here that is the studio's own login, Administrator."}
-      outcome: Production runs the release that validation ran, and the approval is recorded with a name and a time.
+        - {type: pipeline, before_of: release, for: "tag:^2026-Q4\\.", title: "De release nummeren en live zetten", caption: "De laatste regel wachtte op een persoon. Nu is ze klaar."}
+        - {type: versions, before_of: release, title: "Versie in elke omgeving", caption: "Productie draait nu dezelfde release als validatie."}
+        - {type: result, from_action: gitlab.play_job, title: "Wie goedkeurde", caption: "De naam en het tijdstip van wie op de knop drukte, worden bij deze release bewaard. Hier is dat de eigen login van de Studio, Administrator."}
+      outcome: Productie draait de release die validatie draaide, en de goedkeuring is vastgelegd met een naam en een tijdstip.

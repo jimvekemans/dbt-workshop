@@ -7,22 +7,40 @@
 default_environment = "dev"
 dotenv = ".devcontainer/.env"
 
-# Local sources only: no secret store in the workshop.
+# Where the SingleStore password comes from, highest priority first:
+#   1. the workshop Vault (service `vault`), but only when the AppRole ids are set: KEYVAULT_ROLE_ID and
+#      KEYVAULT_SECRET_ID in .devcontainer/.env (or in the process environment). Without them Vault is skipped quietly:
+#      nothing is contacted, nothing is printed, and a stopped vault container changes nothing.
+#   2. .devcontainer/.env (a SINGLESTORE_PASS there, as before)
+#   3. the process environment (Airflow tasks and CI jobs pass SINGLESTORE_PASS this way)
+# So a .env with a password and no AppRole ids behaves exactly as it always did, and a .env with only the AppRole ids
+# (plus SINGLESTORE_HOST, SINGLESTORE_USER, DBT_DEPLOY_TARGET) gets the password from Vault when a command starts.
+# `{env_short}` is dev | val | prd. Vault holds the password at vdp/<env>/dbt (key SINGLESTORE_PASS); the user name stays
+# in .env. Mount, policy and AppRoles: infrastructure/vault/. Check with `vdp env show` (a layer "vault kv-workshop:..."
+# for SINGLESTORE_PASS) or `vdp env doctor`.
 [secrets]
-precedence = ["dotenv", "env"]
+vault_mount = "kv-workshop"
+precedence = ["vault:vdp/{env_short}/dbt", "dotenv", "env"]
 
-# The workshop stack has neither Vault nor TLS. `dev` is LDV, `val` is ABT.
+# The workshop Vault runs in dev mode on workshop_net: plain HTTP, no CA. `dev` is LDV, `val` is ABT. The AppRole id
+# variables are the defaults' first entries, written out so the project says which ones it reads.
 [environments.dev]
-vault_url = ""
+vault_url = "http://vault:8200"
 ca_certificate = ""
+role_id_vars = ["KEYVAULT_ROLE_ID"]
+secret_id_vars = ["KEYVAULT_SECRET_ID"]
 
 [environments.val]
-vault_url = ""
+vault_url = "http://vault:8200"
 ca_certificate = ""
+role_id_vars = ["KEYVAULT_ROLE_ID"]
+secret_id_vars = ["KEYVAULT_SECRET_ID"]
 
 [environments.prd]
-vault_url = ""
+vault_url = "http://vault:8200"
 ca_certificate = ""
+role_id_vars = ["KEYVAULT_ROLE_ID"]
+secret_id_vars = ["KEYVAULT_SECRET_ID"]
 
 # `vdp sources add` and `vdp sources rewrite` work on the physical dev databases the devcontainer connects to.
 [sources]

@@ -12,20 +12,20 @@ import styles from './StatusDetails.module.css'
 export const OVERVIEW_URL = 'http://localhost:8099'
 
 const MAP: Record<StackService['status'], { state: StatusState; word: string }> = {
-  up: { state: 'ok', word: 'Running' },
-  down: { state: 'bad', word: 'Not running' },
-  starting: { state: 'running', word: 'Starting' },
+  up: { state: 'ok', word: 'Draait' },
+  down: { state: 'bad', word: 'Draait niet' },
+  starting: { state: 'running', word: 'Start op' },
 }
 /** What each part of the stack is called for an audience that does not know the tool names, and what it is for. */
 const NAMES: Record<string, { label: string; gloss?: string }> = {
-  gitlab: { label: 'Code storage (GitLab)' },
-  singlestore: { label: 'Company database' },
-  'airflow-dev': { label: 'Nightly runs: development', gloss: 'Where changes are tried first.' },
-  'airflow-val': { label: 'Nightly runs: validation', gloss: 'Where changes are checked.' },
-  'airflow-prd': { label: 'Nightly runs: production', gloss: 'What the business uses.' },
-  mailpit: { label: 'Test mailbox' },
+  gitlab: { label: 'Codeserver (GitLab)' },
+  singlestore: { label: 'Bedrijfsdatabase' },
+  'airflow-dev': { label: 'Nachtelijke load: development', gloss: 'Waar wijzigingen eerst uitgeprobeerd worden.' },
+  'airflow-val': { label: 'Nachtelijke load: validatie', gloss: 'Waar wijzigingen nagekeken worden.' },
+  'airflow-prd': { label: 'Nachtelijke load: productie', gloss: 'Wat de business gebruikt.' },
+  mailpit: { label: 'Testmailbox' },
 }
-const BASELINE_WORD = { ready: 'Ready', preparing: 'Being checked', missing: 'Not checked yet', failed: 'Could not be made ready' } as const
+const BASELINE_WORD = { ready: 'Klaar', preparing: 'Wordt nagekeken', missing: 'Nog niet nagekeken', failed: 'Kon niet klaargezet worden' } as const
 const PROGRESS: Record<string, StatusState> = { todo: 'idle', running: 'running', done: 'ok', failed: 'bad' }
 
 /** Everything behind "Details": the services, the practice system, the data switch, what is left over, the overview. */
@@ -36,9 +36,9 @@ export function StatusDetails() {
     <div className={styles.grid}>
       <section aria-labelledby="svc-h">
         <h2 id="svc-h" className={styles.h}>
-          Everything the demos need
+          Alles wat de demo's nodig hebben
         </h2>
-        <p className={styles.sub}>Green means ready.</p>
+        <p className={styles.sub}>Groen betekent klaar.</p>
         <ul className={styles.list}>
           {server.stack.map((s) => {
             const m = MAP[s.status]
@@ -55,23 +55,23 @@ export function StatusDetails() {
         </ul>
         <Baseline server={server} />
       </section>
-      <section className={styles.side} aria-label="More">
+      <section className={styles.side} aria-label="Meer">
         <Toggle
-          label="Practice data keeps coming in"
+          label="Oefendata blijft binnenkomen"
           checked={server.feeder.running}
           onChange={(v) => void actions.setFeeder(v)}
           disabled={!!server.job}
           help={
             server.job
-              ? 'You can change this when the current work has finished.'
+              ? 'Je kan dit wijzigen zodra het huidige werk klaar is.'
               : server.feeder.running
-                ? `Made-up orders and deliveries arrive every minute. Switch off to freeze the numbers.${server.feeder.simulated_day ? ` The practice company is on ${formatDay(server.feeder.simulated_day, 'noyear')}.` : ''}`
-                : 'Frozen. Numbers stay as they are.'
+                ? `Verzonnen bestellingen en leveringen komen elke minuut binnen. Zet dit uit om de cijfers te bevriezen.${server.feeder.simulated_day ? ` In het oefenbedrijf is het nu ${formatDay(server.feeder.simulated_day, 'noyear')}.` : ''}`
+                : 'Bevroren. De cijfers blijven zoals ze zijn.'
           }
         />
         <LeftoversNotice />
-        <a href={catalog?.overview_url || OVERVIEW_URL} target="_blank" rel="noreferrer" className={styles.link} title="The presenter's own dashboard">
-          Open the system overview (new tab) <ExternalIcon size="0.9em" />
+        <a href={catalog?.overview_url || OVERVIEW_URL} target="_blank" rel="noreferrer" className={styles.link} title="Het eigen dashboard van de presentator">
+          Open het systeemoverzicht (nieuw tabblad) <ExternalIcon size="0.9em" />
         </a>
       </section>
     </div>
@@ -87,12 +87,12 @@ function Baseline({ server }: { server: ServerState }) {
     <div className={styles.baseline}>
       <p className={styles.item} data-state={state}>
         <StatusMark state={state} />
-        <span className={styles.name}>The practice system</span>
+        <span className={styles.name}>Het oefensysteem</span>
         <span className={styles.word}>{BASELINE_WORD[baseline.status]}</span>
         {baseline.status !== 'ready' && baseline.detail && <span className={styles.detail}>{envWords(baseline.detail)}</span>}
       </p>
       {show && (
-        <ol className={styles.progress} aria-label="Checks of the practice system">
+        <ol className={styles.progress} aria-label="Checks van het oefensysteem">
           {baseline.progress.map((p, i) => (
             <li key={i} data-state={PROGRESS[p.status] ?? 'idle'}>
               <StatusMark state={PROGRESS[p.status] ?? 'idle'} />

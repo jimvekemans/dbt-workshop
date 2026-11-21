@@ -6,16 +6,16 @@ export function taskStatus(s: RunState | ProgressStatus | 'waiting' | 'manual', 
   const word = (fallback: string) => text || fallback
   switch (s) {
     case 'done':
-      return { state: 'ok', word: word('Done') }
+      return { state: 'ok', word: word('Klaar') }
     case 'failed':
-      return { state: 'bad', word: word('Failed') }
+      return { state: 'bad', word: word('Mislukt') }
     case 'running':
-      return { state: 'running', word: word('Working') }
+      return { state: 'running', word: word('Bezig') }
     case 'manual':
-      return { state: 'idle', word: word('Waiting for a person') }
+      return { state: 'idle', word: word('Wacht op een persoon') }
     case 'skipped':
-      return { state: 'idle', word: word('Skipped') }
+      return { state: 'idle', word: word('Overgeslagen') }
     default:
-      return { state: 'idle', word: word('Not started') }
+      return { state: 'idle', word: word('Niet gestart') }
   }
 }

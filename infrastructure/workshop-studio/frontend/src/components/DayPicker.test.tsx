@@ -7,8 +7,8 @@ describe('DayPicker', () => {
   const props = { label: 'Switch on', min: '2026-03-11', max: '2026-03-18', value: '2026-03-14' }
   it('spells the chosen date including the weekday', () => {
     render(<DayPicker {...props} onChange={() => {}} />)
-    expect(screen.getByText('Saturday')).toBeInTheDocument()
-    expect(screen.getByRole('slider')).toHaveAttribute('aria-valuetext', 'Saturday 14 March 2026, 4 days ago')
+    expect(screen.getByText('zaterdag')).toBeInTheDocument()
+    expect(screen.getByRole('slider')).toHaveAttribute('aria-valuetext', 'zaterdag 14 maart 2026, 4 dagen geleden')
   })
   it('moves by one day with the arrow keys and jumps with Home and End', () => {
     const onChange = vi.fn()
@@ -26,9 +26,9 @@ describe('DayPicker', () => {
   it('has day buttons that stop at the ends', () => {
     const onChange = vi.fn()
     render(<DayPicker {...props} value="2026-03-18" onChange={onChange} />)
-    fireEvent.click(screen.getByRole('button', { name: 'One day later' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Een dag later' }))
     expect(onChange).not.toHaveBeenCalled()
-    fireEvent.click(screen.getByRole('button', { name: 'One day earlier' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Een dag vroeger' }))
     expect(onChange).toHaveBeenCalledWith('2026-03-17')
   })
 })

@@ -1,7 +1,7 @@
 import pydantic
 import pytest
 
-from studio.actions import clients, git_scripts, gitlab
+from studio.actions import clients, git_scripts, gitlab, storage
 from studio.actions.base import StepFailed
 from studio.patches import Patch, PatchError, load_patch, resolve_contents
 from test_actions_support import make_ctx
@@ -109,10 +109,10 @@ def test_wait_pipeline_outcomes(tmp_path, monkeypatch):
     api.job_list[1] = [{"name": "verify_feature_to_dev", "status": "failed"}]
     ctx = make_ctx(tmp_path)
     ok = gitlab.wait_pipeline(ctx, gitlab.WaitPipelineParams.model_validate({"for": "ref:dev", "expect": "failed"}))
-    assert ok.summary == "The automatic checks failed, as expected: trying the change in a private copy."
+    assert ok.summary == "De automatische checks zijn mislukt, zoals verwacht: de wijziging uitproberen met echte data en checks."
     with pytest.raises(StepFailed) as err:
         gitlab.wait_pipeline(ctx, gitlab.WaitPipelineParams.model_validate({"for": "ref:dev"}))
-    assert err.value.summary == "The automatic checks failed at: trying the change in a private copy."
+    assert err.value.summary == "De automatische checks zijn mislukt bij: de wijziging uitproberen met echte data en checks."
     api.pipelines[("d0", "dev")] = {"id": 1, "status": "success", "ref": "dev"}
     with pytest.raises(StepFailed):
         gitlab.wait_pipeline(ctx, gitlab.WaitPipelineParams.model_validate({"for": "ref:dev", "expect": "failed"}))
@@ -140,8 +140,9 @@ def test_cleaner_removes_only_what_the_demos_left(tmp_path, monkeypatch):
     ctx, api = make_ctx(tmp_path), FakeApi()
     monkeypatch.setattr(git_scripts, "connect", lambda c: (api, gitlab.snapshot(c.settings, api)))
     monkeypatch.setattr(git_scripts, "move_back", lambda c, a, moved: api.calls.append(("move_back", moved)))
-    removed_images = []
+    removed_images, dropped = [], []
     monkeypatch.setattr(git_scripts.clients, "docker", lambda c, *a, **k: removed_images.append(a[1]))
+    monkeypatch.setattr(storage, "drop_orphans", lambda a, tags: dropped.append(sorted(tags)) or ["v1.1.0"])
     gitlab.snapshot(ctx.settings, api)
     api.branches.update({"demo/x": "x1", "release/2026-Q1": "r1", "dev": "d5"})
     api.tags.update({"v1.1.0": "d5", "2026-Q1.0": "m5"})
@@ -156,6 +157,7 @@ def test_cleaner_removes_only_what_the_demos_left(tmp_path, monkeypatch):
     assert {c[1] for c in api.calls if c[0] == "DELETE"} == {"/repository/tags/v1.1.0", "/repository/tags/2026-Q1.0"}
     assert ("move_back", {"dev": "d0"}) in names
     assert sorted(removed_images) == ["dbt-vdp:2026-Q1.0", "dbt-vdp:v1.1.0"]
+    assert len(dropped) == 1 and "v1.0.0" in dropped[0]   # stored versions of tags that no longer exist go with them
     assert [c[2] for c in api.calls if c[0] == "PUT"] == [{"state_event": "close"}]
 
 
@@ -163,7 +165,8 @@ def test_cleaner_does_nothing_when_nothing_moved(tmp_path, monkeypatch):
     ctx, api = make_ctx(tmp_path), FakeApi()
     monkeypatch.setattr(git_scripts, "connect", lambda c: (api, gitlab.snapshot(c.settings, api)))
     monkeypatch.setattr(git_scripts, "move_back", lambda *a: pytest.fail("must not rewrite branches"))
-    assert git_scripts.clean_git(ctx, "git").details.endswith("moved back: nothing")
+    monkeypatch.setattr(storage, "drop_orphans", lambda a, tags: [])
+    assert "moved back: nothing" in git_scripts.clean_git(ctx, "git").details
 
 
 def test_git_scripts_params():
@@ -212,7 +215,7 @@ def test_find_replace_must_match_exactly_once(current, fragment):
     patch = Patch("p", "t", "m", ops=[{"path": "a.sql", "find": "x = 1", "replace": "x = 2"}])
     with pytest.raises(PatchError) as err:
         resolve_contents(patch, lambda path: current)
-    assert fragment in err.value.details and "does not fit" in err.value.summary
+    assert fragment in err.value.details and "past niet bij" in err.value.summary
 
 
 def test_unknown_patch_is_a_plain_failure(tmp_path):
@@ -239,8 +242,8 @@ def test_release_contents_names_what_was_taken_out(tmp_path, monkeypatch):
 
     monkeypatch.setattr(git_scripts, "git", fake_git)
     taken_out, still_in = git_scripts.release_contents(make_ctx(tmp_path), "repo")
-    assert (taken_out, still_in) == (["the reviews team's change (v1.2.0), review scores overview"],
-                                     ["the payments team's change (v1.1.0), payments overview"])
+    assert (taken_out, still_in) == (["de wijziging van team reviews (v1.2.0), review scores overview"],
+                                     ["de wijziging van team payments (v1.1.0), payments overview"])
 
 
 def test_a_change_without_a_team_branch_or_number_is_named_by_its_title():
@@ -317,9 +320,9 @@ def test_rehearsed_counts_of_a_finished_rehearsal_job(tmp_path):
     gitlab._TRACES.clear()
     api = rehearsal_api()
     found = gitlab.rehearsed(ctx.settings, api, api.job_list[1])
-    assert found == {"tables": 4, "checks": 3, "tables_total": 28, "seconds": 1.9, "names": ["Customers table"]}
-    assert gitlab.rehearsed_words(found) == "4 of 28 tables and 3 data checks in 2 seconds"
-    assert gitlab.rehearsed_words({"tables": 1, "checks": 1, "tables_total": 28}) == "1 of 28 tables and 1 data check"
+    assert found == {"tables": 4, "checks": 3, "tables_total": 28, "seconds": 1.9, "names": ["Klantentabel"]}
+    assert gitlab.rehearsed_words(found) == "4 van de 28 tabellen en 3 datachecks in 2 seconden"
+    assert gitlab.rehearsed_words({"tables": 1, "checks": 1, "tables_total": 28}) == "1 van de 28 tabellen en 1 datacheck"
     assert gitlab.rehearsed(ctx.settings, api, [{"id": 11, "name": "verify_feature_to_dev", "status": "running"}]) is None
     assert gitlab.rehearsed(ctx.settings, api, [{"id": 12, "name": "deploy_dev", "status": "success"}]) is None
 
@@ -327,8 +330,8 @@ def test_rehearsed_counts_of_a_finished_rehearsal_job(tmp_path):
 def test_rehearsed_is_none_without_a_manifest_or_a_readable_log(tmp_path):
     ctx = make_ctx(tmp_path)
     gitlab._TRACES.clear()
-    api = rehearsal_api()
-    assert gitlab.rehearsed(ctx.settings, api, api.job_list[1]) is None   # no manifest: no total
+    api = rehearsal_api(trace="$ dbt build" + REHEARSAL_LOG.split("$ dbt build")[1])   # a log without the compile of the project
+    assert gitlab.rehearsed(ctx.settings, api, api.job_list[1]) is None   # no manifest and no compile line: no total
     with_manifest(ctx)
     gitlab._TRACES.clear()
     api = rehearsal_api(trace="nothing here")
@@ -344,15 +347,108 @@ def test_wait_pipeline_reports_what_was_rehearsed_when_asked(tmp_path, monkeypat
     monkeypatch.setattr(gitlab, "snapshot", lambda s, a: {"tags": []})
     api.pipelines[("d0", "dev")] = {"id": 1, "status": "success", "ref": "dev"}
     plain = gitlab.wait_pipeline(ctx, gitlab.WaitPipelineParams.model_validate({"for": "ref:dev"}))
-    assert plain.summary == "The automatic checks passed."   # other scenarios keep their sentence
+    assert plain.summary == "De automatische checks zijn geslaagd."   # other scenarios keep their sentence
     assert plain.data["rehearsed"]["tables"] == 4 and plain.data["rehearsed"]["seconds"] == 1.9
     said = gitlab.wait_pipeline(ctx, gitlab.WaitPipelineParams.model_validate({"for": "ref:dev", "report_rehearsed": True}))
-    assert said.summary == "The automatic checks passed. It rehearsed 4 of 28 tables and 3 data checks in 2 seconds."
+    assert said.summary == "De automatische checks zijn geslaagd. De testrun heeft 4 van de 28 tabellen en 3 datachecks in 2 seconden doorlopen."
     assert "Processed: 1 hook | 4 models | 3 tests" in said.details
 
 
 def test_a_manual_job_records_who_approved_and_when():
     job = {"user": {"name": "Ada Lovelace"}, "started_at": "2026-11-15T17:54:11.367Z"}
-    assert gitlab.approval_lines(job) == ["Approved by Ada Lovelace", "Approved on 15 November, 18:54"]   # local time, no "(UTC)"
+    assert gitlab.approval_lines(job) == ["Goedgekeurd door Ada Lovelace", "Goedgekeurd op 15 november, 18:54"]   # local time, no "(UTC)"
     assert gitlab.approval_lines({"started_at": "nonsense"}) == []
     assert gitlab.approval_lines({}) == []
+
+
+# --- the two rehearsals of a proposal (empty structure first, then data and checks) --------------------------------
+
+STRUCTURE_LOG = """\
+$ dbt build --select state:modified+,+state:modified state:modified+1 --empty --state artifacts --defer --target=ci --exclude-resource-type test
+Succeeded model demo_x_fct_olist_orders (table) [1 of 3 in 4.45s]
+Succeeded model demo_x_mart_olist_management_kpi (table) [3 of 3 in 4.41s]
+Succeeded model demo_x_mart_web_conversion (table) [2 of 3 in 4.67s]
+Finished 'build' successfully for target 'ci' [9.4s]
+Processed: 1 hook | 3 models
+"""
+
+
+def two_job_api(trace_of):
+    api = FakeApi()
+    api.job_list[1] = [{"id": 10, "name": "verify_structure", "status": "success"},
+                       {"id": 11, "name": "verify_feature_to_dev", "status": "skipped"}]
+    api.req = lambda method, path, **kw: type("R", (), {"status_code": 200, "text": trace_of(path)})()
+    return api
+
+
+def test_the_first_rehearsal_is_read_from_its_own_job(tmp_path):
+    ctx = make_ctx(tmp_path)
+    with_manifest(ctx)
+    gitlab._TRACES.clear()
+    api = two_job_api(lambda path: STRUCTURE_LOG)
+    found = gitlab.rehearsed_structure(ctx.settings, api, api.job_list[1])
+    assert found == {"tables": 3, "tables_total": 28, "seconds": 9.4,
+                     "names": ["Bestellingentabel", "Managementrapporttabel", "Websiteconversietabel"]}
+    assert gitlab.rehearsed(ctx.settings, api, api.job_list[1]) is None   # the data job did not run
+    assert gitlab.structure_words(found, alone=True) == "De testrun heeft 3 van de 28 tabellen doorlopen, zonder datachecks."
+    assert gitlab.structure_words(found, alone=False) == "De eerste ronde heeft 3 van de 28 tabellen gebuild."
+    assert gitlab.rehearsed_structure(ctx.settings, api, [{"id": 10, "name": "verify_structure", "status": "running"}]) is None
+    assert gitlab.rehearsed_structure(ctx.settings, api, [{"id": 12, "name": "deploy_dev", "status": "success"}]) is None
+
+
+def test_wait_pipeline_says_what_the_first_rehearsal_covered(tmp_path, monkeypatch):
+    ctx = make_ctx(tmp_path)
+    with_manifest(ctx)
+    gitlab._TRACES.clear()
+    api = two_job_api(lambda path: STRUCTURE_LOG)
+    monkeypatch.setattr(gitlab, "GitLabApi", lambda s: api)
+    monkeypatch.setattr(gitlab, "snapshot", lambda s, a: {"tags": []})
+    api.pipelines[("d0", "dev")] = {"id": 1, "status": "success", "ref": "dev"}
+    quiet = gitlab.wait_pipeline(ctx, gitlab.WaitPipelineParams.model_validate({"for": "ref:dev"}))
+    assert quiet.summary == "De automatische checks zijn geslaagd." and quiet.data["structure"]["tables"] == 3
+    said = gitlab.wait_pipeline(ctx, gitlab.WaitPipelineParams.model_validate({"for": "ref:dev", "report_rehearsed": True}))
+    assert said.summary == "De automatische checks zijn geslaagd. De testrun heeft 3 van de 28 tabellen doorlopen, zonder datachecks."
+    assert "rehearsed" not in said.data
+
+
+def test_both_rehearsals_are_reported_when_both_ran(tmp_path, monkeypatch):
+    ctx = make_ctx(tmp_path)
+    with_manifest(ctx)
+    gitlab._TRACES.clear()
+    api = FakeApi()
+    api.job_list[1] = [{"id": 10, "name": "verify_structure", "status": "success"},
+                       {"id": 11, "name": "verify_feature_to_dev", "status": "success"}]
+    api.req = lambda method, path, **kw: type("R", (), {"status_code": 200, "text": STRUCTURE_LOG if "/10/" in path else REHEARSAL_LOG})()
+    monkeypatch.setattr(gitlab, "GitLabApi", lambda s: api)
+    monkeypatch.setattr(gitlab, "snapshot", lambda s, a: {"tags": []})
+    api.pipelines[("d0", "dev")] = {"id": 1, "status": "success", "ref": "dev"}
+    said = gitlab.wait_pipeline(ctx, gitlab.WaitPipelineParams.model_validate({"for": "ref:dev", "report_rehearsed": True}))
+    assert said.summary == ("De automatische checks zijn geslaagd. De testrun heeft 4 van de 28 tabellen en 3 datachecks in 2 seconden doorlopen. "
+                            "De eerste ronde heeft 3 van de 28 tabellen gebuild.")
+
+
+def test_a_proposal_says_what_its_rehearsal_may_change_outside_its_private_copy(tmp_path, monkeypatch):
+    ctx = make_ctx(tmp_path)
+    api = FakeApi()
+    api.get = lambda path, **kw: [{"iid": 7}]
+    monkeypatch.setattr(gitlab, "GitLabApi", lambda s: api)
+    monkeypatch.setattr(gitlab, "snapshot", lambda s, a: {"tags": []})
+    params = gitlab.MergeRequestParams.model_validate({
+        "source": "demo/x", "target": "dev", "title": "t", "touches": ["models:dev:mart_olist_management_kpi", "ci:copies"]})
+    assert gitlab.merge_request(ctx, params).touched == {"git", "models:dev:mart_olist_management_kpi", "ci:copies"}
+    assert gitlab.merge_request(ctx, gitlab.MergeRequestParams(source="demo/x", target="dev", title="t")).touched == {"git"}
+    for wrong in ("models:dev", "models:xyz:a", "ci", "variable:dev:x"):
+        with pytest.raises(Exception):
+            gitlab.MergeRequestParams.model_validate({"source": "demo/x", "target": "dev", "title": "t", "touches": [wrong]})
+
+
+def test_the_size_of_the_project_comes_from_the_compile_in_the_log_when_no_nightly_load_wrote_a_manifest(tmp_path):
+    ctx = make_ctx(tmp_path)   # no manifest of the nightly load
+    gitlab._TRACES.clear()
+    api = rehearsal_api()
+    assert gitlab.project_tables_in(REHEARSAL_LOG) == 28
+    assert gitlab.project_tables_in("Finished 'build' successfully\nProcessed: 1 hook | 4 models\n") is None
+    found = gitlab.rehearsed(ctx.settings, api, api.job_list[1])
+    assert found["tables"] == 4 and found["tables_total"] == 28
+    with_manifest(ctx, models=30)   # a manifest, when there is one, wins
+    assert gitlab.rehearsed(ctx.settings, api, api.job_list[1])["tables_total"] == 30

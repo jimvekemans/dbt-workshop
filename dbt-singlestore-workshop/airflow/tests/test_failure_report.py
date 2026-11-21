@@ -121,7 +121,7 @@ def test_error_before_any_node_ran():
     assert len(report.errors) == 1 and report.errors[0].node == ""
     assert "No address associated" in report.errors[0].message
     assert report.counts["error"] == 1
-    assert render_subject(report, CTX) == "[development] Nightly load failed: 1 error"
+    assert render_subject(report, CTX) == "[development] Nachtelijke load mislukt: 1 fout"
 
 
 def test_result_lines_airflow_prefix_json_and_ansi():
@@ -140,88 +140,94 @@ def test_failed_model_line_is_assumed_like_test_line():
     report = parse_log("   Failed model dim_b (table) [5 of 49 in 0.1s]\n")
     assert [(f.node, f.resource_type, f.materialization, f.duration) for f in report.errors] == [
         ("dim_b", "model", "table", "0.1s")]
-    assert render_subject(report, CTX) == "[development] Nightly load failed: 1 table failed"
-    assert "Model failed: dim_b" in render_html(report, CTX)
+    assert render_subject(report, CTX) == "[development] Nachtelijke load mislukt: 1 tabel mislukt"
+    assert "Model mislukt: dim_b" in render_html(report, CTX)
 
 
 def test_readable_names():
     assert describe_test("source_not_null_raw_olist_raw_olist_orders_order_id") == (
-        "order_id in raw_olist_orders must never be empty")
+        "order_id in raw_olist_orders mag nooit leeg zijn")
     assert describe_test("source_not_null_raw_olist_raw_olist_order_payments_order_id") == (
-        "order_id in raw_olist_order_payments must never be empty")
-    assert describe_test("unique_stg_carrier_events_event_id") == "event_id in stg_carrier_events must be unique"
+        "order_id in raw_olist_order_payments mag nooit leeg zijn")
+    assert describe_test("unique_stg_carrier_events_event_id") == "event_id in stg_carrier_events moet uniek zijn"
     assert describe_test("accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered") == (
-        "event_type in stg_carrier_events must only hold the allowed values (picked up, in transit, delivered)")
+        "event_type in stg_carrier_events mag enkel de toegelaten waarden bevatten (picked up, in transit, delivered)")
     assert describe_test("dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey") == (
-        "the combination of order_hkey in fct_olist_orders must be unique")
+        "de combinatie van order_hkey in fct_olist_orders moet uniek zijn")
     assert describe_test("dbt_utils_source_unique_combination_of_columns_raw_olist_raw_olist_order_payments_"
                          "order_id__payment_sequential") == (
-        "the combination of order_id, payment_sequential in raw_olist_order_payments must be unique")
+        "de combinatie van order_id, payment_sequential in raw_olist_order_payments moet uniek zijn")
     assert describe_test("dbt_utils_source_expression_is_true_raw_olist_raw_olist_orders_customer_id"
                          "__regexp_0_9a_f_32_") == (
-        "customer_id in raw_olist_orders must satisfy a rule (regexp_0_9a_f_32_)")
+        "customer_id in raw_olist_orders moet aan een regel voldoen (regexp_0_9a_f_32_)")
     assert describe_test("assert_carrier_events_delivered") is None      # singular test: raw name
 
 
 def test_mail_names_each_failed_check():
     body = render_html(parse_log(FAILED_TEST), CTX)
-    assert "3 rows in raw_olist_orders have no order_id" in body
+    assert "3 rijen in raw_olist_orders hebben geen order_id" in body
     assert "models/edw_dv_bdv/sources_olist.yml:40:17" in body and "source_not_null_raw_olist_raw_olist_orders_order_id" in body
-    assert "Not run because something earlier failed" in body and "mart_olist_management_kpi" in body
-    assert "6 steps did not run: 4 tables and 2 checks" in body
+    assert "Niet gerund omdat een eerdere stap mislukte" in body and "mart_olist_management_kpi" in body
+    assert "6 stappen zijn niet gerund: 4 tabellen en 2 checks" in body
     body = render_html(parse_log(FAILED_TESTS_DB_ERROR), CTX)
     body = html.unescape(body)
-    assert "The check 'event_id in raw_carrier_tracking_events must never be empty' did not finish" in body
+    assert "De check 'event_id in raw_carrier_tracking_events mag nooit leeg zijn' kon niet afgewerkt worden" in body
     assert "Table 'dev_landing.raw_carrier_tracking_events' doesn't exist" in body
     assert "<script" not in body and "<style" not in body and "href=" in body
 
 
 def test_subject():
     assert render_subject(parse_log(FAILED_TEST), CTX) == (
-        "[development] Nightly load failed: 1 check failed, 6 steps not run")
+        "[development] Nachtelijke load mislukt: 1 check mislukt, 6 stappen niet gerund")
     assert render_subject(parse_log(FAILED_TESTS_DB_ERROR), CTX) == (
-        "[development] Nightly load failed: 2 checks failed, 8 steps not run")
+        "[development] Nachtelijke load mislukt: 2 checks mislukt, 8 stappen niet gerund")
     assert render_subject(parse_log(PARSE_ERROR), {**CTX, "environment": "prd"}) == (
-        "[production] Nightly load failed: 1 table failed")
+        "[productie] Nachtelijke load mislukt: 1 tabel mislukt")
     assert render_subject(parse_log("   Skipped model a (table) [1 of 2]\n   Failed model b (table) [2 of 2 in 0.1s]\n"),
-                          {**CTX, "environment": "val"}) == "[validation] Nightly load failed: 1 table failed, 1 step not run"
-    assert render_subject(parse_log(""), CTX) == "[development] Nightly load failed"
-    assert render_subject(parse_log(""), {**CTX, "dag_id": "dbt_reload"}) == "[development] dbt_reload failed"
+                          {**CTX, "environment": "val"}) == "[validatie] Nachtelijke load mislukt: 1 tabel mislukt, 1 stap niet gerund"
+    assert render_subject(parse_log(""), CTX) == "[development] Nachtelijke load mislukt"
+    assert render_subject(parse_log(""), {**CTX, "dag_id": "dbt_reload"}) == "[development] dbt_reload mislukt"
 
 
 def test_one_set_of_counts_everywhere():
-    for log, expected in ((FAILED_TEST, "42 succeeded, 1 failed, 6 not run"),
-                          (FAILED_TESTS_DB_ERROR, "39 succeeded, 2 failed, 8 not run"),
-                          (WARNED_TEST, "48 succeeded, 1 warned, 0 failed, 0 not run")):
+    for log, expected in ((FAILED_TEST, "42 gelukt, 1 mislukt, 6 niet gerund"),
+                          (FAILED_TESTS_DB_ERROR, "39 gelukt, 2 mislukt, 8 niet gerund"),
+                          (WARNED_TEST, "48 gelukt, 1 met waarschuwing, 0 mislukt, 0 niet gerund")):
         report = parse_log(log)
         assert summary_line(report) == expected
     t = tally(parse_log(FAILED_TEST))
     assert (t.succeeded, t.failed, t.failed_checks, t.failed_tables, t.not_run) == (42, 1, 1, 0, 6)
     body = render_html(parse_log(FAILED_TEST), CTX)
     text = re.sub(r"<[^>]+>", "", body)
-    assert "42 succeeded, 1 failed, 6 not run" in text and "42 succeeded" in text and "43 succeeded because" in text
+    assert "42 gelukt, 1 mislukt, 6 niet gerund" in text and "42 gelukt" in text and "43 gelukt, omdat" in text
     assert "1 hook" in count_note(parse_log(FAILED_TEST)) and count_note(parse_log("")) == ""
-    assert text.count("What failed") == 1 and "Environment: development" in text
+    assert text.count("Wat mislukte") == 1 and "Omgeving: development" in text
     assert "Details" not in text                          # no log message for this failure: the cell is left out
     assert "Details" in re.sub(r"<[^>]+>", "", render_html(parse_log(FAILED_TESTS_DB_ERROR), CTX))
+
+
+def test_belgian_number_notation():
+    from utils.dbt_failure_report import number_nl
+    assert [number_nl(n) for n in (0, 42, 3432, 1234567, 92.8, 1234.5)] == ["0", "42", "3.432", "1.234.567", "92,8", "1.234,5"]
+    assert describe_failure(Finding("unique_fct_olist_orders_order_id", "test", failures=1234)).startswith("1.234 waarden")
 
 
 def test_plain_sentences():
     def sentence(node, rows):
         return describe_failure(Finding(node, "test", failures=rows))
     assert sentence("source_not_null_raw_olist_raw_olist_orders_order_id", 3) == (
-        "3 rows in raw_olist_orders have no order_id")
+        "3 rijen in raw_olist_orders hebben geen order_id")
     assert sentence("source_not_null_raw_olist_raw_olist_orders_order_id", 1) == (
-        "1 row in raw_olist_orders has no order_id")
+        "1 rij in raw_olist_orders heeft geen order_id")
     assert sentence("unique_fct_olist_orders_order_id", 5) == (
-        "5 values of order_id appear more than once in fct_olist_orders")
+        "5 waarden van order_id komen meer dan één keer voor in fct_olist_orders")
     assert sentence("source_accepted_values_raw_olist_raw_olist_orders_order_status__processing__shipped", 2) == (
-        "2 rows in raw_olist_orders have an order_status that is not allowed")
+        "2 rijen in raw_olist_orders hebben een waarde in order_status die niet toegelaten is")
     assert sentence("relationships_fct_olist_orders_customer_id__customer_id__ref_dim_olist_customers_", 4) == (
-        "4 rows in fct_olist_orders point to a dim_olist_customers that does not exist")
-    assert sentence("assert_carrier_events_delivered", 2) == "Carrier events delivered: 2 rows"
+        "4 rijen in fct_olist_orders verwijzen naar een rij in dim_olist_customers die niet bestaat")
+    assert sentence("assert_carrier_events_delivered", 2) == "Carrier events delivered: 2 rijen"
     assert sentence("assert_carrier_events_delivered", None) == (
-        "The check 'carrier events delivered' did not finish")
+        "De check 'carrier events delivered' kon niet afgewerkt worden")
 
 
 def test_run_results_override_and_staleness(tmp_path):

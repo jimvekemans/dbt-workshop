@@ -5,11 +5,11 @@ import styles from './Status.module.css'
 export type StatusState = 'ok' | 'bad' | 'warn' | 'idle' | 'running'
 
 const DEFAULT_LABEL: Record<StatusState, string> = {
-  ok: 'Fine',
-  bad: 'Problem',
-  warn: 'Careful',
-  idle: 'Waiting',
-  running: 'Working',
+  ok: 'In orde',
+  bad: 'Probleem',
+  warn: 'Opgelet',
+  idle: 'Wacht',
+  running: 'Bezig',
 }
 
 /** Status is always shape + colour + words. The shape differs per state so it survives greyscale. */

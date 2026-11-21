@@ -7,10 +7,11 @@ and bash quoting.
 
 import json
 import re
+import shlex
 from datetime import datetime
 from typing import Any
 
-from utils.dbt_config import TARGET_DIR, DAILY_ARTIFACTS_DIR
+from utils.dbt_config import DAILY_ARTIFACTS_DIR, ON_DEMAND_ARTIFACTS_DIR, ON_DEMAND_TARGET_DIR, TARGET_DIR
 from utils.dbt_runtime_overrides import parse_list
 
 
@@ -185,6 +186,70 @@ def build_daily_load_command(
         cmd.extend(["--target-path", target_path])
 
     return format_dbt_bash_command(cmd) if as_bash_cmd else cmd
+
+
+# ==============================================================================
+# On-demand build (dbt_on_demand)
+# ==============================================================================
+
+# What may appear in a dbt selection (tag:x, path:models/a/*, +model+, a,b, source:s.t, config.k:v, @model): no
+# quotes, spaces, `$`, `;`, `|`, `&`, backticks. The values come from a form a person fills in.
+_SELECTOR_TOKEN = re.compile(r"^[A-Za-z0-9_.:*+@,/-]+$")
+_MODEL_NAME = re.compile(r"^[A-Za-z0-9_.-]+$")
+# A selection that matches nothing (a typo) is only a warning for dbt: it builds nothing and exits 0, so the run looks
+# fine. Asked for by hand, that must fail.
+NO_NODES_IS_AN_ERROR = '{"error": ["NoNodesForSelectionCriteria", "NoNodesSelected"]}'
+
+
+def _selector_tokens(label: str, raw: str | None) -> list[str]:
+    """dbt selection syntax: separate arguments are 'either', a comma inside one argument is 'both'."""
+    tokens = str(raw or "").split()
+    for token in tokens:
+        if not _SELECTOR_TOKEN.match(token):
+            raise ValueError(f"{label}: {token!r} is not a dbt selector (allowed: letters, digits and _ . : * + @ , / -)")
+    return tokens
+
+
+def build_on_demand_command(
+    select: str,
+    exclude: str | None = None,
+    full_refresh_models: str | list[str] | None = None,
+    try_number: int = 1,
+    state_dir: str = ON_DEMAND_ARTIFACTS_DIR,
+    target_path: str = ON_DEMAND_TARGET_DIR,
+) -> list[str]:
+    """`dbt build --select <select> [--exclude <exclude>] [--vars '{full_refresh_models: [...]}'] --target run`.
+
+    - `select` is required (an empty one would build the whole project), `exclude` is optional. A selection or
+      exclusion that matches nothing fails the build (`--warn-error-options`), it does not "succeed" with nothing built.
+    - `full_refresh_models` (list, or JSON / comma / space separated string) is passed as the dbt var of the same
+      name, only when given; the project's models decide what they do with it.
+    - try_number > 1 (a task that was cleared): `dbt retry` from the state dir of the previous attempt.
+    Everything is shell-quoted: the values come from a form."""
+    is_retry = try_number > 1
+    if is_retry:
+        retry = ["dbt", "retry", "--state", state_dir, "--target", "run"]
+        if target_path:
+            retry.extend(["--target-path", target_path])
+        return ["bash", "-c", " ".join(shlex.quote(part) for part in retry)]
+
+    select_tokens = _selector_tokens("select", select)
+    if not select_tokens:
+        raise ValueError("select must not be empty: dbt would build the whole project")
+    cmd = ["dbt", "build", "--select", *select_tokens]
+    exclude_tokens = _selector_tokens("exclude", exclude)
+    if exclude_tokens:
+        cmd.extend(["--exclude", *exclude_tokens])
+    models = parse_list(full_refresh_models)
+    for name in models:
+        if not _MODEL_NAME.match(name):
+            raise ValueError(f"full_refresh_models: {name!r} is not a model name")
+    if models:
+        cmd.extend(["--vars", "{full_refresh_models: [" + ", ".join(models) + "]}"])
+    cmd.extend(["--warn-error-options", NO_NODES_IS_AN_ERROR, "--target", "run"])
+    if target_path:
+        cmd.extend(["--target-path", target_path])
+    return ["bash", "-c", " ".join(shlex.quote(part) for part in cmd)]
 
 
 # ==============================================================================

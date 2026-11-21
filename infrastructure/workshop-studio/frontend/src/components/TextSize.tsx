@@ -6,15 +6,15 @@ import styles from './TextSize.module.css'
 export function TextSize() {
   const { size, canSmaller, canLarger, smaller, larger } = useTextSize()
   return (
-    <div className={styles.group} role="group" aria-label="Text size">
-      <IconButton label="Smaller text" disabled={!canSmaller} disabledReason="This is the smallest text size" onClick={smaller}>
+    <div className={styles.group} role="group" aria-label="Tekstgrootte">
+      <IconButton label="Kleinere tekst" disabled={!canSmaller} disabledReason="Dit is de kleinste tekstgrootte" onClick={smaller}>
         <span className={styles.small} aria-hidden="true">A</span>
       </IconButton>
-      <IconButton label="Larger text" disabled={!canLarger} disabledReason="This is the largest text size" onClick={larger}>
+      <IconButton label="Grotere tekst" disabled={!canLarger} disabledReason="Dit is de grootste tekstgrootte" onClick={larger}>
         <span className={styles.large} aria-hidden="true">A</span>
       </IconButton>
       <span className="sr-only" role="status" aria-live="polite">
-        Text size: {size.label}
+        Tekstgrootte: {size.label}
       </span>
     </div>
   )

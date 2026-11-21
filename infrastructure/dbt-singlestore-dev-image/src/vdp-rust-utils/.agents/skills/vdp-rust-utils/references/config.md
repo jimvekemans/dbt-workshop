@@ -155,9 +155,12 @@ copy has none).
 
 ## Example
 
-The workshop's `dbt-singlestore-workshop/vdp.toml` is a working example: `dev`, `val`, `prd` sections with empty `vault_url` and
-`ca_certificate` (the CA is not needed, and the precedence has no `vault:` entry, so Vault is never contacted),
-`[secrets] precedence = ["dotenv", "env"]`, `[sources] databases` and
+The workshop's `dbt-singlestore-workshop/vdp.toml` is a working example: `dev`, `val`, `prd` sections with
+`vault_url = "http://vault:8200"` (the workshop's dev-mode Vault, plain HTTP), an empty `ca_certificate` (no CA is needed) and
+`role_id_vars` / `secret_id_vars` written out as `KEYVAULT_ROLE_ID` / `KEYVAULT_SECRET_ID`,
+`[secrets] vault_mount = "kv-workshop"` and `precedence = ["vault:vdp/{env_short}/dbt", "dotenv", "env"]` (the password is read
+from Vault only when the two AppRole ids are set, otherwise Vault is skipped quietly and `.devcontainer/.env` or the process
+environment gives it), `[sources] databases` and
 `[sources.database_prefix]` for databases prefixed with the environment, and
 `[qa] run_results_table = "{env_short}_vdp_mgmt.dbt_run_results"`.
 

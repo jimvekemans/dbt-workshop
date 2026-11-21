@@ -22,7 +22,7 @@ def test_bars_oldest_first_today_last_and_marked(tmp_path, monkeypatch):
     assert out["labels"] == ["2026-02-27", "2026-02-28", "2026-03-01"]
     assert out["series"][0]["values"] == [1, 2, 3]
     assert [b["today"] for b in out["bars"]] == [False, False, True]
-    assert [b["label"] for b in out["bars"]] == ["27 Feb", "28 Feb", "1 Mar (today)"]
+    assert [b["label"] for b in out["bars"]] == ["27 feb", "28 feb", "1 mrt (vandaag)"]
 
 
 def test_bars_with_other_labels_keep_the_query_order(tmp_path, monkeypatch):
@@ -40,24 +40,24 @@ def night(**kw):
 
 
 def test_run_summaries_count_by_status():
-    assert evidence.run_summary(night()) == "28 of 28 tables built, 21 checks passed"
+    assert evidence.run_summary(night()) == "28 van 28 tabellen gebuild, 21 checks geslaagd"
     assert evidence.run_summary(night(tables_built=24, tables_not_run=4, checks_passed=18, checks_not_run=2, checks_failed=1)) \
-        == "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+        == "24 van 28 tabellen gebuild, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
     assert evidence.run_summary(night(tables_built=25, tables_total=25, tables_left_out=3, checks_passed=14)) \
-        == "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
-    assert evidence.run_summary(night(checks_passed=20, checks_warned=1)) == "28 of 28 tables built, 20 checks passed, 1 warning"
+        == "25 van 28 tabellen gebuild, 3 bewust overgeslagen, 14 checks geslaagd"
+    assert evidence.run_summary(night(checks_passed=20, checks_warned=1)) == "28 van 28 tabellen gebuild, 20 checks geslaagd, 1 check met waarschuwing"
     assert evidence.run_summary(night(tables_built=4, tables_total=4, checks_passed=3, retry=True)) \
-        == "Retry: 4 tables built, 3 checks passed"
+        == "Retry: 4 tabellen gebuild, 3 checks geslaagd"
     assert evidence.run_summary(night(tables_built=1, tables_total=1, checks_passed=1, retry=True)) \
-        == "Retry: 1 table built, 1 check passed"
-    assert evidence.run_summary(night(tables_built=27, tables_failed=1)) == "27 of 28 tables built, 1 table failed"
+        == "Retry: 1 tabel gebuild, 1 check geslaagd"
+    assert evidence.run_summary(night(tables_built=27, tables_failed=1)) == "27 van 28 tabellen gebuild, 1 tabel mislukt"
 
 
 def test_run_history_keeps_the_numbers_as_fields(tmp_path, monkeypatch):
     # started, built, tables not run, tables failed, checks passed, checks not run, checks failed, checks warned
     rows(monkeypatch, [], [(datetime(2026, 3, 1, 4), 24, 4, 0, 18, 2, 1, 0)])
     run = evidence.run_history(make_ctx(tmp_path), evidence.RunHistoryParams())["runs"][0]
-    assert run["state"] == "bad" and run["summary"] == "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+    assert run["state"] == "bad" and run["summary"] == "24 van 28 tabellen gebuild, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
     keys = ("tables_built", "tables_total", "tables_not_run", "tables_failed", "tables_left_out",
             "checks_passed", "checks_failed", "checks_warned", "checks_not_run", "retry")
     assert tuple(run[k] for k in keys) == (24, 28, 4, 0, 0, 18, 1, 0, 2, False)
@@ -73,7 +73,7 @@ def test_run_history_counts_the_tables_left_out_of_the_project(tmp_path, monkeyp
     rows(monkeypatch, [], [(datetime(2026, 3, 1, 4), 25, 0, 0, 14, 0, 0, 0)])
     run = evidence.run_history(make_ctx(tmp_path), evidence.RunHistoryParams())["runs"][0]
     assert (run["tables_total"], run["tables_left_out"]) == (25, 3)
-    assert run["summary"] == "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+    assert run["summary"] == "25 van 28 tabellen gebuild, 3 bewust overgeslagen, 14 checks geslaagd"
     assert run["tables_total"] + run["tables_left_out"] == 28
 
 
@@ -81,7 +81,7 @@ def test_a_warning_is_amber_not_green(tmp_path, monkeypatch):
     project_of(monkeypatch, 28)
     rows(monkeypatch, [], [(datetime(2026, 3, 1, 4), 28, 0, 0, 20, 0, 0, 1)])
     run = evidence.run_history(make_ctx(tmp_path), evidence.RunHistoryParams())["runs"][0]
-    assert run["state"] == "warn" and run["summary"] == "28 of 28 tables built, 20 checks passed, 1 warning"
+    assert run["state"] == "warn" and run["summary"] == "28 van 28 tabellen gebuild, 20 checks geslaagd, 1 check met waarschuwing"
 
 
 def test_a_small_run_after_a_failed_night_is_a_retry(tmp_path, monkeypatch):
@@ -89,7 +89,7 @@ def test_a_small_run_after_a_failed_night_is_a_retry(tmp_path, monkeypatch):
     rows(monkeypatch, [], [(datetime(2026, 3, 1, 4, 5), 4, 0, 0, 3, 0, 0, 0),
                            (datetime(2026, 3, 1, 4, 0), 24, 4, 0, 18, 2, 1, 0)])
     first, second = evidence.run_history(make_ctx(tmp_path), evidence.RunHistoryParams(limit=2))["runs"]
-    assert first["retry"] and first["tables_left_out"] == 0 and first["summary"] == "Retry: 4 tables built, 3 checks passed"
+    assert first["retry"] and first["tables_left_out"] == 0 and first["summary"] == "Retry: 4 tabellen gebuild, 3 checks geslaagd"
     assert not second["retry"]
 
 
@@ -103,7 +103,7 @@ LOG = """2026-11-15T16:24:02.014831Z 01O     Failed test  unique_fct_olist_order
 
 def test_failed_checks_are_read_from_the_job_log():
     assert gitlab.failed_checks_in(LOG) == [
-        {"kind": "check", "text": "Orders table: the order number appears only once", "rows": 6862,
+        {"kind": "check", "text": "Bestellingentabel: het bestelnummer komt maar één keer voor", "rows": 6862,
          "details": "unique_fct_olist_orders_order_id"},
         {"kind": "check", "text": "Orders one row each", "rows": 2, "details": "assert_orders_one_row_each"},
     ]
@@ -115,15 +115,15 @@ def test_a_failed_table_build_is_named_with_its_plain_reason():
     log = (Path(__file__).parent / "fixtures" / "verify_failed_model.log").read_text()   # a real failed verify job
     found = gitlab.failed_checks_in(log)[0]
     assert found["kind"] == "table" and found["rows"] is None
-    assert found["text"] == "Orders table could not be built: the same order number would be stored more than once."
+    assert found["text"] == "De bestellingentabel kon niet gebuild worden, want eenzelfde bestelnummer zou meer dan één keer opgeslagen worden."
     assert "Duplicate entry" in found["details"] and "dbt1308" in found["details"]
     assert gitlab.plain_reason("Error 1062: Duplicate entry 'x' for key 'order_id'") == \
-        "the same order number would be stored more than once"
+        "eenzelfde bestelnummer zou meer dan één keer opgeslagen worden"
     assert gitlab.plain_reason("Error 1062: Duplicate entry 'x' for key 'PRIMARY'", "stg_other") == \
-        "the same row would be stored more than once"
-    assert gitlab.plain_reason("Error 1146: Table 'a.b' doesn't exist") == "it needs something that does not exist"
-    assert gitlab.plain_reason("Error 1142: SELECT command denied") == "the robot is not allowed to do this"
-    assert gitlab.plain_reason("boom") == "the database reported an error"
+        "eenzelfde rij zou meer dan één keer opgeslagen worden"
+    assert gitlab.plain_reason("Error 1146: Table 'a.b' doesn't exist") == "er ontbreekt iets dat nodig is"
+    assert gitlab.plain_reason("Error 1142: SELECT command denied") == "de robot mag dit niet doen"
+    assert gitlab.plain_reason("boom") == "de database meldde een fout"
 
 
 class Api:
@@ -153,17 +153,17 @@ def test_pipeline_card_runs_in_order_and_names_the_failed_check(tmp_path, monkey
     monkeypatch.setattr(clients, "GitLabApi", lambda *a, **k: Api())
     monkeypatch.setattr(evidence, "find_pipeline", lambda *a, **k: {"id": 1, "status": "failed"})
     out = evidence.pipeline(make_ctx(tmp_path), evidence.PipelineParams.model_validate({"for": "ref:dev"}))
-    assert [j["label"] for j in out["jobs"]] == ["Trying the change in a private copy", "Numbering the version",
-                                                 "Putting the version live in production"]
-    assert out["jobs"][2]["state_text"] == "Waiting for a person"
+    assert [j["label"] for j in out["jobs"]] == ["De wijziging uitproberen met echte data en checks", "De versie nummeren",
+                                                 "De versie deployen in productie"]
+    assert out["jobs"][2]["state_text"] == "Wacht op een persoon"
     assert out["failures"][0]["rows"] == 6862 and out["failures"][0]["details"].startswith("unique_")
 
 
 def test_every_job_kind_has_one_label():
-    assert gitlab.job_word("verify_release") == "Checking the whole release"
-    assert gitlab.job_word("tag_main") == gitlab.job_word("tag_dev") == "Numbering the version"
-    assert gitlab.job_word("build_image") == "Packaging the version"
-    assert gitlab.job_word("deploy_val") == "Putting the version live in validation"
+    assert gitlab.job_word("verify_release") == "De hele release nakijken"
+    assert gitlab.job_word("tag_main") == gitlab.job_word("tag_dev") == "De versie nummeren"
+    assert gitlab.job_word("build_image") == "Het package van de versie maken"
+    assert gitlab.job_word("deploy_val") == "De versie deployen in validatie"
 
 
 def test_merge_request_summaries_say_rehearsal(tmp_path, monkeypatch):
@@ -173,12 +173,12 @@ def test_merge_request_summaries_say_rehearsal(tmp_path, monkeypatch):
     monkeypatch.setattr(gitlab, "find_pipeline", lambda *a, **k: {"id": 1, "status": "failed", "ref": "x"})
     ctx = make_ctx(tmp_path)
     result = gitlab.wait_pipeline(ctx, gitlab.WaitPipelineParams.model_validate({"for": "mr:demo/x", "expect": "failed"}))
-    assert result.summary == "The automatic rehearsal failed, as expected: trying the change in a private copy."
+    assert result.summary == "De automatische testrun is mislukt, zoals verwacht: de wijziging uitproberen met echte data en checks."
     assert result.data["failures"][0]["rows"] == 6862
     assert "pipeline" not in result.data
     monkeypatch.setattr(gitlab, "find_pipeline", lambda *a, **k: {"id": 1, "status": "success", "ref": "x"})
     ok = gitlab.wait_pipeline(ctx, gitlab.WaitPipelineParams.model_validate({"for": "mr:demo/x"}))
-    assert ok.summary == "The automatic rehearsal passed."
+    assert ok.summary == "De automatische testrun is geslaagd."
 
 
 # --- 4. names --------------------------------------------------------------------------------------------------
@@ -186,19 +186,19 @@ def test_merge_request_summaries_say_rehearsal(tmp_path, monkeypatch):
 def test_cells_use_plain_resource_and_model_names():
     cells, technical = names.plain_cells({"type": "unit_test", "t": "test", "m": "model", "s": "source",
                                           "name": "fct_olist_orders", "other": "int_web_sessions", "n": 5})
-    assert cells == {"type": "check", "t": "check", "m": "table", "s": "feed", "name": "Orders table",
-                     "other": "Web sessions table", "n": 5}
+    assert cells == {"type": "check", "t": "check", "m": "tabel", "s": "feed", "name": "Bestellingentabel",
+                     "other": "Tabel web sessions", "n": 5}
     assert technical == ["fct_olist_orders", "int_web_sessions"]
-    assert names.model_title("dummy_reload_date_window") == "Practice rebuild table"
+    assert names.model_title("dummy_reload_date_window") == "Oefentabel voor herbouw"
     assert names.model_title("order_id") is None
-    assert names.model_title("raw_olist_orders") == "Orders feed"
+    assert names.model_title("raw_olist_orders") == "Bestellingenfeed"
 
 
 def test_refusals_say_tables_in_the_environment():
     from studio.actions.sql import describe_refusal, technical_refusal
     text = "DELETE command denied to user 'svc_dev_dbt'@'h' for table 'prd_landing.t'"
     assert describe_refusal("svc_dev_dbt", text) == \
-        "The database refused: the development robot may not change tables in production."
+        "De database weigerde: de robot van development mag de tabellen in productie niet wijzigen."
     assert "prd_landing" in technical_refusal("svc_dev_dbt", text)
 
 
@@ -222,8 +222,8 @@ def test_bookkeeping_tasks_collapse_to_one_row_with_the_worst_state():
              {"task_id": "g.merge_state__b", "state": "failed"},
              {"task_id": "g.merge_state__c", "state": "success"}]
     out = airflow.describe_tasks(tasks)
-    assert out[0]["label"] == "Checking for hand-made changes"
-    assert out[1] == {"label": "Saving the results", "state": "failed", "state_text": "Failed", "count": 3}
+    assert out[0]["label"] == "Nakijken op manuele wijzigingen"
+    assert out[1] == {"label": "De resultaten bewaren", "state": "failed", "state_text": "Mislukt", "count": 3}
     assert len(out) == 2
 
 
@@ -232,9 +232,9 @@ def test_state_of_the_first_attempt_is_said_after_a_retry():
     tasks = [{"task_id": "send_failure_report", "state": "success", "end_date": datetime(2026, 3, 1, 4, 1)},
              {"task_id": "dbt_build", "state": "success", "end_date": datetime(2026, 3, 1, 4, 6)}]
     out = airflow.describe_tasks(tasks, run)
-    assert out[0]["state_text"] == "Done in the first attempt" and out[0]["state"] == "done"
-    assert out[1]["state_text"] == "Done"
-    assert airflow.describe_tasks(tasks, {**run, "clear_number": 0})[0]["state_text"] == "Done"
+    assert out[0]["state_text"] == "Klaar bij de eerste poging" and out[0]["state"] == "done"
+    assert out[1]["state_text"] == "Klaar"
+    assert airflow.describe_tasks(tasks, {**run, "clear_number": 0})[0]["state_text"] == "Klaar"
 
 
 def test_result_evidence_has_no_run_id_in_its_data(tmp_path):
@@ -244,21 +244,21 @@ def test_result_evidence_has_no_run_id_in_its_data(tmp_path):
     out = evidence.result(ctx, evidence.ResultParams())
     assert "studio__" not in out["summary"] and "studio__" not in str(out["data"])
     assert "studio__" not in out["details"] or isinstance(out["details"], str)
-    assert "Building all the reports" in out["summary"] + str(out["data"])
+    assert "Alle rapporten builden" in out["summary"] + str(out["data"])
 
 
 # --- 9. sentences ----------------------------------------------------------------------------------------------
 
 def test_precommit_sentences_use_the_robot_and_the_teams_rules():
     out = precommit.refusal_reasons("dbt-bouncer....Failed\nregexp_pattern:3:x\ncheck_model_has_semi_colon")
-    assert "The code ends with a semicolon." in out
-    assert "It uses a date function the team has banned (str_to_date)." in out
+    assert "De code eindigt met een puntkomma." in out
+    assert "De code gebruikt een datumfunctie die het team verboden heeft (str_to_date)." in out
 
 
 def test_branch_words_for_the_release_demo():
-    assert gitlab.branch_words("dev") == "the shared work in progress"
-    assert gitlab.branch_words("release/2026-Q4") == "the copy for the release"
-    assert gitlab.branch_words("main") == "production"
+    assert gitlab.branch_words("dev") == "het gedeelde werk in opbouw"
+    assert gitlab.branch_words("release/2026-Q4") == "de kopie voor de release"
+    assert gitlab.branch_words("main") == "productie"
 
 
 def test_versions_item_keeps_its_caption():

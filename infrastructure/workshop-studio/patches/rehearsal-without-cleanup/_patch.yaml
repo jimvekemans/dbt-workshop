@@ -1,0 +1,14 @@
+title: "De privékopieën van de testrun nooit opkuisen"
+message: 'ci: the rehearsal does not clear away its private copies'
+ops:
+- path: .gitlab-ci.yml
+  find: "  after_script:\n    - |\n      dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\n"
+  replace: ''
+- path: .gitlab-ci.yml
+  find: "    - |\n      dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target=ci\n"
+  replace: ''
+- path: .gitlab-ci.yml
+  find: "    - |\n      dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\n  rules:\n"
+  replace: '  rules:
+
+    '

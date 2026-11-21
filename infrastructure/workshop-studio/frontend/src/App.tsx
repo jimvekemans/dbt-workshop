@@ -13,6 +13,7 @@ import { Button } from './components/Button'
 import { UiContext } from './lib/ui'
 import { Home } from './screens/Home'
 import { ScenarioPage } from './screens/ScenarioPage'
+import { Roadmap } from './screens/Roadmap'
 
 function typingTarget(t: EventTarget | null): boolean {
   if (!(t instanceof HTMLElement)) return false
@@ -69,7 +70,7 @@ export function App() {
     <UiContext.Provider value={ui}>
     <TermProvider glossary={catalog?.glossary ?? {}}>
       <a className="skip-link" href="#main">
-        Skip to the content
+        Ga naar de inhoud
       </a>
       <div className="chrome">
         <TopBar route={route} />
@@ -79,12 +80,12 @@ export function App() {
         <NoticeBar />
         {lostPage && route.name !== 'scenario' && (
           <div style={{ marginBottom: 'var(--space-5)' }}>
-            <Callout tone="info" role="status" actions={<Button variant="quiet" onClick={() => setLostPage(false)}>Dismiss</Button>}>
-              We could not find that page, so here is the start page.
+            <Callout tone="info" role="status" actions={<Button variant="quiet" onClick={() => setLostPage(false)}>Sluiten</Button>}>
+              Die pagina bestaat niet, daarom zie je de startpagina.
             </Callout>
           </div>
         )}
-        {route.name === 'scenario' ? <ScenarioPage key={route.id} id={route.id} part={route.part} from={route.from} /> : <Home />}
+        {route.name === 'scenario' ? <ScenarioPage key={route.id} id={route.id} part={route.part} from={route.from} /> : route.name === 'roadmap' ? <Roadmap /> : <Home />}
       </main>
       <JobIndicator />
       <Switcher open={switcher} onClose={() => setSwitcher(false)} currentId={route.name === 'scenario' ? route.id : null} />

@@ -45,7 +45,7 @@ def fake_connect(monkeypatch, calls, error=None, rows=()):
 
 def test_registered_with_a_plain_label():
     p = sql.SqlExecParams.model_validate({"as": "svc_dev_dbt", "statement": "DELETE FROM x", "expect": "refused"})
-    assert ACTIONS["sql.exec"].label(p) == "Checking whether the development robot is allowed to do this"
+    assert ACTIONS["sql.exec"].label(p) == "Nakijken of de robot van development dit mag doen"
     assert "sql" in CLEANERS
 
 
@@ -68,29 +68,29 @@ def test_unknown_parameter_is_rejected():
         (
             "DELETE command denied to user 'svc_dev_dbt'@'h' for table 'prd_edw_dv_bdv.t'",
             "",
-            "The database refused: the development robot may not change tables in production.",
+            "De database weigerde: de robot van development mag de tabellen in productie niet wijzigen.",
         ),
         (
             "SELECT command denied to user 'svc_dev_dbt'@'h' for table 'prd_landing.t'",
             "",
-            "The database refused: the development robot may not read tables in production.",
+            "De database weigerde: de robot van development mag de tabellen in productie niet lezen.",
         ),
         (
             "Access denied for user 'svc_dev_dbt'@'%' to database 'prd_edw_dv_bdv'",
             "DELETE FROM prd_edw_dv_bdv.t",
-            "The database refused: the development robot may not change tables in production.",
+            "De database weigerde: de robot van development mag de tabellen in productie niet wijzigen.",
         ),
         (
             "Access denied for user 'svc_dev_dbt'@'%' to database 'prd_edw_dv_bdv'",
             "SELECT * FROM prd_edw_dv_bdv.t",
-            "The database refused: the development robot may not read tables in production.",
+            "De database weigerde: de robot van development mag de tabellen in productie niet lezen.",
         ),
         (
             "CREATE command denied to user 'svc_dev_dbt'@'%' for table 'probe'",
             "CREATE TABLE prd_edw_dv_bdv.probe (a int)",
-            "The database refused: the development robot may not change tables in production.",
+            "De database weigerde: de robot van development mag de tabellen in productie niet wijzigen.",
         ),
-        ("something else", "", "The database refused: the development robot may not run this statement."),
+        ("something else", "", "De database weigerde: de robot van development mag deze opdracht niet uitvoeren."),
     ],
 )
 def test_refusal_is_quoted_in_plain_words(message, statement, expected):
@@ -108,7 +108,7 @@ def test_expected_refusal_succeeds_with_the_refusal_as_summary(tmp_path, monkeyp
         {"as": "svc_dev_dbt", "statement": "DELETE FROM prd_edw_dv_bdv.dim_customer", "expect": "refused"}
     )
     result = sql.sql_exec(make_ctx(tmp_path), p)
-    assert result.summary == "The database refused: the development robot may not change tables in production."
+    assert result.summary == "De database weigerde: de robot van development mag de tabellen in productie niet wijzigen."
     assert result.touched == set()
 
 
@@ -117,12 +117,12 @@ def test_unexpected_refusal_and_unexpected_success_both_fail(tmp_path, monkeypat
     fake_connect(monkeypatch, [], error=REFUSAL)
     with pytest.raises(StepFailed) as err:
         sql.sql_exec(make_ctx(tmp_path), ok)
-    assert err.value.summary.startswith("The database refused")
+    assert err.value.summary.startswith("De database weigerde")
     fake_connect(monkeypatch, [])
     refused = sql.SqlExecParams.model_validate({"statement": "DELETE FROM x", "expect": "refused"})
     with pytest.raises(StepFailed) as err:
         sql.sql_exec(make_ctx(tmp_path), refused)
-    assert "should have been refused" in err.value.summary
+    assert "geweigerd moeten worden" in err.value.summary
 
 
 def test_syntax_error_is_not_a_refusal(tmp_path, monkeypatch):
@@ -130,7 +130,7 @@ def test_syntax_error_is_not_a_refusal(tmp_path, monkeypatch):
     p = sql.SqlExecParams.model_validate({"statement": "SELEKT", "expect": "refused"})
     with pytest.raises(StepFailed) as err:
         sql.sql_exec(make_ctx(tmp_path), p)
-    assert err.value.summary == "The database could not run the statement."
+    assert err.value.summary == "De database kon de opdracht niet uitvoeren."
 
 
 def test_undo_is_stored_and_run_once_by_the_cleaner(tmp_path, monkeypatch):
@@ -153,7 +153,7 @@ def test_undo_is_stored_and_run_once_by_the_cleaner(tmp_path, monkeypatch):
 def test_read_returns_a_row_count(tmp_path, monkeypatch):
     fake_connect(monkeypatch, [], rows=[(1,), (2,)])
     result = sql.sql_exec(make_ctx(tmp_path), sql.SqlExecParams.model_validate({"statement": "SELECT 1"}))
-    assert result.summary == "The database answered with 2 rows."
+    assert result.summary == "De database antwoordde met 2 rijen."
 
 
 def test_undo_that_finds_nothing_left_counts_as_done(tmp_path, monkeypatch):

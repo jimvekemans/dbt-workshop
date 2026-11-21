@@ -5,7 +5,7 @@
 .dot { font-size: 0.75em; }
 .live .dot { animation: blink 2s ease-in-out infinite; }
 @keyframes blink { 50% { opacity: 0.35; } }
-.button { font: inherit; font-weight: 700; font-size: var(--text-sm); min-height: 2.75rem; cursor: pointer; }
+.button { font: inherit; font-weight: 700; font-size: var(--text-sm); min-height: var(--tap); cursor: pointer; }
 @media (hover: hover) and (pointer: fine) { .button:hover { border-color: var(--tone); } }
 .short { display: none; }
 @media (max-width: 560px) { .long { display: none; } .short { display: inline; } }

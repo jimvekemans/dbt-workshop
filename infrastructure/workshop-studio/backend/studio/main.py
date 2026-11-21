@@ -115,7 +115,7 @@ def create_app(settings: Settings | None = None, *, registry: bool = True,
 
     def engine() -> Engine:
         if holder["problems"] is not None:
-            raise HTTPException(500, detail={"message": "The scenario files have problems.",
+            raise HTTPException(500, detail={"message": "De scenariobestanden hebben problemen.",
                                              "problems": holder["problems"]})
         return holder["engine"]
 
@@ -139,13 +139,13 @@ def create_app(settings: Settings | None = None, *, registry: bool = True,
         recorded = lambda sc: {s.id for s in sc.demo.steps} <= recorder.current_steps(  # noqa: E731
             sc.id, {s.id: [i["type"] for i in s.show] for s in sc.demo.steps})
         return {"groups": catalog.groups_payload(recorded), "glossary": catalog.glossary,
-                "overview_url": settings.overview_url}
+                "roadmap": catalog.roadmap_payload(), "overview_url": settings.overview_url}
 
     @app.get("/api/scenarios/{scenario_id}")
     def get_scenario(scenario_id: str) -> dict[str, Any]:
         eng = engine()
         if scenario_id not in eng.catalog.scenarios:
-            raise HTTPException(404, "There is no such scenario.")
+            raise HTTPException(404, "Dit scenario bestaat niet.")
         sc = eng.catalog.scenarios[scenario_id]
         return eng.catalog.scenario_payload(
             scenario_id, TemplateContext(sc.environment, {}, eng.today_in(sc.environment)),
@@ -194,7 +194,7 @@ def create_app(settings: Settings | None = None, *, registry: bool = True,
         @app.get("/{path:path}", include_in_schema=False)
         def frontend(path: str) -> FileResponse:
             if path.startswith("api/"):
-                raise HTTPException(404, "Not found.")
+                raise HTTPException(404, "Niet gevonden.")
             return FileResponse(_static_file(static, path))
 
     return app

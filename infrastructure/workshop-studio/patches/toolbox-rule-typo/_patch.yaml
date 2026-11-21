@@ -1,0 +1,6 @@
+title: "Bestellingen per dag (verboden datumfunctie) en de regel ertegen met een typefout"
+message: 'feat: orders per day'
+ops:
+  - path: dbt-bouncer.yml
+    find: "regexp_pattern: '(?is).*\\bstr_to_date\\s*\\('"
+    replace: "regexp_pattern: '(?is).*\\btstr_to_date\\s*\\('"

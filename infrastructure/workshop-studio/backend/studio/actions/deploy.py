@@ -22,11 +22,15 @@ COPY_CODE = (
     "cp -r airflow/dags/. /state/dags/ && cp -r airflow/utils/. /state/dags/utils/ && "
     "find /state/dags -name __pycache__ -prune -exec rm -rf {} + ; chmod -R a+rwX /state/dags"
 )
+# like the CI job `.deploy`: the front page (scripts/docs_overview.sh, best effort) is written first; the site is generated
+# up to three times, because the first name lookup of a new container on the practice network sometimes fails
 BUILD_DOCS = (
     "mkdir -p /state/docs && find /state/docs -mindepth 1 -delete && "
-    "dbt docs generate --target run --output-dir /state/docs && chmod -R a+rwX /state/docs"
+    "{ bash scripts/docs_overview.sh || echo 'front page not generated'; } && "
+    "{ dbt docs generate --target run --output-dir /state/docs || dbt docs generate --target run --output-dir /state/docs "
+    "|| dbt docs generate --target run --output-dir /state/docs; } && chmod -R a+rwX /state/docs"
 )
-RELATIVE = {"baseline": "the original", "previous": "the previous", "latest": "the newest"}
+RELATIVE = {"baseline": "de originele", "previous": "de vorige", "latest": "de nieuwste"}
 
 
 class SetVersionParams(Params):
@@ -64,12 +68,12 @@ def pick_version(spec: str, env: str, current: str | None, tags: list[str], base
         return baseline
     if spec not in RELATIVE:
         if spec not in tags:
-            raise StepFailed(f"Version {spec} has not been built yet.", f"images available: {sorted(tags)}")
+            raise StepFailed(f"Versie {spec} is nog niet gebuild.", f"images available: {sorted(tags)}")
         return spec
     options = family(env, tags, baseline)
     if not options:
         raise StepFailed(
-            f"No version has been built for {clients.ENV_WORDS[env]} yet.", f"images available: {sorted(tags)}"
+            f"Voor {clients.ENV_WORDS[env]} is nog geen versie gebuild.", f"images available: {sorted(tags)}"
         )
     if spec == "latest":
         return options[-1]
@@ -90,9 +94,9 @@ def current_version(ctx: Ctx, env: str) -> str | None:
 
 def deploy(ctx: Ctx, env: str, tag: str) -> None:
     image = f"dbt-vdp:{tag}"
-    ctx.progress(f"Copying the schedules of version {tag} into {clients.ENV_WORDS[env]}")
+    ctx.progress(f"De planningen van versie {tag} kopiëren naar {clients.ENV_WORDS[env]}")
     clients.docker_run(ctx, "-u", "root", "-v", f"workshop_{env}:/state", image, "sh", "-c", COPY_CODE)
-    ctx.progress(f"Writing the documentation of version {tag}")
+    ctx.progress(f"De documentatie van versie {tag} schrijven")
     password = clients.password_for(ctx.settings, f"svc_{env}_dbt")
     clients.docker_run(
         ctx,
@@ -104,6 +108,10 @@ def deploy(ctx: Ctx, env: str, tag: str) -> None:
         f"workshop_{env}:/state",
         "-e",
         f"DBT_DEPLOY_TARGET={env}",
+        "-e",
+        f"DEPLOY_ENV={env}",
+        "-e",
+        f"CI_COMMIT_TAG={tag}",
         "-e",
         f"SINGLESTORE_HOST={ctx.settings.s2_host}",
         "-e",
@@ -117,11 +125,11 @@ def deploy(ctx: Ctx, env: str, tag: str) -> None:
         timeout=900,
         env={"SINGLESTORE_PASS": password},
     )
-    ctx.progress(f"Telling {clients.ENV_WORDS[env]} to run version {tag}")
+    ctx.progress(f"Versie {tag} laten runnen in {clients.ENV_WORDS[env]}")
     clients.airflow_cli(ctx, env, "variables", "set", "dbt_image_tag", tag)
 
 
-@action("deploy.set_version", SetVersionParams, lambda p: f"Putting {RELATIVE.get(p.tag, p.tag)} version live")
+@action("deploy.set_version", SetVersionParams, lambda p: f"{RELATIVE[p.tag].capitalize()} versie deployen" if p.tag in RELATIVE else f"Versie {p.tag} deployen")
 def set_version(ctx: Ctx, p: SetVersionParams) -> Result:
     tag = pick_version(p.tag, ctx.env, current_version(ctx, ctx.env), built_tags(ctx), ctx.settings.baseline_tag)
     try:
@@ -130,7 +138,7 @@ def set_version(ctx: Ctx, p: SetVersionParams) -> Result:
         e.touched = set(getattr(e, "touched", ())) | {f"version:{ctx.env}"}
         raise
     return Result(
-        f"{clients.ENV_WORDS[ctx.env].capitalize()} now runs version {tag}.",
+        f"{clients.ENV_WORDS[ctx.env].capitalize()} runt nu versie {tag}.",
         details=f"dbt_image_tag = {tag}; schedules and docs copied from image dbt-vdp:{tag}",
         touched={f"version:{ctx.env}"},
         data={"tag": tag},
@@ -141,7 +149,10 @@ def set_version(ctx: Ctx, p: SetVersionParams) -> Result:
 def restore_version(ctx: Ctx, resource: str) -> Result:
     _, env = resource.split(":")
     baseline = ctx.settings.baseline_tag
+    from .storage import restore_env_copy   # the environment's copy in storage must say the same as the version it runs
     if current_version(ctx, env) == baseline:
-        return Result(f"{clients.ENV_WORDS[env].capitalize()} already runs the original version.")
+        restore_env_copy(ctx, env)
+        return Result(f"{clients.ENV_WORDS[env].capitalize()} runt al de originele versie.")
     deploy(ctx, env, baseline)
-    return Result(f"{clients.ENV_WORDS[env].capitalize()} is back on the original version {baseline}.")
+    restore_env_copy(ctx, env)
+    return Result(f"{clients.ENV_WORDS[env].capitalize()} staat terug op de originele versie {baseline}.")

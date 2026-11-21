@@ -20,7 +20,7 @@ export function escapeHtml(s: string): string {
 const MASK = /•{3,}/g
 /** A masked secret (••••••) stays readable and says why it is hidden. Only text is touched: the bullets never occur inside a tag. */
 export function markMasks(html: string): string {
-  return html.replace(MASK, (m) => `<span class="code-mask" title="Hidden on purpose">${m}</span>`)
+  return html.replace(MASK, (m) => `<span class="code-mask" title="Bewust verborgen">${m}</span>`)
 }
 
 export function highlightLines(lines: string[], language: string): string[] {

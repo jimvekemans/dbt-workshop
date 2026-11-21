@@ -15,7 +15,7 @@ interface ToastApi {
 const Ctx = createContext<ToastApi>({ show: () => {} })
 export const useToast = (): ToastApi => useContext(Ctx)
 
-const LABEL: Record<Tone, string> = { info: 'Note', bad: 'Problem', good: 'Done' }
+const LABEL: Record<Tone, string> = { info: 'Opmerking', bad: 'Probleem', good: 'Klaar' }
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<ToastItem[]>([])
@@ -38,7 +38,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           <div key={t.id} className={`${styles.toast} ${styles[t.tone]}`}>
             <span className={styles.label}>{LABEL[t.tone]}</span>
             <span className={styles.text}>{t.text}</span>
-            <button type="button" className={styles.close} onClick={() => dismiss(t.id)} aria-label="Dismiss this message">
+            <button type="button" className={styles.close} onClick={() => dismiss(t.id)} aria-label="Dit bericht sluiten">
               ×
             </button>
           </div>

@@ -1,108 +1,110 @@
 id: one-clear-mail
 group: daily
-title: A failed night produces one clear mail
-promise: When the night fails, the person on duty gets one short mail that says what failed, not a wall of text.
+title: Een mislukte nacht levert één duidelijke mail op
+promise: Mislukt de nacht, dan krijgt de persoon van wacht één korte mail die zegt wat mislukte, geen muur van tekst.
 minutes: 3
+feature: "Eén duidelijke mail na een mislukte nacht"
+status: today
+tech: ["failure e-mail", "send_failure_report", "dbt_failure_report.py"]
 environment: dev
 related:
   - id: redo-only-what-failed
-    why: After reading the mail and fixing the cause, only the failed part is run again.
+    why: Na het lezen van de mail en het herstellen van de oorzaak wordt enkel het mislukte deel opnieuw gerund.
 
 problem:
-  headline: The night fails, and the cause is buried in hundreds of lines
+  headline: De nacht mislukt en de oorzaak zit begraven in honderden regels
   story: |
-    At 03:10 the night stops. In the morning the person on duty opens the [[log]]: hundreds of lines from a
-    dozen steps, with the one line that matters somewhere in the middle. Twenty minutes later it is clear that three
-    orders have no order number. By then the reports have been wrong for hours, and colleagues are asking in the
-    chat what happened.
-  cost: Every failure costs the person on duty about 20 minutes of reading before anyone can start fixing.
+    Om 03:10 stopt de nacht. 's Morgens opent de persoon van wacht het [[log]]: honderden regels van een dozijn
+    stappen, met de ene regel die telt ergens in het midden. Twintig minuten later is duidelijk dat drie bestellingen
+    geen bestelnummer hebben. Dan zijn de rapporten al uren fout en vragen collega's in de chat wat er gebeurd is.
+  cost: Elke fout kost de persoon van wacht ongeveer 20 minuten lezen voor het herstel kan beginnen.
   visual:
     type: flow
     nodes:
-      - {id: fail, label: The night fails, state: bad, note: "03:10"}
-      - {id: logs, label: Hundreds of log lines, state: warn, note: "One line matters"}
-      - {id: find, label: Someone searches, state: warn, note: "About 20 minutes"}
-      - {id: fix, label: The fix starts, state: idle, note: "Only after the search"}
+      - {id: fail, label: De nacht mislukt, state: bad, note: "03:10"}
+      - {id: logs, label: Honderden logregels, state: warn, note: "Eén regel telt"}
+      - {id: find, label: Iemand zoekt, state: warn, note: "Ongeveer 20 minuten"}
+      - {id: fix, label: Het herstel begint, state: idle, note: "Pas na het zoeken"}
     links: [[fail, logs], [logs, find], [find, fix]]
-    caption: Nothing tells the team where to look.
+    caption: Niets zegt het team waar het moet kijken.
 
 idea:
-  headline: One mail per failed night, with the answer at the top
+  headline: Eén mail per mislukte nacht, met het antwoord bovenaan
   points:
-    - When any step fails, one last step collects what went wrong and writes it up.
-    - The mail names the failed check and counts what succeeded, failed and was not run.
-    - It is sent once per night, however many steps failed, with the last log lines below it.
+    - Mislukt een stap, dan verzamelt een laatste stap wat er misliep en schrijft die het op.
+    - De mail noemt de mislukte check en telt wat geslaagd, mislukt en niet gerund is.
+    - Hij wordt één keer per nacht verstuurd, hoeveel stappen er ook mislukten, met de laatste logregels eronder.
   visual:
     type: flow
     nodes:
-      - {id: steps, label: The steps of the night, state: ok, note: "Any of them can fail"}
-      - {id: last, label: The last step, state: fix, note: "Runs only after a failure"}
-      - {id: mail, label: One mail, state: ok, note: "Failed check, counts, log lines"}
-      - {id: team, label: Inbox of the person on duty, state: ok, note: "Read in one minute"}
+      - {id: steps, label: De stappen van de nacht, state: ok, note: "Elk ervan kan mislukken"}
+      - {id: last, label: De laatste stap, state: fix, note: "Draait enkel na een fout"}
+      - {id: mail, label: Eén mail, state: ok, note: "Mislukte check, tellingen, logregels"}
+      - {id: team, label: Inbox van de persoon van wacht, state: ok, note: "In één minuut gelezen"}
     links: [[steps, last], [last, mail], [mail, team]]
-    caption: The mail does the reading so the team can do the fixing.
+    caption: De mail doet het lezen, zodat het team kan herstellen.
 
 code:
-  - title: A last step that runs only after a failure
+  - title: Een laatste stap die enkel na een fout draait
     file: airflow/utils/dbt_dag_utils.py
-    file_label: Helpers for the steps of the night
+    file_label: Hulpfuncties voor de stappen van de nacht
     from: "@task(task_id=REPORT_TASK_ID"
-    to: "send_failure_report_for_run(context)"
+    to: "send_failure_report_for_run(context"
     max_lines: 6
     notes:
       - line: "trigger_rule=\"one_failed\""
-        says: On a good night this step stays idle; any failed step starts it.
+        says: In een goede nacht blijft deze stap stil; elke mislukte stap zet hem in gang.
       - line: "One mail: dbt findings"
-        says: "It sends exactly one mail: the findings, the check results and the last log lines."
-  - title: It is attached to the end of the night
+        says: "Hij verstuurt precies één mail: de bevindingen, de checkresultaten en de laatste logregels."
+  - title: Hij hangt aan het einde van de nacht
     file: airflow/dags/dbt_daily_load.py
-    file_label: The list of steps of the night
-    from: "# 5. One failure report per run, whichever task failed"
-    to: "[drift_task, build_task, freshness_task] >> failure_report_task()"
+    file_label: De lijst met stappen van de nacht
+    from: "# 6. One failure report per run, whichever task failed"
+    to: ">> failure_report_task()"
     max_lines: 4
     notes:
-      - line: "# 5. One failure report per run"
-        says: One mail per night, whichever step failed.
+      - line: "# 6. One failure report per run"
+        says: Eén mail per nacht, welke stap ook mislukte.
       - line: "failure_report_task()"
-        says: Every step of the night leads to the mail step, so any failure sends it.
-  - title: The subject line of the mail
+        says: Elke stap van de nacht leidt naar de mailstap, dus elke fout stuurt hem.
+  - title: De onderwerpregel van de mail
     file: airflow/utils/dbt_failure_report.py
-    file_label: The code that writes the failure mail
+    file_label: De code die de foutmail schrijft
     from: "    parts = []"
     to: "    return f\"[{_environment(ctx)}]"
     max_lines: 12
     notes:
-      - line: "{_plural(t.failed_checks, 'check')} failed"
-        says: Failed checks are counted first.
-      - line: "{_plural(t.not_run, 'step')} not run"
-        says: Steps that never ran are counted too.
+      - line: "{_count(t.failed_checks, 'check', 'checks')} mislukt"
+        says: Mislukte checks worden eerst geteld.
+      - line: "{_count(t.not_run, 'stap', 'stappen')} niet gerund"
+        says: Stappen die nooit liepen, worden ook geteld.
       - line: "_load_label(ctx)"
-        says: The subject names the environment, the job, and what failed or did not run.
+        says: Het onderwerp noemt de omgeving, de job en wat mislukte of niet gerund werd.
 
 demo:
-  intro: Three orders arrive without an order number. The night fails, and then we open the mail the person on duty receives.
+  intro: Drie bestellingen komen binnen zonder bestelnummer. De nacht mislukt en daarna openen we de mail van de persoon van wacht.
   setup:
     - {action: mail.clear}
     - {action: feed.condition, feed: orders, set: {bad_rows: 3}}
     - {action: feed.deliver, days: 1}
   steps:
     - id: fail
-      title: The night fails
-      say: A check finds 3 orders without an order number and stops the night.
-      button: Run the night
+      title: De nacht mislukt
+      say: Een check vindt 3 bestellingen zonder bestelnummer en stopt de nacht.
+      button: De nacht runnen
       inputs: []
       do:
         - {action: airflow.run_dag, dag: dbt_daily_load, expect: failed}
       show:
-        - {type: tasks, dag: dbt_daily_load, title: The night, caption: "1 step of the night failed: the one that builds the reports. A data check inside it found the 3 orders. The last step of the night then wrote the failure mail."}
-      outcome: "1 step of the night failed and the night stopped there; the last step then wrote the mail."
+        - {type: tasks, dag: dbt_daily_load, title: De nacht, caption: '1 stap van de nacht mislukte: "Alle rapporten builden". Een check erin vond de 3 bestellingen. De laatste stap van de nacht verstuurde daarna de foutmail.'}
+      outcome: "1 stap van de nacht mislukte en de nacht stopte daar; de laatste stap verstuurde daarna de mail."
     - id: mail
-      title: The mail in the inbox
-      say: This is all the person on duty receives. The failed check is at the top; the log lines are far below.
-      button: Open the mail
+      title: De mail in de inbox
+      say: Dit is alles wat de persoon van wacht ontvangt. De mislukte check staat bovenaan; de logregels staan helemaal onderaan.
+      button: De mail openen
       inputs: []
       do:
-        - {action: wait, seconds: 2, because: "The mail is sent by the last step of the night"}
+        - {action: wait, seconds: 2, because: "De mail wordt verstuurd door de laatste stap van de nacht"}
       show:
-        - {type: mail, match: Nightly load failed, title: What the person on duty receives, caption: "The subject says what failed. The failed check is named under What failed. The log lines for the engineer come last."}
-      outcome: The mail names the failed check right at the top. The log lines are only below it, for the engineer who wants them.
+        - {type: mail, match: Nachtelijke load mislukt, title: De mail voor de persoon van wacht, caption: 'De stack schrijft deze mail zelf, in gesproken Vlaams. Het onderwerp begint met "[development] Nachtelijke load mislukt" en noemt daarna de mislukte check en het aantal stappen dat niet gerund is. De mislukte check staat onder "Wat mislukte". De laatste regels uit de log, voor de developer, staan helemaal onderaan.'}
+      outcome: De mail noemt de mislukte check helemaal bovenaan. De logregels staan pas eronder, voor de developer die ze wil nalezen.

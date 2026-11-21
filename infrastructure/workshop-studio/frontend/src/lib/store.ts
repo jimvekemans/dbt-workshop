@@ -92,7 +92,9 @@ export function searchScenarios(catalog: Catalog | null, query: string) {
   if (!q) return all
   const words = q.split(/\s+/)
   return all.filter((s) => {
-    const hay = plainText(`${s.title} ${s.promise} ${s.groupTitle}`).toLowerCase()
+    // the technical keywords of the scenario and of its steps count too, whether or not they are shown on the screen
+    const tech = [...(s.tech ?? []), ...(s.steps ?? []).map((st) => st.tech ?? '')].join(' ')
+    const hay = `${plainText(`${s.title} ${s.promise} ${s.groupTitle}`)} ${tech}`.toLowerCase()
     return words.every((w) => hay.includes(w))
   })
 }
@@ -125,16 +127,16 @@ export function stepBlockedReason(
   catalogEntry: CatalogScenario | null,
   index: number,
 ): string | null {
-  if (!server) return 'Waiting for the studio to answer.'
-  if (server.job) return server.job.kind === 'step' ? `Wait: "${server.job.label}" is still running.` : `Wait for this to finish: ${server.job.label}.`
+  if (!server) return 'Wachten tot de Studio antwoordt.'
+  if (server.job) return server.job.kind === 'step' ? `Wacht: "${server.job.label}" loopt nog.` : `Wacht tot dit klaar is: ${server.job.label}.`
   const demo = demoFor(server, scenario.id)
-  if (!demoIsOpen(demo)) return 'Prepare this demo first.'
+  if (!demoIsOpen(demo)) return 'Zet eerst de demo klaar.'
   if (server.mode === 'replay' && catalogEntry && !catalogEntry.recorded) {
-    return 'No recording for this step.'
+    return 'Geen opname voor deze stap.'
   }
   if (index > 0) {
     const prev = scenario.demo.steps[index - 1]
-    if (prev && stepState(demo, prev.id)?.status !== 'done') return `Finish "${plainText(prev.title)}" first.`
+    if (prev && stepState(demo, prev.id)?.status !== 'done') return `Rond eerst "${plainText(prev.title)}" af.`
   }
   return null
 }

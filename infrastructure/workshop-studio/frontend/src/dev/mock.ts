@@ -8,7 +8,8 @@
 // Recorded steps replay their real frames (fixtures/recordings.json); the rest get generated evidence.
 import { ApiError } from '../api/types'
 import type { ActionResult, Backend, Catalog, DemoStep, InputValues, LiveEvidence, Mode, ProgressStatus, Scenario, ServerState, StepDef, Subscription } from '../api/types'
-import { CATALOG, RECORDINGS, SCENARIOS, fakeEvidence, genericActions, isRecorded } from './mockContent'
+import { CATALOG, RECORDINGS, SCENARIOS, fakeEvidence, genericActions, isRecorded, withIdeas } from './mockContent'
+import { withFlowAndRoadmap } from './mockFlow'
 import type { Frame } from './mockContent'
 
 /** When the replayed frames were "recorded" (the mock invents a date; the real backend sends the real one). */
@@ -279,7 +280,8 @@ export function createMockBackend(params: URLSearchParams): Backend {
       const rel = c.groups.find((g) => g.id === 'releases')
       if (rel) extra.forEach((x) => rel.scenarios.push({ id: x.id, title: x.title, promise: x.promise, minutes: x.minutes, environment: x.environment, related: x.related, recorded: false }))
       c.groups.forEach((g) => g.scenarios.forEach((s) => (s.recorded = isRecorded(s.id))))
-      return c
+      // the sample flow, a few status labels and the closing overview (see mockFlow.ts)
+      return withIdeas(withFlowAndRoadmap(c, isRecorded))
     },
     async getScenario(id) {
       await sleep(200)

@@ -55,7 +55,7 @@ def git(ctx: Ctx, repo: str, *args: str, check: bool = True) -> clients.Proc:
     proc = clients.run(ctx, ["git", *args], cwd=repo, env=GIT_ENV, timeout=180)
     if check and proc.returncode != 0:
         raise StepFailed(
-            "The code server did not accept a step.", f"git {' '.join(args[:3])}: {proc.text[-500:]}"
+            "De codeserver weigerde een stap.", f"git {' '.join(args[:3])}: {proc.text[-500:]}"
         )
     return proc
 
@@ -66,7 +66,7 @@ def clone(ctx: Ctx, tmp: str, branch: str) -> str:
         ctx, ["git", "clone", "--quiet", "-b", branch, remote_url(ctx.settings), repo], env=GIT_ENV, timeout=180
     )
     if proc.returncode != 0:
-        raise StepFailed("The code could not be downloaded.", proc.text[-500:])
+        raise StepFailed("De code kon niet gedownload worden.", proc.text[-500:])
     git(ctx, repo, "fetch", "--quiet", "--tags", "origin")
     return repo
 
@@ -79,11 +79,11 @@ def revert(ctx: Ctx, repo: str, tag: str, resolution: str | None) -> str:
         return "revert applied cleanly"
     conflicted = git(ctx, repo, "diff", "--name-only", "--diff-filter=U").stdout.split()
     if not conflicted or resolution is None:
-        raise StepFailed("Taking the change out of the copy for the release did not work.", proc.text[-500:])
+        raise StepFailed("Het lukte niet om de wijziging uit de kopie voor de release te halen.", proc.text[-500:])
     patch = load_patch(ctx.settings.patches_dir, resolution)
     if unresolved := [f for f in conflicted if f not in patch.files]:
         raise StepFailed(
-            "Taking the change out needs a manual decision.", f"no resolution for {unresolved} in {resolution}"
+            "Om de wijziging eruit te halen is een manuele beslissing nodig.", f"no resolution for {unresolved} in {resolution}"
         )
     apply_to_tree(patch, Path(repo))
     git(ctx, repo, "add", *conflicted)
@@ -96,11 +96,11 @@ MERGED_BRANCH = re.compile(r"Merge branch '([^']+)'")
 
 
 def change_words(title: str, branch: str, version: str | None) -> str:
-    """"the reviews team's change (v1.2.0), review scores overview"; a branch that is not a team's gives "review
+    """"de wijziging van team reviews (v1.2.0), review scores overview"; a branch that is not a team's gives "review
     scores overview (v1.2.0)"."""
     team = branch.rsplit("/", 1)[-1]
     if team.startswith("team-") and team[5:]:
-        return f"the {team[5:].replace('-', ' ')} team's change" + (f" ({version})" if version else "") + f", {title}"
+        return f"de wijziging van team {team[5:].replace('-', ' ')}" + (f" ({version})" if version else "") + f", {title}"
     return title + (f" ({version})" if version else "")
 
 
@@ -125,7 +125,7 @@ def release_contents(ctx: Ctx, repo: str) -> tuple[list[str], list[str]]:
     return out, kept
 
 
-@action("git.revert_on_release", RevertParams, lambda p: "Taking one team's change out of the copy for the release")
+@action("git.revert_on_release", RevertParams, lambda p: "De wijziging van één team uit de kopie voor de release halen")
 def revert_on_release(ctx: Ctx, p: RevertParams) -> Result:
     connect(ctx)
     with tempfile.TemporaryDirectory() as tmp:
@@ -134,9 +134,9 @@ def revert_on_release(ctx: Ctx, p: RevertParams) -> Result:
         git(ctx, repo, "push", "--quiet", "origin", f"HEAD:refs/heads/{p.branch}")
         head = git(ctx, repo, "log", "-1", "--format=%h %s").stdout.strip()
         out, kept = release_contents(ctx, repo)
-    reasons = [f"Taken out: {t}" for t in out] + [f"Still in: {t}" for t in kept]
+    reasons = [f"Eruit gehaald: {t}" for t in out] + [f"Nog erin: {t}" for t in kept]
     return Result(
-        "The change was taken out of the copy for the release; everything else is still in.",
+        "De wijziging is uit de kopie voor de release gehaald; al de rest zit er nog in.",
         details=f"{how}\n{head}\nreverted tag {p.tag} on {p.branch}",
         touched={"git"},
         data={"reasons": reasons, "taken_out": out, "still_in": kept},
@@ -159,13 +159,13 @@ def promote(ctx: Ctx, repo: str, branch: str) -> str:
     return git(ctx, repo, "log", "-1", "--format=%h %s").stdout.strip()
 
 
-@action("git.promote_release", PromoteParams, lambda p: "Letting the release go live in validation")
+@action("git.promote_release", PromoteParams, lambda p: "De release live zetten in validatie")
 def promote_release(ctx: Ctx, p: PromoteParams) -> Result:
     connect(ctx)
     with tempfile.TemporaryDirectory() as tmp:
         head = promote(ctx, clone(ctx, tmp, "main"), p.branch)
     return Result(
-        "The release goes live in validation; production waits for a person.", details=head, touched={"git", "version:val"}
+        "De release gaat live in validatie; productie wacht op een persoon.", details=head, touched={"git", "version:val"}
     )
 
 
@@ -215,10 +215,13 @@ def clean_git(ctx: Ctx, resource: str) -> Result:
         api.req("DELETE", api.p(f"/repository/tags/{quote(tag)}"), ok=(200, 204, 404))
         # the packaged version of a number that no longer exists would be picked as "the newest" by a later demo
         clients.docker(ctx, "rmi", f"dbt-vdp:{tag}", check=False)
+    from .storage import drop_orphans   # the stored description of a number that no longer exists goes with it
+    dropped = drop_orphans(api, set(api.tag_names()))
     moved = {n: base[n] for n in ("dev", "main") if api.branch_sha(n) != base[n]}
     if moved:
         move_back(ctx, api, moved)
     return Result(
-        "The code is back to how it was before the demos.",
-        details=f"closed {closed} proposals; moved back: {', '.join(moved) or 'nothing'}",
+        "De code staat weer zoals ze was voor de demo's.",
+        details=f"closed {closed} proposals; moved back: {', '.join(moved) or 'nothing'}; "
+        f"stored versions dropped: {', '.join(dropped) or 'none'}",
     )

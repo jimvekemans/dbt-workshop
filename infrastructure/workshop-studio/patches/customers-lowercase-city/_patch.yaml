@@ -1,4 +1,4 @@
-title: "Write the customers' city names in lower case"
+title: "De plaatsnamen van de klanten in kleine letters schrijven"
 message: 'fix: customers table writes city names in lower case'
 ops:
   - path: models/im_dimensional/dim_olist_customers.sql

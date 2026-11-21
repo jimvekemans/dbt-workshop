@@ -51,7 +51,7 @@
 @media (min-width: 64rem) and (hover: hover) { .keys { display: block; } }
 @media (max-width: 640px) {
   .button { justify-content: center; padding: var(--space-2) 0; }
-  .num { width: 2.75rem; height: 2.75rem; font-size: var(--text-md); }
+  .num { width: var(--tap); height: var(--tap); font-size: var(--text-md); }
   .name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .phoneName { display: block; }
 }

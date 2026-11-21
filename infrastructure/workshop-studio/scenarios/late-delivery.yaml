@@ -1,108 +1,113 @@
 id: late-delivery
 group: sources
-title: A late feed is named and the rest still loads
-promise: When a feed does not arrive, the nightly load names it as late, and every other report still loads on time.
+title: Een late feed wordt gemeld, de rest laadt door
+promise: Komt een feed niet aan, dan meldt de load hem als laat en laden alle andere rapporten gewoon op tijd.
 minutes: 3
+feature: "Een late feed wordt gemeld, de rest laadt door"
+status: next
+why: "Een stille feed lijkt een rustige dag, dus belooft de klantendienst leverdatums op basis van cijfers die dagen oud zijn."
+tech: ["dbt source freshness", "warn_after"]
 environment: dev
 related:
   - id: skip-one-table
-    why: When a feed is not just late but broken, an operator can leave it out of the nightly load.
+    why: Is een feed niet enkel laat maar stuk, dan kan een operator hem uit de nachtelijke load halen.
 
 problem:
-  headline: The carrier goes silent and nobody notices for two days
+  headline: De pakjesdienst valt stil en twee dagen lang merkt niemand het
   story: |
-    Every evening the carrier sends the day's parcel scans. One day the scans stop coming. No error appears,
-    because nothing was sent that could go wrong. The nightly load keeps showing the same old numbers. Two days
-    later a manager notices that no scan has arrived for two days, and everyone asks how long this has been going on.
-  cost: Customer service promises delivery dates from numbers that are two days old.
+    Elke avond stuurt de pakjesdienst de pakketscans van de dag. Op een dag blijven de scans uit. Er verschijnt geen
+    fout, want er is niets verstuurd dat mis kon lopen. De nachtelijke load blijft dezelfde oude cijfers tonen. Twee
+    dagen later merkt een manager dat er al twee dagen geen scan meer binnenkwam, en iedereen vraagt zich af hoe lang
+    dit al bezig is.
+  cost: De klantendienst belooft leverdatums op basis van cijfers die twee dagen oud zijn.
   visual:
     type: flow
     nodes:
-      - {id: carrier, label: Carrier scans, state: bad, note: "No scans for 2 days"}
-      - {id: load, label: Nightly load, state: warn, note: "Shows the old numbers"}
-      - {id: team, label: Customer service, state: bad, note: "Does not know"}
+      - {id: carrier, label: Scans van de pakjesdienst, state: bad, note: "Al 2 dagen geen scans"}
+      - {id: load, label: Nachtelijke load, state: warn, note: "Toont de oude cijfers"}
+      - {id: team, label: Klantendienst, state: bad, note: "Weet van niets"}
     links: [[carrier, load], [load, team]]
-    caption: A silent feed looks exactly like a quiet day.
+    caption: Een stille feed lijkt precies op een rustige dag.
 
 idea:
-  headline: Each night we check when every feed last arrived
+  headline: Elke nacht kijken we na wanneer elke feed voor het laatst aankwam
   points:
-    - Every [[feed]] has an agreed deadline, here one day.
-    - After the [[nightly load]], a separate check compares the newest arrival of each feed with its deadline and names the late ones.
-    - The check only reports, so the feeds that did arrive are still loaded.
+    - Elke [[feed]] heeft een afgesproken deadline, hier één dag.
+    - Na de [[nachtelijke load]] vergelijkt een aparte check de nieuwste aankomst van elke feed met zijn deadline en meldt hij de late feeds.
+    - De check meldt enkel, zodat de feeds die wel aankwamen toch geladen worden.
   visual:
     type: flow
     nodes:
-      - {id: load, label: Nightly load, state: ok, note: "Loads every feed that arrived"}
-      - {id: check, label: Check each feed, state: fix, note: "Newest arrival against its deadline"}
-      - {id: named, label: Late feeds named, state: ok, note: "Shown in the check's result"}
-      - {id: team, label: The team, state: ok, note: "Talks to the sender"}
+      - {id: load, label: Nachtelijke load, state: ok, note: "Laadt elke feed die aankwam"}
+      - {id: check, label: Elke feed nakijken, state: fix, note: "Nieuwste aankomst tegenover deadline"}
+      - {id: named, label: Late feeds gemeld, state: ok, note: "Te zien in het resultaat van de check"}
+      - {id: team, label: Het team, state: ok, note: "Spreekt de afzender aan"}
     links: [[load, check], [check, named], [named, team]]
-    caption: Late is a conversation with the sender, not a reason to stop everything.
+    caption: Laat zijn is een gesprek met de afzender, geen reden om alles stil te leggen.
 
 code:
-  - title: Each feed carries its own deadline
+  - title: Elke feed heeft zijn eigen deadline
     file: models/edw_dv_bdv/carrier/sources_carrier.yml
-    file_label: The description of the carrier's feed
+    file_label: De beschrijving van de feed van de pakjesdienst
     from: "freshness:"
     to: "warn_after:"
     max_lines: 4
     notes:
       - line: "freshness:"
-        says: A feed can be given a deadline for its newest scan.
+        says: Een feed kan een deadline krijgen voor zijn nieuwste scan.
       - line: "warn_after:"
-        says: After one day without news, the carrier's feed is reported as late.
-  - title: The check never stops the nightly load
+        says: Na één dag zonder nieuws wordt de feed van de pakjesdienst als laat gemeld.
+  - title: De check stopt de nachtelijke load nooit
     file: airflow/dags/dbt_daily_load.py
-    file_label: The list of steps of the nightly load
+    file_label: De lijst met stappen van de nachtelijke load
     from: "# 4. Report source freshness after the build"
     to: "build_task >> freshness_task"
     max_lines: 4
     notes:
       - line: "# 4. Report source freshness"
-        says: This step compares every feed with its deadline.
+        says: Deze stap vergelijkt elke feed met zijn deadline.
       - line: "build_task >> freshness_task"
-        says: It runs beside the build, so a late feed never blocks the load.
-  - title: A late feed is written down, not treated as an error
+        says: Hij loopt naast de build, dus een late feed blokkeert de load nooit.
+  - title: Een late feed wordt genoteerd, niet als fout behandeld
     file: airflow/dags/dbt_daily_load.py
-    file_label: The list of steps of the nightly load
+    file_label: De lijst met stappen van de nachtelijke load
     from: "# dbt exits 1 for both"
     to: "        ]"
     max_lines: 10
     notes:
       - line: "out=$(dbt source freshness"
-        says: The step runs the check and keeps everything it prints.
+        says: De stap voert de check uit en bewaart alles wat hij afdrukt.
       - line: "one or more sources are stale or missing"
-        says: A late feed is only written down as a message.
+        says: Een late feed wordt enkel als bericht genoteerd.
       - line: "exit 0; fi; exit $rc"
-        says: A broken check still fails, so nobody mistakes it for a late feed.
+        says: Een kapotte check mislukt wel, zodat niemand hem met een late feed verwart.
 
 demo:
-  intro: We pause the carrier's scans and run the nightly load. The late feed is named, and the other reports still load.
+  intro: We leggen de scans van de pakjesdienst stil en runnen de nachtelijke load. De late feed wordt gemeld en de andere rapporten laden gewoon.
   setup: []
   steps:
     - id: silent
-      title: The carrier goes quiet
-      say: The other feeds keep arriving, but the carrier sends nothing new.
-      button: Pause the carrier, run the load
+      title: De pakjesdienst valt stil
+      say: De andere feeds blijven aankomen, maar de pakjesdienst stuurt niets nieuws.
+      button: Pakjesdienst pauzeren, load runnen
       inputs: []
       do:
         - {action: feed.condition, feed: carrier, set: {paused: true}}
         - {action: feed.deliver, days: 3}
         - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
       show:
-        - {type: freshness, title: When each feed last arrived, caption: "The parcel scans from the carrier are marked Late; the other 5 feeds are up to date. A feed counts as late when it has sent nothing for more than 1 day."}
-        - {type: tasks, dag: dbt_daily_load, title: "The nightly load, step by step", caption: "Every step finished and no failure mail was needed: the late feed did not stop the nightly load."}
-      outcome: The parcel scans from the carrier are marked Late (the newest scan is 2 days old), the other 5 feeds are up to date, and the nightly load still finished.
+        - {type: freshness, title: Wanneer elke feed voor het laatst aankwam, caption: 'De pakketscans van de pakjesdienst staan op "Laat"; de andere 5 feeds zijn "Up-to-date". Een feed is laat als hij langer dan 1 dag niets gestuurd heeft.'}
+        - {type: tasks, dag: dbt_daily_load, title: "De nachtelijke load, stap voor stap", caption: "Elke stap is klaar en er was geen foutmail nodig: de late feed heeft de nachtelijke load niet gestopt."}
+      outcome: De pakketscans van de pakjesdienst staan op Laat (de nieuwste scan is 2 dagen oud), de andere 5 feeds zijn up-to-date en de nachtelijke load is toch afgerond.
     - id: back
-      title: The carrier delivers again
-      say: The carrier sends the missing scans, and the next nightly load shows no late feed.
-      button: Resume the carrier, run the load
+      title: De pakjesdienst levert weer
+      say: De pakjesdienst stuurt de ontbrekende scans en de volgende nachtelijke load toont geen late feed.
+      button: Pakjesdienst hervatten, load runnen
       inputs: []
       do:
         - {action: feed.condition, feed: carrier, set: {paused: false}}
         - {action: feed.deliver, days: 3}
         - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
       show:
-        - {type: freshness, before_of: silent, title: When each feed last arrived, caption: All 6 feeds are up to date again.}
-      outcome: All 6 feeds are up to date again, so the check no longer names a late feed.
+        - {type: freshness, before_of: silent, title: Wanneer elke feed voor het laatst aankwam, caption: Alle 6 feeds zijn weer up-to-date.}
+      outcome: Alle 6 feeds zijn weer up-to-date, dus de check noemt geen late feed meer.

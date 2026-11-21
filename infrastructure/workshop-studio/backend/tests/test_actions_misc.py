@@ -18,7 +18,7 @@ def test_wait_shows_its_reason_and_sleeps(tmp_path):
     assert (
         slept == [5]
         and ctx.messages == ["Letting the load finish."]
-        and result.summary == "Waited 5 seconds: Letting the load finish."
+        and result.summary == "5 seconden gewacht: Letting the load finish."
     )
     with pytest.raises(pydantic.ValidationError):
         misc.WaitParams(seconds=0)
@@ -31,12 +31,12 @@ def test_mail_clear_and_cleaner(tmp_path, monkeypatch):
         requests, "delete", lambda url, **k: calls.append(url) or type("R", (), {"status_code": 200, "text": "ok"})()
     )
     ctx = make_ctx(tmp_path)
-    assert mail.mail_clear(ctx, mail.Params()).summary == "The mailbox is empty."
+    assert mail.mail_clear(ctx, mail.Params()).summary == "De mailbox is leeg."
     mail.clean_mail(ctx, "mail")
     assert (
         calls == ["http://mailpit:8025/api/v1/messages"] * 2
         and "mail" in CLEANERS
-        and ACTIONS["mail.clear"].label(None) == "Emptying the mailbox"
+        and ACTIONS["mail.clear"].label(None) == "De mailbox leegmaken"
     )
 
 
@@ -59,16 +59,16 @@ check_model_code_does_not_contain_regexp_pattern:2:stg_x
 
 def test_refusal_names_the_rule_in_plain_words():
     assert precommit.refusal_reasons(BOUNCER_OUT) == [
-        "The code ends with a semicolon.",
-        "It uses a date function the team has banned (to_char).",
+        "De code eindigt met een puntkomma.",
+        "De code gebruikt een datumfunctie die het team verboden heeft (to_char).",
     ]
     assert precommit.refusal_reasons("sqlfmt....Failed\ndbt parse....Failed\n") == [
-        "The code could not be laid out the way the team's rules ask.",
-        "The project no longer reads correctly.",
+        "De code kon niet opgemaakt worden zoals de regels van het team vragen.",
+        "Het project kan niet meer correct gelezen worden.",
     ]
     assert precommit.refusal_reasons("sqlfmt....Passed\ndbt-bouncer....Passed\n") == []
     assert precommit.refusal_reasons("dbt-bouncer....Failed\nregexp_pattern:3:x") == [
-        "It uses a date function the team has banned (str_to_date)."
+        "De code gebruikt een datumfunctie die het team verboden heeft (str_to_date)."
     ]
 
 
@@ -111,18 +111,18 @@ def run_precommit(tmp_path, monkeypatch, output, expect):
 
 def test_precommit_refusal_and_acceptance(tmp_path, monkeypatch):
     refused = run_precommit(tmp_path, monkeypatch, BOUNCER_OUT, "refused")
-    assert refused.summary == "The robot refused the change: it breaks 2 of the team's rules."
+    assert refused.summary == "De robot weigerde de wijziging: ze overtreedt 2 van de regels van het team."
     assert len(refused.data["reasons"]) == 2
     tidied = run_precommit(tmp_path, monkeypatch, BOUNCER_OUT + "=== tidied 1\n", "refused")
-    assert tidied.summary.startswith("The robot tidied the layout of 1 file and refused the change")
+    assert tidied.summary.startswith("De robot kuiste de opmaak van 1 bestand op en weigerde de wijziging")
     accepted = run_precommit(tmp_path, monkeypatch, "sqlfmt....Passed\n", "ok")
-    assert accepted.summary == "The robot accepted the change: it follows the team's rules."
+    assert accepted.summary == "De robot keurde de wijziging goed: ze volgt de regels van het team."
     with pytest.raises(StepFailed) as err:
         run_precommit(tmp_path, monkeypatch, BOUNCER_OUT, "ok")
-    assert err.value.summary == "The robot refused the change: it breaks 2 of the team's rules."
-    assert "The code ends with a semicolon." in err.value.details
+    assert err.value.summary == "De robot weigerde de wijziging: ze overtreedt 2 van de regels van het team."
+    assert "De code eindigt met een puntkomma." in err.value.details
     with pytest.raises(StepFailed):
         run_precommit(tmp_path, monkeypatch, "sqlfmt....Passed\n", "refused")
     with pytest.raises(StepFailed) as err:
         run_precommit(tmp_path, monkeypatch, "docker: no such image", "ok")
-    assert err.value.summary == "The robot could not check the change."
+    assert err.value.summary == "De robot kon de wijziging niet nakijken."

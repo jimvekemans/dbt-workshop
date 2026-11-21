@@ -33,12 +33,12 @@ function setup(initial: ServerState) {
   return { backend, push: (s: ServerState) => act(() => sub?.onState(s)) }
 }
 
-describe('DemoPart: Prepare this demo', () => {
+describe('DemoPart: Demo klaarzetten', () => {
   it('does nothing by itself, explains what getting ready does, and prepares only when the button is pressed', async () => {
     const { backend } = setup(base)
-    const button = await screen.findByRole('button', { name: 'Prepare this demo' })
+    const button = await screen.findByRole('button', { name: 'Demo klaarzetten' })
     expect(backend.prepare).not.toHaveBeenCalled()
-    expect(screen.getByText(/starting state/)).toBeInTheDocument()
+    expect(screen.getByText(/beginstand/)).toBeInTheDocument()
     await act(async () => { fireEvent.click(button) })
     expect(backend.prepare).toHaveBeenCalledTimes(1)
     expect(backend.prepare).toHaveBeenCalledWith(scenario.id)
@@ -46,23 +46,23 @@ describe('DemoPart: Prepare this demo', () => {
 
   it('stays disabled while another job runs', async () => {
     const { backend } = setup({ ...base, job: { kind: 'prepare', scenario: null, step: null, label: 'Checking that the demo stack is ready', started: 1, cancellable: true } })
-    expect(await screen.findByText(/Checking the practice company/)).toBeInTheDocument()
+    expect(await screen.findByText(/Het oefensysteem wordt nagekeken/)).toBeInTheDocument()
     expect(backend.prepare).not.toHaveBeenCalled()
   })
 
   it('shows the failure sentence of the demo and lets the presenter try again', async () => {
     const { push } = setup(base)
-    await screen.findByRole('button', { name: 'Prepare this demo' })
+    await screen.findByRole('button', { name: 'Demo klaarzetten' })
     push({ ...base, demo: { scenario: scenario.id, status: 'failed', message: 'Could not get this ready: Tables built once in val.', steps: [] } })
     expect(await screen.findByRole('alert')).toHaveTextContent('Tables built once in val.')
-    expect(screen.getByRole('button', { name: 'Try again' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Opnieuw proberen' })).toBeInTheDocument()
   })
 
   it('shows the steps once the demo is ready', async () => {
     const { push } = setup(base)
-    await screen.findByRole('button', { name: 'Prepare this demo' })
+    await screen.findByRole('button', { name: 'Demo klaarzetten' })
     push({ ...base, demo: { scenario: scenario.id, status: 'ready', message: '', steps: scenario.demo.steps.map((s) => ({ id: s.id, status: 'todo' as const, summary: '', outcome: '', actions: [], evidence: s.show.map((e) => ({ ...e, data: null })) })) } })
     expect(await screen.findByRole('button', { name: scenario.demo.steps[0]!.button })).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Prepare this demo' })).toBeNull()
+    expect(screen.queryByRole('button', { name: 'Demo klaarzetten' })).toBeNull()
   })
 })

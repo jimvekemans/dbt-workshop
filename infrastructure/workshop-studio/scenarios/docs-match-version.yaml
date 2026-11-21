@@ -1,93 +1,98 @@
 id: docs-match-version
 group: releases
-title: The documentation always describes the version that runs
-promise: Development, validation and production each get documentation written from the package that goes live there.
+title: De documentatie beschrijft altijd de versie die draait
+promise: Development, validatie en productie krijgen elk documentatie die uit het package komt dat daar live gaat.
 minutes: 3
+feature: "Documentatie die bij de live versie past"
+status: next
+why: "Een met de hand geschreven beschrijving veroudert, dus een nieuwe analiste toont managers de foute betekenis van een rapport."
+tech: ["dbt docs generate at deploy"]
 environment: dev
 related:
   - id: numbered-versions
-    why: Every environment runs one numbered version. Here the documentation follows that number.
+    why: Elke omgeving draait één genummerde versie. Hier volgt de documentatie dat nummer.
 
 problem:
-  headline: People read a description that no longer says what the report does
+  headline: Mensen lezen een beschrijving die niet meer zegt wat het rapport doet
   story: |
-    The description of the management report was written by hand in the spring. Since then the report has been
-    changed twice, but nobody updated the page, and it never said which month an order is counted in. A new analyst
-    assumes the month of delivery, builds her presentation on that, and only finds out in the meeting that orders
-    count in the month they were placed. The developers spend the afternoon explaining which text is still true.
-  cost: A new analyst presents the wrong meaning of the report to the managers, and the developers lose an afternoon explaining.
+    De beschrijving van het managementrapport werd in het voorjaar met de hand geschreven. Sindsdien is het rapport
+    twee keer gewijzigd, maar niemand paste de pagina aan. Er stond ook nooit vermeld in welke maand een bestelling
+    meetelt. Een nieuwe analiste gaat uit van de maand van levering, bouwt haar presentatie daarop en merkt pas in de
+    meeting dat bestellingen meetellen in de maand waarin ze geplaatst werden. De developers leggen de hele
+    namiddag uit welke tekst nog klopt.
+  cost: Een nieuwe analiste toont de managers de foute betekenis van het rapport, en de developers verliezen een namiddag aan uitleg.
   visual:
     type: timeline
     days:
-      - {label: "Spring", state: ok, note: "The page is written by hand"}
-      - {label: "Summer", state: warn, note: "The report changes, the page does not"}
-      - {label: "Autumn", state: warn, note: "The report changes again"}
-      - {label: "Monday", state: bad, note: "A new analyst trusts the page"}
-      - {label: "Tuesday", state: bad, note: "Wrong reading shown in a meeting"}
-    marker: {after: 1, label: "The page is now wrong"}
-    caption: "Nobody forgot on purpose: the page was simply never part of going live."
+      - {label: "Voorjaar", state: ok, note: "De pagina wordt met de hand geschreven"}
+      - {label: "Zomer", state: warn, note: "Het rapport verandert, de pagina niet"}
+      - {label: "Herfst", state: warn, note: "Het rapport verandert opnieuw"}
+      - {label: "Maandag", state: bad, note: "Een nieuwe analiste vertrouwt de pagina"}
+      - {label: "Dinsdag", state: bad, note: "Een foute lezing wordt in een meeting getoond"}
+    marker: {after: 1, label: "De pagina is nu fout"}
+    caption: "Niemand vergat het met opzet: de pagina maakte gewoon nooit deel uit van het live gaan."
 
 idea:
-  headline: Each environment's documentation page is written from the package that goes live
+  headline: De documentatiepagina van elke omgeving wordt geschreven uit het package dat live gaat
   points:
-    - Going live writes the documentation page of that [[environment]] from the very same package, in the same step.
-    - Every environment has its own documentation page, so validation can show the old text while development shows the new one.
-    - The old pages are removed first, so no page can describe an earlier version.
+    - Bij het live gaan wordt de documentatiepagina van die [[omgeving]] uit datzelfde package geschreven, in dezelfde stap.
+    - Elke omgeving heeft haar eigen documentatiepagina, dus validatie kan de oude tekst tonen terwijl development de nieuwe toont.
+    - De oude pagina's worden eerst verwijderd, zodat geen enkele pagina een eerdere versie kan beschrijven.
   visual:
     type: flow
     nodes:
-      - {id: package, label: Numbered package, state: ok, note: "Code and descriptions together"}
-      - {id: golive, label: Going live, state: fix, note: "Writes the documentation"}
-      - {id: page, label: Documentation page, state: ok, note: "Written from that package"}
-      - {id: reader, label: The reader, state: ok, note: "Reads what runs there"}
+      - {id: package, label: Genummerd package, state: ok, note: "Code en beschrijvingen samen"}
+      - {id: golive, label: Live gaan, state: fix, note: "Schrijft de documentatie"}
+      - {id: page, label: Documentatiepagina, state: ok, note: "Geschreven uit dat package"}
+      - {id: reader, label: De lezer, state: ok, note: "Leest wat daar draait"}
     links: [[package, golive], [golive, page], [page, reader]]
-    caption: The description and the version can never drift apart.
+    caption: De beschrijving en de versie kunnen nooit uit elkaar lopen.
 
 code:
-  - title: The documentation is written while going live
+  - title: De documentatie wordt geschreven bij het live gaan
     file: .gitlab-ci.yml
-    file_label: The instructions for putting a version live
+    file_label: De instructies om een versie live te zetten
     from: "mkdir -p /state/docs"
     to: "airflow variables set dbt_image_tag"
     max_lines: 12
     notes:
       - line: "mkdir -p /state/docs"
-        says: The old pages of this environment are removed first.
+        says: De oude pagina's van deze omgeving worden eerst verwijderd.
       - line: "dbt docs generate"
-        says: New pages are written from the package that is going live, and made readable for everybody.
+        says: Nieuwe pagina's worden geschreven uit het package dat live gaat, en leesbaar gemaakt voor iedereen.
       - line: "airflow variables set dbt_image_tag"
-        says: Only after that does the environment learn which version it runs.
+        says: Pas daarna hoort de omgeving welke versie ze draait.
 
 demo:
   intro: >-
-    We read the description of one report on the documentation pages of development and validation. Then a description
-    that says more is accepted: development shows it under the new version, validation still shows the old one.
+    We lezen de beschrijving van één rapport op de documentatiepagina's van development en validatie. Dan keuren we een
+    beschrijving goed die meer zegt: development toont ze onder de nieuwe versie, validatie toont nog de oude.
   setup: []
   steps:
     - id: read
-      title: Read the documentation pages today
-      say: The same report is read on the documentation page of development and on the one of validation.
-      button: Read both pages
+      title: De documentatiepagina's van vandaag lezen
+      say: Hetzelfde rapport wordt gelezen op de documentatiepagina van development en op die van validatie.
+      button: Beide pagina's lezen
       inputs: []
       do:
         - {action: docs.read_description, envs: [dev, val], expect: same}
       show:
-        - {type: result, from_action: docs.read_description, title: "What each documentation page says", caption: "Two lines per environment: the version it runs and when its page was written, then the description the page shows."}
-        - {type: versions, title: "Version in each environment", caption: "All three environments run the same version, so their pages agree."}
-      outcome: Both pages describe the report with the same sentence, for the same version.
+        - {type: result, from_action: docs.read_description, title: "Wat elke documentatiepagina zegt", caption: "Twee regels per omgeving: de versie die ze draait en wanneer haar pagina geschreven werd, dan de beschrijving die de pagina toont. Die beschrijving komt uit de stack zelf en blijft Engels."}
+        - {type: versions, title: "Versie in elke omgeving", caption: "Alle drie de omgevingen draaien dezelfde versie, dus hun pagina's zeggen hetzelfde."}
+      outcome: Beide pagina's beschrijven het rapport met dezelfde zin, voor dezelfde versie.
     - id: accept
-      title: Accept a clearer description
-      say: A developer adds to the description which month an order is counted in. Accepting gives the change a new version number and puts it live in development, with its own documentation.
-      button: Accept the change
+      title: Een duidelijkere beschrijving goedkeuren
+      say: Een developer vult de beschrijving aan met in welke maand een bestelling meetelt. Goedkeuren geeft de wijziging een nieuw versienummer en zet ze live in development, met haar eigen documentatie.
+      button: De wijziging goedkeuren
       inputs: []
       do:
         - {action: gitlab.branch, name: demo/clearer-description, from: dev}
         - {action: gitlab.commit, branch: demo/clearer-description, patch: report-description-meaning}
-        - {action: gitlab.merge_request, source: demo/clearer-description, target: dev, title: "Say which month an order is counted in"}
+        - {action: gitlab.merge_request, source: demo/clearer-description, target: dev, title: "Zeggen in welke maand een bestelling meetelt"}
         - {action: gitlab.merge, source: demo/clearer-description}
         - {action: gitlab.wait_pipeline, for: "tag:^v", expect: success, timeout: 900}
         - {action: docs.read_description, envs: [dev, val], expect: different}
       show:
-        - {type: result, before_of: read, from_action: docs.read_description, title: "What each documentation page says", caption: "Development shows the new sentence under its new version. Validation still runs the old version, so its page rightly shows the old sentence. Each page matches the version that runs there."}
-        - {type: versions, before_of: read, title: "Version in each environment", caption: "Only development moved to a new version."}
-      outcome: Development's page now says which month an order is counted in, under the new version. Validation's page still shows the old sentence, for the version that runs there.
+        - {type: result, before_of: read, from_action: docs.read_description, title: "Wat elke documentatiepagina zegt", caption: "Development toont de nieuwe zin onder haar nieuwe versie. Validatie draait nog de oude versie, dus haar pagina toont terecht de oude zin. Elke pagina past bij de versie die daar draait."}
+        - {type: versions, before_of: read, title: "Versie in elke omgeving", caption: "Enkel development ging naar een nieuwe versie."}
+      outcome: De pagina van development zegt nu in welke maand een bestelling meetelt, onder de nieuwe versie. De pagina van validatie toont nog de oude zin, voor de versie die daar draait.

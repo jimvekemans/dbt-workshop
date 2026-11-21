@@ -1,4 +1,4 @@
-title: "Show the on-time percentage with two decimals in the management report"
+title: "Het percentage op tijd met twee cijfers na de komma tonen in het managementrapport"
 message: 'fix: management report shows the on-time percentage with two decimals'
 ops:
   - path: models/im_dimensional/mart_olist_management_kpi.sql

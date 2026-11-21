@@ -3,9 +3,30 @@
 .number { display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-lg); font-weight: 800; letter-spacing: 0.06em; color: var(--accent-text); }
 .pick { padding: 0.1em 0.8em; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: var(--text-sm); font-weight: 700; letter-spacing: 0.02em; }
 /* four cards in a row are narrow: the grid then asks for a smaller title; a long word is hyphenated, never cut */
+.flow { padding: 0.1em 0.8em; border-radius: 999px; border: 1.5px solid var(--accent); color: var(--accent-text); font-size: var(--text-sm); font-weight: 700; letter-spacing: 0.02em; }
 .title { font-size: var(--card-title, var(--text-xl)); line-height: 1.15; overflow-wrap: break-word; hyphens: auto; }
-.promise { color: var(--ink-2); flex: 1; }
+
+/* The whole tile is one link: the title is the link, and its ::after covers the tile (a "stretched link"), so a click,
+   a middle click and "open in a new tab" work anywhere on it. Nothing in the tile is a nested control except the second
+   link, which sits above the cover. */
+.cover { color: inherit; text-decoration: none; }
+.cover::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: var(--radius-lg); cursor: pointer; }
+.cover:focus-visible { outline: none; }
+.cover:focus-visible::after { outline: 3px solid var(--ring); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .card:hover .cover { color: var(--accent-text); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; } }
+.cover:focus-visible { color: var(--accent-text); }
+
+/* the tile that shows its preview sits above its neighbours (a hovered tile has a transform, which makes its own layer) and wears an accent ring that the drawer continues */
+.card[data-previewing] { z-index: 5; box-shadow: 0 0 0 2px var(--accent), var(--shadow-lg); border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.card[data-previewing]:has([data-above]) { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+.body { flex: 1; display: grid; align-content: start; gap: var(--space-2); }
+.promise { color: var(--ink-2); }
 .meta { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; font-size: var(--text-sm); color: var(--ink-2); }
 .min { display: inline-flex; align-items: flex-start; gap: 0.35em; font-variant-numeric: tabular-nums; }
-.actions { display: flex; align-items: center; gap: var(--space-4); margin-top: var(--space-2); flex-wrap: wrap; }
-.jump { color: var(--accent-text); font-size: var(--text-md); font-weight: 600; min-height: 44px; padding: 0 var(--space-2); display: inline-flex; align-items: center; }
+
+.actions { display: flex; align-items: center; gap: var(--space-4); margin-top: var(--space-2); }
+.jump { position: relative; z-index: 3; color: var(--accent-text); font-size: var(--text-md); font-weight: 600; min-height: 44px; padding: 0 var(--space-2); margin-left: calc(var(--space-2) * -1); display: inline-flex; align-items: center; }
+/* a cue, not a control: the tile is the button */
+.cue { margin-left: auto; flex: none; display: inline-grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--accent-soft); color: var(--accent-text); font-size: var(--text-lg); transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-med) var(--ease-out); pointer-events: none; }
+@media (hover: hover) and (pointer: fine) { .card:hover .cue { background: var(--accent); color: var(--accent-ink); transform: translateX(2px); } }
+.card:has(.cover:focus-visible) .cue { background: var(--accent); color: var(--accent-ink); }

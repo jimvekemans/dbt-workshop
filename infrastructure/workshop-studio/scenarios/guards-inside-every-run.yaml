@@ -1,0 +1,541 @@
+id: guards-inside-every-run
+kind: flow
+group: flows
+title: "Kleine regels in elke load die stille schade tegenhouden"
+promise: Zes kleine regels in de code houden elke load in orde; de schade die elk voorkomt, zie je op het scherm.
+minutes: 16
+tech: ["generate_*_name", "should_execute", "perform_database_maintenance", "log_dbt_results", "should_log_results", "should_full_refresh"]
+environment: dev
+related:
+  - id: own-workbench
+    why: Dat scenario toont developers die op hun eigen kopieën werken. De eerste stap hier toont de regel die die kopieën een naam geeft.
+  - id: every-run-on-record
+    why: Dat scenario toont het nachtelijke logboek. Stap vier en vijf tonen wat erin komt, en wat er buiten moet blijven.
+  - id: rebuild-without-downtime
+    why: Dat scenario herbouwt een tabel zonder downtime. De laatste stap toont de regel die bepaalt welke tabellen een herbouw aanraakt.
+
+problem:
+  headline: Stille schade stapelt zich op als er geen vangnet in de run zit
+  story: |
+    Elke nacht buildt een [[robot]] de tabellen van de webshop, en developers proberen hun wijzigingen
+    op hetzelfde systeem uit. Zonder kleine regels in de code loopt er stilletjes van alles mis. De proef van een
+    developer overschrijft de [[tabel]] die collega's lezen. Een [[dry run]] schrijft in de [[laadhistoriek]] dat de
+    load goed liep, al werd er geen rij geladen. Een tabel die niemand nog buildt, blijft staan en wordt nog gelezen.
+    Eén routineherbouw wist de hele historiek. Wekenlang merkt niemand het.
+  cost: Collega's lezen foute of vergeten tabellen, en zonder betrouwbaar logboek kan niemand zeggen wat de run van vannacht gebuild heeft, of wanneer.
+  visual:
+    type: compare
+    left:
+      title: Runs zonder vangnet
+      state: bad
+      items:
+        - Een proefrun belandt in de tabel die iedereen leest
+        - Een dry run beweert dat een load goed liep
+        - Oude tabellen blijven staan en worden nog gelezen
+        - Een routineherbouw wist de historiek
+    right:
+      title: Runs met vangnet
+      state: ok
+      items:
+        - Elke run zet zijn tabel op een eigen plaats
+        - Enkel een echte run schrijft naar de historiek
+        - De opkuisstap verwijdert oude tabellen
+        - Een herbouw raakt enkel de tabellen die je opsomt
+    caption: Elk vangnet rechts is het antwoord op één schade links.
+
+idea:
+  headline: Kleine regels in het project vormen een vangnet voor elke run
+  points:
+    - De regels zitten in het project zelf, dus een developer, een robot en een [[testrun]] volgen ze allemaal zonder dat iemand eraan moet denken.
+    - "Elke regel let op één ding: waar een tabel terechtkomt, of een run echt is, wat het project nog bevat of welke tabellen een herbouw mag aanraken."
+    - In de meeste stappen halen we één regel weg en zie je op het scherm de schade die ze voorkomt; in de andere zie je de regel aan het werk.
+  visual:
+    type: flow
+    nodes:
+      - {id: run, label: Een run start, state: idle, note: "Een developer, een robot of een testrun"}
+      - {id: rules, label: Regels in het project, state: fix, note: "Elke regel let op één ding"}
+      - {id: safe, label: Tabellen en historiek kloppen, state: ok, note: "Niemand moet iets onthouden"}
+    links: [[run, rules], [rules, safe]]
+    caption: Het vangnet zit in de run zelf, niet in een controle achteraf.
+
+code:
+  - title: Eén regel kiest de database op basis van de omgeving
+    status: today
+    file: macros/core/generate_database_name.sql
+    file_label: De regel die elke tabel een plaats geeft
+    from: '{%- if target.name == "ci" -%}'
+    to: "{%- endif -%}"
+    max_lines: 6
+    notes:
+      - line: 'target.name == "ci"'
+        says: Een testrun belandt altijd in zijn eigen [[sandbox]], wat er ook ingesteld is.
+      - line: "DBT_DEPLOY_TARGET"
+        says: "De [[omgeving]] bepaalt het begin van de naam: development, validatie of productie."
+  - title: Eén regel zet een voorvoegsel voor de tabelnaam
+    status: today
+    file: macros/core/generate_alias_name.sql
+    file_label: De regel die elke tabel een naam geeft
+    from: '{%- if target.name == "collibra" -%}'
+    to: "{%- endif -%}"
+    max_lines: 6
+    notes:
+      - line: "1 >= node.schema | length"
+        says: Een robot heeft geen naam om toe te voegen, dus de tabel houdt haar gewone naam.
+      - line: "node.schema }}_"
+        says: Een developer of een testrun krijgt een voorvoegsel, zodat kopieën nooit botsen.
+  - title: Een dry run wordt herkend en mag niets schrijven
+    status: today
+    file: macros/core/should_execute.sql
+    file_label: De regel die een echte run van een dry run onderscheidt
+    from: "{% macro should_execute() %}"
+    to: "{% endmacro %}"
+    max_lines: 12
+    notes:
+      - line: "flags.WHICH in"
+        says: Enkel commando's die iets builden tellen, niet commando's die alleen de code bekijken.
+      - line: "not flags.EMPTY"
+        says: Een dry run zonder rijen telt nooit als een echte run.
+  - title: De opkuisstap vindt tabellen die het project niet meer heeft
+    status: today
+    file: macros/utils/perform_database_maintenance.sql
+    file_label: De opkuisstap
+    from: "{% set orphaned_objects = [] %}"
+    to: "{% endfor %}"
+    max_lines: 8
+    notes:
+      - line: "for obj in created_objects"
+        says: Hij overloopt elke tabel die de robot in zijn omgeving gebuild heeft.
+      - line: "not in dbt_objects"
+        says: Een tabel die het project niet meer vermeldt, wordt als restant aangeduid.
+      - line: "orphaned_objects.append"
+        says: Restanten worden verzameld en daarna verwijderd.
+  - title: Elke echte run voegt rijen toe aan het logboek van zijn omgeving
+    status: today
+    file: macros/utils/log_dbt_results.sql
+    file_label: De code die het logboek schrijft
+    from: "{%- set table_identifier = api.Relation.create("
+    to: ") %}"
+    max_lines: 6
+    notes:
+      - line: 'database=env_var("DBT_DEPLOY_TARGET"'
+        says: Elke omgeving heeft een eigen [[logboek]], met de naam van de omgeving.
+      - line: 'identifier="dbt_run_results"'
+        says: Elke tabel en elke [[check]] van een run krijgt een rij in deze ene tabel.
+  - title: Het logboek negeert dry runs, net als de laadhistoriek
+    status: next
+    file: dbt_project.yml
+    file_label: De instellingen van het hele project
+    from: "on-run-end:"
+    to: "log_dbt_results(results)"
+    max_lines: 6
+    notes:
+      - line: "on-run-end:"
+        says: Zodra een run voorbij is, wordt het resultaat aan het logboek doorgegeven.
+      - line: "and should_log_results() %}"
+        says: Enkel een echte run wordt genoteerd. Een dry run niet.
+  - title: Een echte run wordt van een dry run onderscheiden, ook voor checks
+    status: next
+    file: macros/core/should_log_results.sql
+    file_label: De regel die bepaalt welke runs het logboek mag bewaren
+    from: "{% macro should_log_results() %}"
+    to: "{% endmacro %}"
+    max_lines: 10
+    notes:
+      - line: "should_execute()"
+        says: Een echte build, run of snapshot telt, een dry run niet.
+      - line: 'flags.WHICH in ["test", "seed"]'
+        says: Een echte run met enkel checks en een echte load van referentiedata tellen ook mee.
+  - title: Een herbouw raakt enkel de tabellen die je opsomt
+    status: next
+    file: macros/core/should_full_refresh.sql
+    file_label: De regel die bepaalt wat van nul herbouwd wordt
+    from: "{%- if listed | length > 0 -%}"
+    to: "{%- set full_refresh = false -%}"
+    max_lines: 12
+    notes:
+      - line: "in listed -%}"
+        says: Een tabel wordt precies van nul herbouwd als haar naam in de lijst staat.
+      - line: "flags.FULL_REFRESH"
+        says: Zonder lijst beslist de gewone schakelaar of alles herbouwd wordt.
+      - line: '"full_refresh_only_when_listed"'
+        says: Een tabel die als beschermd gemarkeerd is, wordt door die schakelaar overgeslagen.
+
+demo:
+  intro: >-
+    Zes kleine regels komen aan bod. In vier stappen halen we de regel eerst weg in een wegwerpkopie,
+    zodat de schade zichtbaar wordt; in de andere twee zie je ze aan het werk. Vier regels zijn vandaag al in gebruik,
+    twee zijn volgende stappen: ze liepen hier al, maar het platform heeft ze nog niet.
+  setup: []
+  steps:
+    - id: names
+      title: Eén regel geeft elke tabel een naam
+      feature: Elke tabel belandt op een eigen plaats
+      status: today
+      tech: "generate_database_name / schema / alias"
+      say: "Dezelfde tabel wordt vijf keer opgevraagd: door een developer, door drie robots en door een testrun. Eerst wordt de naamregel weggehaald, daarna staat ze weer op haar plaats."
+      button: De tabel op vijf plaatsen opvragen
+      inputs: []
+      do:
+        - id: without
+          action: toolbox.run
+          as: "developer:pu_dev2"
+          commands:
+            - run: |
+                cat > /tmp/where.sh <<'W'
+                DBT_DEPLOY_TARGET=$1 /usr/local/libexec/dbt/dbt ls -s dummy_load_cycles --resource-type model --output json --output-keys relation_name "${@:2}" 2>&1 | grep '^{' | tee /tmp/where.out
+                sed -n 's/.*`\.`\([^`]*\)`.*/\1/p' /tmp/where.out
+                W
+                rm macros/core/generate_alias_name.sql
+                bash /tmp/where.sh dev --target default
+              must_contain: ["`dev_edw_dv_bdv`.`dummy_load_cycles`"]
+              say: "Zonder de naamregel zou de tabel van developer twee {last} heten: de gewone naam van de gedeelde tabel van development, die collega's lezen."
+            - run: "bash /tmp/where.sh dev --target ci --vars 'SCHEMA: demo'"
+              must_contain: ["`vdp_ci`.`dummy_load_cycles`"]
+              say: "Zonder die regel zou elke testrun naar een tabel schrijven die {last} heet, dus twee voorstellen zouden elkaar overschrijven."
+        - id: with
+          action: toolbox.run
+          as: "developer:pu_dev2"
+          commands:
+            - run: |
+                cat > /tmp/where.sh <<'W'
+                DBT_DEPLOY_TARGET=$1 /usr/local/libexec/dbt/dbt ls -s dummy_load_cycles --resource-type model --output json --output-keys relation_name "${@:2}" 2>&1 | grep '^{' | tee /tmp/where.out
+                sed -n 's/.*`\.`\([^`]*\)`.*/\1/p' /tmp/where.out
+                W
+                bash /tmp/where.sh dev --target default
+              must_contain: ["`dev_edw_dv_bdv`.`pu_dev2_dummy_load_cycles`"]
+              say: "De tabel van een developer komt tussen de tabellen van development te staan, onder de naam {last}: de naam van de developer vooraan."
+            - run: bash /tmp/where.sh dev --target run
+              must_contain: ["`dev_edw_dv_bdv`.`dummy_load_cycles`"]
+              say: De robot van development zet de tabel tussen de tabellen van development onder de gewone naam, de tabel die collega's lezen.
+            - run: bash /tmp/where.sh val --target run
+              must_contain: ["`val_edw_dv_bdv`.`dummy_load_cycles`"]
+              say: De robot van validatie zet de tabel tussen de tabellen van validatie.
+            - run: bash /tmp/where.sh prd --target run
+              must_contain: ["`prd_edw_dv_bdv`.`dummy_load_cycles`"]
+              say: De robot van productie zet de tabel tussen de tabellen van productie.
+            - run: "bash /tmp/where.sh dev --target ci --vars 'SCHEMA: demo'"
+              must_contain: ["`vdp_ci`.`demo_dummy_load_cycles`"]
+              say: "Een testrun zet de tabel in de sandbox voor testruns, onder de naam {last}: de naam van het voorstel vooraan."
+            - run: dbt build -s dummy_load_cycles
+              say: Developer twee heeft de tabel daarna echt gebuild, {tables} in totaal.
+        - {action: dbt.run, as: ci, command: "build -s dummy_load_cycles"}
+      show:
+        - {type: result, from_action: without, title: "Zonder de naamregel", caption: "Kijk naar beide regels: zonder de regel krijgt elke tabel de gewone naam die iemand anders al gebruikt."}
+        - {type: result, from_action: with, title: "Met de naamregel", caption: "Kijk naar de eerste vijf regels: één regel, vijf verschillende plaatsen, en niemand typte een plaats."}
+        - type: table
+          title: "Waar de tabel nu echt staat"
+          caption: "Kijk naar de kolom Gebuild door: elke plaats werd door iemand anders gevuld en geen enkele overschreef een andere."
+          query: "select case when table_schema = 'dev_edw_dv_bdv' and table_name = 'dummy_load_cycles' then 'Development, de gedeelde tabel' when table_schema = 'dev_edw_dv_bdv' then 'Development, eigen kopie van developer twee' when table_schema = 'val_edw_dv_bdv' then 'Validatie' when table_schema = 'prd_edw_dv_bdv' then 'Productie' when table_schema = 'vdp_ci' then 'Sandbox voor testruns' end as place, case create_user when 'pu_dev2' then 'Developer twee' when 'svc_dev_dbt' then 'De robot van development' when 'svc_val_dbt' then 'De robot van validatie' when 'svc_prd_dbt' then 'De robot van productie' when 'svc_ci_dbt' then 'De checkrobot' else create_user end as built_by, case when table_name like 'pu\\_dev2\\_%' then 'Developer twee' when table_name like 'demo\\_%' then 'De testrun' else 'Geen' end as name_in_front from information_schema.tables where table_name in ('dummy_load_cycles', 'pu_dev2_dummy_load_cycles', 'demo_dummy_load_cycles') and table_schema in ('dev_edw_dv_bdv', 'val_edw_dv_bdv', 'prd_edw_dv_bdv', 'vdp_ci') order by case table_schema when 'dev_edw_dv_bdv' then 1 when 'val_edw_dv_bdv' then 2 when 'prd_edw_dv_bdv' then 3 else 4 end, table_name"
+          columns:
+            - {key: place, label: Plaats}
+            - {key: built_by, label: Gebuild door}
+            - {key: name_in_front, label: Naam vóór de tabel}
+          empty: De tabel is nog nergens gebuild.
+      outcome:
+        check: "select count(*) from information_schema.tables where table_name in ('dummy_load_cycles', 'pu_dev2_dummy_load_cycles', 'demo_dummy_load_cycles') and table_schema in ('dev_edw_dv_bdv', 'val_edw_dv_bdv', 'prd_edw_dv_bdv', 'vdp_ci')"
+        good_when: positive
+        good: "{{ value }} kopieën van dezelfde tabel bestaan nu, elk op een eigen plaats, en geen enkele overschreef een andere."
+        not_quite: Er werd geen kopie van de tabel gevonden, dus de demo toonde de plaatsen niet.
+    - id: practice
+      title: Een dry run schrijft niets
+      feature: Laadhistoriek enkel door echte runs geschreven
+      status: today
+      tech: "should_execute()"
+      say: "Developer twee doet een [[dry run]] van twee tabellen, die zonder één rij gebuild worden. Dat gebeurt twee keer: eerst zonder het vangnet, dan zoals het project het heeft."
+      button: De dry run twee keer doen
+      inputs: []
+      do:
+        - id: unguarded
+          action: toolbox.run
+          as: "developer:pu_dev2"
+          commands:
+            - run: |
+                cat > /tmp/h.sh <<'H'
+                cnt() { printf "select count(*) from dev_edw_dv_bdv.$1;\n" > /tmp/q.sql; vdp sql run /tmp/q.sql | sed -n 4p; }
+                H
+                dbt run-operation cleanup_user_models > /dev/null
+                /usr/local/libexec/dbt/dbt compile --no-partial-parse --target run --target-path artifacts > /dev/null
+                sed -i 's/{%- if should_execute() and/{%- if execute and/' macros/utils/loading_history.sql
+                [ "$(grep -c 'if execute and' macros/utils/loading_history.sql)" = 2 ]
+            - run: dbt build -s dummy_load_cycles dummy_reload_pit_with_deps --empty --defer --state artifacts
+              say: De dry run is klaar, {tables} in totaal.
+            - run: |
+                . /tmp/h.sh
+                n=$(cnt pu_dev2_dummy_load_cycles); echo "$n"; [ "$n" = 1 ]
+              say: "Loads genoteerd in de laadhistoriek achteraf: {last}."
+            - run: |
+                printf "select case when success_flag = 1 then 'ja' else 'nee' end from dev_edw_dv_bdv.pu_dev2_dummy_load_cycles limit 1;\n" > /tmp/q.sql
+                vdp sql run /tmp/q.sql | sed -n 4p
+              must_contain: ["ja"]
+              say: "Lukte de load volgens de laadhistoriek? Antwoord van de database: {last}."
+            - run: |
+                . /tmp/h.sh
+                n=$(cnt pu_dev2_dummy_reload_pit_with_deps); echo "$n"; [ "$n" = 0 ]
+              say: "Rijen in de tabel waarover de laadhistoriek spreekt: {last}."
+        - id: guarded
+          action: toolbox.run
+          as: "developer:pu_dev2"
+          commands:
+            - run: |
+                cat > /tmp/h.sh <<'H'
+                cnt() { printf "select count(*) from dev_edw_dv_bdv.$1;\n" > /tmp/q.sql; vdp sql run /tmp/q.sql | sed -n 4p; }
+                H
+                dbt run-operation cleanup_user_models > /dev/null
+                /usr/local/libexec/dbt/dbt compile --no-partial-parse --target run --target-path artifacts > /dev/null
+            - run: dbt build -s dummy_load_cycles dummy_reload_pit_with_deps --empty --defer --state artifacts
+              say: De dry run is klaar, {tables} in totaal.
+            - run: |
+                . /tmp/h.sh
+                n=$(cnt pu_dev2_dummy_load_cycles); echo "$n"; [ "$n" = 0 ]
+              say: "Loads genoteerd in de laadhistoriek achteraf: {last}."
+            - run: dbt build -s dummy_load_cycles dummy_reload_pit_with_deps --defer --state artifacts
+              say: Daarna was een echte run klaar, {tables} in totaal.
+            - run: |
+                . /tmp/h.sh
+                n=$(cnt pu_dev2_dummy_load_cycles); echo "$n"; [ "$n" = 1 ]
+              say: "Loads genoteerd in de laadhistoriek achteraf: {last}."
+      show:
+        - {type: result, from_action: unguarded, title: "Zonder het vangnet", caption: "Kijk naar de laatste drie regels: de historiek zegt dat de load goed liep, maar de tabel waarover ze spreekt, bevat geen rijen."}
+        - {type: result, from_action: guarded, title: "Met het vangnet", caption: "Kijk naar de getallen: de dry run liet geen load noteren en enkel de echte run noteerde er één."}
+      outcome: Zonder het vangnet liet een dry run die niets laadde een notitie na dat de load goed liep, dus een rapport kon vers lijken terwijl de tabel leeg was. Met het vangnet schreef enkel de echte run er een.
+    - id: lingering
+      title: Een tabel die uit het project verdwenen is, wordt verwijderd
+      feature: Oude tabellen worden automatisch verwijderd
+      status: today
+      tech: "perform_database_maintenance"
+      say: De robot buildt een oude tabel. Daarna verdwijnt die uit het project, en we kijken wat er voor en na de [[opkuisstap]] overblijft.
+      button: De tabel verwijderen, dan opkuisen
+      inputs: []
+      do:
+        - action: sql.exec
+          statement: "select 1"
+          undo: "drop table if exists {{ db('edw_dv_bdv') }}.guard_old_table"
+        - id: lingering
+          action: toolbox.run
+          as: service
+          commands:
+            - run: |
+                cat > /tmp/h.sh <<'H'
+                left() { printf "select count(*) from information_schema.tables where table_schema = 'dev_edw_dv_bdv' and table_name = 'guard_old_table';\n" > /tmp/q.sql; vdp sql run /tmp/q.sql | sed -n 4p; }
+                H
+                printf '\x7b\x7b config(materialized="table") \x7d\x7d\nselect count(*) :> bigint as orders, now() as counted_at from dev_im_dimensional.fct_olist_orders\n' > models/edw_dv_bdv/guard_old_table.sql
+                /usr/local/libexec/dbt/dbt build -s guard_old_table --target run
+              say: De robot heeft een oude tabel gebuild, {tables} in totaal.
+            - run: |
+                . /tmp/h.sh
+                rm models/edw_dv_bdv/guard_old_table.sql
+                n=$(left); echo "$n"; [ "$n" = 1 ]
+              say: "Het project heeft die tabel niet meer. Oude tabellen die nog tussen de tabellen van development staan: {last}."
+            - run: |
+                cat > macros/guard_dry.sql <<'M'
+                {% macro guard_dry() %}
+                {% for name in ["edw_dv_rdv", "edw_dv_bdv", "im_dimensional"] %}
+                {% set db = env_var("DBT_DEPLOY_TARGET", "dev") ~ "_" ~ name %}
+                {% set r = check_database_maintenance(db, dry_run=true, ignore_dbt_artifacts=true) %}
+                {% for d in r["drops"] %}{% do print("WOULD " ~ d) %}{% endfor %}
+                {% endfor %}
+                {% endmacro %}
+                M
+                /usr/local/libexec/dbt/dbt run-operation guard_dry --target run | grep WOULD > /tmp/would
+                cat /tmp/would
+                [ "$(wc -l < /tmp/would)" = 1 ]
+              must_contain: ["WOULD drop table if exists dev_edw_dv_bdv.guard_old_table;"]
+            - run: /usr/local/libexec/dbt/dbt run-operation perform_database_maintenance --target run
+              must_contain: ["Executed: drop table if exists dev_edw_dv_bdv.guard_old_table;"]
+              say: De opkuisstap liep en verwijderde de oude tabel en niets anders.
+            - run: |
+                . /tmp/h.sh
+                n=$(left); echo "$n"; [ "$n" = 0 ]
+              say: "Oude tabellen tussen de tabellen van development achteraf: {last}."
+      show:
+        - {type: result, from_action: lingering, title: "Voor en na de opkuisstap", caption: "Kijk naar de twee regels met een getal: vóór de stap stond de tabel die het project niet meer heeft er nog, daarna is ze weg."}
+      outcome:
+        check: "select count(*) from information_schema.tables where table_schema = '{{ db('edw_dv_bdv') }}' and table_name = 'guard_old_table'"
+        good_when: zero
+        good: De oude tabel is weg, dus niemand kan nog een tabel lezen die niemand ververst.
+        not_quite: "De oude tabel staat nog tussen de tabellen van development, dus de opkuisstap verwijderde ze niet."
+    - id: written
+      title: Elke echte run wordt genoteerd
+      feature: Een rij in het logboek voor elke echte run
+      status: today
+      tech: "log_dbt_results (LOG_RUN_RESULTS)"
+      say: De robot runt één kleine tabel echt, zoals de [[nachtelijke load]] dat doet. Zonder logboek zou niemand later kunnen zeggen wat er gebuild werd of wanneer, dus we lezen wat het [[logboek]] erover zegt.
+      button: Runnen en het logboek lezen
+      inputs: []
+      do:
+        - action: sql.exec
+          statement: "select 1"
+          undo: "drop table if exists {{ db('edw_dv_bdv') }}.guard_probe"
+        - action: sql.exec
+          statement: "delete from {{ db('vdp_mgmt') }}.dbt_run_results where name = 'guard_probe'"
+          undo: "delete from {{ db('vdp_mgmt') }}.dbt_run_results where name = 'guard_probe'"
+        - id: real
+          action: toolbox.run
+          as: service
+          commands:
+            - run: |
+                printf '\x7b\x7b config(materialized="table") \x7d\x7d\nselect seq from \x7b\x7b ref("ref_dummy_numbers") \x7d\x7d where seq <= 5\n' > models/edw_dv_bdv/guard_probe.sql
+                LOG_RUN_RESULTS=TRUE /usr/local/libexec/dbt/dbt build -s guard_probe --target run
+              say: De robot deed een echte build, {tables} in totaal.
+      show:
+        - {type: result, from_action: real, title: "De echte run", caption: "De robot heeft de tabel gebuild en de run is normaal geëindigd."}
+        - type: table
+          title: "Wat het logboek erover zegt"
+          caption: "Kijk naar de rij: de tabel is gebuild, met het tijdstip waarop ze klaar was. De laatste kolom telt de rijen die de tabel nu bevat."
+          query: "select case status when 'success' then 'Gebuild' when 'error' then 'Mislukt' else status end as result, date_format(completed_at, '%H:%i:%s') as finished, (select count(*) from {{ db('edw_dv_bdv') }}.guard_probe) as rows_held from {{ db('vdp_mgmt') }}.dbt_run_results where name = 'guard_probe' and resource_type = 'model' order by completed_at"
+          columns:
+            - {key: result, label: Resultaat}
+            - {key: finished, label: Klaar om}
+            - {key: rows_held, label: Rijen in de tabel nu}
+          empty: Het logboek heeft geen rij over deze run.
+      outcome:
+        check: "select count(*) from {{ db('vdp_mgmt') }}.dbt_run_results where name = 'guard_probe' and resource_type = 'model'"
+        good_when: positive
+        good: "Het logboek heeft een rij voor de run: wat gebuild werd, het resultaat en wanneer het klaar was."
+        not_quite: Het logboek heeft geen rij voor de run, dus de demo toonde het schrijven niet.
+    - id: logbook
+      title: Het logboek negeert dry runs
+      feature: Dry runs blijven buiten het logboek
+      status: next
+      why: "Dry runs laten rijen in het logboek na die beweren dat een tabel gebuild is terwijl er niets geladen werd, dus het is niet te vertrouwen."
+      tech: "should_log_results()"
+      say: Dezelfde schade kan het logboek bereiken. De robot doet twee keer een [[dry run]] van één tabel, eerst zonder de schakelaar die dry runs uit het logboek houdt, daarna met.
+      button: De dry run twee keer doen
+      inputs: []
+      do:
+        - action: sql.exec
+          statement: "select 1"
+          undo: "drop table if exists {{ db('edw_dv_bdv') }}.guard_probe"
+        - action: sql.exec
+          statement: "delete from {{ db('vdp_mgmt') }}.dbt_run_results where name = 'guard_probe'"
+          undo: "delete from {{ db('vdp_mgmt') }}.dbt_run_results where name = 'guard_probe'"
+        - id: unguarded
+          action: toolbox.run
+          as: service
+          use_repository: [dbt_project.yml, macros/core/should_log_results.sql]
+          commands:
+            - run: |
+                cat > /tmp/h.sh <<'H'
+                logged() { printf "select count(*) from dev_vdp_mgmt.dbt_run_results where name = 'guard_probe';\n" > /tmp/q.sql; vdp sql run /tmp/q.sql | sed -n 4p; }
+                H
+                printf '\x7b\x7b config(materialized="table") \x7d\x7d\nselect seq from \x7b\x7b ref("ref_dummy_numbers") \x7d\x7d where seq <= 5\n' > models/edw_dv_bdv/guard_probe.sql
+                sed -i "s/ and should_log_results() %}/%}/" dbt_project.yml
+                grep -q "== 'run'%}" dbt_project.yml
+            - run: |
+                . /tmp/h.sh
+                before=$(logged)
+                LOG_RUN_RESULTS=TRUE /usr/local/libexec/dbt/dbt build -s guard_probe --empty --target run
+                after=$(logged)
+                echo "$((after - before))"
+              say: "De dry run is klaar, zonder geladen rijen. Nieuwe rijen in het logboek: {last}."
+        - id: guarded
+          action: toolbox.run
+          as: service
+          use_repository: [dbt_project.yml, macros/core/should_log_results.sql]
+          commands:
+            - run: |
+                cat > /tmp/h.sh <<'H'
+                logged() { printf "select count(*) from dev_vdp_mgmt.dbt_run_results where name = 'guard_probe';\n" > /tmp/q.sql; vdp sql run /tmp/q.sql | sed -n 4p; }
+                H
+                printf '\x7b\x7b config(materialized="table") \x7d\x7d\nselect seq from \x7b\x7b ref("ref_dummy_numbers") \x7d\x7d where seq <= 5\n' > models/edw_dv_bdv/guard_probe.sql
+            - run: |
+                . /tmp/h.sh
+                before=$(logged)
+                LOG_RUN_RESULTS=TRUE /usr/local/libexec/dbt/dbt build -s guard_probe --empty --target run
+                after=$(logged)
+                echo "$((after - before))"
+                [ "$after" = "$before" ]
+              say: "De dry run is klaar, zonder geladen rijen. Nieuwe rijen in het logboek: {last}."
+      show:
+        - {type: result, from_action: unguarded, title: "Zonder de schakelaar", caption: "Kijk naar het laatste getal: de dry run voegde een rij toe aan het logboek."}
+        - {type: result, from_action: guarded, title: "Met de schakelaar", caption: "Kijk naar het laatste getal: dezelfde dry run voegde niets toe."}
+        - type: table
+          title: "De rij die het logboek over de dry run bevat"
+          caption: "Kijk naar de laatste kolom: het logboek zegt dat de tabel gebuild is, maar ze bevat geen rijen."
+          query: "select case status when 'success' then 'Gebuild' when 'error' then 'Mislukt' else status end as result, date_format(completed_at, '%H:%i:%s') as finished, (select count(*) from {{ db('edw_dv_bdv') }}.guard_probe) as rows_held from {{ db('vdp_mgmt') }}.dbt_run_results where name = 'guard_probe' and resource_type = 'model' order by completed_at"
+          columns:
+            - {key: result, label: Resultaat}
+            - {key: finished, label: Klaar om}
+            - {key: rows_held, label: Rijen in de tabel nu}
+          empty: Het logboek bevat geen rij over een dry run.
+      outcome:
+        check: "select case when (select count(*) from {{ db('edw_dv_bdv') }}.guard_probe) = 0 then count(*) else 0 end from {{ db('vdp_mgmt') }}.dbt_run_results where name = 'guard_probe' and resource_type = 'model'"
+        good_when: positive
+        good: Zonder de schakelaar beweerde het logboek dat een tabel gebuild was terwijl er geen rij geladen werd. Met de schakelaar liet dezelfde dry run geen rij na.
+        not_quite: De dry run zonder de schakelaar liet geen rij na, dus de demo toonde de schade niet.
+    - id: refresh
+      title: Precies de tabellen herbouwen die je opsomt
+      feature: Herbouw raakt enkel de genoemde tabellen
+      status: next
+      why: "Eén commando om alles te herbouwen wist de laadhistoriek van eerdere loads, dus niemand weet wanneer een tabel voor het laatst ververst is."
+      tech: "should_full_refresh · full_refresh_models"
+      say: Developer twee doet twee echte runs en herbouwt dan alles van nul met één commando. De regel die de [[laadhistoriek]] beschermt, wordt eerst weggehaald en daarna teruggezet.
+      button: Alles herbouwen, op beide manieren
+      inputs: []
+      do:
+        - id: wiped
+          action: toolbox.run
+          as: "developer:pu_dev2"
+          commands:
+            - run: |
+                cat > /tmp/h.sh <<'H'
+                cnt() { printf "select count(*) from dev_edw_dv_bdv.pu_dev2_dummy_load_cycles;\n" > /tmp/q.sql; vdp sql run /tmp/q.sql | sed -n 4p; }
+                H
+                dbt run-operation cleanup_user_models > /dev/null
+                /usr/local/libexec/dbt/dbt compile --no-partial-parse --target run --target-path artifacts > /dev/null
+                rm macros/core/should_full_refresh.sql
+            - run: |
+                . /tmp/h.sh
+                for i in 1 2; do dbt build -s dummy_load_cycles dummy_reload_pit_with_deps --defer --state artifacts > /dev/null || exit 1; done
+                n=$(cnt); echo "$n"; [ "$n" = 2 ]
+              say: "Er werden twee echte runs gedaan. Loads genoteerd in de laadhistoriek: {last}."
+            - run: dbt build -s dummy_load_cycles dummy_reload_pit_with_deps --defer --state artifacts --full-refresh
+              say: Eén commando herbouwde daarna {tables} van nul.
+            - run: |
+                . /tmp/h.sh
+                n=$(cnt); echo "$n"; [ "$n" = 1 ]
+              say: "Loads nu genoteerd: {last}."
+        - id: kept
+          action: toolbox.run
+          as: "developer:pu_dev2"
+          commands:
+            - run: |
+                cat > /tmp/h.sh <<'H'
+                cnt() { printf "select count(*) from dev_edw_dv_bdv.pu_dev2_dummy_load_cycles;\n" > /tmp/q.sql; vdp sql run /tmp/q.sql | sed -n 4p; }
+                ct() { printf "select unix_timestamp(create_time) from information_schema.tables where table_schema = 'dev_edw_dv_bdv' and table_name = '%s';\n" "$1" > /tmp/q.sql; vdp sql run /tmp/q.sql | sed -n 4p; }
+                H
+                dbt run-operation cleanup_user_models > /dev/null
+                /usr/local/libexec/dbt/dbt compile --no-partial-parse --target run --target-path artifacts > /dev/null
+            - run: |
+                . /tmp/h.sh
+                for i in 1 2; do dbt build -s dummy_load_cycles dummy_reload_pit_with_deps --defer --state artifacts > /dev/null || exit 1; done
+                n=$(cnt); echo "$n"; [ "$n" = 2 ]
+              say: "Er werden twee echte runs gedaan. Loads genoteerd in de laadhistoriek: {last}."
+            - run: |
+                . /tmp/h.sh
+                before=$(ct pu_dev2_dummy_load_cycles); sleep 1.2
+                dbt build -s dummy_load_cycles dummy_reload_pit_with_deps --defer --state artifacts --full-refresh || exit 1
+                [ "$before" = "$(ct pu_dev2_dummy_load_cycles)" ] || exit 1
+                n=$(cnt); echo "$n"; [ "$n" = 3 ]
+              say:
+                - Hetzelfde commando werd op beide tabellen uitgevoerd en de laadhistoriek bleef ongemoeid.
+                - "Loads nu genoteerd: {last}."
+            - run: |
+                . /tmp/h.sh
+                history=$(ct pu_dev2_dummy_load_cycles); listed=$(ct pu_dev2_dummy_reload_pit_with_deps); sleep 1.2
+                dbt build -s dummy_load_cycles dummy_reload_pit_with_deps --defer --state artifacts --vars '{full_refresh_models: [dummy_reload_pit_with_deps]}' || exit 1
+                [ "$history" = "$(ct pu_dev2_dummy_load_cycles)" ] || exit 1
+                [ "$listed" != "$(ct pu_dev2_dummy_reload_pit_with_deps)" ] || exit 1
+                n=$(cnt); echo "$n"; [ "$n" = 4 ]
+              say:
+                - Eén tabel noemen in een lijst herbouwde enkel die tabel.
+                - "Loads nu genoteerd: {last}."
+            - run: |
+                . /tmp/h.sh
+                dbt build -s dummy_load_cycles --defer --state artifacts --vars '{full_refresh_models: [dummy_load_cycles]}' > /dev/null || exit 1
+                n=$(cnt); echo "$n"; [ "$n" = 0 ]
+              say: "Noem je de laadhistoriek zelf, dan wordt ze wel herbouwd. Loads die overblijven: {last}."
+      show:
+        - {type: result, from_action: wiped, title: "Zonder de regel", caption: "Kijk naar de eerste en de laatste regel: twee loads genoteerd vóór de herbouw, één erna. De historiek van de eerdere runs is weg."}
+        - {type: result, from_action: kept, title: "Met de regel", caption: "Kijk naar de getallen: de historiek groeit bij elke run en wordt enkel leeggemaakt als ze in de lijst genoemd wordt."}
+      outcome: Zonder de regel wiste één commando om alles te herbouwen de laadhistoriek van eerdere loads, dus niemand kon zeggen wanneer een tabel voor het laatst ververst was. Met de regel blijft de historiek bewaard, tenzij haar eigen tabel in de lijst staat.

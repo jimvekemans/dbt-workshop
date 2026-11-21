@@ -6,11 +6,11 @@ import { RichText } from './Term'
 import { VisualCaption } from './VisualCaption'
 import styles from './TimelineVisual.module.css'
 
-const WORD = { bad: 'Problem', warn: 'Careful', idle: 'Waiting', fix: 'The fix' } as const
+const WORD = { bad: 'Probleem', warn: 'Opgelet', idle: 'Wacht', fix: 'De oplossing' } as const
 
 function Word({ state }: { state: ReturnType<typeof visualTone> }) {
   if (state === 'ok') return null
-  return <Status state={state === 'fix' ? 'idle' : state} variant="plain">{WORD[state]}</Status>
+  return <Status state={state === 'fix' ? 'idle' : state} variant="plain" className={styles.state}>{WORD[state]}</Status>
 }
 
 function Marker({ label }: { label: string }) {
@@ -44,14 +44,15 @@ function useRoomFor(count: number) {
   return [ref, wide] as const
 }
 
-/** Day columns side by side with the marker as a vertical dashed line; on a phone equal neighbouring days share one row. */
-export function TimelineVisual({ visual }: { visual: Timeline }) {
+/** Day columns side by side with the marker as a vertical dashed line; on a phone equal neighbouring days share one row.
+ *  `compact`: the small version of the home-page preview (the grouped days as chips, no columns, no notes). */
+export function TimelineVisual({ visual, compact }: { visual: Timeline; compact?: boolean }) {
   const after = visual.marker?.after
   const groups = groupDays(visual.days, after)
   const [ref, wide] = useRoomFor(visual.days.length)
   return (
-    <figure ref={ref} className={styles.figure} data-wide={wide ? '' : undefined}>
-      <ol className={styles.cols}>
+    <figure ref={ref} className={styles.figure} data-wide={wide && !compact ? '' : undefined} data-compact={compact ? '' : undefined}>
+      {!compact && <ol className={styles.cols}>
         {visual.days.map((d, i) => {
           const st = visualTone(d.state)
           return (
@@ -69,14 +70,14 @@ export function TimelineVisual({ visual }: { visual: Timeline }) {
             </li>
           )
         })}
-      </ol>
+      </ol>}
       <ol className={styles.rows}>
         {groups.map((g) => (
           <li key={g.from} className={styles.slot}>
             <div className={styles.day} data-state={g.state}>
               <span className={styles.label}><RichText text={g.label} /></span>
               <Word state={g.state} />
-              {g.note && (
+              {g.note && !compact && (
                 <span className={styles.note}>
                   <RichText text={g.note} />
                 </span>

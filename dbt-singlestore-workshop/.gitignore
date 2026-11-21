@@ -9,6 +9,8 @@ dbt_packages/
 package-lock.json
 package-lock.yml
 logs
+# front page of the documentation site, written at deploy time by scripts/docs_overview.sh
+models/__overview__.md
 
 # dotfiles
 .user.yml

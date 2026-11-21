@@ -115,7 +115,7 @@
    "summary": "The database refused: the development robot may not change tables in production.",
    "outcome": "The database refused the development robot and said it may not change production. Nothing was created.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:34:05+00:00",
+   "recorded_at": "2026-11-21T20:01:53+00:00",
    "durations": [
     0.0,
     0.0,
@@ -241,7 +241,7 @@
    "summary": "The database made the change.",
    "outcome": "The production robot may write in production, and only there.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:34:06+00:00",
+   "recorded_at": "2026-11-21T20:01:54+00:00",
    "durations": [
     0.0,
     0.0,
@@ -264,7 +264,7 @@
        "type": "number",
        "title": "Customers a developer can see in production",
        "data": {
-        "value": 3392,
+        "value": 3445,
         "unit": "customers",
         "compare": null
        }
@@ -295,7 +295,7 @@
        "type": "number",
        "title": "Customers a developer can see in production",
        "data": {
-        "value": 3392,
+        "value": 3445,
         "unit": "customers",
         "compare": null
        }
@@ -326,7 +326,7 @@
        "type": "number",
        "title": "Customers a developer can see in production",
        "data": {
-        "value": 3392,
+        "value": 3445,
         "unit": "customers",
         "compare": null
        }
@@ -363,7 +363,7 @@
        "type": "number",
        "title": "Customers a developer can see in production",
        "data": {
-        "value": 3392,
+        "value": 3445,
         "unit": "customers",
         "compare": null
        }
@@ -400,7 +400,7 @@
        "type": "number",
        "title": "Customers a developer can see in production",
        "data": {
-        "value": 3392,
+        "value": 3445,
         "unit": "customers",
         "compare": null
        }
@@ -437,7 +437,7 @@
        "type": "number",
        "title": "Customers a developer can see in production",
        "data": {
-        "value": 3392,
+        "value": 3445,
         "unit": "customers",
         "compare": null
        }
@@ -476,7 +476,7 @@
        "type": "number",
        "title": "Customers a developer can see in production",
        "data": {
-        "value": 3392,
+        "value": 3445,
         "unit": "customers",
         "compare": null
        }
@@ -498,7 +498,7 @@
    "summary": "The database refused: developer one may not change tables in production.",
    "outcome": "Reading was allowed and writing was refused. Looking is safe, changing is not possible.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:34:06+00:00",
+   "recorded_at": "2026-11-21T20:01:54+00:00",
    "durations": [
     0.0,
     0.0,
@@ -512,14 +512,14 @@
    ]
   }
  },
- "recorded_at": "2026-11-16T07:34:06+00:00",
+ "recorded_at": "2026-11-21T20:01:54+00:00",
  "prepare": {
   "durations": [
-   23.6,
-   11.4,
    11.1,
    11.3,
-   10.9
+   10.9,
+   11.2,
+   11.2
   ]
  }
 }

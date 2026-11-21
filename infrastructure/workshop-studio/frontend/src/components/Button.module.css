@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.55em;
-  min-height: 2.75rem;
+  min-height: var(--tap);
   padding: 0.5em 1.15em;
   border-radius: var(--radius-md);
   border: 1.5px solid var(--line-strong);

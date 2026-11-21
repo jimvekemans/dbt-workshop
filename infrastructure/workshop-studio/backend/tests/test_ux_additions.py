@@ -229,7 +229,7 @@ def test_recording_that_no_longer_fits_the_show_list_counts_as_missing(live, mak
     eng.catalog.scenarios["demo-one"].demo.steps[0].show[0]["type"] = "bars"
     run(eng, eng.prepare, "demo-one")
     step = step_of(run(eng, eng.run_step, "demo-one", "first", {}), "first")
-    assert step["status"] == "failed" and step["summary"] == "This step has not been recorded yet."
+    assert step["status"] == "failed" and step["summary"] == "Deze stap is nog niet opgenomen."
 
 
 def test_old_recordings_without_types_still_play_and_match_by_count(tmp_path):

@@ -25,32 +25,32 @@ from .actions import airflow, clients
 from .actions.base import Ctx, Params, evidence
 from .actions.gitlab import (failures, find_pipeline, job_word, ordered_jobs, recorded_tags, rehearsed, settled,
                              tables_in_project)
-from .names import plain_cells, plain_pair
+from .names import MONTHS, SHORT_MONTHS, format_number, plain_cells, plain_pair
 
 MAX_ROWS = 200
 MISSING_TABLE = (1146, 1049)   # no such table / no such database
 RUN_WORDS = {
-    "success": ("done", "Finished without problems"),
-    "failed": ("failed", "Failed"),
-    "running": ("running", "Running"),
-    "queued": ("todo", "Waiting to start"),
+    "success": ("done", "Klaar"),
+    "failed": ("failed", "Mislukt"),
+    "running": ("running", "Bezig"),
+    "queued": ("todo", "Wacht"),
 }
 JOB_STATES = {
-    "success": ("done", "Done"),
-    "failed": ("failed", "Failed"),
-    "running": ("running", "Running"),
-    "pending": ("todo", "Waiting"),
-    "created": ("todo", "Waiting"),
-    "waiting_for_resource": ("todo", "Waiting"),
-    "manual": ("todo", "Waiting for a person"),
-    "skipped": ("skipped", "Skipped"),
-    "canceled": ("skipped", "Cancelled"),
+    "success": ("done", "Klaar"),
+    "failed": ("failed", "Mislukt"),
+    "running": ("running", "Bezig"),
+    "pending": ("todo", "Wacht"),
+    "created": ("todo", "Wacht"),
+    "waiting_for_resource": ("todo", "Wacht"),
+    "manual": ("todo", "Wacht op een persoon"),
+    "skipped": ("skipped", "Overgeslagen"),
+    "canceled": ("skipped", "Geannuleerd"),
 }
 FRESHNESS_STATES = {
-    "pass": ("fresh", "Up to date"),
-    "warn": ("late", "Late"),
-    "error": ("very_late", "Very late"),
-    "runtime error": ("unknown", "Could not be checked"),
+    "pass": ("fresh", "Up-to-date"),
+    "warn": ("late", "Laat"),
+    "error": ("very_late", "Heel laat"),
+    "runtime error": ("unknown", "Kon niet nagekeken worden"),
 }
 
 
@@ -85,8 +85,8 @@ class TableParams(Show):
     as_: str = Field("root", alias="as")   # the database user that reads the rows
     columns: list[Column] | None = None
     highlight: Highlight | None = None
-    empty: str = "Nothing to show yet."
-    footer: str | None = None   # one line under the table ("Showing the 9 slowest of 28 tables and 21 checks")
+    empty: str = "Er is nog niets te zien."
+    footer: str | None = None   # one line under the table ("De 9 traagste van 28 tabellen en 21 checks")
 
 
 class BarsParams(Show):
@@ -95,7 +95,7 @@ class BarsParams(Show):
     bad: list[str] = Field(default_factory=list)
     neutral: list[str] = Field(default_factory=list)
     x_label: str = ""
-    unit: str | None = None   # plural noun of what is counted ("parcel scans"); default: guessed from the tables read
+    unit: str | None = None   # plural noun of what is counted ("pakketscans"); default: guessed from the tables read
 
     @field_validator("good", "bad", "neutral", mode="before")
     @classmethod
@@ -131,9 +131,9 @@ class RunHistoryParams(Show):
 
 # What a query counts, from the tables it reads (first match wins; "payments" before "orders").
 UNIT_BY_TABLE = (
-    (r"carrier|tracking_event", "parcel scans"), (r"web_|website", "website visits"),
-    (r"payment", "payments"), (r"review", "reviews"), (r"deliver", "deliveries"),
-    (r"customer", "customers"), (r"order", "orders"),
+    (r"carrier|tracking_event", "pakketscans"), (r"web_|website", "websitebezoeken"),
+    (r"payment", "betalingen"), (r"review", "reviews"), (r"deliver", "leveringen"),
+    (r"customer", "klanten"), (r"order", "bestellingen"),
 )
 
 
@@ -212,8 +212,8 @@ def bars(ctx: Ctx, p: BarsParams) -> dict[str, Any]:
     today = today_of(ctx)
     bars = []
     for label, day in zip(labels, days):
-        text = f"{day.day} {day.strftime('%b')}" if day else str(label)
-        bars.append({"key": label, "label": f"{text} (today)" if day == today else text, "today": day == today})
+        text = f"{day.day} {SHORT_MONTHS[day.month - 1]}" if day else str(label)
+        bars.append({"key": label, "label": f"{text} (vandaag)" if day == today else text, "today": day == today})
     state = lambda name: "good" if name in p.good else "bad" if name in p.bad else "neutral"  # noqa: E731
     return {
         "labels": labels,
@@ -254,9 +254,9 @@ def number(ctx: Ctx, p: NumberParams) -> dict[str, Any]:
 def tasks(ctx: Ctx, p: TasksParams) -> dict[str, Any]:
     run = airflow.latest_run(ctx, ctx.env, p.dag)
     if run is None:
-        return {"title": airflow.dag_name(p.dag), "run": None, "tasks": [], "empty": "Nothing has run yet."}
+        return {"title": airflow.dag_name(p.dag), "run": None, "tasks": [], "empty": "Er is nog niets gerund."}
     rows = airflow.task_rows(ctx, ctx.env, p.dag, run["run_id"])
-    state, words = RUN_WORDS.get(airflow.run_state(p.dag, run, rows), ("todo", "Waiting to start"))
+    state, words = RUN_WORDS.get(airflow.run_state(p.dag, run, rows), ("todo", "Wacht"))
     return {
         "title": airflow.dag_name(p.dag),
         "run": {
@@ -265,7 +265,7 @@ def tasks(ctx: Ctx, p: TasksParams) -> dict[str, Any]:
             "started": airflow.iso(run["start_date"]),
             "finished": airflow.iso(run["end_date"]),
         },
-        "tasks": airflow.describe_tasks(rows, run),
+        "tasks": airflow.describe_tasks(rows, run, p.dag),
     }
 
 
@@ -274,14 +274,14 @@ def pipeline(ctx: Ctx, p: PipelineParams) -> dict[str, Any]:
     api = clients.GitLabApi(ctx.settings)
     found = find_pipeline(api, p.for_, recorded_tags(ctx.settings))
     if found is None:
-        return {"state": "todo", "state_text": "Not started yet", "jobs": [], "failures": [], **({"rehearsed": None} if p.rehearsed else {})}
-    state, words = JOB_STATES.get(settled(api, found), ("running", "Running"))
+        return {"state": "todo", "state_text": "Nog niet gestart", "jobs": [], "failures": [], **({"rehearsed": None} if p.rehearsed else {})}
+    state, words = JOB_STATES.get(settled(api, found), ("running", "Bezig"))
     raw_jobs = ordered_jobs(api.jobs(found["id"]))
     jobs = [
         {
             "label": job_word(j["name"]),
-            "state": JOB_STATES.get(j["status"], ("todo", "Waiting"))[0],
-            "state_text": JOB_STATES.get(j["status"], ("todo", "Waiting"))[1],
+            "state": JOB_STATES.get(j["status"], ("todo", "Wacht"))[0],
+            "state_text": JOB_STATES.get(j["status"], ("todo", "Wacht"))[1],
         }
         for j in raw_jobs
     ]
@@ -300,7 +300,7 @@ def mailpit(ctx: Ctx, path: str, **params: str) -> dict[str, Any]:
 def mail(ctx: Ctx, p: MailParams) -> dict[str, Any]:
     found = mailpit(ctx, "search", query=f'subject:"{p.match}"', limit="1")["messages"]
     if not found:
-        return {"found": False, "empty": "No mail has arrived yet."}
+        return {"found": False, "empty": "Er is nog geen mail binnengekomen."}
     message = mailpit(ctx, f"message/{found[0]['ID']}")
     sender = message.get("From") or {}
     body = message.get("HTML") or f"<pre>{html.escape(message.get('Text') or '')}</pre>"
@@ -356,28 +356,28 @@ def result(ctx: Ctx, p: ResultParams) -> dict[str, Any]:
 
 def age_words(seconds: float | None) -> str:
     if seconds is None:
-        return "never"
+        return "nooit"
     if seconds < 90:
-        return "just now"
-    for size, unit in ((86400, "day"), (3600, "hour"), (60, "minute")):
+        return "zonet"
+    for size, unit, many in ((86400, "dag", "dagen"), (3600, "uur", "uur"), (60, "minuut", "minuten")):
         if seconds >= size:
             count = int(seconds // size)
-            return f"{count} {unit}{'s' if count != 1 else ''} ago"
-    return "just now"
+            return f"{count} {unit if count == 1 else many} geleden"
+    return "zonet"
 
 
 SOURCE_WORDS = {
-    "raw_olist_customers": "customers",
-    "raw_olist_orders": "orders",
-    "raw_olist_order_payments": "payments",
+    "raw_olist_customers": "klantgegevens",
+    "raw_olist_orders": "bestellingen",
+    "raw_olist_order_payments": "betalingen",
     "raw_olist_order_reviews": "reviews",
-    "raw_carrier_tracking_events": "parcel scans",
-    "raw_web_events": "website visits",
+    "raw_carrier_tracking_events": "pakketscans",
+    "raw_web_events": "websitebezoeken",
 }
 
 
 def source_label(unique_id: str) -> str:
-    """`source.pkg.olist.raw_olist_orders` -> `orders` (a data feed in everyday words)."""
+    """`source.pkg.olist.raw_olist_orders` -> `bestellingen` (a data feed in everyday words)."""
     name = unique_id.split(".")[-1]
     return SOURCE_WORDS.get(name, name.removeprefix("raw_").removeprefix("olist_").replace("_", " "))
 
@@ -386,11 +386,11 @@ def source_label(unique_id: str) -> str:
 def freshness(ctx: Ctx, p: Show) -> dict[str, Any]:
     path = Path(ctx.settings.state_dir) / ctx.env / "mnt_dbt" / "target_freshness" / "sources.json"
     if not path.exists():
-        return {"sources": [], "empty": "No check of the data feeds has run yet."}
+        return {"sources": [], "empty": "De feeds zijn nog niet nagekeken."}
     report = json.loads(path.read_text())
     sources = []
     for r in report.get("results", []):
-        state, words = FRESHNESS_STATES.get(str(r.get("status", "")).lower(), ("unknown", "Could not be checked"))
+        state, words = FRESHNESS_STATES.get(str(r.get("status", "")).lower(), ("unknown", "Kon niet nagekeken worden"))
         sources.append(
             {
                 "label": source_label(r.get("unique_id", "")),
@@ -403,32 +403,35 @@ def freshness(ctx: Ctx, p: Show) -> dict[str, Any]:
 
 
 def plural(n: int, one: str, many: str | None = None) -> str:
-    return f"{n} {one if n == 1 else many or one + 's'}"
+    """"1 tabel", "2 tabellen": pass the plural form, Dutch plurals are not regular (default: one + "en")."""
+    return f"{format_number(n)} {one if n == 1 else many or one + 'en'}"
 
 
 def run_summary(run: dict[str, Any]) -> str:
-    """The sentence of one run from its numbers (the keys of a `run_history` run): "28 of 28 tables built, 21 checks
-    passed", "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed", "25 of 28 tables built, 3 left
-    out on purpose, 14 checks passed", "..., 20 checks passed, 1 warning", "Retry: 4 tables built, 3 checks passed"."""
+    """The sentence of one run from its numbers (the keys of a `run_history` run): "28 van 28 tabellen gebuild, 21
+    checks geslaagd", "24 van 28 tabellen gebuild, 4 tabellen en 2 checks niet gerund, 1 check mislukt", "25 van 28
+    tabellen gebuild, 3 bewust overgeslagen, 14 checks geslaagd", "..., 20 checks geslaagd, 1 check met waarschuwing", "Retry:
+    4 tabellen gebuild, 3 checks geslaagd"."""
     built, total, left_out = run["tables_built"], run["tables_total"], run["tables_left_out"]
     not_run_tables = run["tables_not_run"]
     problems = bool(run["tables_failed"] or run["checks_failed"])
+    table, check = ("tabel", "tabellen"), ("check", "checks")
     if run["retry"]:
-        parts = [plural(built, "table") + " built" if built == total else f"{built} of {total} tables built"]
+        parts = [plural(built, *table) + " gebuild" if built == total else f"{format_number(built)} van {format_number(total)} tabellen gebuild"]
     else:
-        parts = [f"{built} of {total + left_out} tables built"]
+        parts = [f"{format_number(built)} van {format_number(total + left_out)} tabellen gebuild"]
         if left_out:
-            parts.append(f"{left_out} left out on purpose")
+            parts.append(f"{format_number(left_out)} bewust overgeslagen")
     if not_run_tables or run["checks_not_run"]:
-        what = [plural(n, word) for n, word in ((not_run_tables, "table"), (run["checks_not_run"], "check")) if n]
-        parts.append(" and ".join(what) + " not run")
+        what = [plural(n, *word) for n, word in ((not_run_tables, table), (run["checks_not_run"], check)) if n]
+        parts.append(" en ".join(what) + " niet gerund")
     if problems:
-        what = [plural(n, word) for n, word in ((run["tables_failed"], "table"), (run["checks_failed"], "check")) if n]
-        parts.append(" and ".join(what) + " failed")
+        what = [plural(n, *word) for n, word in ((run["tables_failed"], table), (run["checks_failed"], check)) if n]
+        parts.append(" en ".join(what) + " mislukt")
     elif not not_run_tables and not run["checks_not_run"] and run["checks_passed"]:
-        parts.append(f"{plural(run['checks_passed'], 'check')} passed")
+        parts.append(f"{plural(run['checks_passed'], *check)} geslaagd")
     if run["checks_warned"]:
-        parts.append(plural(run["checks_warned"], "warning"))
+        parts.append(f"{plural(run['checks_warned'], *check)} met waarschuwing")
     return ("Retry: " if run["retry"] else "") + ", ".join(parts)
 
 
@@ -487,7 +490,7 @@ def run_history(ctx: Ctx, p: RunHistoryParams) -> dict[str, Any]:
             run["tables_left_out"] = 0   # a retry redoes part of a night; the rest is not "left out"
         run["state"] = run_state(run)
         run["summary"] = run_summary(run)
-    return {"runs": runs[:p.limit], "empty": "No run has been recorded yet."}
+    return {"runs": runs[:p.limit], "empty": "Er is nog geen run vastgelegd."}
 
 
 # --- stack status ---------------------------------------------------------------------------------
@@ -497,7 +500,7 @@ def probe(check: Any) -> tuple[str, str]:
     try:
         return check()
     except Exception as exc:  # noqa: BLE001 - every failure is a status, never an error for the audience
-        return "down", f"Not reachable ({type(exc).__name__})"
+        return "down", f"Niet bereikbaar ({type(exc).__name__})"
 
 
 def check_gitlab(ctx: Ctx) -> tuple[str, str]:
@@ -505,17 +508,17 @@ def check_gitlab(ctx: Ctx) -> tuple[str, str]:
         f"{ctx.settings.gitlab_url}/api/v4/version", headers={"PRIVATE-TOKEN": ctx.settings.gitlab_pat}, timeout=5
     )
     if r.status_code == 200:
-        return "up", "Code storage is ready"
+        return "up", "De codeserver is klaar"
     return (
-        ("starting", "Code storage is still starting")
+        ("starting", "De codeserver is nog aan het opstarten")
         if r.status_code >= 500
-        else ("down", "Code storage refuses access")
+        else ("down", "De codeserver weigert de toegang")
     )
 
 
 def check_singlestore(ctx: Ctx) -> tuple[str, str]:
     clients.read_rows(ctx.settings, "SELECT 1")
-    return "up", "The database is ready"
+    return "up", "De bedrijfsdatabase is klaar"
 
 
 def check_airflow(ctx: Ctx, env: str) -> tuple[str, str]:
@@ -529,34 +532,35 @@ def check_airflow(ctx: Ctx, env: str) -> tuple[str, str]:
         check=False,
     )
     if state.stdout.strip() != "running":
-        return "down", "The scheduler is not running"
+        return "down", "De scheduler draait niet"
     beat = clients.airflow_query(
         ctx.settings, env, "SELECT MAX(latest_heartbeat) AS beat FROM job WHERE job_type = 'SchedulerJob'"
     )[0]["beat"]
     fresh = beat is not None and datetime.now(timezone.utc) - beat.replace(tzinfo=timezone.utc) < timedelta(seconds=90)
-    return ("up", "The scheduler is ready") if fresh else ("starting", "The scheduler is starting")
+    return ("up", "De scheduler is klaar") if fresh else ("starting", "De scheduler start op")
 
 
 def check_mailpit(ctx: Ctx) -> tuple[str, str]:
     mailpit(ctx, "info")
-    return "up", "The mailbox is ready"
+    return "up", "De testmailbox is klaar"
 
 
 def check_feeder(ctx: Ctx) -> tuple[str, str]:
-    return "up", f"Delivering data; today is {ctx.feeder.today(ctx.env).isoformat()}"
+    today = ctx.feeder.today(ctx.env)
+    return "up", f"Levert data; vandaag is het {today.day} {MONTHS[today.month - 1]} {today.year}"
 
 
 @evidence("stack", Show)
 def stack(ctx: Ctx, p: Show) -> dict[str, Any]:
     checks = [
-        ("gitlab", "Code storage", lambda: check_gitlab(ctx)),
-        ("singlestore", "Database", lambda: check_singlestore(ctx)),
+        ("gitlab", "Codeserver (GitLab)", lambda: check_gitlab(ctx)),
+        ("singlestore", "Bedrijfsdatabase", lambda: check_singlestore(ctx)),
         *[
-            (f"airflow-{env}", f"Scheduler ({clients.ENV_WORDS[env]})", lambda e=env: check_airflow(ctx, e))
+            (f"airflow-{env}", f"Nachtelijke load: {clients.ENV_WORDS[env]}", lambda e=env: check_airflow(ctx, e))
             for env in clients.ENVS
         ],
-        ("mailpit", "Mailbox", lambda: check_mailpit(ctx)),
-        ("feeder", "Data delivery", lambda: check_feeder(ctx)),
+        ("mailpit", "Testmailbox", lambda: check_mailpit(ctx)),
+        ("feeder", "Datalevering", lambda: check_feeder(ctx)),
     ]
     services = []
     for ident, label, check in checks:

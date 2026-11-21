@@ -7,13 +7,13 @@ import styles from './TableView.module.css'
 function cell(v: Cell | undefined): string {
   if (v === null || v === undefined) return '–'
   if (typeof v === 'number') return formatNumber(v, 2)
-  if (typeof v === 'boolean') return v ? 'Yes' : 'No'
+  if (typeof v === 'boolean') return v ? 'Ja' : 'Nee'
   return String(v)
 }
 
 /** Rows scroll inside their own frame (the header stays put), so a 200-row answer never pushes the page around. */
 export function TableView({ item, data, title }: { item: LiveEvidence; data: TableData; title: string }) {
-  if (data.rows.length === 0) return <EmptyNote>{data.empty || 'Nothing to show yet.'}</EmptyNote>
+  if (data.rows.length === 0) return <EmptyNote>{data.empty || 'Nog niets om te tonen.'}</EmptyNote>
   const footer = [item.footer, data.footer].find((f): f is string => typeof f === 'string' && f.trim() !== '')
   const flagged = !!item.highlight || data.rows.some((r) => r.state)
   return (
@@ -44,7 +44,7 @@ export function TableView({ item, data, title }: { item: LiveEvidence; data: Tab
                       {state ? (
                         <>
                           <StatusMark state={state} />
-                          <span className="sr-only">{state === 'bad' ? 'Problem' : 'Fine'}</span>
+                          <span className="sr-only">{state === 'bad' ? 'Probleem' : 'In orde'}</span>
                         </>
                       ) : null}
                     </td>
@@ -61,7 +61,7 @@ export function TableView({ item, data, title }: { item: LiveEvidence; data: Tab
         </table>
       </div>
       {footer && <p className={styles.footer}>{footer}</p>}
-      {data.truncated && <p className={styles.more}>Only the first {formatNumber(data.rows.length)} rows are shown.</p>}
+      {data.truncated && <p className={styles.more}>Enkel de eerste {formatNumber(data.rows.length)} rijen worden getoond.</p>}
     </>
   )
 }

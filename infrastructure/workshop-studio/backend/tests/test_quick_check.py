@@ -87,37 +87,37 @@ def test_cleaned_other_resource_stays_quick(live, stack):
 # --- plain names ---------------------------------------------------------------------------------------------
 
 @pytest.mark.parametrize("name,words", [
-    ("svc_dev_dbt", "the development robot"), ("svc_val_dbt", "the validation robot"),
-    ("svc_prd_dbt", "the production robot"), ("svc_ci_dbt", "the checking robot"),
-    ("pu_dev1", "developer one"), ("pu_dev2", "developer two"), ("pu_dev3", "developer three"),
-    ("pu_admin", "the administrator"),
+    ("svc_dev_dbt", "de robot van development"), ("svc_val_dbt", "de robot van validatie"),
+    ("svc_prd_dbt", "de robot van productie"), ("svc_ci_dbt", "de robot van de testrun"),
+    ("pu_dev1", "developer één"), ("pu_dev2", "developer twee"), ("pu_dev3", "developer drie"),
+    ("pu_admin", "de beheerder"),
 ])
 def test_account_words(name, words):
     assert names.account_words(name) == words
 
 
 @pytest.mark.parametrize("name,words", [
-    ("dev_landing", "the incoming data of development"), ("val_edw_dv_rdv", "the working tables of validation"),
-    ("prd_edw_dv_bdv", "the working tables of production"), ("prd_im_dimensional", "the report tables of production"),
-    ("val_vdp_mgmt", "the logbook of validation"), ("vdp_ci", "the sandbox for checks"),
+    ("dev_landing", "de binnenkomende data van development"), ("val_edw_dv_rdv", "de werktabellen van validatie"),
+    ("prd_edw_dv_bdv", "de werktabellen van productie"), ("prd_im_dimensional", "de rapporttabellen van productie"),
+    ("val_vdp_mgmt", "het logboek van validatie"), ("vdp_ci", "de sandbox voor de testrun"),
 ])
 def test_database_words(name, words):
     assert names.database_words(name) == words
 
 
 def test_plain_words_and_pair():
-    assert names.plain_words("pu_dev1 may not change tables in prd_im_dimensional") == \
-        "Developer one may not change tables in the report tables of production"
+    assert names.plain_words("pu_dev1 mag niets wijzigen in prd_im_dimensional") == \
+        "Developer één mag niets wijzigen in de rapporttabellen van productie"
     assert names.plain_words("Nothing technical here.") == "Nothing technical here."
-    assert names.plain_words("read dev_landing.raw_olist_orders") == "read the orders feed in the incoming data of development"
-    assert names.plain_pair("svc_ci_dbt is fine", "more") == ("The checking robot is fine", "svc_ci_dbt is fine\nmore")
+    assert names.plain_words("lees dev_landing.raw_olist_orders") == "lees de bestellingenfeed in de binnenkomende data van development"
+    assert names.plain_pair("svc_ci_dbt is in orde", "more") == ("De robot van de testrun is in orde", "svc_ci_dbt is in orde\nmore")
     assert names.plain_pair("All good.", "d") == ("All good.", "d")
 
 
 def test_refusal_sentence_is_plain():
     text = "DELETE command denied to user 'pu_dev1'@'h' for table 'prd_im_dimensional.t'"
     assert describe_refusal("pu_dev1", text) == \
-        "The database refused: developer one may not change tables in production."
+        "De database weigerde: developer één mag de tabellen in productie niet wijzigen."
 
 
 def test_table_cells_with_names_are_plain_and_keep_the_technical_text(tmp_path, monkeypatch):
@@ -125,28 +125,28 @@ def test_table_cells_with_names_are_plain_and_keep_the_technical_text(tmp_path, 
                         (["who", "db"], [("pu_admin", "prd_vdp_mgmt")]))
     p = evidence.TableParams.model_validate({"query": "q", "highlight": {"column": "who", "equals": "pu_admin"}})
     row = evidence.table(make_ctx(tmp_path), p)["rows"][0]
-    assert row["cells"] == {"who": "The administrator", "db": "The logbook of production"}
+    assert row["cells"] == {"who": "De beheerder", "db": "Het logboek van productie"}
     assert row["state"] == "good" and row["details"] == "pu_admin; prd_vdp_mgmt"
 
 
 def test_engine_shows_plain_sentences_and_keeps_technical_ones_in_details(live, stack):
     from studio.actions import base
     base.action("fake.names", base.ACTIONS["fake.fail"].params)(
-        lambda ctx, p: base.Result("pu_dev2 changed dev_landing.", details="d"))
+        lambda ctx, p: base.Result("pu_dev2 veranderde dev_landing.", details="d"))
     sc = live.catalog.scenarios["demo-one"]
     entry = {"label": "x", "status": "running", "summary": "", "details": ""}
     live._run_one(sc, base.ACTIONS["fake.names"], base.ACTIONS["fake.names"].params(), entry, live._ctx("dev", live._cancel), lambda: None)
-    assert entry["summary"] == "Developer two changed the incoming data of development."
-    assert entry["details"] == "pu_dev2 changed dev_landing.\nd"
+    assert entry["summary"] == "Developer twee veranderde de binnenkomende data van development."
+    assert entry["details"] == "pu_dev2 veranderde dev_landing.\nd"
 
 
 # --- units ---------------------------------------------------------------------------------------------------
 
 @pytest.mark.parametrize("query,unit", [
-    ("select d, count(*) from dev_landing.raw_carrier_tracking_events group by 1", "parcel scans"),
-    ("select count(*) from prd_edw_dv_bdv.fct_olist_orders", "orders"),
-    ("select count(*) from raw_olist_order_payments", "payments"),
-    ("select count(*) from raw_web_events", "website visits"),
+    ("select d, count(*) from dev_landing.raw_carrier_tracking_events group by 1", "pakketscans"),
+    ("select count(*) from prd_edw_dv_bdv.fct_olist_orders", "bestellingen"),
+    ("select count(*) from raw_olist_order_payments", "betalingen"),
+    ("select count(*) from raw_web_events", "websitebezoeken"),
     ("select 1", None),
 ])
 def test_unit_is_guessed_from_the_tables(query, unit):
@@ -157,7 +157,7 @@ def test_unit_of_the_scenario_wins_for_bars_and_number(tmp_path, monkeypatch):
     monkeypatch.setattr(clients, "read_rows", lambda s, q, limit=200, timeout=5, user="root": (["d", "v"], [["mon", 2]]))
     ctx = make_ctx(tmp_path)
     assert evidence.bars(ctx, evidence.BarsParams(query="select 1 from orders", unit="late scans"))["unit"] == "late scans"
-    assert evidence.bars(ctx, evidence.BarsParams(query="select d, v from raw_olist_orders"))["unit"] == "orders"
+    assert evidence.bars(ctx, evidence.BarsParams(query="select d, v from raw_olist_orders"))["unit"] == "bestellingen"
     assert evidence.bars(ctx, evidence.BarsParams(query="select 1"))["unit"] is None
     assert evidence.number(ctx, evidence.NumberParams(query="select 1", unit="rows"))["unit"] == "rows"
 

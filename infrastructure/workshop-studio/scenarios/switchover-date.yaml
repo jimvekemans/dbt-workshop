@@ -1,140 +1,144 @@
 id: switchover-date
 group: sources
-title: Switching to a new scan format on an agreed day
-promise: The carrier changes its scan format on one day, and we switch on that day, so no parcel scan goes missing.
+title: "Nieuw scanformaat: overschakelen op een afgesproken dag"
+promise: De pakjesdienst verandert op één dag van scanformaat. Wij schakelen mee, zodat geen enkele scan verloren gaat.
 minutes: 4
+feature: "Een nieuw feedformaat op een afgesproken dag"
+status: next
+why: "Na een formaatwijziging van de pakjesdienst zijn nieuwe scans onleesbaar en lijken geleverde pakjes zoek voor de klantendienst."
+tech: ["dbt_env_vars", "DBT_CARRIER_V2_FROM", "stg_carrier_events"]
 environment: dev
 related:
   - id: skip-one-table
-    why: The switch day is a setting an operator can change without a new release, like the skip list in that scenario.
+    why: De omschakeldag is een instelling die een operator zonder nieuwe release kan wijzigen, net als de lijst met overgeslagen tabellen in dat scenario.
 
 problem:
-  headline: Parcel scans in the carrier's new format vanish from the report
+  headline: Pakketscans in het nieuwe formaat van de pakjesdienst verdwijnen uit het rapport
   story: |
-    The carrier, our parcel delivery company, sends one scan for every step of a parcel's journey. Four days ago it
-    started using a new scan format, so counting today, five days are affected. Our report only understands the
-    old one. Nothing crashes and no alarm rings: the new scans arrive, but
-    the report cannot read them. Parcels that were delivered look as if they never left the warehouse, and it
-    stays that way every day until someone changes the report.
-  cost: Customer service cannot see five days of parcel scans, about 110 a day, and tells customers their delivered parcel is lost.
+    De pakjesdienst stuurt één scan voor elke stap van de reis van een pakje. Vier dagen geleden is ze een nieuw
+    scanformaat beginnen te gebruiken, dus met vandaag erbij zijn vijf dagen getroffen. Ons rapport begrijpt enkel
+    het oude formaat. Er crasht niets en er gaat geen alarm af: de nieuwe scans komen binnen, maar het rapport kan
+    ze niet lezen. Pakjes die geleverd zijn, lijken nooit het magazijn verlaten te hebben, en dat blijft elke dag zo
+    tot iemand het rapport aanpast.
+  cost: De klantendienst ziet vijf dagen pakketscans niet, ongeveer 110 per dag, en zegt klanten dat hun geleverde pakje zoek is.
   visual:
     type: timeline
     days:
-      - {label: 7 days ago, state: ok, note: "About 110 scans read"}
-      - {label: 6 days ago, state: ok, note: "About 110 scans read"}
-      - {label: 5 days ago, state: ok, note: "About 110 scans read"}
-      - {label: 4 days ago, state: bad, note: "0 of about 110 scans read"}
-      - {label: 3 days ago, state: bad, note: "0 of about 110 scans read"}
-      - {label: 2 days ago, state: bad, note: "0 of about 110 scans read"}
-      - {label: Yesterday, state: bad, note: "0 of about 110 scans read"}
-      - {label: Today, state: bad, note: "0 scans read so far"}
-    marker: {after: 2, label: The carrier changes its format}
-    caption: From the day of the change, every scan arrives and none can be read.
+      - {label: 7 dagen geleden, state: ok, note: "Ongeveer 110 scans gelezen"}
+      - {label: 6 dagen geleden, state: ok, note: "Ongeveer 110 scans gelezen"}
+      - {label: 5 dagen geleden, state: ok, note: "Ongeveer 110 scans gelezen"}
+      - {label: 4 dagen geleden, state: bad, note: "0 van ongeveer 110 scans gelezen"}
+      - {label: 3 dagen geleden, state: bad, note: "0 van ongeveer 110 scans gelezen"}
+      - {label: 2 dagen geleden, state: bad, note: "0 van ongeveer 110 scans gelezen"}
+      - {label: Gisteren, state: bad, note: "0 van ongeveer 110 scans gelezen"}
+      - {label: Vandaag, state: bad, note: "Tot nu toe 0 scans gelezen"}
+    marker: {after: 2, label: De pakjesdienst wijzigt het formaat}
+    caption: Vanaf de dag van de wijziging komt elke scan binnen en is geen enkele scan nog leesbaar.
 
 idea:
-  headline: Read old scans the old way and new scans the new way
+  headline: Lees oude scans op de oude manier en nieuwe scans op de nieuwe
   points:
-    - "We keep two readers side by side: one for the old scan format and one for the new one."
-    - Every scan goes to exactly one reader, chosen by the day it arrived, so none is lost or counted twice.
-    - "The switch day is a [[setting]]: an [[operator]] changes it in a minute, with no new [[release]]."
+    - "We houden twee lezers naast elkaar: één voor het oude scanformaat en één voor het nieuwe."
+    - Elke scan gaat naar precies één lezer, naargelang de dag van aankomst, zodat er geen verloren gaat of dubbel geteld wordt.
+    - "De omschakeldag is een [[instelling]]: een [[operator]] past ze in een minuut aan, zonder nieuwe [[release]]."
   visual:
     type: flow
     nodes:
-      - {id: scans, label: Carrier scans, state: ok, note: "Old and new format arrive"}
-      - {id: day, label: The switch day, state: fix, note: "Set by an operator"}
-      - {id: old, label: Old reader, state: ok, note: "Scans before the switch day"}
-      - {id: new, label: New reader, state: ok, note: "Scans from the switch day on"}
-      - {id: report, label: The report, state: ok, note: "What customer service reads"}
+      - {id: scans, label: Scans van de pakjesdienst, state: ok, note: "Oud en nieuw formaat komen binnen"}
+      - {id: day, label: De omschakeldag, state: fix, note: "Ingesteld door een operator"}
+      - {id: old, label: Oude lezer, state: ok, note: "Scans van vóór de omschakeldag"}
+      - {id: new, label: Nieuwe lezer, state: ok, note: "Scans vanaf de omschakeldag"}
+      - {id: report, label: Het rapport, state: ok, note: "Wat de klantendienst leest"}
     links: [[scans, day], [day, old], [day, new], [old, report], [new, report]]
-    caption: The switch day decides which reader gets which scan.
+    caption: De omschakeldag bepaalt welke lezer welke scan krijgt.
 
 code:
-  - title: Where the switch day is set
+  - title: Waar de omschakeldag ingesteld wordt
     file: models/edw_dv_bdv/carrier/stg_carrier_events.sql
-    file_label: The recipe for the table of parcel scans
+    file_label: Het recept van de tabel met pakketscans
     from: "-- The carrier switches its scan format on one day."
     to: "new_format_from = env_var"
     max_lines: 12
     notes:
       - line: "Operators set the moment without a deploy"
-        says: An operator can change the switch day at any time, without waiting for a release.
+        says: Een operator kan de omschakeldag altijd aanpassen, zonder op een release te wachten.
       - line: "the new format never starts"
-        says: If nobody sets a day, the old format keeps being read, as before.
+        says: Stelt niemand een dag in, dan blijft het oude formaat gelezen worden, zoals voorheen.
       - line: "new_format_from = env_var"
-        says: This line reads the switch day when the [[nightly load]] starts.
-  - title: Which scans the old reader takes
+        says: Deze regel leest de omschakeldag wanneer de [[nachtelijke load]] start.
+  - title: Welke scans de oude lezer neemt
     file: models/edw_dv_bdv/carrier/stg_carrier_events.sql
-    file_label: The recipe for the table of parcel scans
+    file_label: Het recept van de tabel met pakketscans
     from: "old_format as ("
     to: "where _ingested_at < '"
     max_lines: 12
     notes:
       - line: "json_extract_string(payload, 'order_ref')"
-        says: The old reader finds the order number under its old name.
+        says: De oude lezer vindt het bestelnummer onder zijn oude naam.
       - line: "where _ingested_at < '"
-        says: Only scans that arrived before the switch day go to this reader.
-  - title: How the switch day reaches the nightly load
+        says: Enkel scans die vóór de omschakeldag aankwamen, gaan naar deze lezer.
+  - title: Hoe de omschakeldag bij de nachtelijke load geraakt
     file: airflow/utils/dbt_runtime_overrides.py
-    file_label: The code that hands settings to the nightly load
+    file_label: De code die instellingen aan de nachtelijke load doorgeeft
     from: "prefix: list[str] = []"
     to: "prefix.append(f\"export"
     max_lines: 6
     notes:
       - line: "for name, value in (env_vars or {}).items():"
-        says: Every setting the operator filled in is handled one by one.
+        says: Elke instelling die de operator invulde, wordt één voor één verwerkt.
       - line: "prefix.append(f\"export"
-        says: Each one is handed over just before the nightly load starts.
+        says: Elke instelling wordt doorgegeven net voor de nachtelijke load start.
 
 demo:
-  intro: The carrier changed its scan format four days ago. First the report reads only the old format, then you pick the switch day.
+  intro: De pakjesdienst veranderde vier dagen geleden van scanformaat. Eerst leest het rapport enkel het oude formaat, daarna kies jij de omschakeldag.
   setup:
     - {action: feed.condition, feed: carrier, set: {format_from: "{{ day(-4) }}"}}
     - {action: feed.deliver, days: 7}
   steps:
     - id: without
-      title: First, with no switch day
-      say: The report reads only the old format, so every scan since the change is red. Today's bar is shorter because today is not over.
-      button: Run the nightly load
+      title: Eerst zonder omschakeldag
+      say: Het rapport leest enkel het oude formaat, dus elke scan sinds de wijziging is rood. De balk van vandaag is korter, want vandaag is nog niet voorbij.
+      button: De nachtelijke load runnen
       inputs: []
       do:
         - {action: airflow.set_variable, key: dbt_env_vars, value: {DBT_CARRIER_V2_FROM: "9999-12-31 00:00:00"}}
         - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
       show:
         - type: bars
-          title: Parcel scans per day
-          caption: Each bar counts the scans that arrived that day. The last bar is today, and it is shorter because today is not over. Red bars are scans the report could not read.
-          query: "select date(_ingested_at) as label, if(is_readable, 'readable', 'unreadable') as series, count(*) as value from {{ db('edw_dv_bdv') }}.stg_carrier_events group by label, series order by label desc, series limit 14"
-          good: readable
-          bad: unreadable
-          x_label: Day the scan arrived (the last bar is today)
-      outcome: The last 5 days of scans arrive but cannot be read (the red bars), so those parcels look missing.
+          title: Pakketscans per dag
+          caption: Elke balk telt de scans die die dag aankwamen. De laatste balk is vandaag en is korter, want vandaag is nog niet voorbij. Rode balken zijn scans die het rapport niet kon lezen.
+          query: "select date(_ingested_at) as label, if(is_readable, 'leesbaar', 'onleesbaar') as series, count(*) as value from {{ db('edw_dv_bdv') }}.stg_carrier_events group by label, series order by label desc, series limit 14"
+          good: leesbaar
+          bad: onleesbaar
+          x_label: Dag waarop de scan aankwam (de laatste balk is vandaag)
+      outcome: De scans van de laatste 5 dagen komen binnen maar zijn onleesbaar (de rode balken), dus die pakjes lijken zoek.
     - id: with
-      title: Now choose the switch day
-      say: Pick the day the carrier really changed, then try another day and watch which scans turn red.
-      button: Apply the day and run the nightly load
+      title: Kies nu de omschakeldag
+      say: Kies de dag waarop de pakjesdienst echt veranderde. Probeer daarna een andere dag en kijk welke scans rood worden.
+      button: Dag toepassen en load runnen
       inputs:
         - id: switch_day
           type: day
-          label: Switch to the new format on
+          label: Overschakelen naar het nieuwe formaat op
           default: "{{ day(-4) }}"
           min: "{{ day(-7) }}"
           max: "{{ day(0) }}"
-          help: The marked day is when the carrier really changed. Try a day before or after it and see which scans turn red.
-          mark: {day: "{{ day(-4) }}", label: the carrier changed its format}
+          help: De gemarkeerde dag is wanneer de pakjesdienst echt veranderde. Probeer een dag ervoor of erna en kijk welke scans rood worden.
+          mark: {day: "{{ day(-4) }}", label: de pakjesdienst veranderde het formaat}
       do:
         - {action: airflow.set_variable, key: dbt_env_vars, value: {DBT_CARRIER_V2_FROM: "{{ inputs.switch_day }} 00:00:00"}}
         - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
       show:
         - type: bars
           before_of: without
-          title: Parcel scans per day
-          caption: The last bar is today, and it is shorter because today is not over. With the day the carrier changed (4 days ago), no bar is red.
-          query: "select date(_ingested_at) as label, if(is_readable, 'readable', 'unreadable') as series, count(*) as value from {{ db('edw_dv_bdv') }}.stg_carrier_events group by label, series order by label desc, series limit 14"
-          good: readable
-          bad: unreadable
-          x_label: Day the scan arrived (the last bar is today)
+          title: Pakketscans per dag
+          caption: De laatste balk is vandaag en is korter, want vandaag is nog niet voorbij. Met de dag waarop de pakjesdienst veranderde (4 dagen geleden) is geen enkele balk rood.
+          query: "select date(_ingested_at) as label, if(is_readable, 'leesbaar', 'onleesbaar') as series, count(*) as value from {{ db('edw_dv_bdv') }}.stg_carrier_events group by label, series order by label desc, series limit 14"
+          good: leesbaar
+          bad: onleesbaar
+          x_label: Dag waarop de scan aankwam (de laatste balk is vandaag)
       outcome:
         check: "select count(*) from {{ db('edw_dv_bdv') }}.stg_carrier_events where not is_readable"
         good_when: zero
-        good: Every scan is read in the format it was sent in, so no bar is red.
-        not_quite: "{{ value }} scans (the red bars) still cannot be read: that day is not the day the carrier changed. Try the marked day."
+        good: Elke scan wordt gelezen in het formaat waarin hij verstuurd werd, dus geen enkele balk is rood.
+        not_quite: "{{ value }} scans (de rode balken) zijn nog altijd onleesbaar: die dag is niet de dag waarop de pakjesdienst veranderde. Probeer de gemarkeerde dag."

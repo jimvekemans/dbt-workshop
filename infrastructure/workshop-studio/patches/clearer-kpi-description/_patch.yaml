@@ -1,4 +1,4 @@
-title: "Clearer description for the management delivery report"
+title: "Duidelijkere beschrijving voor het managementrapport over leveringen"
 message: 'docs: clearer description of the management KPI'
 ops:
   - path: models/im_dimensional/olist_management.yml

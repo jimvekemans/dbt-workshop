@@ -19,7 +19,7 @@ export function Toggle({ label, checked, onChange, help, disabled }: Props) {
           <span className={styles.thumb} />
         </span>
         <span className={styles.label}>{label}</span>
-        <span className={styles.state} aria-hidden="true">{checked ? 'On' : 'Off'}</span>
+        <span className={styles.state} aria-hidden="true">{checked ? 'Aan' : 'Uit'}</span>
       </label>
       {help && (
         <p id={`${id}-h`} className={styles.help}>

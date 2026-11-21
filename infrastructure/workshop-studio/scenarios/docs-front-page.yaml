@@ -1,0 +1,133 @@
+id: docs-front-page
+group: releases
+title: De startpagina van de documentatie schrijft zichzelf
+promise: De startpagina van elke omgeving noemt de live versie, wanneer ze geschreven werd en hoe groot ze is.
+minutes: 3
+feature: Een documentatiestartpagina die zichzelf schrijft
+status: next
+why: "Een met de hand getypte startpagina veroudert, dus nieuwe collega's vertrouwen oude groottes en zoeken tabellen die niet meer bestaan."
+tech: ["__overview__.md", "docs_overview.sh"]
+environment: dev
+related:
+  - id: docs-match-version
+    why: De documentatie volgt de versie die draait. Hier volgt ook haar startpagina die versie, zonder dat iemand ze schrijft.
+
+problem:
+  headline: De startpagina van de documentatie is verouderd
+  story: |
+    De startpagina van de documentatie werd vorig voorjaar met de hand getypt. Ze zegt hoeveel tabellen de webshop
+    heeft, wie de teams zijn en welke [[versie]] draait, en sindsdien is er niets aan veranderd. Een nieuwe collega
+    vertrouwt haar, zoekt tabellen die lang geleden verwijderd werden en verliest een namiddag. Een manager herhaalt
+    de grootte in een meeting en wordt gecorrigeerd door iemand die opnieuw geteld heeft.
+  cost: Een nieuwe collega verliest een namiddag en een manager citeert een grootte die maanden oud is.
+  visual:
+    type: timeline
+    days:
+      - {label: "Voorjaar", state: ok, note: "De startpagina wordt met de hand getypt"}
+      - {label: "Zomer", state: warn, note: "Er komen tabellen bij, de pagina blijft"}
+      - {label: "Herfst", state: warn, note: "Een nieuwe versie gaat live, de pagina blijft"}
+      - {label: "Maandag", state: bad, note: "Een collega vertrouwt de pagina"}
+      - {label: "Dinsdag", state: bad, note: "Een foute grootte wordt geciteerd"}
+    marker: {after: 1, label: "De pagina is nu fout"}
+    caption: "Niemand deed iets fout: het schrijven van de startpagina zat gewoon nooit in het live gaan."
+
+idea:
+  headline: De startpagina wordt bij het live gaan uit de versie zelf geschreven
+  points:
+    - Bij het live zetten van een versie wordt de startpagina van haar documentatie geschreven, in dezelfde stap als de rest.
+    - De pagina telt zelf de tabellen, checks en feeds van die versie, dus haar grootte kan niet verouderd zijn.
+    - Ze noemt de versie, de [[omgeving]] en het moment, zodat de pagina altijd zegt wat ze beschrijft.
+  visual:
+    type: flow
+    nodes:
+      - {id: version, label: Een genummerde versie, state: ok, note: "Code en beschrijvingen"}
+      - {id: golive, label: Live gaan, state: fix, note: "Telt en schrijft de pagina"}
+      - {id: page, label: De startpagina, state: ok, note: "Versie, moment en grootte"}
+      - {id: reader, label: De lezer, state: ok, note: "Leest wat live is"}
+    links: [[version, golive], [golive, page], [page, reader]]
+    caption: De pagina is een resultaat van het live gaan, geen tekst die iemand moet bijhouden.
+
+code:
+  - title: De grootte van de versie wordt geteld, niet getypt
+    status: next
+    file: scripts/docs_overview.sh
+    file_label: Het script dat de startpagina schrijft
+    from: 'tables="$(count model)"'
+    to: 'feeds="$(count source)"'
+    max_lines: 6
+    notes:
+      - line: 'tables="$(count model)"'
+        says: De tabellen van deze versie worden geteld uit haar eigen code.
+      - line: 'feeds="$(count source)"'
+        says: Hetzelfde geldt voor de feeds en de checks.
+  - title: De pagina noemt de versie, het moment en de grootte
+    status: next
+    file: scripts/docs_overview.sh
+    file_label: Het script dat de startpagina schrijft
+    from: "# Data platform"
+    to: "${teams}"
+    max_lines: 12
+    notes:
+      - line: "**Version:**"
+        says: De pagina noemt de versie die live gaat.
+      - line: "**Generated:**"
+        says: Ze noteert het moment waarop ze geschreven werd.
+      - line: "**Tables:**"
+        says: Ze vermeldt de grootte die net geteld werd.
+  - title: De pagina wordt geschreven vóór de rest van de documentatie
+    status: next
+    file: .gitlab-ci.yml
+    file_label: De instructies om een versie live te zetten
+    from: "mkdir -p /state/docs"
+    to: "dbt docs generate --target run --output-dir /state/docs && chmod"
+    max_lines: 12
+    notes:
+      - line: "bash scripts/docs_overview.sh"
+        says: De startpagina wordt eerst geschreven, uit de versie die live gaat.
+      - line: "dbt docs generate"
+        says: De rest van de documentatie neemt ze dan over als startpagina.
+
+demo:
+  intro: >-
+    Bij het klaarzetten wordt een nieuwere versie voorbereid. Eerst lezen we de startpagina van development,
+    dan zetten we de nieuwere versie live, en daarna lezen we de startpagina opnieuw.
+  setup:
+    - {action: gitlab.branch, name: demo/clearer-description, from: dev}
+    - {action: gitlab.commit, branch: demo/clearer-description, patch: report-description-meaning}
+    - {action: gitlab.merge_request, source: demo/clearer-description, target: dev, title: "Zeggen in welke maand een bestelling meetelt"}
+    - {action: gitlab.merge, source: demo/clearer-description}
+    - {action: gitlab.wait_pipeline, for: "tag:^v", expect: success, timeout: 900}
+    - {action: deploy.set_version, tag: baseline}
+  steps:
+    - id: before
+      title: De startpagina van development lezen
+      say: Development draait de eerste versie. Haar startpagina werd bij het live gaan geschreven, niet getypt, dus ze noemt die versie.
+      button: De startpagina lezen
+      inputs: []
+      do:
+        - {action: docs.read_front_page, envs: [dev], expect: running}
+      show:
+        - {type: result, title: "Startpagina van development", caption: "Kijk naar de tweede regel: de versie en het moment waarop ze geschreven werd. De derde regel is de grootte."}
+        - {type: versions, title: "Versie in elke omgeving", caption: "Kijk naar development: de startpagina noemt deze versie."}
+      outcome: De startpagina noemt de versie die development draait, het moment waarop ze geschreven werd en de grootte van wat live is.
+    - id: live
+      title: De nieuwere versie live zetten
+      say: Het live zetten van de versie is het enige wat met de hand gebeurt. Niemand opent of bewerkt de startpagina.
+      button: De nieuwere versie live zetten
+      inputs: []
+      do:
+        - {action: deploy.set_version, tag: latest}
+      show:
+        - {type: result, title: "Wat met de hand gedaan werd", caption: "Dit is de enige actie van deze stap: een versie werd live gezet. Er werd niets anders bewerkt."}
+        - {type: versions, before_of: before, title: "Versie in elke omgeving", caption: "Kijk naar development: dat is de enige omgeving die wijzigt."}
+      outcome: Development draait nu de nieuwere versie, en niemand raakte haar startpagina aan.
+    - id: after
+      title: De startpagina opnieuw lezen
+      say: Dezelfde pagina wordt nog eens gelezen.
+      button: De startpagina opnieuw lezen
+      inputs: []
+      do:
+        - {action: docs.read_front_page, envs: [dev], expect: running}
+      show:
+        - {type: result, before_of: before, title: "Startpagina van development", caption: "Kijk naar de tweede regel: de nieuwe versie en het moment waarop deze pagina geschreven werd. De grootte op de derde regel is dezelfde als daarnet, omdat deze wijziging geen [[tabel]] toevoegde. Ze wordt opnieuw geteld, niet getypt."}
+      outcome: De startpagina noemt de nieuwere versie en het moment waarop ze geschreven werd, en niemand schreef iets van beide. Dit liep hier al; dat de [[release]] van het platform dit zelf doet, is de volgende stap.

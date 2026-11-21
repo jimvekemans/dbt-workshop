@@ -16,7 +16,7 @@ export function Related({ items, fromId }: { items: RelatedLink[]; fromId: strin
   return (
     <aside className={styles.related} aria-labelledby="related-h">
       <h3 id="related-h" className={styles.title}>
-        Related, optional:
+        Verwant, niet verplicht:
       </h3>
       <ul className={styles.list}>
         {found.map(({ r, s, n }) => (

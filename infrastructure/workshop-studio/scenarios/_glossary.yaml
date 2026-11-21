@@ -1,16 +1,29 @@
-check: An automatic test of the data, for example that every order has an order number.
-database: The big, organised store where all the shop's data lives, in tables.
-environment: 'One complete copy of the system with its own data. We have three: development (trying things), validation (checking) and production (the real one).'
-feed: Data that another team or company sends us again and again, for example the carrier's parcel scans or customer reviews.
-hand-made change: A change someone typed straight into the live database instead of putting it through the normal, recorded route.
-log: 'The diary a program writes while it works: one line for every step, in the order it happened.'
-model: One table of the shop's reports, built from raw data by a small piece of code.
-nightly load: The job that runs every night and rebuilds all the shop's reports from the latest data.
-operator: The person who keeps the nightly load running, not the person who writes the reports.
-release: A numbered bundle of finished changes that goes to validation and then to production together.
-robot account: A login used by a program instead of a person. It has its own keys that only open certain doors.
-sandbox: A private scratch copy where a change can be tried without touching what others use.
-setting: A value an operator can change in a minute to alter tonight's nightly load, without building anything new.
-table: 'One sheet of the database: rows and columns, like a page of a spreadsheet.'
-test: An automatic check on the data, for example that every order has a number.
-version: One exact, numbered state of all our code, for example v1.0.2. Like the edition number of a book.
+check: Een automatische controle van de data, bijvoorbeeld dat elke bestelling een bestelnummer heeft.
+database: De grote, geordende opslagplaats waar alle gegevens van de webshop in tabellen staan.
+feed: Data die een ander team of een ander bedrijf ons telkens opnieuw doorstuurt, bijvoorbeeld de scans van de pakjesdienst of klantenreviews.
+fingerprint: Een korte code die berekend wordt uit de hele inhoud van een bestand. Verander je één letter, dan verandert de code. Twee bestanden met dezelfde fingerprint zijn dus hetzelfde bestand.
+log: 'Het dagboek dat een programma bijhoudt terwijl het werkt: één regel per stap, in de volgorde waarin het gebeurde.'
+model: Eén tabel van de rapporten van de webshop, opgebouwd uit ruwe data door een klein stukje code.
+operator: De persoon die de nachtelijke load draaiende houdt, en niet degene die de rapporten schrijft.
+release: Een genummerd pakket van afgewerkte wijzigingen dat samen naar validatie en daarna naar productie gaat.
+sandbox: Een privékopie waarin je een wijziging kunt uitproberen zonder aan te raken wat anderen gebruiken.
+storage: De rekken waarin elke afgewerkte versie onder haar nummer bewaard wordt, zodat je ze altijd opnieuw kunt ophalen.
+test: Een automatische controle van de data, bijvoorbeeld dat elke bestelling een nummer heeft.
+vault: Een afgesloten kast voor wachtwoorden. Een programma vraagt er een wachtwoord op het moment dat het dat nodig heeft, en de vault houdt bij wie het gevraagd heeft.
+robot: Een programma dat een taak zelfstandig uitvoert, met een eigen login in plaats van die van een persoon.
+catalogus: De doorzoekbare lijst van alle tabellen van de webshop, met wat elke tabel betekent. Collega's gebruiken ze om de juiste tabel te vinden.
+omgeving: 'Eén volledige kopie van het systeem met eigen data. We hebben er drie: development (uitproberen), validatie (nakijken) en productie (de echte).'
+manuele wijziging: Een wijziging die iemand rechtstreeks in de live database getypt heeft, in plaats van langs de gewone, bijgehouden weg.
+nachtelijke load: De taak die elke nacht loopt en alle rapporten van de webshop opnieuw opbouwt met de nieuwste data.
+voorstel: Een wijziging aan de code die een developer voorgelegd heeft, maar die nog niemand goedgekeurd heeft. Tot dan verandert ze niets voor wie dan ook.
+testrun: Een automatische controle van een voorgestelde wijziging, door een machine op privékopieën, om te zien of ze werkt voordat iemand ze goedkeurt.
+robotaccount: Een login die een programma gebruikt in plaats van een persoon. Het heeft eigen sleutels die maar bepaalde deuren openen.
+instelling: Een waarde die een operator in een minuut kan aanpassen om de nachtelijke load van vanavond te wijzigen, zonder iets nieuws te builden.
+tabel: 'Eén blad van de database: rijen en kolommen, zoals een pagina van een rekenblad.'
+versie: Één exacte, genummerde toestand van al onze code, bijvoorbeeld v1.0.2. Zoals het editienummer van een boek.
+dry run: Een run die alle stappen doorloopt zonder één enkele rij te laden, alleen om te zien of de stappen op elkaar aansluiten.
+laadhistoriek: De registratie van wanneer elke tabel voor het laatst geladen werd en of dat afgerond raakte.
+logboek: 'De registratie van elke run: wat er gebuild werd, het resultaat, het tijdstip en het aantal rijen. Mensen lezen het om te zien wat er vannacht gebeurd is.'
+opkuisstap: Een opkuistaak die tabellen verwijdert die niet meer in het project zitten.
+melding: Een kort bericht dat de nachtelijke load stuurt voor elke tabel die ze ververst heeft, zodat wie op die tabel steunt verwittigd kan worden zonder te moeten vragen.
+verwittiging: Eén korte mail die de mensen die op een rapport steunen laat weten dat het zonet ververst is.

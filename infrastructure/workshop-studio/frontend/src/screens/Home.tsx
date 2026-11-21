@@ -6,7 +6,10 @@ import { ScenarioCard } from '../components/ScenarioCard'
 import { SkeletonLines } from '../components/Skeleton'
 import { Callout } from '../components/Callout'
 import { RichText } from '../components/Term'
+import { plainText } from '../lib/glossary'
 import { Button } from '../components/Button'
+import { LinkButton } from '../components/LinkButton'
+import { ArrowRightIcon } from '../components/icons'
 import styles from './Home.module.css'
 
 /** Balanced rows on a wide screen, never one orphan card: 3 -> 3, 4 -> 2+2, 5 -> 3+2, 6 -> 3+3, 7 -> 4+3, 8 -> 4+4. */
@@ -28,14 +31,14 @@ export function Home() {
   return (
     <div className={styles.page}>
       <header className={styles.hero}>
-        <p className="kicker">A data team workshop</p>
-        <h1 className={styles.h1}>Keeping reports right while everything around them changes</h1>
+        <p className="kicker">Een workshop voor datateams</p>
+        <h1 className={styles.h1}>Rapporten correct houden terwijl alles errond verandert</h1>
         <p className={styles.lead}>
-          {total > 0 ? `${total} short stories` : 'Short stories'} about how a data team keeps company reports correct. Each has four parts: what goes wrong, the idea, the code, and a live demo. They are independent: start anywhere.
+          {total > 0 ? `${total} korte verhalen` : 'Korte verhalen'} over hoe een datateam de rapporten van het bedrijf correct houdt. Elk verhaal heeft vier delen: wat er misloopt, het idee, de code en een live demo. Ze staan los van elkaar: begin waar je wil.
         </p>
         {pickNumber > 0 && (
           <p className={styles.hint}>
-            Not sure? Start with {String(pickNumber).padStart(2, '0')}. Short on time? Every card has a link straight to its demo.
+            Niet zeker? Begin met {String(pickNumber).padStart(2, '0')}. Weinig tijd? Elke kaart heeft een link rechtstreeks naar de demo.
           </p>
         )}
       </header>
@@ -44,11 +47,11 @@ export function Home() {
 
       {!catalog && !catalogError && (
         <div className={styles.loading}>
-          <SkeletonLines lines={5} label="Loading the scenarios" />
+          <SkeletonLines lines={5} label="Scenario's worden geladen" />
         </div>
       )}
       {catalogError && !catalog && connected && (
-        <Callout tone="warn" title="The list of scenarios did not load" actions={<Button onClick={actions.retryCatalog}>Try again</Button>}>
+        <Callout tone="warn" title="De lijst met scenario's kon niet geladen worden" actions={<Button onClick={actions.retryCatalog}>Opnieuw proberen</Button>}>
           {catalogError}
         </Callout>
       )}
@@ -66,6 +69,23 @@ export function Home() {
           </ul>
         </section>
       ))}
+
+      {catalog?.roadmap && (
+        <section className={styles.closing} aria-labelledby="closing-h" data-closing-card="">
+          <p className="kicker">Het einde van de workshop</p>
+          <h2 id="closing-h" className={styles.closingTitle}>
+            <RichText text={catalog.roadmap.title} />
+          </h2>
+          <p className={styles.closingText}>
+            <RichText text={catalog.roadmap.intro} />
+          </p>
+          <div>
+            <LinkButton variant="primary" size="lg" href="#/roadmap" icon={<ArrowRightIcon />} aria-label={`Open: ${plainText(catalog.roadmap.title)}`}>
+              Bekijk het overzicht
+            </LinkButton>
+          </div>
+        </section>
+      )}
     </div>
   )
 }

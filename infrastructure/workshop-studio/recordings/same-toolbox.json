@@ -10,7 +10,7 @@
      "evidence": [
       {
        "type": "result",
-       "title": "The tools in two fresh toolboxes",
+       "title": "De tools in twee verse toolboxen",
        "data": {
         "summary": "",
         "details": "",
@@ -23,7 +23,7 @@
      "t": 0.0,
      "actions": [
       {
-       "label": "Comparing two fresh toolboxes",
+       "label": "Twee verse toolboxen vergelijken",
        "status": "running",
        "summary": "",
        "details": ""
@@ -32,7 +32,7 @@
      "evidence": [
       {
        "type": "result",
-       "title": "The tools in two fresh toolboxes",
+       "title": "De tools in twee verse toolboxen",
        "data": {
         "summary": "",
         "details": "",
@@ -42,19 +42,19 @@
      ]
     },
     {
-     "t": 1.5,
+     "t": 1.76,
      "actions": [
       {
-       "label": "Comparing two fresh toolboxes",
+       "label": "Twee verse toolboxen vergelijken",
        "status": "done",
-       "summary": "Opened two fresh toolboxes and compared their tools.",
+       "summary": "Twee verse toolboxen geopend en hun tools vergeleken.",
        "details": "dbt-singlestore-dev:1.11.11 against dbt-singlestore-dev:1.11.11\nReport builder (dbt): 2.0.11 | 2.0.11 | same\nDatabase connector (ADBC driver): build 74194c7 | build 74194c7 | same\nLayout robot (sqlfmt): 0.30.0 | 0.30.0 | same\nRule checker (dbt-bouncer): 0.0.0 | 0.0.0 | same\nHelper tool (vdp): 0.1.0 | 0.1.0 | same\nPre-save checks (pre-commit): 4.7.0 | 4.7.0 | same"
       }
      ],
      "evidence": [
       {
        "type": "result",
-       "title": "The tools in two fresh toolboxes",
+       "title": "De tools in twee verse toolboxen",
        "data": {
         "summary": "",
         "details": "",
@@ -64,102 +64,102 @@
      ]
     },
     {
-     "t": 1.5,
+     "t": 1.76,
      "actions": [
       {
-       "label": "Comparing two fresh toolboxes",
+       "label": "Twee verse toolboxen vergelijken",
        "status": "done",
-       "summary": "Opened two fresh toolboxes and compared their tools.",
+       "summary": "Twee verse toolboxen geopend en hun tools vergeleken.",
        "details": "dbt-singlestore-dev:1.11.11 against dbt-singlestore-dev:1.11.11\nReport builder (dbt): 2.0.11 | 2.0.11 | same\nDatabase connector (ADBC driver): build 74194c7 | build 74194c7 | same\nLayout robot (sqlfmt): 0.30.0 | 0.30.0 | same\nRule checker (dbt-bouncer): 0.0.0 | 0.0.0 | same\nHelper tool (vdp): 0.1.0 | 0.1.0 | same\nPre-save checks (pre-commit): 4.7.0 | 4.7.0 | same"
       }
      ],
      "evidence": [
       {
        "type": "result",
-       "title": "The tools in two fresh toolboxes",
+       "title": "De tools in twee verse toolboxen",
        "data": {
-        "summary": "Opened two fresh toolboxes and compared their tools.",
+        "summary": "Twee verse toolboxen geopend en hun tools vergeleken.",
         "details": "dbt-singlestore-dev:1.11.11 against dbt-singlestore-dev:1.11.11\nReport builder (dbt): 2.0.11 | 2.0.11 | same\nDatabase connector (ADBC driver): build 74194c7 | build 74194c7 | same\nLayout robot (sqlfmt): 0.30.0 | 0.30.0 | same\nRule checker (dbt-bouncer): 0.0.0 | 0.0.0 | same\nHelper tool (vdp): 0.1.0 | 0.1.0 | same\nPre-save checks (pre-commit): 4.7.0 | 4.7.0 | same",
         "data": {
          "reasons": [
           {
-           "label": "Report builder",
-           "left": "version 2.0.11",
-           "right": "version 2.0.11",
+           "label": "Rapportbouwer",
+           "left": "versie 2.0.11",
+           "right": "versie 2.0.11",
            "same": true
           },
           {
-           "label": "Database connector",
-           "left": "the same build",
-           "right": "the same build",
+           "label": "Databaseconnector",
+           "left": "dezelfde build",
+           "right": "dezelfde build",
            "same": true
           },
           {
-           "label": "Layout robot",
-           "left": "version 0.30.0",
-           "right": "version 0.30.0",
+           "label": "Layoutrobot",
+           "left": "versie 0.30.0",
+           "right": "versie 0.30.0",
            "same": true
           },
           {
-           "label": "Rule checker",
-           "left": "installed",
-           "right": "installed",
+           "label": "Regelchecker",
+           "left": "geïnstalleerd",
+           "right": "geïnstalleerd",
            "same": true
           },
           {
-           "label": "Helper tool",
-           "left": "version 0.1.0",
-           "right": "version 0.1.0",
+           "label": "Hulptool",
+           "left": "versie 0.1.0",
+           "right": "versie 0.1.0",
            "same": true
           },
           {
-           "label": "Pre-save checks",
-           "left": "version 4.7.0",
-           "right": "version 4.7.0",
+           "label": "Checks voor het opslaan",
+           "left": "versie 4.7.0",
+           "right": "versie 4.7.0",
            "same": true
           }
          ],
-         "left_title": "First toolbox",
-         "right_title": "Second toolbox",
+         "left_title": "Eerste toolbox",
+         "right_title": "Tweede toolbox",
          "tools": [
           {
            "probe": "report_builder",
-           "label": "Report builder",
+           "label": "Rapportbouwer",
            "left": "2.0.11",
            "right": "2.0.11",
            "state": "same"
           },
           {
            "probe": "connector",
-           "label": "Database connector",
+           "label": "Databaseconnector",
            "left": "74194c79b0fc",
            "right": "74194c79b0fc",
            "state": "same"
           },
           {
            "probe": "layout_robot",
-           "label": "Layout robot",
+           "label": "Layoutrobot",
            "left": "0.30.0",
            "right": "0.30.0",
            "state": "same"
           },
           {
            "probe": "rule_checker",
-           "label": "Rule checker",
+           "label": "Regelchecker",
            "left": "0.0.0",
            "right": "0.0.0",
            "state": "same"
           },
           {
            "probe": "helper_tool",
-           "label": "Helper tool",
+           "label": "Hulptool",
            "left": "0.1.0",
            "right": "0.1.0",
            "state": "same"
           },
           {
            "probe": "pre_save_checks",
-           "label": "Pre-save checks",
+           "label": "Checks voor het opslaan",
            "left": "4.7.0",
            "right": "4.7.0",
            "state": "same"
@@ -171,102 +171,102 @@
      ]
     },
     {
-     "t": 1.5,
+     "t": 1.76,
      "actions": [
       {
-       "label": "Comparing two fresh toolboxes",
+       "label": "Twee verse toolboxen vergelijken",
        "status": "done",
-       "summary": "Opened two fresh toolboxes and compared their tools.",
+       "summary": "Twee verse toolboxen geopend en hun tools vergeleken.",
        "details": "dbt-singlestore-dev:1.11.11 against dbt-singlestore-dev:1.11.11\nReport builder (dbt): 2.0.11 | 2.0.11 | same\nDatabase connector (ADBC driver): build 74194c7 | build 74194c7 | same\nLayout robot (sqlfmt): 0.30.0 | 0.30.0 | same\nRule checker (dbt-bouncer): 0.0.0 | 0.0.0 | same\nHelper tool (vdp): 0.1.0 | 0.1.0 | same\nPre-save checks (pre-commit): 4.7.0 | 4.7.0 | same"
       }
      ],
      "evidence": [
       {
        "type": "result",
-       "title": "The tools in two fresh toolboxes",
+       "title": "De tools in twee verse toolboxen",
        "data": {
-        "summary": "Opened two fresh toolboxes and compared their tools.",
+        "summary": "Twee verse toolboxen geopend en hun tools vergeleken.",
         "details": "dbt-singlestore-dev:1.11.11 against dbt-singlestore-dev:1.11.11\nReport builder (dbt): 2.0.11 | 2.0.11 | same\nDatabase connector (ADBC driver): build 74194c7 | build 74194c7 | same\nLayout robot (sqlfmt): 0.30.0 | 0.30.0 | same\nRule checker (dbt-bouncer): 0.0.0 | 0.0.0 | same\nHelper tool (vdp): 0.1.0 | 0.1.0 | same\nPre-save checks (pre-commit): 4.7.0 | 4.7.0 | same",
         "data": {
          "reasons": [
           {
-           "label": "Report builder",
-           "left": "version 2.0.11",
-           "right": "version 2.0.11",
+           "label": "Rapportbouwer",
+           "left": "versie 2.0.11",
+           "right": "versie 2.0.11",
            "same": true
           },
           {
-           "label": "Database connector",
-           "left": "the same build",
-           "right": "the same build",
+           "label": "Databaseconnector",
+           "left": "dezelfde build",
+           "right": "dezelfde build",
            "same": true
           },
           {
-           "label": "Layout robot",
-           "left": "version 0.30.0",
-           "right": "version 0.30.0",
+           "label": "Layoutrobot",
+           "left": "versie 0.30.0",
+           "right": "versie 0.30.0",
            "same": true
           },
           {
-           "label": "Rule checker",
-           "left": "installed",
-           "right": "installed",
+           "label": "Regelchecker",
+           "left": "geïnstalleerd",
+           "right": "geïnstalleerd",
            "same": true
           },
           {
-           "label": "Helper tool",
-           "left": "version 0.1.0",
-           "right": "version 0.1.0",
+           "label": "Hulptool",
+           "left": "versie 0.1.0",
+           "right": "versie 0.1.0",
            "same": true
           },
           {
-           "label": "Pre-save checks",
-           "left": "version 4.7.0",
-           "right": "version 4.7.0",
+           "label": "Checks voor het opslaan",
+           "left": "versie 4.7.0",
+           "right": "versie 4.7.0",
            "same": true
           }
          ],
-         "left_title": "First toolbox",
-         "right_title": "Second toolbox",
+         "left_title": "Eerste toolbox",
+         "right_title": "Tweede toolbox",
          "tools": [
           {
            "probe": "report_builder",
-           "label": "Report builder",
+           "label": "Rapportbouwer",
            "left": "2.0.11",
            "right": "2.0.11",
            "state": "same"
           },
           {
            "probe": "connector",
-           "label": "Database connector",
+           "label": "Databaseconnector",
            "left": "74194c79b0fc",
            "right": "74194c79b0fc",
            "state": "same"
           },
           {
            "probe": "layout_robot",
-           "label": "Layout robot",
+           "label": "Layoutrobot",
            "left": "0.30.0",
            "right": "0.30.0",
            "state": "same"
           },
           {
            "probe": "rule_checker",
-           "label": "Rule checker",
+           "label": "Regelchecker",
            "left": "0.0.0",
            "right": "0.0.0",
            "state": "same"
           },
           {
            "probe": "helper_tool",
-           "label": "Helper tool",
+           "label": "Hulptool",
            "left": "0.1.0",
            "right": "0.1.0",
            "state": "same"
           },
           {
            "probe": "pre_save_checks",
-           "label": "Pre-save checks",
+           "label": "Checks voor het opslaan",
            "left": "4.7.0",
            "right": "4.7.0",
            "state": "same"
@@ -278,16 +278,16 @@
      ]
     }
    ],
-   "summary": "Opened two fresh toolboxes and compared their tools.",
-   "outcome": "Two fresh toolboxes hold the same tools, and nobody installed anything by hand.",
+   "summary": "Twee verse toolboxen geopend en hun tools vergeleken.",
+   "outcome": "Twee verse toolboxen bevatten dezelfde tools, en niemand installeerde iets met de hand.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:26:42+00:00",
+   "recorded_at": "2026-11-21T22:12:43+00:00",
    "durations": [
     1.6,
-    1.8,
+    1.5,
     1.6,
-    1.6,
-    1.5
+    1.5,
+    1.8
    ],
    "show": [
     "result"
@@ -302,7 +302,7 @@
      "evidence": [
       {
        "type": "result",
-       "title": "The toolbox next to production",
+       "title": "De toolbox naast productie",
        "data": {
         "summary": "",
         "details": "",
@@ -315,7 +315,7 @@
      "t": 0.0,
      "actions": [
       {
-       "label": "Comparing the toolbox with production",
+       "label": "De toolbox vergelijken met productie",
        "status": "running",
        "summary": "",
        "details": ""
@@ -324,7 +324,7 @@
      "evidence": [
       {
        "type": "result",
-       "title": "The toolbox next to production",
+       "title": "De toolbox naast productie",
        "data": {
         "summary": "",
         "details": "",
@@ -337,7 +337,7 @@
      "t": 2.0,
      "actions": [
       {
-       "label": "Comparing the toolbox with production",
+       "label": "De toolbox vergelijken met productie",
        "status": "running",
        "summary": "",
        "details": ""
@@ -346,7 +346,7 @@
      "evidence": [
       {
        "type": "result",
-       "title": "The toolbox next to production",
+       "title": "De toolbox naast productie",
        "data": {
         "summary": "",
         "details": "",
@@ -356,19 +356,19 @@
      ]
     },
     {
-     "t": 2.1,
+     "t": 2.29,
      "actions": [
       {
-       "label": "Comparing the toolbox with production",
+       "label": "De toolbox vergelijken met productie",
        "status": "done",
-       "summary": "Compared a fresh toolbox with the package that runs in production.",
+       "summary": "Een verse toolbox vergeleken met het package dat in productie runt.",
        "details": "dbt-singlestore-dev:1.11.11 against dbt-vdp:v1.0.0\nReport builder (dbt): 2.0.11 | 2.0.11 | same\nDatabase connector (ADBC driver): build 74194c7 | build 74194c7 | same\nLayout robot (sqlfmt): 0.30.0 | not included | only_toolbox\nRule checker (dbt-bouncer): 0.0.0 | not included | only_toolbox\nHelper tool (vdp): 0.1.0 | not included | only_toolbox\nPre-save checks (pre-commit): 4.7.0 | not included | only_toolbox"
       }
      ],
      "evidence": [
       {
        "type": "result",
-       "title": "The toolbox next to production",
+       "title": "De toolbox naast productie",
        "data": {
         "summary": "",
         "details": "",
@@ -378,102 +378,102 @@
      ]
     },
     {
-     "t": 2.1,
+     "t": 2.29,
      "actions": [
       {
-       "label": "Comparing the toolbox with production",
+       "label": "De toolbox vergelijken met productie",
        "status": "done",
-       "summary": "Compared a fresh toolbox with the package that runs in production.",
+       "summary": "Een verse toolbox vergeleken met het package dat in productie runt.",
        "details": "dbt-singlestore-dev:1.11.11 against dbt-vdp:v1.0.0\nReport builder (dbt): 2.0.11 | 2.0.11 | same\nDatabase connector (ADBC driver): build 74194c7 | build 74194c7 | same\nLayout robot (sqlfmt): 0.30.0 | not included | only_toolbox\nRule checker (dbt-bouncer): 0.0.0 | not included | only_toolbox\nHelper tool (vdp): 0.1.0 | not included | only_toolbox\nPre-save checks (pre-commit): 4.7.0 | not included | only_toolbox"
       }
      ],
      "evidence": [
       {
        "type": "result",
-       "title": "The toolbox next to production",
+       "title": "De toolbox naast productie",
        "data": {
-        "summary": "Compared a fresh toolbox with the package that runs in production.",
+        "summary": "Een verse toolbox vergeleken met het package dat in productie runt.",
         "details": "dbt-singlestore-dev:1.11.11 against dbt-vdp:v1.0.0\nReport builder (dbt): 2.0.11 | 2.0.11 | same\nDatabase connector (ADBC driver): build 74194c7 | build 74194c7 | same\nLayout robot (sqlfmt): 0.30.0 | not included | only_toolbox\nRule checker (dbt-bouncer): 0.0.0 | not included | only_toolbox\nHelper tool (vdp): 0.1.0 | not included | only_toolbox\nPre-save checks (pre-commit): 4.7.0 | not included | only_toolbox",
         "data": {
          "reasons": [
           {
-           "label": "Report builder",
-           "left": "version 2.0.11",
-           "right": "version 2.0.11",
+           "label": "Rapportbouwer",
+           "left": "versie 2.0.11",
+           "right": "versie 2.0.11",
            "same": true
           },
           {
-           "label": "Database connector",
-           "left": "the same build",
-           "right": "the same build",
+           "label": "Databaseconnector",
+           "left": "dezelfde build",
+           "right": "dezelfde build",
            "same": true
           },
           {
-           "label": "Layout robot",
-           "left": "version 0.30.0",
+           "label": "Layoutrobot",
+           "left": "versie 0.30.0",
            "right": null,
            "same": false
           },
           {
-           "label": "Rule checker",
-           "left": "installed",
+           "label": "Regelchecker",
+           "left": "geïnstalleerd",
            "right": null,
            "same": false
           },
           {
-           "label": "Helper tool",
-           "left": "version 0.1.0",
+           "label": "Hulptool",
+           "left": "versie 0.1.0",
            "right": null,
            "same": false
           },
           {
-           "label": "Pre-save checks",
-           "left": "version 4.7.0",
+           "label": "Checks voor het opslaan",
+           "left": "versie 4.7.0",
            "right": null,
            "same": false
           }
          ],
          "left_title": "Toolbox",
-         "right_title": "Production package",
+         "right_title": "Productiepackage",
          "tools": [
           {
            "probe": "report_builder",
-           "label": "Report builder",
+           "label": "Rapportbouwer",
            "left": "2.0.11",
            "right": "2.0.11",
            "state": "same"
           },
           {
            "probe": "connector",
-           "label": "Database connector",
+           "label": "Databaseconnector",
            "left": "74194c79b0fc",
            "right": "74194c79b0fc",
            "state": "same"
           },
           {
            "probe": "layout_robot",
-           "label": "Layout robot",
+           "label": "Layoutrobot",
            "left": "0.30.0",
            "right": null,
            "state": "only_toolbox"
           },
           {
            "probe": "rule_checker",
-           "label": "Rule checker",
+           "label": "Regelchecker",
            "left": "0.0.0",
            "right": null,
            "state": "only_toolbox"
           },
           {
            "probe": "helper_tool",
-           "label": "Helper tool",
+           "label": "Hulptool",
            "left": "0.1.0",
            "right": null,
            "state": "only_toolbox"
           },
           {
            "probe": "pre_save_checks",
-           "label": "Pre-save checks",
+           "label": "Checks voor het opslaan",
            "left": "4.7.0",
            "right": null,
            "state": "only_toolbox"
@@ -486,102 +486,102 @@
      ]
     },
     {
-     "t": 2.1,
+     "t": 2.29,
      "actions": [
       {
-       "label": "Comparing the toolbox with production",
+       "label": "De toolbox vergelijken met productie",
        "status": "done",
-       "summary": "Compared a fresh toolbox with the package that runs in production.",
+       "summary": "Een verse toolbox vergeleken met het package dat in productie runt.",
        "details": "dbt-singlestore-dev:1.11.11 against dbt-vdp:v1.0.0\nReport builder (dbt): 2.0.11 | 2.0.11 | same\nDatabase connector (ADBC driver): build 74194c7 | build 74194c7 | same\nLayout robot (sqlfmt): 0.30.0 | not included | only_toolbox\nRule checker (dbt-bouncer): 0.0.0 | not included | only_toolbox\nHelper tool (vdp): 0.1.0 | not included | only_toolbox\nPre-save checks (pre-commit): 4.7.0 | not included | only_toolbox"
       }
      ],
      "evidence": [
       {
        "type": "result",
-       "title": "The toolbox next to production",
+       "title": "De toolbox naast productie",
        "data": {
-        "summary": "Compared a fresh toolbox with the package that runs in production.",
+        "summary": "Een verse toolbox vergeleken met het package dat in productie runt.",
         "details": "dbt-singlestore-dev:1.11.11 against dbt-vdp:v1.0.0\nReport builder (dbt): 2.0.11 | 2.0.11 | same\nDatabase connector (ADBC driver): build 74194c7 | build 74194c7 | same\nLayout robot (sqlfmt): 0.30.0 | not included | only_toolbox\nRule checker (dbt-bouncer): 0.0.0 | not included | only_toolbox\nHelper tool (vdp): 0.1.0 | not included | only_toolbox\nPre-save checks (pre-commit): 4.7.0 | not included | only_toolbox",
         "data": {
          "reasons": [
           {
-           "label": "Report builder",
-           "left": "version 2.0.11",
-           "right": "version 2.0.11",
+           "label": "Rapportbouwer",
+           "left": "versie 2.0.11",
+           "right": "versie 2.0.11",
            "same": true
           },
           {
-           "label": "Database connector",
-           "left": "the same build",
-           "right": "the same build",
+           "label": "Databaseconnector",
+           "left": "dezelfde build",
+           "right": "dezelfde build",
            "same": true
           },
           {
-           "label": "Layout robot",
-           "left": "version 0.30.0",
+           "label": "Layoutrobot",
+           "left": "versie 0.30.0",
            "right": null,
            "same": false
           },
           {
-           "label": "Rule checker",
-           "left": "installed",
+           "label": "Regelchecker",
+           "left": "geïnstalleerd",
            "right": null,
            "same": false
           },
           {
-           "label": "Helper tool",
-           "left": "version 0.1.0",
+           "label": "Hulptool",
+           "left": "versie 0.1.0",
            "right": null,
            "same": false
           },
           {
-           "label": "Pre-save checks",
-           "left": "version 4.7.0",
+           "label": "Checks voor het opslaan",
+           "left": "versie 4.7.0",
            "right": null,
            "same": false
           }
          ],
          "left_title": "Toolbox",
-         "right_title": "Production package",
+         "right_title": "Productiepackage",
          "tools": [
           {
            "probe": "report_builder",
-           "label": "Report builder",
+           "label": "Rapportbouwer",
            "left": "2.0.11",
            "right": "2.0.11",
            "state": "same"
           },
           {
            "probe": "connector",
-           "label": "Database connector",
+           "label": "Databaseconnector",
            "left": "74194c79b0fc",
            "right": "74194c79b0fc",
            "state": "same"
           },
           {
            "probe": "layout_robot",
-           "label": "Layout robot",
+           "label": "Layoutrobot",
            "left": "0.30.0",
            "right": null,
            "state": "only_toolbox"
           },
           {
            "probe": "rule_checker",
-           "label": "Rule checker",
+           "label": "Regelchecker",
            "left": "0.0.0",
            "right": null,
            "state": "only_toolbox"
           },
           {
            "probe": "helper_tool",
-           "label": "Helper tool",
+           "label": "Hulptool",
            "left": "0.1.0",
            "right": null,
            "state": "only_toolbox"
           },
           {
            "probe": "pre_save_checks",
-           "label": "Pre-save checks",
+           "label": "Checks voor het opslaan",
            "left": "4.7.0",
            "right": null,
            "state": "only_toolbox"
@@ -594,16 +594,16 @@
      ]
     }
    ],
-   "summary": "Compared a fresh toolbox with the package that runs in production.",
-   "outcome": "The lines marked \"the same\" are the tools production needs, and they match the toolbox. The other tools only exist in the toolbox.",
+   "summary": "Een verse toolbox vergeleken met het package dat in productie runt.",
+   "outcome": "De regels met \"hetzelfde\" zijn de tools die productie nodig heeft, en ze komen overeen met de toolbox. De andere tools bestaan enkel in de toolbox.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:26:44+00:00",
+   "recorded_at": "2026-11-21T22:12:45+00:00",
    "durations": [
-    2.2,
+    2.1,
+    2.1,
     2.4,
-    2.1,
-    2.1,
-    2.1
+    2.2,
+    2.3
    ],
    "show": [
     "result"
@@ -612,12 +612,12 @@
  },
  "prepare": {
   "durations": [
-   2.3,
-   5.8,
-   26.3,
    1.3,
-   26.4
+   26.4,
+   27.0,
+   26.9,
+   27.1
   ]
  },
- "recorded_at": "2026-11-16T07:26:44+00:00"
+ "recorded_at": "2026-11-21T22:12:45+00:00"
 }

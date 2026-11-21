@@ -1,4 +1,13 @@
+/* Concentric corners. The stop button sits the same distance (--pill-gap) from the pill's edge above, below and to the
+   right, and its radius is the pill's radius minus the border and that gap, so the two curves share one centre at every
+   text size (all lengths scale with the root size, --btn-h included). With these numbers the pill is a stadium and
+   the button a pill of its own; when the label wraps (a narrow window) the pill's radius stays the same, so the button
+   keeps following it. */
 .job {
+  --pill-border: 2px;
+  --pill-gap: 0.35rem;
+  --btn-h: max(2.5rem, 26px);
+  --pill-r: calc(var(--btn-h) / 2 + var(--pill-gap) + var(--pill-border));
   position: fixed;
   left: 50%;
   bottom: calc(var(--space-4) + var(--footer-reserve, 0px));
@@ -7,18 +16,21 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
-  padding: 0.3em 0.4em 0.3em 1em;
+  padding: var(--pill-gap) 1.1em var(--pill-gap) 1.1em;
+  width: max-content; /* not half the window (the pill starts at left: 50%) */
   max-width: calc(100vw - 2 * var(--space-4));
-  border-radius: 999px;
+  border-radius: var(--pill-r);
   background: var(--surface);
-  border: 2px solid var(--accent);
+  border: var(--pill-border) solid var(--accent);
   box-shadow: var(--shadow-lg);
   color: var(--ink);
   animation: rise var(--dur-med) var(--ease-out) both;
 }
+.withStop { padding-right: var(--pill-gap); }
 .label { font-weight: 600; font-size: var(--text-sm); min-width: 0; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .usual { font-weight: 400; color: var(--ink-2); }
 .time { font-size: var(--text-sm); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.job button { min-height: 2.5rem; padding: 0.2em 0.9em; font-size: var(--text-sm); white-space: nowrap; }
-@media (max-width: 560px) { .usual { display: none; } .label { white-space: normal; } .job { border-radius: var(--radius-xl); } }
+.job button { min-height: var(--btn-h); padding: 0.2em 1.1em; border-radius: calc(var(--pill-r) - var(--pill-border) - var(--pill-gap)); font-size: var(--text-sm); white-space: nowrap; flex: none; }
+/* a phone: the text may use several lines, and the time and the button move to a row of their own instead of squeezing it */
+@media (max-width: 560px) { .usual { display: none; } .job { flex-wrap: wrap; } .label { white-space: normal; flex: 1 1 60%; } .job button { margin-left: auto; } }
 @keyframes rise { from { opacity: 0; } to { opacity: 1; } }

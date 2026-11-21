@@ -1,0 +1,232 @@
+id: from-change-to-package
+kind: flow
+group: flows
+title: Van goedgekeurde wijziging tot een opgeslagen package
+promise: Een goedgekeurde wijziging krijgt een nummer, een package en een bewaarde beschrijving en blijft zo te volgen.
+minutes: 12
+tech: ["git tag (tag_dev / tag_main)", "dbt-vdp image", "target.tar.gz", "dbt-artifacts package", "--target collibra", "deployed.json"]
+environment: dev
+related:
+  - id: numbered-versions
+    why: Dat scenario toont het nummer en het package in één keer. Deze flow legt de keten stap voor stap uit en toont ook wat er opgeslagen wordt.
+  - id: docs-match-version
+    why: Dat scenario toont de live documentatie die de versie volgt. Deze flow bewaart ook de beschrijving van oudere versies.
+
+problem:
+  headline: Een wijziging wordt goedgekeurd, en niets zegt wat er daarna van werd
+  story: |
+    Op maandag wordt de wijziging van een developer goedgekeurd. Op vrijdag vraagt een analist in welke [[versie]] ze zit,
+    en of de beschrijving van het managementrapport van vorige week nog te lezen is. Niemand kan het zeggen. De oude versie
+    kan niet meer geopend worden, haar beschrijving is weg, de [[catalogus]] noemt tabellen met namen die enkel op de laptop
+    van een developer bestaan, en de kopie die development gebruikt, is gewoon een bestand zonder versie erop.
+  cost: Een cijfer van vorige week is niet terug te voeren op de versie die het maakte, en de catalogus stuurt mensen naar tabellen die niet bestaan.
+  visual:
+    type: compare
+    left:
+      title: Zonder de keten
+      state: bad
+      items:
+        - Wijzigingen zijn enkel gekend onder een referentiecode
+        - Oude versies kunnen niet meer geopend worden
+        - Een beschrijving verdwijnt zodra een nieuwere versie live gaat
+        - De catalogus noemt namen die niemand kan opvragen
+    right:
+      title: Met de keten
+      state: ok
+      items:
+        - Elke goedgekeurde wijziging heeft haar eigen nummer
+        - Elke versie is verzegeld in een package met haar tools
+        - De beschrijving van elke versie wordt bewaard in storage
+        - Het catalogusbestand bevat de echte tabelnamen
+    caption: Elke schakel rechts beantwoordt een vraag die links onbeantwoord blijft.
+
+idea:
+  headline: Elke schakel van de keten bewaart één antwoord voor later
+  points:
+    - Als een wijziging goedgekeurd wordt, krijgt ze het volgende nummer en worden haar code en tools in één package verzegeld.
+    - Op datzelfde moment wordt de beschrijving van die versie opgeslagen, met de echte tabelnamen, onder haar nummer.
+    - Elke [[omgeving]] houdt een notitie bij van precies welke versie er draait, zodat niemand moet raden wat live staat.
+  visual:
+    type: flow
+    nodes:
+      - {id: accepted, label: Goedgekeurde wijziging, state: ok, note: "Iemand keurt het werk goed"}
+      - {id: number, label: Een nummer, state: ok, note: "Automatisch gekozen"}
+      - {id: package, label: Verzegeld package, state: ok, note: "Code en tools samen"}
+      - {id: stored, label: Opgeslagen beschrijving, state: fix, note: "Bewaard onder het nummer"}
+      - {id: live, label: "Live, met een notitie", state: ok, note: "Zegt welke versie het is"}
+    links: [[accepted, number], [number, package], [package, stored], [stored, live]]
+    caption: Eén goedgekeurde wijziging laat een spoor na dat iedereen later kan volgen.
+
+code:
+  - title: Na elke goedgekeurde wijziging wordt een nummer gekozen
+    status: today
+    file: .gitlab-ci.yml
+    file_label: De instructies om een versie te nummeren
+    from: "latest_tag=$(git tag -l 'v*.*.*'"
+    to: "      fi"
+    max_lines: 12
+    notes:
+      - line: "latest_tag=$(git tag -l 'v*.*.*' | sort -V | tail -n 1)"
+        says: Het hoogste nummer dat tot nu toe gebruikt is, wordt opgezocht.
+      - line: 'new_tag="${major}.${minor}.$((patch + 1))"'
+        says: Een kleine fix verhoogt het laatste getal, bijvoorbeeld v1.0.1.
+  - title: De code en de tools worden in één package verzegeld
+    status: today
+    file: Dockerfile
+    file_label: Het recept van het package
+    from: "FROM ${BASE_IMAGE}"
+    to: "RUN dbt deps"
+    max_lines: 12
+    notes:
+      - line: "FROM ${BASE_IMAGE}"
+        says: Het package vertrekt van een kant-en-klare basis die de tools bevat.
+      - line: "ARG GIT_TAG=untagged"
+        says: Het versienummer wordt meegegeven wanneer het package gebuild wordt.
+      - line: "COPY --chown"
+        says: Alle code van deze versie wordt in het package gekopieerd.
+  - title: De beschrijving van de versie wordt onder haar nummer bewaard
+    status: today
+    file: .gitlab-ci.yml
+    file_label: De instructies om een versie op te slaan
+    from: "dbt compile --target collibra"
+    to: "dbt-artifacts/${CI_COMMIT_TAG}/target.tar.gz"
+    max_lines: 12
+    notes:
+      - line: "dbt compile --target collibra"
+        says: Het catalogusbestand wordt geschreven, met de echte tabelnamen.
+      - line: "dbt docs generate"
+        says: De documentatie van deze versie wordt ook geschreven.
+      - line: "--upload-file target.tar.gz"
+        says: Beide worden samen ingepakt en bewaard onder het nummer van de versie.
+  - title: Het catalogusbestand krijgt de gewone tabelnamen
+    status: today
+    file: macros/core/generate_alias_name.sql
+    file_label: De regel die elke tabel een naam geeft
+    from: '{%- if target.name == "collibra" -%}'
+    to: "{%- endif -%}"
+    max_lines: 12
+    notes:
+      - line: 'target.name == "collibra"'
+        says: Voor het catalogusbestand wordt de tabelnaam gebruikt zoals ze is.
+      - line: "{{ node.schema }}_"
+        says: Overal elders komt er een voorvoegsel voor, bijvoorbeeld dat van een developer.
+  - title: Een notitie naast de kopie van de omgeving zegt welke versie dat is
+    status: next
+    file: .gitlab-ci.yml
+    file_label: De instructies om een versie live te zetten
+    from: 'printf "{\"version\"'
+    to: "done'"
+    max_lines: 12
+    notes:
+      - line: "sha256sum target.tar.gz"
+        says: Er wordt een [[fingerprint]] van het opgeslagen bestand berekend.
+      - line: "> deployed.json"
+        says: Een kleine notitie naast de kopie bevat de versie, de fingerprint en het tijdstip.
+      - line: "dbt-artifacts-env"
+        says: De kopie en haar notitie worden bewaard onder de naam van de omgeving.
+
+demo:
+  intro: >-
+    Bij het klaarzetten wordt één kleine wijziging voorgesteld en goedgekeurd. Elke stap bekijkt daarna één schakel
+    van de keten. Vier schakels zijn al in gebruik. De notitie naast de kopie en de startpagina op het einde zijn volgende stappen: ze liepen hier al, maar het platform heeft ze nog niet.
+  setup:
+    - {action: gitlab.branch, name: demo/clearer-description, from: dev}
+    - {action: gitlab.commit, branch: demo/clearer-description, patch: report-description-meaning}
+    - {action: gitlab.merge_request, source: demo/clearer-description, target: dev, title: "Zeg in welke maand een bestelling geteld wordt"}
+    - {action: gitlab.merge, source: demo/clearer-description}
+    - {action: gitlab.wait_pipeline, for: "tag:^v", expect: success, timeout: 900}
+  steps:
+    - id: number
+      title: Welke wijziging werd welke versie?
+      feature: Een nummer voor elke goedgekeurde wijziging
+      status: today
+      tech: "tag_dev / tag_main"
+      say: De versies die tot nu toe gemaakt zijn, worden twee keer getoond. Eerst zoals ze zonder nummer gekend zijn, dan met nummer.
+      button: Toon beide lijsten
+      inputs: []
+      do:
+        - {id: codes, action: storage.versions, show: codes}
+        - {id: numbers, action: storage.versions, show: numbers}
+      show:
+        - {type: result, from_action: codes, title: "Zonder nummers", caption: "Kijk naar de referentiecodes: niets zegt welke wijziging nieuwer is, of welke development draait."}
+        - {type: result, from_action: numbers, title: "Met nummers", caption: "Kijk naar de nummers: een groter nummer is een nieuwere wijziging, en elk zegt wat het bevat."}
+        - {type: versions, title: "Versie in elke omgeving", caption: "Kijk naar de rij Development: ze draait één exact nummer."}
+      outcome: Elke goedgekeurde wijziging heeft haar eigen nummer, en het nummer zegt welke wijziging nieuwer is. Zonder nummer kan niemand zeggen welke wijziging een bepaald cijfer maakte.
+    - id: package
+      title: Het eerste en het nieuwste package openen
+      feature: Elke versie verzegeld in één package
+      status: today
+      tech: "build_image (dbt-vdp:<tag>)"
+      say: Een package bevat de code van één versie en de tools om ze te runnen, zodat een oude versie altijd te openen blijft. Hier openen we het eerste en het nieuwste naast elkaar.
+      button: Open beide packages
+      inputs: []
+      do:
+        - {action: package.open, versions: [baseline, latest]}
+      show:
+        - {type: result, title: "In de twee packages", caption: "Kijk naar de rijen: elk package draagt zijn eigen nummer en zijn eigen beschrijving, en de tools erin staan naast elkaar."}
+      outcome: Beide packages openen vandaag precies zoals ze gebuild werden, ook het oudere dat productie nog draait.
+    - id: description
+      title: Een beschrijving lezen die niet meer live staat
+      feature: Beschrijving van elke versie bewaard in storage
+      status: today
+      tech: "publish_artifacts (target.tar.gz)"
+      say: Development toont de nieuwste beschrijving van het managementrapport. De beschrijving van de eerste versie wordt gelezen uit [[storage]], waar elke versie de hare bewaart.
+      button: Lees alle drie
+      inputs: []
+      do:
+        - {id: live, action: docs.read_description, envs: [dev]}
+        - {id: first, action: storage.description, version: previous}
+        - {id: newest, action: storage.description, version: latest}
+      show:
+        - {type: result, from_action: live, title: "Wat development nu toont", caption: "Kijk naar de zin: de live pagina toont enkel de nieuwste beschrijving."}
+        - {type: result, from_action: first, title: "Opgeslagen bij de eerste versie", caption: "Kijk naar de zin: de oudere beschrijving is er nog, bewaard in storage."}
+        - {type: result, from_action: newest, title: "Opgeslagen bij de nieuwste versie", caption: "De nieuwste beschrijving is ook opgeslagen, naast de oudere."}
+      outcome: Nu de nieuwste versie live staat, is de beschrijving van de eerste versie nog te lezen. Zonder storage zou ze weg zijn.
+    - id: catalogue
+      title: De echte naam van een tabel opzoeken
+      feature: Catalogusitems met de echte tabelnamen
+      status: today
+      tech: "dbt compile --target collibra"
+      say: De catalogus is de lijst van tabellen waarin mensen zoeken. Drie tabellen worden opgezocht in het opgeslagen catalogusbestand en in de versie die een developer op de eigen computer klaarmaakt.
+      button: Vergelijk de namen
+      inputs: []
+      do:
+        - {action: storage.catalogue_names, version: latest, compare_with: "developer:pu_dev1"}
+      show:
+        - {type: result, title: "Drie tabellen, twee manieren", caption: "Kijk naar de twee kolommen met namen: het opgeslagen bestand heeft de namen zoals ze in de [[database]] staan, de eigen versie van een developer zet er een persoonlijk voorvoegsel voor."}
+      outcome:
+        check: "select 3 - count(*) from information_schema.tables where table_schema = '{{ db('im_dimensional') }}' and table_name in ('fct_olist_orders', 'dim_olist_customers', 'mart_olist_management_kpi')"
+        good_when: zero
+        good: Alle drie de tabellen bestaan in de database onder exact de namen van het catalogusbestand, dus een zoekopdracht in de catalogus leidt naar een tabel die echt bestaat.
+        not_quite: "{{ value }} van de drie tabellen staan niet in de database onder de namen van het catalogusbestand."
+    - id: copy
+      title: Welke versie is de kopie van development?
+      feature: Elke omgeving noteert welke versie ze draait
+      status: next
+      why: "Niemand kan bewijzen welke versie de cijfers van vandaag maakte, want de kopie die een omgeving draait, draagt geen versie."
+      tech: "dbt-artifacts-env + deployed.json"
+      say: Telkens een versie live gaat, vervangt haar opgeslagen bestand de vorige kopie van de omgeving, en niets op de kopie zegt welke versie het is. Een notitie met een [[fingerprint]] ernaast doet dat wel.
+      button: Lees de kopie en haar notitie
+      inputs: []
+      do:
+        - {id: thecopy, action: storage.environment_copy, show: copy}
+        - {id: thenote, action: storage.environment_copy, show: note, expect_match: true}
+        - {id: thestored, action: storage.versions, show: stored}
+      show:
+        - {type: result, from_action: thecopy, title: "De kopie zoals ze is", caption: "Kijk naar de tweede en derde regel: een tijdstip en een grootte, maar geen versie."}
+        - {type: result, from_action: thenote, title: "De notitie naast de kopie", caption: "Kijk naar de fingerprints: de kopie is gelijk aan het opgeslagen bestand van één versie."}
+        - {type: result, from_action: thestored, title: "De versies in storage", caption: "Elke versie bewaart haar eigen bestand. De kopie verving de vorige, dus ze heeft haar notitie nodig."}
+      outcome: De fingerprint in de notitie is gelijk aan het opgeslagen bestand van precies de versie die de notitie noemt, dus ze bewijst welke versie development draait. Zonder notitie kan niemand bewijzen welke versie de cijfers van vandaag maakte.
+    - id: all
+      title: Alle schakels in één keer
+      tech: "tag pipeline: build, publish, deploy"
+      say: "De wijziging die bij het klaarzetten goedgekeurd werd, liep vanzelf door elke schakel: niemand schreef een nummer, een beschrijving of de startpagina van de documentatie. De notitie naast de kopie en de startpagina zijn volgende stappen."
+      button: Toon de hele reis
+      inputs: []
+      do:
+        - {id: page, action: docs.read_front_page, expect: running}
+      show:
+        - {type: pipeline, for: "tag:^v", title: "De reis van de goedgekeurde wijziging", caption: "Kijk naar de drie stappen nadat het nummer gekozen was: het package van de versie werd gemaakt, haar beschrijving in storage opgeslagen en de versie gedeployd."}
+        - {type: result, from_action: page, title: "De startpagina van de documentatie", caption: "Kijk naar de tweede regel: de pagina noemt de versie die draait, geschreven door dezelfde reis."}
+        - {type: versions, title: "Versie in elke omgeving", caption: "Kijk naar de rij Development: ze draait de versie die net genummerd werd."}
+      outcome: Eén goedgekeurde wijziging werd genummerd, verpakt, opgeslagen en gedeployd zonder dat iemand iets met de hand deed. De startpagina schreef zich hier ook vanzelf, maar die schakel is, net als de notitie naast de kopie, een volgende stap.

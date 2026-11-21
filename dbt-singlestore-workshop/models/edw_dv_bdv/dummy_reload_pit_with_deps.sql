@@ -6,6 +6,8 @@
     )
 }}
 
+-- The hooks in dummy_reload.yml write to dummy_load_cycles: build that table first.
+-- depends_on: {{ ref("dummy_load_cycles") }}
 select
     d.datum_id :> integer(8) as pit_key,
     h.last_loaded_date :> date as last_loaded_date,

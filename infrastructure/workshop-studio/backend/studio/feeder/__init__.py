@@ -14,6 +14,7 @@ import threading
 from datetime import date, datetime, time, timedelta
 from typing import Any, Callable
 
+from ..names import ENV_WORDS
 from .conditions import FEED_TABLES, FEEDS, Conditions
 from .generator import arrivals
 from .writer import ALL_TABLES, ENVIRONMENTS, SEEDED_MIN_DAYS, Writer
@@ -163,7 +164,7 @@ class Feeder:
             now = self._now()
             first = now.date() - timedelta(days=days)
             self.writer.truncate(env, tables)
-            say(f"Emptied the {env} data tables; writing {days} days of history.")
+            say(f"De datatabellen van {ENV_WORDS.get(env, env)} zijn leeggemaakt; er worden {days} dagen historiek geschreven.")
             baseline = Conditions.default()
             totals = {t: 0 for t in tables}
             batch: dict[str, list] = {t: [] for t in tables}
@@ -176,7 +177,7 @@ class Feeder:
                     for table, count in self.writer.insert(env, batch).items():
                         totals[table] += count
                     batch = {t: [] for t in tables}
-                    say(f"Wrote {n + 1} of {days + 1} days of history to {env}.")
+                    say(f"{n + 1} van {days + 1} dagen historiek naar {ENV_WORDS.get(env, env)} geschreven.")
             if len(chosen) == len(FEEDS):
                 state["first_day"] = first.isoformat()
             else:

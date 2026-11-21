@@ -37,7 +37,7 @@ export function MailView({ data, recorded = false }: { data: MailData; recorded?
   const root = typeof document === 'undefined' ? 16 : parseFloat(getComputedStyle(document.documentElement).fontSize) || 16
   const px = Math.max(15, Math.round(root * 0.8))
   const doc = useMemo(() => (mail ? `<!doctype html><meta charset="utf-8">${CSP}${base(px)}${mail.html}` : ''), [mail, px])
-  if (!mail) return <EmptyNote>{(!data.found && data.empty) || 'No message has arrived yet.'}</EmptyNote>
+  if (!mail) return <EmptyNote>{(!data.found && data.empty) || 'Er is nog geen mail binnengekomen.'}</EmptyNote>
   const empty = !mail.html.trim()
   const max = Math.max(8 * root, Math.floor(winH * MAX_SHARE))
   // as tall as the mail, up to 70 % of the window, then the frame scrolls on its own
@@ -52,24 +52,24 @@ export function MailView({ data, recorded = false }: { data: MailData; recorded?
     <div className={styles.wrap}>
       <div className={styles.mail}>
         <dl className={styles.head}>
-          <dt>Subject</dt>
+          <dt>Onderwerp</dt>
           <dd className={styles.subject}>{mail.subject}</dd>
-          <dt>From</dt>
+          <dt>Van</dt>
           <dd>{mail.from}</dd>
           {mail.received && (
             <>
-              <dt>Received</dt>
-              <dd>{recorded ? `${formatWhen(mail.received)} (in the recording)` : formatAgo(mail.received)}</dd>
+              <dt>Ontvangen</dt>
+              <dd>{recorded ? `${formatWhen(mail.received)} (in de opname)` : formatAgo(mail.received)}</dd>
             </>
           )}
         </dl>
         {empty ? (
-          <p className={styles.empty}>The message has no text.</p>
+          <p className={styles.empty}>De mail bevat geen tekst.</p>
         ) : (
           <iframe
             className={styles.frame}
             style={height ? { height } : undefined}
-            title={`Message: ${mail.subject}`}
+            title={`Mail: ${mail.subject}`}
             tabIndex={scrolls ? 0 : -1}
             sandbox="allow-same-origin"
             srcDoc={doc}
@@ -81,13 +81,13 @@ export function MailView({ data, recorded = false }: { data: MailData; recorded?
       {!empty && (
         <div>
           <Button icon={<ExternalIcon size="0.9em" />} onClick={() => setFull(true)}>
-            Open the mail full size
+            Mail op volledige grootte openen
           </Button>
         </div>
       )}
-      <Dialog open={full} title="The mail, full size" onClose={() => setFull(false)} size="full" initialFocus="dialog" actions={<Button variant="primary" onClick={() => setFull(false)}>Close</Button>}>
+      <Dialog open={full} title="De mail, op volledige grootte" onClose={() => setFull(false)} size="full" initialFocus="dialog" actions={<Button variant="primary" onClick={() => setFull(false)}>Sluiten</Button>}>
         <p className={styles.fullSubject}>{mail.subject}</p>
-        <iframe className={styles.fullFrame} title={`Message, full size: ${mail.subject}`} sandbox="allow-same-origin" srcDoc={doc} referrerPolicy="no-referrer" tabIndex={0} />
+        <iframe className={styles.fullFrame} title={`Mail, op volledige grootte: ${mail.subject}`} sandbox="allow-same-origin" srcDoc={doc} referrerPolicy="no-referrer" tabIndex={0} />
       </Dialog>
     </div>
   )

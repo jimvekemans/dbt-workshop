@@ -25,4 +25,4 @@
 .toggle { font: inherit; font-size: var(--text-sm); font-weight: 600; color: var(--accent-text); background: none; border: 0; text-decoration: underline; cursor: pointer; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); min-height: 2rem; }
 .neutral { grid-area: status; justify-self: end; padding: 0.1em 0.75em; border-radius: 999px; background: var(--idle-bg); border: 1px solid var(--idle-line); color: var(--ink-2); font-size: var(--text-sm); font-weight: 600; white-space: nowrap; }
 .part { display: inline-block; margin-right: var(--space-2); padding: 0 0.6em; border-radius: 999px; background: var(--accent-soft); color: var(--accent-text); font-size: var(--text-sm); font-weight: 700; white-space: nowrap; }
-.toggle { min-height: 2.5rem; }
+.toggle { min-height: max(2.5rem, 26px); }

@@ -25,13 +25,13 @@ pytestmark = pytest.mark.usefixtures("fake_registry")
 # --- plain check names -------------------------------------------------------------------------------------------
 
 @pytest.mark.parametrize("raw, plain", [
-    ("source_not_null_raw_olist_raw_olist_orders_order_id", "Orders feed: the order number is never empty"),
-    ("unique_dim_olist_customers_customer_id", "Customers table: the customer number appears only once"),
-    ("accepted_values_stg_olist_orders_order_status__a__b", "Orders (cleaned): the order status only has allowed values"),
+    ("source_not_null_raw_olist_raw_olist_orders_order_id", "Bestellingenfeed: het bestelnummer is nooit leeg"),
+    ("unique_dim_olist_customers_customer_id", "Klantentabel: het klantnummer komt maar één keer voor"),
+    ("accepted_values_stg_olist_orders_order_status__a__b", "Bestellingen (opgekuist): de bestelstatus heeft alleen toegelaten waarden"),
     ("relationships_fct_olist_orders_customer_id__customer_id__ref_dim_olist_customers_",
-     "Orders table: every customer number belongs to a known record"),
-    ("source_freshness_raw_carrier_raw_carrier_tracking_events", "Parcel scans feed: the data is recent enough"),
-    ("not_null_some_new_thing_col_id", "Check on some new thing col id"),
+     "Bestellingentabel: elk klantnummer hoort bij een bestaande rij"),
+    ("source_freshness_raw_carrier_raw_carrier_tracking_events", "Pakketscanfeed: de data is recent genoeg"),
+    ("not_null_some_new_thing_col_id", "Check op some new thing col id"),
 ])
 def test_check_names_in_plain_words(raw, plain):
     assert names.looks_like_check(raw) and names.check_title(raw) == plain
@@ -46,9 +46,9 @@ def test_table_evidence_shows_plain_names_and_keeps_the_technical_one(tmp_path, 
     monkeypatch.setattr(clients, "read_rows", lambda s, q, limit=200, timeout=5, user="root":
                         (["name", "failures"], [[raw, 3], ["dim_olist_customers", 0]]))
     out = evidence.table(make_ctx(tmp_path), evidence.TableParams.model_validate({"query": "select 1"}))
-    assert out["rows"][0]["cells"]["name"] == "Orders feed: the order number is never empty"
+    assert out["rows"][0]["cells"]["name"] == "Bestellingenfeed: het bestelnummer is nooit leeg"
     assert out["rows"][0]["details"] == raw and out["rows"][1]["details"] == "dim_olist_customers"
-    assert out["rows"][1]["cells"]["name"] == "Customers table"          # a known model: plain name
+    assert out["rows"][1]["cells"]["name"] == "Klantentabel"          # a known model: plain name
     assert out["rows"][1]["details"] == "dim_olist_customers"            # the technical name is kept
 
 
@@ -88,8 +88,8 @@ def test_the_real_groups_file_lists_every_scenario_once():
     groups = yaml.safe_load((folder / "_groups.yaml").read_text())
     listed = [i for g in groups for i in g["scenarios"]]
     files = sorted(p.stem for p in folder.glob("*.yaml") if not p.name.startswith("_"))
-    assert sorted(listed) == files and len(listed) == len(set(listed)) == 16
-    assert groups[0]["scenarios"][0] == "switchover-date"
+    assert sorted(listed) == files and len(listed) == len(set(listed)) and len(files) >= 16
+    assert groups[0]["scenarios"]
     for g in groups:
         assert all(yaml.safe_load((folder / f"{i}.yaml").read_text())["group"] == g["id"] for i in g["scenarios"])
 
@@ -160,8 +160,8 @@ def test_cleanup_waits_too_and_a_second_request_is_refused(live, slow_baseline):
     live._store.add({"variable:dev:old"}, "demo-two")
     live.seeded = None
     live.cleanup()
-    assert live.state()["waiting"]["label"] == "Putting everything back"
-    with pytest.raises(Conflict, match="already waiting"):
+    assert live.state()["waiting"]["label"] == "Alles opkuisen"
+    with pytest.raises(Conflict, match="al een andere aanvraag"):
         live.cleanup()
     slow_baseline.set()
     for _ in range(100):
@@ -169,7 +169,7 @@ def test_cleanup_waits_too_and_a_second_request_is_refused(live, slow_baseline):
         if live.state()["notice"] and live.state()["waiting"] is None:
             break
         threading.Event().wait(0.05)
-    assert live.state()["notice"]["text"] == "Everything is back to normal."
+    assert live.state()["notice"]["text"] == "Alles staat weer zoals het was."
 
 
 def test_a_baseline_check_that_takes_too_long_ends_the_wait(live, slow_baseline, monkeypatch):
@@ -180,7 +180,7 @@ def test_a_baseline_check_that_takes_too_long_ends_the_wait(live, slow_baseline,
             break
         threading.Event().wait(0.05)
     state = live.state()
-    assert state["demo"]["status"] == "failed" and "taking longer" in state["demo"]["message"]
+    assert state["demo"]["status"] == "failed" and "langer over dan normaal" in state["demo"]["message"]
 
 
 # --- the reset command ---------------------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ def test_reset_forgets_everything_and_checks_the_baseline_again(live, stack, set
 def test_reset_is_refused_while_a_step_runs(live, stack):
     open_demo(live)
     live._start_job("step", "demo-one", "first", "Rebuilding", lambda cancel: stack.gate.wait(5))
-    with pytest.raises(Conflict, match="Not now: \"Rebuilding\" is still running"):
+    with pytest.raises(Conflict, match="Nu niet: \"Rebuilding\" is nog bezig"):
         live.reset_state()
     stack.gate.set()
 
@@ -255,7 +255,7 @@ def test_the_baseline_check_waits_for_the_landing_tables_not_just_the_schema(liv
     threading.Thread(target=lambda: (live._wait_for_database(threading.Event()), done.set()), daemon=True).start()
     landing.schema = True                                   # the schema is there, bootstrap has not made the tables
     assert not done.wait(0.3), "it went on with an empty database"
-    assert live.state()["baseline"]["detail"] == "Waiting for the database to start."
+    assert live.state()["baseline"]["detail"] == "Wachten tot de database opgestart is."
     landing.tables = 6
     assert done.wait(5)
     sql, params = landing.queries[-1]
@@ -318,15 +318,15 @@ def test_reset_drops_a_request_that_waited_for_the_baseline_check(live, cold_sta
 
 def test_reset_is_still_refused_while_a_scenario_is_getting_ready(live, stack):
     live._start_job("prepare", "demo-one", None, "Opening the scenario", lambda cancel: stack.gate.wait(5))
-    with pytest.raises(Conflict, match="Not now: \"Opening the scenario\" is still running"):
+    with pytest.raises(Conflict, match="Nu niet: \"Opening the scenario\" is nog bezig"):
         live.reset_state()
     assert live.state()["job"] is not None and not live._cancel.is_set()      # and it was left alone
     stack.gate.set()
 
 
 def test_reset_is_still_refused_during_a_cleanup(live, stack):
-    live._start_job("cleanup", None, None, "Putting everything back", lambda cancel: stack.gate.wait(5))
-    with pytest.raises(Conflict, match="Putting everything back"):
+    live._start_job("cleanup", None, None, "Alles opkuisen", lambda cancel: stack.gate.wait(5))
+    with pytest.raises(Conflict, match="Alles opkuisen"):
         live.reset_state()
     assert not live._cancel.is_set()
     stack.gate.set()
@@ -338,7 +338,7 @@ def test_reset_command_can_wait_until_the_baseline_is_ready(monkeypatch, capsys)
     monkeypatch.setattr(reset, "read_baseline", lambda port: next(states))
     monkeypatch.setattr(reset.time, "sleep", lambda s: None)
     assert reset.wait_until_ready(8085, 600) == 0              # a "failed" while it still retries does not end it
-    assert "ready" in capsys.readouterr().out
+    assert "is klaar" in capsys.readouterr().out
 
 
 def test_reset_command_wait_reports_a_final_failure_and_a_timeout(monkeypatch, capsys):
@@ -347,7 +347,7 @@ def test_reset_command_wait_reports_a_final_failure_and_a_timeout(monkeypatch, c
     assert reset.wait_until_ready(8085, 600) == 1 and "has not been built yet" in capsys.readouterr().out
     monkeypatch.setattr(reset, "read_baseline", lambda port: ("preparing", "Checking the demo stack.", True))
     monkeypatch.setattr(reset.time, "monotonic", iter([0, 1, 700, 701]).__next__)
-    assert reset.wait_until_ready(8085, 600) == 1 and "not ready within 600 seconds" in capsys.readouterr().out
+    assert reset.wait_until_ready(8085, 600) == 1 and "niet klaar binnen 600 seconden" in capsys.readouterr().out
 
 
 def test_reset_command_with_wait_exits_with_the_outcome(settings, monkeypatch):

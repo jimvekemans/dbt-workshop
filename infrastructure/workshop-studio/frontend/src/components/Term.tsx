@@ -18,8 +18,15 @@ export function TermProvider({ glossary, children }: { glossary: Record<string, 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }
 
+/** Inside this, a [[term]] is only its word, never a button: for a drawing that sits under a link or is only a preview. */
+const PlainCtx = createContext(false)
+export function PlainTerms({ children }: { children: ReactNode }) {
+  return <PlainCtx.Provider value={true}>{children}</PlainCtx.Provider>
+}
+
 export function Term({ term, label }: { term: string; label?: string }) {
   const { glossary, openId, setOpenId } = useContext(Ctx)
+  const plain = useContext(PlainCtx)
   const id = useId()
   const btn = useRef<HTMLButtonElement>(null)
   const pop = useRef<HTMLSpanElement>(null)
@@ -83,7 +90,7 @@ export function Term({ term, label }: { term: string; label?: string }) {
   }, [open])
 
   const shown = label ?? term
-  if (!explanation) return <>{shown}</>
+  if (!explanation || plain) return <>{shown}</>
 
   return (
     <span className={styles.wrap}>
@@ -99,13 +106,13 @@ export function Term({ term, label }: { term: string; label?: string }) {
       </button>
       {open &&
         createPortal(
-          <span ref={pop} id={id} role="dialog" aria-label={`What "${term}" means`} className={styles.pop} style={pos ?? { left: 0, top: 0, visibility: 'hidden' }}>
+          <span ref={pop} id={id} role="dialog" aria-label={`Wat “${term}” betekent`} className={styles.pop} style={pos ?? { left: 0, top: 0, visibility: 'hidden' }}>
             <span className={styles.popTitle}>{term}</span>
             <span className={styles.popText}>{explanation}</span>
             <span className={styles.popFoot}>
-              <span aria-hidden="true">Esc closes this</span>
+              <span aria-hidden="true">Esc sluit dit</span>
               <button type="button" className={styles.popClose} onClick={() => { close(); btn.current?.focus() }}>
-                Close
+                Sluiten
               </button>
             </span>
           </span>,

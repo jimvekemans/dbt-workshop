@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="nl-BE">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,7 +11,7 @@
         var t = localStorage.getItem('studio-theme');
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
         // the chosen text size, before the first paint (the same table as src/lib/textSize.ts)
-        var z = { xsmall: 0.65, small: 0.75, medium: 0.85, large: 1, xlarge: 1.15 }[localStorage.getItem('studio-text-size')];
+        var z = { xsmall: 0.45, small: 0.55, medium: 0.65, large: 0.75, xlarge: 0.85 }[localStorage.getItem('studio-text-size-v2')];
         if (z) document.documentElement.style.setProperty('--text-scale', z);
       } catch (e) {}
     </script>

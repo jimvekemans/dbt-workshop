@@ -234,6 +234,10 @@ ca_certificate = ""              # empty: no CA file; `vdp env doctor` does not 
 vault_url = ""
 ```
 
+The workshop's own `vdp.toml` (`dbt-singlestore-workshop/vdp.toml`) is a working example with Vault: `vault_mount = "kv-workshop"`,
+`precedence = ["vault:vdp/{env_short}/dbt", "dotenv", "env"]`, `vault_url = "http://vault:8200"` in the three environments and the
+AppRole ids read from `KEYVAULT_ROLE_ID` / `KEYVAULT_SECRET_ID`; without those two variables Vault is skipped.
+
 **Placeholders.** `{env}` and `{env_short}` are replaced in the Vault paths of `[secrets].precedence` and in `[qa].run_results_table`:
 `{env}` is the lower-case canonical name (`ldv`, `abt`, `cbt`, `prd`), `{env_short}` the short name (`dev`, `val`, `cbt`, `prd`; a custom
 environment's lower-case name for both). A project whose databases are prefixed `dev_`, `val_`, `prd_` uses `{env_short}`:

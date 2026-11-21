@@ -9,7 +9,7 @@ export interface Health {
   leftovers: number
   /** Something the presenter should look at: Details opens by itself. */
   attention: boolean
-  /** "Demo system: ready", the warning sentence, or '' when only the practice-system line is shown. */
+  /** "Oefensysteem: klaar", the warning sentence, or '' when only the practice-system line is shown. */
   headline: string
   /** The headline is a warning (a thing is not running). */
   warn: boolean
@@ -24,10 +24,10 @@ export function health(server: ServerState): Health {
   if (server.waiting) baselineLine = server.waiting.text
   else if (b.status === 'preparing') {
     const now = b.progress.find((p) => p.status === 'running') ?? b.progress.find((p) => p.status === 'todo')
-    baselineLine = `Getting the practice system ready${now ? `: ${envWords(now.label)}` : ''}`
-  } else if (b.status === 'failed') baselineLine = 'The practice system could not be made ready'
-  else if (b.status === 'missing') baselineLine = 'The practice system has not been checked yet'
+    baselineLine = `Het oefensysteem wordt klaargezet${now ? `: ${envWords(now.label)}` : ''}`
+  } else if (b.status === 'failed') baselineLine = 'Het oefensysteem kon niet klaargezet worden'
+  else if (b.status === 'missing') baselineLine = 'Het oefensysteem is nog niet nagekeken'
   const leftovers = server.leftovers.length
-  const headline = notRunning > 0 ? `${notRunning} of ${total} things the demos need are not running` : baselineLine ? '' : 'Demo system: ready'
+  const headline = notRunning > 0 ? `${notRunning} van de ${total} dingen die de demo's nodig hebben, draaien niet` : baselineLine ? '' : 'Oefensysteem: klaar'
   return { total, notRunning, baselineLine, leftovers, attention: notRunning > 0 || baselineLine !== null || leftovers > 0, headline, warn: notRunning > 0 }
 }

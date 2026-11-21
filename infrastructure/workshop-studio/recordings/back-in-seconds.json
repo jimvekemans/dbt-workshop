@@ -5,7 +5,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 1.27,
+     "t": 1.3,
      "actions": [],
      "evidence": [
       {
@@ -34,7 +34,7 @@
      ]
     },
     {
-     "t": 1.27,
+     "t": 1.3,
      "actions": [
       {
        "label": "Reading the numbers",
@@ -70,7 +70,7 @@
      ]
     },
     {
-     "t": 1.27,
+     "t": 1.3,
      "actions": [
       {
        "label": "Reading the numbers",
@@ -106,7 +106,7 @@
      ]
     },
     {
-     "t": 2.27,
+     "t": 2.3,
      "actions": [
       {
        "label": "Reading the numbers",
@@ -142,7 +142,7 @@
      ]
     },
     {
-     "t": 3.57,
+     "t": 3.58,
      "actions": [
       {
        "label": "Reading the numbers",
@@ -178,7 +178,7 @@
      ]
     },
     {
-     "t": 3.57,
+     "t": 3.58,
      "actions": [
       {
        "label": "Reading the numbers",
@@ -217,11 +217,11 @@
    "summary": "Reading which version each environment runs.",
    "outcome": "Development runs v1.0.1, the newest version.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:29:31+00:00",
+   "recorded_at": "2026-11-21T19:54:40+00:00",
    "durations": [
     3.6,
     3.6,
-    3.6,
+    3.8,
     3.6,
     3.6
    ],
@@ -233,7 +233,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 1.3,
+     "t": 1.29,
      "actions": [],
      "evidence": [
       {
@@ -271,7 +271,7 @@
      ]
     },
     {
-     "t": 1.3,
+     "t": 1.29,
      "actions": [
       {
        "label": "Putting the previous version live",
@@ -316,7 +316,7 @@
      ]
     },
     {
-     "t": 2.47,
+     "t": 2.48,
      "actions": [
       {
        "label": "Putting the previous version live",
@@ -361,7 +361,7 @@
      ]
     },
     {
-     "t": 2.72,
+     "t": 2.71,
      "actions": [
       {
        "label": "Putting the previous version live",
@@ -406,7 +406,7 @@
      ]
     },
     {
-     "t": 4.59,
+     "t": 4.6,
      "actions": [
       {
        "label": "Putting the previous version live",
@@ -451,7 +451,7 @@
      ]
     },
     {
-     "t": 5.05,
+     "t": 4.94,
      "actions": [
       {
        "label": "Putting the previous version live",
@@ -496,7 +496,7 @@
      ]
     },
     {
-     "t": 6.26,
+     "t": 6.18,
      "actions": [
       {
        "label": "Putting the previous version live",
@@ -541,7 +541,7 @@
      ]
     },
     {
-     "t": 7.53,
+     "t": 7.48,
      "actions": [
       {
        "label": "Putting the previous version live",
@@ -588,7 +588,7 @@
      ]
     },
     {
-     "t": 7.53,
+     "t": 7.48,
      "actions": [
       {
        "label": "Putting the previous version live",
@@ -638,12 +638,12 @@
    "summary": "Development now runs version v1.0.0.",
    "outcome": "Development runs v1.0.0 again. Only the version number was changed.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:29:39+00:00",
+   "recorded_at": "2026-11-21T19:54:48+00:00",
    "durations": [
-    7.2,
-    7.4,
-    8.0,
     7.7,
+    7.5,
+    7.6,
+    7.4,
     7.5
    ],
    "show": [
@@ -655,7 +655,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 1.28,
+     "t": 1.29,
      "actions": [],
      "evidence": [
       {
@@ -684,7 +684,7 @@
      ]
     },
     {
-     "t": 1.28,
+     "t": 1.29,
      "actions": [
       {
        "label": "Putting the newest version live",
@@ -720,7 +720,7 @@
      ]
     },
     {
-     "t": 2.42,
+     "t": 2.45,
      "actions": [
       {
        "label": "Putting the newest version live",
@@ -756,7 +756,7 @@
      ]
     },
     {
-     "t": 2.67,
+     "t": 2.69,
      "actions": [
       {
        "label": "Putting the newest version live",
@@ -792,7 +792,7 @@
      ]
     },
     {
-     "t": 4.6,
+     "t": 4.61,
      "actions": [
       {
        "label": "Putting the newest version live",
@@ -828,7 +828,7 @@
      ]
     },
     {
-     "t": 4.94,
+     "t": 4.91,
      "actions": [
       {
        "label": "Putting the newest version live",
@@ -864,7 +864,7 @@
      ]
     },
     {
-     "t": 6.18,
+     "t": 6.14,
      "actions": [
       {
        "label": "Putting the newest version live",
@@ -900,7 +900,7 @@
      ]
     },
     {
-     "t": 7.46,
+     "t": 7.42,
      "actions": [
       {
        "label": "Putting the newest version live",
@@ -936,7 +936,7 @@
      ]
     },
     {
-     "t": 7.46,
+     "t": 7.42,
      "actions": [
       {
        "label": "Putting the newest version live",
@@ -975,13 +975,13 @@
    "summary": "Development now runs version v1.0.1.",
    "outcome": "Development runs v1.0.1 again. Going back and going forward are the same kind of step.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:29:46+00:00",
+   "recorded_at": "2026-11-21T19:54:55+00:00",
    "durations": [
-    7.2,
     7.3,
-    7.8,
-    7.3,
-    7.5
+    7.5,
+    7.7,
+    7.5,
+    7.4
    ],
    "show": [
     "versions"
@@ -990,12 +990,12 @@
  },
  "prepare": {
   "durations": [
-   32.7,
-   27.3,
-   28.1,
    32.9,
-   32.8
+   32.8,
+   43.8,
+   50.1,
+   57.9
   ]
  },
- "recorded_at": "2026-11-16T07:29:46+00:00"
+ "recorded_at": "2026-11-21T19:54:55+00:00"
 }

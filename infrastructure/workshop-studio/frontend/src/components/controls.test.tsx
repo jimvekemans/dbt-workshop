@@ -33,12 +33,12 @@ describe('Slider: a click on the track', () => {
 
 describe('DayPicker: today, how long ago, the marked day', () => {
   const props = { label: 'Switch on', min: '2026-03-11', max: '2026-03-18', value: '2026-03-14', onChange: () => {} }
-  it('labels the last day "(today)", says "4 days ago", and keeps its text readable when disabled', () => {
+  it('labels the last day "vandaag", says "4 dagen geleden", and keeps its text readable when disabled', () => {
     render(<DayPicker {...props} disabled />)
-    expect(screen.getByText('today')).toBeInTheDocument()
-    expect(screen.getByText('4 days ago')).toBeInTheDocument()
-    expect(screen.getByText('Saturday')).toBeInTheDocument()
-    expect(screen.getByRole('slider')).toHaveAttribute('aria-valuetext', 'Saturday 14 March 2026, 4 days ago')
+    expect(screen.getByText('vandaag')).toBeInTheDocument()
+    expect(screen.getByText('4 dagen geleden')).toBeInTheDocument()
+    expect(screen.getByText('zaterdag')).toBeInTheDocument()
+    expect(screen.getByRole('slider')).toHaveAttribute('aria-valuetext', 'zaterdag 14 maart 2026, 4 dagen geleden')
   })
   it('shows the tick for the day the scenario names, with its words', () => {
     render(<DayPicker {...props} mark={{ day: '2026-03-14', label: 'The real change day' }} />)
@@ -54,7 +54,7 @@ describe('Toggle and InputField', () => {
   it('has a name without its state; the state is shown beside it and is not read twice', () => {
     render(<Toggle label="Send the mail" checked={false} onChange={() => {}} />)
     expect(screen.getByRole('switch', { name: 'Send the mail' })).toBeInTheDocument()
-    expect(screen.getByText('Off')).toHaveAttribute('aria-hidden', 'true')
+    expect(screen.getByText('Uit')).toHaveAttribute('aria-hidden', 'true')
   })
   const toggle: StepInput = { id: 'f', type: 'toggle', label: 'Extra check', help: { on: 'It runs.', off: 'It is skipped.' }, default: false }
   it('shows the help for the current state of a toggle', () => {
@@ -79,15 +79,15 @@ describe('ModeDialog: the mouse works on the visible text', () => {
   it('switches to the recorded replay by clicking its text', async () => {
     const { push, backend } = mount(<ModeDialog open onClose={() => {}} />, null)
     await push(baseServer)
-    expect(screen.getByRole('dialog', { name: 'Change how the demos run' })).toBeInTheDocument()
-    fireEvent.click(screen.getByText('Recorded replay'))
+    expect(screen.getByRole('dialog', { name: 'Wijzig hoe de demo\'s draaien' })).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Opname'))
     expect(backend.setMode).toHaveBeenCalledWith('replay')
-    expect(screen.getByText(/Every button does the real thing/)).toBeInTheDocument()
+    expect(screen.getByText(/Elke knop doet het echte werk/)).toBeInTheDocument()
   })
   it('cannot be switched while work is running, and says so', async () => {
     const { push } = mount(<ModeDialog open onClose={() => {}} />, null)
     await push({ ...baseServer, job: { kind: 'step', scenario: 'a', step: 'b', label: 'x', started: 1, cancellable: true } })
-    expect(screen.getByText('You can switch once the current work has finished.')).toBeInTheDocument()
+    expect(screen.getByText('Je kan wisselen zodra het huidige werk klaar is.')).toBeInTheDocument()
     expect(screen.getByRole('radio', { name: 'Live' }).closest('fieldset')).toHaveAttribute('disabled')
   })
 })

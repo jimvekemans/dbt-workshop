@@ -1,0 +1,877 @@
+{
+ "scenario": "docs-front-page",
+ "steps": {
+  "before": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.29,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Front page of development",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.29,
+     "actions": [
+      {
+       "label": "Reading the front page of the documentation of development",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Front page of development",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.44,
+     "actions": [
+      {
+       "label": "Reading the front page of the documentation of development",
+       "status": "done",
+       "summary": "Read the front page of the documentation of development.",
+       "details": "dev: version v1.0.0 (runs v1.0.0) written 2026-11-21T19:56:56Z tables 30 checks 36 feeds 14 teams 7"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Front page of development",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.72,
+     "actions": [
+      {
+       "label": "Reading the front page of the documentation of development",
+       "status": "done",
+       "summary": "Read the front page of the documentation of development.",
+       "details": "dev: version v1.0.0 (runs v1.0.0) written 2026-11-21T19:56:56Z tables 30 checks 36 feeds 14 teams 7"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Front page of development",
+       "data": {
+        "summary": "Read the front page of the documentation of development.",
+        "details": "dev: version v1.0.0 (runs v1.0.0) written 2026-11-21T19:56:56Z tables 30 checks 36 feeds 14 teams 7",
+        "data": {
+         "reasons": [
+          "Development: the front page names version v1.0.0, written 21 November, 20:56:56.",
+          "It counts 30 tables, 36 checks, 14 feeds, and lists 7 teams."
+         ],
+         "pages": [
+          {
+           "env": "dev",
+           "label": "Development",
+           "running": "v1.0.0",
+           "written": true,
+           "version": "v1.0.0",
+           "written_at": "2026-11-21T19:56:56Z",
+           "with_seconds": true,
+           "tables": 30,
+           "checks": 36,
+           "feeds": 14,
+           "teams": 7
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.72,
+     "actions": [
+      {
+       "label": "Reading the front page of the documentation of development",
+       "status": "done",
+       "summary": "Read the front page of the documentation of development.",
+       "details": "dev: version v1.0.0 (runs v1.0.0) written 2026-11-21T19:56:56Z tables 30 checks 36 feeds 14 teams 7"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Front page of development",
+       "data": {
+        "summary": "Read the front page of the documentation of development.",
+        "details": "dev: version v1.0.0 (runs v1.0.0) written 2026-11-21T19:56:56Z tables 30 checks 36 feeds 14 teams 7",
+        "data": {
+         "reasons": [
+          "Development: the front page names version v1.0.0, written 21 November, 20:56:56.",
+          "It counts 30 tables, 36 checks, 14 feeds, and lists 7 teams."
+         ],
+         "pages": [
+          {
+           "env": "dev",
+           "label": "Development",
+           "running": "v1.0.0",
+           "written": true,
+           "version": "v1.0.0",
+           "written_at": "2026-11-21T19:56:56Z",
+           "with_seconds": true,
+           "tables": 30,
+           "checks": 36,
+           "feeds": 14,
+           "teams": 7
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Read the front page of the documentation of development.",
+   "outcome": "The front page names the version development runs, the moment it was written and the size of what is live.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T19:57:04+00:00",
+   "durations": [
+    3.9,
+    3.8,
+    4.0,
+    3.8,
+    3.7
+   ],
+   "show": [
+    "result",
+    "versions"
+   ]
+  },
+  "live": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.29,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What was done by hand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.29,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What was done by hand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.46,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "running",
+       "summary": "Copying the schedules of version v1.0.1 into development",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What was done by hand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.68,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "running",
+       "summary": "Writing the documentation of version v1.0.1",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What was done by hand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.59,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "running",
+       "summary": "Writing the documentation of version v1.0.1",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What was done by hand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.97,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "running",
+       "summary": "Telling development to run version v1.0.1",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What was done by hand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.18,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "done",
+       "summary": "Development now runs version v1.0.1.",
+       "details": "dbt_image_tag = v1.0.1; schedules and docs copied from image dbt-vdp:v1.0.1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What was done by hand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.47,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "done",
+       "summary": "Development now runs version v1.0.1.",
+       "details": "dbt_image_tag = v1.0.1; schedules and docs copied from image dbt-vdp:v1.0.1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What was done by hand",
+       "data": {
+        "summary": "Development now runs version v1.0.1.",
+        "details": "dbt_image_tag = v1.0.1; schedules and docs copied from image dbt-vdp:v1.0.1",
+        "data": {
+         "tag": "v1.0.1"
+        }
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 7.47,
+     "actions": [
+      {
+       "label": "Putting the newest version live",
+       "status": "done",
+       "summary": "Development now runs version v1.0.1.",
+       "details": "dbt_image_tag = v1.0.1; schedules and docs copied from image dbt-vdp:v1.0.1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What was done by hand",
+       "data": {
+        "summary": "Development now runs version v1.0.1.",
+        "details": "dbt_image_tag = v1.0.1; schedules and docs copied from image dbt-vdp:v1.0.1",
+        "data": {
+         "tag": "v1.0.1"
+        }
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Development now runs version v1.0.1.",
+   "outcome": "Development runs the newer version now, and nobody touched its front page.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T19:57:11+00:00",
+   "durations": [
+    9.5,
+    7.6,
+    7.8,
+    7.5,
+    7.5
+   ],
+   "show": [
+    "result",
+    "versions"
+   ]
+  },
+  "after": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.0,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Front page of development",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "Reading the front page of the documentation of development",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Front page of development",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.2,
+     "actions": [
+      {
+       "label": "Reading the front page of the documentation of development",
+       "status": "done",
+       "summary": "Read the front page of the documentation of development.",
+       "details": "dev: version v1.0.1 (runs v1.0.1) written 2026-11-21T19:57:07Z tables 30 checks 36 feeds 14 teams 7"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Front page of development",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.2,
+     "actions": [
+      {
+       "label": "Reading the front page of the documentation of development",
+       "status": "done",
+       "summary": "Read the front page of the documentation of development.",
+       "details": "dev: version v1.0.1 (runs v1.0.1) written 2026-11-21T19:57:07Z tables 30 checks 36 feeds 14 teams 7"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Front page of development",
+       "data": {
+        "summary": "Read the front page of the documentation of development.",
+        "details": "dev: version v1.0.1 (runs v1.0.1) written 2026-11-21T19:57:07Z tables 30 checks 36 feeds 14 teams 7",
+        "data": {
+         "reasons": [
+          "Development: the front page names version v1.0.1, written 21 November, 20:57:07.",
+          "It counts 30 tables, 36 checks, 14 feeds, and lists 7 teams."
+         ],
+         "pages": [
+          {
+           "env": "dev",
+           "label": "Development",
+           "running": "v1.0.1",
+           "written": true,
+           "version": "v1.0.1",
+           "written_at": "2026-11-21T19:57:07Z",
+           "with_seconds": true,
+           "tables": 30,
+           "checks": 36,
+           "feeds": 14,
+           "teams": 7
+          }
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.2,
+     "actions": [
+      {
+       "label": "Reading the front page of the documentation of development",
+       "status": "done",
+       "summary": "Read the front page of the documentation of development.",
+       "details": "dev: version v1.0.1 (runs v1.0.1) written 2026-11-21T19:57:07Z tables 30 checks 36 feeds 14 teams 7"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Front page of development",
+       "data": {
+        "summary": "Read the front page of the documentation of development.",
+        "details": "dev: version v1.0.1 (runs v1.0.1) written 2026-11-21T19:57:07Z tables 30 checks 36 feeds 14 teams 7",
+        "data": {
+         "reasons": [
+          "Development: the front page names version v1.0.1, written 21 November, 20:57:07.",
+          "It counts 30 tables, 36 checks, 14 feeds, and lists 7 teams."
+         ],
+         "pages": [
+          {
+           "env": "dev",
+           "label": "Development",
+           "running": "v1.0.1",
+           "written": true,
+           "version": "v1.0.1",
+           "written_at": "2026-11-21T19:57:07Z",
+           "with_seconds": true,
+           "tables": 30,
+           "checks": 36,
+           "feeds": 14,
+           "teams": 7
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Read the front page of the documentation of development.",
+   "outcome": "The front page names the newer version and the moment it was written, and nobody wrote either. This ran here; making the platform's own [[release]] do it is the next step.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T19:57:13+00:00",
+   "durations": [
+    1.2,
+    1.2,
+    1.2,
+    1.1,
+    1.2
+   ],
+   "show": [
+    "result"
+   ]
+  }
+ },
+ "prepare": {
+  "durations": [
+   56.2,
+   55.1,
+   48.7,
+   54.9,
+   54.8
+  ]
+ },
+ "recorded_at": "2026-11-21T19:57:13+00:00"
+}

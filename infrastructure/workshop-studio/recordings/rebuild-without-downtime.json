@@ -86,7 +86,7 @@
      ]
     },
     {
-     "t": 1.02,
+     "t": 1.03,
      "actions": [
       {
        "label": "Let the audience read the starting number",
@@ -133,7 +133,7 @@
    "summary": "Let the audience read the starting number.",
    "outcome": "People can read 100,000 rows. This is the number that must never look empty or half full.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:35:16+00:00",
+   "recorded_at": "2026-11-21T20:03:06+00:00",
    "durations": [
     1.0,
     1.0,
@@ -151,7 +151,7 @@
    },
    "frames": [
     {
-     "t": 0.03,
+     "t": 0.02,
      "actions": [],
      "evidence": [
       {
@@ -174,8 +174,8 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-15T19:28:54.141956+00:00",
-         "finished": "2026-11-15T19:29:11.139514+00:00"
+         "started": "2026-11-21T19:12:25.491882+00:00",
+         "finished": "2026-11-21T19:12:41.307662+00:00"
         },
         "tasks": [
          {
@@ -249,7 +249,7 @@
      ]
     },
     {
-     "t": 0.03,
+     "t": 0.02,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -279,8 +279,8 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-15T19:28:54.141956+00:00",
-         "finished": "2026-11-15T19:29:11.139514+00:00"
+         "started": "2026-11-21T19:12:25.491882+00:00",
+         "finished": "2026-11-21T19:12:41.307662+00:00"
         },
         "tasks": [
          {
@@ -354,7 +354,7 @@
      ]
     },
     {
-     "t": 2.06,
+     "t": 2.05,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -384,8 +384,8 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-15T19:28:54.141956+00:00",
-         "finished": "2026-11-15T19:29:11.139514+00:00"
+         "started": "2026-11-21T19:12:25.491882+00:00",
+         "finished": "2026-11-21T19:12:41.307662+00:00"
         },
         "tasks": [
          {
@@ -459,7 +459,7 @@
      ]
     },
     {
-     "t": 2.6,
+     "t": 2.54,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -489,8 +489,8 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-15T19:28:54.141956+00:00",
-         "finished": "2026-11-15T19:29:11.139514+00:00"
+         "started": "2026-11-21T19:12:25.491882+00:00",
+         "finished": "2026-11-21T19:12:41.307662+00:00"
         },
         "tasks": [
          {
@@ -564,7 +564,7 @@
      ]
     },
     {
-     "t": 4.09,
+     "t": 4.08,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -594,19 +594,19 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
+         "started": "2026-11-21T20:03:10.585991+00:00",
          "finished": null
         },
         "tasks": [
          {
           "label": "Preparing the new copy of the table",
-          "state": "done",
-          "state_text": "Done"
+          "state": "running",
+          "state_text": "Running"
          },
          {
           "label": "Loading one part of the new copy",
-          "state": "running",
-          "state_text": "Running",
+          "state": "todo",
+          "state_text": "Waiting",
           "part": 1,
           "parts": 10
          },
@@ -709,7 +709,7 @@
      ]
     },
     {
-     "t": 5.61,
+     "t": 5.55,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -739,19 +739,19 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
+         "started": "2026-11-21T20:03:10.585991+00:00",
          "finished": null
         },
         "tasks": [
          {
           "label": "Preparing the new copy of the table",
-          "state": "done",
-          "state_text": "Done"
+          "state": "running",
+          "state_text": "Running"
          },
          {
           "label": "Loading one part of the new copy",
-          "state": "running",
-          "state_text": "Running",
+          "state": "todo",
+          "state_text": "Waiting",
           "part": 1,
           "parts": 10
          },
@@ -854,7 +854,7 @@
      ]
     },
     {
-     "t": 6.12,
+     "t": 6.11,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -884,7 +884,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
+         "started": "2026-11-21T20:03:10.585991+00:00",
          "finished": null
         },
         "tasks": [
@@ -902,15 +902,15 @@
          },
          {
           "label": "Loading one part of the new copy",
-          "state": "done",
-          "state_text": "Done",
+          "state": "running",
+          "state_text": "Running",
           "part": 2,
           "parts": 10
          },
          {
           "label": "Loading one part of the new copy",
-          "state": "running",
-          "state_text": "Running",
+          "state": "todo",
+          "state_text": "Waiting",
           "part": 3,
           "parts": 10
          },
@@ -999,7 +999,7 @@
      ]
     },
     {
-     "t": 8.15,
+     "t": 8.14,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -1029,7 +1029,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
+         "started": "2026-11-21T20:03:10.585991+00:00",
          "finished": null
         },
         "tasks": [
@@ -1061,15 +1061,15 @@
          },
          {
           "label": "Loading one part of the new copy",
-          "state": "done",
-          "state_text": "Done",
+          "state": "running",
+          "state_text": "Running",
           "part": 4,
           "parts": 10
          },
          {
           "label": "Loading one part of the new copy",
-          "state": "running",
-          "state_text": "Running",
+          "state": "todo",
+          "state_text": "Waiting",
           "part": 5,
           "parts": 10
          },
@@ -1144,7 +1144,7 @@
      ]
     },
     {
-     "t": 8.62,
+     "t": 8.56,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -1174,7 +1174,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
+         "started": "2026-11-21T20:03:10.585991+00:00",
          "finished": null
         },
         "tasks": [
@@ -1206,15 +1206,15 @@
          },
          {
           "label": "Loading one part of the new copy",
-          "state": "done",
-          "state_text": "Done",
+          "state": "running",
+          "state_text": "Running",
           "part": 4,
           "parts": 10
          },
          {
           "label": "Loading one part of the new copy",
-          "state": "running",
-          "state_text": "Running",
+          "state": "todo",
+          "state_text": "Waiting",
           "part": 5,
           "parts": 10
          },
@@ -1289,7 +1289,7 @@
      ]
     },
     {
-     "t": 10.19,
+     "t": 10.18,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -1319,7 +1319,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
+         "started": "2026-11-21T20:03:10.585991+00:00",
          "finished": null
         },
         "tasks": [
@@ -1413,7 +1413,7 @@
      ]
     },
     {
-     "t": 11.64,
+     "t": 11.57,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -1443,7 +1443,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
+         "started": "2026-11-21T20:03:10.585991+00:00",
          "finished": null
         },
         "tasks": [
@@ -1537,7 +1537,7 @@
      ]
     },
     {
-     "t": 12.23,
+     "t": 12.21,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -1567,7 +1567,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
+         "started": "2026-11-21T20:03:10.585991+00:00",
          "finished": null
         },
         "tasks": [
@@ -1647,7 +1647,7 @@
      ]
     },
     {
-     "t": 14.26,
+     "t": 14.24,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -1677,7 +1677,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
+         "started": "2026-11-21T20:03:10.585991+00:00",
          "finished": null
         },
         "tasks": [
@@ -1716,8 +1716,8 @@
          },
          {
           "label": "Checking the new copy of the table",
-          "state": "running",
-          "state_text": "Running"
+          "state": "done",
+          "state_text": "Done"
          },
          {
           "label": "Swapping the new copy in",
@@ -1750,12 +1750,12 @@
      ]
     },
     {
-     "t": 14.65,
+     "t": 14.59,
      "actions": [
       {
        "label": "Starting the table rebuild",
        "status": "running",
-       "summary": "Working on the table rebuild: getting started",
+       "summary": "Working on the table rebuild: Swapping the new copy in",
        "details": ""
       }
      ],
@@ -1780,7 +1780,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
+         "started": "2026-11-21T20:03:10.585991+00:00",
          "finished": null
         },
         "tasks": [
@@ -1819,8 +1819,8 @@
          },
          {
           "label": "Checking the new copy of the table",
-          "state": "running",
-          "state_text": "Running"
+          "state": "done",
+          "state_text": "Done"
          },
          {
           "label": "Swapping the new copy in",
@@ -1853,7 +1853,110 @@
      ]
     },
     {
-     "t": 16.29,
+     "t": 16.27,
+     "actions": [
+      {
+       "label": "Starting the table rebuild",
+       "status": "running",
+       "summary": "Working on the table rebuild: Swapping the new copy in",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Rows people can read",
+       "data": {
+        "value": 100000,
+        "unit": "rows",
+        "compare": {
+         "label": "Rows in the new copy",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "The rebuild",
+       "data": {
+        "title": "the table rebuild",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-21T20:03:10.585991+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Preparing the new copy of the table",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Loading one part of the new copy",
+          "state": "done",
+          "state_text": "Done",
+          "part": 1,
+          "parts": 4
+         },
+         {
+          "label": "Loading one part of the new copy",
+          "state": "done",
+          "state_text": "Done",
+          "part": 2,
+          "parts": 4
+         },
+         {
+          "label": "Loading one part of the new copy",
+          "state": "done",
+          "state_text": "Done",
+          "part": 3,
+          "parts": 4
+         },
+         {
+          "label": "Loading one part of the new copy",
+          "state": "done",
+          "state_text": "Done",
+          "part": 4,
+          "parts": 4
+         },
+         {
+          "label": "Checking the new copy of the table",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Swapping the new copy in",
+          "state": "done",
+          "state_text": "Done"
+         },
+         {
+          "label": "Removing the old copy",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Saving the rebuild's results",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Removing the unfinished copy",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "todo",
+          "state_text": "Waiting"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.6,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -1883,7 +1986,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
+         "started": "2026-11-21T20:03:10.585991+00:00",
          "finished": null
         },
         "tasks": [
@@ -1931,18 +2034,17 @@
           "state_text": "Done"
          },
          {
-          "label": "Removing the unfinished copy",
-          "state": "skipped",
-          "state_text": "Skipped",
-          "not_needed": true
-         },
-         {
           "label": "Removing the old copy",
-          "state": "running",
-          "state_text": "Running"
+          "state": "todo",
+          "state_text": "Waiting"
          },
          {
           "label": "Saving the rebuild's results",
+          "state": "todo",
+          "state_text": "Waiting"
+         },
+         {
+          "label": "Removing the unfinished copy",
           "state": "todo",
           "state_text": "Waiting"
          },
@@ -1957,7 +2059,7 @@
      ]
     },
     {
-     "t": 17.66,
+     "t": 18.3,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -1987,111 +2089,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Preparing the new copy of the table",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Loading one part of the new copy",
-          "state": "done",
-          "state_text": "Done",
-          "part": 1,
-          "parts": 4
-         },
-         {
-          "label": "Loading one part of the new copy",
-          "state": "done",
-          "state_text": "Done",
-          "part": 2,
-          "parts": 4
-         },
-         {
-          "label": "Loading one part of the new copy",
-          "state": "done",
-          "state_text": "Done",
-          "part": 3,
-          "parts": 4
-         },
-         {
-          "label": "Loading one part of the new copy",
-          "state": "done",
-          "state_text": "Done",
-          "part": 4,
-          "parts": 4
-         },
-         {
-          "label": "Checking the new copy of the table",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Swapping the new copy in",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Removing the unfinished copy",
-          "state": "skipped",
-          "state_text": "Skipped",
-          "not_needed": true
-         },
-         {
-          "label": "Removing the old copy",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Saving the rebuild's results",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "t": 18.32,
-     "actions": [
-      {
-       "label": "Starting the table rebuild",
-       "status": "running",
-       "summary": "Working on the table rebuild: getting started",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Rows people can read",
-       "data": {
-        "value": 100000,
-        "unit": "rows",
-        "compare": {
-         "label": "Rows in the new copy",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The rebuild",
-       "data": {
-        "title": "the table rebuild",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:35:19.545790+00:00",
+         "started": "2026-11-21T20:03:10.585991+00:00",
          "finished": null
         },
         "tasks": [
@@ -2156,9 +2154,8 @@
          },
          {
           "label": "Sending the failure mail",
-          "state": "skipped",
-          "state_text": "Skipped",
-          "not_needed": true
+          "state": "todo",
+          "state_text": "Waiting"
          }
         ]
        }
@@ -2166,7 +2163,7 @@
      ]
     },
     {
-     "t": 20.35,
+     "t": 20.32,
      "actions": [
       {
        "label": "Starting the table rebuild",
@@ -2196,8 +2193,8 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-16T07:35:19.545790+00:00",
-         "finished": "2026-11-16T07:35:35.591713+00:00"
+         "started": "2026-11-21T20:03:10.585991+00:00",
+         "finished": "2026-11-21T20:03:26.169758+00:00"
         },
         "tasks": [
          {
@@ -2271,13 +2268,13 @@
      ]
     },
     {
-     "t": 20.68,
+     "t": 20.62,
      "actions": [
       {
        "label": "Starting the table rebuild",
        "status": "done",
        "summary": "The table rebuild finished without problems in development.",
-       "details": "run studio__1794814518_760395: success; tasks: init_green_table=success, batched_incremental_loads.batch_chunk_1=success, batched_incremental_loads.batch_chunk_2=success, batched_incremental_loads.batch_chunk_3=success, batched_incremental_loads.batch_chunk_4=success, batched_incremental_loads.batch_chunk_5=skipped, batched_incremental_loads.batch_chunk_6=skipped, batched_incremental_loads.batch_chunk_7=skipped, batched_incremental_loads.batch_chunk_8=skipped, batched_incremental_loads.batch_chunk_9=skipped, batched_incremental_loads.batch_chunk_10=skipped, test_green_table=success, atomic_swap=success, cleanup_scratch_table=skipped, cleanup_backup_table=success, archive_reload_artifacts=success, send_failure_report=skipped"
+       "details": "run studio__1795291388_e3aee8: success; tasks: init_green_table=success, batched_incremental_loads.batch_chunk_1=success, batched_incremental_loads.batch_chunk_2=success, batched_incremental_loads.batch_chunk_3=success, batched_incremental_loads.batch_chunk_4=success, batched_incremental_loads.batch_chunk_5=skipped, batched_incremental_loads.batch_chunk_6=skipped, batched_incremental_loads.batch_chunk_7=skipped, batched_incremental_loads.batch_chunk_8=skipped, batched_incremental_loads.batch_chunk_9=skipped, batched_incremental_loads.batch_chunk_10=skipped, test_green_table=success, atomic_swap=success, cleanup_scratch_table=skipped, cleanup_backup_table=success, archive_reload_artifacts=success, send_failure_report=skipped"
       }
      ],
      "evidence": [
@@ -2301,8 +2298,8 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-16T07:35:19.545790+00:00",
-         "finished": "2026-11-16T07:35:35.591713+00:00"
+         "started": "2026-11-21T20:03:10.585991+00:00",
+         "finished": "2026-11-21T20:03:26.169758+00:00"
         },
         "tasks": [
          {
@@ -2376,13 +2373,13 @@
      ]
     },
     {
-     "t": 20.71,
+     "t": 20.65,
      "actions": [
       {
        "label": "Starting the table rebuild",
        "status": "done",
        "summary": "The table rebuild finished without problems in development.",
-       "details": "run studio__1794814518_760395: success; tasks: init_green_table=success, batched_incremental_loads.batch_chunk_1=success, batched_incremental_loads.batch_chunk_2=success, batched_incremental_loads.batch_chunk_3=success, batched_incremental_loads.batch_chunk_4=success, batched_incremental_loads.batch_chunk_5=skipped, batched_incremental_loads.batch_chunk_6=skipped, batched_incremental_loads.batch_chunk_7=skipped, batched_incremental_loads.batch_chunk_8=skipped, batched_incremental_loads.batch_chunk_9=skipped, batched_incremental_loads.batch_chunk_10=skipped, test_green_table=success, atomic_swap=success, cleanup_scratch_table=skipped, cleanup_backup_table=success, archive_reload_artifacts=success, send_failure_report=skipped"
+       "details": "run studio__1795291388_e3aee8: success; tasks: init_green_table=success, batched_incremental_loads.batch_chunk_1=success, batched_incremental_loads.batch_chunk_2=success, batched_incremental_loads.batch_chunk_3=success, batched_incremental_loads.batch_chunk_4=success, batched_incremental_loads.batch_chunk_5=skipped, batched_incremental_loads.batch_chunk_6=skipped, batched_incremental_loads.batch_chunk_7=skipped, batched_incremental_loads.batch_chunk_8=skipped, batched_incremental_loads.batch_chunk_9=skipped, batched_incremental_loads.batch_chunk_10=skipped, test_green_table=success, atomic_swap=success, cleanup_scratch_table=skipped, cleanup_backup_table=success, archive_reload_artifacts=success, send_failure_report=skipped"
       }
      ],
      "evidence": [
@@ -2406,8 +2403,8 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-16T07:35:19.545790+00:00",
-         "finished": "2026-11-16T07:35:35.591713+00:00"
+         "started": "2026-11-21T20:03:10.585991+00:00",
+         "finished": "2026-11-21T20:03:26.169758+00:00"
         },
         "tasks": [
          {
@@ -2481,13 +2478,13 @@
      ]
     },
     {
-     "t": 20.72,
+     "t": 20.66,
      "actions": [
       {
        "label": "Starting the table rebuild",
        "status": "done",
        "summary": "The table rebuild finished without problems in development.",
-       "details": "run studio__1794814518_760395: success; tasks: init_green_table=success, batched_incremental_loads.batch_chunk_1=success, batched_incremental_loads.batch_chunk_2=success, batched_incremental_loads.batch_chunk_3=success, batched_incremental_loads.batch_chunk_4=success, batched_incremental_loads.batch_chunk_5=skipped, batched_incremental_loads.batch_chunk_6=skipped, batched_incremental_loads.batch_chunk_7=skipped, batched_incremental_loads.batch_chunk_8=skipped, batched_incremental_loads.batch_chunk_9=skipped, batched_incremental_loads.batch_chunk_10=skipped, test_green_table=success, atomic_swap=success, cleanup_scratch_table=skipped, cleanup_backup_table=success, archive_reload_artifacts=success, send_failure_report=skipped"
+       "details": "run studio__1795291388_e3aee8: success; tasks: init_green_table=success, batched_incremental_loads.batch_chunk_1=success, batched_incremental_loads.batch_chunk_2=success, batched_incremental_loads.batch_chunk_3=success, batched_incremental_loads.batch_chunk_4=success, batched_incremental_loads.batch_chunk_5=skipped, batched_incremental_loads.batch_chunk_6=skipped, batched_incremental_loads.batch_chunk_7=skipped, batched_incremental_loads.batch_chunk_8=skipped, batched_incremental_loads.batch_chunk_9=skipped, batched_incremental_loads.batch_chunk_10=skipped, test_green_table=success, atomic_swap=success, cleanup_scratch_table=skipped, cleanup_backup_table=success, archive_reload_artifacts=success, send_failure_report=skipped"
       }
      ],
      "evidence": [
@@ -2511,8 +2508,8 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-16T07:35:19.545790+00:00",
-         "finished": "2026-11-16T07:35:35.591713+00:00"
+         "started": "2026-11-21T20:03:10.585991+00:00",
+         "finished": "2026-11-21T20:03:26.169758+00:00"
         },
         "tasks": [
          {
@@ -2589,12 +2586,12 @@
    "summary": "The table rebuild finished without problems in development.",
    "outcome": "The new copy was loaded in 4 parts and swapped in. Readers still see the same number of rows.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:35:37+00:00",
+   "recorded_at": "2026-11-21T20:03:27+00:00",
    "durations": [
-    20.7,
-    20.7,
     21.0,
     20.7,
+    20.7,
+    20.8,
     20.7
    ],
    "show": [
@@ -2603,14 +2600,14 @@
    ]
   }
  },
- "recorded_at": "2026-11-16T07:35:37+00:00",
+ "recorded_at": "2026-11-21T20:03:27+00:00",
  "prepare": {
   "durations": [
-   17.2,
-   13.9,
    14.4,
    14.2,
-   13.9
+   13.9,
+   14.4,
+   13.5
   ]
  }
 }

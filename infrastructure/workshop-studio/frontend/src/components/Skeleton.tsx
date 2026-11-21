@@ -5,7 +5,7 @@ export function Skeleton({ width, height = '1em', className }: { width?: string;
   return <span aria-hidden="true" className={cx(styles.skeleton, className)} style={{ width, height }} />
 }
 
-export function SkeletonLines({ lines = 3, label = 'Loading' }: { lines?: number; label?: string }) {
+export function SkeletonLines({ lines = 3, label = 'Laden' }: { lines?: number; label?: string }) {
   return (
     <div className={styles.lines} role="status" aria-label={label}>
       {Array.from({ length: lines }, (_, i) => (

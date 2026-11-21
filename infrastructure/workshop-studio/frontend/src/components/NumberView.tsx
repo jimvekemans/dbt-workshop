@@ -22,21 +22,21 @@ export function NumberView({ data, trail }: { data: NumberData; trail?: number[]
             <span>{data.compare.label}:</span>
             <b className={styles.second}>{formatNumber(other as number, 2)}</b>
             {data.unit && <span>{data.unit}</span>}
-            {value === other && <span className={styles.same}>(the same)</span>}
+            {value === other && <span className={styles.same}>(hetzelfde)</span>}
           </>
         ) : data.compare ? (
-          `${data.compare.label}: not known yet`
+          `${data.compare.label}: nog niet gekend`
         ) : (
           ' '
         )}
       </p>
       {trail && trail.length >= 3 && (
         <p className={styles.trail}>
-          <span>It showed: </span>
+          <span>Het toonde: </span>
           {sampleTrail(trail).map((v, i) => (
             <span key={i} className={styles.step}>
               {i > 0 && <span aria-hidden="true"> → </span>}
-              {i > 0 && <span className="sr-only"> then </span>}
+              {i > 0 && <span className="sr-only"> daarna </span>}
               {formatNumber(v, 2)}
             </span>
           ))}

@@ -1,4 +1,4 @@
-title: "Run one small step after every table is built"
+title: "Na elke gebuilde tabel één kleine stap laten lopen"
 message: 'chore: run one small step after every table is built'
 ops:
   - path: dbt_project.yml

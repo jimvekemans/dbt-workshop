@@ -6,6 +6,7 @@ import { demoFor, demoIsPreparing, findCatalogScenario, neighbours } from '../li
 import { PARTS, navigate, partIndex, partTitle } from '../lib/router'
 import { plainText } from '../lib/glossary'
 import { RichText } from '../components/Term'
+import { TechLine } from '../components/TechLine'
 import { Stepper } from '../components/Stepper'
 import { LinkButton } from '../components/LinkButton'
 import { Callout } from '../components/Callout'
@@ -21,7 +22,7 @@ import styles from './ScenarioPage.module.css'
 import parts from './parts.module.css'
 
 /** Why the next part is worth opening, in a few plain words. */
-const NEXT_HINT: Partial<Record<PartId, string>> = { idea: 'how it is prevented', code: 'what it looks like in the project', demo: 'watch it happen' }
+const NEXT_HINT: Partial<Record<PartId, string>> = { idea: 'hoe je het voorkomt', code: 'hoe het eruitziet in het project', demo: 'kijk hoe het gebeurt' }
 
 const BAR_PX = 60
 
@@ -95,13 +96,13 @@ export function ScenarioPage({ id, part, from }: { id: string; part: PartId; fro
   if (notFound) {
     return (
       <div className={styles.missing}>
-        <h1 className={styles.missingTitle}>This scenario does not exist</h1>
-        <p>The link may be old. Pick one from the list.</p>
+        <h1 className={styles.missingTitle}>Dit scenario bestaat niet</h1>
+        <p>De link is misschien oud. Kies er een uit de lijst.</p>
         <div className={styles.missingActions}>
           <LinkButton href="#/" variant="primary">
-            Back to all scenarios
+            Terug naar alle scenario's
           </LinkButton>
-          <Button onClick={openSwitcher}>Go to a scenario</Button>
+          <Button onClick={openSwitcher}>Ga naar een scenario</Button>
         </div>
       </div>
     )
@@ -113,12 +114,12 @@ export function ScenarioPage({ id, part, from }: { id: string; part: PartId; fro
       <Callout
         tone="bad"
         role="alert"
-        title="This scenario could not be opened"
+        title="Dit scenario kon niet geopend worden"
         actions={
           <>
-            <Button onClick={() => actions.retryScenario(id)}>Try again</Button>
+            <Button onClick={() => actions.retryScenario(id)}>Opnieuw proberen</Button>
             <LinkButton href="#/" variant="quiet">
-              Back to all scenarios
+              Terug naar alle scenario's
             </LinkButton>
           </>
         }
@@ -131,7 +132,7 @@ export function ScenarioPage({ id, part, from }: { id: string; part: PartId; fro
   if (!scenario) {
     return (
       <div className={styles.loading}>
-        <SkeletonLines lines={6} label="Opening the scenario" />
+        <SkeletonLines lines={6} label="Scenario wordt geopend" />
       </div>
     )
   }
@@ -148,13 +149,14 @@ export function ScenarioPage({ id, part, from }: { id: string; part: PartId; fro
       <header className={styles.top}>
         {origin && (
           <a className={styles.origin} href={`#/s/${encodeURIComponent(origin.id)}/problem`}>
-            Back to: {plainText(origin.title)}
+            Terug naar: {plainText(origin.title)}
           </a>
         )}
         <p className="kicker">
-          {entry?.groupTitle ?? 'Scenario'} · about {scenario.minutes} min, including the demo
+          {entry?.groupTitle ?? 'Scenario'} · ongeveer {scenario.minutes} min, inclusief demo
         </p>
         <h1 className={styles.h1}><RichText text={scenario.title} /></h1>
+        <TechLine tech={scenario.tech ?? entry?.tech} />
       </header>
       <Stepper parts={PARTS} current={part} onSelect={go} />
       <div className={parts.part} data-dir={dir} key={part}>
@@ -167,28 +169,28 @@ export function ScenarioPage({ id, part, from }: { id: string; part: PartId; fro
       <footer ref={footerRef} className={styles.footer}>
         {prev ? (
           <LinkButton href={href(prev.id)} variant="secondary" icon={<ChevronLeftIcon />} className={styles.back}>
-            <span className={styles.long}>Back: {partTitle(prev.id)}</span>
-            <span className={styles.short}>Back</span>
+            <span className={styles.long}>Terug: {partTitle(prev.id)}</span>
+            <span className={styles.short}>Terug</span>
           </LinkButton>
         ) : (
           <LinkButton href="#/" variant="secondary" icon={<ChevronLeftIcon />} className={styles.back}>
-            <span className={styles.long}>Back to all scenarios</span>
-            <span className={styles.short}>All scenarios</span>
+            <span className={styles.long}>Terug naar alle scenario's</span>
+            <span className={styles.short}>Alle scenario's</span>
           </LinkButton>
         )}
         {next ? (
           <LinkButton href={href(next.id)} variant="primary" icon={<ArrowRightIcon />} className={styles.next}>
             <span className={styles.long}>
-              Next: {partTitle(next.id)}
+              Volgende: {partTitle(next.id)}
               {NEXT_HINT[next.id] && <small> · {NEXT_HINT[next.id]}</small>}
             </span>
-            <span className={styles.short}>Next</span>
+            <span className={styles.short}>Volgende</span>
           </LinkButton>
         ) : (
           !gettingReady && (
             <LinkButton href={nextScenario ? `#/s/${encodeURIComponent(nextScenario.id)}/problem` : '#/'} variant="primary" icon={<ArrowRightIcon />} className={styles.next}>
-              <span className={styles.long}>{nextScenario ? `Next: ${plainText(nextScenario.title)}` : 'Choose another scenario'}</span>
-              <span className={styles.short}>{nextScenario ? 'Next scenario' : 'All scenarios'}</span>
+              <span className={styles.long}>{nextScenario ? `Volgende: ${plainText(nextScenario.title)}` : 'Kies een ander scenario'}</span>
+              <span className={styles.short}>{nextScenario ? 'Volgend scenario' : "Alle scenario's"}</span>
             </LinkButton>
           )
         )}

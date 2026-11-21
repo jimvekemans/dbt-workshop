@@ -74,7 +74,7 @@ def test_step_runs_actions_shows_evidence_and_records(live, stack, settings):
     step = step_of(state, "first")
     assert step["status"] == "done" and step["outcome"] == "It worked." and step["summary"] == "Set one."
     assert step["actions"][0]["status"] == "done" and step["evidence"][0]["data"] == {"rows": [["dev", "select 1"]]}
-    assert state["leftovers"] == [{"label": "A setting changed in development", "from_scenario": "demo-one"}]
+    assert state["leftovers"] == [{"label": "Een instelling gewijzigd in development", "from_scenario": "demo-one"}]
     recorded = Recorder(settings.recordings_dir).load_step("demo-one", "first")
     assert recorded["outcome"] == "It worked." and recorded["frames"][-1]["evidence"][0]["data"]["rows"]
 
@@ -94,7 +94,7 @@ def test_inputs_are_validated_templated_and_remembered(live, stack):
 
 
 def test_step_needs_an_open_demo_in_live_mode(live):
-    with pytest.raises(Conflict, match="Open the demo first"):
+    with pytest.raises(Conflict, match="Open eerst de demo"):
         live.run_step("demo-one", "first", {})
     with pytest.raises(BadRequest):
         live.prepare("nope")
@@ -113,7 +113,7 @@ def test_unexpected_error_becomes_a_plain_sentence_with_traceback_in_details(liv
     live.catalog.scenarios["demo-one"].demo.steps[0].do[0] = {"action": "fake.boom"}
     open_demo(live)
     step = step_of(run(live, live.run_step, "demo-one", "first", {}), "first")
-    assert step["summary"] == "Something went wrong talking to fake."
+    assert step["summary"] == "Er liep iets mis met fake."
     assert "RuntimeError: kaput" in step["actions"][0]["details"]
 
 
@@ -133,7 +133,7 @@ def test_cancel_inside_a_wait(live):
     live.cancel()
     live.wait_idle(5)
     state = live.state()
-    assert step_of(state, "first")["status"] == "stopped" and "Stopped" in step_of(state, "first")["summary"]
+    assert step_of(state, "first")["status"] == "stopped" and "Gestopt" in step_of(state, "first")["summary"]
     assert state["job"] is None
 
 
@@ -142,7 +142,7 @@ def test_second_job_is_refused_while_one_runs(live, stack):
     open_demo(live)
     live.run_step("demo-one", "first", {})
     for op, args in ((live.prepare, ("demo-two",)), (live.cleanup, ()), (live.run_step, ("demo-one", "second", {}))):
-        with pytest.raises(Conflict, match="still running"):
+        with pytest.raises(Conflict, match="klaar is"):
             op(*args)
     stack.gate.set()
     live.wait_idle(5)
@@ -155,7 +155,7 @@ def test_cleanup_goes_in_clean_order_and_empties_the_set(live, stack):
     state = run(live, live.cleanup)
     cleaned = [c.removeprefix("clean:") for c in stack.calls if c.startswith("clean:")]
     assert cleaned == ["variable:dev:a", "variable:dev:b", "feed:dev:carrier", "git", "landing:dev", "models:dev"]
-    assert state["leftovers"] == [] and state["notice"]["text"] == "Everything is back to normal."
+    assert state["leftovers"] == [] and state["notice"]["text"] == "Alles staat weer zoals het was."
 
 
 def test_cleanup_progress_is_visible_as_actions_of_the_job(live, stack):
@@ -169,7 +169,7 @@ def test_cleanup_progress_is_visible_as_actions_of_the_job(live, stack):
             job = live.state()["job"]
             labels = [a["label"] for a in job["actions"]] if job else []
             time.sleep(0.01)
-        assert labels == ["Putting back: A setting changed in development"]
+        assert labels == ["Opkuisen: Een instelling gewijzigd in development"]
         assert live.state()["job"]["actions"][0]["status"] == "running"
     finally:
         release.set()
@@ -181,8 +181,8 @@ def test_failing_cleaner_keeps_its_resource_and_is_reported(live, stack):
     stack.failing_cleaners.add("landing")
     live._store.add({"variable:dev:a", "landing:dev"}, "demo-one")
     state = run(live, live.cleanup)
-    assert state["leftovers"] == [{"label": "Demo data delivered to development", "from_scenario": "demo-one"}]
-    assert "Demo data delivered to development" in state["notice"]["text"] and state["notice"]["level"] == "problem"
+    assert state["leftovers"] == [{"label": "Oefendata geleverd in development", "from_scenario": "demo-one"}]
+    assert "Oefendata geleverd in development" in state["notice"]["text"] and state["notice"]["level"] == "problem"
 
 
 def test_touched_set_survives_a_restart(live, make_engine, settings):
@@ -191,7 +191,7 @@ def test_touched_set_survives_a_restart(live, make_engine, settings):
     saved = json.loads((settings.data_dir / "state.json").read_text())
     assert set(saved["touched"]) == {"variable:dev:ready", "variable:dev:one"}
     again = make_engine()
-    assert {item["label"] for item in again.state()["leftovers"]} == {"A setting changed in development"}
+    assert {item["label"] for item in again.state()["leftovers"]} == {"Een instelling gewijzigd in development"}
     assert TouchedStore(settings.data_dir / "state.json").items() == saved["touched"]
 
 
@@ -210,7 +210,7 @@ def test_prepare_fails_plainly_when_cleanup_fails(live, stack):
     stack.seeded.add("dev")        # the stack still has its data, so this is no reset
     live._store.add({"variable:dev:old"}, "demo-two")
     demo = run(live, live.prepare, "demo-one")["demo"]
-    assert demo["status"] == "failed" and "A setting changed in development" in demo["message"]
+    assert demo["status"] == "failed" and "Een instelling gewijzigd in development" in demo["message"]
 
 
 def test_baseline_failure_is_reported(live, stack, monkeypatch):
@@ -235,15 +235,15 @@ def test_feeder_toggle_only_in_live_mode(live, make_engine):
     live.wait_idle(10)
     live.set_feeder(False)
     assert live.state()["feeder"]["running"] is False
-    with pytest.raises(Conflict, match="only runs in live mode"):
+    with pytest.raises(Conflict, match="alleen in de livemodus"):
         make_engine(mode="replay").set_feeder(True)
     live.stop()
 
 
 def test_live_is_unavailable_without_secrets(make_engine):
     eng = make_engine(s2_root_pwd="", mode="live")
-    assert eng.state()["mode"] == "replay" and "Live mode needs" in eng.state()["live_unavailable"]
-    with pytest.raises(Conflict, match="Live mode needs"):
+    assert eng.state()["mode"] == "replay" and "De livemodus heeft" in eng.state()["live_unavailable"]
+    with pytest.raises(Conflict, match="De livemodus heeft"):
         eng.set_mode("live")
 
 
@@ -270,14 +270,14 @@ def test_replay_plays_a_recording_without_touching_the_stack(live, make_engine, 
     stack.calls.clear()
     eng = make_engine(mode="replay", s2_root_pwd="")
     state = run(eng, eng.prepare, "demo-one")
-    assert state["demo"]["status"] == "ready" and "Replay mode" in state["notice"]["text"] and state["job"] is None
+    assert state["demo"]["status"] == "ready" and "Opnamemodus" in state["notice"]["text"] and state["job"] is None
     state = run(eng, eng.run_step, "demo-one", "first", {})
     step = step_of(state, "first")
     assert step["status"] == "done" and step["outcome"] == "It worked." and step["evidence"][0]["data"]["rows"]
     assert stack.calls == []
     missing = step_of(run(eng, eng.run_step, "demo-one", "second", {}), "second")
-    assert missing["status"] == "failed" and missing["summary"] == "This step has not been recorded yet."
-    assert "nothing" in run(eng, eng.cleanup)["notice"]["text"]
+    assert missing["status"] == "failed" and missing["summary"] == "Deze stap is nog niet opgenomen."
+    assert "niets gewijzigd" in run(eng, eng.cleanup)["notice"]["text"]
 
 
 def test_broker_coalesces_and_closes():
@@ -296,8 +296,8 @@ def test_broker_coalesces_and_closes():
 
 
 @pytest.mark.parametrize("resource, label", [
-    ("variable:dev:dbt_env_vars", "A setting changed in development"), ("landing:dev", "Demo data delivered to development"),
-    ("git", "Demo copies of the code in GitLab"), ("version:prd", "A different version running in production"),
-    ("models:dev", "Tables rebuilt in development"), ("weird:x", "Something changed by a demo")])
+    ("variable:dev:dbt_env_vars", "Een instelling gewijzigd in development"), ("landing:dev", "Oefendata geleverd in development"),
+    ("git", "Kopieën van de code voor een demo in GitLab"), ("version:prd", "Een andere versie draait in productie"),
+    ("models:dev", "Tabellen opnieuw gebuild in development"), ("weird:x", "Iets dat een demo gewijzigd heeft")])
 def test_leftover_labels(resource, label):
     assert leftover_label(resource) == label

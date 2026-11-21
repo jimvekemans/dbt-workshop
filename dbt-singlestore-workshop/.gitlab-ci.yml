@@ -24,6 +24,17 @@ stages: [verify, tag, build, deploy]
     - git config --global --add safe.directory "*"
     - git fetch --force --prune --tags --update-head-ok origin
 
+# dbt packages: downloaded once per version of packages.yml and kept in the runner's cache (dbt_packages/), so a job does
+# not depend on the internet connection of the moment; a failed download is tried twice more.
+.deps:
+  script:
+    - '[ -n "$(ls -A dbt_packages 2>/dev/null)" ] || dbt deps || { sleep 5; dbt deps; } || { sleep 15; dbt deps; }'
+
+cache:
+  key:
+    files: [packages.yml]
+  paths: [dbt_packages/]
+
 # Verification runs in vdp_ci as svc_ci_dbt. VERIFY_SCHEMA is set per job; branch names are made schema-safe in the shell.
 # A red verify must not leave half-built tables behind (they break the next run, e.g. after the release revert).
 .verify:
@@ -41,24 +52,48 @@ stages: [verify, tag, build, deploy]
   extends: .verify
   script:
     - git checkout $CI_COMMIT_SHA
-    - dbt deps
+    - !reference [.deps, script]
     - |
       dbt build --vars "SCHEMA: $VERIFY_SCHEMA" --target ci --fail-fast
     - |
       dbt run-operation drop_nodes --vars "SCHEMA: $VERIFY_SCHEMA" --target ci
 
-# Slim CI: state from the target branch (dev_* databases), then only modified nodes and their children, deferred.
-verify_feature_to_dev:
-  extends: .verify
-  variables:
-    VERIFY_SCHEMA: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+# Merge requests to dev are rehearsed in two steps, both in vdp_ci with the branch name as table prefix (VERIFY_SCHEMA) and
+# both cleaned up by `.verify`'s after_script, also when they fail. State comes from the target branch (dev_* databases):
+# the project of origin/dev is compiled into artifacts/, the merge request is merged on top of it, and `state:modified`
+# is what differs from that.
+.rehearsal-prepare:
   script:
     - git checkout origin/dev
-    - dbt deps
+    - !reference [.deps, script]
     - dbt compile --target-path artifacts --target run
     - git checkout $CI_COMMIT_SHA
     - git merge origin/dev --no-commit --no-ff || true
     - dbt clean
+
+# 1. Structure: the client's own command. An empty build of the changed tables and their direct dependants, no checks:
+#    cheap, and a change that cannot even be built stops here.
+verify_structure:
+  extends: .verify
+  variables:
+    VERIFY_SCHEMA: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+  script:
+    - !reference [.rehearsal-prepare, script]
+    - |
+      dbt build --select state:modified+,+state:modified state:modified+1 --empty --state artifacts --defer --vars "SCHEMA: ${VERIFY_SCHEMA//[\/-]/_}" --target=ci --exclude-resource-type test
+    - |
+      dbt run-operation drop_nodes --vars "SCHEMA: ${VERIFY_SCHEMA//[\/-]/_}" --target=ci
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev"'
+
+# 2. Data and checks: the changed tables and everything built on them, with rows, and every data check on them.
+verify_feature_to_dev:
+  extends: .verify
+  needs: [verify_structure]
+  variables:
+    VERIFY_SCHEMA: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+  script:
+    - !reference [.rehearsal-prepare, script]
     - |
       dbt build --select state:modified+ --state artifacts --defer --vars "SCHEMA: ${VERIFY_SCHEMA//[\/-]/_}" --target ci
     - |
@@ -136,12 +171,37 @@ build_image:
   rules:
     - if: '$CI_COMMIT_TAG =~ /^(v[0-9]+\.[0-9]+\.[0-9]+|[0-9]{4}-Q[1-4]\.[0-9]+)$/'
 
-# Deploy of $CI_COMMIT_TAG to $DEPLOY_ENV: 1. DAGs into the state volume, 2. static dbt docs site, 3. Airflow variable.
+# Artifacts of a version (the target/ folder, as the client's pipeline stores it): the catalogue artifacts and the
+# documentation site of the project at this tag, packed as target.tar.gz and uploaded to the generic package registry of
+# this GitLab project as package dbt-artifacts, version <tag>. Runs in the default job image (it has dbt and curl) as the
+# CI account svc_ci_dbt, which can only reach the dev_* databases: that is why the names in the catalogue are compiled for
+# DBT_DEPLOY_TARGET=dev, whatever the version. allow_failure: a catalogue upload that goes wrong must not stop a release.
+publish_artifacts:
+  stage: build
+  needs: [build_image]
+  allow_failure: true
+  variables:
+    DBT_DEPLOY_TARGET: "dev"
+  script:
+    - !reference [.deps, script]
+    - dbt compile --target collibra --target-path target/collibra
+    - dbt docs generate --target run --target-path target/dbt-docs
+    - tar -czf target.tar.gz target
+    - |
+      curl --fail --silent --show-error --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+        --upload-file target.tar.gz \
+        "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/dbt-artifacts/${CI_COMMIT_TAG}/target.tar.gz"
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^(v[0-9]+\.[0-9]+\.[0-9]+|[0-9]{4}-Q[1-4]\.[0-9]+)$/'
+
+# Deploy of $CI_COMMIT_TAG to $DEPLOY_ENV: 1. DAGs into the state volume, 2. static dbt docs site (scripts/docs_overview.sh
+# first writes its front page, models/__overview__.md), 3. Airflow variable,
+# 4. the artifact of the environment (see below).
 # DBT_SVC_PASS is the environment service user's password (CI/CD variable overrides the fixture default per job).
 .deploy:
   stage: deploy
   image: docker:27.3.1-cli
-  needs: [build_image]
+  needs: [build_image, publish_artifacts]
   variables:
     DBT_SVC_PASS: "CiServicePwd2026!"
   script:
@@ -154,11 +214,31 @@ build_image:
         find /state/dags -name __pycache__ -prune -exec rm -rf {} + ; chmod -R a+rwX /state/dags'
     - |
       docker run --rm -u root --network workshop_net -v "workshop_${DEPLOY_ENV}:/state" \
-        -e DBT_DEPLOY_TARGET="$DEPLOY_ENV" -e SINGLESTORE_HOST -e SINGLESTORE_USER="svc_${DEPLOY_ENV}_dbt" \
-        -e SINGLESTORE_PASS="$DBT_SVC_PASS" "$IMG" sh -c '
+        -e DBT_DEPLOY_TARGET="$DEPLOY_ENV" -e DEPLOY_ENV -e CI_COMMIT_TAG -e SINGLESTORE_HOST \
+        -e SINGLESTORE_USER="svc_${DEPLOY_ENV}_dbt" -e SINGLESTORE_PASS="$DBT_SVC_PASS" "$IMG" sh -c '
         mkdir -p /state/docs && find /state/docs -mindepth 1 -delete &&
+        { bash scripts/docs_overview.sh || echo "front page not generated"; } &&
         dbt docs generate --target run --output-dir /state/docs && chmod -R a+rwX /state/docs'
     - docker exec "workshop-airflow-${DEPLOY_ENV}" airflow variables set dbt_image_tag "$CI_COMMIT_TAG"
+    # 4. The artifact of the environment: the tarball of publish_artifacts again, as package dbt-artifacts-env, version
+    #    <env>, plus deployed.json that says which exact version it is. docker:cli has no curl, the project image has: the
+    #    step runs there, on workshop_net, to reach GitLab. It comes last and is not fatal: the deploy itself is done, and
+    #    a failed upload must not block deploy_prd (which needs deploy_val).
+    - |
+      docker run --rm -u root --network workshop_net \
+        -e CI_JOB_TOKEN -e CI_API_V4_URL -e CI_PROJECT_ID -e CI_COMMIT_TAG -e CI_COMMIT_SHA -e DEPLOY_ENV "$IMG" sh -c '
+        set -e
+        cd /tmp
+        api="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic"
+        curl --fail --silent --show-error --header "JOB-TOKEN: $CI_JOB_TOKEN" --output target.tar.gz \
+          "$api/dbt-artifacts/$CI_COMMIT_TAG/target.tar.gz"
+        printf "{\"version\": \"%s\", \"commit\": \"%s\", \"environment\": \"%s\", \"sha256\": \"%s\", \"deployed_at\": \"%s\"}\n" \
+          "$CI_COMMIT_TAG" "$CI_COMMIT_SHA" "$DEPLOY_ENV" "$(sha256sum target.tar.gz | cut -d" " -f1)" \
+          "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > deployed.json
+        for f in target.tar.gz deployed.json; do
+          curl --fail --silent --show-error --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file "$f" \
+            "$api/dbt-artifacts-env/$DEPLOY_ENV/$f"
+        done' || echo "WARNING: the artifact of environment ${DEPLOY_ENV} was not stored (is publish_artifacts green?)"
 
 .dev-tag-rule: &dev_tag '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
 .release-tag-rule: &release_tag '$CI_COMMIT_TAG =~ /^[0-9]{4}-Q[1-4]\.[0-9]+$/'
@@ -179,7 +259,7 @@ deploy_val:
 
 deploy_prd:
   extends: .deploy
-  needs: [build_image, deploy_val]
+  needs: [build_image, publish_artifacts, deploy_val]
   variables: {DEPLOY_ENV: prd}
   environment: prd
   rules:

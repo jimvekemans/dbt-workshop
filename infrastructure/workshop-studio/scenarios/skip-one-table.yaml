@@ -1,108 +1,112 @@
 id: skip-one-table
 group: sources
-title: One broken feed must not stop every report
-promise: When one feed arrives broken, an operator skips it for tonight and every other report is still on time.
+title: Eén kapotte feed mag niet alle rapporten stilleggen
+promise: Komt één feed kapot aan, dan slaat een operator hem vannacht over en blijven alle andere rapporten op tijd.
 minutes: 4
+feature: "Eén tabel een nacht overslaan"
+status: today
+tech: ["dbt_daily_load_dbtignore", ".dbtignore"]
 environment: dev
 related:
   - id: switchover-date
-    why: The skip list is another setting an operator can change in a minute, without a new release.
+    why: De lijst met overgeslagen tabellen is nog een instelling die een operator in een minuut kan wijzigen, zonder nieuwe release.
 
 problem:
-  headline: One broken carrier feed leaves management with yesterday's numbers
+  headline: Eén kapotte feed laat het management met de cijfers van gisteren zitten
   story: |
-    In the night the carrier's feed arrives with 3 scans that have no scan number. The automatic checks stop the
-    build of everything that depends on the carrier, and the [[nightly load]] ends in red. The management report,
-    which combines orders and deliveries, is not rebuilt. In the morning management opens it and reads yesterday's
-    numbers. The carrier team needs a day to fix its feed.
-  cost: Management works from a report that is a day old, because of 3 bad scans from one carrier.
+    In de nacht komt de feed van de pakjesdienst aan met 3 scans zonder scannummer. De automatische checks stoppen de
+    build van alles wat van de pakjesdienst afhangt en de [[nachtelijke load]] eindigt in het rood. Het
+    managementrapport, dat bestellingen en leveringen combineert, wordt niet gebuild. 's Morgens opent het management
+    het rapport en leest het de cijfers van gisteren. Het team van de pakjesdienst heeft een dag nodig om zijn feed te
+    herstellen.
+  cost: Het management werkt met een rapport van een dag oud, door 3 foute scans van één pakjesdienst.
   visual:
     type: flow
     nodes:
-      - {id: carrier, label: Carrier scans, state: bad, note: "3 scans without a number"}
-      - {id: deliveries, label: Deliveries report, state: bad, note: "Stopped by the check"}
-      - {id: mgmt, label: Management report, state: bad, note: "Not rebuilt"}
-      - {id: night, label: The whole night, state: bad, note: "Ends in red"}
+      - {id: carrier, label: Scans van de pakjesdienst, state: bad, note: "3 scans zonder nummer"}
+      - {id: deliveries, label: Leveringstabel, state: bad, note: "Gestopt door de check"}
+      - {id: mgmt, label: Managementrapport, state: bad, note: "Niet gebuild"}
+      - {id: night, label: De hele nacht, state: bad, note: "Eindigt in het rood"}
     links: [[carrier, deliveries], [deliveries, mgmt], [mgmt, night]]
-    caption: Everything that depends on the carrier stops until the carrier is fixed.
+    caption: Alles wat van de pakjesdienst afhangt, ligt stil tot de feed hersteld is.
 
 idea:
-  headline: Leave the broken feed and its reports out tonight
+  headline: Laat de kapotte feed en zijn rapporten vannacht weg
   points:
-    - An [[operator]] writes a short skip list into a [[setting]], with no new [[release]].
-    - The skipped parts disappear from tonight's nightly load, and every other report is built and checked as usual.
-    - Remove the list and everything returns the next night, with nothing left behind.
+    - Een [[operator]] schrijft een korte lijst met over te slaan delen in een [[instelling]], zonder nieuwe [[release]].
+    - De overgeslagen delen verdwijnen uit de nachtelijke load van vannacht, en elk ander rapport wordt zoals gewoonlijk gebuild en gecheckt.
+    - Haal de lijst weg en alles komt de volgende nacht terug, zonder restanten.
   visual:
     type: flow
     nodes:
-      - {id: list, label: The skip list, state: fix, note: "Written by an operator"}
-      - {id: load, label: Nightly load, state: ok, note: "Reads the list first"}
-      - {id: left, label: Carrier and management report, state: idle, note: "Left out tonight"}
-      - {id: rest, label: All other reports, state: ok, note: "Built and checked"}
-      - {id: night, label: The night, state: ok, note: "Ends green without the left-out parts"}
+      - {id: list, label: Lijst met overgeslagen delen, state: fix, note: "Geschreven door een operator"}
+      - {id: load, label: Nachtelijke load, state: ok, note: "Leest eerst de lijst"}
+      - {id: left, label: "Pakketscans, managementrapport", state: idle, note: "Vannacht weggelaten"}
+      - {id: rest, label: Alle andere rapporten, state: ok, note: "Gebuild en gecheckt"}
+      - {id: night, label: De nacht, state: ok, note: "Eindigt groen zonder de weggelaten delen"}
     links: [[list, load], [load, left], [load, rest], [left, night], [rest, night]]
-    caption: Skip the broken part, not the whole night.
+    caption: Sla het kapotte deel over, niet de hele nacht.
 
 code:
-  - title: The carrier's feed and what depends on it
+  - title: De feed van de pakjesdienst en wat ervan afhangt
     file: models/edw_dv_bdv/carrier/sources_carrier.yml
-    file_label: Notes written in the code
+    file_label: Notities in de code
     from: "# The carrier feed lives in its own folders"
     to: "has to be ignored too, or the whole project fails to parse."
     max_lines: 6
     notes:
       - line: "the Airflow Variable `dbt_daily_load_dbtignore`"
-        says: The skip list lives in one setting that an operator can fill in.
+        says: De lijst met overgeslagen delen zit in één instelling die een operator kan invullen.
       - line: "has to be ignored too"
-        says: Anything built on the carrier must be listed too, or the nightly load breaks.
-  - title: The nightly load reads the skip list first
+        says: Alles wat op de pakjesdienst steunt, moet ook op de lijst staan, anders loopt de nachtelijke load vast.
+  - title: De nachtelijke load leest eerst de lijst met overgeslagen delen
     file: airflow/dags/dbt_daily_load.py
-    file_label: The list of steps of the nightly load
+    file_label: De lijst met stappen van de nachtelijke load
     from: "# Files left out of the project until the next deploy window"
     to: "cmd = apply_overrides(cmd, dbtignore=ignored)"
     max_lines: 6
     notes:
       - line: "# Files left out of the project"
-        says: The files stay in the project and are back with the next release.
+        says: De bestanden blijven in het project en zijn terug met de volgende release.
       - line: "read_dbtignore(get_variable)"
-        says: Just before the work starts, the nightly load reads the skip list.
+        says: Vlak voor het werk begint, leest de nachtelijke load de lijst.
       - line: "apply_overrides"
-        says: The listed files are hidden from this run only.
-  - title: What the skip list does
+        says: De bestanden op de lijst worden enkel voor deze run verborgen.
+  - title: Wat de lijst met overgeslagen delen doet
     file: airflow/utils/dbt_runtime_overrides.py
-    file_label: The code that hands settings to the nightly load
+    file_label: De code die instellingen aan de nachtelijke load doorgeeft
     from: "if dbtignore:"
     to: ">> .dbtignore"
     max_lines: 8
     notes:
       - line: "validate_ignore_entries(dbtignore)"
-        says: Only files inside the project can be put on the list.
+        says: Enkel bestanden binnen het project mogen op de lijst staan.
       - line: "trap 'if [ -f"
-        says: When the run ends, the original list is put back, so nothing is left behind.
+        says: Als de run eindigt, wordt de oorspronkelijke lijst teruggezet, zodat er niets achterblijft.
       - line: "printf '%s"
-        says: The listed files are hidden from this run only.
+        says: De bestanden op de lijst worden enkel voor deze run verborgen.
 
 demo:
-  intro: The carrier delivers broken scans. We run the nightly load once as it is, then again with the carrier left out.
+  intro: De pakjesdienst levert foute scans. We runnen de nachtelijke load eerst zoals hij is, daarna opnieuw met de pakjesdienst weggelaten.
   setup:
     - {action: feed.condition, feed: carrier, set: {bad_rows: 3}}
     - {action: feed.deliver, days: 1}
   steps:
     - id: red
-      title: First, the night as it is
-      say: Three scans from the carrier have no scan number, so a check stops the night.
-      button: Run the nightly load
+      title: Eerst de nacht zoals hij is
+      say: Drie scans van de pakjesdienst hebben geen scannummer, dus een check stopt de nacht.
+      button: De nachtelijke load runnen
       inputs: []
       do:
         - {action: airflow.run_dag, dag: dbt_daily_load, expect: failed}
       show:
-        - {type: tasks, dag: dbt_daily_load, title: The nightly load, caption: "1 step failed: the one that builds the reports."}
-        - {type: result, title: What happened}
-      outcome: "The night ends in red: 1 step failed, the one that builds the reports."
+        - {type: tasks, dag: dbt_daily_load, title: De nachtelijke load, caption: '1 stap mislukt: "Alle rapporten builden".'}
+        - {type: result, title: Wat er gebeurd is}
+      outcome: 'De nacht eindigt in het rood: 1 stap mislukt, "Alle rapporten builden".'
     - id: skip
-      title: Now leave the carrier out for tonight
-      say: "The operator fills in the skip list: the carrier's feed and the management report that needs it."
-      button: Skip the carrier, run the load again
+      title: Nu de pakjesdienst vannacht weglaten
+      say: "De operator vult de lijst met overgeslagen delen in: de feed van de pakjesdienst en het managementrapport dat hem nodig heeft."
+      button: Pakjesdienst overslaan, load herhalen
       inputs: []
       do:
         - action: airflow.set_variable
@@ -114,15 +118,15 @@ demo:
             - "models/im_dimensional/olist_management.yml"
         - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
       show:
-        - {type: tasks, before_of: red, dag: dbt_daily_load, title: The nightly load, caption: No step failed this time.}
+        - {type: tasks, before_of: red, dag: dbt_daily_load, title: De nachtelijke load, caption: Deze keer is geen enkele stap mislukt.}
         - type: number
-          title: Orders in the orders report
+          title: Bestellingen in de bestellingentabel
           query: "select count(*) from {{ db('im_dimensional') }}.fct_olist_orders"
-          unit: orders
-          caption: The orders report is still filled.
-        - {type: run_history, limit: 2, title: The last two nights, caption: "Tonight 25 of the 28 tables were built; the 3 left out on purpose are the carrier's feed and the management report. The line below is the failed night."}
+          unit: bestellingen
+          caption: De bestellingentabel is nog altijd gevuld.
+        - {type: run_history, limit: 2, title: De laatste twee nachten, caption: "De regel van vannacht telt de gebuilde tabellen en de bewust overgeslagen tabellen; de feed van de pakjesdienst en de rapporten die hem nodig hebben, horen bij de overgeslagen tabellen. De regel eronder is de mislukte nacht."}
       outcome:
         check: "select count(*) from {{ db('im_dimensional') }}.fct_olist_orders"
         good_when: positive
-        good: The night is green. 25 of 28 tables were built, 3 were left out on purpose, and the orders report still holds {{ value }} orders.
-        not_quite: The night is green, but the orders report is empty.
+        good: De nacht is groen. De regel erboven telt de tabellen die gebuild zijn en de tabellen die bewust overgeslagen zijn, en de bestellingentabel bevat nog {{ value }} bestellingen.
+        not_quite: De nacht is groen, maar de bestellingentabel is leeg.

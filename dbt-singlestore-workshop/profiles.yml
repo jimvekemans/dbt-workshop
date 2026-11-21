@@ -41,3 +41,15 @@ dbt_swf:
       schema: "{{ var('SCHEMA', '') }}"
       threads: 1
       # no allow_cleartext_plugin: see the default target
+    # Data catalogue artifacts: `dbt compile --target collibra --target-path target/collibra`. The relation names are the real
+    # ones: schema = the database of the model, alias = the model name (macros/core/generate_schema_name.sql).
+    collibra:
+      type: singlestore
+      host: "{{ env_var('SINGLESTORE_HOST', 'singlestore') }}"
+      port: 3306
+      user: "{{ env_var('SINGLESTORE_USER', 'svc_ci_dbt') }}"
+      password: "{{ env_var('SINGLESTORE_PASS', 'CiServicePwd2026!') }}"
+      database: "{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_edw_dv_rdv"
+      schema: "{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_edw_dv_rdv"
+      threads: 1
+      # no allow_cleartext_plugin: see the default target

@@ -5,7 +5,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 1.26,
+     "t": 1.31,
      "actions": [],
      "evidence": [
       {
@@ -43,7 +43,7 @@
      ]
     },
     {
-     "t": 1.26,
+     "t": 1.31,
      "actions": [
       {
        "label": "Reading the description of the report on the documentation pages of development and validation",
@@ -88,13 +88,13 @@
      ]
     },
     {
-     "t": 4.19,
+     "t": 4.17,
      "actions": [
       {
        "label": "Reading the description of the report on the documentation pages of development and validation",
        "status": "done",
        "summary": "Read the description of the report on the documentation pages of development and validation.",
-       "details": "dev: v1.0.0 written 2026-11-16T07:29:51Z, same text as in the package: True\nval: v1.0.0 written 2026-11-16T07:22:34Z, same text as in the package: True"
+       "details": "dev: v1.0.0 written 2026-11-21T19:55:00Z, same text as in the package: True\nval: v1.0.0 written 2026-11-21T19:37:28Z, same text as in the package: True"
       }
      ],
      "evidence": [
@@ -133,13 +133,13 @@
      ]
     },
     {
-     "t": 4.56,
+     "t": 4.64,
      "actions": [
       {
        "label": "Reading the description of the report on the documentation pages of development and validation",
        "status": "done",
        "summary": "Read the description of the report on the documentation pages of development and validation.",
-       "details": "dev: v1.0.0 written 2026-11-16T07:29:51Z, same text as in the package: True\nval: v1.0.0 written 2026-11-16T07:22:34Z, same text as in the package: True"
+       "details": "dev: v1.0.0 written 2026-11-21T19:55:00Z, same text as in the package: True\nval: v1.0.0 written 2026-11-21T19:37:28Z, same text as in the package: True"
       }
      ],
      "evidence": [
@@ -178,13 +178,13 @@
      ]
     },
     {
-     "t": 5.84,
+     "t": 5.94,
      "actions": [
       {
        "label": "Reading the description of the report on the documentation pages of development and validation",
        "status": "done",
        "summary": "Read the description of the report on the documentation pages of development and validation.",
-       "details": "dev: v1.0.0 written 2026-11-16T07:29:51Z, same text as in the package: True\nval: v1.0.0 written 2026-11-16T07:22:34Z, same text as in the package: True"
+       "details": "dev: v1.0.0 written 2026-11-21T19:55:00Z, same text as in the package: True\nval: v1.0.0 written 2026-11-21T19:37:28Z, same text as in the package: True"
       }
      ],
      "evidence": [
@@ -193,12 +193,12 @@
        "title": "What each documentation page says",
        "data": {
         "summary": "Read the description of the report on the documentation pages of development and validation.",
-        "details": "dev: v1.0.0 written 2026-11-16T07:29:51Z, same text as in the package: True\nval: v1.0.0 written 2026-11-16T07:22:34Z, same text as in the package: True",
+        "details": "dev: v1.0.0 written 2026-11-21T19:55:00Z, same text as in the package: True\nval: v1.0.0 written 2026-11-21T19:37:28Z, same text as in the package: True",
         "data": {
          "reasons": [
-          "Development: version v1.0.0, documentation page written 16 November, 08:29",
+          "Development: version v1.0.0, documentation page written 21 November, 20:55",
           "Management data product: order volume and delivery performance per order month (carrier scans).",
-          "Validation: version v1.0.0, documentation page written 16 November, 08:22",
+          "Validation: version v1.0.0, documentation page written 21 November, 20:37",
           "Management data product: order volume and delivery performance per order month (carrier scans)."
          ],
          "sites": [
@@ -207,7 +207,7 @@
            "label": "Development",
            "version": "v1.0.0",
            "description": "Management data product: order volume and delivery performance per order month (carrier scans).",
-           "written_at": "2026-11-16T07:29:51Z",
+           "written_at": "2026-11-21T19:55:00Z",
            "matches_package": true
           },
           {
@@ -215,7 +215,7 @@
            "label": "Validation",
            "version": "v1.0.0",
            "description": "Management data product: order volume and delivery performance per order month (carrier scans).",
-           "written_at": "2026-11-16T07:22:34Z",
+           "written_at": "2026-11-21T19:37:28Z",
            "matches_package": true
           }
          ],
@@ -249,13 +249,13 @@
      ]
     },
     {
-     "t": 5.84,
+     "t": 5.94,
      "actions": [
       {
        "label": "Reading the description of the report on the documentation pages of development and validation",
        "status": "done",
        "summary": "Read the description of the report on the documentation pages of development and validation.",
-       "details": "dev: v1.0.0 written 2026-11-16T07:29:51Z, same text as in the package: True\nval: v1.0.0 written 2026-11-16T07:22:34Z, same text as in the package: True"
+       "details": "dev: v1.0.0 written 2026-11-21T19:55:00Z, same text as in the package: True\nval: v1.0.0 written 2026-11-21T19:37:28Z, same text as in the package: True"
       }
      ],
      "evidence": [
@@ -264,12 +264,12 @@
        "title": "What each documentation page says",
        "data": {
         "summary": "Read the description of the report on the documentation pages of development and validation.",
-        "details": "dev: v1.0.0 written 2026-11-16T07:29:51Z, same text as in the package: True\nval: v1.0.0 written 2026-11-16T07:22:34Z, same text as in the package: True",
+        "details": "dev: v1.0.0 written 2026-11-21T19:55:00Z, same text as in the package: True\nval: v1.0.0 written 2026-11-21T19:37:28Z, same text as in the package: True",
         "data": {
          "reasons": [
-          "Development: version v1.0.0, documentation page written 16 November, 08:29",
+          "Development: version v1.0.0, documentation page written 21 November, 20:55",
           "Management data product: order volume and delivery performance per order month (carrier scans).",
-          "Validation: version v1.0.0, documentation page written 16 November, 08:22",
+          "Validation: version v1.0.0, documentation page written 21 November, 20:37",
           "Management data product: order volume and delivery performance per order month (carrier scans)."
          ],
          "sites": [
@@ -278,7 +278,7 @@
            "label": "Development",
            "version": "v1.0.0",
            "description": "Management data product: order volume and delivery performance per order month (carrier scans).",
-           "written_at": "2026-11-16T07:29:51Z",
+           "written_at": "2026-11-21T19:55:00Z",
            "matches_package": true
           },
           {
@@ -286,7 +286,7 @@
            "label": "Validation",
            "version": "v1.0.0",
            "description": "Management data product: order volume and delivery performance per order month (carrier scans).",
-           "written_at": "2026-11-16T07:22:34Z",
+           "written_at": "2026-11-21T19:37:28Z",
            "matches_package": true
           }
          ],
@@ -323,13 +323,13 @@
    "summary": "Read the description of the report on the documentation pages of development and validation.",
    "outcome": "Both pages describe the report with the same sentence, for the same version.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:30:00+00:00",
+   "recorded_at": "2026-11-21T19:55:09+00:00",
    "durations": [
-    5.9,
-    5.9,
     6.1,
     5.9,
-    5.8
+    5.8,
+    5.9,
+    5.9
    ],
    "show": [
     "result",
@@ -1380,7 +1380,7 @@
    "inputs": {},
    "frames": [
     {
-     "t": 1.29,
+     "t": 1.31,
      "actions": [],
      "evidence": [
       {
@@ -1418,7 +1418,7 @@
      ]
     },
     {
-     "t": 1.29,
+     "t": 1.31,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1463,7 +1463,7 @@
      ]
     },
     {
-     "t": 1.51,
+     "t": 1.53,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1508,7 +1508,7 @@
      ]
     },
     {
-     "t": 1.51,
+     "t": 1.53,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1559,7 +1559,7 @@
      ]
     },
     {
-     "t": 1.8,
+     "t": 1.83,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1571,7 +1571,7 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       }
      ],
      "evidence": [
@@ -1610,7 +1610,7 @@
      ]
     },
     {
-     "t": 1.8,
+     "t": 1.83,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1622,7 +1622,7 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
@@ -1667,7 +1667,7 @@
      ]
     },
     {
-     "t": 1.98,
+     "t": 2.03,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1679,70 +1679,70 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "result",
-       "title": "What each documentation page says",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      },
-      {
-       "type": "versions",
-       "title": "Version in each environment",
-       "data": {
-        "environments": [
-         {
-          "env": "dev",
-          "label": "Development",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "val",
-          "label": "Validation",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "prd",
-          "label": "Production",
-          "tag": "v1.0.0"
-         }
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "t": 1.98,
-     "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/clearer-description created from dev"
-      },
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.03,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
@@ -1787,7 +1787,7 @@
      ]
     },
     {
-     "t": 2.21,
+     "t": 2.27,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1799,13 +1799,13 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
@@ -1850,7 +1850,7 @@
      ]
     },
     {
-     "t": 4.58,
+     "t": 4.6,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1862,13 +1862,13 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
@@ -1913,7 +1913,7 @@
      ]
     },
     {
-     "t": 7.9,
+     "t": 7.93,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1925,13 +1925,13 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
@@ -1976,7 +1976,7 @@
      ]
     },
     {
-     "t": 10.56,
+     "t": 10.34,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -1988,13 +1988,265 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Accepting the proposed change",
+       "status": "running",
+       "summary": "Waiting for the automatic checks of the change to finish",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.23,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Accepting the proposed change",
+       "status": "running",
+       "summary": "Waiting for the automatic checks of the change to finish",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.56,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Accepting the proposed change",
+       "status": "running",
+       "summary": "Waiting for the automatic checks of the change to finish",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 17.85,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Accepting the proposed change",
+       "status": "running",
+       "summary": "Waiting for the automatic checks of the change to finish",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 18.65,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
@@ -2039,7 +2291,7 @@
      ]
     },
     {
-     "t": 10.56,
+     "t": 18.65,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2051,19 +2303,19 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       }
      ],
      "evidence": [
@@ -2102,7 +2354,7 @@
      ]
     },
     {
-     "t": 10.56,
+     "t": 18.65,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2114,19 +2366,19 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -2171,7 +2423,7 @@
      ]
     },
     {
-     "t": 10.7,
+     "t": 18.77,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2183,19 +2435,19 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -2240,7 +2492,7 @@
      ]
     },
     {
-     "t": 11.19,
+     "t": 21.16,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2252,19 +2504,19 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -2309,7 +2561,7 @@
      ]
     },
     {
-     "t": 14.51,
+     "t": 24.49,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2321,19 +2573,19 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -2378,7 +2630,7 @@
      ]
     },
     {
-     "t": 17.88,
+     "t": 26.95,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2390,88 +2642,19 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
-      },
-      {
-       "label": "Waiting for the automatic checks",
-       "status": "running",
-       "summary": "Waiting for the automatic checks to start",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "result",
-       "title": "What each documentation page says",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      },
-      {
-       "type": "versions",
-       "title": "Version in each environment",
-       "data": {
-        "environments": [
-         {
-          "env": "dev",
-          "label": "Development",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "val",
-          "label": "Validation",
-          "tag": "v1.0.0"
-         },
-         {
-          "env": "prd",
-          "label": "Production",
-          "tag": "v1.0.0"
-         }
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "t": 18.87,
-     "actions": [
-      {
-       "label": "Making a copy of the shared work in progress",
-       "status": "done",
-       "summary": "Made a copy of the shared work in progress to work on.",
-       "details": "branch demo/clearer-description created from dev"
-      },
-      {
-       "label": "Saving the prepared code change",
-       "status": "done",
-       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
-      },
-      {
-       "label": "Proposing the change for review",
-       "status": "done",
-       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
-      },
-      {
-       "label": "Accepting the proposed change",
-       "status": "done",
-       "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -2516,7 +2699,7 @@
      ]
     },
     {
-     "t": 21.25,
+     "t": 27.83,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2528,19 +2711,19 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -2585,7 +2768,7 @@
      ]
     },
     {
-     "t": 24.59,
+     "t": 31.16,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2597,24 +2780,438 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "running",
        "summary": "Automatic checks: packaging the version",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 34.47,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: packaging the version",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 35.08,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: storing the description of the version",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 37.83,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: storing the description of the version",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 41.15,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: storing the description of the version",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 43.26,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: putting the version live in development",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 44.51,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: putting the version live in development",
        "details": ""
       }
      ],
@@ -2654,7 +3251,7 @@
      ]
     },
     {
-     "t": 27.02,
+     "t": 47.82,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2666,19 +3263,157 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: putting the version live in development",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 51.11,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Waiting for the automatic checks",
+       "status": "running",
+       "summary": "Automatic checks: putting the version live in development",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "What each documentation page says",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Version in each environment",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validation",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Production",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 51.39,
+     "actions": [
+      {
+       "label": "Making a copy of the shared work in progress",
+       "status": "done",
+       "summary": "Made a copy of the shared work in progress to work on.",
+       "details": "branch demo/clearer-description created from dev"
+      },
+      {
+       "label": "Saving the prepared code change",
+       "status": "done",
+       "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+      },
+      {
+       "label": "Proposing the change for review",
+       "status": "done",
+       "summary": "Proposed the change 'Say which month an order is counted in' for review.",
+       "details": "merge request !114: demo/clearer-description -> dev"
+      },
+      {
+       "label": "Accepting the proposed change",
+       "status": "done",
+       "summary": "The change was accepted into the shared work in progress.",
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
@@ -2723,7 +3458,7 @@
      ]
     },
     {
-     "t": 27.07,
+     "t": 51.44,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2735,25 +3470,25 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in development.",
-       "details": "pipeline 313 on v1.0.1: success"
+       "details": "pipeline 209 on v1.0.1: success"
       }
      ],
      "evidence": [
@@ -2792,7 +3527,7 @@
      ]
     },
     {
-     "t": 27.07,
+     "t": 51.44,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2804,25 +3539,25 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in development.",
-       "details": "pipeline 313 on v1.0.1: success"
+       "details": "pipeline 209 on v1.0.1: success"
       },
       {
        "label": "Reading the description of the report on the documentation pages of development and validation",
@@ -2867,7 +3602,7 @@
      ]
     },
     {
-     "t": 27.91,
+     "t": 54.3,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2879,31 +3614,31 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in development.",
-       "details": "pipeline 313 on v1.0.1: success"
+       "details": "pipeline 209 on v1.0.1: success"
       },
       {
        "label": "Reading the description of the report on the documentation pages of development and validation",
-       "status": "running",
-       "summary": "",
-       "details": ""
+       "status": "done",
+       "summary": "Read the description of the report on the documentation pages of development and validation.",
+       "details": "dev: v1.0.1 written 2026-11-21T19:55:51Z, same text as in the package: True\nval: v1.0.0 written 2026-11-21T19:37:28Z, same text as in the package: True"
       }
      ],
      "evidence": [
@@ -2942,7 +3677,7 @@
      ]
     },
     {
-     "t": 29.9,
+     "t": 54.43,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -2954,31 +3689,31 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in development.",
-       "details": "pipeline 313 on v1.0.1: success"
+       "details": "pipeline 209 on v1.0.1: success"
       },
       {
        "label": "Reading the description of the report on the documentation pages of development and validation",
        "status": "done",
        "summary": "Read the description of the report on the documentation pages of development and validation.",
-       "details": "dev: v1.0.1 written 2026-11-16T07:30:23Z, same text as in the package: True\nval: v1.0.0 written 2026-11-16T07:22:34Z, same text as in the package: True"
+       "details": "dev: v1.0.1 written 2026-11-21T19:55:51Z, same text as in the package: True\nval: v1.0.0 written 2026-11-21T19:37:28Z, same text as in the package: True"
       }
      ],
      "evidence": [
@@ -3017,7 +3752,7 @@
      ]
     },
     {
-     "t": 31.18,
+     "t": 55.72,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -3029,31 +3764,31 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in development.",
-       "details": "pipeline 313 on v1.0.1: success"
+       "details": "pipeline 209 on v1.0.1: success"
       },
       {
        "label": "Reading the description of the report on the documentation pages of development and validation",
        "status": "done",
        "summary": "Read the description of the report on the documentation pages of development and validation.",
-       "details": "dev: v1.0.1 written 2026-11-16T07:30:23Z, same text as in the package: True\nval: v1.0.0 written 2026-11-16T07:22:34Z, same text as in the package: True"
+       "details": "dev: v1.0.1 written 2026-11-21T19:55:51Z, same text as in the package: True\nval: v1.0.0 written 2026-11-21T19:37:28Z, same text as in the package: True"
       }
      ],
      "evidence": [
@@ -3062,12 +3797,12 @@
        "title": "What each documentation page says",
        "data": {
         "summary": "Read the description of the report on the documentation pages of development and validation.",
-        "details": "dev: v1.0.1 written 2026-11-16T07:30:23Z, same text as in the package: True\nval: v1.0.0 written 2026-11-16T07:22:34Z, same text as in the package: True",
+        "details": "dev: v1.0.1 written 2026-11-21T19:55:51Z, same text as in the package: True\nval: v1.0.0 written 2026-11-21T19:37:28Z, same text as in the package: True",
         "data": {
          "reasons": [
-          "Development: version v1.0.1, documentation page written 16 November, 08:30",
+          "Development: version v1.0.1, documentation page written 21 November, 20:55",
           "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans).",
-          "Validation: version v1.0.0, documentation page written 16 November, 08:22",
+          "Validation: version v1.0.0, documentation page written 21 November, 20:37",
           "Management data product: order volume and delivery performance per order month (carrier scans)."
          ],
          "sites": [
@@ -3076,7 +3811,7 @@
            "label": "Development",
            "version": "v1.0.1",
            "description": "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans).",
-           "written_at": "2026-11-16T07:30:23Z",
+           "written_at": "2026-11-21T19:55:51Z",
            "matches_package": true
           },
           {
@@ -3084,7 +3819,7 @@
            "label": "Validation",
            "version": "v1.0.0",
            "description": "Management data product: order volume and delivery performance per order month (carrier scans).",
-           "written_at": "2026-11-16T07:22:34Z",
+           "written_at": "2026-11-21T19:37:28Z",
            "matches_package": true
           }
          ],
@@ -3118,7 +3853,7 @@
      ]
     },
     {
-     "t": 31.18,
+     "t": 55.72,
      "actions": [
       {
        "label": "Making a copy of the shared work in progress",
@@ -3130,31 +3865,31 @@
        "label": "Saving the prepared code change",
        "status": "done",
        "summary": "Saved the change: Say in the description of the management report which month an order is counted in.",
-       "details": "94f92009 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
+       "details": "f3d7bef5 docs: the management report counts an order in the month it was placed\nmodels/im_dimensional/olist_management.yml"
       },
       {
        "label": "Proposing the change for review",
        "status": "done",
        "summary": "Proposed the change 'Say which month an order is counted in' for review.",
-       "details": "merge request !92: demo/clearer-description -> dev"
+       "details": "merge request !114: demo/clearer-description -> dev"
       },
       {
        "label": "Accepting the proposed change",
        "status": "done",
        "summary": "The change was accepted into the shared work in progress.",
-       "details": "merge request !92 merged: demo/clearer-description -> dev"
+       "details": "merge request !114 merged: demo/clearer-description -> dev"
       },
       {
        "label": "Waiting for the automatic checks",
        "status": "done",
        "summary": "The version was packaged and put live in development.",
-       "details": "pipeline 313 on v1.0.1: success"
+       "details": "pipeline 209 on v1.0.1: success"
       },
       {
        "label": "Reading the description of the report on the documentation pages of development and validation",
        "status": "done",
        "summary": "Read the description of the report on the documentation pages of development and validation.",
-       "details": "dev: v1.0.1 written 2026-11-16T07:30:23Z, same text as in the package: True\nval: v1.0.0 written 2026-11-16T07:22:34Z, same text as in the package: True"
+       "details": "dev: v1.0.1 written 2026-11-21T19:55:51Z, same text as in the package: True\nval: v1.0.0 written 2026-11-21T19:37:28Z, same text as in the package: True"
       }
      ],
      "evidence": [
@@ -3163,12 +3898,12 @@
        "title": "What each documentation page says",
        "data": {
         "summary": "Read the description of the report on the documentation pages of development and validation.",
-        "details": "dev: v1.0.1 written 2026-11-16T07:30:23Z, same text as in the package: True\nval: v1.0.0 written 2026-11-16T07:22:34Z, same text as in the package: True",
+        "details": "dev: v1.0.1 written 2026-11-21T19:55:51Z, same text as in the package: True\nval: v1.0.0 written 2026-11-21T19:37:28Z, same text as in the package: True",
         "data": {
          "reasons": [
-          "Development: version v1.0.1, documentation page written 16 November, 08:30",
+          "Development: version v1.0.1, documentation page written 21 November, 20:55",
           "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans).",
-          "Validation: version v1.0.0, documentation page written 16 November, 08:22",
+          "Validation: version v1.0.0, documentation page written 21 November, 20:37",
           "Management data product: order volume and delivery performance per order month (carrier scans)."
          ],
          "sites": [
@@ -3177,7 +3912,7 @@
            "label": "Development",
            "version": "v1.0.1",
            "description": "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans).",
-           "written_at": "2026-11-16T07:30:23Z",
+           "written_at": "2026-11-21T19:55:51Z",
            "matches_package": true
           },
           {
@@ -3185,7 +3920,7 @@
            "label": "Validation",
            "version": "v1.0.0",
            "description": "Management data product: order volume and delivery performance per order month (carrier scans).",
-           "written_at": "2026-11-16T07:22:34Z",
+           "written_at": "2026-11-21T19:37:28Z",
            "matches_package": true
           }
          ],
@@ -3222,13 +3957,13 @@
    "summary": "Read the description of the report on the documentation pages of development and validation.",
    "outcome": "Development's page now says which month an order is counted in, under the new version. Validation's page still shows the old sentence, for the version that runs there.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:30:31+00:00",
+   "recorded_at": "2026-11-21T19:56:05+00:00",
    "durations": [
-    22.5,
-    32.9,
     32.6,
     32.3,
-    31.2
+    31.2,
+    47.5,
+    55.7
    ],
    "show": [
     "result",
@@ -3238,12 +3973,12 @@
  },
  "prepare": {
   "durations": [
-   7.3,
-   2.3,
    7.2,
    7.4,
+   7.5,
+   7.5,
    7.5
   ]
  },
- "recorded_at": "2026-11-16T07:30:31+00:00"
+ "recorded_at": "2026-11-21T19:56:05+00:00"
 }

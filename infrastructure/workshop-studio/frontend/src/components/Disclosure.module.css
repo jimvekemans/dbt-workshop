@@ -3,7 +3,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  min-height: 2.75rem;
+  min-height: var(--tap);
   color: var(--ink-2);
   font-size: var(--text-md);
   font-weight: 600;

@@ -1,7 +1,9 @@
 # Workshop Studio
 
-The presenter's app for the workshop. It walks a non-technical audience through 20 small scenarios (four parts each:
-what goes wrong, the idea, the code, a live demo) and the live demo drives the real stack: it feeds data, triggers
+The presenter's app for the workshop. It walks a non-technical audience through small scenarios (four parts each:
+what goes wrong, the idea, the code, a live demo; there are 26 today in five groups, see `scenarios/` and `_groups.yaml`;
+the first group holds five longer "flows") and ends with a closing overview of what is in place today and what comes
+next. The live demo drives the real stack: it feeds data, triggers
 Airflow, commits to GitLab, changes settings and shows what happens. Every scenario can be started alone, in any
 order; whatever an earlier demo left behind is cleaned up first.
 
@@ -24,10 +26,17 @@ working and report tables exist), well
 under a second; an environment that fails it gets the full check and repair. A background feeder delivers one simulated day to every
 environment each `STUDIO_FEED_SECONDS` (default 60) while no job runs.
 
-The two "A" buttons in the top bar make all text smaller or larger (Extra small, Small, Medium, Large, Extra large;
-Medium is the start). The choice is kept in the browser (`localStorage`, key `studio-text-size`), so set it once on the
-machine and screen you present from. The base size also grows with the width of the window (`html` in
-`frontend/src/styles/base.css`); the steps are in `frontend/src/lib/textSize.ts` and repeated in `frontend/index.html`.
+The two "A" buttons in the top bar make all text smaller or larger. There are five sizes, labelled in Flemish: Extra
+klein (scale 0.45), Klein (0.55), Normaal (0.65, the start), Groot (0.75) and Extra groot (0.85). The choice is kept in
+the browser (`localStorage`, key `studio-text-size-v2`; the older key `studio-text-size` belonged to a different table of
+sizes and is no longer read), so set it once on the machine and screen you present from. The base size also grows with
+the width of the window (`html` in `frontend/src/styles/base.css`, whose fallback is the default 0.65); the sizes are in
+`frontend/src/lib/textSize.ts` and repeated in `frontend/index.html`.
+
+Next to them sits the switch "Technical names" (on at the start; `localStorage`, key `studio-tech-names`). It shows or
+hides the small technical lines that the presenter, who owns the platform, can read at a glance: the real names of macros,
+flags, jobs and files behind a scenario (see `tech` under "Add a scenario"). The scenario search matches those keywords
+whether or not the lines are shown.
 
 ## The data
 
@@ -54,7 +63,7 @@ current time. So the dbt checks that compare with the real clock (freshness, "no
 
 | What | Where | Notes |
 |---|---|---|
-| Scenarios, groups, glossary | `scenarios/*.yaml`, `_groups.yaml`, `_glossary.yaml` | bind-mounted read-only: edit, then restart the service. `_groups.yaml` lists each group's `scenarios` in the order they are shown (home page, "Scenario N of 20", previous/next); every scenario file must be listed once, under its own group |
+| Scenarios, groups, glossary, closing overview | `scenarios/*.yaml`, `_groups.yaml`, `_glossary.yaml`, `_roadmap.yaml` | bind-mounted read-only: edit, then restart the service. `_groups.yaml` lists each group's `scenarios` in the order they are shown (home page, "Scenario N of M", previous/next); every scenario file must be listed once, under its own group. `_roadmap.yaml` is optional (see "Add a scenario", step 5) |
 | Code changes a demo commits | `patches/<name>/` (`_patch.yaml` plus full files) | bind-mounted read-only |
 | Recordings | `recordings/<scenario>.json` | bind-mounted read-write; written after every successful live step |
 | Touched set, feeder state, git baseline | volume `workshop_studio_state` at `/data` | |
@@ -105,13 +114,17 @@ script are in the skill `.agents/skills/workshop-studio-scenarios/`. The field-l
    to that group's `scenarios` list, at the place where it should appear.
 2. Fill the four parts. Use only actions and evidence types that exist (`feed.*`, `airflow.*`, `dbt.run`, `sql.exec`,
    `gitlab.*`, `git.*`, `deploy.set_version`, `precommit.run`, `mail.clear`, `wait`, `docs.read_description`,
-   `image.versions`; evidence `table`, `bars`,
+   `docs.read_front_page`, `image.versions`, `toolbox.run`, `storage.*`, `package.open`; evidence `table`, `bars`,
    `number`, `tasks`, `pipeline`, `mail`, `versions`, `result`, `freshness`, `run_history`, `stack`). `stack` is the
    check behind the status row of the home page (`stack` in `GET /api/state`, read every 10 seconds in Live mode, empty
    in Replay): per service (code storage, database, one scheduler per environment, mailbox, data delivery) a `status`
    `up`, `starting` or `down` and a plain `detail`; a service that cannot be reached is `down`, never an error. No
    scenario uses it and the frontend has no card for it. Cleanup is derived from what the actions touched; only
-   `sql.exec` needs an `undo`.
+   `sql.exec` needs an `undo`. The touched kinds are undone in this order: `dag` (a job that was switched on is paused
+   again), `variable`, `feed`, `sql`, `mail`, `git`, `version`, `developer`, `toolbox`, `ci`, `landing`, `models`
+   (`models:<env>` rebuilds every table of the environment, `models:<env>:<model>` only that one; `ci:copies` drops what a
+   rehearsal left in the rehearsal database). The cleaners of `git` and `version` also drop the stored packages of numbers
+   that no longer exist and put the environment's stored copy back to what the original version stored.
 3. Write for people who do not know the terms; technical words go in the glossary and appear as `[[term]]`.
    Optional fields (all of them may be left out):
    - `outcome` of a step is a sentence (`{{ value }}` is shown with thousands separators when it is a whole number: 3,432), or an object that is honest about the result:
@@ -132,8 +145,8 @@ script are in the skill `.agents/skills/workshop-studio-scenarios/`. The field-l
      returns per run `tables_built`, `tables_total` (tables in that run), `tables_not_run`, `tables_failed`,
      `tables_left_out` (project tables minus `tables_total`; the project's size is the largest model count of development's
      `target` and `target_drift_audit` manifests, the same source as the `rehearsed` total; 0 when unknown or for a retry), `checks_passed`, `checks_failed`, `checks_warned`, `checks_not_run`, `retry` (a small run that redid what the
-     run before it left undone), `state` (`good|warn|bad`) and a `summary` ("28 of 28 tables built, 21 checks passed",
-     "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed", "25 of 28 tables built, 3 left out on
+     run before it left undone), `state` (`good|warn|bad`) and a `summary` ("30 of 30 tables built, 21 checks passed",
+     "26 of 30 tables built, 4 tables and 2 checks not run, 1 check failed", "27 of 30 tables built, 3 left out on
      purpose, 14 checks passed", "Retry: 4 tables built, 3 checks passed"); built + failed + not run = `tables_total`; the
      `pipeline` card lists jobs in the order they run and, when a verify job failed on a data check, `failures:
      [{kind: check|table, text, rows, details}]` read from the job log; `tasks` collapse bookkeeping steps into one row with a `count`, mark a skipped clean-up or failure-mail step of a run
@@ -148,9 +161,21 @@ script are in the skill `.agents/skills/workshop-studio-scenarios/`. The field-l
      the closing line of the build (`Finished 'build' ... [1.9s]`, a number, null when absent), `names` are the plain
      names of the rehearsed tables via `names.model_title` (at most 6, then one entry "and N more"), and
      `tables_total` is the number of models in the manifests of development (the larger of the last run's and the
-     drift audit's). `report_rehearsed: true` adds "It rehearsed 1 of 28 tables and 0 data checks in 2 seconds." to the
+     drift audit's; without them, the `Processed:` line after `Finished 'compile'` in the job's own log). `report_rehearsed: true` adds "It rehearsed <n> of <total> tables and <n> data checks in <s> seconds." to the
      summary; `pipeline` evidence with `rehearsed: true` carries the same object as `rehearsed` (null until the job
      has finished). Both are opt-in, so older scenarios keep their sentences. The raw log tail stays in `details`.
+   - A proposal's pipeline has two jobs in stage `verify`: `verify_structure` (the empty first round: the changed
+     tables and their direct dependants, no rows, no checks) and then `verify_feature_to_dev` (real data and every check on
+     the changed tables and what is built on them; it `needs` the first, so a failed first round leaves it "Not run").
+     When the first job has finished, `gitlab.wait_pipeline` also returns `structure: {tables, tables_total, seconds,
+     names}` read from its log in the same way, and with `report_rehearsed: true` the summary says "The first round built
+     <n> of <total> tables." (or, when there is no job with data, "It rehearsed <n> of <total> tables, without any data
+     check."). Both are optional: on a baseline with only one job nothing changes.
+   - `gitlab.merge_request` takes `touches: [...]`: what the rehearsal that starts with the proposal may change outside its
+     private copy, so the clean-up puts it back: `models:<env>:<model>` (a shared table the rehearsal was allowed to build:
+     the cleaner rebuilds just that table with the deployed version) and `ci:copies` (tables a rehearsal left behind in the
+     rehearsal database: the cleaner drops every table there). Say it on the proposal, not on the wait, because the harm is
+     done as soon as the pipeline runs, also when the step is never played.
    - `gitlab.play_job` returns `reasons` (two plain lines: "Approved by <name>", "Approved on 15 November, 18:06",
      local time without "(UTC)") for a `result` item; the job name is only in `details`.
    - `docs.read_description` reads the description of one report from the published documentation page of each
@@ -168,15 +193,72 @@ script are in the skill `.agents/skills/workshop-studio-scenarios/`. The field-l
      is null for a tool missing on that side); `data.left_title` / `data.right_title` name the columns ("Toolbox";
      "First toolbox" / "Second toolbox"; "Toolbox" / "Production package"). Technical names and hashes are only in
      `details`. Nothing is changed. The other actions return `reasons` as plain strings.
+   - The scheduler's own switches (`airflow.*`): `wait_for_dag` (until a setting read at parse time has taken effect: `dag`, `schedule: assets|clock`, `has_tasks`, `lacks_tasks`; up to about 30 s, so it belongs in `demo.setup`), `unpause_dag` (the notice and on-demand jobs are created paused; the cleaner `dag` pauses them again, and a `run_dag` of the on-demand job does the same), `report_feeds` (`feeds: [orders, orders, carrier]`: a feed reports in by an asset event posted through the scheduler's container; `data.reasons` say what the nightly load still waits for), `wait_for_run` (`after: <id of an unpause_dag or report_feeds item>`: the first run that began after it, who started it and after how long), `announcements` (read-only: how many tables the newest nightly run announced and whether the named `tables` were among them). Clearing either of the two parse-time settings clears both and waits for the re-parse. `dbt.run` takes `explain: true` for a "Built 30 tables and ran 36 checks." line.
+   - An action may take `id: <name>`: its result is then kept under that name as well, so several runs of one action in a
+     step each get a card, through `from_action: <name>` of a `result` item (without `id` the newest result of the action
+     name is shown). `wait_for_run` reads its `after:` the same way.
+   - `toolbox.run` (development only) runs what a developer does in the developer toolbox, in a throwaway container of the
+     developer image with the project copied out of the package that development runs: `as: developer:pu_dev1|pu_dev2|pu_dev3`
+     or `service` (the development robot), `auth: password|file|vault` (how the password reaches the toolbox: in the
+     environment, in the settings file `.devcontainer/.env` of the copy, or only two vault ids in that file; the robot stays
+     on `password`), `commands: [{run, expect: success|refused|failed, say, must_contain, changes}]` (1 to 8, each its own
+     shell script in the project folder; `say` holds plain lines with `{facts}` such as `{tables}` or `{errors}`; the first
+     line of the action is the summary, the rest are `reasons`; `changes: true` also reports what the command changed in the
+     project's `.yml` files) and `use_repository: [paths]` (project files taken from the repository instead of the package,
+     for a change that is not packaged yet). A developer's own copies are dropped by the cleaner `toolbox:<env>:<user>`; the
+     robot has none and builds in the shared tables, so a scenario that runs it registers the undo first (a `sql.exec` with
+     `undo`). Passwords and vault ids never appear in any output.
+   - The stores of a numbered version (all read only): `storage.versions` (`show: numbers|codes|stored`: the numbers and
+     the changes behind them, the same changes with and without a number, or what the package registry of GitLab holds),
+     `storage.environment_copy` (`show: copy|note`, `expect_match`: the environment's copy in storage and what its note says),
+     `storage.description` (`version`, `model`: the description of a report as stored with a version),
+     `storage.catalogue_names` (`version`, `models`, `compare_with: developer:pu_dev1|2|3`: table names in the stored
+     catalogue file next to the names a developer's own compile gives) and `package.open` (`versions`, one or two of
+     `baseline`, `previous`, `latest` or a number: the number printed on the sealed package, the tools in it and the
+     description in its code). They return `reasons` (plain strings or `{label, left, right, same}`), and where the table has
+     headings `label_title`, `left_title` and `right_title` name them.
+   - `docs.read_front_page` (`envs`, `expect: running`) reads the front page of each environment's documentation
+     (`scripts/docs_overview.sh` of the dbt project writes it at deploy time): the version it names, when it was written and
+     the counts of tables, checks, feeds and teams, or that it is still the standard page. `expect: running` fails the step
+     when a page names another version than the one that runs.
+   - `tech` (the presenter's technical line, never needed to follow the story): a scenario or flow may have `tech: [..]`,
+     1 to 8 keywords of 1 to 40 characters, and a step may have `tech: "..."`, one line of 1 to 60 characters, both
+     independent of `feature` and `status`. They are served as `tech` in `GET /api/catalog` (scenario and `steps`) and in
+     `GET /api/scenarios/<id>` (scenario and step; absent on a step without it). The frontend draws them small, muted and
+     monospace, joined with " · ", under the promise on a home card, under the title on every part of a scenario, on a step
+     card of the demo, and on the closing page under a row (a flow stage shows its own line, an ordinary scenario its
+     keywords), unless the switch "Technical names" is off. Use the real names (`state:modified+`, `drop_nodes`,
+     `dbt_dataset_dependencies`), checked against the code the scenario shows; an item the code does not confirm is left out.
    - a flow node may have `state: fix` (the safeguard; at most one per flow); a code block may have `file_label`
      (plain words, up to 60 characters, shown instead of the path).
+   - **Flow (a long scenario):** `kind: flow` (default `scenario`). A scenario has 2-4 demo steps, 1-3 code blocks and
+     at most 10 minutes; a flow has 3-8 steps, 1-8 code blocks and at most 30 minutes. The home card of a flow says
+     "Flow · 6 stages"; with more than 4 steps the demo part gets a small map of buttons that jump to a step, and with
+     more than 3 code blocks the code part gets one that jumps to a block.
+   - **Status labels** ("In place today" or "Next step", shown as a badge): a step may have `feature` (1-50 characters,
+     the plain name of what this stage is about) and `status: today|next`, which come together or not at all; a code
+     block may have `status: today|next`; a scenario may have `feature` + `status` too (same pairing rule). In a flow
+     every step needs `feature` and `status`, except the last one (the "everything switched on" stage). Step, scenario
+     and roadmap extra may also have `why` (1-140 characters, one plain sentence: what goes wrong as long as the feature is
+     not there; shown on the closing page as "Without it"). On a step or scenario it needs `feature` and `status`; an
+     extra may always have it.
 4. Check it, with the dbt project and the SQL folder mounted (`SCENARIOS_DIR`, `DBT_PROJECT_DIR` and `SQL_DIR` point
    at them): `python -m studio.catalog --check` lists every problem at once. A failing check is also a startup
    error of the app.
+5. The closing overview: `scenarios/_roadmap.yaml` (optional, checked like the other `_*.yaml` files, unknown keys
+   refused): `title` (up to 60 characters), `intro` (up to 300), `closing` (up to 300, optional) and `extras: [{area (up
+   to 40), feature (up to 60), status: today|next, note (up to 160, optional), why (up to 140, optional)}]` for rows that
+   have no demo of their own.
+   `GET /api/catalog` returns it as `roadmap` (null without the file), and each catalog scenario carries `kind`,
+   `feature`, `status`, `why` and `steps: [{id, title, feature, status, why}]`. The page `#/roadmap` (one closing card at the bottom of
+   the home page; it works in Replay too, it is static content) lists, in the order of `_groups.yaml`, each flow with the
+   `feature` and badge of its stages, each ordinary scenario that has `feature` + `status` as one row, then the extras
+   grouped by `area`, under two counts (in place today, next steps). Every row links to its scenario. Without any status
+   the page says so in one sentence.
 
 ## Throwaway containers
 
-Every container the studio starts for one step (`studio-<8 hex>`: a dbt run, the pre-commit run, the toolbox listing,
+Every container the studio starts for one step (`studio-<8 hex>`: a dbt run, the pre-commit run, the toolbox listing and the toolbox runs,
 copying the project out of a package, reading a file from a package, deploying a version) carries the label
 `workshop.studio.throwaway=1` and is removed when its step ends, also when the step fails or is cancelled. A restart
 in the middle of a step cannot do that, so at start-up the studio removes every container with that name pattern AND

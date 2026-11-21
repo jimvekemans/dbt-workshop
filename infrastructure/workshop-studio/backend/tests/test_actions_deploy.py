@@ -1,7 +1,7 @@
 import pydantic
 import pytest
 
-from studio.actions import clients, deploy
+from studio.actions import clients, deploy, storage
 from studio.actions.base import StepFailed
 from test_actions_support import make_ctx
 
@@ -39,7 +39,7 @@ def test_pick_version(spec, env, current, expected):
 def test_unbuilt_literal_and_empty_family_fail_plainly():
     with pytest.raises(StepFailed) as err:
         deploy.pick_version("v9.0.0", "dev", None, TAGS, "v1.0.0")
-    assert "has not been built" in err.value.summary
+    assert "is nog niet gebuild" in err.value.summary
     with pytest.raises(StepFailed):
         deploy.pick_version("latest", "dev", None, ["2026-Q1.0"], "v1.0.0")
 
@@ -61,18 +61,19 @@ def test_deploy_mirrors_the_ci_job_and_sets_the_version_last(tmp_path, monkeypat
     )
     ctx = make_ctx(tmp_path, "prd")
     result = deploy.set_version(ctx, deploy.SetVersionParams(tag="latest"))
-    assert result.touched == {"version:prd"} and result.summary == "Production now runs version 2026-Q1.1."
+    assert result.touched == {"version:prd"} and result.summary == "Productie runt nu versie 2026-Q1.1."
     runs = [a for a in seen if a[0] == "run"]
     assert len(runs) == 2 and "workshop_prd:/state" in runs[0] and "dbt-vdp:2026-Q1.1" in runs[0]
     assert seen[-1] == ("airflow", "prd", "variables", "set", "dbt_image_tag", "2026-Q1.1")
 
 
 def test_cleaner_skips_a_deploy_when_the_baseline_already_runs(tmp_path, monkeypatch):
-    seen = []
+    seen, copies = [], []
     monkeypatch.setattr(clients, "airflow_cli", lambda ctx, env, *a, **k: clients.Proc(0, "v1.0.0", ""))
     monkeypatch.setattr(deploy, "deploy", lambda *a: seen.append(a))
+    monkeypatch.setattr(storage, "restore_env_copy", lambda ctx, env: copies.append(env) or "ok")
     deploy.restore_version(make_ctx(tmp_path), "version:dev")
-    assert seen == []
+    assert seen == [] and copies == ["dev"]
     monkeypatch.setattr(clients, "airflow_cli", lambda ctx, env, *a, **k: clients.Proc(0, "v1.4.0", ""))
     deploy.restore_version(make_ctx(tmp_path), "version:dev")
-    assert seen[0][1:] == ("dev", "v1.0.0")
+    assert seen[0][1:] == ("dev", "v1.0.0") and copies == ["dev", "dev"]   # the copy in storage is put back in both cases

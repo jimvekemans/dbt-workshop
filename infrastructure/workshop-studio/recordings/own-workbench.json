@@ -5,33 +5,33 @@
    "inputs": {},
    "frames": [
     {
-     "t": 0.01,
+     "t": 0.0,
      "actions": [],
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -39,10 +39,10 @@
      ]
     },
     {
-     "t": 0.01,
+     "t": 0.0,
      "actions": [
       {
-       "label": "Running the build of the reports",
+       "label": "Bezig met de build van de rapporten",
        "status": "running",
        "summary": "",
        "details": ""
@@ -51,28 +51,28 @@
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -83,7 +83,7 @@
      "t": 2.01,
      "actions": [
       {
-       "label": "Running the build of the reports",
+       "label": "Bezig met de build van de rapporten",
        "status": "running",
        "summary": "",
        "details": ""
@@ -92,36 +92,28 @@
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
-         },
-         {
-          "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
-          },
-          "state": null,
-          "details": "pu_dev1"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -129,48 +121,40 @@
      ]
     },
     {
-     "t": 2.22,
+     "t": 2.5,
      "actions": [
       {
-       "label": "Running the build of the reports",
+       "label": "Bezig met de build van de rapporten",
        "status": "done",
-       "summary": "The build of the reports finished without problems.",
-       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev1.pu_dev1_stg_olist_customers (incremental) [1 of 2 in 0.04s]\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [2 of 2 in 0.18s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [473ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
+       "summary": "De build van de rapporten is zonder problemen afgelopen.",
+       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev1.pu_dev1_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [2 of 2 in 0.13s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [473ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
       }
      ],
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
-         },
-         {
-          "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
-          },
-          "state": null,
-          "details": "pu_dev1"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -178,48 +162,48 @@
      ]
     },
     {
-     "t": 2.23,
+     "t": 2.5,
      "actions": [
       {
-       "label": "Running the build of the reports",
+       "label": "Bezig met de build van de rapporten",
        "status": "done",
-       "summary": "The build of the reports finished without problems.",
-       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev1.pu_dev1_stg_olist_customers (incremental) [1 of 2 in 0.04s]\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [2 of 2 in 0.18s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [473ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
+       "summary": "De build van de rapporten is zonder problemen afgelopen.",
+       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev1.pu_dev1_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [2 of 2 in 0.13s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [473ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
       }
      ],
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
+           "copy": "Klantentabel (kopie van developer één)",
+           "owner": "Developer één"
           },
           "state": null,
           "details": "pu_dev1"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -227,48 +211,48 @@
      ]
     },
     {
-     "t": 2.23,
+     "t": 2.5,
      "actions": [
       {
-       "label": "Running the build of the reports",
+       "label": "Bezig met de build van de rapporten",
        "status": "done",
-       "summary": "The build of the reports finished without problems.",
-       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev1.pu_dev1_stg_olist_customers (incremental) [1 of 2 in 0.04s]\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [2 of 2 in 0.18s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [473ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
+       "summary": "De build van de rapporten is zonder problemen afgelopen.",
+       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev1.pu_dev1_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [2 of 2 in 0.13s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [473ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
       }
      ],
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
+           "copy": "Klantentabel (kopie van developer één)",
+           "owner": "Developer één"
           },
           "state": null,
           "details": "pu_dev1"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -276,16 +260,16 @@
      ]
     }
    ],
-   "summary": "The build of the reports finished without problems.",
-   "outcome": "Developer one has their own copy, and the shared table is still there. 2 tables exist.",
+   "summary": "De build van de rapporten is zonder problemen afgelopen.",
+   "outcome": "Developer één heeft zijn eigen kopie, en de gedeelde tabel staat er nog. Er bestaan 2 tabellen.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:26:48+00:00",
+   "recorded_at": "2026-11-21T22:12:50+00:00",
    "durations": [
-    2.7,
-    2.7,
     2.3,
-    2.2,
-    2.2
+    2.7,
+    2.6,
+    2.5,
+    2.5
    ],
    "show": [
     "table"
@@ -300,36 +284,36 @@
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
+           "copy": "Klantentabel (kopie van developer één)",
+           "owner": "Developer één"
           },
           "state": null,
           "details": "pu_dev1"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -340,7 +324,7 @@
      "t": 0.01,
      "actions": [
       {
-       "label": "Running the build of the reports",
+       "label": "Bezig met de build van de rapporten",
        "status": "running",
        "summary": "",
        "details": ""
@@ -349,36 +333,36 @@
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
+           "copy": "Klantentabel (kopie van developer één)",
+           "owner": "Developer één"
           },
           "state": null,
           "details": "pu_dev1"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -389,7 +373,7 @@
      "t": 2.01,
      "actions": [
       {
-       "label": "Running the build of the reports",
+       "label": "Bezig met de build van de rapporten",
        "status": "running",
        "summary": "",
        "details": ""
@@ -398,44 +382,36 @@
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
+           "copy": "Klantentabel (kopie van developer één)",
+           "owner": "Developer één"
           },
           "state": null,
           "details": "pu_dev1"
-         },
-         {
-          "cells": {
-           "copy": "Customers table (copy of developer two)",
-           "owner": "Developer two"
-          },
-          "state": null,
-          "details": "pu_dev2"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -443,56 +419,48 @@
      ]
     },
     {
-     "t": 2.53,
+     "t": 2.38,
      "actions": [
       {
-       "label": "Running the build of the reports",
+       "label": "Bezig met de build van de rapporten",
        "status": "done",
-       "summary": "The build of the reports finished without problems.",
-       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev2.pu_dev2_stg_olist_customers (incremental) [1 of 2 in 0.04s]\n Succeeded model pu_dev2.pu_dev2_dim_olist_customers (table) [2 of 2 in 0.49s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [786ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
+       "summary": "De build van de rapporten is zonder problemen afgelopen.",
+       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev2.pu_dev2_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev2.pu_dev2_dim_olist_customers (table) [2 of 2 in 0.13s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [436ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
       }
      ],
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
+           "copy": "Klantentabel (kopie van developer één)",
+           "owner": "Developer één"
           },
           "state": null,
           "details": "pu_dev1"
-         },
-         {
-          "cells": {
-           "copy": "Customers table (copy of developer two)",
-           "owner": "Developer two"
-          },
-          "state": null,
-          "details": "pu_dev2"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -500,56 +468,56 @@
      ]
     },
     {
-     "t": 2.54,
+     "t": 2.39,
      "actions": [
       {
-       "label": "Running the build of the reports",
+       "label": "Bezig met de build van de rapporten",
        "status": "done",
-       "summary": "The build of the reports finished without problems.",
-       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev2.pu_dev2_stg_olist_customers (incremental) [1 of 2 in 0.04s]\n Succeeded model pu_dev2.pu_dev2_dim_olist_customers (table) [2 of 2 in 0.49s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [786ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
+       "summary": "De build van de rapporten is zonder problemen afgelopen.",
+       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev2.pu_dev2_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev2.pu_dev2_dim_olist_customers (table) [2 of 2 in 0.13s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [436ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
       }
      ],
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
+           "copy": "Klantentabel (kopie van developer één)",
+           "owner": "Developer één"
           },
           "state": null,
           "details": "pu_dev1"
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer two)",
-           "owner": "Developer two"
+           "copy": "Klantentabel (kopie van developer twee)",
+           "owner": "Developer twee"
           },
           "state": null,
           "details": "pu_dev2"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -557,56 +525,56 @@
      ]
     },
     {
-     "t": 2.54,
+     "t": 2.39,
      "actions": [
       {
-       "label": "Running the build of the reports",
+       "label": "Bezig met de build van de rapporten",
        "status": "done",
-       "summary": "The build of the reports finished without problems.",
-       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev2.pu_dev2_stg_olist_customers (incremental) [1 of 2 in 0.04s]\n Succeeded model pu_dev2.pu_dev2_dim_olist_customers (table) [2 of 2 in 0.49s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [786ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
+       "summary": "De build van de rapporten is zonder problemen afgelopen.",
+       "details": "dbt run --select +dim_olist_customers (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n Succeeded model pu_dev2.pu_dev2_stg_olist_customers (incremental) [1 of 2 in 0.03s]\n Succeeded model pu_dev2.pu_dev2_dim_olist_customers (table) [2 of 2 in 0.13s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'run' successfully for target 'default' [436ms]\nProcessed: 1 hook | 2 models\nSummary: 3 total | 3 success"
       }
      ],
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
+           "copy": "Klantentabel (kopie van developer één)",
+           "owner": "Developer één"
           },
           "state": null,
           "details": "pu_dev1"
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer two)",
-           "owner": "Developer two"
+           "copy": "Klantentabel (kopie van developer twee)",
+           "owner": "Developer twee"
           },
           "state": null,
           "details": "pu_dev2"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -614,16 +582,16 @@
      ]
     }
    ],
-   "summary": "The build of the reports finished without problems.",
-   "outcome": "3 tables now exist side by side. Each developer can check their own numbers in peace.",
+   "summary": "De build van de rapporten is zonder problemen afgelopen.",
+   "outcome": "Nu bestaan er 3 tabellen naast elkaar. Elke developer kan in alle rust zijn eigen cijfers nakijken.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:26:51+00:00",
+   "recorded_at": "2026-11-21T22:12:52+00:00",
    "durations": [
-    2.2,
-    2.8,
-    2.2,
+    2.7,
     2.5,
-    2.5
+    2.2,
+    2.4,
+    2.4
    ],
    "show": [
     "table"
@@ -638,44 +606,44 @@
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
+           "copy": "Klantentabel (kopie van developer één)",
+           "owner": "Developer één"
           },
           "state": null,
           "details": "pu_dev1"
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer two)",
-           "owner": "Developer two"
+           "copy": "Klantentabel (kopie van developer twee)",
+           "owner": "Developer twee"
           },
           "state": null,
           "details": "pu_dev2"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -686,7 +654,7 @@
      "t": 0.01,
      "actions": [
       {
-       "label": "Running the maintenance step",
+       "label": "Bezig met de opkuisstap",
        "status": "running",
        "summary": "",
        "details": ""
@@ -695,44 +663,44 @@
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
+           "copy": "Klantentabel (kopie van developer één)",
+           "owner": "Developer één"
           },
           "state": null,
           "details": "pu_dev1"
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer two)",
-           "owner": "Developer two"
+           "copy": "Klantentabel (kopie van developer twee)",
+           "owner": "Developer twee"
           },
           "state": null,
           "details": "pu_dev2"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -740,56 +708,48 @@
      ]
     },
     {
-     "t": 1.93,
+     "t": 2.01,
      "actions": [
       {
-       "label": "Running the maintenance step",
-       "status": "done",
-       "summary": "The maintenance step finished without problems.",
-       "details": "dbt run-operation cleanup_user_models (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n        select \n            concat('`', table_schema, '`.`', table_name, '`') as identifier,\n            case \n                when table_type = 'BASE TABLE' \n                then 'table'\n                else 'view'\n            end as type\n        from information_schema.tables\n        where table_schema in ('dev_edw_dv_rdv', 'dev_edw_dv_bdv', 'dev_im_dimensional')\n        and create_time < date_sub(NOW(), interval 0 DAY)\n        and table_name like 'pu_dev1_%'\ndrop table if exists `dev_im_dimensional`.`pu_dev1_dim_olist_customers`\ndrop table if exists `dev_edw_dv_bdv`.`pu_dev1_stg_olist_customers`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'default' [175ms]"
+       "label": "Bezig met de opkuisstap",
+       "status": "running",
+       "summary": "",
+       "details": ""
       }
      ],
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer one)",
-           "owner": "Developer one"
-          },
-          "state": null,
-          "details": "pu_dev1"
-         },
-         {
-          "cells": {
-           "copy": "Customers table (copy of developer two)",
-           "owner": "Developer two"
+           "copy": "Klantentabel (kopie van developer twee)",
+           "owner": "Developer twee"
           },
           "state": null,
           "details": "pu_dev2"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -797,48 +757,48 @@
      ]
     },
     {
-     "t": 1.93,
+     "t": 2.07,
      "actions": [
       {
-       "label": "Running the maintenance step",
+       "label": "Bezig met de opkuisstap",
        "status": "done",
-       "summary": "The maintenance step finished without problems.",
+       "summary": "De opkuisstap is zonder problemen afgelopen.",
        "details": "dbt run-operation cleanup_user_models (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n        select \n            concat('`', table_schema, '`.`', table_name, '`') as identifier,\n            case \n                when table_type = 'BASE TABLE' \n                then 'table'\n                else 'view'\n            end as type\n        from information_schema.tables\n        where table_schema in ('dev_edw_dv_rdv', 'dev_edw_dv_bdv', 'dev_im_dimensional')\n        and create_time < date_sub(NOW(), interval 0 DAY)\n        and table_name like 'pu_dev1_%'\ndrop table if exists `dev_im_dimensional`.`pu_dev1_dim_olist_customers`\ndrop table if exists `dev_edw_dv_bdv`.`pu_dev1_stg_olist_customers`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'default' [175ms]"
       }
      ],
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer two)",
-           "owner": "Developer two"
+           "copy": "Klantentabel (kopie van developer twee)",
+           "owner": "Developer twee"
           },
           "state": null,
           "details": "pu_dev2"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -846,48 +806,97 @@
      ]
     },
     {
-     "t": 1.93,
+     "t": 2.08,
      "actions": [
       {
-       "label": "Running the maintenance step",
+       "label": "Bezig met de opkuisstap",
        "status": "done",
-       "summary": "The maintenance step finished without problems.",
+       "summary": "De opkuisstap is zonder problemen afgelopen.",
        "details": "dbt run-operation cleanup_user_models (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n        select \n            concat('`', table_schema, '`.`', table_name, '`') as identifier,\n            case \n                when table_type = 'BASE TABLE' \n                then 'table'\n                else 'view'\n            end as type\n        from information_schema.tables\n        where table_schema in ('dev_edw_dv_rdv', 'dev_edw_dv_bdv', 'dev_im_dimensional')\n        and create_time < date_sub(NOW(), interval 0 DAY)\n        and table_name like 'pu_dev1_%'\ndrop table if exists `dev_im_dimensional`.`pu_dev1_dim_olist_customers`\ndrop table if exists `dev_edw_dv_bdv`.`pu_dev1_stg_olist_customers`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'default' [175ms]"
       }
      ],
      "evidence": [
       {
        "type": "table",
-       "title": "Copies of the customers table",
+       "title": "Kopieën van de klantentabel",
        "data": {
         "columns": [
          {
           "key": "copy",
-          "label": "Table"
+          "label": "Tabel"
          },
          {
           "key": "owner",
-          "label": "Belongs to"
+          "label": "Hoort bij"
          }
         ],
         "rows": [
          {
           "cells": {
-           "copy": "Customers table (shared)",
-           "owner": "shared"
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
           },
           "state": null
          },
          {
           "cells": {
-           "copy": "Customers table (copy of developer two)",
-           "owner": "Developer two"
+           "copy": "Klantentabel (kopie van developer twee)",
+           "owner": "Developer twee"
           },
           "state": null,
           "details": "pu_dev2"
          }
         ],
-        "empty": "No copies yet.",
+        "empty": "Nog geen kopieën.",
+        "truncated": false,
+        "footer": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.08,
+     "actions": [
+      {
+       "label": "Bezig met de opkuisstap",
+       "status": "done",
+       "summary": "De opkuisstap is zonder problemen afgelopen.",
+       "details": "dbt run-operation cleanup_user_models (exit code 0)\ndbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n        select \n            concat('`', table_schema, '`.`', table_name, '`') as identifier,\n            case \n                when table_type = 'BASE TABLE' \n                then 'table'\n                else 'view'\n            end as type\n        from information_schema.tables\n        where table_schema in ('dev_edw_dv_rdv', 'dev_edw_dv_bdv', 'dev_im_dimensional')\n        and create_time < date_sub(NOW(), interval 0 DAY)\n        and table_name like 'pu_dev1_%'\ndrop table if exists `dev_im_dimensional`.`pu_dev1_dim_olist_customers`\ndrop table if exists `dev_edw_dv_bdv`.`pu_dev1_stg_olist_customers`\n\n==================== Execution Summary =====================\nFinished 'run-operation' successfully for target 'default' [175ms]"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "Kopieën van de klantentabel",
+       "data": {
+        "columns": [
+         {
+          "key": "copy",
+          "label": "Tabel"
+         },
+         {
+          "key": "owner",
+          "label": "Hoort bij"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "copy": "Klantentabel (gedeeld)",
+           "owner": "gedeeld"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "copy": "Klantentabel (kopie van developer twee)",
+           "owner": "Developer twee"
+          },
+          "state": null,
+          "details": "pu_dev2"
+         }
+        ],
+        "empty": "Nog geen kopieën.",
         "truncated": false,
         "footer": null
        }
@@ -895,16 +904,16 @@
      ]
     }
    ],
-   "summary": "The maintenance step finished without problems.",
-   "outcome": "Only developer one's copy is gone. 2 tables remain, the shared one and developer two's copy.",
+   "summary": "De opkuisstap is zonder problemen afgelopen.",
+   "outcome": "Enkel de kopie van developer één is weg. Er blijven 2 tabellen over: de gedeelde en de kopie van developer twee.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:26:53+00:00",
+   "recorded_at": "2026-11-21T22:12:54+00:00",
    "durations": [
+    2.0,
+    2.0,
+    2.0,
     1.9,
-    2.2,
-    1.9,
-    1.9,
-    1.9
+    2.1
    ],
    "show": [
     "table"
@@ -914,11 +923,11 @@
  "prepare": {
   "durations": [
    1.4,
-   12.5,
    1.4,
+   17.3,
    1.4,
-   1.4
+   1.5
   ]
  },
- "recorded_at": "2026-11-16T07:26:53+00:00"
+ "recorded_at": "2026-11-21T22:12:54+00:00"
 }

@@ -7,6 +7,7 @@ import { defaultsFor } from '../lib/inputs'
 import { Prose } from '../components/Term'
 import { Button } from '../components/Button'
 import { Callout } from '../components/Callout'
+import { JumpNav } from '../components/JumpNav'
 import { BroomIcon, RefreshIcon } from '../components/icons'
 import { GettingReady } from './GettingReady'
 import { StepCard, finalEvidence } from './StepCard'
@@ -41,27 +42,42 @@ export function DemoPart({ scenario }: { scenario: Scenario }) {
       <div className={styles.head}>
         <p className="kicker">{partTitle('demo')}</p>
         <h2 className={styles.h2} id="part-heading" tabIndex={-1}>
-          Now watch it happen
+          Kijk nu hoe het gebeurt
         </h2>
         <Prose text={scenario.demo.intro} className={styles.lead} />
         {replay && (
           <Callout
             tone="warn"
-            title="This is a replay"
+            title="Dit is een opname"
             actions={
-              <Button disabled={!!server?.job || !!server?.live_unavailable} disabledReason={server?.live_unavailable ?? 'Wait until the current work has finished'} onClick={() => void actions.setMode('live')}>
-                Switch to Live
+              <Button disabled={!!server?.job || !!server?.live_unavailable} disabledReason={server?.live_unavailable ?? 'Wacht tot het huidige werk klaar is'} onClick={() => void actions.setMode('live')}>
+                Overschakelen naar Live
               </Button>
             }
           >
             {entry && !entry.recorded
-              ? 'There is no recording of this scenario yet, so the steps cannot run. Switch to Live to run it for real.'
-              : "The audience is watching a recording from an earlier run, played back faster. Nothing on the system is changed. In Live the real steps run and take as long as the 'Usually about' times."}
+              ? 'Van dit scenario bestaat er nog geen opname, dus de stappen kunnen niet draaien. Schakel over naar Live om het echt te runnen.'
+              : "Het publiek bekijkt een opname van een eerdere run, sneller afgespeeld. Er wordt niets gewijzigd op het systeem. In Live draaien de echte stappen en duren ze zo lang als de tijden bij 'Meestal ongeveer'."}
           </Callout>
         )}
       </div>
 
       {!open && <GettingReady server={server} demo={d} scenarioTitle={plainText(scenario.title)} usualSeconds={scenario.prepare_usual_seconds} onPrepare={prepare} />}
+
+      {open && steps.length > 4 && (
+        <JumpNav
+          label="De stappen van deze demo"
+          items={steps.map((s, i) => {
+            const status = stepState(d, s.id)?.status
+            return {
+              target: `step-${s.id}`,
+              title: plainText(s.title),
+              mark: status === 'done' ? '✓' : status === 'failed' ? '!' : String(i + 1),
+              state: status === 'done' ? 'done' : status === 'failed' ? 'failed' : status === 'running' ? 'running' : 'todo',
+            }
+          })}
+        />
+      )}
 
       {open && (
         <ol className={demo.steps}>
@@ -88,32 +104,32 @@ export function DemoPart({ scenario }: { scenario: Scenario }) {
       {allDone && (
         <section className={demo.end} aria-labelledby="end-h" data-end-card="">
           <h3 id="end-h" className={demo.endTitle}>
-            That is the whole demo
+            Dat was de hele demo
           </h3>
-          <p className={demo.endText}>You can run any step again, start this demo over, or pick another scenario.</p>
+          <p className={demo.endText}>Je kan elke stap opnieuw runnen, deze demo opnieuw starten of een ander scenario kiezen.</p>
           {tryStep && !replay && (
             <p className={demo.endText}>
-              Try it yourself: change the <b>{tryStep.inputs[0]?.label}</b> and press “Run again”.
+              Probeer het zelf: wijzig <b>{tryStep.inputs[0]?.label}</b> en druk op “Opnieuw runnen”.
             </p>
           )}
           <p className={demo.endText}>
             {left.length > 0
-              ? `This demo changed the practice system a little (${left.map((l) => l.label).join('; ')}). It is put back automatically when you start another scenario, or now:`
+              ? `Deze demo wijzigde het oefensysteem een beetje (${left.map((l) => l.label).join('; ')}). Het wordt automatisch opgekuist als je een ander scenario start, of nu:`
               : replay
-                ? 'This was a recording: nothing on the practice system was touched.'
-                : 'This demo left the practice system as it was.'}
+                ? 'Dit was een opname: er werd niets aangeraakt op het oefensysteem.'
+                : 'Deze demo liet het oefensysteem zoals het was.'}
           </p>
           <div className={demo.endActions} data-end-actions="">
             {left.length > 0 && (
-              <Button icon={<BroomIcon />} loading={cleaning} disabled={!!server?.job && !cleaning} disabledReason="Wait until the current work has finished" onClick={() => void actions.cleanup()}>
-                {cleaning ? 'Putting everything back…' : 'Put everything back'}
+              <Button icon={<BroomIcon />} loading={cleaning} disabled={!!server?.job && !cleaning} disabledReason="Wacht tot het huidige werk klaar is" onClick={() => void actions.cleanup()}>
+                {cleaning ? 'Alles wordt opgekuist…' : 'Alles opkuisen'}
               </Button>
             )}
-            <Button icon={<RefreshIcon />} disabled={!!server?.job} disabledReason="Wait until the current work has finished" onClick={prepare}>
-              Start this demo over
+            <Button icon={<RefreshIcon />} disabled={!!server?.job} disabledReason="Wacht tot het huidige werk klaar is" onClick={prepare}>
+              Deze demo opnieuw starten
             </Button>
           </div>
-          <p className={demo.endHint}>Starting over clears the results on this page.</p>
+          <p className={demo.endHint}>Opnieuw starten wist de resultaten op deze pagina.</p>
         </section>
       )}
     </>

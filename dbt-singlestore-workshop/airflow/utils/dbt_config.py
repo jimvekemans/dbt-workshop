@@ -31,6 +31,14 @@ DAILY_ARTIFACTS_DIR = os.path.join(ARTIFACTS_DIR, "daily_load")
 RELEASE_ARTIFACTS_BASE_DIR = os.path.join(ARTIFACTS_DIR, "release")
 RELOAD_ARTIFACTS_BASE_DIR = os.path.join(ARTIFACTS_DIR, "reload")
 
+# dbt_on_demand: its own target and state folders, so a run by hand never touches what the daily load's retry reads
+ON_DEMAND_TARGET_DIR = os.path.join(MOUNT_DIR, "target_on_demand")
+ON_DEMAND_ARTIFACTS_DIR = os.path.join(ARTIFACTS_DIR, "on_demand")
+
+# Airflow Assets (utils/dbt_asset_utils.py): a table is announced as s2://workshop-<env>/<database>/<object>
+ASSET_URI_SCHEME = "s2"
+ASSET_URI_HOST_PREFIX = "workshop"
+
 SAFE_RUN_ID_TEMPLATE = "{{ run_id | replace(':', '_') | replace('+', '_') }}"
 
 # The dbt project runs from the CI-built image dbt-vdp:<tag>; the tag is the Airflow Variable set by every deploy

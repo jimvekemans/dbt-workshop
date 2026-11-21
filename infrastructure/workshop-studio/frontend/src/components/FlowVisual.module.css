@@ -33,3 +33,23 @@
   .vLines { display: none; }
   .head { bottom: auto; left: auto; right: 0; top: calc(var(--p) * 1%); border-width: 6px 0 6px 10px; border-color: transparent transparent transparent currentColor; transform: translateY(-50%); }
 }
+
+/* compact (the home-page preview): small chips that wrap onto more lines when the tile is narrow, with a small chevron
+   between them instead of the drawn arrows; the notes are left out. Every rule starts with [data-compact], which is
+   more specific than the container-query rules above, so those never apply here. */
+.figure[data-compact] { --text-sm: 0.72rem; --text-lg: 0.84rem; --space-1: 0.12rem; --space-3: 0.4rem; --space-4: 0.55rem; }
+.figure[data-compact] .flow { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.1rem; }
+.figure[data-compact] .stage { flex: 0 1 auto; flex-direction: row; align-items: center; min-width: 0; }
+.figure[data-compact] .nodes { display: flex; flex-direction: column; align-items: stretch; gap: 0.25rem; flex: 0 1 auto; }
+.figure[data-compact] .link { display: none; }
+.figure[data-compact] .stage:not(:last-child)::after {
+  content: ''; flex: none; width: 0.32rem; height: 0.32rem; margin: 0 0.35rem 0 0.2rem;
+  border-top: 2px solid var(--ink-2); border-right: 2px solid var(--ink-2); transform: rotate(45deg);
+}
+.figure[data-compact] .node { display: flex; align-items: center; gap: 0.35em; padding: 0.28em 0.65em; border-radius: var(--radius-md); border-width: 1.5px; box-shadow: none; }
+.figure[data-compact] .node[data-state='bad'] { border-width: 2px; }
+.figure[data-compact] .node[data-state='fix'] { border-width: 2px; box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 28%, transparent); }
+.figure[data-compact] .label { font-size: var(--text-lg); line-height: 1.2; }
+.figure[data-compact] .note, .figure[data-compact] .fix { display: none; }
+/* the state word ("Wacht") of a node stays for screen readers; the compact chip shows the icon and the label only */
+.figure[data-compact] .state > span:last-child { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

@@ -14,7 +14,7 @@ async function plainSentence(res: Response): Promise<string> {
   } catch {
     /* not JSON */
   }
-  return text.trim() || `The studio answered with an error (${res.status}).`
+  return text.trim() || `De Studio antwoordde met een fout (${res.status}).`
 }
 
 async function call<T>(method: 'GET' | 'POST', path: string, body?: unknown): Promise<T> {
@@ -26,7 +26,7 @@ async function call<T>(method: 'GET' | 'POST', path: string, body?: unknown): Pr
       body: body === undefined ? undefined : JSON.stringify(body),
     })
   } catch {
-    throw new ApiError('The studio cannot be reached right now.', 0)
+    throw new ApiError('De Studio is nu niet bereikbaar.', 0)
   }
   if (!res.ok) throw new ApiError(await plainSentence(res), res.status)
   return (await res.json()) as T

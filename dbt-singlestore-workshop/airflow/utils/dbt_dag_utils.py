@@ -120,8 +120,9 @@ def _run_url(dag_id: str, run_id: str) -> str:
         return ""
 
 
-def send_failure_report_for_run(context: dict[str, Any]) -> bool:
-    """Collect the logs of the failed task(s) of this run plus run_results.json and send ONE mail. Never raises."""
+def send_failure_report_for_run(context: dict[str, Any], target_dir: str = TARGET_DIR) -> bool:
+    """Collect the logs of the failed task(s) of this run plus run_results.json and send ONE mail. Never raises.
+    `target_dir`: where the DAG's dbt tasks write run_results.json (the shared target dir unless the DAG has its own)."""
     try:
         from utils.dbt_pod_utils import get_variable
 
@@ -133,7 +134,7 @@ def send_failure_report_for_run(context: dict[str, Any]) -> bool:
         safe_run_id = ti.run_id.replace(":", "_").replace("+", "_")
         # release steps write to their own target dir, the daily load and the reload tasks to the shared one
         candidates = [os.path.join(RELEASE_ARTIFACTS_BASE_DIR, safe_run_id, t, "run_results.json") for t in failed]
-        candidates.append(os.path.join(TARGET_DIR, "run_results.json"))
+        candidates.append(os.path.join(target_dir, "run_results.json"))
         run_results_path = next((c for c in candidates if os.path.isfile(c)), candidates[-1])
         ctx = {
             "environment": ENV,
@@ -148,14 +149,15 @@ def send_failure_report_for_run(context: dict[str, Any]) -> bool:
         return False
 
 
-def failure_report_task():
+def failure_report_task(target_dir: str = TARGET_DIR):
     """The final `send_failure_report` task (trigger_rule one_failed). Call it inside a `with DAG(...)` block and set
-    the dbt tasks as its upstream: it runs once per DAG run in which any of them failed."""
+    the dbt tasks as its upstream: it runs once per DAG run in which any of them failed. `target_dir`: see
+    send_failure_report_for_run."""
     from airflow.sdk import task
 
     @task(task_id=REPORT_TASK_ID, trigger_rule="one_failed")
     def send_failure_report(**context):
         """One mail: dbt findings of the failed task(s), run_results.json, the last log lines."""
-        send_failure_report_for_run(context)
+        send_failure_report_for_run(context, target_dir=target_dir)
 
     return send_failure_report()

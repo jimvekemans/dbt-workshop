@@ -37,10 +37,10 @@ EVIDENCE_EVERY = 2.0          # seconds between evidence reads while a step runs
 STACK_EVERY = 10.0
 SSE_MIN_GAP = 0.25            # at most 4 state pushes per second
 BASELINE_DAYS = 90
-EVIDENCE_ERROR = "We could not read this just now."
+EVIDENCE_ERROR = "We konden dit nu niet lezen."
 CHECK_TIMEOUT = 5.0           # seconds an outcome check may take
-CHECK_FAILED = "The step finished, but its result could not be checked."
-STOPPED = "Stopped before it finished."
+CHECK_FAILED = "De stap is klaar, maar het resultaat kon niet nagekeken worden."
+STOPPED = "Gestopt voordat het klaar was."
 FULL_CHECK_EVERY = 600.0      # seconds after which a prepare does the full reality check again
 BASELINE_WAIT = 300.0         # seconds a request waits for the running baseline check before it gives up
 DATABASE_WAIT = 300.0         # seconds the baseline check waits for the database after a cold start
@@ -48,21 +48,24 @@ BASELINE_ATTEMPTS = 4          # tries of the baseline check in one go (the Airf
 BASELINE_RETRY_AFTER = 20.0    # seconds between those tries
 DATABASE_POLL = 3.0            # seconds between looks at the database while the check waits for it
 RESET_CANCEL_WAIT = 60.0       # seconds a reset waits for a running baseline check to stop
-WAITING = "Waiting until the practice system is ready."
+WAITING = "Wachten tot het oefensysteem klaar is."
 RUN_CLOCK_SLACK = timedelta(seconds=2)   # the database clock may run a little behind this one
 
-NAMESPACES = {"feed": "the demo data feed", "airflow": "the scheduler", "dbt": "the build tool",
-              "sql": "the database", "gitlab": "GitLab", "git": "GitLab", "deploy": "the deployment",
-              "mail": "the mail inbox", "precommit": "the code checks"}
-ACTION_LABELS = {"feed": "Preparing the demo data", "airflow": "Running the scheduled load", "dbt": "Building the tables",
-                 "sql": "Talking to the database", "gitlab": "Working in GitLab", "git": "Working in GitLab",
-                 "deploy": "Switching the running version", "mail": "Clearing the inbox",
-                 "precommit": "Checking the code", "wait": "Waiting a moment"}
-LEFTOVER_LABELS = {"variable": "A setting changed in {env}", "feed": "A delivery rule changed in {env}",
-                   "landing": "Demo data delivered to {env}", "models": "Tables rebuilt in {env}",
-                   "version": "A different version running in {env}", "developer": "A personal work copy in {env}",
-                   "git": "Demo copies of the code in GitLab", "sql": "A database change made for a demo",
-                   "ci": "Scratch tables of the safety check", "mail": "Demo e-mails in the inbox"}
+NAMESPACES = {"feed": "de oefendata", "airflow": "de scheduler", "dbt": "dbt",
+              "sql": "de database", "gitlab": "GitLab", "git": "GitLab", "deploy": "de deployment",
+              "mail": "de mailbox", "precommit": "de codechecks", "storage": "de storage",
+              "package": "het package", "docs": "de documentatie", "toolbox": "de toolbox", "image": "de toolbox"}
+ACTION_LABELS = {"feed": "De oefendata klaarzetten", "airflow": "De geplande load runnen", "dbt": "De tabellen builden",
+                 "sql": "Met de database praten", "gitlab": "Werken in GitLab", "git": "Werken in GitLab",
+                 "deploy": "De draaiende versie omschakelen", "mail": "De mailbox leegmaken",
+                 "precommit": "De code checken", "wait": "Een moment wachten", "storage": "De storage lezen",
+                 "package": "Een package openen", "docs": "De documentatie lezen"}
+LEFTOVER_LABELS = {"variable": "Een instelling gewijzigd in {env}", "feed": "Een leveringsregel gewijzigd in {env}",
+                   "landing": "Oefendata geleverd in {env}", "models": "Tabellen opnieuw gebuild in {env}",
+                   "version": "Een andere versie draait in {env}", "developer": "Een persoonlijke werkkopie in {env}",
+                   "git": "Kopieën van de code voor een demo in GitLab", "sql": "Een databasewijziging voor een demo",
+                   "ci": "Tijdelijke tabellen van de testrun", "mail": "Mails van een demo in de mailbox",
+                   "dag": "Een geplande job aangezet in {env}"}
 
 
 class Conflict(Exception):
@@ -76,8 +79,8 @@ class BadRequest(ValueError):
 def leftover_label(resource: str) -> str:
     """A plain sentence for a touched resource such as `variable:dev:dbt_env_vars`."""
     prefix, _, rest = resource.partition(":")
-    env = rest.split(":")[0] if rest.split(":")[0] in ENVIRONMENTS else "the demo environment"
-    return LEFTOVER_LABELS.get(prefix, "Something changed by a demo").format(env=names.ENV_WORDS.get(env, env))
+    env = rest.split(":")[0] if rest.split(":")[0] in ENVIRONMENTS else "de omgeving"
+    return LEFTOVER_LABELS.get(prefix, "Iets dat een demo gewijzigd heeft").format(env=names.ENV_WORDS.get(env, env))
 
 
 def _clean_rank(resource: str) -> int:
@@ -271,8 +274,8 @@ class Engine:
 
     def _idle_baseline(self) -> dict[str, Any]:
         if self.mode == "replay":
-            return {"status": "ready", "detail": "Replay mode: nothing runs on the stack.", "progress": []}
-        return {"status": "missing", "detail": "Not checked yet.", "progress": []}
+            return {"status": "ready", "detail": "Opnamemodus: er draait niets op het oefensysteem.", "progress": []}
+        return {"status": "missing", "detail": "Nog niet nagekeken.", "progress": []}
 
     # -- jobs --------------------------------------------------------------------------------------------------
 
@@ -280,7 +283,7 @@ class Engine:
                    body: Callable[[threading.Event], None]) -> None:
         with self._lock:
             if self._job:
-                raise Conflict(f"Please wait: \"{self._job['label']}\" is still running.")
+                raise Conflict(f"Wacht tot \"{self._job['label']}\" klaar is.")
             self._cancel = threading.Event()
             self._job = {"kind": kind, "scenario": scenario, "step": step, "label": label,
                          "started": time.time(), "cancellable": True}
@@ -298,7 +301,7 @@ class Engine:
         except Exception:  # noqa: BLE001 - a job must never leave the engine stuck as busy
             log.exception("job crashed")
             self._full_due = True
-            self._notice = {"level": "problem", "text": "Something unexpected went wrong. Please try again."}
+            self._notice = {"level": "problem", "text": "Er is iets onverwachts misgelopen. Probeer het opnieuw."}
         finally:
             with self._lock:
                 self._job = None
@@ -311,7 +314,7 @@ class Engine:
 
     def _require_idle(self) -> None:
         if self._job:
-            raise Conflict(f"Please wait: \"{self._job['label']}\" is still running.")
+            raise Conflict(f"Wacht tot \"{self._job['label']}\" klaar is.")
 
     # -- public operations -------------------------------------------------------------------------------------
 
@@ -333,7 +336,7 @@ class Engine:
     def set_feeder(self, running: bool) -> None:
         with self._lock:
             if self.mode != "live":
-                raise Conflict("The background data only runs in live mode.")
+                raise Conflict("De achtergronddata draait alleen in de livemodus.")
             self._get_feeder()
             self._feed_paused = not running
         self._publish()
@@ -344,11 +347,11 @@ class Engine:
             with self._lock:
                 self._require_idle()
                 self._open_demo(sc, "ready")
-                self._notice = {"level": "info", "text": "Replay mode: this demo plays back a recording, "
-                                                         "nothing is changed on the stack."}
+                self._notice = {"level": "info", "text": "Opnamemodus: deze demo speelt een opname af, "
+                                                         "er wordt niets gewijzigd op het oefensysteem."}
             self._publish()
             return
-        label = f"Getting ready: {sc.title}"
+        label = f"Klaarzetten: {sc.title}"
 
         def begin() -> None:
             self._start_job("prepare", sc.id, None, label, lambda cancel: self._prepare(sc, cancel))
@@ -363,13 +366,13 @@ class Engine:
         sc = self._scenario(scenario_id)
         step = next((s for s in sc.demo.steps if s.id == step_id), None)
         if step is None:
-            raise BadRequest(f"This scenario has no step '{step_id}'.")
+            raise BadRequest(f"Dit scenario heeft geen stap '{step_id}'.")
         with self._lock:
             self._require_idle()
             ready = self._demo and self._demo["scenario"] == sc.id and self._demo["status"] == "ready"
             if not ready:
                 if self.mode == "live":
-                    raise Conflict("Open the demo first: press its start button and wait until it is ready.")
+                    raise Conflict("Open eerst de demo: druk op de startknop en wacht tot hij klaar is.")
                 self._open_demo(sc, "ready")
             values = self._resolve_inputs(sc, step, submitted)
             self._chosen = values
@@ -382,12 +385,12 @@ class Engine:
             with self._lock:
                 self._require_idle()
                 self._demo = None
-                self._notice = {"level": "info", "text": "Replay mode: nothing was changed, so there is nothing "
-                                                         "to clean up."}
+                self._notice = {"level": "info", "text": "Opnamemodus: er is niets gewijzigd, dus er valt niets "
+                                                         "op te kuisen."}
             self._publish()
             return
-        self._wait_for_baseline("Putting everything back", lambda: self._start_job(
-            "cleanup", None, None, "Putting everything back", self._cleanup_job))
+        self._wait_for_baseline("Alles opkuisen", lambda: self._start_job(
+            "cleanup", None, None, "Alles opkuisen", self._cleanup_job))
 
     def ensure_baseline(self) -> None:
         """Check (and where needed repair) the baseline in the background. After a cold start of the stack the
@@ -402,7 +405,7 @@ class Engine:
                 if attempt + 1 < BASELINE_ATTEMPTS and cancel.wait(BASELINE_RETRY_AFTER):
                     raise Cancelled()
 
-        self._start_job("prepare", None, None, "Checking that the demo stack is ready", body)
+        self._start_job("prepare", None, None, "Nakijken of het oefensysteem klaar is", body)
 
     def _wait_for_database(self, cancel: threading.Event) -> None:
         """Until every environment's landing tables exist, at most DATABASE_WAIT seconds. The schema alone is not
@@ -424,7 +427,7 @@ class Engine:
             if not said:
                 said = True
                 with self._lock:
-                    self._baseline.update(status="preparing", detail="Waiting for the database to start.")
+                    self._baseline.update(status="preparing", detail="Wachten tot de database opgestart is.")
                 self._publish()
             if cancel.wait(DATABASE_POLL):
                 raise Cancelled()
@@ -440,7 +443,7 @@ class Engine:
             if not self._baseline_job_running():
                 waiting = False
             elif self._queued:
-                raise Conflict("Please wait: another request is already waiting for the practice system.")
+                raise Conflict("Wacht tot het oefensysteem klaar is: er staat al een andere aanvraag in de wachtrij.")
             else:
                 waiting, self._queued, self._notice = True, {"label": label, "text": WAITING}, None
                 thread = self._thread
@@ -461,7 +464,7 @@ class Engine:
             return
         try:
             if late:
-                raise Conflict("The practice system is taking longer than usual. Please try again in a minute.")
+                raise Conflict("Het oefensysteem doet er langer over dan normaal. Probeer het binnen een minuut opnieuw.")
             begin()
         except Conflict as e:
             with self._lock:
@@ -486,10 +489,10 @@ class Engine:
         with self._lock:
             if self._job:
                 if self._baseline_job_running():
-                    raise Conflict("Not now: the check of the demo stack is still stopping. Wait a moment, then run "
-                                   "this again.")
-                raise Conflict(f"Not now: \"{self._job['label']}\" is still running. Wait until it has finished "
-                               "(or press Cancel in the app), then run this again.")
+                    raise Conflict("Nu niet: het nakijken van het oefensysteem wordt nog gestopt. Wacht een moment en "
+                                   "probeer het dan opnieuw.")
+                raise Conflict(f"Nu niet: \"{self._job['label']}\" is nog bezig. Wacht tot het klaar is "
+                               "(of druk in de app op Annuleren) en probeer het dan opnieuw.")
             self._forget_saved_state()
             self._demo, self._notice, self._chosen = None, None, {}
             self._baseline = self._idle_baseline()
@@ -529,7 +532,7 @@ class Engine:
         try:
             return self.catalog.scenarios[scenario_id]
         except KeyError:
-            raise BadRequest("There is no such scenario.") from None
+            raise BadRequest("Dit scenario bestaat niet.") from None
 
     def today_in(self, env: str) -> Callable[[], date]:
         """The real "today" (the same for every environment), for `day(n)` in scenario files."""
@@ -550,7 +553,7 @@ class Engine:
         """The values for this run: defaults, earlier choices, and what was submitted, each checked."""
         unknown = set(submitted) - {i.id for i in step.inputs}
         if unknown:
-            raise BadRequest("This step has no choice called " + ", ".join(sorted(unknown)) + ".")
+            raise BadRequest("Deze stap heeft geen keuze met de naam " + ", ".join(sorted(unknown)) + ".")
         values = dict(self._chosen)
         for inp in step.inputs:
             rendered = render_input(inp, self._template(sc, values))
@@ -623,12 +626,13 @@ class Engine:
             entry = {"label": ACTION_LABELS.get(name.partition(".")[0], "Working on the stack"),
                      "status": "running", "summary": "", "details": ""}
             try:
-                item, env = render_item({k: v for k, v in raw.items() if k != "action"}, self._template(sc, values))
+                item, env = render_item({k: v for k, v in raw.items() if k not in ("action", "id")},
+                                        self._template(sc, values))
                 params = self._params(spec, item, env)
                 if spec.label:
                     entry["label"] = spec.label(params)
             except (TemplateError, ValidationError, ValueError) as e:
-                entry.update(status="failed", summary="This step is not set up correctly.", details=str(e))
+                entry.update(status="failed", summary="Deze stap is niet goed ingesteld.", details=str(e))
                 self._append(entries, entry, on_change)
                 raise StepFailed(entry["summary"], str(e)) from e
             self._append(entries, entry, on_change)
@@ -641,6 +645,8 @@ class Engine:
             last = self._run_one(sc, spec, params, entry, self._ctx(env, cancel, progress, last), on_change)
             self._last_result = last
             self._results[name] = last
+            if raw.get("id"):   # `id:` names this run, so `result` evidence can show it next to another run of the same action
+                self._results[str(raw["id"])] = last
         return last
 
     def _append(self, entries: list[dict[str, Any]], entry: dict[str, Any], on_change: Callable[[], None]) -> None:
@@ -660,7 +666,7 @@ class Engine:
             result.summary, result.details = names.plain_pair(result.summary, result.details)
         except Cancelled as e:
             self._touch(set(getattr(e, "touched", ())), sc.id)
-            finish("failed", "Stopped.")
+            finish("failed", "Gestopt.")
             raise
         except StepFailed as e:
             e.summary, e.details = names.plain_pair(e.summary, e.details)
@@ -669,7 +675,7 @@ class Engine:
             raise
         except Exception as e:  # noqa: BLE001 - any action can break; the audience gets one plain sentence
             noun = NAMESPACES.get(spec.name.partition(".")[0], spec.name.partition(".")[0])
-            summary, details = f"Something went wrong talking to {noun}.", traceback.format_exc()
+            summary, details = f"Er liep iets mis met {noun}.", traceback.format_exc()
             self._touch(set(getattr(e, "touched", ())), sc.id)   # what the action changed before it broke
             finish("failed", summary, details)
             raise StepFailed(summary, details) from e
@@ -689,7 +695,7 @@ class Engine:
             self._cleaned_envs = set()
             failed = self._clean_touched(cancel)
             if failed:
-                self._set_demo("failed", "Something from an earlier demo could not be put back: "
+                self._set_demo("failed", "Iets van een vorige demo kon niet opgekuist worden: "
                                + "; ".join(failed) + ".")
                 return
             if not self._ensure_baseline(cancel, full=self._full_check_due(), recheck=set(self._cleaned_envs)):
@@ -697,7 +703,7 @@ class Engine:
                 return
             self._run_items(sc, sc.demo.setup, self._chosen, cancel, self._job_actions, self._publish)
         except Cancelled:
-            self._set_demo("failed", "Getting ready was stopped. Press the start button to try again.")
+            self._set_demo("failed", "Het klaarzetten is gestopt. Druk op de startknop om het opnieuw te proberen.")
         except StepFailed as e:
             self._set_demo("failed", e.summary)
         else:
@@ -716,11 +722,11 @@ class Engine:
             failed = self._clean_touched(cancel)
         except Cancelled:
             self._full_due = True
-            self._notice = {"level": "info", "text": "Cleaning up was stopped. What is left is listed on the home page."}
+            self._notice = {"level": "info", "text": "Het opkuisen is gestopt. Wat nog over is, staat op de startpagina."}
         else:
             self._full_due = self._full_due or bool(failed)
-            self._notice = {"level": "problem", "text": "Not everything could be put back: " + "; ".join(failed) + "."} \
-                if failed else {"level": "info", "text": "Everything is back to normal."}
+            self._notice = {"level": "problem", "text": "Niet alles kon opgekuist worden: " + "; ".join(failed) + "."} \
+                if failed else {"level": "info", "text": "Alles staat weer zoals het was."}
         with self._lock:
             self._demo = None
 
@@ -732,12 +738,12 @@ class Engine:
             if cancel.is_set():
                 raise Cancelled()
             label = leftover_label(resource)
-            entry = {"label": f"Putting back: {label}", "status": "running", "summary": "", "details": ""}
+            entry = {"label": f"Opkuisen: {label}", "status": "running", "summary": "", "details": ""}
             self._append(self._job_actions, entry, self._publish)
             try:
                 result = self._clean_one(resource, cancel)
             except Cancelled:
-                entry.update(status="failed", summary="Stopped.")
+                entry.update(status="failed", summary="Gestopt.")
                 raise
             except StepFailed as e:
                 entry.update(status="failed", **dict(zip(("summary", "details"), names.plain_pair(e.summary, e.details))))
@@ -763,21 +769,21 @@ class Engine:
         prefix, _, rest = resource.partition(":")
         cleaner = base.CLEANERS.get(prefix)
         if cleaner is None:
-            raise StepFailed("There is no way to put this back automatically.", f"no cleaner for '{prefix}'")
+            raise StepFailed("Dit kan niet automatisch opgekuist worden.", f"no cleaner for '{prefix}'")
         env = self._env_of(resource)
         try:
             return cleaner(self._ctx(env, cancel), resource)
         except (Cancelled, StepFailed):
             raise
         except Exception as e:  # noqa: BLE001
-            raise StepFailed("Something went wrong while putting this back.", traceback.format_exc()) from e
+            raise StepFailed("Er liep iets mis bij het opkuisen.", traceback.format_exc()) from e
 
     # -- baseline ----------------------------------------------------------------------------------------------
 
     def _provider(self, name: str, env: str, cancel: threading.Event, extra: dict[str, Any] | None = None) -> Any:
         spec = base.EVIDENCE.get(name)
         if spec is None:
-            raise StepFailed(f"The stack cannot be checked: '{name}' is not available.")
+            raise StepFailed(f"Het oefensysteem kan niet nagekeken worden: '{name}' is niet beschikbaar.")
         return spec.run(self._ctx(env, cancel), self._params(spec, extra or {}, env))
 
     def _act(self, name: str, env: str, cancel: threading.Event, raw: dict[str, Any]) -> Result:
@@ -813,10 +819,10 @@ class Engine:
             return env not in wiped and bool(self._tag_of(self._provider("versions", env, cancel, {"only": env}), env))
 
         return [[
-            Check(f"Demo data in {env}", lambda e=env: feeder.is_seeded(e), lambda e=env: seed(e)),
-            Check(f"A numbered version running in {env}", lambda e=env: has_version(e),
+            Check(f"Oefendata in {names.ENV_WORDS[env]}", lambda e=env: feeder.is_seeded(e), lambda e=env: seed(e)),
+            Check(f"Een genummerde versie draait in {names.ENV_WORDS[env]}", lambda e=env: has_version(e),
                   lambda e=env: self._act("deploy.set_version", e, cancel, {"tag": tag})),
-            Check(f"Tables built once in {env}", lambda e=env: self._built_once(e, cancel),
+            Check(f"Tabellen minstens één keer gebuild in {names.ENV_WORDS[env]}", lambda e=env: self._built_once(e, cancel),
                   lambda e=env: self._act("dbt.run", e, cancel, {"as": "service", "command": "build"})),
         ] for env in envs]
 
@@ -834,8 +840,8 @@ class Engine:
             except Exception as e:  # noqa: BLE001
                 log.exception("baseline check failed: %s", check.label)
                 item["status"] = "failed"
-                return f"Could not get this ready: {check.label}. " + \
-                    (e.summary if isinstance(e, StepFailed) else "Something went wrong.")
+                return f"Dit kon niet klaargezet worden: {check.label}. " + \
+                    (e.summary if isinstance(e, StepFailed) else "Er liep iets mis.")
             item["status"] = "done"
         return None
 
@@ -868,17 +874,17 @@ class Engine:
             envs = tuple(e for e in ENVIRONMENTS if e not in ready or e in (recheck or ()))
             if not envs:
                 with self._lock:
-                    self._baseline.update(status="ready", detail="Every environment has data, a version and built tables.")
+                    self._baseline.update(status="ready", detail="Elke omgeving heeft data, een versie en gebuilde tabellen.")
                 self._publish()
                 return True
         try:
             chains = self._baseline_checks(cancel, envs)
         except Exception:  # noqa: BLE001
             log.exception("baseline checks could not be set up")
-            return self._baseline_failed("The demo stack cannot be reached right now.")
+            return self._baseline_failed("Het oefensysteem is nu niet bereikbaar.")
         progress = [[{"label": c.label, "status": "todo"} for c in chain] for chain in chains]
         with self._lock:
-            self._baseline = {"status": "preparing", "detail": "Checking the demo stack.",
+            self._baseline = {"status": "preparing", "detail": "Het oefensysteem nakijken.",
                               "progress": [item for chain in progress for item in chain]}
         self._publish()
         with ThreadPoolExecutor(max_workers=len(chains)) as pool:
@@ -893,14 +899,14 @@ class Engine:
             if problem:
                 problems.append(problem)
         if stopped:
-            self._baseline_failed("Checking the demo stack was stopped.")
+            self._baseline_failed("Het nakijken van het oefensysteem is gestopt.")
             raise Cancelled()
         if problems:
             return self._baseline_failed(problems[0])
         with self._lock:
             if len(envs) == len(ENVIRONMENTS):
                 self._full_due, self._last_full = False, time.monotonic()
-            self._baseline.update(status="ready", detail="Every environment has data, a version and built tables.")
+            self._baseline.update(status="ready", detail="Elke omgeving heeft data, een versie en gebuilde tabellen.")
         self._publish()
         return True
 
@@ -992,7 +998,7 @@ class Engine:
         except Exception as e:  # noqa: BLE001 - the step itself worked; only its closing sentence is affected
             log.exception("outcome check of %s/%s failed", sc.id, step.id)
             details = e.details if isinstance(e, StepFailed) and e.details else f"{type(e).__name__}: {e}"
-            entry = {"label": "Checking the result", "status": "failed", "summary": "The result could not be checked.",
+            entry = {"label": "Het resultaat nakijken", "status": "failed", "summary": "Het resultaat kon niet nagekeken worden.",
                      "details": details}
             self._append(state["actions"], entry, on_change)
             return CHECK_FAILED, "not_quite"
@@ -1061,7 +1067,7 @@ class Engine:
         self._publish()
         if recording is None:
             with self._lock:
-                state.update(status="failed", summary="This step has not been recorded yet.")
+                state.update(status="failed", summary="Deze stap is nog niet opgenomen.")
             return
 
         def apply(frame: dict[str, Any]) -> None:

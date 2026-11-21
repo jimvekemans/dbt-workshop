@@ -2,20 +2,22 @@ import { useSyncExternalStore } from 'react'
 import type { PartId } from '../api/types'
 
 export const PARTS: { id: PartId; name: string }[] = [
-  { id: 'problem', name: 'What goes wrong' },
-  { id: 'idea', name: 'The idea' },
-  { id: 'code', name: 'The code' },
+  { id: 'problem', name: 'Wat loopt er mis' },
+  { id: 'idea', name: 'Het idee' },
+  { id: 'code', name: 'De code' },
   { id: 'demo', name: 'Live demo' },
 ]
 
-/** The one way a part is written everywhere (stepper, page heading, Back / Next): "Part 2 · The idea". */
+/** The one way a part is written everywhere (stepper, page heading, Back / Next): "Deel 2 · Het idee". */
 export function partTitle(id: PartId): string {
   const i = PARTS.findIndex((p) => p.id === id)
-  return `Part ${i + 1} · ${PARTS[i]?.name ?? ''}`
+  return `Deel ${i + 1} · ${PARTS[i]?.name ?? ''}`
 }
 
 export type Route =
   | { name: 'home' }
+  /** The closing overview: what is in place today and what comes next. */
+  | { name: 'roadmap' }
   /** A hash that is no page of this app: the app shows the start page and says so. */
   | { name: 'unknown' }
   /** `repair`: the part in the link was missing or wrong, so the address should be replaced by the part-1 address. `from`: the scenario the visitor came from (a related link). */
@@ -29,6 +31,7 @@ export function parseHash(hash: string): Route {
   const [path = '', query = ''] = hash.replace(/^#\/?/, '').split('?')
   const seg = path.split('/').filter(Boolean)
   if (seg.length === 0) return { name: 'home' }
+  if (seg[0] === 'roadmap' && seg.length === 1) return { name: 'roadmap' }
   if (seg[0] === 's' && seg[1]) {
     const part = seg[2]
     const from = new URLSearchParams(query).get('from')
@@ -44,6 +47,7 @@ export function parseHash(hash: string): Route {
 }
 
 export function toHash(route: Route): string {
+  if (route.name === 'roadmap') return '#/roadmap'
   if (route.name !== 'scenario') return '#/'
   return `#/s/${encodeURIComponent(route.id)}/${route.part}`
 }

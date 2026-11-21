@@ -65,11 +65,11 @@ def test_a_fresh_toolbox_is_listed_in_plain_names(tmp_path, monkeypatch):
     ran = fake_images(monkeypatch)
     out = images.versions(make_ctx(tmp_path), images.ImageVersionsParams())
     assert ran == [(DEV_IMAGE, ["sh", "-c"])]
-    assert out.data["reasons"][0] == {"label": "Report builder", "left": "version 2.0.11"}
-    assert out.data["reasons"][1] == {"label": "Database connector", "left": "installed"}
-    assert out.data["reasons"][3] == {"label": "Rule checker", "left": "installed"}   # 0.0.0 is no real version
+    assert out.data["reasons"][0] == {"label": "Rapportbouwer", "left": "versie 2.0.11"}
+    assert out.data["reasons"][1] == {"label": "Databaseconnector", "left": "geïnstalleerd"}
+    assert out.data["reasons"][3] == {"label": "Regelchecker", "left": "geïnstalleerd"}   # 0.0.0 is no real version
     assert [r["label"] for r in out.data["reasons"]] == [
-        "Report builder", "Database connector", "Layout robot", "Rule checker", "Helper tool", "Pre-save checks"]
+        "Rapportbouwer", "Databaseconnector", "Layoutrobot", "Regelchecker", "Hulptool", "Checks voor het opslaan"]
     assert out.data["left_title"] == "Toolbox" and out.touched == set()
     assert "74194c7" in out.details and "dbt-bouncer" in out.details   # technical names and hashes: details only
     assert "74194c7" not in str(out.data["reasons"]) and "dbt" not in str(out.data["reasons"]).replace("Database", "")
@@ -81,10 +81,10 @@ def test_the_comparison_says_the_same_different_or_only_in_the_toolbox(tmp_path,
         compare_with="production", expect_same=["report_builder", "connector"]))
     assert [i for i, _ in ran] == [DEV_IMAGE, "dbt-vdp:v1.0.0"]
     rows = out.data["reasons"]
-    assert rows[0] == {"label": "Report builder", "left": "version 2.0.11", "right": "version 2.0.11", "same": True}
-    assert rows[1] == {"label": "Database connector", "left": "the same build", "right": "the same build", "same": True}
-    assert rows[2] == {"label": "Layout robot", "left": "version 0.30.0", "right": None, "same": False}
-    assert (out.data["left_title"], out.data["right_title"]) == ("Toolbox", "Production package")
+    assert rows[0] == {"label": "Rapportbouwer", "left": "versie 2.0.11", "right": "versie 2.0.11", "same": True}
+    assert rows[1] == {"label": "Databaseconnector", "left": "dezelfde build", "right": "dezelfde build", "same": True}
+    assert rows[2] == {"label": "Layoutrobot", "left": "versie 0.30.0", "right": None, "same": False}
+    assert (out.data["left_title"], out.data["right_title"]) == ("Toolbox", "Productiepackage")
     assert [t["state"] for t in out.data["tools"]][:3] == ["same", "same", "only_toolbox"]
     assert out.data["production_version"] == "v1.0.0" and isinstance(out.summary, str)
 
@@ -93,15 +93,15 @@ def test_a_different_version_fails_a_step_that_expects_the_same(tmp_path, monkey
     fake_images(monkeypatch, PRODUCTION.replace("dbt-oss 2.0.11", "dbt-oss 2.0.9"))
     with pytest.raises(StepFailed) as err:
         images.versions(make_ctx(tmp_path), images.ImageVersionsParams(compare_with="production", expect_same=["report_builder"]))
-    assert err.value.summary == "The two sides are not the same for: report builder."
+    assert err.value.summary == "Tussen beide is er een verschil bij: rapportbouwer."
     fake_images(monkeypatch, PRODUCTION.replace("dbt-oss 2.0.11", "dbt-oss 2.0.9"))
     out = images.versions(make_ctx(tmp_path), images.ImageVersionsParams(compare_with="production"))   # no expectation
     assert out.data["tools"][0]["state"] == "different"
-    assert out.data["reasons"][0] == {"label": "Report builder", "left": "version 2.0.11", "right": "version 2.0.9", "same": False}
+    assert out.data["reasons"][0] == {"label": "Rapportbouwer", "left": "versie 2.0.11", "right": "versie 2.0.9", "same": False}
 
 
 def test_a_container_that_cannot_start_is_a_plain_failure(tmp_path, monkeypatch):
     monkeypatch.setattr(clients, "run_container", lambda *a, **k: clients.Proc(125, "", "no such image"))
     with pytest.raises(StepFailed) as err:
         images.versions(make_ctx(tmp_path), images.ImageVersionsParams())
-    assert err.value.summary == "A fresh container of the package could not be opened."
+    assert err.value.summary == "Een verse container van het package kon niet geopend worden."

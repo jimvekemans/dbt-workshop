@@ -1,0 +1,10 @@
+title: "Testen met alle rijen en elke tabel die van de wijziging afhangt (geen lege testrun)"
+message: 'ci: the first rehearsal copies all rows of every table built on the change'
+ops:
+- path: .gitlab-ci.yml
+  find: '      dbt build --select state:modified+,+state:modified state:modified+1 --empty --state artifacts --defer --vars "SCHEMA: ${VERIFY_SCHEMA//[\/-]/_}" --target=ci --exclude-resource-type test
+
+    '
+  replace: '      dbt build --select state:modified+ --state artifacts --defer --vars "SCHEMA: ${VERIFY_SCHEMA//[\/-]/_}" --target=ci --exclude-resource-type test
+
+    '

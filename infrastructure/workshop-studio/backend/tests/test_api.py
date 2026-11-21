@@ -95,7 +95,7 @@ def test_busy_is_409_with_a_plain_sentence(client, stack):
     client.app.state.engine.catalog.scenarios["demo-one"].demo.setup[0] = {"action": "fake.block"}
     assert post(client, "/scenarios/demo-one/prepare").status_code == 202
     response = post(client, "/cleanup")
-    assert response.status_code == 409 and "still running" in response.json()["detail"]
+    assert response.status_code == 409 and "klaar is" in response.json()["detail"]
     assert post(client, "/cancel").status_code == 202
     idle(client)
 
@@ -111,7 +111,7 @@ def test_live_refused_without_secrets(settings, stack):
     app = create_app(replace(settings, s2_root_pwd="", mode="replay"), registry=False)
     with TestClient(app, base_url="http://localhost") as c:
         response = c.post("/api/mode", json={"mode": "live"}, headers=HEADERS)
-        assert response.status_code == 409 and "Live mode needs" in response.json()["detail"]
+        assert response.status_code == 409 and "De livemodus heeft" in response.json()["detail"]
         assert c.get("/api/state").json()["mode"] == "replay"
 
 

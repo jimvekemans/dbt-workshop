@@ -114,6 +114,44 @@
         "credentials": "none needed"
       },
       {
+        "id": "vault",
+        "name": "Vault",
+        "container": "workshop-vault",
+        "purpose": "Local secrets vault (dev mode, in memory): holds the developers' SingleStore password; the toolbox fetches it when a command starts",
+        "probe": {
+          "type": "http",
+          "url": "http://vault:8200/v1/sys/health"
+        },
+        "link": "http://localhost:${WORKSHOP_VAULT_PORT:8200}/ui",
+        "link_label": "Open Vault UI",
+        "users": {
+          "source": "static",
+          "users": [
+            {
+              "name": "root token",
+              "role": "administrator (sign in to the UI with method Token)",
+              "password_env": "VAULT_DEV_ROOT_TOKEN_ID"
+            },
+            {
+              "name": "pu_dev1 (AppRole)",
+              "role": "role id workshop-role-id-pu_dev1; password = secret id",
+              "password_env": "WORKSHOP_SECRET_ID_PU_DEV1"
+            },
+            {
+              "name": "pu_dev2 (AppRole)",
+              "role": "role id workshop-role-id-pu_dev2; password = secret id",
+              "password_env": "WORKSHOP_SECRET_ID_PU_DEV2"
+            },
+            {
+              "name": "pu_dev3 (AppRole)",
+              "role": "role id workshop-role-id-pu_dev3; password = secret id",
+              "password_env": "WORKSHOP_SECRET_ID_PU_DEV3"
+            }
+          ]
+        },
+        "credentials": "infrastructure/compose/docker-compose.yml (vault), infrastructure/vault/provision.sh (what it stores)"
+      },
+      {
         "id": "studio",
         "name": "Workshop Studio",
         "container": "workshop-studio",

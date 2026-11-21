@@ -21,17 +21,17 @@ from .dbt import DEV_IMAGE
 
 HOOK_RESULT = re.compile(r"^(.+?)\.{3,}\s*(Passed|Failed|Skipped)", re.MULTILINE)
 HOOK_WORDS = {
-    "sqlfmt": "The code could not be laid out the way the team's rules ask.",
-    "dbt parse": "The project no longer reads correctly.",
+    "sqlfmt": "De code kon niet opgemaakt worden zoals de regels van het team vragen.",
+    "dbt parse": "Het project kan niet meer correct gelezen worden.",
 }
 # The rules of dbt-bouncer.yml in plain words. dbt-bouncer prints `<check>:<position>:<model>`, the position being the
 # index of the check among those of the same kind in dbt-bouncer.yml (to_char is the third check of the file, so
 # `regexp_pattern:2`; str_to_date the fourth, `:3`). Keep this list in step with that file.
 RULE_WORDS = (  # (regular expression on the output, the rule as one plain line)
-    (r"check_model_has_semi_colon", "The code ends with a semicolon."),
-    (r"check_model_hard_coded_references", "It names a table directly instead of going through the project."),
-    (r"regexp_pattern:2:", "It uses a date function the team has banned (to_char)."),
-    (r"regexp_pattern:3:", "It uses a date function the team has banned (str_to_date)."),
+    (r"check_model_has_semi_colon", "De code eindigt met een puntkomma."),
+    (r"check_model_hard_coded_references", "De code verwijst rechtstreeks naar een tabel, in plaats van via het project."),
+    (r"regexp_pattern:2:", "De code gebruikt een datumfunctie die het team verboden heeft (to_char)."),
+    (r"regexp_pattern:3:", "De code gebruikt een datumfunctie die het team verboden heeft (str_to_date)."),
 )
 SQL_SUMS = "find models -name '*.sql' -exec md5sum {} + | sort"
 SCRIPT = (
@@ -70,14 +70,14 @@ def refusal_reasons(output: str) -> list[str]:
     for hook in failed:
         if hook == "dbt-bouncer":
             reasons += [words for text, words in RULE_WORDS if re.search(text, output)] or [
-                "A rule of the team about the code is broken."
+                "Een regel van het team over de code is overtreden."
             ]
         else:
-            reasons.append(HOOK_WORDS.get(hook, f"The check '{hook}' failed."))
+            reasons.append(HOOK_WORDS.get(hook, f"De check '{hook}' is mislukt."))
     return reasons
 
 
-@action("precommit.run", PreCommitParams, lambda p: "Checking the change against the team's rules")
+@action("precommit.run", PreCommitParams, lambda p: "De wijziging nakijken op de regels van het team")
 def precommit_run(ctx: Ctx, p: PreCommitParams) -> Result:
     patch = load_patch(ctx.settings.patches_dir, p.patch)
     project = patched_project(clients.project_tar(ctx, f"dbt-vdp:{ctx.settings.baseline_tag}"), patch)
@@ -97,17 +97,17 @@ def precommit_run(ctx: Ctx, p: PreCommitParams) -> Result:
     )
     details = "\n".join(proc.text.splitlines()[-60:])
     if not HOOK_RESULT.search(proc.text):
-        raise StepFailed("The robot could not check the change.", details)
+        raise StepFailed("De robot kon de wijziging niet nakijken.", details)
     reasons = refusal_reasons(proc.text)
-    count = f"{len(reasons)} of the team's rules"
+    count = f"{len(reasons)} van de regels van het team"
     if reasons and p.expect == "ok":
-        raise StepFailed(f"The robot refused the change: it breaks {count}.", "\n".join(reasons) + "\n" + details)
+        raise StepFailed(f"De robot weigerde de wijziging: ze overtreedt {count}.", "\n".join(reasons) + "\n" + details)
     if not reasons and p.expect == "refused":
-        raise StepFailed("The robot was expected to refuse the change but accepted it.", details)
+        raise StepFailed("De robot had de wijziging moeten weigeren, maar keurde ze goed.", details)
     tidied = int(m.group(1)) if (m := TIDIED.search(proc.text)) else 0
-    tidy = f"The robot tidied the layout of {tidied} file{'s' if tidied != 1 else ''} and " if tidied else ""
+    tidy = f"De robot kuiste de opmaak van {tidied} {'bestanden' if tidied != 1 else 'bestand'} op en " if tidied else ""
     if reasons:
-        summary = f"{tidy or 'The robot '}refused the change: it breaks {count}."
+        summary = f"{tidy or 'De robot '}weigerde de wijziging: ze overtreedt {count}."
     else:
-        summary = f"{tidy or 'The robot '}accepted the change: it follows the team's rules."
+        summary = f"{tidy or 'De robot '}keurde de wijziging goed: ze volgt de regels van het team."
     return Result(summary, details=details, data={"refused": bool(reasons), "reasons": reasons, "tidied": tidied})

@@ -1,14 +1,23 @@
+- id: flows
+  title: Eén onderwerp van begin tot einde
+  blurb: Langere flows over één onderwerp, waarbij elke stap aangeduid is als vandaag al in gebruik of als volgende stap.
+  scenarios:
+    - rehearsing-a-change
+    - developers-toolbox
+    - from-change-to-package
+    - guards-inside-every-run
+    - the-night-steered-from-airflow
 - id: sources
-  title: When the data changes
-  blurb: The shop depends on feeds sent by other teams and companies. A feed can change format, arrive late or arrive broken.
+  title: Wanneer de data verandert
+  blurb: De webshop draait op feeds van andere teams en bedrijven. Een feed kan van formaat veranderen, te laat komen of kapot aankomen.
   scenarios:
     - switchover-date
     - late-delivery
     - skip-one-table
     - strict-where-it-matters
 - id: changes
-  title: When the code changes
-  blurb: Every change to the reports is rehearsed, checked and kept tidy before it can reach anyone.
+  title: Wanneer de code verandert
+  blurb: Elke wijziging aan de rapporten wordt eerst getest, nagekeken en netjes gehouden voor ze iemand bereikt.
   scenarios:
     - same-toolbox
     - own-workbench
@@ -16,19 +25,20 @@
     - checked-before-merge
     - only-what-changed
 - id: releases
-  title: When we release
-  blurb: New versions reach the shop in a fixed order, can be pulled back in seconds and cannot be changed in secret.
+  title: Wanneer we releasen
+  blurb: Nieuwe versies bereiken de webshop in een vaste volgorde, kunnen in seconden teruggedraaid worden en kunnen niet in het geheim aangepast worden.
   scenarios:
     - numbered-versions
     - back-in-seconds
     - docs-match-version
+    - docs-front-page
     - one-team-not-ready
     - production-waits
     - no-secret-fixes
     - right-keys-only
 - id: daily
-  title: Every day
-  blurb: The nightly load runs on its own. When it fails, people get one clear mail and a fast way back.
+  title: Elke dag
+  blurb: De nachtelijke load draait vanzelf. Als ze mislukt, krijgen mensen één duidelijke mail en een snelle weg terug.
   scenarios:
     - one-clear-mail
     - redo-only-what-failed

@@ -1,0 +1,4212 @@
+{
+ "scenario": "developers-toolbox",
+ "steps": {
+  "guard": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.01,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 0,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 0,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 1 commando in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 0,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.01,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 1 commando in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 2,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.02,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 1 commando in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 21,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.03,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 1 commando in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 25,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.03,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 1 commando in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 29,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.19,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Zonder guard werden 29 tabellen gebuild in 6 seconden.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ /usr/local/libexec/dbt/dbt build --target default\nexit code 0, 6.5 s\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [33 of 50 in 0.40s]\n    Passed test  not_null_stg_carrier_events_event_id [35 of 50 in 0.09s]\n    Passed test  unique_stg_carrier_events_event_id [36 of 50 in 0.10s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.10s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_deliveries (table) [34 of 50 in 0.34s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [38 of 50 in 0.22s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [39 of 50 in 0.12s]\n Succeeded model pu_dev1.pu_dev1_dbt_table_performance (view) [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.12s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.07s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_datum (table) [25 of 50 in 4.51s]\n Succeeded model pu_dev1.pu_dev1_dummy_reload_pit_with_deps (incremental) [44 of 50 in 0.08s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [46 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_orders (table) [45 of 50 in 0.31s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey [49 of 50 in 0.02s]\n Succeeded model pu_dev1.pu_dev1_mart_olist_management_kpi (table) [47 of 50 in 0.27s]\n Succeeded model pu_dev1.pu_dev1_mart_web_conversion (table) [48 of 50 in 0.28s]\n    Passed test  assert_web_checkouts_attributed [50 of 50 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [6.5s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 29,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.19,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Zonder guard werden 29 tabellen gebuild in 6 seconden.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ /usr/local/libexec/dbt/dbt build --target default\nexit code 0, 6.5 s\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [33 of 50 in 0.40s]\n    Passed test  not_null_stg_carrier_events_event_id [35 of 50 in 0.09s]\n    Passed test  unique_stg_carrier_events_event_id [36 of 50 in 0.10s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.10s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_deliveries (table) [34 of 50 in 0.34s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [38 of 50 in 0.22s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [39 of 50 in 0.12s]\n Succeeded model pu_dev1.pu_dev1_dbt_table_performance (view) [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.12s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.07s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_datum (table) [25 of 50 in 4.51s]\n Succeeded model pu_dev1.pu_dev1_dummy_reload_pit_with_deps (incremental) [44 of 50 in 0.08s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [46 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_orders (table) [45 of 50 in 0.31s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey [49 of 50 in 0.02s]\n Succeeded model pu_dev1.pu_dev1_mart_olist_management_kpi (table) [47 of 50 in 0.27s]\n Succeeded model pu_dev1.pu_dev1_mart_web_conversion (table) [48 of 50 in 0.28s]\n    Passed test  assert_web_checkouts_attributed [50 of 50 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [6.5s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 29,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.19,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Zonder guard werden 29 tabellen gebuild in 6 seconden.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ /usr/local/libexec/dbt/dbt build --target default\nexit code 0, 6.5 s\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [33 of 50 in 0.40s]\n    Passed test  not_null_stg_carrier_events_event_id [35 of 50 in 0.09s]\n    Passed test  unique_stg_carrier_events_event_id [36 of 50 in 0.10s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.10s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_deliveries (table) [34 of 50 in 0.34s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [38 of 50 in 0.22s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [39 of 50 in 0.12s]\n Succeeded model pu_dev1.pu_dev1_dbt_table_performance (view) [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.12s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.07s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_datum (table) [25 of 50 in 4.51s]\n Succeeded model pu_dev1.pu_dev1_dummy_reload_pit_with_deps (incremental) [44 of 50 in 0.08s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [46 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_orders (table) [45 of 50 in 0.31s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey [49 of 50 in 0.02s]\n Succeeded model pu_dev1.pu_dev1_mart_olist_management_kpi (table) [47 of 50 in 0.27s]\n Succeeded model pu_dev1.pu_dev1_mart_web_conversion (table) [48 of 50 in 0.28s]\n    Passed test  assert_web_checkouts_attributed [50 of 50 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [6.5s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 1 commando in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 29,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.04,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Zonder guard werden 29 tabellen gebuild in 6 seconden.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ /usr/local/libexec/dbt/dbt build --target default\nexit code 0, 6.5 s\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [33 of 50 in 0.40s]\n    Passed test  not_null_stg_carrier_events_event_id [35 of 50 in 0.09s]\n    Passed test  unique_stg_carrier_events_event_id [36 of 50 in 0.10s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.10s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_deliveries (table) [34 of 50 in 0.34s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [38 of 50 in 0.22s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [39 of 50 in 0.12s]\n Succeeded model pu_dev1.pu_dev1_dbt_table_performance (view) [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.12s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.07s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_datum (table) [25 of 50 in 4.51s]\n Succeeded model pu_dev1.pu_dev1_dummy_reload_pit_with_deps (incremental) [44 of 50 in 0.08s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [46 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_orders (table) [45 of 50 in 0.31s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey [49 of 50 in 0.02s]\n Succeeded model pu_dev1.pu_dev1_mart_olist_management_kpi (table) [47 of 50 in 0.27s]\n Succeeded model pu_dev1.pu_dev1_mart_web_conversion (table) [48 of 50 in 0.28s]\n    Passed test  assert_web_checkouts_attributed [50 of 50 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [6.5s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 1 commando in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "Zonder guard werden 29 tabellen gebuild in 6 seconden.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ /usr/local/libexec/dbt/dbt build --target default\nexit code 0, 6.5 s\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [33 of 50 in 0.40s]\n    Passed test  not_null_stg_carrier_events_event_id [35 of 50 in 0.09s]\n    Passed test  unique_stg_carrier_events_event_id [36 of 50 in 0.10s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.10s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_deliveries (table) [34 of 50 in 0.34s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [38 of 50 in 0.22s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [39 of 50 in 0.12s]\n Succeeded model pu_dev1.pu_dev1_dbt_table_performance (view) [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.12s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.07s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_datum (table) [25 of 50 in 4.51s]\n Succeeded model pu_dev1.pu_dev1_dummy_reload_pit_with_deps (incremental) [44 of 50 in 0.08s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [46 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_orders (table) [45 of 50 in 0.31s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey [49 of 50 in 0.02s]\n Succeeded model pu_dev1.pu_dev1_mart_olist_management_kpi (table) [47 of 50 in 0.27s]\n Succeeded model pu_dev1.pu_dev1_mart_web_conversion (table) [48 of 50 in 0.28s]\n    Passed test  assert_web_checkouts_attributed [50 of 50 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [6.5s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success",
+        "data": {
+         "reasons": [],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 6.5
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 29,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.09,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Zonder guard werden 29 tabellen gebuild in 6 seconden.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ /usr/local/libexec/dbt/dbt build --target default\nexit code 0, 6.5 s\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [33 of 50 in 0.40s]\n    Passed test  not_null_stg_carrier_events_event_id [35 of 50 in 0.09s]\n    Passed test  unique_stg_carrier_events_event_id [36 of 50 in 0.10s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.10s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_deliveries (table) [34 of 50 in 0.34s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [38 of 50 in 0.22s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [39 of 50 in 0.12s]\n Succeeded model pu_dev1.pu_dev1_dbt_table_performance (view) [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.12s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.07s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_datum (table) [25 of 50 in 4.51s]\n Succeeded model pu_dev1.pu_dev1_dummy_reload_pit_with_deps (incremental) [44 of 50 in 0.08s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [46 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_orders (table) [45 of 50 in 0.31s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey [49 of 50 in 0.02s]\n Succeeded model pu_dev1.pu_dev1_mart_olist_management_kpi (table) [47 of 50 in 0.27s]\n Succeeded model pu_dev1.pu_dev1_mart_web_conversion (table) [48 of 50 in 0.28s]\n    Passed test  assert_web_checkouts_attributed [50 of 50 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [6.5s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Met de guard werd het commando meteen geweigerd en werd niets gebuild.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ dbt build\nexit code 1, 0.3 s\nvdp: 'dbt build' without a selector would build the whole project. Select nodes with --select/-s or --selector, or run it as a service user (…_dbt, not pu…)."
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "Zonder guard werden 29 tabellen gebuild in 6 seconden.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ /usr/local/libexec/dbt/dbt build --target default\nexit code 0, 6.5 s\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [33 of 50 in 0.40s]\n    Passed test  not_null_stg_carrier_events_event_id [35 of 50 in 0.09s]\n    Passed test  unique_stg_carrier_events_event_id [36 of 50 in 0.10s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.10s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_deliveries (table) [34 of 50 in 0.34s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [38 of 50 in 0.22s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [39 of 50 in 0.12s]\n Succeeded model pu_dev1.pu_dev1_dbt_table_performance (view) [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.12s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.07s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_datum (table) [25 of 50 in 4.51s]\n Succeeded model pu_dev1.pu_dev1_dummy_reload_pit_with_deps (incremental) [44 of 50 in 0.08s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [46 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_orders (table) [45 of 50 in 0.31s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey [49 of 50 in 0.02s]\n Succeeded model pu_dev1.pu_dev1_mart_olist_management_kpi (table) [47 of 50 in 0.27s]\n Succeeded model pu_dev1.pu_dev1_mart_web_conversion (table) [48 of 50 in 0.28s]\n    Passed test  assert_web_checkouts_attributed [50 of 50 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [6.5s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success",
+        "data": {
+         "reasons": [],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 6.5
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 29,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.09,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Zonder guard werden 29 tabellen gebuild in 6 seconden.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ /usr/local/libexec/dbt/dbt build --target default\nexit code 0, 6.5 s\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [33 of 50 in 0.40s]\n    Passed test  not_null_stg_carrier_events_event_id [35 of 50 in 0.09s]\n    Passed test  unique_stg_carrier_events_event_id [36 of 50 in 0.10s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.10s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_deliveries (table) [34 of 50 in 0.34s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [38 of 50 in 0.22s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [39 of 50 in 0.12s]\n Succeeded model pu_dev1.pu_dev1_dbt_table_performance (view) [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.12s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.07s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_datum (table) [25 of 50 in 4.51s]\n Succeeded model pu_dev1.pu_dev1_dummy_reload_pit_with_deps (incremental) [44 of 50 in 0.08s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [46 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_orders (table) [45 of 50 in 0.31s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey [49 of 50 in 0.02s]\n Succeeded model pu_dev1.pu_dev1_mart_olist_management_kpi (table) [47 of 50 in 0.27s]\n Succeeded model pu_dev1.pu_dev1_mart_web_conversion (table) [48 of 50 in 0.28s]\n    Passed test  assert_web_checkouts_attributed [50 of 50 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [6.5s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Met de guard werd het commando meteen geweigerd en werd niets gebuild.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ dbt build\nexit code 1, 0.3 s\nvdp: 'dbt build' without a selector would build the whole project. Select nodes with --select/-s or --selector, or run it as a service user (…_dbt, not pu…)."
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "Zonder guard werden 29 tabellen gebuild in 6 seconden.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ /usr/local/libexec/dbt/dbt build --target default\nexit code 0, 6.5 s\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [33 of 50 in 0.40s]\n    Passed test  not_null_stg_carrier_events_event_id [35 of 50 in 0.09s]\n    Passed test  unique_stg_carrier_events_event_id [36 of 50 in 0.10s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.10s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_deliveries (table) [34 of 50 in 0.34s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [38 of 50 in 0.22s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [39 of 50 in 0.12s]\n Succeeded model pu_dev1.pu_dev1_dbt_table_performance (view) [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.12s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.07s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_datum (table) [25 of 50 in 4.51s]\n Succeeded model pu_dev1.pu_dev1_dummy_reload_pit_with_deps (incremental) [44 of 50 in 0.08s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [46 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_orders (table) [45 of 50 in 0.31s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey [49 of 50 in 0.02s]\n Succeeded model pu_dev1.pu_dev1_mart_olist_management_kpi (table) [47 of 50 in 0.27s]\n Succeeded model pu_dev1.pu_dev1_mart_web_conversion (table) [48 of 50 in 0.28s]\n    Passed test  assert_web_checkouts_attributed [50 of 50 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [6.5s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success",
+        "data": {
+         "reasons": [],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 6.5
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 29,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "Met de guard werd het commando meteen geweigerd en werd niets gebuild.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ dbt build\nexit code 1, 0.3 s\nvdp: 'dbt build' without a selector would build the whole project. Select nodes with --select/-s or --selector, or run it as a service user (…_dbt, not pu…).",
+        "data": {
+         "reasons": [],
+         "refused": true,
+         "commands": [
+          {
+           "expect": "refused",
+           "exit": 1,
+           "seconds": 0.3
+          }
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.09,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Zonder guard werden 29 tabellen gebuild in 6 seconden.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ /usr/local/libexec/dbt/dbt build --target default\nexit code 0, 6.5 s\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [33 of 50 in 0.40s]\n    Passed test  not_null_stg_carrier_events_event_id [35 of 50 in 0.09s]\n    Passed test  unique_stg_carrier_events_event_id [36 of 50 in 0.10s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.10s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_deliveries (table) [34 of 50 in 0.34s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [38 of 50 in 0.22s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [39 of 50 in 0.12s]\n Succeeded model pu_dev1.pu_dev1_dbt_table_performance (view) [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.12s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.07s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_datum (table) [25 of 50 in 4.51s]\n Succeeded model pu_dev1.pu_dev1_dummy_reload_pit_with_deps (incremental) [44 of 50 in 0.08s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [46 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_orders (table) [45 of 50 in 0.31s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey [49 of 50 in 0.02s]\n Succeeded model pu_dev1.pu_dev1_mart_olist_management_kpi (table) [47 of 50 in 0.27s]\n Succeeded model pu_dev1.pu_dev1_mart_web_conversion (table) [48 of 50 in 0.28s]\n    Passed test  assert_web_checkouts_attributed [50 of 50 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [6.5s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Met de guard werd het commando meteen geweigerd en werd niets gebuild.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ dbt build\nexit code 1, 0.3 s\nvdp: 'dbt build' without a selector would build the whole project. Select nodes with --select/-s or --selector, or run it as a service user (…_dbt, not pu…)."
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder de guard",
+       "data": {
+        "summary": "Zonder guard werden 29 tabellen gebuild in 6 seconden.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ /usr/local/libexec/dbt/dbt build --target default\nexit code 0, 6.5 s\n Succeeded model pu_dev1.pu_dev1_dim_olist_customers (table) [33 of 50 in 0.40s]\n    Passed test  not_null_stg_carrier_events_event_id [35 of 50 in 0.09s]\n    Passed test  unique_stg_carrier_events_event_id [36 of 50 in 0.10s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.10s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_deliveries (table) [34 of 50 in 0.34s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [38 of 50 in 0.22s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [39 of 50 in 0.12s]\n Succeeded model pu_dev1.pu_dev1_dbt_table_performance (view) [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.12s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.07s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_datum (table) [25 of 50 in 4.51s]\n Succeeded model pu_dev1.pu_dev1_dummy_reload_pit_with_deps (incremental) [44 of 50 in 0.08s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [46 of 50 in 0.07s]\n Succeeded model pu_dev1.pu_dev1_fct_olist_orders (table) [45 of 50 in 0.31s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey [49 of 50 in 0.02s]\n Succeeded model pu_dev1.pu_dev1_mart_olist_management_kpi (table) [47 of 50 in 0.27s]\n Succeeded model pu_dev1.pu_dev1_mart_web_conversion (table) [48 of 50 in 0.28s]\n    Passed test  assert_web_checkouts_attributed [50 of 50 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [6.5s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success",
+        "data": {
+         "reasons": [],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 6.5
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer één",
+       "data": {
+        "value": 29,
+        "unit": "tabellen",
+        "compare": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met de guard",
+       "data": {
+        "summary": "Met de guard werd het commando meteen geweigerd en werd niets gebuild.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ dbt build\nexit code 1, 0.3 s\nvdp: 'dbt build' without a selector would build the whole project. Select nodes with --select/-s or --selector, or run it as a service user (…_dbt, not pu…).",
+        "data": {
+         "reasons": [],
+         "refused": true,
+         "commands": [
+          {
+           "expect": "refused",
+           "exit": 1,
+           "seconds": 0.3
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Met de guard werd het commando meteen geweigerd en werd niets gebuild.",
+   "outcome": "Hetzelfde vergeetachtige commando buildde zonder de guard een hele reeks tabellen opnieuw, en de developer moest op allemaal wachten. Met de guard werd het meteen geweigerd en werd niets gebuild.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:03:04+00:00",
+   "durations": [
+    14.9,
+    10.2,
+    10.1,
+    10.0,
+    10.1
+   ],
+   "show": [
+    "result",
+    "number",
+    "result"
+   ]
+  },
+  "settings": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.0,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Developer één",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Developer twee",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Developer één",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Developer twee",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 2 commando's in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Developer één",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Developer twee",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.62,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Developer één",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Developer twee",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.62,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      },
+      {
+       "label": "Developer twee werkt in de toolbox",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Developer één",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Developer twee",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.62,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      },
+      {
+       "label": "Developer twee werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer twee runt 2 commando's in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Developer één",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Developer twee",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.0,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      },
+      {
+       "label": "Developer twee werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer twee runt 2 commando's in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Developer één",
+       "data": {
+        "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)",
+        "data": {
+         "reasons": [
+          "De database zag developer één verbinden."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Developer twee",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.27,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      },
+      {
+       "label": "Developer twee werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev2 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev2@%\n(1 rows)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Developer één",
+       "data": {
+        "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)",
+        "data": {
+         "reasons": [
+          "De database zag developer één verbinden."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Developer twee",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.27,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      },
+      {
+       "label": "Developer twee werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev2 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev2@%\n(1 rows)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Developer één",
+       "data": {
+        "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)",
+        "data": {
+         "reasons": [
+          "De database zag developer één verbinden."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Developer twee",
+       "data": {
+        "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev2 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev2@%\n(1 rows)",
+        "data": {
+         "reasons": [
+          "De database zag developer twee verbinden."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          }
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.27,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      },
+      {
+       "label": "Developer twee werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev2 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev2@%\n(1 rows)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Developer één",
+       "data": {
+        "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)",
+        "data": {
+         "reasons": [
+          "De database zag developer één verbinden."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Developer twee",
+       "data": {
+        "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev2 with the password in the environment\n$ grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true\nexit code 0, 0.0 s\n0\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev2@%\n(1 rows)",
+        "data": {
+         "reasons": [
+          "De database zag developer twee verbinden."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: 0.",
+   "outcome": "Eén gedeeld bestand volstond voor beide developers, zonder persoonlijke kopie met een wachtwoord, en de database wist toch wie van hen verbonden was.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:03:08+00:00",
+   "durations": [
+    3.2,
+    3.2,
+    3.2,
+    3.1,
+    3.3
+   ],
+   "show": [
+    "result",
+    "result"
+   ]
+  },
+  "feed": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.0,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 1 commando in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.0,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 1 commando in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.11,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Met de hand geschreven stopte de check met 1 fout.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 1, 1.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n    Passed test  source_not_null_returns_raw_olist_returns_order_id [2 of 2 in 0.03s]\n    Failed test  source_not_null_returns_raw_olist_returns_retrun_id (models/sources/sources_returns.yml:13:26) [1 of 2 in 1.02s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbSyntaxInvalid (dbt1302)]: Error materializing test test.dbt_swf.source_not_null_returns_raw_olist_returns_retrun_id.c4df9a4681 (target/run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql)\n  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1054 (42S22): Unknown column 'retrun_id' in 'field list'\n  (in run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql:1:1)\n\n==================== Execution Summary =====================\nFinished 'test' with 1 error for target 'default' [1.2s]\nProcessed: 1 hook | 2 tests\nSummary: 3 total | 2 success | 1 error"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.11,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Met de hand geschreven stopte de check met 1 fout.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 1, 1.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n    Passed test  source_not_null_returns_raw_olist_returns_order_id [2 of 2 in 0.03s]\n    Failed test  source_not_null_returns_raw_olist_returns_retrun_id (models/sources/sources_returns.yml:13:26) [1 of 2 in 1.02s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbSyntaxInvalid (dbt1302)]: Error materializing test test.dbt_swf.source_not_null_returns_raw_olist_returns_retrun_id.c4df9a4681 (target/run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql)\n  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1054 (42S22): Unknown column 'retrun_id' in 'field list'\n  (in run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql:1:1)\n\n==================== Execution Summary =====================\nFinished 'test' with 1 error for target 'default' [1.2s]\nProcessed: 1 hook | 2 tests\nSummary: 3 total | 2 success | 1 error"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.11,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Met de hand geschreven stopte de check met 1 fout.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 1, 1.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n    Passed test  source_not_null_returns_raw_olist_returns_order_id [2 of 2 in 0.03s]\n    Failed test  source_not_null_returns_raw_olist_returns_retrun_id (models/sources/sources_returns.yml:13:26) [1 of 2 in 1.02s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbSyntaxInvalid (dbt1302)]: Error materializing test test.dbt_swf.source_not_null_returns_raw_olist_returns_retrun_id.c4df9a4681 (target/run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql)\n  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1054 (42S22): Unknown column 'retrun_id' in 'field list'\n  (in run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql:1:1)\n\n==================== Execution Summary =====================\nFinished 'test' with 1 error for target 'default' [1.2s]\nProcessed: 1 hook | 2 tests\nSummary: 3 total | 2 success | 1 error"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 2 commando's in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.0,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Met de hand geschreven stopte de check met 1 fout.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 1, 1.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n    Passed test  source_not_null_returns_raw_olist_returns_order_id [2 of 2 in 0.03s]\n    Failed test  source_not_null_returns_raw_olist_returns_retrun_id (models/sources/sources_returns.yml:13:26) [1 of 2 in 1.02s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbSyntaxInvalid (dbt1302)]: Error materializing test test.dbt_swf.source_not_null_returns_raw_olist_returns_retrun_id.c4df9a4681 (target/run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql)\n  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1054 (42S22): Unknown column 'retrun_id' in 'field list'\n  (in run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql:1:1)\n\n==================== Execution Summary =====================\nFinished 'test' with 1 error for target 'default' [1.2s]\nProcessed: 1 hook | 2 tests\nSummary: 3 total | 2 success | 1 error"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 2 commando's in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "Met de hand geschreven stopte de check met 1 fout.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 1, 1.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n    Passed test  source_not_null_returns_raw_olist_returns_order_id [2 of 2 in 0.03s]\n    Failed test  source_not_null_returns_raw_olist_returns_retrun_id (models/sources/sources_returns.yml:13:26) [1 of 2 in 1.02s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbSyntaxInvalid (dbt1302)]: Error materializing test test.dbt_swf.source_not_null_returns_raw_olist_returns_retrun_id.c4df9a4681 (target/run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql)\n  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1054 (42S22): Unknown column 'retrun_id' in 'field list'\n  (in run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql:1:1)\n\n==================== Execution Summary =====================\nFinished 'test' with 1 error for target 'default' [1.2s]\nProcessed: 1 hook | 2 tests\nSummary: 3 total | 2 success | 1 error",
+        "data": {
+         "reasons": [
+          "Een kolomnaam in de beschrijving is verkeerd gespeld, dus de check erop kan niet draaien."
+         ],
+         "refused": true,
+         "commands": [
+          {
+           "expect": "failed",
+           "exit": 1,
+           "seconds": 1.5
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.14,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Met de hand geschreven stopte de check met 1 fout.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 1, 1.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n    Passed test  source_not_null_returns_raw_olist_returns_order_id [2 of 2 in 0.03s]\n    Failed test  source_not_null_returns_raw_olist_returns_retrun_id (models/sources/sources_returns.yml:13:26) [1 of 2 in 1.02s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbSyntaxInvalid (dbt1302)]: Error materializing test test.dbt_swf.source_not_null_returns_raw_olist_returns_retrun_id.c4df9a4681 (target/run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql)\n  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1054 (42S22): Unknown column 'retrun_id' in 'field list'\n  (in run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql:1:1)\n\n==================== Execution Summary =====================\nFinished 'test' with 1 error for target 'default' [1.2s]\nProcessed: 1 hook | 2 tests\nSummary: 3 total | 2 success | 1 error"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Het commando beschreef 1 nieuwe feed met 5 kolommen, gelezen uit de tabel zelf.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ vdp sources add dev_landing.raw_olist_returns\nexit code 0, 0.0 s\nadded dev_landing.raw_olist_returns (5 columns) to models/sources/sources_landing.yml\n$ dbt parse\nexit code 0, 0.4 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n==================== Execution Summary =====================\nFinished 'parse' successfully for target 'default' [151ms]"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "Met de hand geschreven stopte de check met 1 fout.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 1, 1.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n    Passed test  source_not_null_returns_raw_olist_returns_order_id [2 of 2 in 0.03s]\n    Failed test  source_not_null_returns_raw_olist_returns_retrun_id (models/sources/sources_returns.yml:13:26) [1 of 2 in 1.02s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbSyntaxInvalid (dbt1302)]: Error materializing test test.dbt_swf.source_not_null_returns_raw_olist_returns_retrun_id.c4df9a4681 (target/run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql)\n  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1054 (42S22): Unknown column 'retrun_id' in 'field list'\n  (in run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql:1:1)\n\n==================== Execution Summary =====================\nFinished 'test' with 1 error for target 'default' [1.2s]\nProcessed: 1 hook | 2 tests\nSummary: 3 total | 2 success | 1 error",
+        "data": {
+         "reasons": [
+          "Een kolomnaam in de beschrijving is verkeerd gespeld, dus de check erop kan niet draaien."
+         ],
+         "refused": true,
+         "commands": [
+          {
+           "expect": "failed",
+           "exit": 1,
+           "seconds": 1.5
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.15,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Met de hand geschreven stopte de check met 1 fout.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 1, 1.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n    Passed test  source_not_null_returns_raw_olist_returns_order_id [2 of 2 in 0.03s]\n    Failed test  source_not_null_returns_raw_olist_returns_retrun_id (models/sources/sources_returns.yml:13:26) [1 of 2 in 1.02s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbSyntaxInvalid (dbt1302)]: Error materializing test test.dbt_swf.source_not_null_returns_raw_olist_returns_retrun_id.c4df9a4681 (target/run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql)\n  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1054 (42S22): Unknown column 'retrun_id' in 'field list'\n  (in run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql:1:1)\n\n==================== Execution Summary =====================\nFinished 'test' with 1 error for target 'default' [1.2s]\nProcessed: 1 hook | 2 tests\nSummary: 3 total | 2 success | 1 error"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Het commando beschreef 1 nieuwe feed met 5 kolommen, gelezen uit de tabel zelf.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ vdp sources add dev_landing.raw_olist_returns\nexit code 0, 0.0 s\nadded dev_landing.raw_olist_returns (5 columns) to models/sources/sources_landing.yml\n$ dbt parse\nexit code 0, 0.4 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n==================== Execution Summary =====================\nFinished 'parse' successfully for target 'default' [151ms]"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "Met de hand geschreven stopte de check met 1 fout.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 1, 1.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n    Passed test  source_not_null_returns_raw_olist_returns_order_id [2 of 2 in 0.03s]\n    Failed test  source_not_null_returns_raw_olist_returns_retrun_id (models/sources/sources_returns.yml:13:26) [1 of 2 in 1.02s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbSyntaxInvalid (dbt1302)]: Error materializing test test.dbt_swf.source_not_null_returns_raw_olist_returns_retrun_id.c4df9a4681 (target/run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql)\n  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1054 (42S22): Unknown column 'retrun_id' in 'field list'\n  (in run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql:1:1)\n\n==================== Execution Summary =====================\nFinished 'test' with 1 error for target 'default' [1.2s]\nProcessed: 1 hook | 2 tests\nSummary: 3 total | 2 success | 1 error",
+        "data": {
+         "reasons": [
+          "Een kolomnaam in de beschrijving is verkeerd gespeld, dus de check erop kan niet draaien."
+         ],
+         "refused": true,
+         "commands": [
+          {
+           "expect": "failed",
+           "exit": 1,
+           "seconds": 1.5
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "Het commando beschreef 1 nieuwe feed met 5 kolommen, gelezen uit de tabel zelf.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ vdp sources add dev_landing.raw_olist_returns\nexit code 0, 0.0 s\nadded dev_landing.raw_olist_returns (5 columns) to models/sources/sources_landing.yml\n$ dbt parse\nexit code 0, 0.4 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n==================== Execution Summary =====================\nFinished 'parse' successfully for target 'default' [151ms]",
+        "data": {
+         "reasons": [
+          "Nieuwe feed beschreven: retourenfeed",
+          "Kolom: bestelnummer",
+          "Kolom: retourtijd",
+          "Kolom: return nummer",
+          "Kolom: return reason",
+          "Kolom: aankomsttijd",
+          "Het project leest de nieuwe beschrijving zonder problemen."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.4
+          }
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.15,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Met de hand geschreven stopte de check met 1 fout.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 1, 1.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n    Passed test  source_not_null_returns_raw_olist_returns_order_id [2 of 2 in 0.03s]\n    Failed test  source_not_null_returns_raw_olist_returns_retrun_id (models/sources/sources_returns.yml:13:26) [1 of 2 in 1.02s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbSyntaxInvalid (dbt1302)]: Error materializing test test.dbt_swf.source_not_null_returns_raw_olist_returns_retrun_id.c4df9a4681 (target/run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql)\n  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1054 (42S22): Unknown column 'retrun_id' in 'field list'\n  (in run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql:1:1)\n\n==================== Execution Summary =====================\nFinished 'test' with 1 error for target 'default' [1.2s]\nProcessed: 1 hook | 2 tests\nSummary: 3 total | 2 success | 1 error"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Het commando beschreef 1 nieuwe feed met 5 kolommen, gelezen uit de tabel zelf.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ vdp sources add dev_landing.raw_olist_returns\nexit code 0, 0.0 s\nadded dev_landing.raw_olist_returns (5 columns) to models/sources/sources_landing.yml\n$ dbt parse\nexit code 0, 0.4 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n==================== Execution Summary =====================\nFinished 'parse' successfully for target 'default' [151ms]"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Met de hand beschreven",
+       "data": {
+        "summary": "Met de hand geschreven stopte de check met 1 fout.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 1, 1.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n    Passed test  source_not_null_returns_raw_olist_returns_order_id [2 of 2 in 0.03s]\n    Failed test  source_not_null_returns_raw_olist_returns_retrun_id (models/sources/sources_returns.yml:13:26) [1 of 2 in 1.02s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n=================== Errors and Warnings ====================\n[error] [DbSyntaxInvalid (dbt1302)]: Error materializing test test.dbt_swf.source_not_null_returns_raw_olist_returns_retrun_id.c4df9a4681 (target/run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql)\n  [singlestore] [SingleStore] failed to create record reader: failed to execute query: Error 1054 (42S22): Unknown column 'retrun_id' in 'field list'\n  (in run/dbt_swf/target/generic_tests/source_not_null_returns_raw_olist_returns_retrun_id.sql:1:1)\n\n==================== Execution Summary =====================\nFinished 'test' with 1 error for target 'default' [1.2s]\nProcessed: 1 hook | 2 tests\nSummary: 3 total | 2 success | 1 error",
+        "data": {
+         "reasons": [
+          "Een kolomnaam in de beschrijving is verkeerd gespeld, dus de check erop kan niet draaien."
+         ],
+         "refused": true,
+         "commands": [
+          {
+           "expect": "failed",
+           "exit": 1,
+           "seconds": 1.5
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Beschreven door het commando",
+       "data": {
+        "summary": "Het commando beschreef 1 nieuwe feed met 5 kolommen, gelezen uit de tabel zelf.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ vdp sources add dev_landing.raw_olist_returns\nexit code 0, 0.0 s\nadded dev_landing.raw_olist_returns (5 columns) to models/sources/sources_landing.yml\n$ dbt parse\nexit code 0, 0.4 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n\n==================== Execution Summary =====================\nFinished 'parse' successfully for target 'default' [151ms]",
+        "data": {
+         "reasons": [
+          "Nieuwe feed beschreven: retourenfeed",
+          "Kolom: bestelnummer",
+          "Kolom: retourtijd",
+          "Kolom: return nummer",
+          "Kolom: return reason",
+          "Kolom: aankomsttijd",
+          "Het project leest de nieuwe beschrijving zonder problemen."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.4
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Het commando beschreef 1 nieuwe feed met 5 kolommen, gelezen uit de tabel zelf.",
+   "outcome": "De met de hand geschreven beschrijving stopte een check door één verkeerd gespelde naam, en dat kan op het slechtste moment gebeuren. Die van het commando klopte met de tabel.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:03:16+00:00",
+   "durations": [
+    5.2,
+    5.1,
+    5.1,
+    5.1,
+    5.1
+   ],
+   "show": [
+    "result",
+    "result"
+   ]
+  },
+  "update": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.01,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.02,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.03,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.03,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.24,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "alter table dev_landing.raw_olist_returns add column return_channel varchar(20)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.24,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "alter table dev_landing.raw_olist_returns add column return_channel varchar(20)"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.24,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "alter table dev_landing.raw_olist_returns add column return_channel varchar(20)"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 2 commando's in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.01,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "alter table dev_landing.raw_olist_returns add column return_channel varchar(20)"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 2 commando's in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 6,
+           "name": "Retourkanaal"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "De database heeft de wijziging doorgevoerd.",
+        "details": "alter table dev_landing.raw_olist_returns add column return_channel varchar(20)",
+        "data": {
+         "rows": []
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.03,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "alter table dev_landing.raw_olist_returns add column return_channel varchar(20)"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Voor de update noemde de beschrijving 5 kolommen; nu noemt ze 6 kolommen.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 0, 0.0 s\n\n$ vdp sources rewrite\nexit code 0, 0.2 s\ndev_landing: 7 tables into models/sources/sources_landing.yml\ndev_edw_dv_rdv: 17 tables into models/sources/sources_edw_dv_rdv.yml\ndev_edw_dv_bdv: 20 tables into models/sources/sources_edw_dv_bdv.yml\ndev_im_dimensional: 14 tables into models/sources/sources_im_dimensional.yml\nkept 1 referenced tables in models/sources/sources_landing.yml\ndeleted models/sources/sources_edw_dv_rdv.yml (nothing referenced)\ndeleted models/sources/sources_edw_dv_bdv.yml (nothing referenced)\ndeleted models/sources/sources_im_dimensional.yml (nothing referenced)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 6,
+           "name": "Retourkanaal"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "De database heeft de wijziging doorgevoerd.",
+        "details": "alter table dev_landing.raw_olist_returns add column return_channel varchar(20)",
+        "data": {
+         "rows": []
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.03,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "alter table dev_landing.raw_olist_returns add column return_channel varchar(20)"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Voor de update noemde de beschrijving 5 kolommen; nu noemt ze 6 kolommen.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 0, 0.0 s\n\n$ vdp sources rewrite\nexit code 0, 0.2 s\ndev_landing: 7 tables into models/sources/sources_landing.yml\ndev_edw_dv_rdv: 17 tables into models/sources/sources_edw_dv_rdv.yml\ndev_edw_dv_bdv: 20 tables into models/sources/sources_edw_dv_bdv.yml\ndev_im_dimensional: 14 tables into models/sources/sources_im_dimensional.yml\nkept 1 referenced tables in models/sources/sources_landing.yml\ndeleted models/sources/sources_edw_dv_rdv.yml (nothing referenced)\ndeleted models/sources/sources_edw_dv_bdv.yml (nothing referenced)\ndeleted models/sources/sources_im_dimensional.yml (nothing referenced)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 6,
+           "name": "Retourkanaal"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "Voor de update noemde de beschrijving 5 kolommen; nu noemt ze 6 kolommen.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 0, 0.0 s\n\n$ vdp sources rewrite\nexit code 0, 0.2 s\ndev_landing: 7 tables into models/sources/sources_landing.yml\ndev_edw_dv_rdv: 17 tables into models/sources/sources_edw_dv_rdv.yml\ndev_edw_dv_bdv: 20 tables into models/sources/sources_edw_dv_bdv.yml\ndev_im_dimensional: 14 tables into models/sources/sources_im_dimensional.yml\nkept 1 referenced tables in models/sources/sources_landing.yml\ndeleted models/sources/sources_edw_dv_rdv.yml (nothing referenced)\ndeleted models/sources/sources_edw_dv_bdv.yml (nothing referenced)\ndeleted models/sources/sources_im_dimensional.yml (nothing referenced)",
+        "data": {
+         "reasons": [
+          "Toegevoegd aan retourenfeed: retourkanaal"
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.2
+          }
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.03,
+     "actions": [
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "drop table if exists dev_landing.raw_olist_returns"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "create table dev_landing.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+      },
+      {
+       "label": "De database wijzigen",
+       "status": "done",
+       "summary": "De database heeft de wijziging doorgevoerd.",
+       "details": "alter table dev_landing.raw_olist_returns add column return_channel varchar(20)"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Voor de update noemde de beschrijving 5 kolommen; nu noemt ze 6 kolommen.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 0, 0.0 s\n\n$ vdp sources rewrite\nexit code 0, 0.2 s\ndev_landing: 7 tables into models/sources/sources_landing.yml\ndev_edw_dv_rdv: 17 tables into models/sources/sources_edw_dv_rdv.yml\ndev_edw_dv_bdv: 20 tables into models/sources/sources_edw_dv_bdv.yml\ndev_im_dimensional: 14 tables into models/sources/sources_im_dimensional.yml\nkept 1 referenced tables in models/sources/sources_landing.yml\ndeleted models/sources/sources_edw_dv_rdv.yml (nothing referenced)\ndeleted models/sources/sources_edw_dv_bdv.yml (nothing referenced)\ndeleted models/sources/sources_im_dimensional.yml (nothing referenced)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "table",
+       "title": "De kolommen die de tabel nu heeft",
+       "data": {
+        "columns": [
+         {
+          "key": "position",
+          "label": "Positie"
+         },
+         {
+          "key": "name",
+          "label": "Kolom"
+         }
+        ],
+        "rows": [
+         {
+          "cells": {
+           "position": 1,
+           "name": "Retournummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 2,
+           "name": "Bestelnummer"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 3,
+           "name": "Retourreden"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 4,
+           "name": "Retourtijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 5,
+           "name": "Aankomsttijd"
+          },
+          "state": null
+         },
+         {
+          "cells": {
+           "position": 6,
+           "name": "Retourkanaal"
+          },
+          "state": null
+         }
+        ],
+        "empty": "De tabel bestaat nog niet.",
+        "truncated": false,
+        "footer": null
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat de update in de beschrijving veranderd heeft",
+       "data": {
+        "summary": "Voor de update noemde de beschrijving 5 kolommen; nu noemt ze 6 kolommen.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with the password in the environment\n$ mkdir -p models/sources  (+16 more lines)\nexit code 0, 0.0 s\n\n$ vdp sources rewrite\nexit code 0, 0.2 s\ndev_landing: 7 tables into models/sources/sources_landing.yml\ndev_edw_dv_rdv: 17 tables into models/sources/sources_edw_dv_rdv.yml\ndev_edw_dv_bdv: 20 tables into models/sources/sources_edw_dv_bdv.yml\ndev_im_dimensional: 14 tables into models/sources/sources_im_dimensional.yml\nkept 1 referenced tables in models/sources/sources_landing.yml\ndeleted models/sources/sources_edw_dv_rdv.yml (nothing referenced)\ndeleted models/sources/sources_edw_dv_bdv.yml (nothing referenced)\ndeleted models/sources/sources_im_dimensional.yml (nothing referenced)",
+        "data": {
+         "reasons": [
+          "Toegevoegd aan retourenfeed: retourkanaal"
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.2
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Voor de update noemde de beschrijving 5 kolommen; nu noemt ze 6 kolommen.",
+   "outcome": "Eén commando bracht de beschrijving op punt: ze noemt elke kolom van de tabel. Zonder dat wist het project niet dat de nieuwe kolom bestond, en kon geen enkele check ze afdekken.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:03:19+00:00",
+   "durations": [
+    2.2,
+    2.2,
+    2.0,
+    1.9,
+    2.0
+   ],
+   "show": [
+    "table",
+    "result"
+   ]
+  },
+  "buttons": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.01,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De twee knoppen",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer twee",
+       "data": {
+        "value": 0,
+        "unit": "tabellen",
+        "compare": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Developer twee werkt in de toolbox",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De twee knoppen",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer twee",
+       "data": {
+        "value": 0,
+        "unit": "tabellen",
+        "compare": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.01,
+     "actions": [
+      {
+       "label": "Developer twee werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer twee runt 3 commando's in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De twee knoppen",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer twee",
+       "data": {
+        "value": 0,
+        "unit": "tabellen",
+        "compare": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.01,
+     "actions": [
+      {
+       "label": "Developer twee werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer twee runt 3 commando's in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De twee knoppen",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer twee",
+       "data": {
+        "value": 0,
+        "unit": "tabellen",
+        "compare": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.59,
+     "actions": [
+      {
+       "label": "Developer twee werkt in de toolbox",
+       "status": "done",
+       "summary": "De eerste knop lijstte op wat veranderd was, en vond 1 tabel.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev2 with the password in the environment\n$ dbt compile --no-partial-parse --target run --target-path artifacts  (+1 more lines)\nexit code 0, 0.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 3 threads (target: run)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n  Finished [  0.01s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'compile' successfully for target 'run' [227ms]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success\n$ DBT_DEPLOY_TARGET=dev dbt ls -s state:modified --state artifacts --output json --output-keys database name resource_type\nexit code 0, 0.2 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n=======================Selected nodes=======================\n{\"database\":\"dev_im_dimensional\",\"name\":\"mart_orders_per_month\",\"resource_type\":\"model\"}\n\n==================== Execution Summary =====================\nFinished 'list' successfully for target 'default' [171ms]\n$ DBT_DEPLOY_TARGET=dev dbt build -s state:modified --defer --state artifacts\nexit code 0, 0.3 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading deferred relations (1 items)\n  Finished [  0.01s] downloading deferred relations (1 items)\n Succeeded model pu_dev2.pu_dev2_mart_orders_per_month (view) [1 of 1 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [262ms]\nProcessed: 1 hook | 1 model\nSummary: 2 total | 2 success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De twee knoppen",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer twee",
+       "data": {
+        "value": 0,
+        "unit": "tabellen",
+        "compare": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.6,
+     "actions": [
+      {
+       "label": "Developer twee werkt in de toolbox",
+       "status": "done",
+       "summary": "De eerste knop lijstte op wat veranderd was, en vond 1 tabel.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev2 with the password in the environment\n$ dbt compile --no-partial-parse --target run --target-path artifacts  (+1 more lines)\nexit code 0, 0.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 3 threads (target: run)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n  Finished [  0.01s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'compile' successfully for target 'run' [227ms]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success\n$ DBT_DEPLOY_TARGET=dev dbt ls -s state:modified --state artifacts --output json --output-keys database name resource_type\nexit code 0, 0.2 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n=======================Selected nodes=======================\n{\"database\":\"dev_im_dimensional\",\"name\":\"mart_orders_per_month\",\"resource_type\":\"model\"}\n\n==================== Execution Summary =====================\nFinished 'list' successfully for target 'default' [171ms]\n$ DBT_DEPLOY_TARGET=dev dbt build -s state:modified --defer --state artifacts\nexit code 0, 0.3 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading deferred relations (1 items)\n  Finished [  0.01s] downloading deferred relations (1 items)\n Succeeded model pu_dev2.pu_dev2_mart_orders_per_month (view) [1 of 1 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [262ms]\nProcessed: 1 hook | 1 model\nSummary: 2 total | 2 success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De twee knoppen",
+       "data": {
+        "summary": "De eerste knop lijstte op wat veranderd was, en vond 1 tabel.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev2 with the password in the environment\n$ dbt compile --no-partial-parse --target run --target-path artifacts  (+1 more lines)\nexit code 0, 0.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 3 threads (target: run)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n  Finished [  0.01s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'compile' successfully for target 'run' [227ms]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success\n$ DBT_DEPLOY_TARGET=dev dbt ls -s state:modified --state artifacts --output json --output-keys database name resource_type\nexit code 0, 0.2 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n=======================Selected nodes=======================\n{\"database\":\"dev_im_dimensional\",\"name\":\"mart_orders_per_month\",\"resource_type\":\"model\"}\n\n==================== Execution Summary =====================\nFinished 'list' successfully for target 'default' [171ms]\n$ DBT_DEPLOY_TARGET=dev dbt build -s state:modified --defer --state artifacts\nexit code 0, 0.3 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading deferred relations (1 items)\n  Finished [  0.01s] downloading deferred relations (1 items)\n Succeeded model pu_dev2.pu_dev2_mart_orders_per_month (view) [1 of 1 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [262ms]\nProcessed: 1 hook | 1 model\nSummary: 2 total | 2 success",
+        "data": {
+         "reasons": [
+          "De tweede knop buildde 1 tabel in de eigen kopieën van developer twee."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.5
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.2
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.3
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer twee",
+       "data": {
+        "value": 1,
+        "unit": "tabellen",
+        "compare": null
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.6,
+     "actions": [
+      {
+       "label": "Developer twee werkt in de toolbox",
+       "status": "done",
+       "summary": "De eerste knop lijstte op wat veranderd was, en vond 1 tabel.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev2 with the password in the environment\n$ dbt compile --no-partial-parse --target run --target-path artifacts  (+1 more lines)\nexit code 0, 0.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 3 threads (target: run)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n  Finished [  0.01s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'compile' successfully for target 'run' [227ms]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success\n$ DBT_DEPLOY_TARGET=dev dbt ls -s state:modified --state artifacts --output json --output-keys database name resource_type\nexit code 0, 0.2 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n=======================Selected nodes=======================\n{\"database\":\"dev_im_dimensional\",\"name\":\"mart_orders_per_month\",\"resource_type\":\"model\"}\n\n==================== Execution Summary =====================\nFinished 'list' successfully for target 'default' [171ms]\n$ DBT_DEPLOY_TARGET=dev dbt build -s state:modified --defer --state artifacts\nexit code 0, 0.3 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading deferred relations (1 items)\n  Finished [  0.01s] downloading deferred relations (1 items)\n Succeeded model pu_dev2.pu_dev2_mart_orders_per_month (view) [1 of 1 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [262ms]\nProcessed: 1 hook | 1 model\nSummary: 2 total | 2 success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De twee knoppen",
+       "data": {
+        "summary": "De eerste knop lijstte op wat veranderd was, en vond 1 tabel.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev2 with the password in the environment\n$ dbt compile --no-partial-parse --target run --target-path artifacts  (+1 more lines)\nexit code 0, 0.5 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 3 threads (target: run)\n   Started downloading referenced relations (1 items)\n  Finished [  0.01s] downloading referenced relations (1 items)\n  Finished [  0.01s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'compile' successfully for target 'run' [227ms]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 51 success\n$ DBT_DEPLOY_TARGET=dev dbt ls -s state:modified --state artifacts --output json --output-keys database name resource_type\nexit code 0, 0.2 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n=======================Selected nodes=======================\n{\"database\":\"dev_im_dimensional\",\"name\":\"mart_orders_per_month\",\"resource_type\":\"model\"}\n\n==================== Execution Summary =====================\nFinished 'list' successfully for target 'default' [171ms]\n$ DBT_DEPLOY_TARGET=dev dbt build -s state:modified --defer --state artifacts\nexit code 0, 0.3 s\n   dbt-oss 2.0.11\n   Loading profiles.yml\n   Loading packages.yml\n     Using 2 threads (target: default)\n   Started downloading deferred relations (1 items)\n  Finished [  0.01s] downloading deferred relations (1 items)\n Succeeded model pu_dev2.pu_dev2_mart_orders_per_month (view) [1 of 1 in 0.01s]\n  Finished [  0.00s] hook  dbt_swf-on-run-end-0\n\n==================== Execution Summary =====================\nFinished 'build' successfully for target 'default' [262ms]\nProcessed: 1 hook | 1 model\nSummary: 2 total | 2 success",
+        "data": {
+         "reasons": [
+          "De tweede knop buildde 1 tabel in de eigen kopieën van developer twee."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.5
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.2
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.3
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "number",
+       "title": "Tabellen in de eigen kopieën van developer twee",
+       "data": {
+        "value": 1,
+        "unit": "tabellen",
+        "compare": null
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "De eerste knop lijstte op wat veranderd was, en vond 1 tabel.",
+   "outcome": "Twee klikken volstonden om enkel de gewijzigde tabel te testen; de tabellen die ze leest, werden geleend van de gedeelde kopie.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:03:22+00:00",
+   "durations": [
+    2.6,
+    2.7,
+    2.6,
+    2.5,
+    2.6
+   ],
+   "show": [
+    "result",
+    "number"
+   ]
+  },
+  "rule": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.0,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De regel met een spelfout",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De regel zoals ze hoort",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "De wijziging nakijken op de regels van het team",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De regel met een spelfout",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De regel zoals ze hoort",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.52,
+     "actions": [
+      {
+       "label": "De wijziging nakijken op de regels van het team",
+       "status": "done",
+       "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De regel met een spelfout",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De regel zoals ze hoort",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.52,
+     "actions": [
+      {
+       "label": "De wijziging nakijken op de regels van het team",
+       "status": "done",
+       "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1"
+      },
+      {
+       "label": "De wijziging nakijken op de regels van het team",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De regel met een spelfout",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De regel zoals ze hoort",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.0,
+     "actions": [
+      {
+       "label": "De wijziging nakijken op de regels van het team",
+       "status": "done",
+       "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1"
+      },
+      {
+       "label": "De wijziging nakijken op de regels van het team",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De regel met een spelfout",
+       "data": {
+        "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1",
+        "data": {
+         "refused": false,
+         "reasons": [],
+         "tidied": 1
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "De regel zoals ze hoort",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.95,
+     "actions": [
+      {
+       "label": "De wijziging nakijken op de regels van het team",
+       "status": "done",
+       "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1"
+      },
+      {
+       "label": "De wijziging nakijken op de regels van het team",
+       "status": "done",
+       "summary": "De robot kuiste de opmaak van 1 bestand op en weigerde de wijziging: ze overtreedt 1 van de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    39 │\n│               │ Nodes           │    31 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    36 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 124 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭────────────────────────────────────────────────────────────────────┬────────┬╮\n│ Check name                                                         │ Sever… ││\n├────────────────────────────────────────────────────────────────────┼────────┼┤\n│ check_model_code_does_not_contain_regexp_pattern:3:mart_orders_pe… │ ERROR  ││\n╰────────────────────────────────────────────────────────────────────┴────────┴╯\nDone. SUCCESS=123 WARN=0 ERROR=1\n\n=== tidied 1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De regel met een spelfout",
+       "data": {
+        "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1",
+        "data": {
+         "refused": false,
+         "reasons": [],
+         "tidied": 1
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "De regel zoals ze hoort",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.95,
+     "actions": [
+      {
+       "label": "De wijziging nakijken op de regels van het team",
+       "status": "done",
+       "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1"
+      },
+      {
+       "label": "De wijziging nakijken op de regels van het team",
+       "status": "done",
+       "summary": "De robot kuiste de opmaak van 1 bestand op en weigerde de wijziging: ze overtreedt 1 van de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    39 │\n│               │ Nodes           │    31 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    36 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 124 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭────────────────────────────────────────────────────────────────────┬────────┬╮\n│ Check name                                                         │ Sever… ││\n├────────────────────────────────────────────────────────────────────┼────────┼┤\n│ check_model_code_does_not_contain_regexp_pattern:3:mart_orders_pe… │ ERROR  ││\n╰────────────────────────────────────────────────────────────────────┴────────┴╯\nDone. SUCCESS=123 WARN=0 ERROR=1\n\n=== tidied 1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De regel met een spelfout",
+       "data": {
+        "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1",
+        "data": {
+         "refused": false,
+         "reasons": [],
+         "tidied": 1
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "De regel zoals ze hoort",
+       "data": {
+        "summary": "De robot kuiste de opmaak van 1 bestand op en weigerde de wijziging: ze overtreedt 1 van de regels van het team.",
+        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    39 │\n│               │ Nodes           │    31 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    36 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 124 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭────────────────────────────────────────────────────────────────────┬────────┬╮\n│ Check name                                                         │ Sever… ││\n├────────────────────────────────────────────────────────────────────┼────────┼┤\n│ check_model_code_does_not_contain_regexp_pattern:3:mart_orders_pe… │ ERROR  ││\n╰────────────────────────────────────────────────────────────────────┴────────┴╯\nDone. SUCCESS=123 WARN=0 ERROR=1\n\n=== tidied 1",
+        "data": {
+         "refused": true,
+         "reasons": [
+          "De code gebruikt een datumfunctie die het team verboden heeft (str_to_date)."
+         ],
+         "tidied": 1
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.95,
+     "actions": [
+      {
+       "label": "De wijziging nakijken op de regels van het team",
+       "status": "done",
+       "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1"
+      },
+      {
+       "label": "De wijziging nakijken op de regels van het team",
+       "status": "done",
+       "summary": "De robot kuiste de opmaak van 1 bestand op en weigerde de wijziging: ze overtreedt 1 van de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    39 │\n│               │ Nodes           │    31 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    36 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 124 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭────────────────────────────────────────────────────────────────────┬────────┬╮\n│ Check name                                                         │ Sever… ││\n├────────────────────────────────────────────────────────────────────┼────────┼┤\n│ check_model_code_does_not_contain_regexp_pattern:3:mart_orders_pe… │ ERROR  ││\n╰────────────────────────────────────────────────────────────────────┴────────┴╯\nDone. SUCCESS=123 WARN=0 ERROR=1\n\n=== tidied 1"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De regel met een spelfout",
+       "data": {
+        "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1",
+        "data": {
+         "refused": false,
+         "reasons": [],
+         "tidied": 1
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "De regel zoals ze hoort",
+       "data": {
+        "summary": "De robot kuiste de opmaak van 1 bestand op en weigerde de wijziging: ze overtreedt 1 van de regels van het team.",
+        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    39 │\n│               │ Nodes           │    31 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    36 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 124 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭────────────────────────────────────────────────────────────────────┬────────┬╮\n│ Check name                                                         │ Sever… ││\n├────────────────────────────────────────────────────────────────────┼────────┼┤\n│ check_model_code_does_not_contain_regexp_pattern:3:mart_orders_pe… │ ERROR  ││\n╰────────────────────────────────────────────────────────────────────┴────────┴╯\nDone. SUCCESS=123 WARN=0 ERROR=1\n\n=== tidied 1",
+        "data": {
+         "refused": true,
+         "reasons": [
+          "De code gebruikt een datumfunctie die het team verboden heeft (str_to_date)."
+         ],
+         "tidied": 1
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "De robot kuiste de opmaak van 1 bestand op en weigerde de wijziging: ze overtreedt 1 van de regels van het team.",
+   "outcome": "Een regel met een spelfout ziet er goed uit maar beschermt niemand, en een verboden gewoonte kan dus nog in de rapporten belanden. De volgende stap is een test die mislukt zodra een regel de code niet weigert die ze moet stoppen.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:03:25+00:00",
+   "durations": [
+    2.8,
+    2.7,
+    3.0,
+    2.8,
+    2.9
+   ],
+   "show": [
+    "result",
+    "result"
+   ]
+  },
+  "vault": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.0,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wachtwoord in een instellingenbestand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wachtwoord in de vault",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wachtwoord in een instellingenbestand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wachtwoord in de vault",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 3 commando's in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wachtwoord in een instellingenbestand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wachtwoord in de vault",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.63,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 1.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds the password\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n1\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from /usr/app/dbt/workspace/.devcontainer/.env\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wachtwoord in een instellingenbestand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wachtwoord in de vault",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.63,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 1.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds the password\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n1\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from /usr/app/dbt/workspace/.devcontainer/.env\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wachtwoord in een instellingenbestand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wachtwoord in de vault",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.63,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 1.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds the password\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n1\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from /usr/app/dbt/workspace/.devcontainer/.env\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 3 commando's in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wachtwoord in een instellingenbestand",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wachtwoord in de vault",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.0,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 1.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds the password\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n1\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from /usr/app/dbt/workspace/.devcontainer/.env\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "running",
+       "summary": "Developer één runt 3 commando's in de toolbox",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wachtwoord in een instellingenbestand",
+       "data": {
+        "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 1.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds the password\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n1\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from /usr/app/dbt/workspace/.devcontainer/.env\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)",
+        "data": {
+         "reasons": [
+          "De toolbox las het wachtwoord uit dat bestand.",
+          "De database aanvaardde de login."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wachtwoord in de vault",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.23,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 1.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds the password\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n1\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from /usr/app/dbt/workspace/.devcontainer/.env\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds only the vault ids\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n0\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from vault kv-workshop:vdp/dev/dbt\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n INFO logged in to Vault url=http://vault:8200\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wachtwoord in een instellingenbestand",
+       "data": {
+        "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 1.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds the password\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n1\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from /usr/app/dbt/workspace/.devcontainer/.env\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)",
+        "data": {
+         "reasons": [
+          "De toolbox las het wachtwoord uit dat bestand.",
+          "De database aanvaardde de login."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wachtwoord in de vault",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.23,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 1.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds the password\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n1\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from /usr/app/dbt/workspace/.devcontainer/.env\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds only the vault ids\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n0\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from vault kv-workshop:vdp/dev/dbt\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n INFO logged in to Vault url=http://vault:8200\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wachtwoord in een instellingenbestand",
+       "data": {
+        "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 1.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds the password\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n1\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from /usr/app/dbt/workspace/.devcontainer/.env\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)",
+        "data": {
+         "reasons": [
+          "De toolbox las het wachtwoord uit dat bestand.",
+          "De database aanvaardde de login."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wachtwoord in de vault",
+       "data": {
+        "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 0.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds only the vault ids\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n0\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from vault kv-workshop:vdp/dev/dbt\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n INFO logged in to Vault url=http://vault:8200\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)",
+        "data": {
+         "reasons": [
+          "De toolbox haalde het wachtwoord uit de vault op toen het commando startte.",
+          "De database aanvaardde de login."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          }
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 3.23,
+     "actions": [
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 1.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds the password\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n1\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from /usr/app/dbt/workspace/.devcontainer/.env\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      },
+      {
+       "label": "Developer één werkt in de toolbox",
+       "status": "done",
+       "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 0.",
+       "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds only the vault ids\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n0\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from vault kv-workshop:vdp/dev/dbt\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n INFO logged in to Vault url=http://vault:8200\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wachtwoord in een instellingenbestand",
+       "data": {
+        "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 1.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds the password\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n1\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from /usr/app/dbt/workspace/.devcontainer/.env\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)",
+        "data": {
+         "reasons": [
+          "De toolbox las het wachtwoord uit dat bestand.",
+          "De database aanvaardde de login."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wachtwoord in de vault",
+       "data": {
+        "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 0.",
+        "details": "image dbt-singlestore-dev:1.11.11; pu_dev1 with a settings file that holds only the vault ids\n$ grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true\nexit code 0, 0.0 s\n0\n$ vdp env show 2>&1 | grep SINGLESTORE_PASS\nexit code 0, 0.0 s\n  SINGLESTORE_PASS                 from vault kv-workshop:vdp/dev/dbt\n$ printf 'select current_user() as account;\\n' > /tmp/who.sql  (+1 more lines)\nexit code 0, 0.0 s\n INFO logged in to Vault url=http://vault:8200\n== /tmp/who.sql\naccount\n---------\npu_dev1@%\n(1 rows)",
+        "data": {
+         "reasons": [
+          "De toolbox haalde het wachtwoord uit de vault op toen het commando startte.",
+          "De database aanvaardde de login."
+         ],
+         "refused": false,
+         "commands": [
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          },
+          {
+           "expect": "success",
+           "exit": 0,
+           "seconds": 0.0
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: 0.",
+   "outcome": "Beide manieren verbonden, maar slechts één liet een leesbaar wachtwoord achter op de laptop.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:03:11+00:00",
+   "durations": [
+    3.2,
+    3.2,
+    3.2,
+    3.2
+   ],
+   "show": [
+    "result",
+    "result"
+   ]
+  }
+ },
+ "prepare": {
+  "durations": [
+   1.4,
+   10.1,
+   5.7,
+   5.4,
+   5.6
+  ]
+ },
+ "recorded_at": "2026-11-21T22:03:25+00:00"
+}

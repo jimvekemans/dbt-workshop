@@ -17,13 +17,13 @@ const stub = { getCatalog: () => new Promise(() => undefined), getState: () => n
 
 const texts = (v: unknown): string[] => (typeof v === 'string' ? [v] : Array.isArray(v) ? v.flatMap(texts) : v && typeof v === 'object' ? Object.values(v).flatMap(texts) : [])
 
-describe('the real scenarios and the two test scenarios', () => {
-  it('has the real catalog (every one of its scenarios has content) and the two mock-only test scenarios', () => {
+describe('the real scenarios and the mock-only test scenarios', () => {
+  it('has the real catalog (every one of its scenarios has content) and the three mock-only test scenarios (stress, states, the sample flow)', () => {
     const real = CATALOG.groups.flatMap((g) => g.scenarios)
     expect(CATALOG.groups.length).toBeGreaterThan(0)
     for (const s of real) expect(ids).toContain(s.id)
-    expect(ids).toEqual(expect.arrayContaining(['stress-test', 'states-test']))
-    expect(ids).toHaveLength(real.length + 2)
+    expect(ids).toEqual(expect.arrayContaining(['stress-test', 'states-test', 'flow-test']))
+    expect(ids).toHaveLength(real.length + 3)
   })
 
   it.each(ids)('%s: every glossary term resolves and parts 1 to 3 render', (id) => {

@@ -20,7 +20,8 @@ from pydantic import ValidationError
 from . import names
 from .actions import base
 from .config import Settings
-from .models import (ENVIRONMENTS, OUTCOME_MAX, GlossaryFile, Group, GroupsFile, OutcomeCheck, Scenario, Step)
+from .models import (ENVIRONMENTS, OUTCOME_MAX, GlossaryFile, Group, GroupsFile, OutcomeCheck, RoadmapFile, Scenario,
+                     Step)
 from .templating import TemplateContext, TemplateError, render, render_input, render_item
 
 FEEDS = ("customers", "orders", "payments", "reviews", "carrier", "web")
@@ -57,6 +58,7 @@ class Catalog:
     glossary: dict[str, str]
     scenarios: dict[str, Scenario]
     blocks: dict[str, list[dict[str, Any]]] = field(default_factory=dict)   # resolved code, per scenario id
+    roadmap: RoadmapFile | None = None                                      # `_roadmap.yaml`, the closing overview
 
     def groups_payload(self, recorded: Callable[[Scenario], bool]) -> list[dict[str, Any]]:
         """The home page: groups in file order with their scenarios in the order of the group's `scenarios` list (a
@@ -66,10 +68,20 @@ class Catalog:
             members = [self.scenarios[i] for i in group.scenarios if i in self.scenarios]
             if members:
                 out.append({"id": group.id, "title": group.title, "blurb": group.blurb, "scenarios": [
-                    {"id": s.id, "title": s.title, "promise": s.promise, "minutes": s.minutes,
+                    {"id": s.id, "kind": s.kind, "title": s.title, "promise": s.promise, "minutes": s.minutes,
                      "environment": s.environment, "related": [r.model_dump() for r in s.related],
+                     "feature": s.feature, "status": s.status, "why": s.why, "tech": s.tech,
+                     "steps": [{"id": st.id, "title": st.title, "feature": st.feature, "status": st.status,
+                                "why": st.why, "tech": st.tech}
+                               for st in s.demo.steps],
+                     "idea": _idea_preview(s),
                      "recorded": recorded(s)} for s in members]})
         return out
+
+    def roadmap_payload(self) -> dict[str, Any] | None:
+        """The closing overview's own text and its extra rows (the rows of flows and scenarios come from the groups
+        payload); None when there is no `_roadmap.yaml`."""
+        return self.roadmap.model_dump() if self.roadmap else None
 
     def scenario_payload(self, scenario_id: str, ctx: TemplateContext,
                          usual_seconds: Callable[[str], float | None] = lambda step_id: None,
@@ -92,13 +104,24 @@ class Catalog:
                                     "caption": _soft_render(item.get("caption"), step_ctx),
                                     "before_of": item.get("before_of")} for item in step.show],
                           "outcome": step.outcome if isinstance(step.outcome, str) else None,
-                          "usual_seconds": usual_seconds(step.id)})
-        return {"id": sc.id, "group": sc.group, "title": sc.title, "promise": sc.promise, "minutes": sc.minutes,
+                          "usual_seconds": usual_seconds(step.id),
+                          **({"feature": step.feature, "status": step.status} if step.status else {}),
+                          **({"tech": step.tech} if step.tech else {})})
+        return {"id": sc.id, "kind": sc.kind, "group": sc.group, "title": sc.title, "promise": sc.promise,
+                "feature": sc.feature, "status": sc.status, "tech": sc.tech, "minutes": sc.minutes,
                 "environment": sc.environment, "related": [r.model_dump() for r in sc.related],
                 "problem": sc.problem.model_dump(by_alias=True), "idea": sc.idea.model_dump(by_alias=True),
                 "code": self.blocks[scenario_id],
                 "demo": {"intro": sc.demo.intro, "steps": steps},
                 "prepare_usual_seconds": prepare_usual_seconds}
+
+
+def _idea_preview(sc: Scenario) -> dict[str, Any]:
+    """What a home-page tile shows on hover: the headline and the visual of the idea part, without the caption (the
+    tile draws no caption) and without empty fields. The points, the story and everything else stay in the scenario."""
+    visual = sc.idea.visual.model_dump(exclude_none=True)
+    visual.pop("caption", None)
+    return {"headline": sc.idea.headline, "visual": visual}
 
 
 def _safe_default(inp: Any) -> Any:
@@ -156,11 +179,30 @@ def _load_glossary(path: Path, problems: list[str]) -> dict[str, str]:
         return {}
 
 
+def _load_roadmap(path: Path, glossary: dict[str, str], problems: list[str]) -> RoadmapFile | None:
+    """`_roadmap.yaml` is optional; when it is there it is checked like the other `_*.yaml` files."""
+    if not path.is_file():
+        return None
+    data = _read_yaml(path, problems)
+    if data is None:
+        return None
+    try:
+        roadmap = RoadmapFile.model_validate(data)
+    except ValidationError as e:
+        problems.extend(_describe(e, path.name))
+        return None
+    for term in sorted({m for s in _strings(roadmap.model_dump()) for m in TERM.findall(s)} - set(glossary)):
+        problems.append(f"{path.name}: glossary term [[{term}]] is not in _glossary.yaml")
+    return roadmap
+
+
 def load_catalog(settings: Settings, today: Callable[[], date] = date.today) -> Catalog:
-    """Load `_groups.yaml`, `_glossary.yaml` and every scenario; raise CatalogError listing every problem."""
+    """Load `_groups.yaml`, `_glossary.yaml`, `_roadmap.yaml` and every scenario; raise CatalogError listing every
+    problem."""
     problems: list[str] = []
     groups = _load_groups(settings.scenarios_dir / "_groups.yaml", problems)
     glossary = _load_glossary(settings.scenarios_dir / "_glossary.yaml", problems)
+    roadmap = _load_roadmap(settings.scenarios_dir / "_roadmap.yaml", glossary, problems)
     files = sorted(p for p in settings.scenarios_dir.glob("*.yaml") if not p.name.startswith("_"))
     known_ids = {p.stem for p in files}
     scenarios: dict[str, Scenario] = {}
@@ -178,7 +220,7 @@ def load_catalog(settings: Settings, today: Callable[[], date] = date.today) -> 
     problems.extend(_check_order(groups, scenarios))
     if problems:
         raise CatalogError(problems)
-    return Catalog(groups, glossary, scenarios, blocks)
+    return Catalog(groups, glossary, scenarios, blocks, roadmap)
 
 
 def _check_order(groups: list[Group], scenarios: dict[str, Scenario]) -> list[str]:
@@ -354,7 +396,7 @@ def _check_items(items: list[dict[str, Any]], where: str, kind: str, ctx: Templa
             add(f"{label} ({name}): env '{env}' is not one of {', '.join(ENVIRONMENTS)}")
         if kind == "evidence" and not rendered.get("title"):
             add(f"{label} ({name}): evidence needs a title")
-        skip = (key, "before_of") if kind == "evidence" else (key,)
+        skip = (key, "before_of") if kind == "evidence" else (key, "id")
         try:
             registry[name].params.model_validate({k: v for k, v in rendered.items() if k not in skip})
         except ValidationError as e:
@@ -442,6 +484,8 @@ def _resolve_block(block: Any, settings: Settings, add: Callable[[str], None]) -
                                 "gitlab_url": f"{settings.gitlab_url}/{GITLAB_PROJECT}/-/blob/dev/{block.file}"}
     if block.file_label:
         resolved["file_label"] = block.file_label
+    if block.status:
+        resolved["status"] = block.status
     path = _block_path(settings, block.file)
     if path is None:
         add(f"{where}: the file must be inside the dbt project or in {INFRA_SQL_PREFIX} or {DEV_IMAGE_PREFIX}")

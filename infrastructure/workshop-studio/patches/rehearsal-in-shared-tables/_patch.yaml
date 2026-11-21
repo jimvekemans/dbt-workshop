@@ -1,0 +1,10 @@
+title: "De testrun buildt in de gedeelde tabellen van development (geen privékopie)"
+message: 'ci: the data rehearsal builds in the shared tables of development, with the keys of the development robot'
+ops:
+- path: .gitlab-ci.yml
+  find: '      dbt build --select state:modified+ --state artifacts --defer --vars "SCHEMA: ${VERIFY_SCHEMA//[\/-]/_}" --target ci
+
+    '
+  replace: '      SINGLESTORE_USER=svc_dev_dbt dbt build --select state:modified+ --state artifacts --defer --target run
+
+    '

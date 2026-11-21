@@ -14,7 +14,7 @@ description: >-
 - **No reload vars exist.** The only model-level switch is `meta={'reload_strategy': {'type': ..., 'column': ...}}` (Fusion rejects unknown top-level config keys, so it lives under `meta`). Types: `date_window`, `hkey_mod`, `pit`. Models carry no batch filters.
 - Everything else is macros (`macros/utils/reload_helpers.sql`) plus two project overrides in `macros/core/`:
   - `get_create_table_as_sql`: on `--target reload`, for models with a strategy, captures the compiled SQL into `<env>_vdp_mgmt.reload_state` and creates the table EMPTY (`select * from (<sql>) where 1 = 0`).
-  - `generate_alias_name`: on `--target reload`, nodes with a strategy get the `__new_` alias prefix (reload ONE model at a time; other strategy models referenced by it would be prefixed too).
+  - `generate_alias_name`: on `--target reload`, nodes with a strategy get the `__new_` alias prefix (reload ONE model at a time; other strategy models referenced by it would be prefixed too). On target `collibra` (catalogue artifacts) it returns the plain model name, so the reload prefix never appears there.
 
 ## Flow (Airflow `dbt_reload`; each step is a built-in command or one macro)
 1. `dbt run -s <m> --full-refresh --target reload`: empty `__new_<m>` + captured SQL.
@@ -32,10 +32,11 @@ description: >-
 `model_name`, `batch_count` (1..10), `start_date`/`end_date` (date_window), `limit` (pit), `run_tests`, `cleanup_backup`, `target_path`. `dbt_release` steps with `defer_to_reload: True` pass these through (`model`, `batch_count`, `start_date`, `end_date`, `limit`, ...).
 
 ## Dummy models (`models/edw_dv_bdv/`, tests in `dummy_reload.yml`)
-`ref_dummy_numbers` (1..100000), `dummy_loading_history`, `dummy_reload_date_window` (1096 rows, `event_date`), `dummy_reload_hkey_mod` (100000 rows, `hkey_record`), `dummy_reload_pit_with_deps` (PIT on `datum`, `pit_key`).
+`ref_dummy_numbers` (1..100000), `dummy_loading_history`, `dummy_load_cycles` (the loading history written by the hooks `open_load_cycle` / `close_load_cycle` of `dummy_reload_pit_with_deps`; skipped on target `reload`), `dummy_reload_date_window` (1096 rows, `event_date`), `dummy_reload_hkey_mod` (100000 rows, `hkey_record`), `dummy_reload_pit_with_deps` (PIT on `datum`, `pit_key`).
 
 ## Gotchas
 - In `--target reload` the graph alias already has `__new_`; `get_reload_relation_names` strips it.
+- The project overrides dbt's `should_full_refresh()` (`macros/core/should_full_refresh.sql`): a model with `meta: {full_refresh_only_when_listed: true}` (today only `dummy_load_cycles`) ignores a bare `--full-refresh` and is rebuilt only when named in `--vars '{full_refresh_models: [...]}'`. Never put that meta key on a model with a `reload_strategy`: step 1 relies on `--full-refresh` to create the empty `__new_<m>`.
 - Manual CLI check against the running stack: run steps 1-4 by hand from the deployed project image on `workshop_net`
   (`<tag>` = the Airflow Variable `dbt_image_tag` of that environment; `run-operation` needs `--target reload` for
   batches and `--target run` for swap/cleanup):

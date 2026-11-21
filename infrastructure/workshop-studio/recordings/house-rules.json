@@ -10,7 +10,7 @@
      "evidence": [
       {
        "type": "result",
-       "title": "What the robot says",
+       "title": "Wat de robot zegt",
        "data": {
         "summary": "",
         "details": "",
@@ -23,7 +23,7 @@
      "t": 0.0,
      "actions": [
       {
-       "label": "Checking the change against the team's rules",
+       "label": "De wijziging nakijken op de regels van het team",
        "status": "running",
        "summary": "",
        "details": ""
@@ -32,7 +32,7 @@
      "evidence": [
       {
        "type": "result",
-       "title": "What the robot says",
+       "title": "Wat de robot zegt",
        "data": {
         "summary": "",
         "details": "",
@@ -45,16 +45,16 @@
      "t": 1.42,
      "actions": [
       {
-       "label": "Checking the change against the team's rules",
+       "label": "De wijziging nakijken op de regels van het team",
        "status": "done",
-       "summary": "The robot tidied the layout of 1 file and refused the change: it breaks 2 of the team's rules.",
-       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    34 │\n│               │ Nodes           │    29 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    32 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 116 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭─────────────────────────────────────────────────────────────────────┬───────┬╮\n│ Check name                                                          │ Seve… ││\n├─────────────────────────────────────────────────────────────────────┼───────┼┤\n│ check_model_has_semi_colon:0:mart_orders_per_month                  │ ERROR ││\n│ check_model_code_does_not_contain_regexp_pattern:2:mart_orders_per… │ ERROR ││\n╰─────────────────────────────────────────────────────────────────────┴───────┴╯\nDone. SUCCESS=114 WARN=0 ERROR=2\n\n=== tidied 1"
+       "summary": "De robot kuiste de opmaak van 2 bestanden op en weigerde de wijziging: ze overtreedt 2 van de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    39 │\n│               │ Nodes           │    31 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    36 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 124 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭─────────────────────────────────────────────────────────────────────┬───────┬╮\n│ Check name                                                          │ Seve… ││\n├─────────────────────────────────────────────────────────────────────┼───────┼┤\n│ check_model_has_semi_colon:0:mart_orders_per_month                  │ ERROR ││\n│ check_model_code_does_not_contain_regexp_pattern:2:mart_orders_per… │ ERROR ││\n╰─────────────────────────────────────────────────────────────────────┴───────┴╯\nDone. SUCCESS=122 WARN=0 ERROR=2\n\n=== tidied 2"
       }
      ],
      "evidence": [
       {
        "type": "result",
-       "title": "What the robot says",
+       "title": "Wat de robot zegt",
        "data": {
         "summary": "",
         "details": "",
@@ -67,26 +67,26 @@
      "t": 1.42,
      "actions": [
       {
-       "label": "Checking the change against the team's rules",
+       "label": "De wijziging nakijken op de regels van het team",
        "status": "done",
-       "summary": "The robot tidied the layout of 1 file and refused the change: it breaks 2 of the team's rules.",
-       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    34 │\n│               │ Nodes           │    29 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    32 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 116 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭─────────────────────────────────────────────────────────────────────┬───────┬╮\n│ Check name                                                          │ Seve… ││\n├─────────────────────────────────────────────────────────────────────┼───────┼┤\n│ check_model_has_semi_colon:0:mart_orders_per_month                  │ ERROR ││\n│ check_model_code_does_not_contain_regexp_pattern:2:mart_orders_per… │ ERROR ││\n╰─────────────────────────────────────────────────────────────────────┴───────┴╯\nDone. SUCCESS=114 WARN=0 ERROR=2\n\n=== tidied 1"
+       "summary": "De robot kuiste de opmaak van 2 bestanden op en weigerde de wijziging: ze overtreedt 2 van de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    39 │\n│               │ Nodes           │    31 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    36 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 124 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭─────────────────────────────────────────────────────────────────────┬───────┬╮\n│ Check name                                                          │ Seve… ││\n├─────────────────────────────────────────────────────────────────────┼───────┼┤\n│ check_model_has_semi_colon:0:mart_orders_per_month                  │ ERROR ││\n│ check_model_code_does_not_contain_regexp_pattern:2:mart_orders_per… │ ERROR ││\n╰─────────────────────────────────────────────────────────────────────┴───────┴╯\nDone. SUCCESS=122 WARN=0 ERROR=2\n\n=== tidied 2"
       }
      ],
      "evidence": [
       {
        "type": "result",
-       "title": "What the robot says",
+       "title": "Wat de robot zegt",
        "data": {
-        "summary": "The robot tidied the layout of 1 file and refused the change: it breaks 2 of the team's rules.",
-        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    34 │\n│               │ Nodes           │    29 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    32 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 116 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭─────────────────────────────────────────────────────────────────────┬───────┬╮\n│ Check name                                                          │ Seve… ││\n├─────────────────────────────────────────────────────────────────────┼───────┼┤\n│ check_model_has_semi_colon:0:mart_orders_per_month                  │ ERROR ││\n│ check_model_code_does_not_contain_regexp_pattern:2:mart_orders_per… │ ERROR ││\n╰─────────────────────────────────────────────────────────────────────┴───────┴╯\nDone. SUCCESS=114 WARN=0 ERROR=2\n\n=== tidied 1",
+        "summary": "De robot kuiste de opmaak van 2 bestanden op en weigerde de wijziging: ze overtreedt 2 van de regels van het team.",
+        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    39 │\n│               │ Nodes           │    31 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    36 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 124 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭─────────────────────────────────────────────────────────────────────┬───────┬╮\n│ Check name                                                          │ Seve… ││\n├─────────────────────────────────────────────────────────────────────┼───────┼┤\n│ check_model_has_semi_colon:0:mart_orders_per_month                  │ ERROR ││\n│ check_model_code_does_not_contain_regexp_pattern:2:mart_orders_per… │ ERROR ││\n╰─────────────────────────────────────────────────────────────────────┴───────┴╯\nDone. SUCCESS=122 WARN=0 ERROR=2\n\n=== tidied 2",
         "data": {
          "refused": true,
          "reasons": [
-          "The code ends with a semicolon.",
-          "It uses a date function the team has banned (to_char)."
+          "De code eindigt met een puntkomma.",
+          "De code gebruikt een datumfunctie die het team verboden heeft (to_char)."
          ],
-         "tidied": 1
+         "tidied": 2
         }
        }
       }
@@ -96,39 +96,39 @@
      "t": 1.42,
      "actions": [
       {
-       "label": "Checking the change against the team's rules",
+       "label": "De wijziging nakijken op de regels van het team",
        "status": "done",
-       "summary": "The robot tidied the layout of 1 file and refused the change: it breaks 2 of the team's rules.",
-       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    34 │\n│               │ Nodes           │    29 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    32 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 116 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭─────────────────────────────────────────────────────────────────────┬───────┬╮\n│ Check name                                                          │ Seve… ││\n├─────────────────────────────────────────────────────────────────────┼───────┼┤\n│ check_model_has_semi_colon:0:mart_orders_per_month                  │ ERROR ││\n│ check_model_code_does_not_contain_regexp_pattern:2:mart_orders_per… │ ERROR ││\n╰─────────────────────────────────────────────────────────────────────┴───────┴╯\nDone. SUCCESS=114 WARN=0 ERROR=2\n\n=== tidied 1"
+       "summary": "De robot kuiste de opmaak van 2 bestanden op en weigerde de wijziging: ze overtreedt 2 van de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    39 │\n│               │ Nodes           │    31 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    36 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 124 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭─────────────────────────────────────────────────────────────────────┬───────┬╮\n│ Check name                                                          │ Seve… ││\n├─────────────────────────────────────────────────────────────────────┼───────┼┤\n│ check_model_has_semi_colon:0:mart_orders_per_month                  │ ERROR ││\n│ check_model_code_does_not_contain_regexp_pattern:2:mart_orders_per… │ ERROR ││\n╰─────────────────────────────────────────────────────────────────────┴───────┴╯\nDone. SUCCESS=122 WARN=0 ERROR=2\n\n=== tidied 2"
       }
      ],
      "evidence": [
       {
        "type": "result",
-       "title": "What the robot says",
+       "title": "Wat de robot zegt",
        "data": {
-        "summary": "The robot tidied the layout of 1 file and refused the change: it breaks 2 of the team's rules.",
-        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    34 │\n│               │ Nodes           │    29 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    32 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 116 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭─────────────────────────────────────────────────────────────────────┬───────┬╮\n│ Check name                                                          │ Seve… ││\n├─────────────────────────────────────────────────────────────────────┼───────┼┤\n│ check_model_has_semi_colon:0:mart_orders_per_month                  │ ERROR ││\n│ check_model_code_does_not_contain_regexp_pattern:2:mart_orders_per… │ ERROR ││\n╰─────────────────────────────────────────────────────────────────────┴───────┴╯\nDone. SUCCESS=114 WARN=0 ERROR=2\n\n=== tidied 1",
+        "summary": "De robot kuiste de opmaak van 2 bestanden op en weigerde de wijziging: ze overtreedt 2 van de regels van het team.",
+        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Failed\n- hook id: dbt-bouncer\n- exit code: 1\n\n\u001b[38;20mRunning dbt-bouncer (0.0.0)...\u001b[0m\n\u001b[38;20mLoaded config from /usr/app/dbt/workspace/dbt-bouncer.yml...\u001b[0m\n\u001b[38;20mValidating conf...\u001b[0m\n      Parsed artifacts for 'dbt_swf'       \n╭───────────────┬─────────────────┬───────╮\n│ Artifact      │ Category        │ Count │\n├───────────────┼─────────────────┼───────┤\n│ manifest.json │ Exposures       │     4 │\n│               │ Macros          │    39 │\n│               │ Nodes           │    31 │\n│               │ Seeds           │     0 │\n│               │ Semantic Models │     0 │\n│               │ Snapshots       │     0 │\n│               │ Sources         │    14 │\n│               │ Tests           │    36 │\n│               │ Unit Tests      │     0 │\n╰───────────────┴─────────────────┴───────╯\n\u001b[38;20mAssembled 124 checks, running...\u001b[0m\nRunning checks... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%\n\u001b[31;20m`dbt-bouncer` failed. Please see below for more details or run `dbt-bouncer` with the `-v` flag.\u001b[0m\nFailed checks                                                                   \n╭─────────────────────────────────────────────────────────────────────┬───────┬╮\n│ Check name                                                          │ Seve… ││\n├─────────────────────────────────────────────────────────────────────┼───────┼┤\n│ check_model_has_semi_colon:0:mart_orders_per_month                  │ ERROR ││\n│ check_model_code_does_not_contain_regexp_pattern:2:mart_orders_per… │ ERROR ││\n╰─────────────────────────────────────────────────────────────────────┴───────┴╯\nDone. SUCCESS=122 WARN=0 ERROR=2\n\n=== tidied 2",
         "data": {
          "refused": true,
          "reasons": [
-          "The code ends with a semicolon.",
-          "It uses a date function the team has banned (to_char)."
+          "De code eindigt met een puntkomma.",
+          "De code gebruikt een datumfunctie die het team verboden heeft (to_char)."
          ],
-         "tidied": 1
+         "tidied": 2
         }
        }
       }
      ]
     }
    ],
-   "summary": "The robot tidied the layout of 1 file and refused the change: it breaks 2 of the team's rules.",
-   "outcome": "The robot tidied the layout and refused the change for 2 reasons: a semicolon at the end of the code and a banned date function.",
+   "summary": "De robot kuiste de opmaak van 2 bestanden op en weigerde de wijziging: ze overtreedt 2 van de regels van het team.",
+   "outcome": "De robot kuiste de opmaak op en weigerde de wijziging om 2 redenen: een puntkomma op het einde van de code en een verboden datumfunctie.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:27:00+00:00",
+   "recorded_at": "2026-11-21T22:13:02+00:00",
    "durations": [
-    1.6,
-    1.5,
+    1.4,
+    1.4,
     1.5,
     1.4,
     1.4
@@ -146,7 +146,7 @@
      "evidence": [
       {
        "type": "result",
-       "title": "What the robot says",
+       "title": "Wat de robot zegt",
        "data": {
         "summary": "",
         "details": "",
@@ -159,7 +159,7 @@
      "t": 0.0,
      "actions": [
       {
-       "label": "Checking the change against the team's rules",
+       "label": "De wijziging nakijken op de regels van het team",
        "status": "running",
        "summary": "",
        "details": ""
@@ -168,7 +168,7 @@
      "evidence": [
       {
        "type": "result",
-       "title": "What the robot says",
+       "title": "Wat de robot zegt",
        "data": {
         "summary": "",
         "details": "",
@@ -178,19 +178,19 @@
      ]
     },
     {
-     "t": 1.37,
+     "t": 1.42,
      "actions": [
       {
-       "label": "Checking the change against the team's rules",
+       "label": "De wijziging nakijken op de regels van het team",
        "status": "done",
-       "summary": "The robot accepted the change: it follows the team's rules.",
-       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 0"
+       "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1"
       }
      ],
      "evidence": [
       {
        "type": "result",
-       "title": "What the robot says",
+       "title": "Wat de robot zegt",
        "data": {
         "summary": "",
         "details": "",
@@ -200,62 +200,62 @@
      ]
     },
     {
-     "t": 1.37,
+     "t": 1.42,
      "actions": [
       {
-       "label": "Checking the change against the team's rules",
+       "label": "De wijziging nakijken op de regels van het team",
        "status": "done",
-       "summary": "The robot accepted the change: it follows the team's rules.",
-       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 0"
+       "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1"
       }
      ],
      "evidence": [
       {
        "type": "result",
-       "title": "What the robot says",
+       "title": "Wat de robot zegt",
        "data": {
-        "summary": "The robot accepted the change: it follows the team's rules.",
-        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 0",
+        "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1",
         "data": {
          "refused": false,
          "reasons": [],
-         "tidied": 0
+         "tidied": 1
         }
        }
       }
      ]
     },
     {
-     "t": 1.37,
+     "t": 1.42,
      "actions": [
       {
-       "label": "Checking the change against the team's rules",
+       "label": "De wijziging nakijken op de regels van het team",
        "status": "done",
-       "summary": "The robot accepted the change: it follows the team's rules.",
-       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 0"
+       "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+       "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1"
       }
      ],
      "evidence": [
       {
        "type": "result",
-       "title": "What the robot says",
+       "title": "Wat de robot zegt",
        "data": {
-        "summary": "The robot accepted the change: it follows the team's rules.",
-        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 0",
+        "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+        "details": "sqlfmt...................................................................Passed\ndbt parse................................................................Passed\ndbt-bouncer..............................................................Passed\n=== tidied 1",
         "data": {
          "refused": false,
          "reasons": [],
-         "tidied": 0
+         "tidied": 1
         }
        }
       }
      ]
     }
    ],
-   "summary": "The robot accepted the change: it follows the team's rules.",
-   "outcome": "The robot has nothing to refuse, so the corrected code can be saved.",
+   "summary": "De robot kuiste de opmaak van 1 bestand op en keurde de wijziging goed: ze volgt de regels van het team.",
+   "outcome": "De robot heeft niets te weigeren, dus de verbeterde code kan opgeslagen worden.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:27:02+00:00",
+   "recorded_at": "2026-11-21T22:13:04+00:00",
    "durations": [
     1.4,
     1.4,
@@ -270,12 +270,12 @@
  },
  "prepare": {
   "durations": [
-   37.1,
    5.2,
-   5.7,
    5.2,
-   5.2
+   5.4,
+   5.3,
+   5.7
   ]
  },
- "recorded_at": "2026-11-16T07:27:02+00:00"
+ "recorded_at": "2026-11-21T22:13:04+00:00"
 }

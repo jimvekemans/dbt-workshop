@@ -1,126 +1,126 @@
 id: only-what-changed
 group: changes
-title: A small change gets a small rehearsal
-promise: Only the changed tables and the tables that depend on them are rehearsed.
+title: Een kleine wijziging krijgt een kleine testrun
+promise: Enkel de gewijzigde tabellen en de tabellen die ervan afhangen krijgen een testrun.
 minutes: 3
+tech: ["state:modified+", "--defer"]
 environment: dev
 related:
   - id: checked-before-merge
-    why: That scenario shows what a rehearsal catches. This one shows how many tables a rehearsal has to cover.
+    why: Dat scenario toont wat een testrun opvangt. Dit scenario toont hoeveel tabellen een testrun moet dekken.
 
 problem:
-  headline: Either mistakes reach everyone, or every tiny change takes forever
+  headline: Ofwel bereiken fouten iedereen, ofwel duurt elke kleine wijziging eeuwig
   story: |
-    Without a rehearsal, a one-line change goes straight to the shared tables, and a mistake reaches every report.
-    The other way round, a rehearsal that rebuilds every table for every one-line change takes so long that people
-    bundle many changes together or skip the rehearsal. Both end in a mistake nobody saw coming.
-  cost: Colleagues read a wrong report, or each developer waits after every small change and starts skipping the rehearsal.
+    Zonder [[testrun]] gaat een wijziging van één regel rechtstreeks naar de gedeelde tabellen, en een fout bereikt
+    elk rapport. Omgekeerd: een testrun die voor elke kleine wijziging alle tabellen opnieuw buildt, duurt zo
+    lang dat mensen wijzigingen bundelen of de testrun overslaan. Beide lopen uit op een fout die niemand zag
+    aankomen.
+  cost: Collega's lezen een fout rapport, of elke developer wacht na elke kleine wijziging en begint de testrun over te slaan.
   visual:
     type: compare
     left:
-      title: No rehearsal
+      title: Geen testrun
       state: bad
       items:
-        - A one-line change goes straight into the shared tables
-        - A mistake reaches every report at once
+        - Een wijziging van één regel gaat rechtstreeks naar de gedeelde tabellen
+        - Een fout bereikt alle rapporten tegelijk
     right:
-      title: Rehearse every table
+      title: Elke tabel opnieuw builden
       state: warn
       items:
-        - Every one-line change waits for a full rebuild
-        - People bundle changes or skip the rehearsal
-    caption: Both choices end with mistakes that reach people.
+        - Elke wijziging van één regel wacht op een volledige herbouw
+        - Mensen bundelen wijzigingen of slaan de testrun over
+    caption: Beide keuzes eindigen met fouten die mensen bereiken.
 
 idea:
-  headline: The rehearsal covers only what changed and what depends on it
+  headline: De testrun dekt enkel wat wijzigde en wat ervan afhangt
   points:
-    - The automatic rehearsal compares the proposed change with the last accepted version and finds exactly which tables differ.
-    - Only those tables and the tables that depend on them are rebuilt and checked.
-    - Everything that did not change is only read from the shared tables, never changed, so a small change gets a fast answer.
+    - De automatische testrun vergelijkt het voorstel met de laatst goedgekeurde versie en vindt precies welke tabellen verschillen.
+    - Enkel die tabellen en de tabellen die ervan afhangen worden opnieuw gebuild en gecontroleerd.
+    - Wat niet wijzigde, wordt enkel gelezen uit de gedeelde tabellen en nooit aangepast, dus een kleine wijziging krijgt snel antwoord.
   visual:
     type: flow
     nodes:
-      - {id: change, label: Proposed change, state: idle, note: "Compared with the last version"}
-      - {id: compare, label: Find what differs, state: fix, note: "Changed tables and the tables that depend on them"}
-      - {id: rehearsal, label: Small rehearsal, state: ok, note: "Only that part is checked"}
-      - {id: real, label: Shared tables, state: ok, note: "Only read, never changed"}
+      - {id: change, label: Voorstel, state: idle, note: "Vergeleken met de laatste versie"}
+      - {id: compare, label: Zoeken wat verschilt, state: fix, note: "Gewijzigde tabellen en tabellen die ervan afhangen"}
+      - {id: rehearsal, label: Kleine testrun, state: ok, note: "Enkel dat deel wordt gecontroleerd"}
+      - {id: real, label: Gedeelde tabellen, state: ok, note: "Enkel gelezen, nooit gewijzigd"}
     links: [[change, compare], [compare, rehearsal], [rehearsal, real]]
-    caption: A small change gets a small rehearsal, a bigger change a bigger one.
+    caption: Een kleine wijziging krijgt een kleine testrun, een grotere wijziging een grotere.
 
 code:
-  - title: The last accepted version is the starting point
+  - title: De laatst goedgekeurde versie is het vertrekpunt
     file: .gitlab-ci.yml
-    file_label: The instructions for the automatic rehearsal
+    file_label: De instructies voor de automatische testrun
     from: "- git checkout origin/dev"
     to: "- git merge origin/dev"
     max_lines: 12
     notes:
       - line: "git checkout origin/dev"
-        says: Start from the last accepted version, the shared work as it is now.
+        says: De testrun vertrekt van de laatst goedgekeurde versie, het gedeelde werk zoals het nu is.
       - line: "dbt compile --target-path artifacts"
-        says: Write down every table as it is today, as the list to compare with.
+        says: Elke tabel wordt genoteerd zoals ze nu is, als lijst om mee te vergelijken.
       - line: "git checkout $CI_COMMIT_SHA"
-        says: Then switch to the proposed change.
+        says: Daarna schakelt ze over naar het voorstel.
       - line: "git merge origin/dev"
-        says: The latest shared work is added, so the rehearsal includes what others did.
-  - title: Only the changed tables and what depends on them are built
+        says: Het nieuwste gedeelde werk wordt erbij gevoegd, zodat de testrun meeneemt wat anderen deden.
+  - title: Enkel de gewijzigde tabellen en wat ervan afhangt worden gebuild
     file: .gitlab-ci.yml
-    file_label: The instructions for the automatic rehearsal
-    from: "- dbt clean"
+    file_label: De instructies voor de automatische testrun
+    from: "dbt build --select state:modified+ --state"
     to: "--target ci"
     max_lines: 12
     notes:
-      - line: "dbt clean"
-        says: Old results are wiped, so the comparison always starts fresh.
       - line: "state:modified+"
-        says: Only changed tables and tables built on them are rebuilt; the rest is only read.
+        says: Enkel gewijzigde tabellen en tabellen die erop steunen worden opnieuw gebuild; de rest wordt enkel gelezen.
 
 demo:
   intro: >-
-    A developer proposes three changes, one after the other: one report, a central table that other tables depend on,
-    and a setting that every table shares. Each rehearsal says how many tables it covered and how long the build took.
-    Nothing is accepted.
+    Een developer stelt na elkaar drie wijzigingen voor: één rapport, een centrale tabel waarvan andere tabellen
+    afhangen, en een [[instelling]] die elke tabel deelt. Elke testrun zegt hoeveel tabellen ze dekte en hoe lang de
+    build duurde. Niets wordt goedgekeurd.
   setup: []
   steps:
     - id: report
-      title: Change one report
-      say: The developer shows the on-time percentage with two decimals. It is one table, the management report.
-      button: Propose the change
+      title: Eén rapport wijzigen
+      say: De developer toont het percentage op tijd met twee cijfers na de komma. Het gaat om één tabel, het managementrapport.
+      button: De wijziging voorstellen
       inputs: []
       do:
         - {action: gitlab.branch, name: demo/precise-report, from: dev}
         - {action: gitlab.commit, branch: demo/precise-report, patch: report-more-precise}
-        - {action: gitlab.merge_request, source: demo/precise-report, target: dev, title: "Two decimals in the management report"}
+        - {action: gitlab.merge_request, source: demo/precise-report, target: dev, title: "Twee cijfers na de komma in het managementrapport"}
         - {action: gitlab.wait_pipeline, for: "mr:demo/precise-report", expect: success, timeout: 600, report_rehearsed: true}
       show:
-        - {type: pipeline, rehearsed: true, for: "mr:demo/precise-report", title: "The automatic rehearsal", caption: "Done means the change may be accepted."}
-        - {type: result, from_action: gitlab.wait_pipeline, title: "How much was rehearsed", caption: "Only the management report was rehearsed: no other table depends on it. If it shows 0 data checks, this table has none of its own; it was still built in a private copy."}
-      outcome: The rehearsal covered only the changed table, counted above. Nothing is accepted.
+        - {type: pipeline, rehearsed: true, for: "mr:demo/precise-report", title: "De automatische testrun", caption: "Klaar betekent dat de wijziging goedgekeurd mag worden."}
+        - {type: result, from_action: gitlab.wait_pipeline, title: "Hoeveel er getest werd", caption: "Enkel het managementrapport kreeg een testrun: geen enkele andere tabel hangt ervan af. Staat er 0 datachecks, dan heeft deze tabel er zelf geen; ze werd toch in een privékopie gebuild. De laatste zin telt de eerste ronde, die enkel lege kopieën van de gewijzigde tabellen buildt."}
+      outcome: De testrun dekte enkel de gewijzigde tabel, geteld hierboven. Niets wordt goedgekeurd.
     - id: central
-      title: Change a central table
-      say: The developer writes the customers' city names in lower case. Other tables are built on that table.
-      button: Propose the change
+      title: Een centrale tabel wijzigen
+      say: De developer schrijft de plaatsnamen van de klanten in kleine letters. Andere tabellen steunen op die tabel.
+      button: De wijziging voorstellen
       inputs: []
       do:
         - {action: gitlab.branch, name: demo/lowercase-cities, from: dev}
         - {action: gitlab.commit, branch: demo/lowercase-cities, patch: customers-lowercase-city}
-        - {action: gitlab.merge_request, source: demo/lowercase-cities, target: dev, title: "City names in lower case"}
+        - {action: gitlab.merge_request, source: demo/lowercase-cities, target: dev, title: "Plaatsnamen in kleine letters"}
         - {action: gitlab.wait_pipeline, for: "mr:demo/lowercase-cities", expect: success, timeout: 600, report_rehearsed: true}
       show:
-        - {type: pipeline, rehearsed: true, before_of: report, for: "mr:demo/lowercase-cities", title: "The automatic rehearsal", caption: "Done means the change may be accepted."}
-        - {type: result, from_action: gitlab.wait_pipeline, title: "How much was rehearsed", caption: "More tables, because other tables are built on this one: the card counts them. The rest of the shop was not rebuilt."}
-      outcome: The rehearsal covered more tables than for the report, but not all of them. Nothing is accepted.
+        - {type: pipeline, rehearsed: true, before_of: report, for: "mr:demo/lowercase-cities", title: "De automatische testrun", caption: "Klaar betekent dat de wijziging goedgekeurd mag worden."}
+        - {type: result, from_action: gitlab.wait_pipeline, title: "Hoeveel er getest werd", caption: "Meer tabellen, want andere tabellen steunen op deze: de kaart telt ze. De rest van de webshop werd niet opnieuw gebuild. De eerste ronde, die lege kopieën buildt, dekt enkel de gewijzigde tabel en wat er rechtstreeks op steunt."}
+      outcome: De testrun dekte meer tabellen dan bij het rapport, maar niet alle. Niets wordt goedgekeurd.
     - id: everything
-      title: Change a setting every table shares
-      say: The developer adds one small step that runs after every table is built. It is one setting of the whole project.
-      button: Propose the change
+      title: Een instelling wijzigen die elke tabel deelt
+      say: De developer voegt één kleine stap toe die na elke gebuilde tabel loopt. Het is één instelling van het hele project.
+      button: De wijziging voorstellen
       inputs: []
       do:
         - {action: gitlab.branch, name: demo/step-after-every-table, from: dev}
         - {action: gitlab.commit, branch: demo/step-after-every-table, patch: step-after-every-table}
-        - {action: gitlab.merge_request, source: demo/step-after-every-table, target: dev, title: "One small step after every table"}
+        - {action: gitlab.merge_request, source: demo/step-after-every-table, target: dev, title: "Eén kleine stap na elke tabel"}
         - {action: gitlab.wait_pipeline, for: "mr:demo/step-after-every-table", expect: success, timeout: 900, report_rehearsed: true}
       show:
-        - {type: pipeline, rehearsed: true, before_of: central, for: "mr:demo/step-after-every-table", title: "The automatic rehearsal", caption: "Done means the change may be accepted."}
-        - {type: result, from_action: gitlab.wait_pipeline, title: "How much was rehearsed", caption: "A setting of the whole project changes how every table is built, so every table counts as changed. Compare the time with the first two steps."}
-      outcome: The rehearsal covered every table, counted above, because the change touches a setting all of them share. Nothing is accepted.
+        - {type: pipeline, rehearsed: true, before_of: central, for: "mr:demo/step-after-every-table", title: "De automatische testrun", caption: "Klaar betekent dat de wijziging goedgekeurd mag worden."}
+        - {type: result, from_action: gitlab.wait_pipeline, title: "Hoeveel er getest werd", caption: "Een instelling van het hele project verandert hoe elke tabel gebuild wordt, dus elke tabel telt als gewijzigd. Vergelijk de tijd met de eerste twee stappen."}
+      outcome: De testrun dekte elke tabel, geteld hierboven, omdat de wijziging een instelling raakt die ze allemaal delen. Niets wordt goedgekeurd.

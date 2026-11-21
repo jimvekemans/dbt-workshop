@@ -25,17 +25,18 @@ from .base import Ctx, Params, Result, StepFailed, action, cleaner
 DEV_IMAGE = "dbt-singlestore-dev:1.11.11"
 FINISHED = re.compile(r"Finished '([\w-]+)'(.*)")
 CI_VARS = "SCHEMA: demo"
+# Each phrase carries its article ("de ...", "het ...") and fits "{What} is zonder problemen afgelopen" and "Bezig met {what}".
 PLAIN_COMMANDS = {
-    "build": "build of the reports",
-    "run": "build of the reports",
-    "test": "data checks",
-    "seed": "loading of reference data",
-    "snapshot": "history snapshot",
-    "run-operation": "maintenance step",
-    "source": "check of the data feeds",
-    "compile": "check of the code",
-    "parse": "check of the code",
-    "retry": "retry of the failed part",
+    "build": "de build van de rapporten",
+    "run": "de build van de rapporten",
+    "test": "de run van de datachecks",
+    "seed": "het laden van referentiedata",
+    "snapshot": "de snapshot van de historiek",
+    "run-operation": "de opkuisstap",
+    "source": "de controle van de feeds",
+    "compile": "de controle van de code",
+    "parse": "de controle van de code",
+    "retry": "de retry van het mislukte deel",
 }
 
 
@@ -46,6 +47,7 @@ class DbtRunParams(Params):
     command: str
     expect: Literal["success", "failed"] = "success"
     timeout: int = 1800
+    explain: bool = False   # also say, in one plain line for a `result` card, how many tables were built and checks run
 
     @field_validator("as_")
     @classmethod
@@ -109,7 +111,11 @@ def finished_line(output: str) -> str | None:
 
 
 def plain_command(command: str) -> str:
-    return PLAIN_COMMANDS.get(shlex.split(command)[0] if command.strip() else "", "step")
+    return PLAIN_COMMANDS.get(shlex.split(command)[0] if command.strip() else "", "de stap")
+
+
+def upper_first(text: str) -> str:
+    return text[:1].upper() + text[1:]
 
 
 def touched_for(who: str, env: str) -> set[str]:
@@ -120,30 +126,47 @@ def touched_for(who: str, env: str) -> set[str]:
     return {f"models:{env}"}
 
 
+PROCESSED = re.compile(r"Processed:\s*(.+)")
+
+
+def processed_words(output: str) -> str | None:
+    """dbt's closing `Processed: 1 hook | 30 models | 36 tests` as "30 tabellen gebuild en 36 checks gerund."; None without it."""
+    found = PROCESSED.findall(output)
+    if not found:
+        return None
+    counts = {kind: int(n) for n, kind in re.findall(r"(\d+) (models?|tests?)", found[-1])}
+    tables, checks = counts.get("model", 0) + counts.get("models", 0), counts.get("test", 0) + counts.get("tests", 0)
+    plural = lambda n, one, many: f"{names.format_number(n)} {one if n == 1 else many}"  # noqa: E731
+    return f"{plural(tables, 'tabel', 'tabellen')} gebuild en {plural(checks, 'check', 'checks')} gerund."
+
+
 def tail(proc: clients.Proc, lines: int = 40) -> str:
     return "\n".join(proc.text.splitlines()[-lines:])
 
 
-@action("dbt.run", DbtRunParams, lambda p: f"Running the {plain_command(p.command)}")
+@action("dbt.run", DbtRunParams, lambda p: f"Bezig met {plain_command(p.command)}")
 def dbt_run(ctx: Ctx, p: DbtRunParams) -> Result:
     proc = run_dbt(ctx, ctx.env, identity(p.as_, ctx.env), p.command, p.timeout)
     line = finished_line(proc.text)
     outcome = "success" if proc.returncode == 0 else "failed"
-    what = plain_command(p.command)
+    what = upper_first(plain_command(p.command))
     details = f"dbt {p.command} (exit code {proc.returncode})\n{tail(proc)}"
     touched = touched_for(p.as_, ctx.env)
     if line is None and proc.returncode != 0:
-        raise StepFailed(f"The {what} could not even start.", details, touched)
+        raise StepFailed(f"{what} kon niet eens starten.", details, touched)
     if outcome != p.expect:
         if p.expect == "failed":
-            raise StepFailed(f"The {what} was expected to fail but finished without problems.", details, touched)
-        raise StepFailed(f"The {what} finished with problems.", details, touched)
+            raise StepFailed(f"{what} had moeten mislukken, maar is zonder problemen afgelopen.", details, touched)
+        raise StepFailed(f"{what} is met problemen geëindigd.", details, touched)
     summary = (
-        f"The {what} finished without problems."
+        f"{what} is zonder problemen afgelopen."
         if outcome == "success"
-        else f"The {what} stopped with problems, as expected."
+        else f"{what} is met problemen gestopt, zoals verwacht."
     )
-    return Result(summary, details=details, touched=touched, data={"outcome": outcome, "finished": line or ""})
+    data = {"outcome": outcome, "finished": line or ""}
+    if p.explain and (counted := processed_words(proc.text)):
+        data["reasons"] = [counted]
+    return Result(summary, details=details, touched=touched, data=data)
 
 
 def clean_run(ctx: Ctx, env: str, who: Identity, command: str, done: str, failed: str) -> Result:
@@ -155,15 +178,28 @@ def clean_run(ctx: Ctx, env: str, who: Identity, command: str, done: str, failed
 
 @cleaner("models")
 def clean_models(ctx: Ctx, resource: str) -> Result:
-    _, env = resource.split(":")
+    """`models:<env>` rebuilds every table of the environment; `models:<env>:<table>` only that one (a demo that
+    changed a single shared table, for example a rehearsal that was allowed to build there)."""
+    _, env, *only = resource.split(":")
     where = clients.ENV_WORDS[env]
+    if only:
+        title = names.model_title(only[0])
+        table = (lambda words: words[:1].upper() + words[1:])(names.with_article(title)) if title else "De tabel"
+        return clean_run(
+            ctx,
+            env,
+            identity("service", env),
+            f"run --select {only[0]} --full-refresh",
+            f"{table} in {where} is van nul herbouwd.",
+            f"{table} in {where} kon niet herbouwd worden.",
+        )
     return clean_run(
         ctx,
         env,
         identity("service", env),
         "build --full-refresh",
-        f"Rebuilt the reports in {where} from scratch.",
-        f"The reports in {where} could not be rebuilt.",
+        f"De rapporten in {where} zijn van nul herbouwd.",
+        f"De rapporten in {where} konden niet herbouwd worden.",
     )
 
 
@@ -175,18 +211,37 @@ def clean_developer(ctx: Ctx, resource: str) -> Result:
         env,
         identity(f"developer:{user}", env),
         "run-operation cleanup_user_models",
-        f"Removed the test tables of {names.account_words(user) or user}.",
-        f"The test tables of {names.account_words(user) or user} could not be removed.",
+        f"De testtabellen van {names.account_words(user) or user} zijn verwijderd.",
+        f"De testtabellen van {names.account_words(user) or user} konden niet verwijderd worden.",
     )
+
+
+def drop_rehearsal_copies(ctx: Ctx) -> Result:
+    """`ci:copies`: every table a rehearsal left behind in the rehearsal database. Nothing else lives there."""
+    conn = clients.s2_connect(ctx.settings, "root", timeout=30)
+    try:
+        with conn.cursor() as cur:
+            cur.execute("select table_name, table_type from information_schema.tables where table_schema = 'vdp_ci'")
+            found = list(cur.fetchall())
+            for name, kind in found:
+                cur.execute(f"drop {'view' if 'VIEW' in str(kind).upper() else 'table'} if exists `vdp_ci`.`{name}`")
+    except Exception as exc:  # noqa: BLE001 - one plain sentence, the technical text in the details
+        raise StepFailed("De kopieën van de testruns konden niet verwijderd worden.", str(exc)) from exc
+    finally:
+        conn.close()
+    return Result("De kopieën die de testruns achterlieten, zijn verwijderd." if found else "Er waren geen kopieën van testruns meer.",
+                  details=f"dropped {len(found)} relation(s) in vdp_ci")
 
 
 @cleaner("ci")
 def clean_ci(ctx: Ctx, resource: str) -> Result:
+    if resource == "ci:copies":
+        return drop_rehearsal_copies(ctx)
     return clean_run(
         ctx,
         "dev",
         identity("ci", "dev"),
         "run-operation drop_nodes",
-        "Emptied the sandbox.",
-        "The sandbox could not be emptied.",
+        "De sandbox is leeggemaakt.",
+        "De sandbox kon niet leeggemaakt worden.",
     )

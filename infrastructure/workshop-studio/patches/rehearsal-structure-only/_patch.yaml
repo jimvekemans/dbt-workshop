@@ -1,0 +1,6 @@
+title: "Enkel de structuur testen, zonder data en checks"
+message: 'ci: no rehearsal with data and checks'
+ops:
+- path: .gitlab-ci.yml
+  find: "    - |\n      dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\n  rules:\n    - if: '$CI_PIPELINE_SOURCE == \"merge_request_event\" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == \"dev\"'\n"
+  replace: "    - |\n      dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci\n  rules:\n    - when: never\n"

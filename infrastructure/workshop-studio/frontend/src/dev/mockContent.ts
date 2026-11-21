@@ -12,9 +12,22 @@ import scenariosJson from './fixtures/scenarios.json'
 import recordingsJson from './fixtures/recordings.json'
 import { STRESS } from './mockStress'
 import { STATES, statesEvidence } from './mockStates'
+import { FLOW, MOCK_TECH } from './mockFlow'
 
-export const CATALOG = catalogJson as unknown as Catalog
-export const SCENARIOS: Record<string, Scenario> = { ...(scenariosJson as unknown as Record<string, Scenario>), [STRESS.id]: STRESS, [STATES.id]: STATES }
+export const SCENARIOS: Record<string, Scenario> = { ...(scenariosJson as unknown as Record<string, Scenario>), [STRESS.id]: STRESS, [STATES.id]: STATES, [FLOW.id]: FLOW }
+
+/** The real catalog carries each scenario's idea in short (headline and visual, no caption) for the home-page preview;
+ *  the fixture predates that, so the mock derives it from the scenarios. */
+export function withIdeas(c: Catalog): Catalog {
+  const out = structuredClone(c)
+  for (const s of out.groups.flatMap((g) => g.scenarios)) {
+    const idea = SCENARIOS[s.id]?.idea
+    if (idea) s.idea = { headline: idea.headline, visual: { ...idea.visual, caption: null } }
+  }
+  return out
+}
+
+export const CATALOG = withIdeas(catalogJson as unknown as Catalog)
 
 export interface Frame {
   t: number
@@ -30,10 +43,10 @@ export interface Recording {
 }
 export const RECORDINGS = recordingsJson as unknown as Record<string, Record<string, Recording>>
 
-/** The states scenario has no real recording: the mock "records" it once from its own generated frames. */
+/** The states scenario and the sample flow have no real recording: the mock "records" them once from its own generated frames. */
 function recordStates() {
-  RECORDINGS[STATES.id] = Object.fromEntries(
-    STATES.demo.steps.map((def) => {
+  for (const sc of [STATES, FLOW]) RECORDINGS[sc.id] = Object.fromEntries(
+    sc.demo.steps.map((def) => {
       const seconds = def.usual_seconds ?? 10
       const frames: Frame[] = Array.from({ length: 13 }, (_, k) => {
         const t = k / 12
@@ -62,6 +75,7 @@ export function isRecorded(id: string): boolean {
 }
 
 decorate()
+for (const [id, tech] of Object.entries(MOCK_TECH)) if (SCENARIOS[id]) SCENARIOS[id].tech = tech
 
 export const TODAY = '2026-11-15'
 
@@ -122,7 +136,7 @@ export function fakeEvidence(item: EvidenceItem, ctx: Ctx): EvidenceData {
       if (done) {
         // the shape of a failed run: bookkeeping collapsed with a count, one failure, the rest skipped
         tasks.splice(0, tasks.length,
-          { label: 'Preparing the run', state: 'done', state_text: 'Done in the first attempt', count: 5 },
+          { label: 'Preparing the run', state: 'done', state_text: 'Done the first time', count: 5 },
           { label: 'Building all the reports', state: 'failed', state_text: 'Failed' },
           ...Array.from({ length: 15 }, (_, i) => ({ label: `Building report ${i + 1}`, state: 'skipped' as const, state_text: 'Skipped because an earlier step failed' })),
           { label: 'Sending the failure mail', state: 'done', state_text: 'Done' })
@@ -149,7 +163,7 @@ export function fakeEvidence(item: EvidenceItem, ctx: Ctx): EvidenceData {
     case 'mail':
       return (t < 0.6
         ? { found: false, empty: 'No mail has arrived yet.' }
-        : { found: true, subject: '[dev] dbt_daily_load failed: 1 error(s)', from: 'airflow-dev@workshop.local', received: new Date().toISOString(), html: '<h2 style="color:#b00020">dbt run failed</h2><p>Environment: <b>dev</b> &middot; 42 pass, 1 error</p>' }) satisfies MailData
+        : { found: true, subject: '[development] Nachtelijke load mislukt: 1 fout', from: 'airflow-dev@workshop.local', received: new Date().toISOString(), html: '<h2 style="color:#b00020">Nachtelijke load mislukt</h2><p>Omgeving: <b>development</b> &middot; 42 gelukt, 1 mislukt</p>' }) satisfies MailData
     case 'versions': {
       const after = t >= 0.7
       return { environments: [{ env: 'dev', label: 'Development', tag: after ? 'v1.2.0' : 'v1.1.0' }, { env: 'val', label: 'Acceptance', tag: 'v1.1.0' }, { env: 'prd', label: 'Production', tag: 'v1.0.0' }] } satisfies VersionsData

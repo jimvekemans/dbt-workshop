@@ -1,7 +1,7 @@
 .page { display: grid; gap: var(--space-5); }
 .top { display: grid; gap: var(--space-1); }
 .h1 { font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.01em; color: var(--ink); max-width: 60ch; }
-.origin { font-weight: 600; font-size: var(--text-sm); justify-self: start; min-height: 2.75rem; display: inline-flex; align-items: center; }
+.origin { font-weight: 600; font-size: var(--text-sm); justify-self: start; min-height: var(--tap); display: inline-flex; align-items: center; }
 .loading { max-width: 40rem; padding-top: var(--space-6); }
 .missing { display: grid; gap: var(--space-3); max-width: 40rem; padding-top: var(--space-6); color: var(--ink-2); font-size: var(--text-lg); }
 .missingTitle { font-size: var(--text-2xl); color: var(--ink); }

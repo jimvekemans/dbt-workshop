@@ -14,6 +14,12 @@ ENVIRONMENTS = ("dev", "val", "prd")
 KEBAB = r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
 IDENT = r"^[a-z][a-z0-9_]*$"
 VisualState = Literal["ok", "bad", "warn", "idle"]
+Status = Literal["today", "next"]                             # "in place today" or "next step"
+FEATURE_MAX = 50
+WHY_MAX = 140          # `why`: what goes wrong as long as a feature is not there (one plain sentence)
+TECH_ITEMS_MAX = 8     # `tech` of a scenario: how many technical keywords
+TECH_ITEM_MAX = 40     # ... and how long one is
+STEP_TECH_MAX = 60     # `tech` of a step: one short technical line
 NodeState = Literal["ok", "bad", "warn", "idle", "fix"]    # `fix`: the box that is the safeguard (flow only)
 OUTCOME_MAX = 300
 VALUE_PLACEHOLDER = re.compile(r"\{\{\s*value\s*\}\}")
@@ -137,6 +143,7 @@ class CodeBlock(Strict):
     to: str = Field(min_length=1)
     max_lines: int = Field(ge=1, le=80)
     file_label: str | None = Field(default=None, min_length=1, max_length=60)   # plain words shown instead of the path
+    status: Status | None = None          # a badge on the block: in place today, or the next step
     notes: list[Note] = Field(min_length=1, max_length=4)
 
 
@@ -237,9 +244,46 @@ class OutcomeCheck(Strict):
         return value == 0 if self.good_when == "zero" else value > 0
 
 
+def _feature_and_status_together(owner: Any, what: str) -> None:
+    if (owner.feature is None) != (owner.status is None):
+        raise ValueError(f"{what}: 'feature' and 'status' come together: give both or neither")
+    if owner.why is not None and owner.feature is None:
+        raise ValueError(f"{what}: 'why' only goes with 'feature' and 'status': add both, or remove 'why'")
+
+
+def _check_tech_list(value: list[str] | None) -> list[str] | None:
+    """A scenario's `tech`: 1 to 8 keywords of 1 to 40 characters, said in plain sentences."""
+    if value is None:
+        return value
+    if not 1 <= len(value) <= TECH_ITEMS_MAX:
+        raise ValueError(f"'tech' lists 1 to {TECH_ITEMS_MAX} keywords, this one has {len(value)}. Leave it out for none.")
+    for item in value:
+        if not isinstance(item, str) or not item.strip():
+            raise ValueError("every keyword in 'tech' needs some text.")
+        if len(item) > TECH_ITEM_MAX:
+            raise ValueError(f"the keyword '{item}' in 'tech' is {len(item)} characters long; "
+                             f"a keyword takes at most {TECH_ITEM_MAX}.")
+    return value
+
+
+def _check_tech_line(value: str | None) -> str | None:
+    """A step's `tech`: one line of 1 to 60 characters, said in plain sentences."""
+    if value is None:
+        return value
+    if not value.strip():
+        raise ValueError("'tech' needs some text; leave it out for none.")
+    if len(value) > STEP_TECH_MAX:
+        raise ValueError(f"'tech' is {len(value)} characters long; a step's technical line takes at most {STEP_TECH_MAX}.")
+    return value
+
+
 class Step(Strict):
     id: str = Field(pattern=IDENT)
     title: str = Field(min_length=1, max_length=60)
+    feature: str | None = Field(default=None, min_length=1, max_length=FEATURE_MAX)   # the plain name of what this stage is about
+    status: Status | None = None
+    why: str | None = Field(default=None, min_length=1, max_length=WHY_MAX)   # what goes wrong without it (closing page)
+    tech: str | None = None        # for the presenter only: the real names behind this step (1-60 characters)
     say: str | None = Field(default=None, max_length=300)
     button: str = Field(min_length=1, max_length=40)
     inputs: list[Input] = []
@@ -247,11 +291,21 @@ class Step(Strict):
     show: list[dict[str, Any]] = []
     outcome: Annotated[str, Field(min_length=1, max_length=OUTCOME_MAX)] | OutcomeCheck
 
+    @field_validator("tech")
+    @classmethod
+    def tech_is_one_short_line(cls, value: str | None) -> str | None:
+        return _check_tech_line(value)
+
+    @model_validator(mode="after")
+    def feature_comes_with_status(self) -> "Step":
+        _feature_and_status_together(self, f"step '{self.id}'")
+        return self
+
 
 class Demo(Strict):
     intro: str = Field(min_length=1, max_length=300)
     setup: list[dict[str, Any]] = []
-    steps: list[Step] = Field(min_length=2, max_length=4)
+    steps: list[Step] = Field(min_length=2, max_length=8)   # 2-4 for a scenario, 3-8 for a flow (see Scenario)
 
     @model_validator(mode="after")
     def unique_ids(self) -> "Demo":
@@ -263,18 +317,70 @@ class Demo(Strict):
         return self
 
 
+# what a scenario and a flow may hold: (demo steps, code blocks, minutes)
+LIMITS = {"scenario": ((2, 4), (1, 3), 10), "flow": ((3, 8), (1, 8), 30)}
+
+
 class Scenario(Strict):
     id: str = Field(pattern=KEBAB)
+    kind: Literal["scenario", "flow"] = "scenario"
     group: str
     title: str = Field(min_length=1, max_length=60)
     promise: str = Field(min_length=1, max_length=110)
-    minutes: int = Field(ge=1, le=10)
+    feature: str | None = Field(default=None, min_length=1, max_length=FEATURE_MAX)   # what an ordinary scenario is about
+    status: Status | None = None
+    why: str | None = Field(default=None, min_length=1, max_length=WHY_MAX)   # what goes wrong without it (closing page)
+    tech: list[str] | None = None  # for the presenter only: 1 to 8 keywords naming what the scenario really uses
+    minutes: int = Field(ge=1, le=30)
     environment: Literal["dev", "val", "prd"] = "dev"
     related: list[Related] = []
     problem: Problem
     idea: Idea
-    code: list[CodeBlock] = Field(min_length=1, max_length=3)
+    code: list[CodeBlock] = Field(min_length=1, max_length=8)
     demo: Demo
+
+    @field_validator("tech")
+    @classmethod
+    def tech_is_a_short_list(cls, value: list[str] | None) -> list[str] | None:
+        return _check_tech_list(value)
+
+    @model_validator(mode="after")
+    def fits_its_kind(self) -> "Scenario":
+        """A scenario is short (2-4 steps, 1-3 code blocks, 10 minutes); a flow is long (3-8, 1-8, 30)."""
+        (low, high), (code_low, code_high), minutes = LIMITS[self.kind]
+        name = "A flow" if self.kind == "flow" else "A scenario"
+        hint = " Make it a flow (kind: flow) for more." if self.kind == "scenario" else ""
+        _feature_and_status_together(self, "the scenario")
+        steps = len(self.demo.steps)
+        if not low <= steps <= high:
+            raise ValueError(f"{name} has {low} to {high} demo steps, this one has {steps}.{hint}")
+        if not code_low <= len(self.code) <= code_high:
+            raise ValueError(f"{name} has {code_low} to {code_high} code blocks, this one has {len(self.code)}.{hint}")
+        if self.minutes > minutes:
+            raise ValueError(f"{name} takes at most {minutes} minutes, this one says {self.minutes}.{hint}")
+        if self.kind == "flow":
+            for step in self.demo.steps[:-1]:
+                if step.feature is None:
+                    raise ValueError(f"In a flow every stage needs a 'feature' and a 'status', except the last one; "
+                                     f"step '{step.id}' has none.")
+        return self
+
+
+class RoadmapExtra(Strict):
+    """A row of the closing overview that has no demo of its own."""
+    area: str = Field(min_length=1, max_length=40)
+    feature: str = Field(min_length=1, max_length=60)
+    status: Status
+    note: str | None = Field(default=None, min_length=1, max_length=160)
+    why: str | None = Field(default=None, min_length=1, max_length=WHY_MAX)   # what goes wrong without it
+
+
+class RoadmapFile(Strict):
+    """`_roadmap.yaml`: the text around the closing overview and the rows that have no scenario."""
+    title: str = Field(min_length=1, max_length=60)
+    intro: str = Field(min_length=1, max_length=300)
+    closing: str | None = Field(default=None, min_length=1, max_length=300)
+    extras: list[RoadmapExtra] = []
 
 
 # --- group and glossary files ------------------------------------------------------------------------------------

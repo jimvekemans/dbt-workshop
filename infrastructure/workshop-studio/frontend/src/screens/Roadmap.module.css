@@ -1,0 +1,26 @@
+.page { display: grid; gap: var(--space-5); max-width: 62rem; }
+.head { display: grid; gap: var(--space-3); padding: var(--space-6) 0 var(--space-2); }
+.h1 { font-size: clamp(2rem, 3.4vw + 0.6rem, 3.8rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.04; max-width: 20ch; }
+.h1:focus { outline: none; }
+.lead { font-size: var(--text-lg); color: var(--ink-2); max-width: 54ch; line-height: 1.5; }
+.empty { padding: var(--space-4) var(--space-5); border-radius: var(--radius-lg); background: var(--surface-2); border: 1px dashed var(--line-strong); font-size: var(--text-lg); }
+.group { display: grid; gap: var(--space-4); margin-top: var(--space-4); }
+.sectionTitle { font-size: var(--text-2xl); padding-bottom: var(--space-2); border-bottom: 3px solid var(--ink); }
+.sectionCount { color: var(--ink-2); font-variant-numeric: tabular-nums; font-weight: 700; }
+.group[data-status='today'] .sectionTitle { border-bottom-color: var(--good); }
+.group[data-status='next'] .sectionTitle { border-bottom-color: var(--accent); }
+.none { color: var(--ink-2); font-size: var(--text-md); }
+.groupBlock { display: grid; gap: var(--space-3); }
+.groupTitle { font-size: var(--text-xl); font-weight: 700; color: var(--ink-2); }
+.block { display: grid; gap: var(--space-2); }
+.blockTitle { font-size: var(--text-lg); line-height: 1.2; }
+.rows { list-style: none; display: grid; gap: var(--space-2); }
+.row { display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; gap: var(--space-2) var(--space-4); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--surface); border: 1px solid var(--line); }
+.what { display: grid; gap: 0.15em; min-width: 0; }
+.name, .link { font-size: var(--text-lg); font-weight: 600; overflow-wrap: anywhere; }
+.link { color: var(--accent-text); display: inline-flex; align-items: center; min-height: 44px; }
+.why { color: var(--ink-2); font-size: var(--text-sm); line-height: 1.4; }
+.whyLabel { font-weight: 700; }
+.note { color: var(--ink-2); font-size: var(--text-md); }
+.closing { font-size: var(--text-lg); line-height: 1.5; max-width: 60ch; margin-top: var(--space-4); }
+.actions { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; }

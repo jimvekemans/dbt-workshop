@@ -10,40 +10,40 @@
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:25:41.681759+00:00",
-         "finished": "2026-11-16T07:25:53.377441+00:00"
+         "state_text": "Klaar",
+         "started": "2026-11-21T22:11:44.406891+00:00",
+         "finished": "2026-11-21T22:11:56.539872+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "skipped",
-          "state_text": "Skipped",
+          "state_text": "Overgeslagen",
           "not_needed": true
          }
         ]
@@ -55,7 +55,7 @@
      "t": 0.01,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
        "summary": "",
        "details": ""
@@ -64,40 +64,40 @@
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:25:41.681759+00:00",
-         "finished": "2026-11-16T07:25:53.377441+00:00"
+         "state_text": "Klaar",
+         "started": "2026-11-21T22:11:44.406891+00:00",
+         "finished": "2026-11-21T22:11:56.539872+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "skipped",
-          "state_text": "Skipped",
+          "state_text": "Overgeslagen",
           "not_needed": true
          }
         ]
@@ -106,10 +106,10 @@
      ]
     },
     {
-     "t": 2.03,
+     "t": 2.02,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
        "summary": "",
        "details": ""
@@ -118,40 +118,40 @@
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:25:41.681759+00:00",
-         "finished": "2026-11-16T07:25:53.377441+00:00"
+         "state_text": "Klaar",
+         "started": "2026-11-21T22:11:44.406891+00:00",
+         "finished": "2026-11-21T22:11:56.539872+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "skipped",
-          "state_text": "Skipped",
+          "state_text": "Overgeslagen",
           "not_needed": true
          }
         ]
@@ -160,52 +160,52 @@
      ]
     },
     {
-     "t": 2.56,
+     "t": 2.61,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: getting started",
+       "summary": "Bezig met de nachtelijke load: opstarten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:25:41.681759+00:00",
-         "finished": "2026-11-16T07:25:53.377441+00:00"
+         "state_text": "Klaar",
+         "started": "2026-11-21T22:11:44.406891+00:00",
+         "finished": "2026-11-21T22:11:56.539872+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "skipped",
-          "state_text": "Skipped",
+          "state_text": "Overgeslagen",
           "not_needed": true
          }
         ]
@@ -217,49 +217,49 @@
      "t": 4.04,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: getting started",
+       "summary": "Bezig met de nachtelijke load: opstarten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:34:11.381248+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:21:52.552842+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "Alle rapporten builden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "todo",
+          "state_text": "Wacht"
          }
         ]
        }
@@ -267,52 +267,52 @@
      ]
     },
     {
-     "t": 5.57,
+     "t": 5.62,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:34:11.381248+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:21:52.552842+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "Alle rapporten builden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "todo",
+          "state_text": "Wacht"
          }
         ]
        }
@@ -320,52 +320,52 @@
      ]
     },
     {
-     "t": 6.06,
+     "t": 6.05,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:34:11.381248+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:21:52.552842+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
@@ -376,49 +376,49 @@
      "t": 8.07,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:34:11.381248+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:21:52.552842+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
@@ -426,52 +426,52 @@
      ]
     },
     {
-     "t": 8.58,
+     "t": 8.64,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:34:11.381248+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:21:52.552842+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
@@ -479,52 +479,52 @@
      ]
     },
     {
-     "t": 10.09,
+     "t": 10.08,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:34:11.381248+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:21:52.552842+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
@@ -532,52 +532,52 @@
      ]
     },
     {
-     "t": 11.6,
+     "t": 11.65,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: getting started",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:34:11.381248+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:21:52.552842+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
@@ -588,49 +588,49 @@
      "t": 12.1,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: getting started",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:34:11.381248+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:21:52.552842+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
-          "state": "failed",
-          "state_text": "Failed"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
+          "label": "Alle rapporten builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
-          "state": "running",
-          "state_text": "Running"
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "todo",
+          "state_text": "Wacht"
          }
         ]
        }
@@ -641,49 +641,49 @@
      "t": 14.12,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: getting started",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "failed",
-         "state_text": "Failed",
-         "started": "2026-11-16T07:34:11.381248+00:00",
-         "finished": "2026-11-16T07:34:21.282639+00:00"
+         "state_text": "Mislukt",
+         "started": "2026-11-21T22:21:52.552842+00:00",
+         "finished": "2026-11-21T22:22:02.398964+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          }
         ]
        }
@@ -691,52 +691,52 @@
      ]
     },
     {
-     "t": 14.61,
+     "t": 14.67,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "done",
-       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-       "details": "run studio__1794814449_1b8383: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success"
+       "summary": "De nachtelijke load is mislukt in development, zoals verwacht, bij de stap 'Alle rapporten builden'.",
+       "details": "run studio__1795299710_f2b96a: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success"
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "failed",
-         "state_text": "Failed",
-         "started": "2026-11-16T07:34:11.381248+00:00",
-         "finished": "2026-11-16T07:34:21.282639+00:00"
+         "state_text": "Mislukt",
+         "started": "2026-11-21T22:21:52.552842+00:00",
+         "finished": "2026-11-21T22:22:02.398964+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          }
         ]
        }
@@ -744,52 +744,52 @@
      ]
     },
     {
-     "t": 14.62,
+     "t": 14.68,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "done",
-       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-       "details": "run studio__1794814449_1b8383: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success"
+       "summary": "De nachtelijke load is mislukt in development, zoals verwacht, bij de stap 'Alle rapporten builden'.",
+       "details": "run studio__1795299710_f2b96a: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success"
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "failed",
-         "state_text": "Failed",
-         "started": "2026-11-16T07:34:11.381248+00:00",
-         "finished": "2026-11-16T07:34:21.282639+00:00"
+         "state_text": "Mislukt",
+         "started": "2026-11-21T22:21:52.552842+00:00",
+         "finished": "2026-11-21T22:22:02.398964+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          }
         ]
        }
@@ -797,52 +797,52 @@
      ]
     },
     {
-     "t": 14.62,
+     "t": 14.68,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "done",
-       "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-       "details": "run studio__1794814449_1b8383: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success"
+       "summary": "De nachtelijke load is mislukt in development, zoals verwacht, bij de stap 'Alle rapporten builden'.",
+       "details": "run studio__1795299710_f2b96a: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, dbt_source_freshness=success, persist_artifacts_to_state=success"
       }
      ],
      "evidence": [
       {
        "type": "tasks",
-       "title": "The night",
+       "title": "De nacht",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "failed",
-         "state_text": "Failed",
-         "started": "2026-11-16T07:34:11.381248+00:00",
-         "finished": "2026-11-16T07:34:21.282639+00:00"
+         "state_text": "Mislukt",
+         "started": "2026-11-21T22:21:52.552842+00:00",
+         "finished": "2026-11-21T22:22:02.398964+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          }
         ]
        }
@@ -850,16 +850,16 @@
      ]
     }
    ],
-   "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-   "outcome": "1 step of the night failed and the night stopped there; the last step then wrote the mail.",
+   "summary": "De nachtelijke load is mislukt in development, zoals verwacht, bij de stap 'Alle rapporten builden'.",
+   "outcome": "1 stap van de nacht mislukte en de nacht stopte daar; de laatste stap verstuurde daarna de mail.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:34:23+00:00",
+   "recorded_at": "2026-11-21T22:22:03+00:00",
    "durations": [
-    14.6,
-    14.6,
-    14.6,
-    17.7,
-    14.6
+    14.7,
+    14.7,
+    14.7,
+    14.8,
+    14.7
    ],
    "show": [
     "tasks"
@@ -874,13 +874,13 @@
      "evidence": [
       {
        "type": "mail",
-       "title": "What the person on duty receives",
+       "title": "De mail voor de persoon van wacht",
        "data": {
         "found": true,
-        "subject": "[development] Nightly load failed: 1 check failed, 6 steps not run",
+        "subject": "[development] Nachtelijke load mislukt: 1 check mislukt, 6 stappen niet gerund",
         "from": "airflow-dev@workshop.local",
-        "received": "2026-11-16T07:34:20.408Z",
-        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nightly load failed</h2><div style=\"font-size:13px;\">Environment: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1794814449_1b8383\">studio__1794814449_1b8383</a> &middot; Image tag: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>42</b> succeeded</span>, <span style=\"color:#b00020;\"><b>1</b> failed</span>, <span style=\"color:#616161;\"><b>6</b> not run</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 50 total | 43 success | 1 error | 6 skipped / Processed: 1 hook | 28 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">dbt&#x27;s own summary counts 43 succeeded because it also counts 1 hook (a clean-up step after the run). This mail counts only tables and checks, so it shows 42.</div><h3>What failed</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">What happened</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technical name</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">File</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Details</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rows in raw_olist_orders have no order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><pre style=\"margin:0;white-space:pre-wrap;font-size:12px;\">Error</pre></td></tr></table><h3>Not run because something earlier failed</h3><div style=\"font-size:13px;\">6 steps did not run: 4 tables and 2 checks. Not errors in themselves.<br>Tables: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Last 40 log lines</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 49 in 0.75s]\n Succeeded model dummy_reload_date_window (incremental) [25 of 49 in 0.16s]\n Succeeded model stg_carrier_events (table) [13 of 49 in 0.64s]\n Succeeded model dbt_orphaned_objects (view) [27 of 49 in 0.11s]\n Succeeded model dbt_foreign_create_user (view) [28 of 49 in 0.11s]\n Succeeded model dbt_model_info (view) [29 of 49 in 0.11s]\n Succeeded model dummy_reload_hkey_mod (incremental) [26 of 49 in 0.44s]\n Succeeded model dim_olist_customers (table) [30 of 49 in 0.73s]\n Succeeded model int_web_top_pages (table) [31 of 49 in 0.67s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [33 of 49 in 0.06s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [35 of 49 in 0.07s]\n    Passed test  not_null_stg_carrier_events_event_id [36 of 49 in 0.08s]\n    Passed test  unique_stg_carrier_events_event_id [37 of 49 in 0.09s]\n Succeeded model dbt_table_performance (view) [38 of 49 in 0.10s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [39 of 49 in 0.15s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [40 of 49 in 0.12s]\n Succeeded model mart_web_journeys (table) [32 of 49 in 0.60s]\n Succeeded model fct_olist_deliveries (table) [34 of 49 in 0.74s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 49 in 0.00s]\n    Passed test  assert_delivery_status_consistent [41 of 49 in 0.00s]\n Succeeded model datum (table) [24 of 49 in 5.13s]\n   Skipped model fct_olist_orders (table) [44 of 49]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 49]\n   Skipped model mart_olist_management_kpi (table) [45 of 49]\n   Skipped model mart_web_conversion (table) [47 of 49]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 49]\n Succeeded model dummy_reload_pit_with_deps (incremental) [43 of 49 in 0.13s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [49 of 49 in 0.01s]\n  Finished [  0.01s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [6.9s]\nProcessed: 1 hook | 28 models | 21 tests\nSummary: 50 total | 43 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
+        "received": "2026-11-21T22:22:01.804Z",
+        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nachtelijke load mislukt</h2><div style=\"font-size:13px;\">Omgeving: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1795299710_f2b96a\">studio__1795299710_f2b96a</a> &middot; Versie: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>43</b> gelukt</span>, <span style=\"color:#b00020;\"><b>1</b> mislukt</span>, <span style=\"color:#616161;\"><b>6</b> niet gerund</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 51 total | 44 success | 1 error | 6 skipped / Processed: 1 hook | 29 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">De samenvatting van dbt zelf telt 44 gelukt, omdat ze ook 1 hook meetelt (een opkuisstap na de run). Deze mail telt enkel tabellen en checks, daarom staat hier 43.</div><h3>Wat mislukte</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Wat er misliep</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technische naam</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Bestand</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rijen in raw_olist_orders hebben geen order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td></tr></table><h3>Niet gerund omdat een eerdere stap mislukte</h3><div style=\"font-size:13px;\">6 stappen zijn niet gerund: 4 tabellen en 2 checks. Dat zijn geen fouten op zich.<br>Tabellen: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Laatste 40 regels uit de log</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 50 in 0.87s]\n Succeeded model dummy_reload_date_window (incremental) [26 of 50 in 0.18s]\n Succeeded model dummy_reload_hkey_mod (incremental) [27 of 50 in 0.44s]\n Succeeded model dbt_foreign_create_user (view) [28 of 50 in 0.10s]\n Succeeded model dbt_orphaned_objects (view) [29 of 50 in 0.11s]\n Succeeded model dbt_model_info (view) [30 of 50 in 0.11s]\n Succeeded model stg_carrier_events (table) [13 of 50 in 0.80s]\n Succeeded model dim_olist_customers (table) [31 of 50 in 0.82s]\n Succeeded model int_web_top_pages (table) [32 of 50 in 0.78s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [34 of 50 in 0.06s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [35 of 50 in 0.12s]\n Succeeded model dbt_table_performance (view) [36 of 50 in 0.11s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.11s]\n    Passed test  unique_stg_carrier_events_event_id [38 of 50 in 0.11s]\n    Passed test  not_null_stg_carrier_events_event_id [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.11s]\n Succeeded model mart_web_journeys (table) [33 of 50 in 0.75s]\n Succeeded model fct_olist_deliveries (table) [39 of 50 in 0.68s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.00s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.00s]\n Succeeded model datum (table) [25 of 50 in 5.10s]\n   Skipped model fct_olist_orders (table) [44 of 50]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 50]\n   Skipped model mart_olist_management_kpi (table) [45 of 50]\n   Skipped model mart_web_conversion (table) [47 of 50]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 50]\n Succeeded model dummy_reload_pit_with_deps (incremental) [49 of 50 in 0.16s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [50 of 50 in 0.01s]\n  Finished [  0.02s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [7.0s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 44 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
        }
       }
      ]
@@ -889,7 +889,7 @@
      "t": 0.0,
      "actions": [
       {
-       "label": "The mail is sent by the last step of the night",
+       "label": "De mail wordt verstuurd door de laatste stap van de nacht",
        "status": "running",
        "summary": "",
        "details": ""
@@ -898,13 +898,13 @@
      "evidence": [
       {
        "type": "mail",
-       "title": "What the person on duty receives",
+       "title": "De mail voor de persoon van wacht",
        "data": {
         "found": true,
-        "subject": "[development] Nightly load failed: 1 check failed, 6 steps not run",
+        "subject": "[development] Nachtelijke load mislukt: 1 check mislukt, 6 stappen niet gerund",
         "from": "airflow-dev@workshop.local",
-        "received": "2026-11-16T07:34:20.408Z",
-        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nightly load failed</h2><div style=\"font-size:13px;\">Environment: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1794814449_1b8383\">studio__1794814449_1b8383</a> &middot; Image tag: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>42</b> succeeded</span>, <span style=\"color:#b00020;\"><b>1</b> failed</span>, <span style=\"color:#616161;\"><b>6</b> not run</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 50 total | 43 success | 1 error | 6 skipped / Processed: 1 hook | 28 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">dbt&#x27;s own summary counts 43 succeeded because it also counts 1 hook (a clean-up step after the run). This mail counts only tables and checks, so it shows 42.</div><h3>What failed</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">What happened</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technical name</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">File</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Details</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rows in raw_olist_orders have no order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><pre style=\"margin:0;white-space:pre-wrap;font-size:12px;\">Error</pre></td></tr></table><h3>Not run because something earlier failed</h3><div style=\"font-size:13px;\">6 steps did not run: 4 tables and 2 checks. Not errors in themselves.<br>Tables: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Last 40 log lines</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 49 in 0.75s]\n Succeeded model dummy_reload_date_window (incremental) [25 of 49 in 0.16s]\n Succeeded model stg_carrier_events (table) [13 of 49 in 0.64s]\n Succeeded model dbt_orphaned_objects (view) [27 of 49 in 0.11s]\n Succeeded model dbt_foreign_create_user (view) [28 of 49 in 0.11s]\n Succeeded model dbt_model_info (view) [29 of 49 in 0.11s]\n Succeeded model dummy_reload_hkey_mod (incremental) [26 of 49 in 0.44s]\n Succeeded model dim_olist_customers (table) [30 of 49 in 0.73s]\n Succeeded model int_web_top_pages (table) [31 of 49 in 0.67s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [33 of 49 in 0.06s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [35 of 49 in 0.07s]\n    Passed test  not_null_stg_carrier_events_event_id [36 of 49 in 0.08s]\n    Passed test  unique_stg_carrier_events_event_id [37 of 49 in 0.09s]\n Succeeded model dbt_table_performance (view) [38 of 49 in 0.10s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [39 of 49 in 0.15s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [40 of 49 in 0.12s]\n Succeeded model mart_web_journeys (table) [32 of 49 in 0.60s]\n Succeeded model fct_olist_deliveries (table) [34 of 49 in 0.74s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 49 in 0.00s]\n    Passed test  assert_delivery_status_consistent [41 of 49 in 0.00s]\n Succeeded model datum (table) [24 of 49 in 5.13s]\n   Skipped model fct_olist_orders (table) [44 of 49]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 49]\n   Skipped model mart_olist_management_kpi (table) [45 of 49]\n   Skipped model mart_web_conversion (table) [47 of 49]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 49]\n Succeeded model dummy_reload_pit_with_deps (incremental) [43 of 49 in 0.13s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [49 of 49 in 0.01s]\n  Finished [  0.01s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [6.9s]\nProcessed: 1 hook | 28 models | 21 tests\nSummary: 50 total | 43 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
+        "received": "2026-11-21T22:22:01.804Z",
+        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nachtelijke load mislukt</h2><div style=\"font-size:13px;\">Omgeving: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1795299710_f2b96a\">studio__1795299710_f2b96a</a> &middot; Versie: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>43</b> gelukt</span>, <span style=\"color:#b00020;\"><b>1</b> mislukt</span>, <span style=\"color:#616161;\"><b>6</b> niet gerund</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 51 total | 44 success | 1 error | 6 skipped / Processed: 1 hook | 29 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">De samenvatting van dbt zelf telt 44 gelukt, omdat ze ook 1 hook meetelt (een opkuisstap na de run). Deze mail telt enkel tabellen en checks, daarom staat hier 43.</div><h3>Wat mislukte</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Wat er misliep</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technische naam</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Bestand</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rijen in raw_olist_orders hebben geen order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td></tr></table><h3>Niet gerund omdat een eerdere stap mislukte</h3><div style=\"font-size:13px;\">6 stappen zijn niet gerund: 4 tabellen en 2 checks. Dat zijn geen fouten op zich.<br>Tabellen: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Laatste 40 regels uit de log</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 50 in 0.87s]\n Succeeded model dummy_reload_date_window (incremental) [26 of 50 in 0.18s]\n Succeeded model dummy_reload_hkey_mod (incremental) [27 of 50 in 0.44s]\n Succeeded model dbt_foreign_create_user (view) [28 of 50 in 0.10s]\n Succeeded model dbt_orphaned_objects (view) [29 of 50 in 0.11s]\n Succeeded model dbt_model_info (view) [30 of 50 in 0.11s]\n Succeeded model stg_carrier_events (table) [13 of 50 in 0.80s]\n Succeeded model dim_olist_customers (table) [31 of 50 in 0.82s]\n Succeeded model int_web_top_pages (table) [32 of 50 in 0.78s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [34 of 50 in 0.06s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [35 of 50 in 0.12s]\n Succeeded model dbt_table_performance (view) [36 of 50 in 0.11s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.11s]\n    Passed test  unique_stg_carrier_events_event_id [38 of 50 in 0.11s]\n    Passed test  not_null_stg_carrier_events_event_id [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.11s]\n Succeeded model mart_web_journeys (table) [33 of 50 in 0.75s]\n Succeeded model fct_olist_deliveries (table) [39 of 50 in 0.68s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.00s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.00s]\n Succeeded model datum (table) [25 of 50 in 5.10s]\n   Skipped model fct_olist_orders (table) [44 of 50]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 50]\n   Skipped model mart_olist_management_kpi (table) [45 of 50]\n   Skipped model mart_web_conversion (table) [47 of 50]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 50]\n Succeeded model dummy_reload_pit_with_deps (incremental) [49 of 50 in 0.16s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [50 of 50 in 0.01s]\n  Finished [  0.02s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [7.0s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 44 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
        }
       }
      ]
@@ -913,22 +913,46 @@
      "t": 0.0,
      "actions": [
       {
-       "label": "The mail is sent by the last step of the night",
+       "label": "De mail wordt verstuurd door de laatste stap van de nacht",
        "status": "running",
-       "summary": "The mail is sent by the last step of the night",
+       "summary": "De mail wordt verstuurd door de laatste stap van de nacht",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "mail",
-       "title": "What the person on duty receives",
+       "title": "De mail voor de persoon van wacht",
        "data": {
         "found": true,
-        "subject": "[development] Nightly load failed: 1 check failed, 6 steps not run",
+        "subject": "[development] Nachtelijke load mislukt: 1 check mislukt, 6 stappen niet gerund",
         "from": "airflow-dev@workshop.local",
-        "received": "2026-11-16T07:34:20.408Z",
-        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nightly load failed</h2><div style=\"font-size:13px;\">Environment: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1794814449_1b8383\">studio__1794814449_1b8383</a> &middot; Image tag: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>42</b> succeeded</span>, <span style=\"color:#b00020;\"><b>1</b> failed</span>, <span style=\"color:#616161;\"><b>6</b> not run</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 50 total | 43 success | 1 error | 6 skipped / Processed: 1 hook | 28 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">dbt&#x27;s own summary counts 43 succeeded because it also counts 1 hook (a clean-up step after the run). This mail counts only tables and checks, so it shows 42.</div><h3>What failed</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">What happened</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technical name</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">File</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Details</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rows in raw_olist_orders have no order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><pre style=\"margin:0;white-space:pre-wrap;font-size:12px;\">Error</pre></td></tr></table><h3>Not run because something earlier failed</h3><div style=\"font-size:13px;\">6 steps did not run: 4 tables and 2 checks. Not errors in themselves.<br>Tables: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Last 40 log lines</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 49 in 0.75s]\n Succeeded model dummy_reload_date_window (incremental) [25 of 49 in 0.16s]\n Succeeded model stg_carrier_events (table) [13 of 49 in 0.64s]\n Succeeded model dbt_orphaned_objects (view) [27 of 49 in 0.11s]\n Succeeded model dbt_foreign_create_user (view) [28 of 49 in 0.11s]\n Succeeded model dbt_model_info (view) [29 of 49 in 0.11s]\n Succeeded model dummy_reload_hkey_mod (incremental) [26 of 49 in 0.44s]\n Succeeded model dim_olist_customers (table) [30 of 49 in 0.73s]\n Succeeded model int_web_top_pages (table) [31 of 49 in 0.67s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [33 of 49 in 0.06s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [35 of 49 in 0.07s]\n    Passed test  not_null_stg_carrier_events_event_id [36 of 49 in 0.08s]\n    Passed test  unique_stg_carrier_events_event_id [37 of 49 in 0.09s]\n Succeeded model dbt_table_performance (view) [38 of 49 in 0.10s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [39 of 49 in 0.15s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [40 of 49 in 0.12s]\n Succeeded model mart_web_journeys (table) [32 of 49 in 0.60s]\n Succeeded model fct_olist_deliveries (table) [34 of 49 in 0.74s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 49 in 0.00s]\n    Passed test  assert_delivery_status_consistent [41 of 49 in 0.00s]\n Succeeded model datum (table) [24 of 49 in 5.13s]\n   Skipped model fct_olist_orders (table) [44 of 49]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 49]\n   Skipped model mart_olist_management_kpi (table) [45 of 49]\n   Skipped model mart_web_conversion (table) [47 of 49]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 49]\n Succeeded model dummy_reload_pit_with_deps (incremental) [43 of 49 in 0.13s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [49 of 49 in 0.01s]\n  Finished [  0.01s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [6.9s]\nProcessed: 1 hook | 28 models | 21 tests\nSummary: 50 total | 43 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
+        "received": "2026-11-21T22:22:01.804Z",
+        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nachtelijke load mislukt</h2><div style=\"font-size:13px;\">Omgeving: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1795299710_f2b96a\">studio__1795299710_f2b96a</a> &middot; Versie: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>43</b> gelukt</span>, <span style=\"color:#b00020;\"><b>1</b> mislukt</span>, <span style=\"color:#616161;\"><b>6</b> niet gerund</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 51 total | 44 success | 1 error | 6 skipped / Processed: 1 hook | 29 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">De samenvatting van dbt zelf telt 44 gelukt, omdat ze ook 1 hook meetelt (een opkuisstap na de run). Deze mail telt enkel tabellen en checks, daarom staat hier 43.</div><h3>Wat mislukte</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Wat er misliep</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technische naam</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Bestand</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rijen in raw_olist_orders hebben geen order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td></tr></table><h3>Niet gerund omdat een eerdere stap mislukte</h3><div style=\"font-size:13px;\">6 stappen zijn niet gerund: 4 tabellen en 2 checks. Dat zijn geen fouten op zich.<br>Tabellen: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Laatste 40 regels uit de log</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 50 in 0.87s]\n Succeeded model dummy_reload_date_window (incremental) [26 of 50 in 0.18s]\n Succeeded model dummy_reload_hkey_mod (incremental) [27 of 50 in 0.44s]\n Succeeded model dbt_foreign_create_user (view) [28 of 50 in 0.10s]\n Succeeded model dbt_orphaned_objects (view) [29 of 50 in 0.11s]\n Succeeded model dbt_model_info (view) [30 of 50 in 0.11s]\n Succeeded model stg_carrier_events (table) [13 of 50 in 0.80s]\n Succeeded model dim_olist_customers (table) [31 of 50 in 0.82s]\n Succeeded model int_web_top_pages (table) [32 of 50 in 0.78s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [34 of 50 in 0.06s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [35 of 50 in 0.12s]\n Succeeded model dbt_table_performance (view) [36 of 50 in 0.11s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.11s]\n    Passed test  unique_stg_carrier_events_event_id [38 of 50 in 0.11s]\n    Passed test  not_null_stg_carrier_events_event_id [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.11s]\n Succeeded model mart_web_journeys (table) [33 of 50 in 0.75s]\n Succeeded model fct_olist_deliveries (table) [39 of 50 in 0.68s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.00s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.00s]\n Succeeded model datum (table) [25 of 50 in 5.10s]\n   Skipped model fct_olist_orders (table) [44 of 50]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 50]\n   Skipped model mart_olist_management_kpi (table) [45 of 50]\n   Skipped model mart_web_conversion (table) [47 of 50]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 50]\n Succeeded model dummy_reload_pit_with_deps (incremental) [49 of 50 in 0.16s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [50 of 50 in 0.01s]\n  Finished [  0.02s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [7.0s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 44 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.0,
+     "actions": [
+      {
+       "label": "De mail wordt verstuurd door de laatste stap van de nacht",
+       "status": "done",
+       "summary": "De mail wordt verstuurd door de laatste stap van de nacht.",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "mail",
+       "title": "De mail voor de persoon van wacht",
+       "data": {
+        "found": true,
+        "subject": "[development] Nachtelijke load mislukt: 1 check mislukt, 6 stappen niet gerund",
+        "from": "airflow-dev@workshop.local",
+        "received": "2026-11-21T22:22:01.804Z",
+        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nachtelijke load mislukt</h2><div style=\"font-size:13px;\">Omgeving: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1795299710_f2b96a\">studio__1795299710_f2b96a</a> &middot; Versie: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>43</b> gelukt</span>, <span style=\"color:#b00020;\"><b>1</b> mislukt</span>, <span style=\"color:#616161;\"><b>6</b> niet gerund</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 51 total | 44 success | 1 error | 6 skipped / Processed: 1 hook | 29 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">De samenvatting van dbt zelf telt 44 gelukt, omdat ze ook 1 hook meetelt (een opkuisstap na de run). Deze mail telt enkel tabellen en checks, daarom staat hier 43.</div><h3>Wat mislukte</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Wat er misliep</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technische naam</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Bestand</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rijen in raw_olist_orders hebben geen order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td></tr></table><h3>Niet gerund omdat een eerdere stap mislukte</h3><div style=\"font-size:13px;\">6 stappen zijn niet gerund: 4 tabellen en 2 checks. Dat zijn geen fouten op zich.<br>Tabellen: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Laatste 40 regels uit de log</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 50 in 0.87s]\n Succeeded model dummy_reload_date_window (incremental) [26 of 50 in 0.18s]\n Succeeded model dummy_reload_hkey_mod (incremental) [27 of 50 in 0.44s]\n Succeeded model dbt_foreign_create_user (view) [28 of 50 in 0.10s]\n Succeeded model dbt_orphaned_objects (view) [29 of 50 in 0.11s]\n Succeeded model dbt_model_info (view) [30 of 50 in 0.11s]\n Succeeded model stg_carrier_events (table) [13 of 50 in 0.80s]\n Succeeded model dim_olist_customers (table) [31 of 50 in 0.82s]\n Succeeded model int_web_top_pages (table) [32 of 50 in 0.78s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [34 of 50 in 0.06s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [35 of 50 in 0.12s]\n Succeeded model dbt_table_performance (view) [36 of 50 in 0.11s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.11s]\n    Passed test  unique_stg_carrier_events_event_id [38 of 50 in 0.11s]\n    Passed test  not_null_stg_carrier_events_event_id [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.11s]\n Succeeded model mart_web_journeys (table) [33 of 50 in 0.75s]\n Succeeded model fct_olist_deliveries (table) [39 of 50 in 0.68s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.00s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.00s]\n Succeeded model datum (table) [25 of 50 in 5.10s]\n   Skipped model fct_olist_orders (table) [44 of 50]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 50]\n   Skipped model mart_olist_management_kpi (table) [45 of 50]\n   Skipped model mart_web_conversion (table) [47 of 50]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 50]\n Succeeded model dummy_reload_pit_with_deps (incremental) [49 of 50 in 0.16s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [50 of 50 in 0.01s]\n  Finished [  0.02s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [7.0s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 44 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
        }
       }
      ]
@@ -937,22 +961,22 @@
      "t": 2.01,
      "actions": [
       {
-       "label": "The mail is sent by the last step of the night",
+       "label": "De mail wordt verstuurd door de laatste stap van de nacht",
        "status": "done",
-       "summary": "The mail is sent by the last step of the night.",
+       "summary": "De mail wordt verstuurd door de laatste stap van de nacht.",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "mail",
-       "title": "What the person on duty receives",
+       "title": "De mail voor de persoon van wacht",
        "data": {
         "found": true,
-        "subject": "[development] Nightly load failed: 1 check failed, 6 steps not run",
+        "subject": "[development] Nachtelijke load mislukt: 1 check mislukt, 6 stappen niet gerund",
         "from": "airflow-dev@workshop.local",
-        "received": "2026-11-16T07:34:20.408Z",
-        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nightly load failed</h2><div style=\"font-size:13px;\">Environment: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1794814449_1b8383\">studio__1794814449_1b8383</a> &middot; Image tag: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>42</b> succeeded</span>, <span style=\"color:#b00020;\"><b>1</b> failed</span>, <span style=\"color:#616161;\"><b>6</b> not run</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 50 total | 43 success | 1 error | 6 skipped / Processed: 1 hook | 28 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">dbt&#x27;s own summary counts 43 succeeded because it also counts 1 hook (a clean-up step after the run). This mail counts only tables and checks, so it shows 42.</div><h3>What failed</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">What happened</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technical name</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">File</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Details</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rows in raw_olist_orders have no order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><pre style=\"margin:0;white-space:pre-wrap;font-size:12px;\">Error</pre></td></tr></table><h3>Not run because something earlier failed</h3><div style=\"font-size:13px;\">6 steps did not run: 4 tables and 2 checks. Not errors in themselves.<br>Tables: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Last 40 log lines</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 49 in 0.75s]\n Succeeded model dummy_reload_date_window (incremental) [25 of 49 in 0.16s]\n Succeeded model stg_carrier_events (table) [13 of 49 in 0.64s]\n Succeeded model dbt_orphaned_objects (view) [27 of 49 in 0.11s]\n Succeeded model dbt_foreign_create_user (view) [28 of 49 in 0.11s]\n Succeeded model dbt_model_info (view) [29 of 49 in 0.11s]\n Succeeded model dummy_reload_hkey_mod (incremental) [26 of 49 in 0.44s]\n Succeeded model dim_olist_customers (table) [30 of 49 in 0.73s]\n Succeeded model int_web_top_pages (table) [31 of 49 in 0.67s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [33 of 49 in 0.06s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [35 of 49 in 0.07s]\n    Passed test  not_null_stg_carrier_events_event_id [36 of 49 in 0.08s]\n    Passed test  unique_stg_carrier_events_event_id [37 of 49 in 0.09s]\n Succeeded model dbt_table_performance (view) [38 of 49 in 0.10s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [39 of 49 in 0.15s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [40 of 49 in 0.12s]\n Succeeded model mart_web_journeys (table) [32 of 49 in 0.60s]\n Succeeded model fct_olist_deliveries (table) [34 of 49 in 0.74s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 49 in 0.00s]\n    Passed test  assert_delivery_status_consistent [41 of 49 in 0.00s]\n Succeeded model datum (table) [24 of 49 in 5.13s]\n   Skipped model fct_olist_orders (table) [44 of 49]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 49]\n   Skipped model mart_olist_management_kpi (table) [45 of 49]\n   Skipped model mart_web_conversion (table) [47 of 49]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 49]\n Succeeded model dummy_reload_pit_with_deps (incremental) [43 of 49 in 0.13s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [49 of 49 in 0.01s]\n  Finished [  0.01s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [6.9s]\nProcessed: 1 hook | 28 models | 21 tests\nSummary: 50 total | 43 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
+        "received": "2026-11-21T22:22:01.804Z",
+        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nachtelijke load mislukt</h2><div style=\"font-size:13px;\">Omgeving: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1795299710_f2b96a\">studio__1795299710_f2b96a</a> &middot; Versie: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>43</b> gelukt</span>, <span style=\"color:#b00020;\"><b>1</b> mislukt</span>, <span style=\"color:#616161;\"><b>6</b> niet gerund</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 51 total | 44 success | 1 error | 6 skipped / Processed: 1 hook | 29 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">De samenvatting van dbt zelf telt 44 gelukt, omdat ze ook 1 hook meetelt (een opkuisstap na de run). Deze mail telt enkel tabellen en checks, daarom staat hier 43.</div><h3>Wat mislukte</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Wat er misliep</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technische naam</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Bestand</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rijen in raw_olist_orders hebben geen order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td></tr></table><h3>Niet gerund omdat een eerdere stap mislukte</h3><div style=\"font-size:13px;\">6 stappen zijn niet gerund: 4 tabellen en 2 checks. Dat zijn geen fouten op zich.<br>Tabellen: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Laatste 40 regels uit de log</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 50 in 0.87s]\n Succeeded model dummy_reload_date_window (incremental) [26 of 50 in 0.18s]\n Succeeded model dummy_reload_hkey_mod (incremental) [27 of 50 in 0.44s]\n Succeeded model dbt_foreign_create_user (view) [28 of 50 in 0.10s]\n Succeeded model dbt_orphaned_objects (view) [29 of 50 in 0.11s]\n Succeeded model dbt_model_info (view) [30 of 50 in 0.11s]\n Succeeded model stg_carrier_events (table) [13 of 50 in 0.80s]\n Succeeded model dim_olist_customers (table) [31 of 50 in 0.82s]\n Succeeded model int_web_top_pages (table) [32 of 50 in 0.78s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [34 of 50 in 0.06s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [35 of 50 in 0.12s]\n Succeeded model dbt_table_performance (view) [36 of 50 in 0.11s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.11s]\n    Passed test  unique_stg_carrier_events_event_id [38 of 50 in 0.11s]\n    Passed test  not_null_stg_carrier_events_event_id [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.11s]\n Succeeded model mart_web_journeys (table) [33 of 50 in 0.75s]\n Succeeded model fct_olist_deliveries (table) [39 of 50 in 0.68s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.00s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.00s]\n Succeeded model datum (table) [25 of 50 in 5.10s]\n   Skipped model fct_olist_orders (table) [44 of 50]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 50]\n   Skipped model mart_olist_management_kpi (table) [45 of 50]\n   Skipped model mart_web_conversion (table) [47 of 50]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 50]\n Succeeded model dummy_reload_pit_with_deps (incremental) [49 of 50 in 0.16s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [50 of 50 in 0.01s]\n  Finished [  0.02s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [7.0s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 44 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
        }
       }
      ]
@@ -961,22 +985,22 @@
      "t": 2.01,
      "actions": [
       {
-       "label": "The mail is sent by the last step of the night",
+       "label": "De mail wordt verstuurd door de laatste stap van de nacht",
        "status": "done",
-       "summary": "The mail is sent by the last step of the night.",
+       "summary": "De mail wordt verstuurd door de laatste stap van de nacht.",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "mail",
-       "title": "What the person on duty receives",
+       "title": "De mail voor de persoon van wacht",
        "data": {
         "found": true,
-        "subject": "[development] Nightly load failed: 1 check failed, 6 steps not run",
+        "subject": "[development] Nachtelijke load mislukt: 1 check mislukt, 6 stappen niet gerund",
         "from": "airflow-dev@workshop.local",
-        "received": "2026-11-16T07:34:20.408Z",
-        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nightly load failed</h2><div style=\"font-size:13px;\">Environment: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1794814449_1b8383\">studio__1794814449_1b8383</a> &middot; Image tag: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>42</b> succeeded</span>, <span style=\"color:#b00020;\"><b>1</b> failed</span>, <span style=\"color:#616161;\"><b>6</b> not run</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 50 total | 43 success | 1 error | 6 skipped / Processed: 1 hook | 28 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">dbt&#x27;s own summary counts 43 succeeded because it also counts 1 hook (a clean-up step after the run). This mail counts only tables and checks, so it shows 42.</div><h3>What failed</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">What happened</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technical name</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">File</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Details</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rows in raw_olist_orders have no order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><pre style=\"margin:0;white-space:pre-wrap;font-size:12px;\">Error</pre></td></tr></table><h3>Not run because something earlier failed</h3><div style=\"font-size:13px;\">6 steps did not run: 4 tables and 2 checks. Not errors in themselves.<br>Tables: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Last 40 log lines</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 49 in 0.75s]\n Succeeded model dummy_reload_date_window (incremental) [25 of 49 in 0.16s]\n Succeeded model stg_carrier_events (table) [13 of 49 in 0.64s]\n Succeeded model dbt_orphaned_objects (view) [27 of 49 in 0.11s]\n Succeeded model dbt_foreign_create_user (view) [28 of 49 in 0.11s]\n Succeeded model dbt_model_info (view) [29 of 49 in 0.11s]\n Succeeded model dummy_reload_hkey_mod (incremental) [26 of 49 in 0.44s]\n Succeeded model dim_olist_customers (table) [30 of 49 in 0.73s]\n Succeeded model int_web_top_pages (table) [31 of 49 in 0.67s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [33 of 49 in 0.06s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [35 of 49 in 0.07s]\n    Passed test  not_null_stg_carrier_events_event_id [36 of 49 in 0.08s]\n    Passed test  unique_stg_carrier_events_event_id [37 of 49 in 0.09s]\n Succeeded model dbt_table_performance (view) [38 of 49 in 0.10s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [39 of 49 in 0.15s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [40 of 49 in 0.12s]\n Succeeded model mart_web_journeys (table) [32 of 49 in 0.60s]\n Succeeded model fct_olist_deliveries (table) [34 of 49 in 0.74s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 49 in 0.00s]\n    Passed test  assert_delivery_status_consistent [41 of 49 in 0.00s]\n Succeeded model datum (table) [24 of 49 in 5.13s]\n   Skipped model fct_olist_orders (table) [44 of 49]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 49]\n   Skipped model mart_olist_management_kpi (table) [45 of 49]\n   Skipped model mart_web_conversion (table) [47 of 49]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 49]\n Succeeded model dummy_reload_pit_with_deps (incremental) [43 of 49 in 0.13s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [49 of 49 in 0.01s]\n  Finished [  0.01s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [6.9s]\nProcessed: 1 hook | 28 models | 21 tests\nSummary: 50 total | 43 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
+        "received": "2026-11-21T22:22:01.804Z",
+        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nachtelijke load mislukt</h2><div style=\"font-size:13px;\">Omgeving: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1795299710_f2b96a\">studio__1795299710_f2b96a</a> &middot; Versie: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>43</b> gelukt</span>, <span style=\"color:#b00020;\"><b>1</b> mislukt</span>, <span style=\"color:#616161;\"><b>6</b> niet gerund</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 51 total | 44 success | 1 error | 6 skipped / Processed: 1 hook | 29 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">De samenvatting van dbt zelf telt 44 gelukt, omdat ze ook 1 hook meetelt (een opkuisstap na de run). Deze mail telt enkel tabellen en checks, daarom staat hier 43.</div><h3>Wat mislukte</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Wat er misliep</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technische naam</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Bestand</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rijen in raw_olist_orders hebben geen order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td></tr></table><h3>Niet gerund omdat een eerdere stap mislukte</h3><div style=\"font-size:13px;\">6 stappen zijn niet gerund: 4 tabellen en 2 checks. Dat zijn geen fouten op zich.<br>Tabellen: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Laatste 40 regels uit de log</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 50 in 0.87s]\n Succeeded model dummy_reload_date_window (incremental) [26 of 50 in 0.18s]\n Succeeded model dummy_reload_hkey_mod (incremental) [27 of 50 in 0.44s]\n Succeeded model dbt_foreign_create_user (view) [28 of 50 in 0.10s]\n Succeeded model dbt_orphaned_objects (view) [29 of 50 in 0.11s]\n Succeeded model dbt_model_info (view) [30 of 50 in 0.11s]\n Succeeded model stg_carrier_events (table) [13 of 50 in 0.80s]\n Succeeded model dim_olist_customers (table) [31 of 50 in 0.82s]\n Succeeded model int_web_top_pages (table) [32 of 50 in 0.78s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [34 of 50 in 0.06s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [35 of 50 in 0.12s]\n Succeeded model dbt_table_performance (view) [36 of 50 in 0.11s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.11s]\n    Passed test  unique_stg_carrier_events_event_id [38 of 50 in 0.11s]\n    Passed test  not_null_stg_carrier_events_event_id [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.11s]\n Succeeded model mart_web_journeys (table) [33 of 50 in 0.75s]\n Succeeded model fct_olist_deliveries (table) [39 of 50 in 0.68s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.00s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.00s]\n Succeeded model datum (table) [25 of 50 in 5.10s]\n   Skipped model fct_olist_orders (table) [44 of 50]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 50]\n   Skipped model mart_olist_management_kpi (table) [45 of 50]\n   Skipped model mart_web_conversion (table) [47 of 50]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 50]\n Succeeded model dummy_reload_pit_with_deps (incremental) [49 of 50 in 0.16s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [50 of 50 in 0.01s]\n  Finished [  0.02s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [7.0s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 44 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
        }
       }
      ]
@@ -985,55 +1009,31 @@
      "t": 2.01,
      "actions": [
       {
-       "label": "The mail is sent by the last step of the night",
+       "label": "De mail wordt verstuurd door de laatste stap van de nacht",
        "status": "done",
-       "summary": "The mail is sent by the last step of the night.",
+       "summary": "De mail wordt verstuurd door de laatste stap van de nacht.",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "mail",
-       "title": "What the person on duty receives",
+       "title": "De mail voor de persoon van wacht",
        "data": {
         "found": true,
-        "subject": "[development] Nightly load failed: 1 check failed, 6 steps not run",
+        "subject": "[development] Nachtelijke load mislukt: 1 check mislukt, 6 stappen niet gerund",
         "from": "airflow-dev@workshop.local",
-        "received": "2026-11-16T07:34:20.408Z",
-        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nightly load failed</h2><div style=\"font-size:13px;\">Environment: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1794814449_1b8383\">studio__1794814449_1b8383</a> &middot; Image tag: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>42</b> succeeded</span>, <span style=\"color:#b00020;\"><b>1</b> failed</span>, <span style=\"color:#616161;\"><b>6</b> not run</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 50 total | 43 success | 1 error | 6 skipped / Processed: 1 hook | 28 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">dbt&#x27;s own summary counts 43 succeeded because it also counts 1 hook (a clean-up step after the run). This mail counts only tables and checks, so it shows 42.</div><h3>What failed</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">What happened</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technical name</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">File</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Details</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rows in raw_olist_orders have no order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><pre style=\"margin:0;white-space:pre-wrap;font-size:12px;\">Error</pre></td></tr></table><h3>Not run because something earlier failed</h3><div style=\"font-size:13px;\">6 steps did not run: 4 tables and 2 checks. Not errors in themselves.<br>Tables: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Last 40 log lines</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 49 in 0.75s]\n Succeeded model dummy_reload_date_window (incremental) [25 of 49 in 0.16s]\n Succeeded model stg_carrier_events (table) [13 of 49 in 0.64s]\n Succeeded model dbt_orphaned_objects (view) [27 of 49 in 0.11s]\n Succeeded model dbt_foreign_create_user (view) [28 of 49 in 0.11s]\n Succeeded model dbt_model_info (view) [29 of 49 in 0.11s]\n Succeeded model dummy_reload_hkey_mod (incremental) [26 of 49 in 0.44s]\n Succeeded model dim_olist_customers (table) [30 of 49 in 0.73s]\n Succeeded model int_web_top_pages (table) [31 of 49 in 0.67s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [33 of 49 in 0.06s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [35 of 49 in 0.07s]\n    Passed test  not_null_stg_carrier_events_event_id [36 of 49 in 0.08s]\n    Passed test  unique_stg_carrier_events_event_id [37 of 49 in 0.09s]\n Succeeded model dbt_table_performance (view) [38 of 49 in 0.10s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [39 of 49 in 0.15s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [40 of 49 in 0.12s]\n Succeeded model mart_web_journeys (table) [32 of 49 in 0.60s]\n Succeeded model fct_olist_deliveries (table) [34 of 49 in 0.74s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 49 in 0.00s]\n    Passed test  assert_delivery_status_consistent [41 of 49 in 0.00s]\n Succeeded model datum (table) [24 of 49 in 5.13s]\n   Skipped model fct_olist_orders (table) [44 of 49]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 49]\n   Skipped model mart_olist_management_kpi (table) [45 of 49]\n   Skipped model mart_web_conversion (table) [47 of 49]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 49]\n Succeeded model dummy_reload_pit_with_deps (incremental) [43 of 49 in 0.13s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [49 of 49 in 0.01s]\n  Finished [  0.01s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [6.9s]\nProcessed: 1 hook | 28 models | 21 tests\nSummary: 50 total | 43 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
-       }
-      }
-     ]
-    },
-    {
-     "t": 2.01,
-     "actions": [
-      {
-       "label": "The mail is sent by the last step of the night",
-       "status": "done",
-       "summary": "The mail is sent by the last step of the night.",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "mail",
-       "title": "What the person on duty receives",
-       "data": {
-        "found": true,
-        "subject": "[development] Nightly load failed: 1 check failed, 6 steps not run",
-        "from": "airflow-dev@workshop.local",
-        "received": "2026-11-16T07:34:20.408Z",
-        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nightly load failed</h2><div style=\"font-size:13px;\">Environment: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1794814449_1b8383\">studio__1794814449_1b8383</a> &middot; Image tag: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>42</b> succeeded</span>, <span style=\"color:#b00020;\"><b>1</b> failed</span>, <span style=\"color:#616161;\"><b>6</b> not run</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 50 total | 43 success | 1 error | 6 skipped / Processed: 1 hook | 28 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">dbt&#x27;s own summary counts 43 succeeded because it also counts 1 hook (a clean-up step after the run). This mail counts only tables and checks, so it shows 42.</div><h3>What failed</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">What happened</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technical name</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">File</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Details</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rows in raw_olist_orders have no order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><pre style=\"margin:0;white-space:pre-wrap;font-size:12px;\">Error</pre></td></tr></table><h3>Not run because something earlier failed</h3><div style=\"font-size:13px;\">6 steps did not run: 4 tables and 2 checks. Not errors in themselves.<br>Tables: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Last 40 log lines</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 49 in 0.75s]\n Succeeded model dummy_reload_date_window (incremental) [25 of 49 in 0.16s]\n Succeeded model stg_carrier_events (table) [13 of 49 in 0.64s]\n Succeeded model dbt_orphaned_objects (view) [27 of 49 in 0.11s]\n Succeeded model dbt_foreign_create_user (view) [28 of 49 in 0.11s]\n Succeeded model dbt_model_info (view) [29 of 49 in 0.11s]\n Succeeded model dummy_reload_hkey_mod (incremental) [26 of 49 in 0.44s]\n Succeeded model dim_olist_customers (table) [30 of 49 in 0.73s]\n Succeeded model int_web_top_pages (table) [31 of 49 in 0.67s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [33 of 49 in 0.06s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [35 of 49 in 0.07s]\n    Passed test  not_null_stg_carrier_events_event_id [36 of 49 in 0.08s]\n    Passed test  unique_stg_carrier_events_event_id [37 of 49 in 0.09s]\n Succeeded model dbt_table_performance (view) [38 of 49 in 0.10s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [39 of 49 in 0.15s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [40 of 49 in 0.12s]\n Succeeded model mart_web_journeys (table) [32 of 49 in 0.60s]\n Succeeded model fct_olist_deliveries (table) [34 of 49 in 0.74s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 49 in 0.00s]\n    Passed test  assert_delivery_status_consistent [41 of 49 in 0.00s]\n Succeeded model datum (table) [24 of 49 in 5.13s]\n   Skipped model fct_olist_orders (table) [44 of 49]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 49]\n   Skipped model mart_olist_management_kpi (table) [45 of 49]\n   Skipped model mart_web_conversion (table) [47 of 49]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 49]\n Succeeded model dummy_reload_pit_with_deps (incremental) [43 of 49 in 0.13s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [49 of 49 in 0.01s]\n  Finished [  0.01s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [6.9s]\nProcessed: 1 hook | 28 models | 21 tests\nSummary: 50 total | 43 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
+        "received": "2026-11-21T22:22:01.804Z",
+        "html": "<div style=\"font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;max-width:960px;\"><h2 style=\"margin:0 0 8px;color:#b00020;\">Nachtelijke load mislukt</h2><div style=\"font-size:13px;\">Omgeving: <b>development</b> &middot; DAG: <b>dbt_daily_load</b> &middot; Run: <a href=\"http://localhost:8088/dags/dbt_daily_load/runs/studio__1795299710_f2b96a\">studio__1795299710_f2b96a</a> &middot; Versie: <b>v1.0.0</b></div><div><span style=\"display:inline-block;margin:8px 0;font-size:14px;\"><span style=\"color:#2e7d32;\"><b>43</b> gelukt</span>, <span style=\"color:#b00020;\"><b>1</b> mislukt</span>, <span style=\"color:#616161;\"><b>6</b> niet gerund</span></span></div><div style=\"font-size:12px;color:#555;\">Summary: 51 total | 44 success | 1 error | 6 skipped / Processed: 1 hook | 29 models | 21 tests</div><div style=\"font-size:12px;color:#555;margin-top:2px;\">De samenvatting van dbt zelf telt 44 gelukt, omdat ze ook 1 hook meetelt (een opkuisstap na de run). Deze mail telt enkel tabellen en checks, daarom staat hier 43.</div><h3>Wat mislukte</h3><table style=\"border-collapse:collapse;font-size:13px;margin:8px 0;\"><tr><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Wat er misliep</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Technische naam</th><th style=\"padding:4px 8px;border:1px solid #ccc;background:#f0f0f0;text-align:left;\">Bestand</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\"><b>3 rijen in raw_olist_orders hebben geen order_id</b></td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">source_not_null_raw_olist_raw_olist_orders_order_id</td><td style=\"padding:4px 8px;border:1px solid #ccc;vertical-align:top;\">models/edw_dv_bdv/sources_olist.yml:40:17</td></tr></table><h3>Niet gerund omdat een eerdere stap mislukte</h3><div style=\"font-size:13px;\">6 stappen zijn niet gerund: 4 tabellen en 2 checks. Dat zijn geen fouten op zich.<br>Tabellen: stg_olist_orders, fct_olist_orders, mart_olist_management_kpi, mart_web_conversion</div><h3>Laatste 40 regels uit de log</h3><pre style=\"background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;white-space:pre-wrap;\"> Succeeded model stg_web_events (table) [11 of 50 in 0.87s]\n Succeeded model dummy_reload_date_window (incremental) [26 of 50 in 0.18s]\n Succeeded model dummy_reload_hkey_mod (incremental) [27 of 50 in 0.44s]\n Succeeded model dbt_foreign_create_user (view) [28 of 50 in 0.10s]\n Succeeded model dbt_orphaned_objects (view) [29 of 50 in 0.11s]\n Succeeded model dbt_model_info (view) [30 of 50 in 0.11s]\n Succeeded model stg_carrier_events (table) [13 of 50 in 0.80s]\n Succeeded model dim_olist_customers (table) [31 of 50 in 0.82s]\n Succeeded model int_web_top_pages (table) [32 of 50 in 0.78s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_date_window_id [34 of 50 in 0.06s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record [35 of 50 in 0.12s]\n Succeeded model dbt_table_performance (view) [36 of 50 in 0.11s]\n    Passed test  accepted_values_stg_carrier_events_event_type__picked_up__in_transit__delivered [37 of 50 in 0.11s]\n    Passed test  unique_stg_carrier_events_event_id [38 of 50 in 0.11s]\n    Passed test  not_null_stg_carrier_events_event_id [40 of 50 in 0.11s]\n    Passed test  dbt_utils_unique_combination_of_columns_dim_olist_customers_customer_hkey [41 of 50 in 0.11s]\n Succeeded model mart_web_journeys (table) [33 of 50 in 0.75s]\n Succeeded model fct_olist_deliveries (table) [39 of 50 in 0.68s]\n    Passed test  dbt_utils_unique_combination_of_columns_fct_olist_deliveries_order_hkey [42 of 50 in 0.00s]\n    Passed test  assert_delivery_status_consistent [43 of 50 in 0.00s]\n Succeeded model datum (table) [25 of 50 in 5.10s]\n   Skipped model fct_olist_orders (table) [44 of 50]\n   Skipped test  dbt_utils_unique_combination_of_columns_fct_olist_orders_order_hkey (models/im_dimensional/olist_core.yml:24:9) [46 of 50]\n   Skipped model mart_olist_management_kpi (table) [45 of 50]\n   Skipped model mart_web_conversion (table) [47 of 50]\n   Skipped test  assert_web_checkouts_attributed (tests/web/assert_web_checkouts_attributed.sql) [48 of 50]\n Succeeded model dummy_reload_pit_with_deps (incremental) [49 of 50 in 0.16s]\n    Passed test  dbt_utils_unique_combination_of_columns_dummy_reload_pit_with_deps_pit_key [50 of 50 in 0.01s]\n  Finished [  0.02s] hook  dbt_swf-on-run-end-0\n\n====================== Test Failures =======================\nTest failed (3 failed row(s)): source_not_null_raw_olist_raw_olist_orders_order_id\n\n==================== Execution Summary =====================\nFinished &#x27;build&#x27; with 1 error for target &#x27;run&#x27; [7.0s]\nProcessed: 1 hook | 29 models | 21 tests\nSummary: 51 total | 44 success | 1 error | 6 skipped\nTask failed with exception\n::group::Post Execute\n::endgroup::</pre></div>"
        }
       }
      ]
     }
    ],
-   "summary": "The mail is sent by the last step of the night.",
-   "outcome": "The mail names the failed check right at the top. The log lines are only below it, for the engineer who wants them.",
+   "summary": "De mail wordt verstuurd door de laatste stap van de nacht.",
+   "outcome": "De mail noemt de mislukte check helemaal bovenaan. De logregels staan pas eronder, voor de developer die ze wil nalezen.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:34:25+00:00",
+   "recorded_at": "2026-11-21T22:22:05+00:00",
    "durations": [
     2.0,
     2.0,
@@ -1046,14 +1046,14 @@
    ]
   }
  },
- "recorded_at": "2026-11-16T07:34:25+00:00",
+ "recorded_at": "2026-11-21T22:22:05+00:00",
  "prepare": {
   "durations": [
-   1.4,
-   1.4,
-   1.4,
    1.5,
-   1.4
+   1.4,
+   1.4,
+   33.1,
+   1.5
   ]
  }
 }

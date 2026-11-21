@@ -63,28 +63,28 @@ def fake_run(monkeypatch, code, text):
 def test_touched_per_identity(tmp_path, monkeypatch, who, touched):
     fake_run(monkeypatch, 0, "Finished 'build' successfully")
     result = dbt.dbt_run(make_ctx(tmp_path), dbt.DbtRunParams.model_validate({"command": "build", "as": who}))
-    assert result.touched == touched and result.summary == "The build of the reports finished without problems."
+    assert result.touched == touched and result.summary == "De build van de rapporten is zonder problemen afgelopen."
 
 
 def test_expected_failure_succeeds_but_a_crash_does_not(tmp_path, monkeypatch):
     p = dbt.DbtRunParams(command="test", expect="failed")
     fake_run(monkeypatch, 1, "Finished 'test' with 2 errors")
-    assert "as expected" in dbt.dbt_run(make_ctx(tmp_path), p).summary
+    assert "zoals verwacht" in dbt.dbt_run(make_ctx(tmp_path), p).summary
     fake_run(monkeypatch, 2, "profile is broken")
     with pytest.raises(StepFailed) as err:
         dbt.dbt_run(make_ctx(tmp_path), p)
-    assert "could not even start" in err.value.summary
+    assert "kon niet eens starten" in err.value.summary
 
 
 def test_unexpected_outcomes_fail_with_plain_sentences(tmp_path, monkeypatch):
     fake_run(monkeypatch, 1, "Finished 'build' with 1 error")
     with pytest.raises(StepFailed) as err:
         dbt.dbt_run(make_ctx(tmp_path), dbt.DbtRunParams(command="build"))
-    assert err.value.summary == "The build of the reports finished with problems."
+    assert err.value.summary == "De build van de rapporten is met problemen geëindigd."
     fake_run(monkeypatch, 0, "Finished 'build'")
     with pytest.raises(StepFailed) as err:
         dbt.dbt_run(make_ctx(tmp_path), dbt.DbtRunParams(command="build", expect="failed"))
-    assert "expected to fail" in err.value.summary
+    assert "had moeten mislukken" in err.value.summary
 
 
 def test_run_dbt_uses_the_deployed_image_and_copies_the_project_for_developers(tmp_path, monkeypatch):
@@ -114,10 +114,12 @@ def test_cleaners_run_the_documented_commands(tmp_path, monkeypatch):
     )
     ctx = make_ctx(tmp_path)
     dbt.clean_models(ctx, "models:prd")
+    dbt.clean_models(ctx, "models:dev:mart_olist_management_kpi")   # one shared table a rehearsal was allowed to build
     dbt.clean_developer(ctx, "developer:dev:pu_dev2")
     dbt.clean_ci(ctx, "ci")
     assert commands == [
         ("prd", "svc_prd_dbt", "build --full-refresh"),
+        ("dev", "svc_dev_dbt", "run --select mart_olist_management_kpi --full-refresh"),
         ("dev", "pu_dev2", "run-operation cleanup_user_models"),
         ("dev", "svc_ci_dbt", "run-operation drop_nodes"),
     ]
@@ -127,3 +129,46 @@ def test_failed_cleanup_is_reported(tmp_path, monkeypatch):
     fake_run(monkeypatch, 1, "boom")
     with pytest.raises(StepFailed):
         dbt.clean_models(make_ctx(tmp_path), "models:dev")
+
+
+def test_the_copies_a_rehearsal_left_behind_are_dropped_from_the_rehearsal_database(tmp_path, monkeypatch):
+    statements = []
+
+    class Cursor:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def execute(self, statement):
+            statements.append(statement)
+
+        def fetchall(self):
+            return [("demo_x_fct_olist_orders", "BASE TABLE"), ("demo_x_view", "VIEW")]
+
+    class Conn:
+        def cursor(self):
+            return Cursor()
+
+        def close(self):
+            statements.append("closed")
+
+    monkeypatch.setattr(clients, "s2_connect", lambda *a, **k: Conn())
+    result = dbt.clean_ci(make_ctx(tmp_path), "ci:copies")
+    assert "drop table if exists `vdp_ci`.`demo_x_fct_olist_orders`" in statements
+    assert "drop view if exists `vdp_ci`.`demo_x_view`" in statements and statements[-1] == "closed"
+    assert result.summary == "De kopieën die de testruns achterlieten, zijn verwijderd."
+
+
+def test_a_build_can_say_in_plain_words_how_much_it_covered(tmp_path, monkeypatch):
+    out = "Finished 'build' successfully for target 'run' [8.3s]\nProcessed: 1 hook | 30 models | 36 tests\n"
+    monkeypatch.setattr(dbt, "run_dbt", lambda *a, **k: clients.Proc(0, out, ""))
+    ctx = make_ctx(tmp_path)
+    plain = dbt.dbt_run(ctx, dbt.DbtRunParams(command="build"))
+    assert "reasons" not in plain.data                                    # opt-in: other scenarios' cards stay as they were
+    said = dbt.dbt_run(ctx, dbt.DbtRunParams(command="build", explain=True))
+    assert said.data["reasons"] == ["30 tabellen gebuild en 36 checks gerund."]
+    assert dbt.processed_words("Processed: 1 model | 1 test") == "1 tabel gebuild en 1 check gerund."
+    assert dbt.processed_words("Processed: 2 seeds") == "0 tabellen gebuild en 0 checks gerund."
+    assert dbt.processed_words("nothing here") is None

@@ -6,6 +6,7 @@ import { neighbours } from '../lib/store'
 import { ModeBadge } from './ModeBadge'
 import { ThemeToggle } from './ThemeToggle'
 import { TextSize } from './TextSize'
+import { TechNamesToggle } from './TechNamesToggle'
 import { Button } from './Button'
 import { ChevronLeftIcon, ChevronRightIcon, HomeIcon, SearchIcon } from './icons'
 import styles from './TopBar.module.css'
@@ -23,14 +24,14 @@ export function TopBar({ route }: { route: Route }) {
     <header className={styles.bar}>
       <div className={styles.inner}>
         <div className={styles.left}>
-          <a className={styles.brand} href="#/" aria-label="Workshop Studio: back to all scenarios" title="Back to all scenarios">
+          <a className={styles.brand} href="#/" aria-label="Workshop Studio: terug naar alle scenario's" title="Terug naar alle scenario's">
             <HomeIcon size="1.2em" />
             <span>Workshop Studio</span>
           </a>
-          <button type="button" className={styles.switcher} onClick={openSwitcher} aria-haspopup="dialog" aria-label="Scenarios: go to a scenario" aria-keyshortcuts="/ Control+K Meta+K">
+          <button type="button" className={styles.switcher} onClick={openSwitcher} aria-haspopup="dialog" aria-label="Scenario's: ga naar een scenario" aria-keyshortcuts="/ Control+K Meta+K">
             <SearchIcon size="1.1em" />
-            <span className={styles.long}>Go to a scenario</span>
-            <span className={styles.short}>Scenarios</span>
+            <span className={styles.long}>Ga naar een scenario</span>
+            <span className={styles.short}>Scenario's</span>
             <kbd className="hint-key" aria-hidden="true">/</kbd>
           </button>
         </div>
@@ -41,33 +42,34 @@ export function TopBar({ route }: { route: Route }) {
                 variant="quiet"
                 className={styles.nav}
                 icon={<ChevronLeftIcon />}
-                aria-label={here.prev ? `Previous scenario: ${plainText(here.prev.title)}` : 'Previous scenario'}
+                aria-label={here.prev ? `Vorig scenario: ${plainText(here.prev.title)}` : 'Vorig scenario'}
                 disabled={!here.prev}
-                disabledReason="This is the first scenario"
+                disabledReason="Dit is het eerste scenario"
                 onClick={() => here.prev && go(here.prev.id)}
               >
-                <span className={styles.txt}>Previous scenario</span>
+                <span className={styles.txt}>Vorig scenario</span>
               </Button>
               <span className={styles.count}>
-                <span className={styles.countLong}>Scenario {here.index + 1} of {here.total}</span>
+                <span className={styles.countLong}>Scenario {here.index + 1} van {here.total}</span>
                 <span className={styles.countShort}>{here.index + 1}/{here.total}</span>
               </span>
               <Button
                 variant="quiet"
                 className={styles.nav}
                 icon={<ChevronRightIcon />}
-                aria-label={here.next ? `Next scenario: ${plainText(here.next.title)}` : 'Next scenario'}
+                aria-label={here.next ? `Volgend scenario: ${plainText(here.next.title)}` : 'Volgend scenario'}
                 disabled={!here.next}
-                disabledReason="This is the last scenario"
+                disabledReason="Dit is het laatste scenario"
                 onClick={() => here.next && go(here.next.id)}
               >
-                <span className={styles.txt}>Next scenario</span>
+                <span className={styles.txt}>Volgend scenario</span>
               </Button>
             </>
           )}
         </div>
         <div className={styles.right}>
           <ModeBadge />
+          <TechNamesToggle />
           <TextSize />
           <ThemeToggle />
         </div>

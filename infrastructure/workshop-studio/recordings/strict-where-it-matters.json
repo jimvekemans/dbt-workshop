@@ -10,52 +10,52 @@
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:25:08.164906+00:00",
-         "finished": "2026-11-16T07:25:20.296868+00:00"
+         "state_text": "Klaar",
+         "started": "2026-11-21T22:11:08.254894+00:00",
+         "finished": "2026-11-21T22:11:25.391698+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "skipped",
-          "state_text": "Skipped",
+          "state_text": "Overgeslagen",
           "not_needed": true
          }
         ]
@@ -63,26 +63,26 @@
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:09.502887",
-          "tables_built": 25,
-          "tables_total": 25,
+          "started": "2026-11-21T22:11:09.769834",
+          "tables_built": 26,
+          "tables_total": 26,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 3,
+          "tables_left_out": 4,
           "checks_passed": 14,
           "checks_failed": 0,
           "checks_warned": 0,
           "checks_not_run": 0,
           "retry": false,
           "state": "good",
-          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+          "summary": "26 van 30 tabellen gebuild, 4 bewust overgeslagen, 14 checks geslaagd"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
@@ -91,7 +91,7 @@
      "t": 0.05,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
        "summary": "",
        "details": ""
@@ -100,52 +100,52 @@
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:25:08.164906+00:00",
-         "finished": "2026-11-16T07:25:20.296868+00:00"
+         "state_text": "Klaar",
+         "started": "2026-11-21T22:11:08.254894+00:00",
+         "finished": "2026-11-21T22:11:25.391698+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "skipped",
-          "state_text": "Skipped",
+          "state_text": "Overgeslagen",
           "not_needed": true
          }
         ]
@@ -153,26 +153,26 @@
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:09.502887",
-          "tables_built": 25,
-          "tables_total": 25,
+          "started": "2026-11-21T22:11:09.769834",
+          "tables_built": 26,
+          "tables_total": 26,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 3,
+          "tables_left_out": 4,
           "checks_passed": 14,
           "checks_failed": 0,
           "checks_warned": 0,
           "checks_not_run": 0,
           "retry": false,
           "state": "good",
-          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+          "summary": "26 van 30 tabellen gebuild, 4 bewust overgeslagen, 14 checks geslaagd"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
@@ -181,7 +181,7 @@
      "t": 2.1,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
        "summary": "",
        "details": ""
@@ -190,52 +190,52 @@
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:25:08.164906+00:00",
-         "finished": "2026-11-16T07:25:20.296868+00:00"
+         "state_text": "Klaar",
+         "started": "2026-11-21T22:11:08.254894+00:00",
+         "finished": "2026-11-21T22:11:25.391698+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "skipped",
-          "state_text": "Skipped",
+          "state_text": "Overgeslagen",
           "not_needed": true
          }
         ]
@@ -243,89 +243,89 @@
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:09.502887",
-          "tables_built": 25,
-          "tables_total": 25,
+          "started": "2026-11-21T22:11:09.769834",
+          "tables_built": 26,
+          "tables_total": 26,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 3,
+          "tables_left_out": 4,
           "checks_passed": 14,
           "checks_failed": 0,
           "checks_warned": 0,
           "checks_not_run": 0,
           "retry": false,
           "state": "good",
-          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+          "summary": "26 van 30 tabellen gebuild, 4 bewust overgeslagen, 14 checks geslaagd"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 2.55,
+     "t": 2.67,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: getting started",
+       "summary": "Bezig met de nachtelijke load: opstarten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:25:08.164906+00:00",
-         "finished": "2026-11-16T07:25:20.296868+00:00"
+         "state_text": "Klaar",
+         "started": "2026-11-21T22:11:08.254894+00:00",
+         "finished": "2026-11-21T22:11:25.391698+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "skipped",
-          "state_text": "Skipped",
+          "state_text": "Overgeslagen",
           "not_needed": true
          }
         ]
@@ -333,26 +333,26 @@
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:09.502887",
-          "tables_built": 25,
-          "tables_total": 25,
+          "started": "2026-11-21T22:11:09.769834",
+          "tables_built": 26,
+          "tables_total": 26,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 3,
+          "tables_left_out": 4,
           "checks_passed": 14,
           "checks_failed": 0,
           "checks_warned": 0,
           "checks_not_run": 0,
           "retry": false,
           "state": "good",
-          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+          "summary": "26 van 30 tabellen gebuild, 4 bewust overgeslagen, 14 checks geslaagd"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
@@ -361,953 +361,953 @@
      "t": 4.15,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: getting started",
+       "summary": "Bezig met de nachtelijke load: opstarten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:41.681759+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:11:44.406891+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
-          "state": "running",
-          "state_text": "Running"
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:09.502887",
-          "tables_built": 25,
-          "tables_total": 25,
+          "started": "2026-11-21T22:11:09.769834",
+          "tables_built": 26,
+          "tables_total": 26,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 3,
+          "tables_left_out": 4,
           "checks_passed": 14,
           "checks_failed": 0,
           "checks_warned": 0,
           "checks_not_run": 0,
           "retry": false,
           "state": "good",
-          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+          "summary": "26 van 30 tabellen gebuild, 4 bewust overgeslagen, 14 checks geslaagd"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 5.56,
+     "t": 5.68,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:41.681759+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:11:44.406891+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
-          "state": "running",
-          "state_text": "Running"
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:09.502887",
-          "tables_built": 25,
-          "tables_total": 25,
+          "started": "2026-11-21T22:11:09.769834",
+          "tables_built": 26,
+          "tables_total": 26,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 3,
+          "tables_left_out": 4,
           "checks_passed": 14,
           "checks_failed": 0,
           "checks_warned": 0,
           "checks_not_run": 0,
           "retry": false,
           "state": "good",
-          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+          "summary": "26 van 30 tabellen gebuild, 4 bewust overgeslagen, 14 checks geslaagd"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 6.2,
+     "t": 6.19,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:41.681759+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:11:44.406891+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:09.502887",
-          "tables_built": 25,
-          "tables_total": 25,
+          "started": "2026-11-21T22:11:09.769834",
+          "tables_built": 26,
+          "tables_total": 26,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 3,
+          "tables_left_out": 4,
           "checks_passed": 14,
           "checks_failed": 0,
           "checks_warned": 0,
           "checks_not_run": 0,
           "retry": false,
           "state": "good",
-          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+          "summary": "26 van 30 tabellen gebuild, 4 bewust overgeslagen, 14 checks geslaagd"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 8.26,
+     "t": 8.23,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:41.681759+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:11:44.406891+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:09.502887",
-          "tables_built": 25,
-          "tables_total": 25,
+          "started": "2026-11-21T22:11:09.769834",
+          "tables_built": 26,
+          "tables_total": 26,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 3,
+          "tables_left_out": 4,
           "checks_passed": 14,
           "checks_failed": 0,
           "checks_warned": 0,
           "checks_not_run": 0,
           "retry": false,
           "state": "good",
-          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+          "summary": "26 van 30 tabellen gebuild, 4 bewust overgeslagen, 14 checks geslaagd"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 8.58,
+     "t": 8.7,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:41.681759+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:11:44.406891+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:09.502887",
-          "tables_built": 25,
-          "tables_total": 25,
+          "started": "2026-11-21T22:11:09.769834",
+          "tables_built": 26,
+          "tables_total": 26,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 3,
+          "tables_left_out": 4,
           "checks_passed": 14,
           "checks_failed": 0,
           "checks_warned": 0,
           "checks_not_run": 0,
           "retry": false,
           "state": "good",
-          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+          "summary": "26 van 30 tabellen gebuild, 4 bewust overgeslagen, 14 checks geslaagd"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 10.31,
+     "t": 10.28,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:41.681759+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:11:44.406891+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:09.502887",
-          "tables_built": 25,
-          "tables_total": 25,
+          "started": "2026-11-21T22:11:09.769834",
+          "tables_built": 26,
+          "tables_total": 26,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 3,
+          "tables_left_out": 4,
           "checks_passed": 14,
           "checks_failed": 0,
           "checks_warned": 0,
           "checks_not_run": 0,
           "retry": false,
           "state": "good",
-          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+          "summary": "26 van 30 tabellen gebuild, 4 bewust overgeslagen, 14 checks geslaagd"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 11.59,
+     "t": 11.71,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:41.681759+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:11:44.406891+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:09.502887",
-          "tables_built": 25,
-          "tables_total": 25,
+          "started": "2026-11-21T22:11:09.769834",
+          "tables_built": 26,
+          "tables_total": 26,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 3,
+          "tables_left_out": 4,
           "checks_passed": 14,
           "checks_failed": 0,
           "checks_warned": 0,
           "checks_not_run": 0,
           "retry": false,
           "state": "good",
-          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+          "summary": "26 van 30 tabellen gebuild, 4 bewust overgeslagen, 14 checks geslaagd"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 12.36,
+     "t": 12.32,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:41.681759+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:11:44.406891+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "running",
-          "state_text": "Running"
+          "state_text": "Bezig"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:09.502887",
-          "tables_built": 25,
-          "tables_total": 25,
+          "started": "2026-11-21T22:11:09.769834",
+          "tables_built": 26,
+          "tables_total": 26,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 3,
+          "tables_left_out": 4,
           "checks_passed": 14,
           "checks_failed": 0,
           "checks_warned": 0,
           "checks_not_run": 0,
           "retry": false,
           "state": "good",
-          "summary": "25 of 28 tables built, 3 left out on purpose, 14 checks passed"
+          "summary": "26 van 30 tabellen gebuild, 4 bewust overgeslagen, 14 checks geslaagd"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 14.41,
+     "t": 14.36,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:41.681759+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:11:44.406891+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:43.229197",
-          "tables_built": 28,
-          "tables_total": 28,
+          "started": "2026-11-21T22:11:45.799929",
+          "tables_built": 29,
+          "tables_total": 29,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 20,
           "checks_failed": 0,
           "checks_warned": 1,
           "checks_not_run": 0,
           "retry": false,
           "state": "warn",
-          "summary": "28 of 28 tables built, 20 checks passed, 1 warning",
+          "summary": "29 van 30 tabellen gebuild, 1 bewust overgeslagen, 20 checks geslaagd, 1 check met waarschuwing",
           "current": true
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 14.61,
+     "t": 14.73,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: getting started",
+       "summary": "Bezig met de nachtelijke load: opstarten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:41.681759+00:00",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:11:44.406891+00:00",
          "finished": null
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "todo",
-          "state_text": "Waiting"
+          "state_text": "Wacht"
          }
         ]
        }
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:43.229197",
-          "tables_built": 28,
-          "tables_total": 28,
+          "started": "2026-11-21T22:11:45.799929",
+          "tables_built": 29,
+          "tables_total": 29,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 20,
           "checks_failed": 0,
           "checks_warned": 1,
           "checks_not_run": 0,
           "retry": false,
           "state": "warn",
-          "summary": "28 of 28 tables built, 20 checks passed, 1 warning",
+          "summary": "29 van 30 tabellen gebuild, 1 bewust overgeslagen, 20 checks geslaagd, 1 check met waarschuwing",
           "current": true
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 16.45,
+     "t": 16.41,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "running",
-       "summary": "Working on the nightly load: getting started",
+       "summary": "Bezig met de nachtelijke load: opstarten",
        "details": ""
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:25:41.681759+00:00",
-         "finished": "2026-11-16T07:25:53.377441+00:00"
+         "state_text": "Klaar",
+         "started": "2026-11-21T22:11:44.406891+00:00",
+         "finished": "2026-11-21T22:11:56.539872+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "skipped",
-          "state_text": "Skipped",
+          "state_text": "Overgeslagen",
           "not_needed": true
          }
         ]
@@ -1315,90 +1315,90 @@
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:43.229197",
-          "tables_built": 28,
-          "tables_total": 28,
+          "started": "2026-11-21T22:11:45.799929",
+          "tables_built": 29,
+          "tables_total": 29,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 20,
           "checks_failed": 0,
           "checks_warned": 1,
           "checks_not_run": 0,
           "retry": false,
           "state": "warn",
-          "summary": "28 of 28 tables built, 20 checks passed, 1 warning",
+          "summary": "29 van 30 tabellen gebuild, 1 bewust overgeslagen, 20 checks geslaagd, 1 check met waarschuwing",
           "current": true
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 17.62,
+     "t": 17.74,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "done",
-       "summary": "The nightly load finished without problems in development.",
-       "details": "run studio__1794813939_23f5d7: success; tasks: audit_environment_drift=success, dbt_build=success, persist_artifacts_to_state=success, dbt_source_freshness=success, send_failure_report=skipped"
+       "summary": "De nachtelijke load is zonder problemen afgelopen in development.",
+       "details": "run studio__1795299102_f8e69e: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:25:41.681759+00:00",
-         "finished": "2026-11-16T07:25:53.377441+00:00"
+         "state_text": "Klaar",
+         "started": "2026-11-21T22:11:44.406891+00:00",
+         "finished": "2026-11-21T22:11:56.539872+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "skipped",
-          "state_text": "Skipped",
+          "state_text": "Overgeslagen",
           "not_needed": true
          }
         ]
@@ -1406,90 +1406,90 @@
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:43.229197",
-          "tables_built": 28,
-          "tables_total": 28,
+          "started": "2026-11-21T22:11:45.799929",
+          "tables_built": 29,
+          "tables_total": 29,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 20,
           "checks_failed": 0,
           "checks_warned": 1,
           "checks_not_run": 0,
           "retry": false,
           "state": "warn",
-          "summary": "28 of 28 tables built, 20 checks passed, 1 warning",
+          "summary": "29 van 30 tabellen gebuild, 1 bewust overgeslagen, 20 checks geslaagd, 1 check met waarschuwing",
           "current": true
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 17.67,
+     "t": 17.79,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "done",
-       "summary": "The nightly load finished without problems in development.",
-       "details": "run studio__1794813939_23f5d7: success; tasks: audit_environment_drift=success, dbt_build=success, persist_artifacts_to_state=success, dbt_source_freshness=success, send_failure_report=skipped"
+       "summary": "De nachtelijke load is zonder problemen afgelopen in development.",
+       "details": "run studio__1795299102_f8e69e: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:25:41.681759+00:00",
-         "finished": "2026-11-16T07:25:53.377441+00:00"
+         "state_text": "Klaar",
+         "started": "2026-11-21T22:11:44.406891+00:00",
+         "finished": "2026-11-21T22:11:56.539872+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "skipped",
-          "state_text": "Skipped",
+          "state_text": "Overgeslagen",
           "not_needed": true
          }
         ]
@@ -1497,90 +1497,90 @@
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:43.229197",
-          "tables_built": 28,
-          "tables_total": 28,
+          "started": "2026-11-21T22:11:45.799929",
+          "tables_built": 29,
+          "tables_total": 29,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 20,
           "checks_failed": 0,
           "checks_warned": 1,
           "checks_not_run": 0,
           "retry": false,
           "state": "warn",
-          "summary": "28 of 28 tables built, 20 checks passed, 1 warning",
+          "summary": "29 van 30 tabellen gebuild, 1 bewust overgeslagen, 20 checks geslaagd, 1 check met waarschuwing",
           "current": true
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     },
     {
-     "t": 17.68,
+     "t": 17.8,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "done",
-       "summary": "The nightly load finished without problems in development.",
-       "details": "run studio__1794813939_23f5d7: success; tasks: audit_environment_drift=success, dbt_build=success, persist_artifacts_to_state=success, dbt_source_freshness=success, send_failure_report=skipped"
+       "summary": "De nachtelijke load is zonder problemen afgelopen in development.",
+       "details": "run studio__1795299102_f8e69e: success; tasks: audit_environment_drift=success, dbt_build=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=skipped"
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in development",
+       "title": "De nachtelijke load in development",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:25:41.681759+00:00",
-         "finished": "2026-11-16T07:25:53.377441+00:00"
+         "state_text": "Klaar",
+         "started": "2026-11-21T22:11:44.406891+00:00",
+         "finished": "2026-11-21T22:11:56.539872+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "skipped",
-          "state_text": "Skipped",
+          "state_text": "Overgeslagen",
           "not_needed": true
          }
         ]
@@ -1588,42 +1588,42 @@
       },
       {
        "type": "run_history",
-       "title": "What the checks found in development",
+       "title": "Wat de checks vonden in development",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:25:43.229197",
-          "tables_built": 28,
-          "tables_total": 28,
+          "started": "2026-11-21T22:11:45.799929",
+          "tables_built": 29,
+          "tables_total": 29,
           "tables_not_run": 0,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 20,
           "checks_failed": 0,
           "checks_warned": 1,
           "checks_not_run": 0,
           "retry": false,
           "state": "warn",
-          "summary": "28 of 28 tables built, 20 checks passed, 1 warning",
+          "summary": "29 van 30 tabellen gebuild, 1 bewust overgeslagen, 20 checks geslaagd, 1 check met waarschuwing",
           "current": true
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       }
      ]
     }
    ],
-   "summary": "The nightly load finished without problems in development.",
-   "outcome": "The check gave a warning and the nightly load finished. None of the invalid orders reached the reports.",
+   "summary": "De nachtelijke load is zonder problemen afgelopen in development.",
+   "outcome": "De check gaf een waarschuwing en de nachtelijke load is afgerond. Geen enkele ongeldige bestelling is in de rapporten geraakt.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:25:55+00:00",
+   "recorded_at": "2026-11-21T22:11:58+00:00",
    "durations": [
     17.7,
     17.7,
-    18.0,
-    17.7,
-    17.7
+    14.8,
+    20.7,
+    17.8
    ],
    "show": [
     "number",
@@ -1635,1442 +1635,1467 @@
    "inputs": {},
    "frames": [
     {
-     "t": 0.06,
+     "t": 0.05,
      "actions": [],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in validation",
+       "title": "De nachtelijke load in validatie",
        "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:01:31.056192+00:00",
-         "finished": "2026-11-16T07:01:49.155612+00:00"
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "skipped",
-          "state_text": "Skipped",
-          "not_needed": true
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 0.06,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:01:31.056192+00:00",
-         "finished": "2026-11-16T07:01:49.155612+00:00"
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "skipped",
-          "state_text": "Skipped",
-          "not_needed": true
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 2.1,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:01:31.056192+00:00",
-         "finished": "2026-11-16T07:01:49.155612+00:00"
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "skipped",
-          "state_text": "Skipped",
-          "not_needed": true
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 2.58,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: getting started",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "done",
-         "state_text": "Finished without problems",
-         "started": "2026-11-16T07:01:31.056192+00:00",
-         "finished": "2026-11-16T07:01:49.155612+00:00"
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "skipped",
-          "state_text": "Skipped",
-          "not_needed": true
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 4.15,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: getting started",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 5.6,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: getting started",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 6.19,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: getting started",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 8.24,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: getting started",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 8.61,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 10.29,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 11.63,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 12.33,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 14.38,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 14.64,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "running",
-          "state_text": "Running"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 16.42,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
-       "details": ""
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "failed",
-          "state_text": "Failed"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "done",
-          "state_text": "Done"
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [
-         {
-          "started": "2026-11-16T07:26:03.920787",
-          "tables_built": 24,
-          "tables_total": 28,
-          "tables_not_run": 4,
-          "tables_failed": 0,
-          "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
-          "checks_warned": 0,
-          "checks_not_run": 2,
-          "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
-          "current": true
-         }
-        ],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 17.66,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "done",
-       "summary": "The nightly load failed in validation, as expected: it stopped at 'Building all the reports'.",
-       "details": "run studio__1794813957_d863b7: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
-        "run": {
-         "state": "running",
-         "state_text": "Running",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": null
-        },
-        "tasks": [
-         {
-          "label": "Checking for hand-made changes",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Building all the reports",
-          "state": "failed",
-          "state_text": "Failed"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "done",
-          "state_text": "Done"
-         },
-         {
-          "label": "Checking that every data feed is up to date",
-          "state": "done",
-          "state_text": "Done"
-         }
-        ]
-       }
-      },
-      {
-       "type": "run_history",
-       "title": "What the checks found in validation",
-       "data": {
-        "runs": [
-         {
-          "started": "2026-11-16T07:26:03.920787",
-          "tables_built": 24,
-          "tables_total": 28,
-          "tables_not_run": 4,
-          "tables_failed": 0,
-          "tables_left_out": 0,
-          "checks_passed": 18,
-          "checks_failed": 1,
-          "checks_warned": 0,
-          "checks_not_run": 2,
-          "retry": false,
-          "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
-          "current": true
-         }
-        ],
-        "empty": "No run has been recorded yet."
-       }
-      },
-      {
-       "type": "result",
-       "title": "What happened",
-       "data": {
-        "summary": "",
-        "details": "",
-        "data": {}
-       }
-      }
-     ]
-    },
-    {
-     "t": 17.7,
-     "actions": [
-      {
-       "label": "Starting the nightly load",
-       "status": "done",
-       "summary": "The nightly load failed in validation, as expected: it stopped at 'Building all the reports'.",
-       "details": "run studio__1794813957_d863b7: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success"
-      }
-     ],
-     "evidence": [
-      {
-       "type": "number",
-       "title": "Invalid orders that arrived",
-       "data": {
-        "value": 5,
-        "unit": "orders",
-        "compare": {
-         "label": "Invalid orders in the reports",
-         "value": 0
-        }
-       }
-      },
-      {
-       "type": "tasks",
-       "title": "The nightly load in validation",
-       "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "failed",
-         "state_text": "Failed",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": "2026-11-16T07:26:13.456157+00:00"
+         "state_text": "Mislukt",
+         "started": "2026-11-21T19:48:44.921906+00:00",
+         "finished": "2026-11-21T19:48:55.138374+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De foutmail versturen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          }
         ]
        }
       },
       {
        "type": "run_history",
-       "title": "What the checks found in validation",
+       "title": "Wat de checks vonden in validatie",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:26:03.920787",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T19:48:46.735246",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
-          "current": true
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       },
       {
        "type": "result",
-       "title": "What happened",
+       "title": "Wat er gebeurd is",
        "data": {
-        "summary": "The nightly load failed in validation, as expected: it stopped at 'Building all the reports'.",
-        "details": "run studio__1794813957_d863b7: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success",
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.05,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "failed",
+         "state_text": "Mislukt",
+         "started": "2026-11-21T19:48:44.921906+00:00",
+         "finished": "2026-11-21T19:48:55.138374+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "failed",
+          "state_text": "Mislukt"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T19:48:46.735246",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.09,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "failed",
+         "state_text": "Mislukt",
+         "started": "2026-11-21T19:48:44.921906+00:00",
+         "finished": "2026-11-21T19:48:55.138374+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "failed",
+          "state_text": "Mislukt"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T19:48:46.735246",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.69,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "running",
+       "summary": "Bezig met de nachtelijke load: opstarten",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "failed",
+         "state_text": "Mislukt",
+         "started": "2026-11-21T19:48:44.921906+00:00",
+         "finished": "2026-11-21T19:48:55.138374+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "failed",
+          "state_text": "Mislukt"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T19:48:46.735246",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.13,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "running",
+       "summary": "Bezig met de nachtelijke load: opstarten",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "running",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:12:02.149207+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T19:48:46.735246",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 5.7,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "running",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "running",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:12:02.149207+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T19:48:46.735246",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.18,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "running",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "running",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:12:02.149207+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T19:48:46.735246",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.22,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "running",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "running",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:12:02.149207+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T19:48:46.735246",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 8.72,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "running",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "running",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:12:02.149207+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T19:48:46.735246",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 10.27,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "running",
+       "summary": "Bezig met de nachtelijke load: Alle rapporten builden",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "running",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:12:02.149207+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T19:48:46.735246",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 11.73,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "running",
+       "summary": "Bezig met de nachtelijke load: Nakijken of elke feed recente data heeft",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "running",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:12:02.149207+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "running",
+          "state_text": "Bezig"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "todo",
+          "state_text": "Wacht"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "todo",
+          "state_text": "Wacht"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T19:48:46.735246",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt"
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 12.31,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "running",
+       "summary": "Bezig met de nachtelijke load: Nakijken of elke feed recente data heeft",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "running",
+         "state_text": "Bezig",
+         "started": "2026-11-21T22:12:02.149207+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "failed",
+          "state_text": "Mislukt"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T22:12:03.576526",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt",
+          "current": true
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.36,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "running",
+       "summary": "Bezig met de nachtelijke load: Nakijken of elke feed recente data heeft",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "failed",
+         "state_text": "Mislukt",
+         "started": "2026-11-21T22:12:02.149207+00:00",
+         "finished": "2026-11-21T22:12:11.696743+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "failed",
+          "state_text": "Mislukt"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T22:12:03.576526",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt",
+          "current": true
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.74,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "done",
+       "summary": "De nachtelijke load is mislukt in validatie, zoals verwacht, bij de stap 'Alle rapporten builden'.",
+       "details": "run studio__1795299120_a02341: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "failed",
+         "state_text": "Mislukt",
+         "started": "2026-11-21T22:12:02.149207+00:00",
+         "finished": "2026-11-21T22:12:11.696743+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "failed",
+          "state_text": "Mislukt"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T22:12:03.576526",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt",
+          "current": true
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 14.79,
+     "actions": [
+      {
+       "label": "De nachtelijke load starten",
+       "status": "done",
+       "summary": "De nachtelijke load is mislukt in validatie, zoals verwacht, bij de stap 'Alle rapporten builden'.",
+       "details": "run studio__1795299120_a02341: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "number",
+       "title": "Ongeldige bestellingen die binnenkwamen",
+       "data": {
+        "value": 12,
+        "unit": "bestellingen",
+        "compare": {
+         "label": "Ongeldige bestellingen in de rapporten",
+         "value": 0
+        }
+       }
+      },
+      {
+       "type": "tasks",
+       "title": "De nachtelijke load in validatie",
+       "data": {
+        "title": "de nachtelijke load",
+        "run": {
+         "state": "failed",
+         "state_text": "Mislukt",
+         "started": "2026-11-21T22:12:02.149207+00:00",
+         "finished": "2026-11-21T22:12:11.696743+00:00"
+        },
+        "tasks": [
+         {
+          "label": "Nakijken op manuele wijzigingen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Alle rapporten builden",
+          "state": "failed",
+          "state_text": "Mislukt"
+         },
+         {
+          "label": "De run bewaren zodat hij hervat kan worden",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De foutmail versturen",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "Nakijken of elke feed recente data heeft",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "Wat de checks vonden in validatie",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T22:12:03.576526",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt",
+          "current": true
+         }
+        ],
+        "empty": "Er is nog geen run vastgelegd."
+       }
+      },
+      {
+       "type": "result",
+       "title": "Wat er gebeurd is",
+       "data": {
+        "summary": "De nachtelijke load is mislukt in validatie, zoals verwacht, bij de stap 'Alle rapporten builden'.",
+        "details": "run studio__1795299120_a02341: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success",
         "data": {
          "state": "failed"
         }
@@ -3079,99 +3104,99 @@
      ]
     },
     {
-     "t": 17.7,
+     "t": 14.79,
      "actions": [
       {
-       "label": "Starting the nightly load",
+       "label": "De nachtelijke load starten",
        "status": "done",
-       "summary": "The nightly load failed in validation, as expected: it stopped at 'Building all the reports'.",
-       "details": "run studio__1794813957_d863b7: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success"
+       "summary": "De nachtelijke load is mislukt in validatie, zoals verwacht, bij de stap 'Alle rapporten builden'.",
+       "details": "run studio__1795299120_a02341: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success"
       }
      ],
      "evidence": [
       {
        "type": "number",
-       "title": "Invalid orders that arrived",
+       "title": "Ongeldige bestellingen die binnenkwamen",
        "data": {
-        "value": 5,
-        "unit": "orders",
+        "value": 12,
+        "unit": "bestellingen",
         "compare": {
-         "label": "Invalid orders in the reports",
+         "label": "Ongeldige bestellingen in de rapporten",
          "value": 0
         }
        }
       },
       {
        "type": "tasks",
-       "title": "The nightly load in validation",
+       "title": "De nachtelijke load in validatie",
        "data": {
-        "title": "the nightly load",
+        "title": "de nachtelijke load",
         "run": {
          "state": "failed",
-         "state_text": "Failed",
-         "started": "2026-11-16T07:25:59.627713+00:00",
-         "finished": "2026-11-16T07:26:13.456157+00:00"
+         "state_text": "Mislukt",
+         "started": "2026-11-21T22:12:02.149207+00:00",
+         "finished": "2026-11-21T22:12:11.696743+00:00"
         },
         "tasks": [
          {
-          "label": "Checking for hand-made changes",
+          "label": "Nakijken op manuele wijzigingen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Building all the reports",
+          "label": "Alle rapporten builden",
           "state": "failed",
-          "state_text": "Failed"
+          "state_text": "Mislukt"
          },
          {
-          "label": "Saving the run so it can be resumed",
+          "label": "De run bewaren zodat hij hervat kan worden",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "De foutmail versturen",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Nakijken of elke feed recente data heeft",
           "state": "done",
-          "state_text": "Done"
+          "state_text": "Klaar"
          }
         ]
        }
       },
       {
        "type": "run_history",
-       "title": "What the checks found in validation",
+       "title": "Wat de checks vonden in validatie",
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:26:03.920787",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T22:12:03.576526",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
+          "summary": "25 van 30 tabellen gebuild, 1 bewust overgeslagen, 4 tabellen en 2 checks niet gerund, 1 check mislukt",
           "current": true
          }
         ],
-        "empty": "No run has been recorded yet."
+        "empty": "Er is nog geen run vastgelegd."
        }
       },
       {
        "type": "result",
-       "title": "What happened",
+       "title": "Wat er gebeurd is",
        "data": {
-        "summary": "The nightly load failed in validation, as expected: it stopped at 'Building all the reports'.",
-        "details": "run studio__1794813957_d863b7: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success",
+        "summary": "De nachtelijke load is mislukt in validatie, zoals verwacht, bij de stap 'Alle rapporten builden'.",
+        "details": "run studio__1795299120_a02341: failed; tasks: audit_environment_drift=success, dbt_build=failed, persist_artifacts_to_state=success, send_failure_report=success, dbt_source_freshness=success",
         "data": {
          "state": "failed"
         }
@@ -3180,16 +3205,16 @@
      ]
     }
    ],
-   "summary": "The nightly load failed in validation, as expected: it stopped at 'Building all the reports'.",
-   "outcome": "The same check that only warned in development stops the nightly load here: 1 step failed.",
+   "summary": "De nachtelijke load is mislukt in validatie, zoals verwacht, bij de stap 'Alle rapporten builden'.",
+   "outcome": "Dezelfde check die in development enkel waarschuwde, stopt hier de nachtelijke load: 1 stap mislukt.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:26:13+00:00",
+   "recorded_at": "2026-11-21T22:12:14+00:00",
    "durations": [
-    14.6,
     14.7,
-    15.0,
+    17.7,
+    14.8,
     14.7,
-    17.7
+    14.8
    ],
    "show": [
     "number",
@@ -3199,14 +3224,14 @@
    ]
   }
  },
- "recorded_at": "2026-11-16T07:26:13+00:00",
+ "recorded_at": "2026-11-21T22:12:14+00:00",
  "prepare": {
   "durations": [
-   15.3,
-   15.8,
-   16.0,
    15.5,
-   15.0
+   15.0,
+   15.2,
+   15.4,
+   15.5
   ]
  }
 }

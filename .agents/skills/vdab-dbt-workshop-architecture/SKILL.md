@@ -5,7 +5,7 @@ description: >-
   repo layout, the root Makefile entry point and the manager container (bootstrap, reset), the workshop-* containers and
   ports, the three environments dev/val/prd (Airflow, state volume, docs site, prefixed SingleStore databases, roles and
   service user each), Docker volumes, the base, dev and dbt-vdp images, image-based deploys, Airflow 3.4.0 patterns, the overview page, the
-  failure e-mail and Mailpit, the drift audit, the tests and the Rust toolkit workspaces. Use it when starting,
+  failure e-mail and Mailpit, the Vault stand-in, Airflow asset events, the drift audit, the tests and the Rust toolkit workspaces. Use it when starting,
   bootstrapping, resetting, debugging, testing or changing any part of the workshop stack.
 ---
 
@@ -38,7 +38,8 @@ dbt-workshop/
 ├── .claude/                   skills/ (links to .agents/skills, plus dbt-base-image itself), launch.json (dev server
 │                              `studio-frontend-mock`: Studio frontend on port 5199, `/?mock`)
 ├── dbt-singlestore-workshop/  the dbt project, Dockerfile, .gitlab-ci.yml, airflow/{dags,utils,tests}, .devcontainer/,
-│                              .pre-commit-config.yaml, dbt-bouncer.yml, vdp.toml, tests/setup_tests.sh
+│                              .pre-commit-config.yaml, dbt-bouncer.yml, vdp.toml, tests/setup_tests.sh,
+│                              scripts/docs_overview.sh (front page of the docs site, §6)
 │                              (pushed to GitLab as workshop/dbt-vdp)
 └── infrastructure/
     ├── compose/               docker-compose.yml (all services) + .env (GitLab OAuth credentials, written by bootstrap)
@@ -47,6 +48,7 @@ dbt-workshop/
     ├── gitlab/                gitlab.rb (Omnibus config of the upstream gitlab/gitlab-ce image)
     ├── singlestore/           init_global.sql, init_env.sql.tmpl
     ├── nginx/                 nginx.conf (docs sites)
+    ├── vault/                 entrypoint.sh, provision.sh, README.md: the dev-mode Vault and its provisioning (§3, §10)
     ├── overview/              the overview page: app.py, index.html, services.json (§3)
     ├── dbt-singlestore-base-image/   Fusion dbt + ADBC driver image (§5)
     ├── dbt-singlestore-dev-image/    developer image (§5); src/ has sqlfmt, dbt-bouncer and the Rust workspaces
@@ -81,7 +83,7 @@ waiting for its baseline: the studio starts with `up`, before the tables and the
 (a failure here is only a warning with the manual command).
 **Reset** (`reset_workshop.py`): drop and re-create the environment databases and `vdp_ci`, reset the GitLab repository
 to the baseline (which starts the first pipeline again), delete the Airflow runtime-override Variables
-(`disabled_dbt_models`, `dbt_daily_load_dbtignore`, `dbt_env_vars`).
+(`disabled_dbt_models`, `dbt_daily_load_dbtignore`, `dbt_env_vars`, `dbt_dataset_dependencies`, `dbt_emit_asset_events`).
 
 **Manager container** (`workshop-manager:latest`, service `manager`, profile `manager`): Python plus the Docker CLI and
 compose. The Makefile runs it with the repo mounted at its **host** path, because bootstrap issues `docker compose up` and
@@ -101,6 +103,7 @@ image, the manager, the overview, the studio, and the dbt images.
 | `workshop-airflow-dev` / `-val` / `-prd` | `8088` / `8089` / `8090` (`WORKSHOP_AIRFLOW_DEV_PORT`, `_VAL_`, `_PRD_`) | one per environment; env `DBT_DEPLOY_TARGET`, `WORKSHOP_STATE_VOLUME`, `SINGLESTORE_USER` |
 | `workshop-dbt-docs` | `8081` dev, `8082` val, `8086` prd | one nginx, one server block per environment (`infrastructure/nginx/nginx.conf`), reads `docs/` of each state volume |
 | `workshop-mailpit` | UI `8025` (`WORKSHOP_MAILPIT_PORT`) | SMTP `mailpit:1025`, no auth or TLS (§7) |
+| `workshop-vault` (`vault`) | `127.0.0.1:8200` (`WORKSHOP_VAULT_PORT`) | HashiCorp Vault 1.20.4 in dev mode (in memory, plain HTTP, `mem_limit 256m`), UI `/ui`. Holds the developers' SingleStore password in KV v2 mount `kv-workshop`: `vdp/<env>/dbt` (key `SINGLESTORE_PASS`, read by `vdp`) and `users/pu_dev1..3`; one read-only AppRole per developer. `infrastructure/vault/entrypoint.sh` provisions it on every start (dev mode forgets everything), healthy when done. Workshop credentials: root token `workshop-root-token`; AppRole `pu_devN`: role id `workshop-role-id-pu_devN`, secret id `workshop-secret-id-pu_devN`. Only developers who choose the vault way and the vault stage of the Studio flow `developers-toolbox` (`toolbox.run` with `auth: vault`) use it; the rest of the stack runs with it stopped (§10) |
 | `workshop-overview` | `127.0.0.1:8099` (`WORKSHOP_OVERVIEW_PORT`) | overview page (`infrastructure/overview/`): container state from the docker socket (read-only), health probes inside `workshop_net`, SingleStore users per environment and GitLab users read live, links to the web apps; each user's password is hidden until shown (per row or all at once) and can be copied, and is read from where the stack defines it (container environments, `infrastructure/singlestore/*.sql*`, `SHARED_USER_PWD` in `bootstrap_stack.py`, the last two mounted read-only); the service list is `services.json`, which mirrors the Airflow role mapping of `webserver_config.py` |
 | `workshop-state-init` | none | one-shot: creates `dags/utils`, `docs`, `mnt_dbt/target`, `mnt_dbt/artifacts` in the three state volumes; Airflow, docs and studio wait for it |
 | `workshop-studio` | `127.0.0.1:8085` (`WORKSHOP_STUDIO_PORT`) | scenarios and live demos (§0); drives GitLab, Airflow and SingleStore and starts dbt containers, so it has the docker socket and the GitLab and SingleStore root credentials: never expose it |
@@ -170,10 +173,13 @@ keeps the volumes; `docker compose down -v` (run in `infrastructure/compose`) de
   installed with apt: the `mysqlclient` wheel is built in a `python:3.14-slim-trixie` stage and copied in.
 
 ## 6. Deploys (`dbt-singlestore-workshop/.gitlab-ci.yml`)
-A tag builds `dbt-vdp:<tag>` (`build_image`); a deploy job then, for environment E: (1) copies `airflow/dags` and
-`airflow/utils` out of the image into `workshop_E` (`dags/`, `dags/utils/`, stale files deleted); (2) runs
-`dbt docs generate --target run --output-dir /state/docs` from the image as `svc_E_dbt`; (3) runs
-`docker exec workshop-airflow-E airflow variables set dbt_image_tag <tag>`. Airflow runs every dbt task as
+A tag builds `dbt-vdp:<tag>` (`build_image`); `publish_artifacts` (not fatal) stores the version's catalogue artifacts
+(`dbt compile --target collibra`) and documentation as generic package `dbt-artifacts` / `<tag>` in GitLab; a deploy job
+then, for environment E: (1) copies `airflow/dags` and `airflow/utils` out of the image into `workshop_E` (`dags/`,
+`dags/utils/`, stale files deleted); (2) writes the front page of the docs site (`scripts/docs_overview.sh`: version,
+environment, time, counts, teams; best effort) and runs `dbt docs generate --target run --output-dir /state/docs` from the
+image as `svc_E_dbt`; (3) runs `docker exec workshop-airflow-E airflow variables set dbt_image_tag <tag>`; (4) stores the
+environment's copy of the artifacts (generic package `dbt-artifacts-env` / `E`, with `deployed.json`; not fatal). Airflow runs every dbt task as
 `docker run --rm --network workshop_net` of `dbt-vdp:<Variable dbt_image_tag>` with only the `mnt_dbt` subpath of its
 state volume mounted (`airflow/utils/dbt_pod_utils.py`, `dbt_config.py`). If the Variable is unset the task fails with a
 message saying so. **Rollback** = set the Variable to an older tag (the DAG files stay those of the last deploy).
@@ -183,9 +189,23 @@ Release flow and job list (its §2 repeats this deploy): `.agents/skills/dbt-rel
 - DAGs: `dbt_daily_load` (plain schedule from `DBT_DAILY_LOAD_SCHEDULE`, default `@daily`, `none` = manual; trigger by
   hand with `docker exec workshop-airflow-<env> airflow dags trigger dbt_daily_load`), `dbt_release` (§8), `dbt_reload`
   (`.agents/skills/dbt-reload-pipeline/SKILL.md`), `dbt_housekeeping` (weekly, only created in dev:
-  `cleanup_user_models`, `drop_old_relations`).
+  `cleanup_user_models`, `drop_old_relations`), `dbt_on_demand` (no schedule, created paused; params `select` (default
+  `tag:on-demand`; never empty, and a selection that matches nothing fails), `exclude`, `full_refresh_models`; own target
+  and state folders `target_on_demand` and `artifacts/on_demand`; `dbt build ... --target run`, `dbt retry` for a cleared
+  task) and `report_refreshed_notice` (created paused; scheduled on the asset of
+  `<env>_im_dimensional.mart_olist_management_kpi`; one plain-text notice mail to Mailpit per run, a test notice when
+  started by hand).
 - `dbt_daily_load` tasks: `audit_environment_drift` (report only), `dbt_build`, `persist_artifacts_to_state`,
   `dbt_source_freshness` (informational, own target path), then `send_failure_report`.
+- **Assets** (`utils/dbt_asset_utils.py`; both Variables are off until set and are read when the DAG file is PARSED, about
+  every 30 s, not when a task starts). An asset URI is `s2://workshop-<env>/<database>/<object>`. `dbt_dataset_dependencies`
+  (JSON list of URIs): non-empty, `dbt_daily_load` has no clock schedule and starts when every listed asset has a new
+  event (the Studio reports the feeds' landing tables this way); empty or unset, `DBT_DAILY_LOAD_SCHEDULE` applies.
+  `dbt_emit_asset_events` (`true`): the tasks `extract_refreshed_tables` (models with status success in `run_results.json`,
+  minus models that failed a test of their own; skipped when the file is missing or older than the run) and
+  `emit_asset_events` (one event per table through the alias `dbt_refreshed_tables`, `extra` with status, counted rows,
+  build time and `dbt_image_tag`) run after `persist_artifacts_to_state`; without the Variable they do not exist.
+  `make reset` deletes both Variables.
 - Airflow imports come from `airflow.sdk`; `get_variable(key, default)` is in `utils/dbt_pod_utils.py`.
 - `utils/dbt_pod_utils.py` has an abstract `DbtTaskRunner` with two implementations, chosen by `DBT_RUNTIME`
   (`dbt_config.py`): `DockerTaskRunner` (default, this stack) and `OpenShiftTaskRunner` (a pod per task through
@@ -219,7 +239,7 @@ Release flow and job list (its §2 repeats this deploy): `.agents/skills/dbt-rel
   `dbt_daily_load` and `dbt_release`): one HTML mail per DAG run with the errors and warnings parsed from the task logs,
   `run_results.json` when it exists, and the log tail. The Airflow containers send it to `mailpit:1025`
   (`DBT_REPORT_SMTP_HOST`, `DBT_REPORT_SMTP_PORT`, `DBT_REPORT_MAIL_FROM=airflow-<env>@workshop.local`,
-  `DBT_FAILURE_EMAIL_RECIPIENTS`); read the mails at http://localhost:8025. The patterns target real dbt 2.0.11 output (fixtures in `airflow/tests/fixtures`); only the failed-MODEL line is still inferred from the failed-test line. Subject: `[development] Nightly load failed: 1 check failed, 6 steps not run` (the studio finds the mail by `Nightly load failed`).
+  `DBT_FAILURE_EMAIL_RECIPIENTS`); read the mails at http://localhost:8025. The patterns target real dbt 2.0.11 output (fixtures in `airflow/tests/fixtures`); only the failed-MODEL line is still inferred from the failed-test line. The mail is written in spoken Flemish (style guide: `.agents/skills/workshop-studio-scenarios/references/vlaams.md`); quoted dbt and Airflow text stays as it is. Subject: `[development] Nachtelijke load mislukt: 1 check mislukt, 6 stappen niet gerund` (the studio finds the mail by `Nachtelijke load mislukt`). The notice mail of `report_refreshed_notice` has the subject `[development] Het managementrapport is ververst` (a hand-started run sends `[development] Testverwittiging: manueel gestart`); the studio finds it by `Het managementrapport is ververst`.
 
 ## 8. `dbt_release`, drift audit
 - Task order: `audit_environment_drift` (gate) -> `pause_daily_load` -> `run_operation__database_maintenance` -> the steps
@@ -245,8 +265,11 @@ Release flow and job list (its §2 repeats this deploy): `.agents/skills/dbt-rel
 - **Users**: `svc_dev_dbt`, `svc_val_dbt`, `svc_prd_dbt` (CI deploy and Airflow, role `E_dbt` only), `svc_ci_dbt` (`ci_dbt`
   and `dev_reader`), developers `pu_dev1..3` (`dev_developer`, `val_reader`, `prd_reader`), admin `pu_admin` (the three
   `E_admin`).
-- **dbt naming**: profile targets `default` (developer), `ci`, `run`, `reload`. Database of `default`/`run`/`reload` is
-  `<DBT_DEPLOY_TARGET>_edw_dv_rdv`, of `ci` is `vdp_ci` (`profiles.yml`). `generate_database_name`
+- **dbt naming**: profile targets `default` (developer), `ci`, `run`, `reload`, `collibra`. Database of
+  `default`/`run`/`reload`/`collibra` is `<DBT_DEPLOY_TARGET>_edw_dv_rdv`, of `ci` is `vdp_ci` (`profiles.yml`). `collibra` is
+  only for `dbt compile --target collibra --target-path target/collibra` (the catalogue artifacts of `publish_artifacts`):
+  `generate_schema_name` returns the model's database and `generate_alias_name` the plain model name, so the catalogue lists
+  the real `<env>_edw_dv_bdv`.`<model>` without user or branch prefix. `generate_database_name`
   (`macros/core/generate_database_name.sql`): target `ci` always gives `vdp_ci`; otherwise a custom database `X` gives
   `<env>_X`, and no custom database gives `target.database`. Developer runs use the user name as schema, so
   `generate_alias_name` yields `<user>_<model>` inside the `dev_*` databases (never resolve a database through
@@ -261,13 +284,21 @@ Release flow and job list (its §2 repeats this deploy): `.agents/skills/dbt-rel
   whole parse; `profiles.yml` must not set `allow_cleartext_plugin` (refused without TLS).
 - dbt project: `import_dependencies` and `star` (`macros/utils/`) are used in `stg_olist_customers` and
   `mart_olist_management_kpi`.
+- **Guards in the macros** (documented in `macros/core/core.yml` and `macros/utils/utils.yml`): `should_execute()` (real
+  build, run, run-operation or snapshot, not `--empty`) wraps every hook that writes; `should_log_results()` (the same, plus
+  a real `test` or `seed`) decides whether the on-run-end hook writes the run logbook; `should_full_refresh()` overrides
+  dbt's built-in: `--vars '{full_refresh_models: [...]}'` refreshes exactly the listed models, and
+  `meta.full_refresh_only_when_listed` protects a table from a bare `--full-refresh`. The model `dummy_load_cycles` is the
+  loading history that `open_load_cycle` / `close_load_cycle` fill around `dummy_reload_pit_with_deps`. The report
+  `mart_olist_customer_cohorts` (`models/im_dimensional/on_demand/`, tag `on-demand`) is left out of the nightly load and
+  is built by `dbt_on_demand` (§7).
 
 ## 10. Developer side
 `dbt-singlestore-workshop/.devcontainer/` (image `dbt-singlestore-dev:1.11.11`, `--network=workshop_net`; its
-`initializeCommand` runs `make up` on the host). `post_create.sh` asks for a `pu_dev*` account and its password and writes
+`initializeCommand` runs `make up` on the host). `post_create.sh` asks for a `pu_dev*` account and either its password or the vault way (below) and writes
 `.devcontainer/.env` (gitignored; template `.env.example`), runs `dbt deps` and `pre-commit install`.
 `.pre-commit-config.yaml` runs `sqlfmt`, `dbt parse` and `dbt-bouncer` (`dbt-bouncer.yml`). `vdp.toml` defines the
-environments dev, val and prd for `vdp` (no Vault, no CA certificate; they are aliases of vdp's built-in LDV, ABT and
+environments dev, val and prd for `vdp` (Vault at `http://vault:8200` and no CA certificate; they are aliases of vdp's built-in LDV, ABT and
 PRD, so `{env}` renders `ldv`/`abt`/`prd` and `{env_short}` renders `dev`/`val`/`prd`, and `[qa] run_results_table =
 "{env_short}_vdp_mgmt.dbt_run_results"` points the qa commands at the run log of §9), the `dev_` databases its source commands
 work on, and `[sources.database_prefix]`: `vdp` writes `{{ env_var('DBT_DEPLOY_TARGET', 'dev') }}_<name>` instead of
@@ -280,8 +311,11 @@ table, or `--missing` for every undefined source), `sources rewrite` (it also de
 nothing references), `sql run`, `sql export`, `qa orphan-tables`, `qa view-candidates`. In the devcontainer `dbt` is
 `vdp`, which lets `.devcontainer/.env` override the process environment.
 
+**Password source** (`[secrets].precedence = ["vault:vdp/{env_short}/dbt", "dotenv", "env"]`, mount `kv-workshop`): Vault wins, but only when `KEYVAULT_ROLE_ID` and `KEYVAULT_SECRET_ID` are set (`.devcontainer/.env` or the process environment); without them Vault is skipped quietly, so a `.env` with `SINGLESTORE_PASS` and every CI, Airflow and Studio run behave as before and a stopped vault changes nothing. `post_create.sh` offers the vault way (default: no); `.env` then holds host, user, `DBT_DEPLOY_TARGET` and the two ids. `vdp` reads one path per environment and has no user placeholder, so the shared path holds the password all `pu_dev*` accounts have; personal records `users/pu_dev*` are for a future `{user}` placeholder. Check with `vdp env show` (shows the layer, never the value). See `infrastructure/vault/README.md`.
+
+
 ## 11. Tests and experiments
-- `make test` (host `pytest` for `airflow/tests`: `test_runtime_overrides.py`, `test_failure_report.py`, `test_pod_utils.py`, `test_release_steps.py`; compose config check).
+- `make test` (host `pytest` for `airflow/tests`: `test_runtime_overrides.py`, `test_failure_report.py`, `test_pod_utils.py`, `test_release_steps.py`, `test_asset_utils.py`, `test_dag_wiring.py`; compose config check).
 - SQL or dbt experiments go to a throwaway SingleStore, never the workshop stack or the personal container:
   ```bash
   docker run -d --name ms_s2 -p 127.0.0.1:33306:3306 -e ROOT_PASSWORD=<pick one> ghcr.io/singlestore-labs/singlestoredb-dev:0.2.90

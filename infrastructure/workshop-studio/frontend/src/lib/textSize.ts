@@ -3,15 +3,16 @@ import { useCallback, useEffect, useState } from 'react'
 /** The text sizes the presenter can choose from, smallest first. `scale` multiplies the page's base size, which
  *  itself grows with the width of the window (see `html` in base.css). */
 export const TEXT_SIZES = [
-  { id: 'xsmall', label: 'Extra small', scale: 0.65 },
-  { id: 'small', label: 'Small', scale: 0.75 },
-  { id: 'medium', label: 'Medium', scale: 0.85 },
-  { id: 'large', label: 'Large', scale: 1 },
-  { id: 'xlarge', label: 'Extra large', scale: 1.15 },
+  { id: 'xsmall', label: 'Extra klein', scale: 0.45 },
+  { id: 'small', label: 'Klein', scale: 0.55 },
+  { id: 'medium', label: 'Normaal', scale: 0.65 },
+  { id: 'large', label: 'Groot', scale: 0.75 },
+  { id: 'xlarge', label: 'Extra groot', scale: 0.85 },
 ] as const
 export type TextSizeId = (typeof TEXT_SIZES)[number]['id']
 export const DEFAULT_TEXT_SIZE: TextSizeId = 'medium'
-const KEY = 'studio-text-size'
+/** A new key on purpose: the sizes of the old table (0.65 to 1.15) must not carry over into this one (0.45 to 0.85). */
+const KEY = 'studio-text-size-v2'
 
 function stored(): TextSizeId {
   try {

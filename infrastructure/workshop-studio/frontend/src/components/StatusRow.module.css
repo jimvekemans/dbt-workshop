@@ -4,7 +4,7 @@
 .lines { display: grid; gap: 0; }
 .line { display: inline-flex; align-items: center; gap: var(--space-2); font-weight: 600; color: var(--ink); }
 .warn { color: var(--warn); }
-.toggle { display: inline-flex; align-items: center; gap: var(--space-1); min-height: 2.75rem; padding: 0 var(--space-2); border: 0; background: transparent; color: var(--accent-text); font-weight: 600; border-radius: var(--radius-md); }
+.toggle { display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--tap); padding: 0 var(--space-2); border: 0; background: transparent; color: var(--accent-text); font-weight: 600; border-radius: var(--radius-md); }
 .chev { transition: transform var(--dur-med) var(--ease-out); transform: rotate(-90deg); }
 .chevOpen { transform: none; }
 .mode { color: var(--ink-2); }

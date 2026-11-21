@@ -1,116 +1,120 @@
 id: rebuild-without-downtime
 group: daily
-title: Rebuilding a big table while people keep reading it
-promise: A big table is rebuilt next to the old one and swapped in at once, so readers never see an empty table.
+title: Een grote tabel herbouwen terwijl mensen ze blijven lezen
+promise: "Een grote tabel wordt naast de oude opgebouwd en in één keer ingewisseld: lezers zien nooit een lege tabel."
 minutes: 4
+feature: "Een grote tabel herbouwen zonder downtime"
+status: next
+why: "Tijdens de herbouw van een grote tabel zien lezers een lege of half gevulde tabel en beslissen ze misschien op basis van een fout totaal."
+tech: ["dbt_reload", "meta.reload_strategy", "blue/green", "reload_helpers.sql"]
 environment: dev
 related: []
 
 problem:
-  headline: During the rebuild, finance sees an empty table, then a half-filled one
+  headline: Tijdens de herbouw ziet de boekhouding een lege tabel, dan een half gevulde
   story: |
-    The invoice table holds 100,000 rows and must be rebuilt after a correction. The usual way is to empty it and
-    fill it again, and that takes ninety minutes. During those ninety minutes finance opens the report and sees 0
-    rows, then 33,000, then 66,000. Someone sends a half-filled total to the bank. The correct number appears only
-    when the rebuild is finished.
-  cost: For 90 minutes finance sees totals between 0 and two thirds of the truth, and a payment may already have gone out on a wrong figure.
+    De factuurtabel telt 100.000 rijen en moet na een correctie herbouwd worden. De gewone manier is ze leegmaken en
+    opnieuw vullen, en dat duurt negentig minuten. In die negentig minuten opent de boekhouding het rapport en ziet
+    eerst 0 rijen, dan 33.000, dan 66.000. Iemand stuurt een half gevuld totaal naar de bank. Het juiste getal
+    verschijnt pas als de herbouw klaar is.
+  cost: 90 minuten lang ziet de boekhouding totalen tussen 0 en twee derde van de waarheid, en misschien vertrekt er al een betaling op basis van een fout cijfer.
   visual:
     type: timeline
     days:
-      - {label: "09:00", state: ok, note: "100,000 rows"}
-      - {label: "09:01", state: bad, note: "Emptied: 0 rows"}
-      - {label: "09:30", state: bad, note: "Filling: 33,000 rows"}
-      - {label: "10:00", state: bad, note: "Filling: 66,000 rows"}
-      - {label: "10:30", state: ok, note: "Full again: 100,000 rows"}
-    marker: {after: 0, label: The rebuild starts}
-    caption: For ninety minutes nobody can trust the rows they see.
+      - {label: "09:00", state: ok, note: "100.000 rijen"}
+      - {label: "09:01", state: bad, note: "Leeggemaakt: 0 rijen"}
+      - {label: "09:30", state: bad, note: "Aan het vullen: 33.000 rijen"}
+      - {label: "10:00", state: bad, note: "Aan het vullen: 66.000 rijen"}
+      - {label: "10:30", state: ok, note: "Weer vol: 100.000 rijen"}
+    marker: {after: 0, label: De herbouw start}
+    caption: Negentig minuten lang kan niemand de rijen vertrouwen die hij ziet.
 
 idea:
-  headline: Fill a new copy beside the old table, then swap it in
+  headline: Een nieuwe kopie wordt naast de oude tabel gevuld en daarna ingewisseld
   points:
-    - The old table stays untouched and readable the whole time.
-    - The new copy is filled part by part, so a failed part can be repeated alone in smaller pieces.
-    - The new copy is checked first, and only then swapped for the old table, so readers notice nothing.
+    - De oude tabel blijft de hele tijd onaangeroerd en leesbaar.
+    - De nieuwe kopie wordt deel per deel gevuld, zodat een mislukt deel apart en in kleinere stukken opnieuw kan.
+    - De nieuwe kopie wordt eerst gecheckt en pas daarna ingewisseld voor de oude tabel, dus lezers merken niets.
   visual:
     type: flow
     nodes:
-      - {id: old, label: The old table, state: ok, note: "Finance keeps reading it"}
-      - {id: new, label: The new copy, state: ok, note: "Filled part by part"}
-      - {id: check, label: Checks, state: ok, note: "Run before the swap"}
-      - {id: swap, label: The swap, state: fix, note: "The new copy takes the old name"}
+      - {id: old, label: De oude tabel, state: ok, note: "De boekhouding blijft ze lezen"}
+      - {id: new, label: De nieuwe kopie, state: ok, note: "Deel per deel gevuld"}
+      - {id: check, label: Checks, state: ok, note: "Draaien vóór het inwisselen"}
+      - {id: swap, label: Het inwisselen, state: fix, note: "De nieuwe kopie krijgt de oude naam"}
     links: [[old, new], [new, check], [check, swap]]
-    caption: Until the swap, everything readers see is the old, complete table.
+    caption: Tot het inwisselen is alles wat lezers zien de oude, volledige tabel.
 
 code:
-  - title: Each big table says how it can be cut into parts
+  - title: Elke grote tabel zegt hoe ze in delen gesneden kan worden
     file: models/edw_dv_bdv/dummy_reload_hkey_mod.sql
-    file_label: The recipe for the practice table
+    file_label: Het recept van de oefentabel
     from: "config("
     to: "    )"
     max_lines: 6
     notes:
       - line: "unique_key"
-        says: Every row has its own key, and the parts are cut on that key.
+        says: Elke rij heeft een eigen sleutel en de delen worden op die sleutel gesneden.
       - line: "reload_strategy"
-        says: The table says it can be cut into equal parts, loaded one by one.
-  - title: The swap is the only moment readers are affected
+        says: De tabel zegt dat ze in gelijke delen gesneden kan worden, die één voor één geladen worden.
+  - title: Het inwisselen is het enige moment waarop lezers iets merken
     file: macros/utils/reload_helpers.sql
-    file_label: Helpers for rebuilding a table
+    file_label: Hulpfuncties om een tabel te herbouwen
     from: "{% if names.orig_identifier in types %}"
     to: "{% do run_query(\"alter table \" ~ names.new ~ \" rename to \" ~ names.orig) %}"
     max_lines: 12
     notes:
       - line: "rename to \" ~ names.backup"
-        says: The old table is renamed and kept as a backup until the swap works.
+        says: De oude tabel wordt hernoemd en blijft als back-up bewaard tot het inwisselen gelukt is.
       - line: "~ names.new ~ \" rename to \" ~ names.orig"
-        says: The new copy takes over the old name.
-  - title: The new copy is checked before the swap
+        says: De nieuwe kopie neemt de oude naam over.
+  - title: De nieuwe kopie wordt gecheckt vóór het inwisselen
     file: airflow/dags/dbt_reload.py
-    file_label: The list of steps of the rebuild
+    file_label: De lijst met stappen van de herbouw
     from: '@dbt_task(task_id="test_green_table"'
     to: 'return build_reload_swap_command(_conf(context, "model_name"))'
     max_lines: 12
     notes:
       - line: "def test_green_table"
-        says: The new copy is checked before anyone is pointed at it.
+        says: De nieuwe kopie wordt gecheckt voor iemand ernaar verwezen wordt.
       - line: "def atomic_swap"
-        says: Only after the checks pass does the swap happen.
+        says: Pas als de checks slagen, gebeurt het inwisselen.
 
 demo:
-  intro: We rebuild a big practice table that stands in for the invoice table. You choose into how many parts the rebuild is cut.
+  intro: We herbouwen een grote oefentabel die voor de factuurtabel in de plaats staat. Jij kiest in hoeveel delen de herbouw gesneden wordt.
   setup: []
   steps:
     - id: before
-      title: The table everyone reads
-      say: This is the table finance reads. The number on the card is what people can read right now.
-      button: Show the table
+      title: De tabel die iedereen leest
+      say: Dit is de tabel die de boekhouding leest. Het getal op de kaart is wat mensen nu kunnen lezen.
+      button: De tabel tonen
       inputs: []
       do:
-        - {action: wait, seconds: 1, because: "Let the audience read the starting number"}
+        - {action: wait, seconds: 1, because: "Laat het publiek het startgetal lezen"}
       show:
         - type: number
-          title: Rows people can read
+          title: Rijen die mensen kunnen lezen
           query: "select count(*) from {{ db('edw_dv_bdv') }}.dummy_reload_hkey_mod"
-          unit: rows
+          unit: rijen
       outcome:
         check: "select count(*) from {{ db('edw_dv_bdv') }}.dummy_reload_hkey_mod"
         good_when: positive
-        good: People can read {{ value }} rows. This is the number that must never look empty or half full.
-        not_quite: The table is empty before the rebuild even starts, so the demo cannot show anything.
+        good: Mensen kunnen {{ value }} rijen lezen. Dit is het getal dat nooit leeg of half vol mag lijken.
+        not_quite: De tabel is leeg nog voor de herbouw begint, dus de demo kan niets tonen.
     - id: rebuild
-      title: Rebuild it in parts
-      say: "Choose the number of parts. Watch the first number: it must not change."
-      button: Rebuild the table
+      title: De tabel in delen herbouwen
+      say: "Kies het aantal delen. Kijk naar het eerste getal: dat mag niet veranderen."
+      button: De tabel herbouwen
       inputs:
         - id: slices
           type: number
-          label: Cut the rebuild into how many parts?
+          label: In hoeveel delen snijden we de herbouw?
           default: 4
           min: 2
           max: 8
           step: 1
-          unit: parts
-          help: "A part is a slice of the rows that is loaded separately. 4 is a good start; more parts means smaller steps and a slightly slower rebuild."
+          unit: delen
+          help: "Een deel is een schijf van de rijen die apart geladen wordt. 4 is een goed begin; meer delen betekent kleinere stappen en een iets tragere herbouw."
       do:
         - action: airflow.run_dag
           dag: dbt_reload
@@ -120,16 +124,16 @@ demo:
       show:
         - type: number
           before_of: before
-          title: Rows people can read
+          title: Rijen die mensen kunnen lezen
           query: "select count(*) from {{ db('edw_dv_bdv') }}.dummy_reload_hkey_mod"
-          unit: rows
+          unit: rijen
           compare_to:
             query: "select count(*) from {{ db('edw_dv_bdv') }}.__new_dummy_reload_hkey_mod"
-            label: Rows in the new copy
-          caption: "The first number is what readers see: it should not change. The second is the new copy being built: it grows while the parts are loaded, then drops to 0 once it has taken over."
-        - {type: tasks, dag: dbt_reload, title: The rebuild, caption: "One 'Loading one part' step is Done for each part you chose. 'Removing the unfinished copy' and 'Sending the failure mail' are not needed, because nothing went wrong."}
+            label: Rijen in de nieuwe kopie
+          caption: "Het eerste getal is wat lezers zien: dat mag niet veranderen. Het tweede is de nieuwe kopie die opgebouwd wordt: ze groeit terwijl de delen geladen worden en zakt naar 0 zodra ze de plaats heeft ingenomen."
+        - {type: tasks, dag: dbt_reload, title: De herbouw, caption: 'Voor elk deel dat je koos, staat één stap "Eén deel van de nieuwe kopie laden" op Klaar. "De onafgewerkte kopie verwijderen" en "De foutmail versturen" zijn niet nodig, want er liep niets mis.'}
       outcome:
         check: "select abs(count(*) - 100000) from {{ db('edw_dv_bdv') }}.dummy_reload_hkey_mod"
         good_when: zero
-        good: "The new copy was loaded in {{ inputs.slices }} parts and swapped in. Readers still see the same number of rows."
-        not_quite: "After the swap the table is off by {{ value }} rows from 100,000."
+        good: "De nieuwe kopie werd in {{ inputs.slices }} delen geladen en ingewisseld. Lezers zien nog altijd evenveel rijen."
+        not_quite: "Na het inwisselen wijkt de tabel {{ value }} rijen af van 100.000."

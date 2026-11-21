@@ -1,0 +1,10 @@
+.toggle { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--tap); padding: 0 var(--space-2); border-radius: var(--radius-md); border: 1.5px solid transparent; background: transparent; color: var(--ink-2); font: inherit; font-size: var(--text-sm); font-weight: 600; white-space: nowrap; cursor: pointer; }
+@media (hover: hover) and (pointer: fine) { .toggle:hover { background: var(--bg-sunk); color: var(--ink); } }
+.track { position: relative; width: 2rem; height: 1.1rem; border-radius: 999px; background: var(--line-strong); transition: background-color var(--dur-fast) var(--ease-out); flex: none; }
+.thumb { position: absolute; top: 0.15rem; left: 0.15rem; width: 0.8rem; height: 0.8rem; border-radius: 50%; background: var(--surface); transition: transform var(--dur-fast) var(--ease-out); }
+.toggle[aria-checked='true'] .track { background: var(--accent); }
+.toggle[aria-checked='true'] .thumb { transform: translateX(0.9rem); }
+.short { display: none; }
+@media (max-width: 1299px) { .long { display: none; } .short { display: inline; } }
+/* a narrow top bar has no room for it; a phone is not what the app is presented on */
+@media (max-width: 720px) { .toggle { display: none; } }

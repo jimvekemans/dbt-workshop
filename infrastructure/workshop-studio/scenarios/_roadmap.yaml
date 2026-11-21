@@ -1,0 +1,20 @@
+title: Waar we staan en wat nog komt
+intro: "Alles wat je zag, werkt in dit oefensysteem. Deze pagina sorteert het in wat het platform vandaag al heeft en wat een volgende stap is, iets wat het platform nog niet heeft."
+closing: "Bij elke volgende stap staat wat er misloopt zonder. De meeste draaiden al in dit oefensysteem, dus wat nog komt is gekend werk en geen verzinsel."
+extras:
+  - area: De tools eronder
+    feature: De volgende generatie van de rapportbouwer
+    status: next
+    note: Elke demo draaide erop. Wat als vandaag al in gebruik aangeduid is, werkt al op de huidige generatie van het platform.
+  - area: De tools eronder
+    feature: De hulptool van de developer, herbouwd
+    status: next
+    note: Het platform heeft de guard, de vault-login en de feed-commando's vandaag in een oudere tool. De herbouwde die je zag, vervangt die.
+  - area: Releasen
+    feature: Oude tabellen enkel bij een release verwijderen
+    status: next
+    note: Vandaag kunnen oude tabellen ook verwijderd worden terwijl een package gebuild wordt. Dat zou een bewuste stap van een release moeten zijn.
+  - area: Releasen
+    feature: Eén scherm om een release voor te bereiden
+    status: next
+    note: Eén scherm om een release samen te stellen en na te kijken voor er iets verandert. Het bestaat, maar zit nog niet in dit oefensysteem.

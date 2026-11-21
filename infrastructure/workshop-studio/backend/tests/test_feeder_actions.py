@@ -29,7 +29,7 @@ def test_condition_and_cleaner(ctx):
     spec = base.ACTIONS["feed.condition"]
     params = spec.params(feed="carrier", set={"format_from": "2026-06-10"})
     result = spec.run(ctx, params)
-    assert result.touched == {"feed:dev:carrier"} and "2026-06-10" in result.summary
+    assert result.touched == {"feed:dev:carrier"} and "10 juni" in result.summary
     assert ctx.feeder.status()["conditions"]["dev"]["carrier"] == {"format_from": "2026-06-10"}
     base.CLEANERS["feed"](ctx, "feed:dev:carrier")
     base.CLEANERS["feed"](ctx, "feed:dev:carrier")          # idempotent
@@ -51,7 +51,7 @@ def test_deliver_and_landing_cleaner(ctx):
     spec = base.ACTIONS["feed.deliver"]
     result = spec.run(ctx, spec.params(days=3, feeds=["carrier"]))
     assert result.touched == {"landing:dev"}
-    assert result.summary.startswith("Sent the last 3 days of parcel scans again in development with the current settings (0 rows")
+    assert result.summary.startswith("Pakketscans van de laatste 3 dagen opnieuw verstuurd naar development met de huidige instellingen (0 rijen")
     assert ctx.feeder.today("dev") == NOW.date()
     newest = ctx.feeder.status()["newest"]["dev"]["carrier"]
     assert newest < (NOW - timedelta(days=2)).replace(hour=0, minute=0, second=0).isoformat()

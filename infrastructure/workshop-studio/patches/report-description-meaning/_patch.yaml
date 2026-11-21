@@ -1,4 +1,4 @@
-title: "Say in the description of the management report which month an order is counted in"
+title: "In de beschrijving van het managementrapport zeggen in welke maand een bestelling meetelt"
 message: 'docs: the management report counts an order in the month it was placed'
 ops:
   - path: models/im_dimensional/olist_management.yml

@@ -17,6 +17,24 @@ models:
           - not_null
       - name: pipeline_name
 
+  - name: dummy_load_cycles
+    description: "Loading history of dummy_reload_pit_with_deps: one row per load cycle (opened by a pre-hook, closed by a post-hook). A bare --full-refresh leaves it alone; it is only rebuilt when it is named in full_refresh_models."
+    columns:
+      - name: load_cycle_id
+        description: "Sequence number of the load cycle per object."
+      - name: object_name
+        description: "The loaded object (identifier of the model)."
+        data_tests:
+          - not_null
+      - name: invocation_id
+        description: "The dbt invocation that opened the cycle."
+      - name: load_start_date
+        description: "Start of the load cycle."
+      - name: load_end_date
+        description: "End of the load cycle, empty as long as the cycle was not closed successfully."
+      - name: success_flag
+        description: "0 = open, 1 = closed successfully."
+
   - name: dummy_reload_date_window
     description: "Dummy incremental model voor het valideren van sliding date windows en datum-halvering bij OOM retry."
     data_tests:
@@ -50,6 +68,11 @@ models:
 
   - name: dummy_reload_pit_with_deps
     description: "Dummy PIT incremental model voor het valideren van generate_alias_name ref() isolatie en {{ this }} batching."
+    # Loading history: every build opens a load cycle in dummy_load_cycles and closes it when the model is built. Both
+    # macros are guarded by should_execute(), so --empty and other dry commands write nothing.
+    config:
+      pre_hook: "{{ open_load_cycle(ref('dummy_load_cycles'), this.identifier) }}"
+      post_hook: "{{ close_load_cycle(ref('dummy_load_cycles'), this.identifier) }}"
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:

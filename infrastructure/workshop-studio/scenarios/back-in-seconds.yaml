@@ -1,111 +1,115 @@
 id: back-in-seconds
 group: releases
-title: A bad version is undone in seconds
-promise: Going back to yesterday's version is changing one number, not repairing anything.
+title: Een foute versie draai je in seconden terug
+promise: "Terug naar de versie van gisteren: je wijzigt één nummer, je herstelt niets."
 minutes: 3
+feature: "Teruggaan door één nummer te wijzigen"
+status: next
+why: "Een foute versie blijft live terwijl developers onder druk de code herstellen, en sales werkt uren met foute totalen."
+tech: ["image tag rollback", "dbt_image_tag"]
 environment: dev
 related:
   - id: numbered-versions
-    why: Numbered versions are explained there. Here a second version is prepared so there is something to go back to.
+    why: Daar worden genummerde versies uitgelegd. Hier komt er een tweede versie bij, zodat er iets is om naar terug te gaan.
 
 problem:
-  headline: A bad version live at 8:00 means wrong totals until 14:00
+  headline: Een foute versie die om 8:00 live gaat, geeft foute totalen tot 14:00
   story: |
-    A new version goes live at 8:00. At 9:00 the sales team sees wrong totals. The developers cannot simply put
-    yesterday's state back, because nobody has it in one piece. They repair the new code under pressure, and the
-    wrong totals stay on screen until the afternoon.
-  cost: Sales works with wrong figures for 6 hours, and the rushed repair risks new mistakes.
+    Om 8:00 gaat een nieuwe [[versie]] live. Om 9:00 ziet het salesteam foute totalen. De developers kunnen de
+    toestand van gisteren niet zomaar terugzetten, want die bestaat nergens als één geheel. Ze herstellen de nieuwe code
+    onder druk, en de foute totalen blijven tot in de namiddag op het scherm.
+  cost: Sales werkt 6 uur met foute cijfers, en een haastige reparatie kan nieuwe fouten veroorzaken.
   visual:
     type: timeline
     days:
-      - {label: "08:00", state: ok, note: "New version goes live"}
-      - {label: "09:00", state: bad, note: "Sales sees wrong totals"}
-      - {label: "10:30", state: bad, note: "Developers search the cause"}
-      - {label: "12:30", state: warn, note: "A rushed repair goes live"}
-      - {label: "14:00", state: ok, note: "Totals right again after 6 hours"}
-    marker: {after: 1, label: "The problem is noticed"}
-    caption: Six hours of wrong totals for a problem that one setting could have undone in seconds.
+      - {label: "08:00", state: ok, note: "Nieuwe versie gaat live"}
+      - {label: "09:00", state: bad, note: "Sales ziet foute totalen"}
+      - {label: "10:30", state: bad, note: "Developers zoeken de oorzaak"}
+      - {label: "12:30", state: warn, note: "Een haastige reparatie gaat live"}
+      - {label: "14:00", state: ok, note: "Totalen weer correct na 6 uur"}
+    marker: {after: 1, label: "Het probleem wordt opgemerkt"}
+    caption: Zes uur foute totalen, voor iets wat één instelling in seconden had kunnen terugdraaien.
 
 idea:
-  headline: Going back means telling the environment to run the previous number
+  headline: Teruggaan komt neer op de omgeving het vorige nummer laten draaien
   points:
-    - Every version is kept as a sealed package, so yesterday's version still exists exactly as it was.
-    - "Going back is changing one setting: the number the environment must run."
-    - The cause can then be found without pressure, and the repaired version goes live again as a new number.
+    - Elke versie wordt bewaard als verzegeld package, dus de versie van gisteren bestaat nog precies zoals ze was.
+    - "Teruggaan is één [[instelling]] wijzigen: het nummer dat de omgeving moet draaien."
+    - Daarna zoek je de oorzaak zonder tijdsdruk, en de herstelde versie gaat opnieuw live onder een nieuw nummer.
   visual:
     type: flow
     nodes:
-      - {id: setting, label: One setting, state: fix, note: "Names the version to run"}
-      - {id: newest, label: Newest version, state: bad, note: "Not used after going back"}
-      - {id: previous, label: Previous version, state: ok, note: "Kept exactly as it was"}
-      - {id: env, label: The environment, state: ok, note: "Runs whatever the setting says"}
+      - {id: setting, label: Eén instelling, state: fix, note: "Bepaalt welke versie draait"}
+      - {id: newest, label: Nieuwste versie, state: bad, note: "Niet gebruikt na het teruggaan"}
+      - {id: previous, label: Vorige versie, state: ok, note: "Bewaard precies zoals ze was"}
+      - {id: env, label: De omgeving, state: ok, note: "Draait wat de instelling zegt"}
     links: [[setting, newest], [setting, previous], [newest, env], [previous, env]]
-    caption: First make it right again. Then find out what went wrong.
+    caption: Eerst weer in orde brengen. Dan uitzoeken wat er misliep.
 
 code:
-  - title: The environment runs whichever number it is told
+  - title: De omgeving draait het nummer dat ze krijgt
     file: airflow/utils/dbt_pod_utils.py
-    file_label: How each environment picks its version
+    file_label: Hoe elke omgeving haar versie kiest
     from: "def resolve_image() -> str:"
     to: 'return f"{DBT_IMAGE_REPOSITORY}:{tag}"'
     max_lines: 12
     notes:
       - line: "tag = str(get_variable"
-        says: The number is read from one setting each time a job starts.
+        says: Bij elke start van een job wordt het nummer uit één instelling gelezen.
       - line: "if not tag:"
-        says: With no number set, nothing runs. There is never a guess.
+        says: Is er geen nummer ingesteld, dan draait er niets. Er wordt nooit geraden.
       - line: 'return f"{DBT_IMAGE_REPOSITORY}:{tag}"'
-        says: The sealed package with that number is the one used. Old ones are still there.
-  - title: Putting a version live is writing that same number
+        says: Het verzegelde package met dat nummer wordt gebruikt. De oudere staan er nog.
+  - title: Een versie live zetten is datzelfde nummer wegschrijven
     file: .gitlab-ci.yml
-    file_label: The instructions for putting a version live
-    from: "docker run --rm -u root --network workshop_net"
+    file_label: De instructies om een versie live te zetten
+    from: 'docker run --rm -u root --network workshop_net -v "workshop_${DEPLOY_ENV}:/state"'
     to: "airflow variables set dbt_image_tag"
     max_lines: 8
     notes:
       - line: "dbt docs generate --target run"
-        says: The documentation of that exact version is written first, as part of going live.
+        says: Eerst wordt de documentatie van exact die versie geschreven, als deel van het live zetten.
       - line: "airflow variables set dbt_image_tag"
-        says: One line puts a version live; an older number brings it back.
+        says: Eén regel zet een versie live, en met een ouder nummer gaat ze terug.
 
 demo:
   intro: >-
-    Development has two versions to switch between. We read the number, go back one version and go forward again.
+    Development heeft twee versies om tussen te wisselen. Eerst lezen we het nummer af, dan gaan we één versie terug en daarna weer vooruit.
   setup:
     - {action: gitlab.branch, name: demo/second-version, from: dev}
     - {action: gitlab.commit, branch: demo/second-version, patch: clearer-kpi-description}
-    - {action: gitlab.merge_request, source: demo/second-version, target: dev, title: "Clearer description of the management report"}
+    - {action: gitlab.merge_request, source: demo/second-version, target: dev, title: "Duidelijkere beschrijving van het managementrapport"}
     - {action: gitlab.merge, source: demo/second-version}
     - {action: gitlab.wait_pipeline, for: "tag:^v", expect: success, timeout: 900}
   steps:
     - id: before
-      title: What development runs now
-      say: Development runs the newest version, v1.0.1, and is suspected of breaking the totals.
-      button: Show the version
+      title: Wat development nu draait
+      say: Development draait de nieuwste versie, v1.0.1, en die verdenken we ervan de totalen te verknoeien.
+      button: De versie tonen
       inputs: []
       do:
-        - {action: wait, seconds: 1, because: "Reading the numbers"}
+        - {action: wait, seconds: 1, because: "De nummers aflezen"}
       show:
-        - {type: versions, title: "Version in each environment", caption: "Look at the Development row: it shows v1.0.1."}
-      outcome: Development runs v1.0.1, the newest version.
+        - {type: versions, title: "Versie in elke omgeving", caption: "Kijk naar development: daar staat v1.0.1."}
+      outcome: Development draait v1.0.1, de nieuwste versie.
     - id: back
-      title: Go back to the previous version
-      say: "One setting changes: watch the number."
-      button: Go back
+      title: Teruggaan naar de vorige versie
+      say: "Eén instelling verandert: let op het nummer."
+      button: Teruggaan
       inputs: []
       do:
         - {action: deploy.set_version, tag: previous}
       show:
-        - {type: versions, before_of: before, title: "Version in each environment", caption: "Look at the Development row: it is the only one that changes."}
-        - {type: result, title: "What happened", caption: "Only the number that development is told to run was changed. It is the same sealed package v1.0.0: nothing was rebuilt."}
-      outcome: Development runs v1.0.0 again. Only the version number was changed.
+        - {type: versions, before_of: before, title: "Versie in elke omgeving", caption: "Kijk naar development: dat is de enige omgeving die wijzigt."}
+        - {type: result, title: "Wat er gebeurd is", caption: "Enkel het nummer dat development moet draaien werd gewijzigd. Het is hetzelfde verzegelde package v1.0.0: er werd niets opnieuw gebuild."}
+      outcome: Development draait weer v1.0.0. Enkel het versienummer werd gewijzigd.
     - id: forward
-      title: Go forward again
-      say: "Pretend the cause has been fixed: the same kind of step puts the newest version live again. Nothing was repaired in this demo."
-      button: Go forward
+      title: Weer vooruitgaan
+      say: "Stel dat de oorzaak opgelost is: met dezelfde soort stap zet je de nieuwste versie opnieuw live. In deze demo is niets hersteld."
+      button: Vooruitgaan
       inputs: []
       do:
         - {action: deploy.set_version, tag: latest}
       show:
-        - {type: versions, before_of: back, title: "Version in each environment", caption: "Look at the Development row: it is the only one that changes."}
-      outcome: Development runs v1.0.1 again. Going back and going forward are the same kind of step.
+        - {type: versions, before_of: back, title: "Versie in elke omgeving", caption: "Kijk naar development: dat is de enige omgeving die wijzigt."}
+      outcome: Development draait weer v1.0.1. Teruggaan en vooruitgaan zijn dezelfde soort stap.

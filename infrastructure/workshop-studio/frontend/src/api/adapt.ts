@@ -47,7 +47,7 @@ export function barsModel(data: BarsData): BarsModel {
   const labels = rich ? rich.map((b) => String(b.label)) : (data.labels ?? []).map((l) => String(l))
   const today = rich ? rich.map((b, i) => !!b.today && i === rich.length - 1) : labels.map(() => false)
   // `bars` has the key of each bar; the parallel `series` values follow the old label order (the same order), so they line up by position
-  const series = (data.series ?? []).map((s) => ({ name: s.name || 'Total', state: s.state, values: labels.map((_, i) => Number(s.values?.[i] ?? 0) || 0) }))
+  const series = (data.series ?? []).map((s) => ({ name: s.name || 'Totaal', state: s.state, values: labels.map((_, i) => Number(s.values?.[i] ?? 0) || 0) }))
   return { labels, today, series, total: (i) => series.reduce((a, s) => a + (s.values[i] ?? 0), 0) }
 }
 

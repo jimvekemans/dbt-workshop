@@ -17,7 +17,7 @@ export function ProblemPart({ scenario }: { scenario: Scenario }) {
       </div>
       <Prose text={p.story} className={`${styles.story} ${styles.areaText}`} />
       <div className={styles.areaCost}>
-        <Callout tone="bad" title="What it costs">
+        <Callout tone="bad" title="Wat het kost">
           <RichText text={p.cost} />
         </Callout>
       </div>

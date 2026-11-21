@@ -60,8 +60,8 @@ def test_each_site_is_shown_with_its_version_and_whether_it_matches_the_package(
     ctx = make_ctx(tmp_path)
     FakeSites(monkeypatch, ctx, {"dev": ("v1.0.1", NEW), "val": ("v1.0.0", OLD)}, {"v1.0.1": NEW, "v1.0.0": OLD})
     out = docs.read_description(ctx, docs.ReadDescriptionParams(model="report", expect="different"))
-    assert out.data["reasons"] == ["Development: version v1.0.1, documentation page written 15 November, 18:14", NEW,
-                                   "Validation: version v1.0.0, documentation page written 15 November, 18:14", OLD]
+    assert out.data["reasons"] == ["Development: versie v1.0.1, documentatiepagina geschreven op 15 november, 18:14", NEW,
+                                   "Validatie: versie v1.0.0, documentatiepagina geschreven op 15 november, 18:14", OLD]
     assert out.data["same"] is False and all(s["matches_package"] for s in out.data["sites"])
     assert out.data["sites"][0]["written_at"] == "2026-11-15T17:14:54Z"
 
@@ -70,11 +70,11 @@ def test_a_site_that_does_not_match_its_package_says_so(tmp_path, monkeypatch):
     ctx = make_ctx(tmp_path)
     FakeSites(monkeypatch, ctx, {"dev": ("v1.0.1", OLD), "val": ("v1.0.0", OLD)}, {"v1.0.1": NEW, "v1.0.0": OLD})
     out = docs.read_description(ctx, docs.ReadDescriptionParams(model="report"))
-    assert out.data["reasons"][2] == "This is not the text of that version."
+    assert out.data["reasons"][2] == "Dit is niet de tekst van die versie."
     assert out.data["same"] is True
 
 
-@pytest.mark.parametrize("expect,dev_text,message", [("same", NEW, "do not say the same"), ("different", OLD, "say the same")])
+@pytest.mark.parametrize("expect,dev_text,message", [("same", NEW, "zeggen niet hetzelfde"), ("different", OLD, "zeggen hetzelfde")])
 def test_the_expectation_fails_in_plain_words(tmp_path, monkeypatch, expect, dev_text, message):
     ctx = make_ctx(tmp_path)
     FakeSites(monkeypatch, ctx, {"dev": ("v1.0.1", dev_text), "val": ("v1.0.0", OLD)}, {"v1.0.1": dev_text, "v1.0.0": OLD})
@@ -88,5 +88,5 @@ def test_a_site_that_is_down_or_empty_is_a_plain_failure(tmp_path, monkeypatch):
     monkeypatch.setattr(docs.requests, "get", lambda *a, **k: type("R", (), {"status_code": 404})())
     with pytest.raises(StepFailed) as err:
         docs.fetch(ctx.settings, "val", docs.MODELS_FILE)
-    assert err.value.summary == "The documentation page of validation has no data yet."
+    assert err.value.summary == "De documentatiepagina van validatie heeft nog geen data."
     assert docs.site_url(ctx.settings, "prd", "index.html") == "http://workshop-dbt-docs:8086/index.html"

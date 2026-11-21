@@ -7,9 +7,29 @@ export type Mode = 'live' | 'replay'
 export type VisualState = 'ok' | 'bad' | 'warn' | 'idle' | 'fix'
 
 // ---------------------------------------------------------------- catalog
+/** "In place today" or "next step". Anything else is ignored (no badge). */
+export type FeatureStatus = 'today' | 'next'
+/** `scenario` is a short story; `flow` is a long one with 3 to 8 stages (steps). Absent means `scenario`. */
+export type ScenarioKind = 'scenario' | 'flow'
+export interface CatalogStage {
+  id: string
+  title: string
+  /** The plain name of what this stage is about; only with `status`. */
+  feature?: string | null
+  status?: FeatureStatus | null
+  /** Optional: what goes wrong as long as this is not done (closing overview only). */
+  why?: string | null
+  /** Optional: one technical line for the presenter (real names of macros, flags, jobs); never needed to follow the story. */
+  tech?: string | null
+}
 export interface RelatedLink {
   id: string
   why: string
+}
+/** Optional: what a home-page tile shows on hover, the headline and the visual of the idea part (no caption, no points). */
+export interface CatalogIdea {
+  headline: string
+  visual: Visual
 }
 export interface CatalogScenario {
   id: string
@@ -19,8 +39,21 @@ export interface CatalogScenario {
   environment: EnvName
   related: RelatedLink[]
   recorded: boolean
+  /** Optional: `flow` for a long scenario (the card says "Flow · 6 stages"). */
+  kind?: ScenarioKind
+  /** Optional: what an ordinary scenario is about, and whether that is in place today (both or neither). */
+  feature?: string | null
+  status?: FeatureStatus | null
+  /** Optional: what goes wrong as long as this is not done (closing overview only). */
+  why?: string | null
+  /** Optional: technical keywords for the presenter (1 to 8). */
+  tech?: string[] | null
+  /** Optional: the demo steps in order (a flow's stages, for the closing overview). */
+  steps?: CatalogStage[]
   /** Optional: the backend may mark the scenario it recommends to start with. */
   first_pick?: boolean
+  /** Optional: the idea part in short, for the preview on the home page. Without it the tile has no preview. */
+  idea?: CatalogIdea | null
 }
 export interface CatalogGroup {
   id: string
@@ -28,8 +61,26 @@ export interface CatalogGroup {
   blurb: string
   scenarios: CatalogScenario[]
 }
+/** One row of the closing overview that has no demo of its own. */
+export interface RoadmapExtra {
+  area: string
+  feature: string
+  status: FeatureStatus
+  note?: string | null
+  /** Optional: what goes wrong as long as this is not done. */
+  why?: string | null
+}
+/** The text around the closing overview (`_roadmap.yaml`); the rows of flows and scenarios come from the groups. */
+export interface Roadmap {
+  title: string
+  intro: string
+  closing?: string | null
+  extras: RoadmapExtra[]
+}
 export interface Catalog {
   groups: CatalogGroup[]
+  /** Optional: the closing overview. Absent or null: there is no such page and no card for it. */
+  roadmap?: Roadmap | null
   glossary: Record<string, string>
   /** Where the overview page of the whole stack lives (the backend knows; null/absent on old servers). */
   overview_url?: string | null
@@ -86,6 +137,8 @@ export interface CodeBlockData {
   file_label: string
   /** Path of the file inside the project (may start with ../ for files outside it). */
   file: string
+  /** Optional badge: this block shows something in place today, or the next step. */
+  status?: FeatureStatus | null
   /** sql | jinja-sql | yaml | python | text (anything else is shown unhighlighted) */
   language: string
   /** Empty for files that are not in the repository: then no link is shown. */
@@ -152,6 +205,11 @@ export interface StepDef {
   title: string
   say?: string | null
   button: string
+  /** Optional: the plain name of what this stage is about, with its status (both or neither). */
+  feature?: string | null
+  status?: FeatureStatus | null
+  /** Optional: one technical line for the presenter. */
+  tech?: string | null
   inputs: StepInput[]
   show: EvidenceItem[]
   outcome?: string | null
@@ -161,6 +219,13 @@ export interface StepDef {
 
 export interface Scenario {
   id: string
+  /** Optional: `flow` for a long scenario. */
+  kind?: ScenarioKind
+  /** Optional: what an ordinary scenario is about, with its status (both or neither). */
+  feature?: string | null
+  status?: FeatureStatus | null
+  /** Optional: technical keywords for the presenter (1 to 8). */
+  tech?: string[] | null
   group: string
   title: string
   promise: string
@@ -207,7 +272,7 @@ export interface NumberData {
 export interface TasksData {
   title: string
   run?: { state: RunState; state_text: string; started: string | null; finished: string | null } | null
-  /** `count`: several identical bookkeeping tasks collapsed into one row. `state_text` may be a plain sentence ("Done in the first attempt"). */
+  /** `count`: several identical bookkeeping tasks collapsed into one row. `state_text` may be a plain sentence ("Done the first time"). */
   tasks: {
     label: string
     state: RunState

@@ -29,8 +29,10 @@ models:
       +docs:
         node_color: "#1d5e09"
 
+# The run logbook (macros/utils/log_dbt_results.sql) is written only by a real run of the run target: should_log_results()
+# keeps `--empty` and other dry commands (compile, ls, parse) from writing rows that claim tables were built.
 on-run-end:
-  - "{% if env_var('LOG_RUN_RESULTS', '') == 'TRUE' and target.name == 'run'%}{{ log_dbt_results(results) }}{% endif %}"
+  - "{% if env_var('LOG_RUN_RESULTS', '') == 'TRUE' and target.name == 'run' and should_log_results() %}{{ log_dbt_results(results) }}{% endif %}"
 
 data_tests:
   dbt_swf:

@@ -26,7 +26,7 @@ interface Props {
 
 /** What preparing does, in both modes, in one plain sentence each. The time comes next to it ("Usually about N s"). */
 export function prepareSentence(mode: Mode): string {
-  return mode === 'replay' ? 'A recording: nothing is changed, this takes a second.' : "Puts the practice system in this demo's starting state."
+  return mode === 'replay' ? 'Een opname: er wordt niets gewijzigd, dit duurt een seconde.' : 'Zet het oefensysteem in de beginstand van deze demo.'
 }
 
 /** The part 4 start: an explicit button, then visible progress while the stack is made ready, or a plain failure. */
@@ -35,8 +35,8 @@ export function GettingReady({ server, demo, scenarioTitle, onPrepare, usualSeco
   if (!server) {
     return (
       <Card className={styles.card} aria-busy="true">
-        <h3 className={styles.title}>Waiting for the studio</h3>
-        <p className={styles.text}>As soon as it answers, you can prepare the demo.</p>
+        <h3 className={styles.title}>Wachten op de Studio</h3>
+        <p className={styles.text}>Zodra ze antwoordt, kan je de demo klaarzetten.</p>
       </Card>
     )
   }
@@ -45,8 +45,8 @@ export function GettingReady({ server, demo, scenarioTitle, onPrepare, usualSeco
 
   if (demo?.status === 'failed') {
     return (
-      <Callout tone="bad" role="alert" title="The demo could not be made ready" actions={<Button variant="primary" disabled={busy} disabledReason="Wait until the current work has finished" onClick={onPrepare}>Try again</Button>}>
-        {demo.message || baseline.detail || 'Something stopped the preparation. Nothing was changed for the audience.'}
+      <Callout tone="bad" role="alert" title="De demo kon niet klaargezet worden" actions={<Button variant="primary" disabled={busy} disabledReason="Wacht tot het huidige werk klaar is" onClick={onPrepare}>Opnieuw proberen</Button>}>
+        {demo.message || baseline.detail || 'Er stopte iets bij het klaarzetten. Voor het publiek is er niets gewijzigd.'}
       </Callout>
     )
   }
@@ -62,25 +62,25 @@ export function GettingReady({ server, demo, scenarioTitle, onPrepare, usualSeco
     const elapsed = job ? formatDuration(elapsedSeconds(jobStartedMs(job), now)) : null
     return (
       <Card className={styles.card} aria-busy="true">
-        <p className="kicker">Getting ready</p>
-        <h3 className={styles.title}>{mine ? `Getting “${scenarioTitle}” ready` : 'Checking the practice company'}</h3>
-        <p className={styles.text}>{job?.label ?? 'Tidying up after the previous demo and setting the scene.'}</p>
+        <p className="kicker">Klaarzetten</p>
+        <h3 className={styles.title}>{mine ? `“${scenarioTitle}” wordt klaargezet` : 'Het oefensysteem wordt nagekeken'}</h3>
+        <p className={styles.text}>{job?.label ?? 'Opkuisen na de vorige demo en het decor klaarzetten.'}</p>
         {server.waiting && (
           <p className={styles.text} role="status">
             <StatusMark state="running" /> {server.waiting.text}
           </p>
         )}
         <p className={styles.detail}>
-          {elapsed && <b className={styles.elapsed}>{elapsed} so far</b>}
+          {elapsed && <b className={styles.elapsed}>{elapsed} tot nu toe</b>}
           {elapsed && usual && !replay ? ' · ' : ''}
           {usual && !replay ? usual.charAt(0).toUpperCase() + usual.slice(1) : ''}
           {elapsed || (usual && !replay) ? '.' : ''}
         </p>
-        <div className={styles.bar} role="progressbar" aria-label="Getting ready" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct ?? undefined} aria-valuetext={pct === null ? 'In progress' : `${pct} percent`}>
+        <div className={styles.bar} role="progressbar" aria-label="Klaarzetten" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct ?? undefined} aria-valuetext={pct === null ? 'Bezig' : `${pct} procent`}>
           <span className={styles.fill} style={pct === null ? undefined : { width: `${pct}%`, animation: 'none' }} />
         </div>
         {checking && (
-          <ol className={styles.list} aria-label="Checks of the practice company">
+          <ol className={styles.list} aria-label="Checks van het oefensysteem">
             {baseline.progress.map((p, i) => (
               <li key={i} data-state={MARK(p.status)} className={styles.item}>
                 <StatusMark state={MARK(p.status)} />
@@ -90,7 +90,7 @@ export function GettingReady({ server, demo, scenarioTitle, onPrepare, usualSeco
           </ol>
         )}
         {actions.length > 0 && (
-          <ol className={styles.list} aria-label="Setting the scene">
+          <ol className={styles.list} aria-label="Decor klaarzetten">
             {actions.map((a, i) => (
               <li key={i} data-state={MARK(a.status)} className={styles.item}>
                 <StatusMark state={MARK(a.status)} />
@@ -111,23 +111,23 @@ export function GettingReady({ server, demo, scenarioTitle, onPrepare, usualSeco
   const usual = server.mode === 'live' ? usualText(usualSeconds) : null
   return (
     <Card className={styles.card}>
-      <p className="kicker">Before the demo</p>
-      <h3 className={styles.title}>Prepare the practice system</h3>
+      <p className="kicker">Voor de demo</p>
+      <h3 className={styles.title}>Zet het oefensysteem klaar</h3>
       <p className={styles.text}>
         {prepareSentence(server.mode)}
         {usual ? ` ${usual.charAt(0).toUpperCase() + usual.slice(1)}.` : ''}
       </p>
       {baseline.status === 'failed' && (
-        <Callout tone="warn" title="The last check of the practice company failed">
+        <Callout tone="warn" title="De laatste check van het oefensysteem is mislukt">
           {baseline.detail}
         </Callout>
       )}
       <div>
-        <Button variant="primary" size="lg" icon={<PlayIcon size="0.9em" />} disabled={busy} disabledReason={busy ? `Wait for this to finish: ${job?.label}.` : undefined} onClick={onPrepare}>
-          Prepare this demo
+        <Button variant="primary" size="lg" icon={<PlayIcon size="0.9em" />} disabled={busy} disabledReason={busy ? `Wacht tot dit klaar is: ${job?.label}.` : undefined} onClick={onPrepare}>
+          Demo klaarzetten
         </Button>
       </div>
-      {busy && <p className={styles.detail}>{job?.label}. You can start this when it has finished.</p>}
+      {busy && <p className={styles.detail}>{job?.label}. Je kan dit starten als het klaar is.</p>}
     </Card>
   )
 }

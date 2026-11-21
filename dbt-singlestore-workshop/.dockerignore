@@ -5,3 +5,4 @@ dbt_packages/
 .git
 .devcontainer
 .vscode
+models/__overview__.md

@@ -54,17 +54,17 @@ export function Switcher({ open, onClose, currentId }: { open: boolean; onClose:
 
   let lastGroup = ''
   return (
-    <Dialog open={open} title={total > 0 ? `Go to a scenario (${total})` : 'Go to a scenario'} onClose={onClose} wide>
+    <Dialog open={open} title={total > 0 ? `Ga naar een scenario (${total})` : 'Ga naar een scenario'} onClose={onClose} wide>
       <div className={styles.search}>
         <label htmlFor={`${uid}-q`} className="sr-only">
-          Search the scenarios
+          Scenario's zoeken
         </label>
         <input
           id={`${uid}-q`}
           className={styles.input}
           type="search"
           autoComplete="off"
-          placeholder="Search, for example “mail” or “release”"
+          placeholder="Zoek, bijvoorbeeld “mail” of “release”"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={onKeyDown}
@@ -79,16 +79,16 @@ export function Switcher({ open, onClose, currentId }: { open: boolean; onClose:
         {results.length === 0 && (
           <>
             <p>
-              Nothing matches “{query}”. Clear the search to see all {total}.
+              Niets komt overeen met “{query}”. Wis de zoekopdracht om alle {total} te zien.
             </p>
-            <p>Try a word from the title, like “mail” or “release”.</p>
-            <Button onClick={() => setQuery('')}>Clear search</Button>
+            <p>Probeer een woord uit de titel, zoals “mail” of “release”.</p>
+            <Button onClick={() => setQuery('')}>Zoekopdracht wissen</Button>
           </>
         )}
       </div>
       {results.length > 0 && (
         <div className={styles.listWrap}>
-          <div id={`${uid}-list`} ref={listRef} className={styles.list} role="listbox" aria-label="Scenarios">
+          <div id={`${uid}-list`} ref={listRef} className={styles.list} role="listbox" aria-label="Scenario's">
             {results.map((s, i) => {
               const header = s.groupTitle !== lastGroup ? s.groupTitle : null
               lastGroup = s.groupTitle
@@ -106,7 +106,7 @@ export function Switcher({ open, onClose, currentId }: { open: boolean; onClose:
                   >
                     <span className={styles.title}>{plainText(s.title)}</span>
                     <span className={styles.meta}>
-                      {s.id === currentId ? '(you are here) · ' : ''}
+                      {s.id === currentId ? '(je bent hier) · ' : ''}
                       {s.minutes} min
                     </span>
                   </div>
@@ -118,12 +118,12 @@ export function Switcher({ open, onClose, currentId }: { open: boolean; onClose:
       )}
       {results.length > 0 && (
         <p className={styles.hint} aria-hidden="true">
-          <kbd>↑</kbd> <kbd>↓</kbd> to move, <kbd>Enter</kbd> to open, <kbd>Esc</kbd> to close. Press <kbd>/</kbd> or <kbd>Ctrl</kbd>+<kbd>K</kbd> to open this anywhere.
+          <kbd>↑</kbd> <kbd>↓</kbd> om te navigeren, <kbd>Enter</kbd> om te openen, <kbd>Esc</kbd> om te sluiten. Druk op <kbd>/</kbd> of <kbd>Ctrl</kbd>+<kbd>K</kbd> om dit overal te openen.
         </p>
       )}
       <p className={styles.home}>
         <a href="#/" onClick={onClose}>
-          Back to the start page
+          Terug naar de startpagina
         </a>
       </p>
     </Dialog>

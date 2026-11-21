@@ -88,12 +88,13 @@ function Connector({ from, to, edges, broken }: { from: FlowNode[]; to: FlowNode
   )
 }
 
-/** Boxes left to right, every one with an arrow in and an arrow out except the first and the last. A box that is fine says nothing; one may be the fix ("The fix"). */
-export function FlowVisual({ visual }: { visual: Flow }) {
+/** Boxes left to right, every one with an arrow in and an arrow out except the first and the last. A box that is fine says nothing; one may be the fix ("De oplossing").
+ *  `compact`: the small version of the home-page preview (labels only, chips that wrap, no arrows drawn). */
+export function FlowVisual({ visual, compact }: { visual: Flow; compact?: boolean }) {
   const { stages, edges } = flowLayout(visual)
   const broken = (a: FlowNode, b: FlowNode) => [visualTone(a.state), visualTone(b.state)].some((t) => t === 'bad' || t === 'idle')
   return (
-    <figure className={styles.figure}>
+    <figure className={styles.figure} data-compact={compact ? '' : undefined}>
       <ol className={styles.flow}>
         {stages.map((nodes, si) => {
           const next = stages[si + 1]
@@ -105,8 +106,8 @@ export function FlowVisual({ visual }: { visual: Flow }) {
                   const st = visualTone(n.state)
                   return (
                     <div key={n.id} className={styles.node} data-state={st}>
-                      {st === 'fix' && <span className={styles.fix}>The fix</span>}
-                      {(st === 'bad' || st === 'warn' || st === 'idle') && <Status state={st} variant="plain" />}
+                      {st === 'fix' && <span className={styles.fix}>De oplossing</span>}
+                      {(st === 'bad' || st === 'warn' || st === 'idle') && <Status state={st} variant="plain" className={styles.state} />}
                       <span className={styles.label}><RichText text={n.label} /></span>
                       {n.note && (
                         <span className={styles.note}>

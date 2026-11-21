@@ -1,122 +1,123 @@
 id: numbered-versions
 group: releases
-title: Every environment runs one exact, numbered version
-promise: "The question 'which version of our code runs in the live system?' always has one exact answer."
+title: Elke omgeving draait één exacte, genummerde versie
+promise: "De vraag 'welke versie van onze code draait er in het live systeem?' heeft altijd één exact antwoord."
 minutes: 3
+tech: ["git tag", "tag_dev", "build_image", "dbt_image_tag"]
 environment: dev
 
 problem:
-  headline: Nobody can say which version of the code runs live
+  headline: Niemand kan zeggen welke versie van de code live draait
   story: |
-    On Tuesday the sales report shows odd figures. Support asks the developers: which version of the code produced
-    this? One developer thinks it is last week's, another thinks Monday's fix is already in. Three people spend the
-    morning comparing files by hand before they can even start looking for the cause.
-  cost: "Every problem takes hours longer to solve: three people spend a whole morning comparing files."
+    Op dinsdag toont het salesrapport vreemde cijfers. Support vraagt aan de developers: welke [[versie]] van de code
+    maakte dit? De ene developer denkt dat het die van vorige week is, een andere denkt dat de fix van maandag er al
+    in zit. Drie mensen vergelijken de hele ochtend bestanden met de hand voor ze de oorzaak kunnen zoeken.
+  cost: "Elk probleem kost uren extra om op te lossen: drie mensen vergelijken een hele ochtend bestanden."
   visual:
     type: timeline
     days:
-      - {label: "Mon", state: ok, note: "A fix is finished"}
-      - {label: "Tue 09:00", state: bad, note: "Sales report looks odd"}
-      - {label: "Tue 09:30", state: warn, note: "Which version is live?"}
-      - {label: "Tue 10:30", state: warn, note: "3 people compare files"}
-      - {label: "Tue 12:00", state: bad, note: "Still no certain answer"}
-    marker: {after: 1, label: "The question nobody can answer"}
-    caption: The search for the version costs more than the search for the cause.
+      - {label: "Ma", state: ok, note: "Een fix is klaar"}
+      - {label: "Di 09:00", state: bad, note: "Het salesrapport lijkt vreemd"}
+      - {label: "Di 09:30", state: warn, note: "Welke versie is live?"}
+      - {label: "Di 10:30", state: warn, note: "3 mensen vergelijken bestanden"}
+      - {label: "Di 12:00", state: bad, note: "Nog altijd geen zeker antwoord"}
+    marker: {after: 1, label: "De vraag die niemand kan beantwoorden"}
+    caption: Het zoeken naar de versie kost meer dan het zoeken naar de oorzaak.
 
 idea:
-  headline: Every accepted change gets a number, and each environment runs one number
+  headline: Elke goedgekeurde wijziging krijgt een nummer, en elke omgeving draait één nummer
   points:
-    - Accepting a change gives it the next version number automatically.
-    - The accepted code is packed into a sealed package that can never be edited, with its number printed on it, like v1.0.1.
-    - Each [[environment]] is told which number to run, so one glance answers the question.
+    - Een goedgekeurde wijziging krijgt automatisch het volgende versienummer.
+    - De goedgekeurde code wordt ingepakt in een verzegeld package dat nooit meer aangepast kan worden, met zijn nummer erop, zoals v1.0.1.
+    - Elke [[omgeving]] krijgt te horen welk nummer ze moet draaien, dus één blik beantwoordt de vraag.
   visual:
     type: flow
     nodes:
-      - {id: change, label: Accepted change, state: ok, note: "Someone approves the work"}
-      - {id: number, label: The next number, state: fix, note: "Chosen automatically"}
-      - {id: package, label: Sealed package, state: ok, note: "Never edited afterwards"}
-      - {id: env, label: Each environment, state: ok, note: "Runs one named number"}
+      - {id: change, label: Goedgekeurde wijziging, state: ok, note: "Iemand keurt het werk goed"}
+      - {id: number, label: Het volgende nummer, state: fix, note: "Automatisch gekozen"}
+      - {id: package, label: Verzegeld package, state: ok, note: "Achteraf nooit aangepast"}
+      - {id: env, label: Elke omgeving, state: ok, note: "Draait één vast nummer"}
     links: [[change, number], [number, package], [package, env]]
-    caption: Like the edition number printed in a book.
+    caption: Zoals het editienummer dat in een boek staat.
 
 code:
-  - title: A new number is chosen after every accepted change
+  - title: Na elke goedgekeurde wijziging wordt een nieuw nummer gekozen
     file: .gitlab-ci.yml
-    file_label: The instructions for numbering a version
+    file_label: De instructies om een versie te nummeren
     from: "latest_tag=$(git tag -l 'v*.*.*'"
     to: "      fi"
     max_lines: 12
     notes:
       - line: "latest_tag=$(git tag -l 'v*.*.*' | sort -V | tail -n 1)"
-        says: Find the highest number used so far.
+        says: Het hoogste nummer dat tot nu toe gebruikt werd, wordt opgezocht.
       - line: 'new_tag="${major}.$((minor + 1)).0"'
-        says: A new feature moves the middle number up, for example v1.1.0.
+        says: Een nieuwe functie verhoogt het middelste nummer, bijvoorbeeld v1.1.0.
       - line: 'new_tag="${major}.${minor}.$((patch + 1))"'
-        says: A small fix moves the last number up, for example v1.0.1.
-  - title: The accepted code is packed into a sealed package
+        says: Een kleine fix verhoogt het laatste nummer, bijvoorbeeld v1.0.1.
+  - title: De goedgekeurde code wordt ingepakt in een verzegeld package
     file: .gitlab-ci.yml
-    file_label: The instructions for packing a version
+    file_label: De instructies om een versie in te pakken
     from: ".build-image:"
     to: 'docker build'
     max_lines: 12
     notes:
       - line: "image: docker"
-        says: This tool packs the code into one sealed package.
+        says: Deze tool pakt de code in tot één verzegeld package.
       - line: 'docker build'
-        says: The package carries the number, and nobody edits it afterwards.
-  - title: Each environment looks up the number it must run
+        says: Het package draagt het nummer, en niemand past het achteraf aan.
+  - title: Elke omgeving zoekt het nummer op dat ze moet draaien
     file: airflow/utils/dbt_pod_utils.py
-    file_label: How each environment picks its version
+    file_label: Hoe elke omgeving haar versie kiest
     from: "def resolve_image() -> str:"
     to: 'return f"{DBT_IMAGE_REPOSITORY}:{tag}"'
     max_lines: 12
     notes:
       - line: "tag = str(get_variable"
-        says: Each environment keeps one setting with its version number.
+        says: Elke omgeving bewaart één instelling met haar versienummer.
       - line: "if not tag:"
-        says: If no number was set, nothing runs. There is never a guess.
+        says: Is er geen nummer ingesteld, dan draait er niets. Er wordt nooit geraden.
       - line: 'return f"{DBT_IMAGE_REPOSITORY}:{tag}"'
-        says: The package with exactly that number is the one that runs.
+        says: Het package met exact dat nummer is wat draait.
 
 demo:
   intro: >-
-    First we read the numbers. Then one small change is proposed and accepted: development gets a new number while
-    validation and production stay on theirs.
+    Eerst lezen we de nummers af. Dan wordt één kleine wijziging voorgesteld en goedgekeurd: development krijgt een
+    nieuw nummer, terwijl validatie en productie op hun nummer blijven.
   setup: []
   steps:
     - id: now
-      title: Read the numbers
-      say: "One number per environment: the complete answer to what runs where."
-      button: Show what is running
+      title: De nummers aflezen
+      say: "Eén nummer per omgeving: het volledige antwoord op wat waar draait."
+      button: Tonen wat er draait
       inputs: []
       do:
-        - {action: wait, seconds: 1, because: "Reading the numbers"}
+        - {action: wait, seconds: 1, because: "De nummers aflezen"}
       show:
-        - {type: versions, title: "Version in each environment", caption: "Each environment runs one number. Development is the one that changes next."}
-      outcome: Development, validation and production each run exactly one numbered version, v1.0.0.
+        - {type: versions, title: "Versie in elke omgeving", caption: "Elke omgeving draait één nummer. Development is de omgeving die hierna wijzigt."}
+      outcome: Development, validatie en productie draaien elk exact één genummerde versie, v1.0.0.
     - id: propose
-      title: Propose a small change
-      say: A harmless change is tried in a private copy. Nothing is live yet.
-      button: Propose the change
+      title: Een kleine wijziging voorstellen
+      say: Een onschuldige wijziging wordt uitgeprobeerd in een privékopie. Er is nog niets live.
+      button: De wijziging voorstellen
       inputs: []
       do:
         - {action: gitlab.branch, name: demo/clearer-description, from: dev}
         - {action: gitlab.commit, branch: demo/clearer-description, patch: clearer-kpi-description}
-        - {action: gitlab.merge_request, source: demo/clearer-description, target: dev, title: "Clearer description of the management report"}
+        - {action: gitlab.merge_request, source: demo/clearer-description, target: dev, title: "Duidelijkere beschrijving van het managementrapport"}
         - {action: gitlab.wait_pipeline, for: "mr:demo/clearer-description", expect: success, timeout: 600}
       show:
-        - {type: pipeline, for: "mr:demo/clearer-description", title: "The automatic rehearsal", caption: "Done means the change may be accepted."}
-        - {type: versions, title: "Version in each environment", caption: "Nothing moved."}
-      outcome: "The change passed its rehearsal. The numbers did not move: nothing is accepted yet."
+        - {type: pipeline, for: "mr:demo/clearer-description", title: "De automatische testrun", caption: "Klaar betekent dat de wijziging goedgekeurd mag worden."}
+        - {type: versions, title: "Versie in elke omgeving", caption: "Niets verschoof."}
+      outcome: "De wijziging kwam door haar testrun. De nummers verschoven niet: er is nog niets goedgekeurd."
     - id: accept
-      title: Accept the change
-      say: Accepting gives the change a number, packs it and puts it live in development.
-      button: Accept the change
+      title: De wijziging goedkeuren
+      say: Goedkeuren geeft de wijziging een nummer, pakt ze in en deployt ze in development.
+      button: De wijziging goedkeuren
       inputs: []
       do:
         - {action: gitlab.merge, source: demo/clearer-description}
         - {action: gitlab.wait_pipeline, for: "tag:^v", expect: success, timeout: 900}
       show:
-        - {type: pipeline, for: "tag:^v", title: "Packaging and putting live", caption: "The number v1.0.1 was chosen when the change was accepted. Packaging seals the accepted code into one numbered package; putting it live makes development use that package."}
-        - {type: versions, before_of: propose, title: "Version in each environment", caption: "Look at the Development row: it changed from v1.0.0 to v1.0.1."}
-      outcome: Development runs v1.0.1. Validation and production still run v1.0.0, and everybody can see which.
+        - {type: pipeline, for: "tag:^v", title: "Het package maken en deployen", caption: "Het nummer v1.0.1 werd gekozen toen de wijziging goedgekeurd werd. Het package maken verzegelt de goedgekeurde code in één genummerd package; storage bewaart de beschrijving van die versie; deployen laat development het package gebruiken."}
+        - {type: versions, before_of: propose, title: "Versie in elke omgeving", caption: "Kijk naar development: het staat op \"Gewijzigd\", van v1.0.0 naar v1.0.1."}
+      outcome: Development draait v1.0.1. Validatie en productie draaien nog v1.0.0, en iedereen kan zien welke.

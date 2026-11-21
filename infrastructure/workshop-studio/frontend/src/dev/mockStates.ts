@@ -116,7 +116,7 @@ const failedNight = (t: number): TasksData => {
   const done = t >= 1
   const tasks: TasksData['tasks'] = done
     ? [
-        { label: 'Preparing the run', state: 'done', state_text: 'Done in the first attempt', count: 5 },
+        { label: 'Preparing the run', state: 'done', state_text: 'Done the first time', count: 5 },
         { label: 'Checking for changes made outside the normal process', state: 'done', state_text: 'Done' },
         { label: 'Building all the reports', state: 'failed', state_text: 'Failed' },
         { label: 'Building report A', state: 'todo', state_text: 'Not run' },
@@ -209,10 +209,10 @@ export function statesEvidence(item: EvidenceItem, ctx: { t: number }): Evidence
       const log = Array.from({ length: 40 }, (_, i) => `<tr><td style="font-family:monospace;font-size:12px;color:#57544a;padding:1px 8px 1px 0">17:14:${String(10 + i).padStart(2, '0')}</td><td style="font-family:monospace;font-size:12px">log line ${i + 1}: ran model ${i + 1} of 28 in ${(i * 0.37).toFixed(1)} s</td></tr>`).join('')
       return {
         found: true,
-        subject: '[validation] Nightly load failed: 1 check failed, 4 steps not run',
+        subject: '[validatie] Nachtelijke load mislukt: 1 check mislukt, 4 stappen niet gerund',
         from: 'airflow-val@workshop.local',
         received: '2026-11-15T17:15:03',
-        html: `<h2 style="color:#b01f17;margin:0 0 8px">The nightly load failed</h2><p><b>What failed:</b> Orders feed: the order number is never empty (3 rows)</p><p>Environment: <b>validation</b> &middot; 42 succeeded, 1 failed, 4 not run</p><h3>Where to look</h3><p>The failed check is source_not_null_raw_olist_orders_order_id. The last 40 log lines follow.</p><table>${log}</table>`,
+        html: `<h2 style="color:#b01f17;margin:0 0 8px">Nachtelijke load mislukt</h2><p><b>Wat mislukte:</b> 3 rijen in raw_olist_orders hebben geen order_id</p><p>Omgeving: <b>validatie</b> &middot; 42 gelukt, 1 mislukt, 4 niet gerund</p><h3>Waar je moet kijken</h3><p>De mislukte check is source_not_null_raw_olist_orders_order_id. De laatste 40 regels uit de log staan eronder.</p><table>${log}</table>`,
       }
     }
     default:

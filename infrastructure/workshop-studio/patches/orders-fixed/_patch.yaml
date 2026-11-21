@@ -1,4 +1,4 @@
-title: "Put the calendar join back (every order appears once again)"
+title: "De kalenderkoppeling herstellen (elke bestelling komt weer één keer voor)"
 message: 'fix: join the calendar on the order day only'
 ops:
   - path: models/im_dimensional/fct_olist_orders.sql

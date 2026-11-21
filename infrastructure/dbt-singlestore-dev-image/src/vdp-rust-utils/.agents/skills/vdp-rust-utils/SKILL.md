@@ -41,7 +41,7 @@ Per-crate types, traits and invariants: `references/modules.md`.
 | Ship | Dev image stage `vdp-build` in `infrastructure/dbt-singlestore-dev-image/Dockerfile`; a prebuilt `./vdp` in that folder wins; neither: image without vdp |
 | Install | `/usr/local/bin/vdp`; `dbt` there is a link to `vdp`; the real engine is `/usr/local/libexec/dbt/dbt` (`VDP_DBT_BIN`); the ADBC driver stays in `/usr/local/lib/dbt/` |
 | Run | Devcontainer (`dbt-singlestore-workshop/.devcontainer`, image `dbt-singlestore-dev:1.11.11`), config `dbt-singlestore-workshop/vdp.toml`, `vdp:` tasks in `.vscode/tasks.json`, pre-commit and `tests/setup_tests.sh` call `dbt` (the wrapper) |
-| Workshop Studio | `actions/images.py` runs `vdp --version` (must match `\d+\.\d+\.\d+\S*`); `actions/dbt.py` runs `dbt` as developer users; `scenarios/same-toolbox.yaml` quotes the Dockerfile between `RUN --mount=type=bind,source=src/sqlfmt` and `ln -s` |
+| Workshop Studio | `actions/images.py` runs `vdp --version` (must match `\d+\.\d+\.\d+\S*`); `actions/dbt.py` runs `dbt` as developer users; `actions/toolbox.py` (`toolbox.run`) runs shell commands in the dev image as a developer or the robot and counts a refusal only when an output line starts with `vdp:`; `scenarios/same-toolbox.yaml` quotes the Dockerfile between `RUN --mount=type=bind,source=src/sqlfmt` and `ln -s` |
 | Siblings | `src/release-ui` and `src/vaultspeed-framework` depend on these crates by path (`../vdp-rust-utils/crates/<name>`) and are built by hand; `vdp vaultspeed ...` / `vdp release-ui ...` exec their binaries (exit 2 when absent, as in the image) |
 | Not consumers | `.gitlab-ci.yml`, the project `Dockerfile` (`dbt-vdp:<tag>`) and the Airflow DAGs use plain `dbt`, never `vdp` |
 

@@ -1,0 +1,10 @@
+title: "Elke tabel testen bij elke wijziging (geen selectie van wat veranderd is)"
+message: 'ci: the data rehearsal builds every table'
+ops:
+- path: .gitlab-ci.yml
+  find: '      dbt build --select state:modified+ --state artifacts --defer --vars "SCHEMA: ${VERIFY_SCHEMA//[\/-]/_}" --target ci
+
+    '
+  replace: '      dbt build --vars "SCHEMA: ${VERIFY_SCHEMA//[\/-]/_}" --target ci
+
+    '

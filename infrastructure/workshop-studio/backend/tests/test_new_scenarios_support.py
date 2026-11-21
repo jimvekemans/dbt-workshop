@@ -29,35 +29,35 @@ def test_no_closing_line_means_no_time():
 
 
 def test_names_are_plain_and_each_table_once():
-    assert gitlab.names_in(log(["mart_olist_management_kpi"])) == ["Management report table"]
+    assert gitlab.names_in(log(["mart_olist_management_kpi"])) == ["Managementrapporttabel"]
     assert gitlab.names_in(log(["dim_olist_customers", "fct_olist_orders", "dim_olist_customers"])) == [
-        "Customers table", "Orders table"]
+        "Klantentabel", "Bestellingentabel"]
     assert gitlab.names_in("nothing here") == []
 
 
 def test_more_than_six_names_end_in_one_entry_with_the_rest():
     found = gitlab.names_in(log([f"int_table_{i}" for i in range(28)]))
-    assert len(found) == 7 and found[-1] == "and 22 more" and found[0] == "Table 0 table"
-    assert len(gitlab.names_in(log([f"int_table_{i}" for i in range(6)]))) == 6   # exactly six: no "and 0 more"
+    assert len(found) == 7 and found[-1] == "en nog 22" and found[0] == "Tabel table 0"
+    assert len(gitlab.names_in(log([f"int_table_{i}" for i in range(6)]))) == 6   # exactly six: no "en nog 0"
 
 
-@pytest.mark.parametrize("seconds,words", [(0.4, "1 second"), (1.4, "1 second"), (1.9, "2 seconds"), (59.6, "60 seconds"),
-                                           (125, "2 minutes and 5 seconds"), (180, "3 minutes")])
+@pytest.mark.parametrize("seconds,words", [(0.4, "1 seconde"), (1.4, "1 seconde"), (1.9, "2 seconden"), (59.6, "60 seconden"),
+                                           (125, "2 minuten en 5 seconden"), (180, "3 minuten")])
 def test_durations_are_whole_plain_words(seconds, words):
     assert gitlab.duration_words(seconds) == words
 
 
 def test_the_summary_sentence_has_the_tables_the_data_checks_and_the_time():
     found = {"tables": 1, "checks": 0, "tables_total": 28, "seconds": 1.9}
-    assert gitlab.rehearsed_words(found) == "1 of 28 tables and 0 data checks in 2 seconds"
-    assert gitlab.rehearsed_words({**found, "seconds": None}) == "1 of 28 tables and 0 data checks"
+    assert gitlab.rehearsed_words(found) == "1 van de 28 tabellen en 0 datachecks in 2 seconden"
+    assert gitlab.rehearsed_words({**found, "seconds": None}) == "1 van de 28 tabellen en 0 datachecks"
 
 
 # --- local time -------------------------------------------------------------------------------------------------
 
 def test_times_are_local_and_never_say_utc():
-    assert names.local_time_words("2026-11-15T17:06:00.367Z") == "15 November, 18:06"
-    assert names.local_time_words("2026-07-01T10:00:00Z") == "1 July, 12:00"   # summer time
+    assert names.local_time_words("2026-11-15T17:06:00.367Z") == "15 november, 18:06"
+    assert names.local_time_words("2026-07-01T10:00:00Z") == "1 juli, 12:00"   # summer time
     assert names.local_time_words("nonsense") is None and names.local_time_words(None) is None
     assert "UTC" not in str(gitlab.approval_lines({"user": {"name": "A"}, "started_at": "2026-11-15T17:06:00Z"}))
 
@@ -79,17 +79,17 @@ def test_two_fresh_toolboxes_are_opened_and_every_line_is_the_same(tmp_path, mon
     ran = fake_two(monkeypatch)
     out = images.versions(make_ctx(tmp_path), images.ImageVersionsParams(compare_with="toolbox", expect_same=["report_builder"]))
     assert ran == [DEV_IMAGE, DEV_IMAGE]
-    assert (out.data["left_title"], out.data["right_title"]) == ("First toolbox", "Second toolbox")
+    assert (out.data["left_title"], out.data["right_title"]) == ("Eerste toolbox", "Tweede toolbox")
     assert len(out.data["reasons"]) == 6 and all(r["same"] for r in out.data["reasons"])
-    assert out.data["reasons"][1] == {"label": "Database connector", "left": "the same build", "right": "the same build", "same": True}
+    assert out.data["reasons"][1] == {"label": "Databaseconnector", "left": "dezelfde build", "right": "dezelfde build", "same": True}
     assert set(out.data["reasons"][0]) == {"label", "left", "right", "same"}
-    assert out.summary == "Opened two fresh toolboxes and compared their tools." and "production_version" not in out.data
+    assert out.summary == "Twee verse toolboxen geopend en hun tools vergeleken." and "production_version" not in out.data
 
 
 def test_a_different_connector_build_is_said_in_words_and_the_hash_stays_in_the_details(tmp_path, monkeypatch):
     fake_two(monkeypatch, TOOLBOX.replace("74194c79b0fc", "aaaaaaaaaaaa"))
     out = images.versions(make_ctx(tmp_path), images.ImageVersionsParams(compare_with="toolbox"))
-    assert out.data["reasons"][1] == {"label": "Database connector", "left": "this build", "right": "a different build", "same": False}
+    assert out.data["reasons"][1] == {"label": "Databaseconnector", "left": "deze build", "right": "een andere build", "same": False}
     assert "74194c7" in out.details and "aaaaaaa" in out.details
     assert "74194c7" not in str(out.data["reasons"])
 
@@ -100,7 +100,7 @@ def test_a_tool_missing_on_one_side_has_no_right_text(tmp_path, monkeypatch):
     monkeypatch.setattr(clients, "deployed_tag", lambda ctx, env: "v1.0.0")
     out = images.versions(make_ctx(tmp_path), images.ImageVersionsParams(compare_with="production"))
     missing = [r for r in out.data["reasons"] if r["right"] is None]
-    assert [r["label"] for r in missing] == ["Layout robot", "Rule checker", "Helper tool", "Pre-save checks"]
+    assert [r["label"] for r in missing] == ["Layoutrobot", "Regelchecker", "Hulptool", "Checks voor het opslaan"]
     assert all(r["same"] is False for r in missing)
     assert sum(r["same"] for r in out.data["reasons"]) == 2
 
@@ -108,4 +108,4 @@ def test_a_tool_missing_on_one_side_has_no_right_text(tmp_path, monkeypatch):
 def test_the_schema_prefix_of_a_private_copy_is_dropped_before_naming():
     trace = ("Succeeded model demo_step_after_every_table.demo_step_after_every_table_dbt_table_grants (table) [1 of 2 in 0.3s]\n"
              "Succeeded model demo_step_after_every_table.demo_step_after_every_table_dim_olist_customers (table) [2 of 2 in 0.3s]\n")
-    assert gitlab.names_in(trace) == ["Access rights", "Customers table"]
+    assert gitlab.names_in(trace) == ["Toegangsrechten", "Klantentabel"]

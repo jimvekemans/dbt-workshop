@@ -24,7 +24,7 @@ import requests
 from .base import Cancelled, Ctx, StepFailed
 
 ENVS = ("dev", "val", "prd")
-ENV_WORDS = {"dev": "development", "val": "validation", "prd": "production"}  # how the audience hears an environment
+ENV_WORDS = {"dev": "development", "val": "validatie", "prd": "productie"}  # how the audience hears an environment
 GITLAB_PROJECT = "workshop/dbt-vdp"
 MYSQL_CONTAINER = "workshop-mysql"
 CREATE_USER = re.compile(r"CREATE USER IF NOT EXISTS '([^']+)'@'%'\s+IDENTIFIED BY '([^']+)'", re.IGNORECASE)
@@ -49,7 +49,7 @@ def password_for(settings: Any, user: str) -> str:
         return settings.s2_root_pwd
     passwords = _parse_passwords(str(settings.sql_dir))
     if user not in passwords:
-        raise StepFailed(f"The stack has no database user called {user}.", f"known users: {sorted(passwords)}")
+        raise StepFailed(f"Er bestaat geen databasegebruiker met de naam {user}.", f"known users: {sorted(passwords)}")
     return passwords[user]
 
 
@@ -81,7 +81,7 @@ def read_rows(settings: Any, query: str, *, limit: int = 200, timeout: float = 5
     """Run a read-only query as root: a single SELECT / WITH / SHOW, at most `limit` rows, `timeout` seconds."""
     text = query.strip().rstrip(";").strip()
     if not re.match(r"(?is)^(select|with|show)\b", text) or ";" in text:
-        raise StepFailed("This view may only read data.", f"refused query: {text[:120]}")
+        raise StepFailed("Deze weergave mag alleen data lezen.", f"refused query: {text[:120]}")
     conn = s2_connect(settings, user, timeout=timeout)
     try:
         with conn.cursor() as cur:
@@ -106,7 +106,7 @@ def _airflow_db_password() -> str:
         if line.startswith("MYSQL_PASSWORD="):
             return line.split("=", 1)[1]
     raise StepFailed(
-        "The scheduler's database is not reachable.", f"no MYSQL_PASSWORD in {MYSQL_CONTAINER}: {proc.stderr}"
+        "De database van de scheduler is niet bereikbaar.", f"no MYSQL_PASSWORD in {MYSQL_CONTAINER}: {proc.stderr}"
     )
 
 
@@ -163,13 +163,13 @@ def run(
                 proc.communicate()
                 if ctx.cancel.is_set():
                     raise Cancelled() from None
-                raise StepFailed(f"A step took longer than {int(timeout)} seconds and was stopped.", " ".join(argv[:4]))
+                raise StepFailed(f"Een stap duurde langer dan {int(timeout)} seconden en is gestopt.", " ".join(argv[:4]))
 
 
 def docker(ctx: Ctx, *args: str, timeout: float = 600, env: dict[str, str] | None = None, check: bool = True) -> Proc:
     proc = run(ctx, ["docker", *args], timeout=timeout, env=env)
     if check and proc.returncode != 0:
-        raise StepFailed("The stack could not run a step it needs.", f"docker {' '.join(args[:3])}: {proc.text[-600:]}")
+        raise StepFailed("Een stap die het systeem nodig heeft, lukte niet.", f"docker {' '.join(args[:3])}: {proc.text[-600:]}")
     return proc
 
 
@@ -181,7 +181,7 @@ def docker_bytes(ctx: Ctx, *args: str, data: bytes | None = None, timeout: float
     proc = subprocess.run(["docker", *args], input=data, capture_output=True, timeout=timeout)
     if proc.returncode != 0:
         raise StepFailed(
-            "The stack could not copy files between containers.",
+            "Het systeem kon geen bestanden tussen containers kopiëren.",
             mask(ctx.settings, proc.stderr.decode(errors="replace"))[-500:],
         )
     return proc.stdout
@@ -285,7 +285,7 @@ def deployed_tag(ctx: Ctx, env: str) -> str:
     proc = airflow_cli(ctx, env, "variables", "get", "dbt_image_tag", check=False)
     tag = proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 and proc.stdout.strip() else ""
     if not tag:
-        raise StepFailed(f"No version is deployed in {ENV_WORDS[env]} yet.", proc.text[-300:])
+        raise StepFailed(f"Er is nog geen versie gedeployd in {ENV_WORDS[env]}.", proc.text[-300:])
     return tag
 
 
@@ -309,10 +309,10 @@ class GitLabApi:
         try:
             r = requests.request(method, f"{self.base}{path}", headers=self.headers, timeout=30, **kw)
         except requests.RequestException as exc:
-            raise StepFailed("The code server is not reachable.", mask(self.settings, str(exc))) from exc
+            raise StepFailed("De codeserver is niet bereikbaar.", mask(self.settings, str(exc))) from exc
         if r.status_code not in ok:
             raise StepFailed(
-                "The code server refused a request.",
+                "De codeserver weigerde een aanvraag.",
                 mask(self.settings, f"{method} {path} -> {r.status_code}: {r.text[:300]}"),
             )
         return r

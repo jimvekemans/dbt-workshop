@@ -10,13 +10,13 @@
 # Three environments (dev, val, prd): one Airflow + one state volume + one dbt docs site each, one shared SingleStore
 # with separate databases per environment.
 # Host ports, overridable from the environment:
-#   WORKSHOP_S2_PORT (23306)  WORKSHOP_S2_UI_PORT (8083)  WORKSHOP_MAILPIT_PORT (8025)
+#   WORKSHOP_S2_PORT (23306)  WORKSHOP_S2_UI_PORT (8083)  WORKSHOP_MAILPIT_PORT (8025)  WORKSHOP_VAULT_PORT (8200, localhost only)
 #   WORKSHOP_AIRFLOW_DEV_PORT (8088)  WORKSHOP_AIRFLOW_VAL_PORT (8089)  WORKSHOP_AIRFLOW_PRD_PORT (8090)
 # dbt docs sites: dev 8081, val 8082, prd 8086. Management commands (bootstrap, reset) run in the `manager` service.
 name: dbt-workshop
 
 # Upstream images are pinned to exact versions (bump deliberately and rerun a fresh bootstrap): pulled from Docker Hub
-# (gitlab/gitlab-ce, gitlab/gitlab-runner, mysql, nginx, alpine, mailpit) and ghcr.io (singlestoredb-dev). Only airflow,
+# (gitlab/gitlab-ce, gitlab/gitlab-runner, mysql, nginx, alpine, mailpit, hashicorp/vault) and ghcr.io (singlestoredb-dev). Only airflow,
 # manager, workshop-studio and the dbt base/dev images (built by `make images`) are built here.
 configs:
   gitlab_omnibus:
@@ -151,6 +151,47 @@ services:
     restart: on-failure
     ports:
       - "${WORKSHOP_MAILPIT_PORT:-8025}:8025"
+    networks:
+      - workshop_net
+
+  # Local stand-in for a secrets vault: HashiCorp Vault in dev mode (in memory, unsealed, plain HTTP, one fixed root token).
+  # It forgets everything on every start, so ../vault/entrypoint.sh provisions it again each time: AppRole auth, the KV v2
+  # mount kv-workshop, a read-only policy and one AppRole per developer account (pu_dev1..3, fixed role and secret ids)
+  # and the SingleStore password of the developers. Developers use it only when their .devcontainer/.env holds the two
+  # AppRole ids (KEYVAULT_ROLE_ID, KEYVAULT_SECRET_ID); nothing else in the stack depends on it, and the stack works with
+  # it stopped. All values below are workshop fixtures. Published on localhost only. See infrastructure/vault/README.md.
+  vault:
+    image: hashicorp/vault:1.20.4
+    container_name: workshop-vault
+    hostname: vault
+    restart: on-failure
+    mem_limit: 256m
+    cpus: 0.5
+    cap_add:
+      - IPC_LOCK # the image's own advice (mlock); without it the image falls back to running without mlock
+    entrypoint: ["/bin/sh", "/vault/workshop/entrypoint.sh"]
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: workshop-root-token
+      VAULT_LOG_LEVEL: warn
+      # the password of pu_dev1..3 in SingleStore (infrastructure/singlestore/init_global.sql)
+      WORKSHOP_DEVELOPER_DB_PASSWORD: WorkshopPwd2026!
+      WORKSHOP_ROLE_ID_PU_DEV1: workshop-role-id-pu_dev1
+      WORKSHOP_SECRET_ID_PU_DEV1: workshop-secret-id-pu_dev1
+      WORKSHOP_ROLE_ID_PU_DEV2: workshop-role-id-pu_dev2
+      WORKSHOP_SECRET_ID_PU_DEV2: workshop-secret-id-pu_dev2
+      WORKSHOP_ROLE_ID_PU_DEV3: workshop-role-id-pu_dev3
+      WORKSHOP_SECRET_ID_PU_DEV3: workshop-secret-id-pu_dev3
+    ports:
+      - "127.0.0.1:${WORKSHOP_VAULT_PORT:-8200}:8200"
+    volumes:
+      - ../vault:/vault/workshop:ro
+    # healthy once provisioning has finished (provision.sh writes /tmp/provisioned as its last step)
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/provisioned && VAULT_ADDR=http://127.0.0.1:8200 vault status >/dev/null"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
     networks:
       - workshop_net
 
@@ -333,6 +374,7 @@ services:
       WORKSHOP_AIRFLOW_PRD_PORT: ${WORKSHOP_AIRFLOW_PRD_PORT:-8090}
       WORKSHOP_S2_UI_PORT: ${WORKSHOP_S2_UI_PORT:-8083}
       WORKSHOP_MAILPIT_PORT: ${WORKSHOP_MAILPIT_PORT:-8025}
+      WORKSHOP_VAULT_PORT: ${WORKSHOP_VAULT_PORT:-8200}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # where the SingleStore users and the GitLab users get their passwords (shown on the page on demand)

@@ -16,8 +16,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-16T07:34:11.381248+00:00",
-         "finished": "2026-11-16T07:34:21.282639+00:00"
+         "started": "2026-11-21T20:01:59.023978+00:00",
+         "finished": "2026-11-21T20:02:09.086425+00:00"
         },
         "tasks": [
          {
@@ -31,12 +31,12 @@
           "state_text": "Failed"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          },
@@ -54,19 +54,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -93,8 +93,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-16T07:34:11.381248+00:00",
-         "finished": "2026-11-16T07:34:21.282639+00:00"
+         "started": "2026-11-21T20:01:59.023978+00:00",
+         "finished": "2026-11-21T20:02:09.086425+00:00"
         },
         "tasks": [
          {
@@ -108,12 +108,12 @@
           "state_text": "Failed"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          },
@@ -131,19 +131,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -170,8 +170,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-16T07:34:11.381248+00:00",
-         "finished": "2026-11-16T07:34:21.282639+00:00"
+         "started": "2026-11-21T20:01:59.023978+00:00",
+         "finished": "2026-11-21T20:02:09.086425+00:00"
         },
         "tasks": [
          {
@@ -185,12 +185,12 @@
           "state_text": "Failed"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          },
@@ -208,19 +208,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -247,8 +247,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-16T07:34:11.381248+00:00",
-         "finished": "2026-11-16T07:34:21.282639+00:00"
+         "started": "2026-11-21T20:01:59.023978+00:00",
+         "finished": "2026-11-21T20:02:09.086425+00:00"
         },
         "tasks": [
          {
@@ -262,12 +262,12 @@
           "state_text": "Failed"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          },
@@ -285,19 +285,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -324,14 +324,14 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:34:44.596279+00:00",
+         "started": "2026-11-21T20:02:32.052125+00:00",
          "finished": null
         },
         "tasks": [
          {
           "label": "Checking for hand-made changes",
-          "state": "running",
-          "state_text": "Running"
+          "state": "done",
+          "state_text": "Done"
          },
          {
           "label": "Building all the reports",
@@ -362,19 +362,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -383,7 +383,7 @@
      ]
     },
     {
-     "t": 5.6,
+     "t": 5.59,
      "actions": [
       {
        "label": "Starting the nightly load",
@@ -401,14 +401,14 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:34:44.596279+00:00",
+         "started": "2026-11-21T20:02:32.052125+00:00",
          "finished": null
         },
         "tasks": [
          {
           "label": "Checking for hand-made changes",
-          "state": "running",
-          "state_text": "Running"
+          "state": "done",
+          "state_text": "Done"
          },
          {
           "label": "Building all the reports",
@@ -439,19 +439,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -460,7 +460,7 @@
      ]
     },
     {
-     "t": 6.1,
+     "t": 6.12,
      "actions": [
       {
        "label": "Starting the nightly load",
@@ -478,7 +478,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:34:44.596279+00:00",
+         "started": "2026-11-21T20:02:32.052125+00:00",
          "finished": null
         },
         "tasks": [
@@ -516,19 +516,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -555,7 +555,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:34:44.596279+00:00",
+         "started": "2026-11-21T20:02:32.052125+00:00",
          "finished": null
         },
         "tasks": [
@@ -593,19 +593,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -614,7 +614,7 @@
      ]
     },
     {
-     "t": 8.61,
+     "t": 8.6,
      "actions": [
       {
        "label": "Starting the nightly load",
@@ -632,7 +632,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:34:44.596279+00:00",
+         "started": "2026-11-21T20:02:32.052125+00:00",
          "finished": null
         },
         "tasks": [
@@ -670,19 +670,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -709,7 +709,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:34:44.596279+00:00",
+         "started": "2026-11-21T20:02:32.052125+00:00",
          "finished": null
         },
         "tasks": [
@@ -747,19 +747,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -773,7 +773,7 @@
       {
        "label": "Starting the nightly load",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Working on the nightly load: Sending the failure mail",
        "details": ""
       }
      ],
@@ -786,7 +786,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:34:44.596279+00:00",
+         "started": "2026-11-21T20:02:32.052125+00:00",
          "finished": null
         },
         "tasks": [
@@ -824,19 +824,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -845,12 +845,12 @@
      ]
     },
     {
-     "t": 12.21,
+     "t": 12.2,
      "actions": [
       {
        "label": "Starting the nightly load",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Working on the nightly load: Sending the failure mail",
        "details": ""
       }
      ],
@@ -863,7 +863,7 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:34:44.596279+00:00",
+         "started": "2026-11-21T20:02:32.052125+00:00",
          "finished": null
         },
         "tasks": [
@@ -878,19 +878,19 @@
           "state_text": "Failed"
          },
          {
-          "label": "Saving the run so it can be resumed",
-          "state": "todo",
-          "state_text": "Waiting"
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
-          "state": "todo",
-          "state_text": "Waiting"
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done"
          },
          {
           "label": "Sending the failure mail",
-          "state": "todo",
-          "state_text": "Waiting"
+          "state": "done",
+          "state_text": "Done"
          }
         ]
        }
@@ -901,19 +901,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed",
           "current": true
          }
         ],
@@ -923,12 +923,12 @@
      ]
     },
     {
-     "t": 14.24,
+     "t": 14.23,
      "actions": [
       {
        "label": "Starting the nightly load",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Working on the nightly load: Sending the failure mail",
        "details": ""
       }
      ],
@@ -941,8 +941,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-16T07:34:44.596279+00:00",
-         "finished": "2026-11-16T07:34:54.651448+00:00"
+         "started": "2026-11-21T20:02:32.052125+00:00",
+         "finished": "2026-11-21T20:02:41.529931+00:00"
         },
         "tasks": [
          {
@@ -956,7 +956,7 @@
           "state_text": "Failed"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
@@ -966,7 +966,7 @@
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          }
@@ -979,19 +979,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed",
           "current": true
          }
         ],
@@ -1001,13 +1001,13 @@
      ]
     },
     {
-     "t": 14.64,
+     "t": 14.63,
      "actions": [
       {
        "label": "Starting the nightly load",
        "status": "done",
        "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-       "details": "run studio__1794814482_012adf: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, persist_artifacts_to_state=success, dbt_source_freshness=success"
+       "details": "run studio__1795291350_5ebc69: failed; tasks: audit_environment_drift=success, dbt_build=failed, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=success"
       }
      ],
      "evidence": [
@@ -1019,8 +1019,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-16T07:34:44.596279+00:00",
-         "finished": "2026-11-16T07:34:54.651448+00:00"
+         "started": "2026-11-21T20:02:32.052125+00:00",
+         "finished": "2026-11-21T20:02:41.529931+00:00"
         },
         "tasks": [
          {
@@ -1034,7 +1034,7 @@
           "state_text": "Failed"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
@@ -1044,7 +1044,7 @@
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          }
@@ -1057,19 +1057,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed",
           "current": true
          }
         ],
@@ -1079,13 +1079,13 @@
      ]
     },
     {
-     "t": 14.67,
+     "t": 14.66,
      "actions": [
       {
        "label": "Starting the nightly load",
        "status": "done",
        "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-       "details": "run studio__1794814482_012adf: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, persist_artifacts_to_state=success, dbt_source_freshness=success"
+       "details": "run studio__1795291350_5ebc69: failed; tasks: audit_environment_drift=success, dbt_build=failed, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=success"
       }
      ],
      "evidence": [
@@ -1097,8 +1097,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-16T07:34:44.596279+00:00",
-         "finished": "2026-11-16T07:34:54.651448+00:00"
+         "started": "2026-11-21T20:02:32.052125+00:00",
+         "finished": "2026-11-21T20:02:41.529931+00:00"
         },
         "tasks": [
          {
@@ -1112,7 +1112,7 @@
           "state_text": "Failed"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
@@ -1122,7 +1122,7 @@
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          }
@@ -1135,19 +1135,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed",
           "current": true
          }
         ],
@@ -1157,13 +1157,13 @@
      ]
     },
     {
-     "t": 14.67,
+     "t": 14.66,
      "actions": [
       {
        "label": "Starting the nightly load",
        "status": "done",
        "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-       "details": "run studio__1794814482_012adf: failed; tasks: audit_environment_drift=success, dbt_build=failed, send_failure_report=success, persist_artifacts_to_state=success, dbt_source_freshness=success"
+       "details": "run studio__1795291350_5ebc69: failed; tasks: audit_environment_drift=success, dbt_build=failed, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=success"
       }
      ],
      "evidence": [
@@ -1175,8 +1175,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-16T07:34:44.596279+00:00",
-         "finished": "2026-11-16T07:34:54.651448+00:00"
+         "started": "2026-11-21T20:02:32.052125+00:00",
+         "finished": "2026-11-21T20:02:41.529931+00:00"
         },
         "tasks": [
          {
@@ -1190,7 +1190,7 @@
           "state_text": "Failed"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
@@ -1200,7 +1200,7 @@
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          }
@@ -1213,19 +1213,19 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed",
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed",
           "current": true
          }
         ],
@@ -1236,14 +1236,14 @@
     }
    ],
    "summary": "The nightly load failed in development, as expected: it stopped at 'Building all the reports'.",
-   "outcome": "The first night built 24 of 28 tables and stopped; 4 tables and 2 checks never ran, and 1 check failed.",
+   "outcome": "The first night stopped partway. The line above counts what was built and what never ran, and 1 check failed.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:34:55+00:00",
+   "recorded_at": "2026-11-21T20:02:43+00:00",
    "durations": [
-    14.6,
-    14.6,
-    14.9,
-    14.6,
+    14.7,
+    14.7,
+    14.8,
+    14.7,
     14.7
    ],
    "show": [
@@ -1429,7 +1429,7 @@
    "summary": "The database made the change.",
    "outcome": "The cause is gone, no order without an order number is left. Only the retry remains.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:34:56+00:00",
+   "recorded_at": "2026-11-21T20:02:44+00:00",
    "durations": [
     0.0,
     0.0,
@@ -1456,8 +1456,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-16T07:34:44.596279+00:00",
-         "finished": "2026-11-16T07:34:54.651448+00:00"
+         "started": "2026-11-21T20:02:32.052125+00:00",
+         "finished": "2026-11-21T20:02:41.529931+00:00"
         },
         "tasks": [
          {
@@ -1471,7 +1471,7 @@
           "state_text": "Failed"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
@@ -1481,7 +1481,7 @@
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          }
@@ -1494,34 +1494,34 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -1548,8 +1548,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-16T07:34:44.596279+00:00",
-         "finished": "2026-11-16T07:34:54.651448+00:00"
+         "started": "2026-11-21T20:02:32.052125+00:00",
+         "finished": "2026-11-21T20:02:41.529931+00:00"
         },
         "tasks": [
          {
@@ -1563,7 +1563,7 @@
           "state_text": "Failed"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
@@ -1573,7 +1573,7 @@
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          }
@@ -1586,34 +1586,34 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -1622,12 +1622,12 @@
      ]
     },
     {
-     "t": 1.27,
+     "t": 1.22,
      "actions": [
       {
        "label": "Retrying only the failed part of the nightly load",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Working on the nightly load: getting started",
        "details": ""
       }
      ],
@@ -1640,8 +1640,8 @@
         "run": {
          "state": "failed",
          "state_text": "Failed",
-         "started": "2026-11-16T07:34:44.596279+00:00",
-         "finished": "2026-11-16T07:34:54.651448+00:00"
+         "started": "2026-11-21T20:02:32.052125+00:00",
+         "finished": "2026-11-21T20:02:41.529931+00:00"
         },
         "tasks": [
          {
@@ -1655,7 +1655,7 @@
           "state_text": "Failed"
          },
          {
-          "label": "Sending the failure mail",
+          "label": "Checking that every data feed is up to date",
           "state": "done",
           "state_text": "Done"
          },
@@ -1665,7 +1665,7 @@
           "state_text": "Done"
          },
          {
-          "label": "Checking that every data feed is up to date",
+          "label": "Sending the failure mail",
           "state": "done",
           "state_text": "Done"
          }
@@ -1678,34 +1678,34 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -1714,12 +1714,12 @@
      ]
     },
     {
-     "t": 2.06,
+     "t": 2.05,
      "actions": [
       {
        "label": "Retrying only the failed part of the nightly load",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Working on the nightly load: getting started",
        "details": ""
       }
      ],
@@ -1732,29 +1732,29 @@
         "run": {
          "state": "running",
          "state_text": "Running",
-         "started": "2026-11-16T07:34:57.455736+00:00",
+         "started": "2026-11-21T20:02:46.074487+00:00",
          "finished": null
         },
         "tasks": [
          {
           "label": "Checking for hand-made changes",
           "state": "done",
-          "state_text": "Done in the first attempt"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "done",
-          "state_text": "Done in the first attempt"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done in the first attempt"
+          "state_text": "Done the first time"
          },
          {
           "label": "Checking that every data feed is up to date",
           "state": "done",
-          "state_text": "Done in the first attempt"
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done the first time"
          },
          {
           "label": "Building all the reports",
@@ -1770,34 +1770,34 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          },
          {
-          "started": "2026-11-16T07:34:12.713700",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:00.656439",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -1806,12 +1806,198 @@
      ]
     },
     {
-     "t": 4.09,
+     "t": 4.08,
      "actions": [
       {
        "label": "Retrying only the failed part of the nightly load",
        "status": "running",
-       "summary": "Working on the nightly load: Building all the reports",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-21T20:02:46.074487+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T20:02:46.434212",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.24,
+     "actions": [
+      {
+       "label": "Retrying only the failed part of the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "tasks",
+       "title": "The nightly load",
+       "data": {
+        "title": "the nightly load",
+        "run": {
+         "state": "running",
+         "state_text": "Running",
+         "started": "2026-11-21T20:02:46.074487+00:00",
+         "finished": null
+        },
+        "tasks": [
+         {
+          "label": "Checking for hand-made changes",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Checking that every data feed is up to date",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Building all the reports",
+          "state": "done",
+          "state_text": "Done"
+         }
+        ]
+       }
+      },
+      {
+       "type": "run_history",
+       "title": "What ran",
+       "data": {
+        "runs": [
+         {
+          "started": "2026-11-21T20:02:46.434212",
+          "tables_built": 4,
+          "tables_total": 4,
+          "tables_not_run": 0,
+          "tables_failed": 0,
+          "tables_left_out": 0,
+          "checks_passed": 3,
+          "checks_failed": 0,
+          "checks_warned": 0,
+          "checks_not_run": 0,
+          "retry": true,
+          "state": "good",
+          "summary": "Retry: 4 tables built, 3 checks passed",
+          "current": true
+         },
+         {
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
+          "tables_not_run": 4,
+          "tables_failed": 0,
+          "tables_left_out": 1,
+          "checks_passed": 18,
+          "checks_failed": 1,
+          "checks_warned": 0,
+          "checks_not_run": 2,
+          "retry": false,
+          "state": "bad",
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
+         }
+        ],
+        "empty": "No run has been recorded yet."
+       }
+      }
+     ]
+    },
+    {
+     "t": 6.11,
+     "actions": [
+      {
+       "label": "Retrying only the failed part of the nightly load",
+       "status": "running",
+       "summary": "Working on the nightly load: getting started",
        "details": ""
       }
      ],
@@ -1824,29 +2010,29 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-16T07:34:57.455736+00:00",
-         "finished": "2026-11-16T07:35:00.423017+00:00"
+         "started": "2026-11-21T20:02:46.074487+00:00",
+         "finished": "2026-11-21T20:02:49.153968+00:00"
         },
         "tasks": [
          {
           "label": "Checking for hand-made changes",
           "state": "done",
-          "state_text": "Done in the first attempt"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "done",
-          "state_text": "Done in the first attempt"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done in the first attempt"
+          "state_text": "Done the first time"
          },
          {
           "label": "Checking that every data feed is up to date",
           "state": "done",
-          "state_text": "Done in the first attempt"
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done the first time"
          },
          {
           "label": "Building all the reports",
@@ -1862,7 +2048,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:57.775371",
+          "started": "2026-11-21T20:02:46.434212",
           "tables_built": 4,
           "tables_total": 4,
           "tables_not_run": 0,
@@ -1878,19 +2064,19 @@
           "current": true
          },
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -1899,13 +2085,13 @@
      ]
     },
     {
-     "t": 4.28,
+     "t": 7.25,
      "actions": [
       {
        "label": "Retrying only the failed part of the nightly load",
        "status": "done",
        "summary": "The nightly load finished without problems in development.",
-       "details": "run studio__1794814482_012adf: success; tasks: audit_environment_drift=success, send_failure_report=success, persist_artifacts_to_state=success, dbt_source_freshness=success, dbt_build=success"
+       "details": "run studio__1795291350_5ebc69: success; tasks: audit_environment_drift=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=success, dbt_build=success"
       }
      ],
      "evidence": [
@@ -1917,29 +2103,29 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-16T07:34:57.455736+00:00",
-         "finished": "2026-11-16T07:35:00.423017+00:00"
+         "started": "2026-11-21T20:02:46.074487+00:00",
+         "finished": "2026-11-21T20:02:49.153968+00:00"
         },
         "tasks": [
          {
           "label": "Checking for hand-made changes",
           "state": "done",
-          "state_text": "Done in the first attempt"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "done",
-          "state_text": "Done in the first attempt"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done in the first attempt"
+          "state_text": "Done the first time"
          },
          {
           "label": "Checking that every data feed is up to date",
           "state": "done",
-          "state_text": "Done in the first attempt"
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done the first time"
          },
          {
           "label": "Building all the reports",
@@ -1955,7 +2141,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:57.775371",
+          "started": "2026-11-21T20:02:46.434212",
           "tables_built": 4,
           "tables_total": 4,
           "tables_not_run": 0,
@@ -1971,19 +2157,19 @@
           "current": true
          },
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -1992,13 +2178,13 @@
      ]
     },
     {
-     "t": 4.31,
+     "t": 7.28,
      "actions": [
       {
        "label": "Retrying only the failed part of the nightly load",
        "status": "done",
        "summary": "The nightly load finished without problems in development.",
-       "details": "run studio__1794814482_012adf: success; tasks: audit_environment_drift=success, send_failure_report=success, persist_artifacts_to_state=success, dbt_source_freshness=success, dbt_build=success"
+       "details": "run studio__1795291350_5ebc69: success; tasks: audit_environment_drift=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=success, dbt_build=success"
       }
      ],
      "evidence": [
@@ -2010,29 +2196,29 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-16T07:34:57.455736+00:00",
-         "finished": "2026-11-16T07:35:00.423017+00:00"
+         "started": "2026-11-21T20:02:46.074487+00:00",
+         "finished": "2026-11-21T20:02:49.153968+00:00"
         },
         "tasks": [
          {
           "label": "Checking for hand-made changes",
           "state": "done",
-          "state_text": "Done in the first attempt"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "done",
-          "state_text": "Done in the first attempt"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done in the first attempt"
+          "state_text": "Done the first time"
          },
          {
           "label": "Checking that every data feed is up to date",
           "state": "done",
-          "state_text": "Done in the first attempt"
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done the first time"
          },
          {
           "label": "Building all the reports",
@@ -2048,7 +2234,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:57.775371",
+          "started": "2026-11-21T20:02:46.434212",
           "tables_built": 4,
           "tables_total": 4,
           "tables_not_run": 0,
@@ -2064,19 +2250,19 @@
           "current": true
          },
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -2085,13 +2271,13 @@
      ]
     },
     {
-     "t": 4.31,
+     "t": 7.28,
      "actions": [
       {
        "label": "Retrying only the failed part of the nightly load",
        "status": "done",
        "summary": "The nightly load finished without problems in development.",
-       "details": "run studio__1794814482_012adf: success; tasks: audit_environment_drift=success, send_failure_report=success, persist_artifacts_to_state=success, dbt_source_freshness=success, dbt_build=success"
+       "details": "run studio__1795291350_5ebc69: success; tasks: audit_environment_drift=success, dbt_source_freshness=success, persist_artifacts_to_state=success, send_failure_report=success, dbt_build=success"
       }
      ],
      "evidence": [
@@ -2103,29 +2289,29 @@
         "run": {
          "state": "done",
          "state_text": "Finished without problems",
-         "started": "2026-11-16T07:34:57.455736+00:00",
-         "finished": "2026-11-16T07:35:00.423017+00:00"
+         "started": "2026-11-21T20:02:46.074487+00:00",
+         "finished": "2026-11-21T20:02:49.153968+00:00"
         },
         "tasks": [
          {
           "label": "Checking for hand-made changes",
           "state": "done",
-          "state_text": "Done in the first attempt"
-         },
-         {
-          "label": "Sending the failure mail",
-          "state": "done",
-          "state_text": "Done in the first attempt"
-         },
-         {
-          "label": "Saving the run so it can be resumed",
-          "state": "done",
-          "state_text": "Done in the first attempt"
+          "state_text": "Done the first time"
          },
          {
           "label": "Checking that every data feed is up to date",
           "state": "done",
-          "state_text": "Done in the first attempt"
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Saving the run so it can be resumed",
+          "state": "done",
+          "state_text": "Done the first time"
+         },
+         {
+          "label": "Sending the failure mail",
+          "state": "done",
+          "state_text": "Done the first time"
          },
          {
           "label": "Building all the reports",
@@ -2141,7 +2327,7 @@
        "data": {
         "runs": [
          {
-          "started": "2026-11-16T07:34:57.775371",
+          "started": "2026-11-21T20:02:46.434212",
           "tables_built": 4,
           "tables_total": 4,
           "tables_not_run": 0,
@@ -2157,19 +2343,19 @@
           "current": true
          },
          {
-          "started": "2026-11-16T07:34:45.644253",
-          "tables_built": 24,
-          "tables_total": 28,
+          "started": "2026-11-21T20:02:33.391775",
+          "tables_built": 25,
+          "tables_total": 29,
           "tables_not_run": 4,
           "tables_failed": 0,
-          "tables_left_out": 0,
+          "tables_left_out": 1,
           "checks_passed": 18,
           "checks_failed": 1,
           "checks_warned": 0,
           "checks_not_run": 2,
           "retry": false,
           "state": "bad",
-          "summary": "24 of 28 tables built, 4 tables and 2 checks not run, 1 check failed"
+          "summary": "25 of 30 tables built, 1 left out on purpose, 4 tables and 2 checks not run, 1 check failed"
          }
         ],
         "empty": "No run has been recorded yet."
@@ -2179,15 +2365,15 @@
     }
    ],
    "summary": "The nightly load finished without problems in development.",
-   "outcome": "The retry built only the 4 tables that had not run and ran 3 checks, instead of all 28 tables and 21 checks, and the night is green.",
+   "outcome": "The retry built only the tables that had not run and ran only their checks, not the whole night again (compare the two lines above), and the night is green.",
    "outcome_kind": "good",
-   "recorded_at": "2026-11-16T07:35:00+00:00",
+   "recorded_at": "2026-11-21T20:02:51+00:00",
    "durations": [
-    4.2,
-    7.2,
-    4.4,
+    4.3,
     7.3,
-    4.3
+    10.3,
+    4.3,
+    7.3
    ],
    "show": [
     "tasks",
@@ -2195,14 +2381,14 @@
    ]
   }
  },
- "recorded_at": "2026-11-16T07:35:00+00:00",
+ "recorded_at": "2026-11-21T20:02:51+00:00",
  "prepare": {
   "durations": [
-   13.8,
-   14.1,
-   27.5,
    14.4,
-   14.4
+   15.6,
+   14.3,
+   15.7,
+   14.3
   ]
  }
 }

@@ -1,8 +1,8 @@
 *, *::before, *::after { box-sizing: border-box; }
 html {
   /* grows with the window (a projector needs more than a laptop); --text-scale is the presenter's own choice
-     (the A buttons in the top bar, lib/textSize.ts), Medium when nothing was chosen */
-  font-size: calc(clamp(18px, 0.9vw + 10px, 26px) * var(--text-scale, 0.85));
+     (the A buttons in the top bar, lib/textSize.ts), the default size (0.65) when nothing was chosen */
+  font-size: calc(clamp(18px, 0.9vw + 10px, 26px) * var(--text-scale, 0.65));
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

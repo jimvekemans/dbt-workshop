@@ -8,14 +8,14 @@ export function ModeBadge() {
   const { server, connected } = useStudio()
   const { openMode } = useUi()
   if (!connected) return <span className={cx(styles.badge, styles.wait)}>Offline</span>
-  if (!server) return <span className={cx(styles.badge, styles.wait)}>Connecting…</span>
+  if (!server) return <span className={cx(styles.badge, styles.wait)}>Verbinden…</span>
   const live = server.mode === 'live'
   return (
     <button
       type="button"
       className={cx(styles.badge, styles.button, live ? styles.live : styles.replay)}
-      title="Change how the demos run"
-      aria-label={live ? 'Live. Change how the demos run' : 'Recorded replay. Change how the demos run'}
+      title="Wijzig hoe de demo's draaien"
+      aria-label={live ? 'Live. Wijzig hoe de demo\'s draaien' : 'Opname. Wijzig hoe de demo\'s draaien'}
       onClick={openMode}
     >
       <span className={styles.dot} aria-hidden="true">
@@ -25,8 +25,8 @@ export function ModeBadge() {
         'Live'
       ) : (
         <>
-          <span className={styles.long}>Recorded replay</span>
-          <span className={styles.short}>Replay</span>
+          <span className={styles.long}>Opname</span>
+          <span className={styles.short}>Opname</span>
         </>
       )}
     </button>

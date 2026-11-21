@@ -28,7 +28,7 @@ from bootstrap_stack import (
 
 # Airflow Variables used as runtime levers between deploy windows (airflow/utils/dbt_runtime_overrides.py).
 # dbt_image_tag is not cleared: the deploy of the first tag sets it again, and Airflow keeps running meanwhile.
-LEVER_VARIABLES = ("disabled_dbt_models", "dbt_daily_load_dbtignore", "dbt_env_vars")
+LEVER_VARIABLES = ("disabled_dbt_models", "dbt_daily_load_dbtignore", "dbt_env_vars", "dbt_dataset_dependencies", "dbt_emit_asset_events")
 
 
 def reset_singlestore():

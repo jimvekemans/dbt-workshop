@@ -9,35 +9,35 @@ import styles from './PipelineView.module.css'
 function ownerOf(data: PipelineData, f: PipelineFailure): number {
   const failed = data.jobs.map((j, i) => (j.state === 'failed' ? i : -1)).filter((i) => i >= 0)
   if (failed.length === 0) return -1
-  const re = f.kind === 'check' ? /check|test|valid|quality/i : /build|run|table|model|load/i
+  const re = f.kind === 'check' ? /check|test|valid|quality|kwaliteit/i : /build|run|table|tabel|model|load/i
   return failed.find((i) => re.test(data.jobs[i]?.label ?? '')) ?? failed[0]!
 }
 
 /** A row of stages that follow one another, each with its own status. */
 export function PipelineView({ data }: { data: PipelineData }) {
-  if (data.jobs.length === 0) return <EmptyNote>{data.state_text ? `${data.state_text}.` : 'Nothing has started yet.'}</EmptyNote>
+  if (data.jobs.length === 0) return <EmptyNote>{data.state_text ? `${data.state_text}.` : 'Er is nog niets gestart.'}</EmptyNote>
   const overall = taskStatus(data.state, data.state_text)
   const failures = Array.isArray(data.failures) ? data.failures.filter((f) => f && f.text) : []
   const under = data.jobs.map((_, i) => failures.filter((f) => ownerOf(data, f) === i))
   const orphans = failures.filter((f) => ownerOf(data, f) < 0)
   const line = (f: PipelineFailure, i: number) => (
     <p key={i} className={styles.failure}>
-      <b>What failed:</b> {f.text}
-      {typeof f.rows === 'number' && <span className={styles.rows}> · {formatNumber(f.rows)} {f.rows === 1 ? 'row' : 'rows'}</span>}
+      <b>Wat mislukte:</b> {f.text}
+      {typeof f.rows === 'number' && <span className={styles.rows}> · {formatNumber(f.rows)} {f.rows === 1 ? 'rij' : 'rijen'}</span>}
     </p>
   )
   const re = data.rehearsed
   const total = re && typeof re.tables_total === 'number' && re.tables_total > 0 ? re.tables_total : null
   const rehearsed =
     re && typeof re.tables === 'number'
-      ? `${formatNumber(re.tables)}${total !== null ? ` of ${formatNumber(total)}` : ''} ${(total ?? re.tables) === 1 ? 'table' : 'tables'} rehearsed`
+      ? `${formatNumber(re.tables)}${total !== null ? ` van ${formatNumber(total)}` : ''} ${(total ?? re.tables) === 1 ? 'tabel' : 'tabellen'} in de testrun`
       : null
   const quiet = re
     ? [
         Array.isArray(re.names) && re.names.length > 0 ? re.names.join(', ') : null,
-        typeof re.checks === 'number' ? `${formatNumber(re.checks)} data ${re.checks === 1 ? 'check' : 'checks'}` : null,
-        // whole seconds, at least 1: the same number as in the step's sentence ("in 1 second")
-        typeof re.seconds === 'number' ? ((n) => `${n} ${n === 1 ? 'second' : 'seconds'}`)(Math.max(1, Math.round(re.seconds))) : null,
+        typeof re.checks === 'number' ? `${formatNumber(re.checks)} ${re.checks === 1 ? 'datacheck' : 'datachecks'}` : null,
+        // whole seconds, at least 1: the same number as in the step's sentence ("in 1 seconde")
+        typeof re.seconds === 'number' ? ((n) => `${n} ${n === 1 ? 'seconde' : 'seconden'}`)(Math.max(1, Math.round(re.seconds))) : null,
       ].filter(Boolean)
     : []
   return (
@@ -48,7 +48,7 @@ export function PipelineView({ data }: { data: PipelineData }) {
             <b>{rehearsed}</b>
           </p>
           {total !== null && (
-            <div className={styles.prop} role="img" aria-label={`${re.tables} of ${total} tables`}>
+            <div className={styles.prop} role="img" aria-label={`${re.tables} van ${total} tabellen`}>
               <span style={{ width: `${Math.max(1.5, Math.min(100, (re.tables / total) * 100))}%` }} />
             </div>
           )}
@@ -60,7 +60,7 @@ export function PipelineView({ data }: { data: PipelineData }) {
           {overall.word}
         </Status>
       </p>
-      <ol className={styles.row} aria-label="Stages, in order">
+      <ol className={styles.row} aria-label="Stappen, op volgorde">
         {data.jobs.map((s, i) => {
           const st = taskStatus(s.state, s.state_text)
           return (

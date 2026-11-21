@@ -20,13 +20,16 @@ from .dbt import DEV_IMAGE
 CONNECTOR_FILE = "/usr/local/lib/dbt/libadbc_driver_singlestore.so"
 # name -> (plain name, the command, what to read from its output). The command is fixed text, never from a scenario.
 PROBES: dict[str, tuple[str, str, str]] = {
-    "report_builder": ("Report builder", "dbt --version", r"(\d+\.\d+\.\d+\S*)"),
-    "connector": ("Database connector", f"sha256sum {CONNECTOR_FILE}", r"^([0-9a-f]{12})"),
-    "layout_robot": ("Layout robot", "sqlfmt --version", r"(\d+\.\d+\.\d+\S*)"),
-    "rule_checker": ("Rule checker", "dbt-bouncer --version", r"(\d+\.\d+\.\d+\S*)"),
-    "helper_tool": ("Helper tool", "vdp --version", r"(\d+\.\d+\.\d+\S*)"),
-    "pre_save_checks": ("Pre-save checks", "pre-commit --version", r"(\d+\.\d+\.\d+\S*)"),
+    "report_builder": ("Rapportbouwer", "dbt --version", r"(\d+\.\d+\.\d+\S*)"),
+    "connector": ("Databaseconnector", f"sha256sum {CONNECTOR_FILE}", r"^([0-9a-f]{12})"),
+    "layout_robot": ("Layoutrobot", "sqlfmt --version", r"(\d+\.\d+\.\d+\S*)"),
+    "rule_checker": ("Regelchecker", "dbt-bouncer --version", r"(\d+\.\d+\.\d+\S*)"),
+    "helper_tool": ("Hulptool", "vdp --version", r"(\d+\.\d+\.\d+\S*)"),
+    "pre_save_checks": ("Checks voor het opslaan", "pre-commit --version", r"(\d+\.\d+\.\d+\S*)"),
 }
+# The English names of the probes, for the technical details only (they stay as they were).
+DETAIL_NAMES = {"report_builder": "Report builder", "connector": "Database connector", "layout_robot": "Layout robot",
+                "rule_checker": "Rule checker", "helper_tool": "Helper tool", "pre_save_checks": "Pre-save checks"}
 # The technical names, for the details only.
 TECHNICAL = {"report_builder": "dbt", "connector": "ADBC driver", "layout_robot": "sqlfmt", "rule_checker": "dbt-bouncer",
              "helper_tool": "vdp", "pre_save_checks": "pre-commit"}
@@ -76,50 +79,50 @@ def parse(output: str) -> dict[str, str | None]:
 def list_tools(ctx: Ctx, image: str) -> dict[str, str | None]:
     proc = clients.run_container(ctx, image, ["sh", "-c", SCRIPT], timeout=180)
     if proc.returncode != 0 and MARK not in proc.stdout:
-        raise StepFailed("A fresh container of the package could not be opened.", proc.text[-400:])
+        raise StepFailed("Een verse container van het package kon niet geopend worden.", proc.text[-400:])
     return parse(proc.stdout)
 
 
-INSTALLED = "installed"
+INSTALLED = "geïnstalleerd"
 
 
 def shown(name: str, version: str | None, *, side: str = "single", same: bool = True) -> str:
-    """What a visitor reads for one tool: "version 1.2.3"; "installed" for a tool without a real number (none printed,
-    or 0.0.0 of a build from the team's own copy). The connector is a file: it reads "installed" in a single listing, "the
-    same build" when both sides have it and it matches, else "this build" (left) and "a different build" (right).
-    "not included" when the tool is not there. A hash never shows."""
+    """What a visitor reads for one tool: "versie 1.2.3"; "geïnstalleerd" for a tool without a real number (none printed,
+    or 0.0.0 of a build from the team's own copy). The connector is a file: it reads "geïnstalleerd" in a single listing,
+    "dezelfde build" when both sides have it and it matches, else "deze build" (left) and "een andere build" (right).
+    "niet inbegrepen" when the tool is not there. A hash never shows."""
     if version is None:
-        return "not included"
+        return "niet inbegrepen"
     if name == "connector":
-        return "installed" if side == "single" else "the same build" if same else (
-            "this build" if side == "left" else "a different build")
+        return INSTALLED if side == "single" else "dezelfde build" if same else (
+            "deze build" if side == "left" else "een andere build")
     if version == NO_NUMBER or re.match(r"0\.0\.0(?![.\d])", version):
         return INSTALLED
-    return f"version {version}"
+    return f"versie {version}"
 
 
 def technical_line(name: str, version: str | None) -> str:
-    return f"{PROBES[name][0]} ({TECHNICAL[name]}): " + ("not included" if version is None else
+    return f"{DETAIL_NAMES[name]} ({TECHNICAL[name]}): " + ("not included" if version is None else
                                                           f"build {version[:7]}" if name == "connector" else version)
 
 
 @action("image.versions", ImageVersionsParams,
-        lambda p: {"production": "Comparing the toolbox with production", "toolbox": "Comparing two fresh toolboxes"}.get(
-            p.compare_with, "Opening a fresh toolbox"))
+        lambda p: {"production": "De toolbox vergelijken met productie", "toolbox": "Twee verse toolboxen vergelijken"}.get(
+            p.compare_with, "Een verse toolbox openen"))
 def versions(ctx: Ctx, p: ImageVersionsParams) -> Result:
     left = list_tools(ctx, DEV_IMAGE)
     if not p.compare_with:
         rows = [{"probe": n, "label": PROBES[n][0], "left": left[n]} for n in p.probes]
         reasons = [{"label": r["label"], "left": shown(r["probe"], r["left"], side="single")} for r in rows]
-        return Result("Opened a fresh toolbox and listed its tools.",
+        return Result("Een verse toolbox geopend en de tools opgelijst.",
                       details="\n".join([f"image {DEV_IMAGE}"] + [technical_line(r["probe"], r["left"]) for r in rows]),
                       data={"reasons": reasons, "left_title": "Toolbox", "tools": rows})
     tag = None
     if p.compare_with == "production":
         tag = clients.deployed_tag(ctx, "prd")
-        other_image, titles = f"dbt-vdp:{tag}", ("Toolbox", "Production package")
+        other_image, titles = f"dbt-vdp:{tag}", ("Toolbox", "Productiepackage")
     else:
-        other_image, titles = DEV_IMAGE, ("First toolbox", "Second toolbox")
+        other_image, titles = DEV_IMAGE, ("Eerste toolbox", "Tweede toolbox")
     right = list_tools(ctx, other_image)
     rows = []
     for n in p.probes:
@@ -130,10 +133,10 @@ def versions(ctx: Ctx, p: ImageVersionsParams) -> Result:
                 "right": None if r["right"] is None else shown(r["probe"], r["right"], side="right", same=r["state"] == "same"),
                 "same": r["state"] == "same"} for r in rows]
     if odd := [r["label"] for r in rows if r["probe"] in p.expect_same and r["state"] != "same"]:
-        raise StepFailed(f"The two sides are not the same for: {', '.join(odd).lower()}.",
-                         "\n".join(f"{r['label']}: {r['state']}" for r in rows))
-    first = "Opened two fresh toolboxes and compared their tools." if p.compare_with == "toolbox" else \
-        "Compared a fresh toolbox with the package that runs in production."
+        raise StepFailed(f"Tussen beide is er een verschil bij: {', '.join(odd).lower()}.",
+                         "\n".join(f"{DETAIL_NAMES[r['probe']]}: {r['state']}" for r in rows))
+    first = "Twee verse toolboxen geopend en hun tools vergeleken." if p.compare_with == "toolbox" else \
+        "Een verse toolbox vergeleken met het package dat in productie runt."
     detail = [f"{DEV_IMAGE} against {other_image}"] + [
         f"{technical_line(r['probe'], r['left'])} | {technical_line(r['probe'], r['right']).split(': ', 1)[1]} | {r['state']}"
         for r in rows]

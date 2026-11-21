@@ -37,18 +37,18 @@ describe('EvidenceView with real payloads', () => {
   it('shows loading, waiting and the backend sentence for a failed provider', () => {
     const base = item('table')
     const { rerender } = render(<EvidenceView item={base} stepStatus="todo" />)
-    expect(screen.getByText(/Appears after you press the button above/i)).toBeInTheDocument()
+    expect(screen.getByText(/Verschijnt nadat je op de knop hierboven drukt/i)).toBeInTheDocument()
     rerender(<EvidenceView item={base} stepStatus="running" />)
-    expect(screen.getByRole('status', { name: /Reading the latest/ })).toBeInTheDocument()
-    rerender(<EvidenceView item={{ ...base, data: { error: 'We could not read this just now.' } }} stepStatus="running" />)
-    expect(screen.getByRole('alert')).toHaveTextContent('We could not read this just now.')
+    expect(screen.getByRole('status', { name: /De laatste gegevens worden gelezen/ })).toBeInTheDocument()
+    rerender(<EvidenceView item={{ ...base, data: { error: 'We konden dit nu niet lezen.' } }} stepStatus="running" />)
+    expect(screen.getByRole('alert')).toHaveTextContent('We konden dit nu niet lezen.')
   })
 
   it('uses the empty sentences the backend sends, and a default title when there is none', () => {
     const t = { type: 'table', data: { columns: [], rows: [], empty: 'Nothing wrong today.', truncated: false } } as LiveEvidence
     render(<EvidenceView item={t} stepStatus="running" />)
     expect(screen.getByText('Nothing wrong today.')).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'The numbers' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'De cijfers' })).toBeInTheDocument()
   })
 
   it('scrolls a table of 200 rows inside its frame, with a sticky header and a truncation note', () => {
@@ -57,14 +57,14 @@ describe('EvidenceView with real payloads', () => {
     const { container } = render(<EvidenceView item={live} stepStatus="done" />)
     expect(container.querySelectorAll('tbody tr')).toHaveLength(200)
     expect(container.querySelectorAll('thead th')).toHaveLength(8)
-    expect(screen.getByText(/Only the first 200 rows/)).toBeInTheDocument()
+    expect(screen.getByText(/Enkel de eerste 200 rijen/)).toBeInTheDocument()
   })
 
   it('shows a changed version obviously from what the app remembered, and mail in a script-free sandbox', () => {
     const v = { ...item('versions'), data: { environments: [{ env: 'dev', label: 'Development', tag: 'v2' }, { env: 'val', label: 'Acceptance', tag: 'v1' }, { env: 'prd', label: 'Production', tag: 'v1' }] } } as LiveEvidence
     const { unmount } = render(<EvidenceView item={v} stepStatus="done" previous={{ dev: 'v1', val: 'v1', prd: 'v1' }} />)
-    expect(screen.getAllByText('Changed')).toHaveLength(1)
-    expect(screen.getAllByText('Unchanged')).toHaveLength(2)
+    expect(screen.getAllByText('Gewijzigd')).toHaveLength(1)
+    expect(screen.getAllByText('Ongewijzigd')).toHaveLength(2)
     unmount()
     const m = { ...item('mail'), data: { found: true, subject: 'Hi', from: 'a', received: '2026-11-15T12:20:33.855Z', html: '<script>alert(1)</script><p>x</p>' } } as LiveEvidence
     const { container } = render(<EvidenceView item={m} stepStatus="done" />)

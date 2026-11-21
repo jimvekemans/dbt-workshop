@@ -16,7 +16,7 @@ export function LeftoversNotice() {
   if (left.length === 0) {
     return (
       <p className={styles.tidy}>
-        <StatusMark state="ok" /> Nothing left over from earlier demos. Every scenario starts clean.
+        <StatusMark state="ok" /> Er blijft niets over van vorige demo's. Elk scenario start schoon.
       </p>
     )
   }
@@ -24,16 +24,16 @@ export function LeftoversNotice() {
   return (
     <Callout
       tone="info"
-      title="The last demo left its practice data behind"
+      title="De laatste demo liet oefendata achter"
       actions={
-        <Button icon={<BroomIcon />} loading={cleaning} disabled={!!server.job && !cleaning} disabledReason="Wait until the current work has finished" onClick={() => void actions.cleanup()}>
-          {cleaning ? 'Cleaning up…' : 'Clean up now'}
+        <Button icon={<BroomIcon />} loading={cleaning} disabled={!!server.job && !cleaning} disabledReason="Wacht tot het huidige werk klaar is" onClick={() => void actions.cleanup()}>
+          {cleaning ? 'Bezig met opkuisen…' : 'Nu opkuisen'}
         </Button>
       }
     >
-      {from && <p className={styles.from}>From: {from}</p>}
-      <p>Harmless. Starting any scenario tidies this automatically.</p>
-      <Disclosure summary="What exactly?">
+      {from && <p className={styles.from}>Van: {from}</p>}
+      <p>Onschuldig. Elk scenario dat je start, kuist dit automatisch op.</p>
+      <Disclosure summary="Wat precies?">
         <ul className={styles.list}>
           {left.map((l, i) => (
             <li key={i}>{l.label}</li>

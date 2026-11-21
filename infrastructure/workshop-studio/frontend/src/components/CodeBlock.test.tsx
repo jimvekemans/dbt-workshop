@@ -28,7 +28,7 @@ describe('CodeBlock', () => {
     render(<CodeBlock block={block()} />)
     expect(screen.getByText('The recipe for the table of parcel scans')).toBeInTheDocument()
     expect(screen.getByText('models/edw/stg_carrier_events.sql').tagName).toBe('CODE')
-    expect(screen.getAllByRole('link', { name: /Open in GitLab/ })).toHaveLength(1)
+    expect(screen.getAllByRole('link', { name: /Openen in GitLab/ })).toHaveLength(1)
     expect(screen.queryByText('Needs the workshop login.')).toBeNull()
   })
   it('shows no link when there is no URL', () => {
@@ -46,15 +46,15 @@ describe('CodeBlock', () => {
   })
   it('lets the code scroll as a keyboard-focusable group', () => {
     render(<CodeBlock block={block()} />)
-    expect(screen.getByRole('group', { name: /Code from The recipe/ })).toHaveAttribute('tabindex', '0')
+    expect(screen.getByRole('group', { name: /Code uit The recipe/ })).toHaveAttribute('tabindex', '0')
   })
-  it('folds the run of 8 plain lines behind "Show lines 3–10 (8 more)", opens it, and can hide it again', () => {
+  it('folds the run of 8 plain lines behind "Toon regels 3–10 (nog 8)", opens it, and can hide it again', () => {
     const { container } = render(<CodeBlock block={block()} />)
     expect(container.textContent).not.toContain('line 5')
-    fireEvent.click(screen.getByRole('button', { name: 'Show lines 3–10 (8 more)' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Toon regels 3–10 (nog 8)' }))
     expect(container.textContent).toContain('line 5')
-    expect(screen.queryByRole('button', { name: /Show lines/ })).toBeNull()
-    fireEvent.click(screen.getByRole('button', { name: 'Hide lines 3–10' }))
+    expect(screen.queryByRole('button', { name: /Toon regels/ })).toBeNull()
+    fireEvent.click(screen.getByRole('button', { name: 'Verberg regels 3–10' }))
     expect(container.textContent).not.toContain('line 5')
   })
   it('lights a line and its note together', () => {

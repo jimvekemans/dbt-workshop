@@ -1,117 +1,120 @@
 id: checked-before-merge
 group: changes
-title: Every change is rehearsed in a private copy first
-promise: A mistake in a proposed change is caught by an automatic rehearsal, long before any report is wrong.
+title: Elke wijziging krijgt eerst een testrun in een privékopie
+promise: Een automatische testrun vindt de fout in een voorstel, lang voor een rapport fout is.
 minutes: 3
+tech: ["CI verify", "verify_feature_to_dev", "drop_nodes", "data tests on a merge request"]
 environment: dev
 related:
   - id: own-workbench
-    why: Each rehearsal works in its own private copy, the same idea as a developer's own tables there.
+    why: Elke testrun werkt in zijn eigen privékopie, hetzelfde idee als de eigen tabellen van een developer daar.
 
 problem:
-  headline: One small change makes every order count three times
+  headline: Eén kleine wijziging doet elke bestelling drie keer meetellen
   story: |
-    A developer improves the orders table and, by mistake, every order now appears three times. The change looks
-    tiny, so nobody checks it. Later, the management report says the shop took three times as many orders as it
-    really did. Finance has already sent that number to the board.
-  cost: Finance sends the board an order count three times too high, and the developers lose a day finding the cause.
+    Een developer verbetert de bestellingentabel en per ongeluk staat elke bestelling nu drie keer in de tabel. De
+    wijziging lijkt klein, dus niemand kijkt ze na. Later zegt het managementrapport dat de webshop drie keer zoveel
+    bestellingen kreeg als in werkelijkheid. Finance heeft dat getal al naar de raad van bestuur gestuurd.
+  cost: Finance stuurt de raad van bestuur een aantal bestellingen dat drie keer te hoog is, en de developers zijn een dag kwijt aan het zoeken naar de oorzaak.
   visual:
     type: flow
     nodes:
-      - {id: change, label: "Developer's change", state: warn, note: "Looks harmless"}
-      - {id: orders, label: "Orders table", state: bad, note: "Every order three times"}
-      - {id: report, label: "Management report", state: bad, note: "Three times too many orders"}
-      - {id: board, label: "Board meeting", state: bad, note: "Decisions on wrong numbers"}
+      - {id: change, label: "Wijziging van de developer", state: warn, note: "Lijkt onschuldig"}
+      - {id: orders, label: "Bestellingentabel", state: bad, note: "Elke bestelling drie keer"}
+      - {id: report, label: "Managementrapport", state: bad, note: "Drie keer te veel bestellingen"}
+      - {id: board, label: "Raad van bestuur", state: bad, note: "Beslissingen op foute cijfers"}
     links: [[change, orders], [orders, report], [report, board]]
-    caption: One wrong step and everything after it is wrong too.
+    caption: Eén foute stap en alles erna is ook fout.
 
 idea:
-  headline: Every proposed change is rehearsed first, and a failed rehearsal blocks it
+  headline: Elk voorstel krijgt eerst een testrun, en een mislukte testrun blokkeert het
   points:
-    - The automatic rehearsal rebuilds only what the change touches, plus the reports that depend on it.
-    - It does this in a [[sandbox]], a private corner of the database named after the change, and runs every check there.
-    - A red result blocks the change, and the sandbox is thrown away afterwards, whatever the result.
+    - De automatische testrun buildt enkel opnieuw wat de wijziging raakt, plus de rapporten die ervan afhangen.
+    - Dat gebeurt in een [[sandbox]], een privékopie in de database met de naam van de wijziging, en daar lopen alle checks.
+    - Bij rood is de wijziging geblokkeerd, en de sandbox wordt achteraf altijd weggegooid.
   visual:
     type: flow
     nodes:
-      - {id: change, label: Proposed change, state: idle, note: "Not accepted yet"}
-      - {id: rehearsal, label: Automatic rehearsal, state: fix, note: "In a private sandbox"}
-      - {id: result, label: Red or green, state: idle, note: "Red blocks the change"}
-      - {id: shared, label: Shared tables, state: ok, note: "Only green changes arrive"}
+      - {id: change, label: Voorstel, state: idle, note: "Nog niet goedgekeurd"}
+      - {id: rehearsal, label: Automatische testrun, state: fix, note: "In een sandbox"}
+      - {id: result, label: Rood of groen, state: idle, note: "Rood blokkeert de wijziging"}
+      - {id: shared, label: Gedeelde tabellen, state: ok, note: "Enkel groene wijzigingen komen aan"}
     links: [[change, rehearsal], [rehearsal, result], [result, shared]]
-    caption: The mistake is found by the rehearsal, not by the people who read the report.
+    caption: De testrun vindt de fout, niet de mensen die het rapport lezen.
 
 code:
-  - title: The rehearsal that runs for every proposed change
+  - title: De testrun die bij elk voorstel loopt
     file: .gitlab-ci.yml
-    file_label: The instructions for the automatic checks
-    from: "VERIFY_SCHEMA: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+    file_label: De instructies voor de automatische checks
+    from: "needs: [verify_structure]"
     to: "dbt build --select state:modified+"
     max_lines: 12
     notes:
+      - line: "needs: [verify_structure]"
+        says: Deze tweede ronde start pas als de eerste ronde, met lege kopieën, gelukt is.
       - line: "VERIFY_SCHEMA:"
-        says: The sandbox is named after the proposed change, so two rehearsals never disturb each other.
-      - line: "git merge origin/dev"
-        says: The change is tried on top of everybody else's latest work.
+        says: De sandbox heeft de naam van de wijziging, dus twee testruns storen elkaar nooit.
+      - line: "!reference [.rehearsal-prepare, script]"
+        says: De wijziging wordt uitgeprobeerd bovenop het nieuwste werk van iedereen.
       - line: "dbt build --select state:modified+"
-        says: Only the changed tables and those that depend on them are rebuilt and checked.
-  - title: Clearing away the sandbox afterwards
+        says: Enkel de gewijzigde tabellen en de tabellen die ervan afhangen worden opnieuw gebuild en gecontroleerd.
+  - title: De sandbox achteraf opkuisen
     file: .gitlab-ci.yml
-    file_label: The instructions for the automatic checks
+    file_label: De instructies voor de automatische checks
     from: ".verify:"
     to: "dbt run-operation drop_nodes"
     max_lines: 12
     notes:
       - line: "after_script:"
-        says: This always runs at the end, even when the rehearsal failed.
+        says: Dit loopt altijd op het einde, ook als de testrun mislukt is.
       - line: "dbt run-operation drop_nodes"
-        says: It throws away every table the rehearsal built, so nothing is left behind.
+        says: Het gooit elke tabel weg die de testrun gebuild heeft, zodat er niets achterblijft.
 
 demo:
   intro: >-
-    A developer proposes a change that breaks the orders table. The automatic rehearsal refuses it, then accepts the
-    repaired change.
+    Een developer stelt een wijziging voor die de bestellingentabel kapotmaakt. De automatische testrun weigert ze
+    en laat daarna de herstelde wijziging door.
   setup: []
   steps:
     - id: broken
-      title: Propose a broken change
+      title: Een foute wijziging voorstellen
       say: |
-        The developer adds a delivery calendar to the orders table, and by mistake every order appears three times.
-        The rehearsal catches it.
-      button: Propose the change
+        De developer voegt een leveringskalender toe aan de bestellingentabel, en per ongeluk staat elke bestelling
+        drie keer in de tabel. De testrun vangt het op.
+      button: De wijziging voorstellen
       inputs: []
       do:
         - {action: gitlab.branch, name: demo/orders-calendar, from: dev}
         - {action: gitlab.commit, branch: demo/orders-calendar, patch: orders-triple-count}
-        - {action: gitlab.merge_request, source: demo/orders-calendar, target: dev, title: "Add the delivery calendar to the orders table"}
+        - {action: gitlab.merge_request, source: demo/orders-calendar, target: dev, title: "Leveringskalender toevoegen aan de bestellingentabel"}
         - {action: gitlab.wait_pipeline, for: "mr:demo/orders-calendar", expect: failed, timeout: 600}
       show:
-        - {type: pipeline, for: "mr:demo/orders-calendar", title: "The automatic rehearsal", caption: "A failed step means the change cannot be accepted. The line under it says what went wrong."}
+        - {type: pipeline, for: "mr:demo/orders-calendar", title: "De automatische testrun", caption: "Een mislukte stap betekent dat de wijziging niet goedgekeurd kan worden. De regel eronder zegt wat er misliep."}
         - type: number
-          title: Orders in the shared table
-          caption: "The shared table was never touched: its number of orders equals its number of different order numbers, so every order appears once."
+          title: Bestellingen in de gedeelde tabel
+          caption: "De gedeelde tabel werd nooit aangeraakt: het aantal bestellingen is gelijk aan het aantal verschillende bestelnummers, dus elke bestelling staat er één keer in."
           query: "select count(*) from {{ db('im_dimensional') }}.fct_olist_orders"
-          unit: orders
+          unit: bestellingen
           compare_to:
             query: "select count(distinct order_id) from {{ db('im_dimensional') }}.fct_olist_orders"
-            label: Different order numbers among them
-      outcome: The rehearsal failed because the same order number would have been stored more than once. This change cannot be accepted, and the shared table is unchanged.
+            label: Daarvan verschillende bestelnummers
+      outcome: De testrun is mislukt omdat eenzelfde bestelnummer meer dan één keer opgeslagen zou worden. Deze wijziging kan niet goedgekeurd worden, en de gedeelde tabel is ongewijzigd.
     - id: fixed
-      title: Repair the change
-      say: The developer removes the mistake and sends the new version.
-      button: Send the repaired change
+      title: De wijziging herstellen
+      say: De developer haalt de fout weg en stuurt de wijziging opnieuw door.
+      button: De herstelde wijziging doorsturen
       inputs: []
       do:
         - {action: gitlab.commit, branch: demo/orders-calendar, patch: orders-fixed}
         - {action: gitlab.wait_pipeline, for: "mr:demo/orders-calendar", expect: success, timeout: 600}
       show:
-        - {type: pipeline, before_of: broken, for: "mr:demo/orders-calendar", title: "The automatic rehearsal", caption: "Every step is done, so the change may be accepted."}
+        - {type: pipeline, before_of: broken, for: "mr:demo/orders-calendar", title: "De automatische testrun", caption: "Elke stap is klaar, dus de wijziging mag goedgekeurd worden."}
         - type: number
-          title: Orders in the shared table
-          caption: "Still one line per order: the repaired change is only rehearsed, not accepted yet."
+          title: Bestellingen in de gedeelde tabel
+          caption: "Nog altijd één regel per bestelling: de herstelde wijziging kreeg enkel een testrun, ze is nog niet goedgekeurd."
           query: "select count(*) from {{ db('im_dimensional') }}.fct_olist_orders"
-          unit: orders
+          unit: bestellingen
           compare_to:
             query: "select count(distinct order_id) from {{ db('im_dimensional') }}.fct_olist_orders"
-            label: Different order numbers among them
-      outcome: The repaired change passes the rehearsal. Accepting it is the next step, and it is not part of this demo.
+            label: Daarvan verschillende bestelnummers
+      outcome: De herstelde wijziging komt door de testrun. Goedkeuren is de volgende stap, maar die zit niet in deze demo.

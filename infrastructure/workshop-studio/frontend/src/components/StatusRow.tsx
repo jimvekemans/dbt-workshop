@@ -30,14 +30,14 @@ export function StatusRow() {
     was.current = attention
   }, [attention])
 
-  const mode = server?.mode === 'replay' ? 'Demos play from a recording.' : 'Demos run live.'
+  const mode = server?.mode === 'replay' ? "Demo's spelen een opname af." : "Demo's draaien live."
   return (
-    <section className={styles.wrap} aria-label="System status and mode">
+    <section className={styles.wrap} aria-label="Systeemstatus en modus">
       <div className={styles.row}>
         <div className={styles.left}>
           {!connected ? (
             <p className={styles.line}>
-              <StatusMark state="idle" /> Status unknown while offline
+              <StatusMark state="idle" /> Status onbekend zolang je offline bent
             </p>
           ) : !h ? (
             <Skeleton width="16rem" height="1.2em" />
@@ -73,7 +73,7 @@ export function StatusRow() {
             <b>{server ? mode : '…'}</b>
           </span>
           <Button variant="quiet" onClick={openMode} disabled={!server}>
-            Change demo mode
+            Demomodus wijzigen
           </Button>
         </div>
       </div>

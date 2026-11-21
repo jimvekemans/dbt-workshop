@@ -475,7 +475,7 @@ async function sweepScreen(screen, hash, W) {
             match = cur.controls.find((x) => x.role === c.role && x.name === c.name)
           }
           if (!match && REAL) {
-            // the backend keeps one demo for every page: a control that belongs to an earlier state ("Prepare this demo") is gone
+            // the backend keeps one demo for every page: a control that belongs to an earlier state ("Demo klaarzetten") is gone
             interactions.set([screen, c.role, c.name, modality].join('|'), { screen, role: c.role, name: c.name, modality, kind: c.kind, skipped: 'state is shared with the backend: the control is gone after a reload', no_visible_effect: null, console_errors: [] })
             return
           }
@@ -491,7 +491,7 @@ async function sweepScreen(screen, hash, W) {
 }
 
 // ---------------------------------------------------------------- checks of the third review round
-/** Home: one "Start here", no "Good first pick" / "Recorded demo available", balanced rows (never one orphan card). */
+/** Home: one "Begin hier", no "Good first pick" / "Recorded demo available", balanced rows (never one orphan card). */
 async function homeChecks(P, tag) {
   const r = await P.page.evaluate(() => {
     const text = document.body.innerText
@@ -501,9 +501,9 @@ async function homeChecks(P, tag) {
       tops.forEach((t) => rows.set(t, (rows.get(t) || 0) + 1))
       return { n: tops.length, rows: [...rows.values()] }
     })
-    return { start: (text.match(/Start here/g) || []).length, good: /Good first pick/.test(text), rec: /Recorded demo available/.test(text), groups, overflow: document.documentElement.scrollWidth > innerWidth }
+    return { start: (text.match(/Begin hier/g) || []).length, good: /Good first pick/.test(text), rec: /Recorded demo available/.test(text), groups, overflow: document.documentElement.scrollWidth > innerWidth }
   })
-  assert(`${tag}: exactly one "Start here" badge`, r.start === 1, r.start)
+  assert(`${tag}: exactly one "Begin hier" badge`, r.start === 1, r.start)
   assert(`${tag}: no "Good first pick" and no "Recorded demo available"`, !r.good && !r.rec)
   const orphan = r.groups.filter((g) => g.n > 1 && Math.max(...g.rows) > 1 && g.rows[g.rows.length - 1] === 1)
   assert(`${tag}: no group ends in one orphan card`, orphan.length === 0, JSON.stringify(r.groups))
@@ -569,21 +569,21 @@ async function demoChecks(P, id, screen) {
     const card = f.closest('section')
     const r = f.getBoundingClientRect()
     return { h: r.height, w: r.width, cw: card?.getBoundingClientRect().width ?? 0, max: innerHeight * 0.7, // the mail is enlarged as a whole (zoom on its root): the size a reader sees is font x zoom
-      font: Math.round(parseFloat(getComputedStyle(f.contentDocument.body).fontSize) * (parseFloat(getComputedStyle(f.contentDocument.documentElement).zoom) || 1)), button: !!document.evaluate("//button[contains(., 'Open the mail full size')]", document, null, 9, null).singleNodeValue }
+      font: Math.round(parseFloat(getComputedStyle(f.contentDocument.body).fontSize) * (parseFloat(getComputedStyle(f.contentDocument.documentElement).zoom) || 1)), button: !!document.evaluate("//button[contains(., 'Mail op volledige grootte openen')]", document, null, 9, null).singleNodeValue }
   })
   if (mail) {
     assert(`${id}: the mail is full card width (${Math.round(mail.w)} of ${Math.round(mail.cw)} px)`, mail.w >= mail.cw * 0.85, JSON.stringify(mail))
     assert(`${id}: the mail frame is at most 70% of the window and its text is at least 15 px`, mail.h <= mail.max + 2 && mail.font >= 15, JSON.stringify(mail))
-    assert(`${id}: "Open the mail full size" exists`, mail.button)
-    await page.getByRole('button', { name: 'Open the mail full size' }).first().click()
+    assert(`${id}: "Mail op volledige grootte openen" exists`, mail.button)
+    await page.getByRole('button', { name: 'Mail op volledige grootte openen' }).first().click()
     await page.waitForTimeout(400)
-    assert(`${id}: the full-size mail opens in a dialog`, (await page.getByRole('dialog', { name: 'The mail, full size' }).count()) === 1)
+    assert(`${id}: the full-size mail opens in a dialog`, (await page.getByRole('dialog', { name: 'De mail, op volledige grootte' }).count()) === 1)
     await snap(P, { screen, state: 'mail-full-size', transient: true, full: false, label: `${id}: the mail opened full size (dialog)` })
     await page.keyboard.press('Escape')
-    assert(`${id}: Esc closes the full-size mail`, (await page.getByRole('dialog', { name: 'The mail, full size' }).count()) === 0)
+    assert(`${id}: Esc closes the full-size mail`, (await page.getByRole('dialog', { name: 'De mail, op volledige grootte' }).count()) === 0)
   }
-  const pair = await page.evaluate(() => [...document.querySelectorAll('[role=group][aria-label="Before"]')].map((b) => {
-    const a = b.parentElement.querySelector('[role=group][aria-label="After"]')
+  const pair = await page.evaluate(() => [...document.querySelectorAll('[role=group][aria-label="Voor"]')].map((b) => {
+    const a = b.parentElement.querySelector('[role=group][aria-label="Na"]')
     const ghost = b.querySelector('[inert]')
     const rb = b.getBoundingClientRect()
     const ra = a.getBoundingClientRect()
@@ -594,10 +594,10 @@ async function demoChecks(P, id, screen) {
 
 // ---------------------------------------------------------------- walk helpers
 const clickText = (P, text, o = {}) => P.page.getByText(text, { exact: o.exact ?? true }).first().click()
-const jobCancel = (P) => P.page.getByRole('button', { name: /^Stop (this step|getting ready)/ })
+const jobCancel = (P) => P.page.getByRole('button', { name: /^Stop (deze stap|het klaarzetten)/ })
 // the mode is changed in a dialog (header badge or "Change"); "Details" of the status row holds the data switch
-const openMode = (P) => P.page.getByRole('button', { name: 'Change demo mode', exact: true }).click()
-const closeDialog = (P) => P.page.getByRole('button', { name: 'Done', exact: true }).click()
+const openMode = (P) => P.page.getByRole('button', { name: 'Demomodus wijzigen', exact: true }).click()
+const closeDialog = (P) => P.page.getByRole('button', { name: 'Klaar', exact: true }).click()
 const openDetails = async (P) => {
   const b = P.page.getByRole('button', { name: /Details/ })
   if ((await b.getAttribute('aria-expanded')) === 'false') await b.click()
@@ -616,7 +616,7 @@ async function waitStatus(card, pred, ms) {
   }
   return cardStatus(card).catch(() => null)
 }
-const runButton = (card) => card.locator('button:not([aria-expanded]):not([aria-label^="One day"])').first()
+const runButton = (card) => card.locator('button:not([aria-expanded]):not([aria-label^="Een dag"])').first()
 
 /** Run one step card and capture mid-way and the end. opts.inputs: also manipulate inputs first. */
 async function runCard(P, screen, i, { inputs = true, tag = '' } = {}) {
@@ -655,7 +655,7 @@ async function exerciseInputs(P, screen, card, t) {
   for (let j = 0; j < n; j++) {
     const s = sliders.nth(j)
     if (await s.isDisabled()) { if (!REAL) assert(`${screen} ${t} slider ${j + 1} enabled`, false, 'disabled'); else log('note: input disabled (replay plays the recorded answer)'); continue }
-    const isDay = (await card.getByRole('button', { name: 'One day earlier' }).count()) > 0
+    const isDay = (await card.getByRole('button', { name: 'Een dag vroeger' }).count()) > 0
     const kind = isDay ? 'day' : 'number'
     const label = await s.evaluate((e) => (e.labels?.[0]?.textContent || '').trim())
     const v0 = await s.inputValue()
@@ -678,8 +678,8 @@ async function exerciseInputs(P, screen, card, t) {
       await snap(P, { screen, state: `${t}-${kind}-mouse`, label: `${kind} input after a mouse click near the right end (value ${v2})` })
     }
     if (isDay) {
-      await observe(P, { screen, role: 'button', name: 'One day earlier', modality: 'mouse' }, () => card.getByRole('button', { name: 'One day earlier' }).click())
-      await snap(P, { screen, state: `${t}-day-earlier-button`, label: 'Day picker after "One day earlier"' })
+      await observe(P, { screen, role: 'button', name: 'Een dag vroeger', modality: 'mouse' }, () => card.getByRole('button', { name: 'Een dag vroeger' }).click())
+      await snap(P, { screen, state: `${t}-day-earlier-button`, label: 'Day picker after "Een dag vroeger"' })
     }
   }
   const radios = card.locator('input[type=radio]')
@@ -714,12 +714,12 @@ async function openDemo(P, id, { early = true, screen } = {}) {
     await P.page.waitForTimeout(1600)
     await snap(P, { screen, state: 'getting-ready-mid', transient: true, label: 'Demo still getting ready, a little later' })
   }
-  await P.page.waitForSelector('article[data-status], button:has-text("Prepare this demo")', { timeout: 20000 }).catch(() => {})
-  const prep = P.page.getByRole('button', { name: 'Prepare this demo', exact: true })
+  await P.page.waitForSelector('article[data-status], button:has-text("Demo klaarzetten")', { timeout: 20000 }).catch(() => {})
+  const prep = P.page.getByRole('button', { name: 'Demo klaarzetten', exact: true })
   if (await prep.count().catch(() => 0)) {
     await prep.first().click().catch(() => {})
     await P.page.waitForTimeout(400)
-    if (early) await snap(P, { screen, state: 'getting-ready-pressed', transient: true, label: 'Demo: "Prepare this demo" pressed' })
+    if (early) await snap(P, { screen, state: 'getting-ready-pressed', transient: true, label: 'Demo: "Demo klaarzetten" pressed' })
   }
   await P.page.waitForSelector('article[data-status]', { timeout: 40000 }).catch(() => {})
   await P.page.waitForTimeout(500)
@@ -774,8 +774,8 @@ async function main() {
   const S = 'home'
   await safe('home: mode switch', async () => {
     await openMode(H)
-    await observe(H, { screen: S, role: 'radio', name: 'Recorded replay', modality: 'mouse' }, () => clickText(H, 'Recorded replay'))
-    await snap(H, { screen: S, state: 'mode-replay', label: 'Mode switched to Recorded replay (sentence under the switch changes, badge in the top bar)' })
+    await observe(H, { screen: S, role: 'radio', name: 'Opname', modality: 'mouse' }, () => clickText(H, 'Opname'))
+    await snap(H, { screen: S, state: 'mode-replay', label: 'Mode switched to Opname (sentence under the switch changes, badge in the top bar)' })
     if (!REAL) {
       await observe(H, { screen: S, role: 'radio', name: 'Live', modality: 'mouse' }, () => clickText(H, 'Live'))
       await snap(H, { screen: S, state: 'mode-live-again', label: 'Mode switched back to Live' })
@@ -784,9 +784,9 @@ async function main() {
   })
   if (!REAL) await safe('home: feeder toggle', async () => {
     await openDetails(H)
-    await observe(H, { screen: S, role: 'switch', name: 'Practice data keeps coming in', modality: 'mouse' }, () => clickText(H, 'Practice data keeps coming in'))
-    await snap(H, { screen: S, state: 'feeder-off', label: '"Practice data keeps coming in" switched off' })
-    await observe(H, { screen: S, role: 'switch', name: 'Practice data keeps coming in', modality: 'mouse-back' }, () => clickText(H, 'Practice data keeps coming in'))
+    await observe(H, { screen: S, role: 'switch', name: 'Oefendata blijft binnenkomen', modality: 'mouse' }, () => clickText(H, 'Oefendata blijft binnenkomen'))
+    await snap(H, { screen: S, state: 'feeder-off', label: '"Oefendata blijft binnenkomen" switched off' })
+    await observe(H, { screen: S, role: 'switch', name: 'Oefendata blijft binnenkomen', modality: 'mouse-back' }, () => clickText(H, 'Oefendata blijft binnenkomen'))
   })
   await safe('home: theme switch', async () => {
     const tbtn = H.page.locator('header button').last()
@@ -797,8 +797,8 @@ async function main() {
     await tbtn.click()
   })
   await safe('home: switcher via button', async () => {
-    const b = H.page.getByRole('button', { name: /go to a scenario/i })
-    await observe(H, { screen: S, role: 'button', name: 'Go to a scenario', modality: 'mouse' }, () => b.click())
+    const b = H.page.getByRole('button', { name: /ga naar een scenario/i })
+    await observe(H, { screen: S, role: 'button', name: 'Ga naar een scenario', modality: 'mouse' }, () => b.click())
     await snap(H, { screen: S, state: 'switcher-open-button', label: 'Scenario switcher opened with its button' })
     const box = H.page.getByRole('combobox')
     await box.fill('mail')
@@ -825,7 +825,7 @@ async function main() {
     assert('switcher closes with Escape', (await H.page.getByRole('combobox').count()) === 0)
     await observe(H, { screen: S, role: 'key', name: 'Ctrl+K opens the switcher', modality: 'keyboard' }, () => H.page.keyboard.press('Control+k'))
     await H.page.keyboard.press('Escape')
-    await H.page.getByRole('button', { name: /go to a scenario/i }).click()
+    await H.page.getByRole('button', { name: /ga naar een scenario/i }).click()
     await H.page.getByRole('combobox').fill('release')
     await observe(H, { screen: 'switcher', role: 'option', name: 'first result (mouse)', modality: 'mouse' }, () => H.page.getByRole('option').first().click())
     await goHash(H, '#/')
@@ -892,7 +892,7 @@ async function main() {
       await H.page.waitForTimeout(250)
       assert(`${id}: ArrowLeft on first part stays put`, (await curHash(H)).endsWith('/problem'))
       // previous / next scenario
-      const next = H.page.getByRole('button', { name: /^Next scenario/ })
+      const next = H.page.getByRole('button', { name: /^Volgend scenario/ })
       if ((await next.count()) && !(await next.isDisabled())) {
         const h0 = await curHash(H)
         await observe(H, { screen: 'scenario-top-bar', role: 'button', name: 'Next scenario', modality: 'mouse' }, () => next.click())
@@ -900,7 +900,7 @@ async function main() {
         assert(`${id}: "Next scenario" changes the URL`, h0 !== h1, `${h0} -> ${h1}`)
         await H.page.waitForSelector('h1')
         await snap(H, { screen: `${sc}-next-scenario`, state: 'problem', full: false, label: `${id}: after "Next scenario" (viewport only)` })
-        await observe(H, { screen: 'scenario-top-bar', role: 'button', name: 'Previous scenario', modality: 'mouse' }, () => H.page.getByRole('button', { name: /^Previous scenario/ }).click())
+        await observe(H, { screen: 'scenario-top-bar', role: 'button', name: 'Vorig scenario', modality: 'mouse' }, () => H.page.getByRole('button', { name: /^Vorig scenario/ }).click())
         assert(`${id}: "Previous scenario" returns`, (await curHash(H)) === h0, await curHash(H))
       } else if (all.indexOf(id) < all.length - 1) assert(`${id}: next scenario exists`, false, 'no enabled Next scenario button')
     })
@@ -946,28 +946,28 @@ async function main() {
       for (let i = 0; i < n; i++) {
         let { card, end } = await runCard(H, sc, i)
         if (end === 'done') {
-          const det = card.locator('summary', { hasText: 'Technical details' })
+          const det = card.locator('summary', { hasText: 'Technische details' })
           if (await det.count()) {
-            await observe(H, { screen: sc, role: 'disclosure-summary', name: 'Technical details', modality: 'mouse' }, () => det.click())
+            await observe(H, { screen: sc, role: 'disclosure-summary', name: 'Technische details', modality: 'mouse' }, () => det.click())
             await snap(H, { screen: sc, state: `step${i + 1}-technical-details-open`, label: `Step ${i + 1}: "Technical details" disclosure open` })
             await det.focus()
-            await observe(H, { screen: sc, role: 'disclosure-summary', name: 'Technical details', modality: 'keyboard' }, () => H.page.keyboard.press('Enter'))
+            await observe(H, { screen: sc, role: 'disclosure-summary', name: 'Technische details', modality: 'keyboard' }, () => H.page.keyboard.press('Enter'))
           } else if (!REAL && id === CONFIG.states) assert(`${id} step ${i + 1} has Technical details`, false, 'none rendered')
           else log('note: no Technical details for', id, 'step', i + 1)
-          assert(`${id} step ${i + 1} shows the outcome sentence`, (await card.getByText(/What just happened|Not quite/).count()) > 0)
+          assert(`${id} step ${i + 1} shows the outcome sentence`, (await card.getByText(/Wat er net gebeurde|Net niet/).count()) > 0)
         }
         if (end === 'failed') {
           assert(`${id} step ${i + 1} shows an alert explaining the failure`, (await card.locator('[role=alert]').count()) > 0)
           meta.failed_step = `${id} step ${i + 1}`
           const r = await runCard(H, sc, i, { inputs: false, tag: '-retry' })
           if (r.end !== 'done') break
-          const det = r.card.locator('summary', { hasText: 'Technical details' })
+          const det = r.card.locator('summary', { hasText: 'Technische details' })
           if (await det.count()) { await det.click(); await snap(H, { screen: sc, state: `step${i + 1}-retry-technical-open`, label: `Step ${i + 1} after retry, technical details open` }) }
         } else if (IS_MOCK && CONFIG.failing.scenario === id && CONFIG.failing.step === i + 1) assert(`${id} step ${i + 1} was expected to fail first (mock)`, false, 'it did not fail')
       }
       await H.page.waitForTimeout(500)
-      await snap(H, { screen: sc, state: 'end-state', label: `${id}: end state after the last step ("That is the whole demo", related scenarios)` })
-      assert(`${id}: end block present`, (await H.page.getByText('That is the whole demo').count()) > 0)
+      await snap(H, { screen: sc, state: 'end-state', label: `${id}: end state after the last step ("Dat was de hele demo", related scenarios)` })
+      assert(`${id}: end block present`, (await H.page.getByText('Dat was de hele demo').count()) > 0)
       await demoChecks(H, id, sc)
       // related links
       const rel = H.page.locator('main aside a[href^="#/s/"]').last()
@@ -986,23 +986,23 @@ async function main() {
       await waitStatus(c0, (s) => s === 'running', 6000)
       await H.page.waitForTimeout(1500)
       cancellable = (await jobCancel(H).count()) > 0
-      await observe(H, { screen: 'top-bar-job', role: 'button', name: 'Stop this step', modality: 'mouse' }, () => jobCancel(H).click())
+      await observe(H, { screen: 'top-bar-job', role: 'button', name: 'Stop deze stap', modality: 'mouse' }, () => jobCancel(H).click())
       await H.page.waitForTimeout(300)
       await snap(H, { screen: sc, state: 'cancel-dialog', transient: true, full: false, label: `${id}: Cancel pressed while a step runs: confirm dialog "Stop this step?"` })
-      const dlg = H.page.getByRole('dialog', { name: /Stop this step/ })
+      const dlg = H.page.getByRole('dialog', { name: /Stop deze stap|Deze stap stoppen/ })
       cassert(`${id}: cancel confirm dialog opens`, (await dlg.count()) > 0)
-      await observe(H, { screen: 'cancel-dialog', role: 'button', name: 'Keep going', modality: 'mouse' }, () => H.page.getByRole('button', { name: 'Keep going' }).click())
+      await observe(H, { screen: 'cancel-dialog', role: 'button', name: 'Ga verder', modality: 'mouse' }, () => H.page.getByRole('button', { name: 'Ga verder' }).click())
       cassert(`${id}: "Keep going" leaves the step running`, (await cardStatus(c0)) === 'running' || (await cardStatus(c0)) === 'done')
       await snap(H, { screen: sc, state: 'cancel-cancelled-still-running', transient: true, full: false, label: `${id}: after "Keep going" the step is still running` })
       if ((await jobCancel(H).count()) > 0) {
         await jobCancel(H).click()
         await observe(H, { screen: 'cancel-dialog', role: 'key', name: 'Escape closes the dialog', modality: 'keyboard' }, () => H.page.keyboard.press('Escape'))
         cassert(`${id}: Escape closes the cancel dialog`, (await dlg.count()) === 0)
-        cassert(`${id}: focus returns to the stop button after the dialog closes`, await H.page.evaluate(() => /Stop this step/.test(document.activeElement?.textContent || '')), await H.page.evaluate(() => document.activeElement?.tagName))
+        cassert(`${id}: focus returns to the stop button after the dialog closes`, await H.page.evaluate(() => /Stop deze stap|Deze stap stoppen/.test(document.activeElement?.textContent || '')), await H.page.evaluate(() => document.activeElement?.tagName))
       }
       if ((await jobCancel(H).count()) > 0) {
         await jobCancel(H).click()
-        await observe(H, { screen: 'cancel-dialog', role: 'button', name: 'Stop the step', modality: 'mouse' }, () => H.page.getByRole('button', { name: 'Stop the step' }).click())
+        await observe(H, { screen: 'cancel-dialog', role: 'button', name: 'Stop de stap', modality: 'mouse' }, () => H.page.getByRole('button', { name: 'Stop de stap' }).click())
         await H.page.waitForTimeout(900)
         await snap(H, { screen: sc, state: 'cancel-stopped', label: `${id}: after "Stop the step": the step is back to ready` })
         cassert(`${id}: cancelled step returns to todo`, (await cardStatus(c0)) === 'stopped', await cardStatus(c0))
@@ -1010,10 +1010,10 @@ async function main() {
       // leftovers on home
       await goHash(H, '#/')
       await H.page.waitForTimeout(600)
-      const clean = H.page.getByRole('button', { name: 'Clean up now' })
+      const clean = H.page.getByRole('button', { name: 'Nu opkuisen' })
       if (await clean.count()) {
         await snap(H, { screen: 'home', state: `leftovers-after-${id}`, label: `Home after a cancelled demo (${id}): "The last demo left its practice data behind" notice with "Clean up now"` })
-        await observe(H, { screen: 'home', role: 'button', name: 'Clean up now', modality: 'mouse' }, () => clean.click())
+        await observe(H, { screen: 'home', role: 'button', name: 'Nu opkuisen', modality: 'mouse' }, () => clean.click())
         await H.page.waitForTimeout(900)
         await snap(H, { screen: 'home', state: `cleaning-after-${id}`, transient: true, label: 'Home while cleaning up (button busy, job indicator)' })
         await H.page.waitForTimeout(2600)
@@ -1051,7 +1051,7 @@ async function main() {
     await X.page.waitForTimeout(CONFIG.settleMs)
     if (!REAL) await safe('replay: switch mode', async () => {
       await openMode(X)
-      await X.page.getByRole('radio', { name: 'Recorded replay' }).click({ force: true })
+      await X.page.getByRole('radio', { name: 'Opname' }).click({ force: true })
       await closeDialog(X)
     })
     await X.page.waitForTimeout(500)
@@ -1074,37 +1074,37 @@ async function main() {
     await settleHome(X)
     await X.page.waitForTimeout(CONFIG.settleMs)
     await openMode(X)
-    await X.page.getByRole('radio', { name: 'Recorded replay' }).click({ force: true })
+    await X.page.getByRole('radio', { name: 'Opname' }).click({ force: true })
     await closeDialog(X)
     const sc = `${id}/demo`
     await openDemo(X, id, { screen: sc, early: false })
-    await snap(X, { screen: sc, state: 'replay-states-ready', label: `${id} in Replay: fixed inputs with one line, later steps locked ("Appears after step 1.")` })
+    await snap(X, { screen: sc, state: 'replay-states-ready', label: `${id} in Replay: fixed inputs with one line, later steps locked ("Verschijnt na stap 1.")` })
     const txt = () => X.page.evaluate(() => document.body.innerText)
     let t = await txt()
-    assert('replay: one line says what is fixed in the recording', /Fixed in the recording: .+\. Switch to Live to choose yourself\./.test(t))
-    assert('replay: no "Good to know" box and no "Recorded with" per input', !/Good to know/.test(t) && !/Recorded with/.test(t))
-    assert('replay: the amber banner says what Live does', /In Live the real steps run/.test(t))
-    assert('locked step: evidence says "Appears after step 1."', /Appears after step 1\./.test(t))
+    assert('replay: one line says what is fixed in the recording', /Vast in de opname: .+\. Schakel over naar Live om zelf te kiezen\./.test(t))
+    assert('replay: no "Good to know" box and no "Recorded with" per input', !/Goed om te weten/.test(t) && !/Recorded with/.test(t))
+    assert('replay: the amber banner says what Live does', /In Live draaien de echte stappen/.test(t))
+    assert('locked step: evidence says "Verschijnt na stap 1."', /Verschijnt na stap 1\./.test(t))
     const run0 = cards(X).nth(0)
     await runButton(run0).click()
     await waitStatus(run0, (s) => s === 'running', 6000)
     await X.page.waitForTimeout(400)
     assert('replay: no Stop button while a recording plays', (await X.page.getByRole('button', { name: /^Stop / }).count()) === 0)
-    assert('replay: "A recording cannot be stopped; it takes a few seconds." is shown', /A recording cannot be stopped; it takes a few seconds\./.test(await txt()))
+    assert('replay: "Een opname kan niet gestopt worden; ze duurt maar een paar seconden." is shown', /Een opname kan niet gestopt worden; ze duurt maar een paar seconden\./.test(await txt()))
     await snap(X, { screen: sc, state: 'replay-states-step1-running', transient: true, label: `${id} in Replay: step 1 running (no Stop)` })
     await waitStatus(run0, (s) => s !== 'running', 30000)
     await X.page.waitForTimeout(500)
     await snap(X, { screen: sc, state: 'replay-states-step1-done', label: `${id} in Replay: step 1 done (failed night, rehearsal, table footer, history, trail)` })
     t = await txt()
-    assert('replay: evidence says "Recorded <date>", never "Just now" or "minutes ago"', /Recorded \d+ \w+/.test(t) && !/Just now/.test(t) && !/minutes ago/.test(t))
-    for (const w of ['3 more steps not run', '10 more steps skipped', 'Sending the failure mail', 'This run', 'Problems', '1 warning', '1 of 28 tables rehearsed', 'Showing the 9 slowest', 'Time (seconds)', 'It showed:']) assert(`states step 1 shows "${w}"`, t.toLowerCase().includes(w.toLowerCase()))
+    assert('replay: evidence says "Recorded <date>", never "Just now" or "minutes ago"', /Opgenomen \d+ \w+/.test(t) && !/Just now/.test(t) && !/minuten geleden/.test(t))
+    for (const w of ['nog 3 stappen niet gerund', 'nog 10 stappen overgeslagen', 'Sending the failure mail', 'Deze run', 'Problemen', '1 waarschuwing', '1 van 28 tabellen in de testrun', 'Showing the 9 slowest', 'Time (seconds)', 'Het toonde:']) assert(`states step 1 shows "${w}"`, t.toLowerCase().includes(w.toLowerCase()))
     await runCard(X, sc, 1, { inputs: false, tag: '-replay' })
     await X.page.waitForTimeout(300)
     t = await txt()
-    for (const w of ['Retry', 'Before', 'After', 'Open the mail full size']) assert(`states step 2 shows "${w}"`, t.includes(w))
+    for (const w of ['Retry', 'Voor', 'Na', 'Mail op volledige grootte openen']) assert(`states step 2 shows "${w}"`, t.includes(w))
     await runCard(X, sc, 2, { inputs: false, tag: '-replay' })
     t = await txt()
-    for (const w of ['Not needed', 'Part 1 of 4', 'Part 4 of 4']) assert(`states step 3 shows "${w}"`, t.includes(w))
+    for (const w of ['Niet nodig', 'Deel 1 van 4', 'Deel 4 van 4']) assert(`states step 3 shows "${w}"`, t.includes(w))
     await demoChecks(X, id, sc)
     await closeP(X)
   })

@@ -1,122 +1,125 @@
 id: one-team-not-ready
 group: releases
-title: Take one team's change out of a release
-promise: When one team is not ready, only that team's change waits and the other team ships.
+title: De wijziging van één team uit een release halen
+promise: Als één team niet klaar is, wacht enkel de wijziging van dat team en kan het andere team leveren.
 minutes: 3
+feature: "De wijziging van één team uit een release halen"
+status: today
+tech: ["modified GitFlow", "revert on release/*", "verify_release", "release/YYYY-Qx"]
 environment: val
 related:
   - id: numbered-versions
-    why: Every accepted change got a number when it went into the shared work, as shown there. Here the number is used to find the change to take out.
+    why: Elke goedgekeurde wijziging kreeg een nummer toen ze in het gedeelde werk kwam. Hier dient dat nummer om de wijziging te vinden die eruit moet.
 
 problem:
-  headline: One team's unfinished change holds back another team's finished one
+  headline: De onafgewerkte wijziging van het ene team houdt de afgewerkte van het andere tegen
   story: |
-    Two teams have finished their work and both changes sit in the next release, planned for tomorrow. Late today the
-    reviews team finds that their figures are not yet right. The payments team is fine. Without a way to take out one
-    change, the choice is to delay everybody or to ship something unfinished.
-  cost: Finance waits a whole release cycle for a payments overview that was ready, or marketing gets review numbers nobody trusts.
+    Twee teams hebben hun werk afgerond en beide wijzigingen zitten in de volgende [[release]], gepland voor morgen.
+    Vandaag ontdekt team reviews laat dat hun cijfers nog niet kloppen. Team payments is in orde. Zonder manier om
+    één wijziging eruit te halen, zijn er maar twee keuzes: iedereen uitstellen of iets onafgewerkts leveren.
+  cost: Finance wacht een hele releasecyclus op een betalingenoverzicht dat klaar was, of marketing krijgt reviewcijfers die niemand vertrouwt.
   visual:
     type: flow
     nodes:
-      - {id: pay, label: "Payments change", state: ok, note: "Ready"}
-      - {id: rev, label: "Reviews change", state: bad, note: "Not ready"}
-      - {id: release, label: "Release", state: warn, note: "Planned for tomorrow"}
-      - {id: live, label: "Go-live", state: bad, note: "Delay everyone or ship both"}
+      - {id: pay, label: "Wijziging van payments", state: ok, note: "Klaar"}
+      - {id: rev, label: "Wijziging van reviews", state: bad, note: "Niet klaar"}
+      - {id: release, label: "Release", state: warn, note: "Gepland voor morgen"}
+      - {id: live, label: "Live gaan", state: bad, note: "Iedereen uitstellen of beide leveren"}
     links: [[pay, release], [rev, release], [release, live]]
-    caption: Two changes, one release, one deadline.
+    caption: Twee wijzigingen, één release, één deadline.
 
 idea:
-  headline: One team's change can be taken out, and the rest ships
+  headline: De wijziging van één team kan eruit gehaald worden, en de rest wordt geleverd
   points:
-    - The release is prepared on its own copy of the code, so the shared work in progress never has to stop.
-    - An unfinished change is taken out of the release only, using the number it received when it was accepted, and it stays in the shared work.
-    - The release is checked again as a whole and goes live under its own number. The team that waited joins the next one.
+    - De release wordt voorbereid op een eigen kopie van de code, dus het gedeelde werk in opbouw hoeft nooit stil te vallen.
+    - Een onafgewerkte wijziging wordt enkel uit de release gehaald, met het nummer dat ze bij het goedkeuren kreeg, en blijft in het gedeelde werk.
+    - De release wordt opnieuw als geheel gecontroleerd en gaat live onder haar eigen nummer. Het team dat wachtte, sluit aan bij de volgende.
   visual:
     type: flow
     nodes:
-      - {id: daily, label: Shared work in progress, state: ok, note: "Holds both changes"}
-      - {id: takeout, label: Take one change out, state: fix, note: "By its version number"}
-      - {id: release, label: The release, state: ok, note: "Holds the finished change"}
-      - {id: live, label: Go-live, state: ok, note: "Under its own number"}
+      - {id: daily, label: Gedeeld werk in opbouw, state: ok, note: "Bevat beide wijzigingen"}
+      - {id: takeout, label: Eén wijziging eruit halen, state: fix, note: "Via haar versienummer"}
+      - {id: release, label: De release, state: ok, note: "Bevat de afgewerkte wijziging"}
+      - {id: live, label: Live gaan, state: ok, note: "Onder een eigen nummer"}
     links: [[daily, takeout], [takeout, release], [release, live]]
-    caption: A release is a list of changes, and one item can be crossed off.
+    caption: Een release is een lijst wijzigingen, en één punt kan doorgehaald worden.
 
 code:
-  - title: The whole release is checked again after the change is taken out
+  - title: De hele release wordt opnieuw gecontroleerd nadat de wijziging eruit is
     file: .gitlab-ci.yml
-    file_label: The instructions for the automatic checks
+    file_label: De instructies voor de automatische checks
     from: "verify_release:"
     to: 'CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
     max_lines: 12
     notes:
       - line: "extends: .verify-full"
-        says: A release is checked completely, not only the changed parts.
+        says: Een release wordt volledig gecontroleerd, niet enkel de gewijzigde delen.
       - line: 'release\/[0-9]'
-        says: Any copy named release/<year>-<quarter> gets this check automatically.
-  - title: Going live gives the release its own number
+        says: Elke kopie met de naam release/<jaar>-<kwartaal> krijgt deze check automatisch.
+  - title: Live gaan geeft de release een eigen nummer
     file: .gitlab-ci.yml
-    file_label: The instructions for numbering a release
+    file_label: De instructies om een release te nummeren
     from: 'existing_tag=$(git tag -l'
     to: "      fi"
     max_lines: 8
     notes:
       - line: "existing_tag=$(git tag"
-        says: It looks for earlier numbers of the same release.
+        says: Ze zoekt naar eerdere nummers van dezelfde release.
       - line: 'new_tag="${release_name}.0"'
-        says: The first time, the release is numbered .0.
+        says: De eerste keer krijgt de release het nummer .0.
       - line: 'new_tag="${release_name}.$((${existing_tag##*.} + 1))"'
-        says: Later releases of the same quarter count up by one.
+        says: Latere releases van hetzelfde kwartaal tellen er telkens één bij.
 
 demo:
   intro: >-
-    Two teams have each finished a change, and both are in the shared work. We build the release without the team
-    that is not ready, and put it live in validation.
+    Twee teams hebben elk een wijziging afgerond, en beide zitten in het gedeelde werk. We builden de release zonder
+    het team dat niet klaar is, en zetten ze live in validatie.
   setup:
     - {action: gitlab.branch, name: demo/feature/team-payments, from: dev}
     - {action: gitlab.commit, branch: demo/feature/team-payments, patch: team-payments}
-    - {action: gitlab.merge_request, source: demo/feature/team-payments, target: dev, title: "feat: payments overview"}
+    - {action: gitlab.merge_request, source: demo/feature/team-payments, target: dev, title: "feat: betalingenoverzicht"}
     - {action: gitlab.merge, source: demo/feature/team-payments}
     # wait for the first team's number before the second team delivers: two deliveries seconds apart make GitLab
     # cancel the first one's numbering, and both changes would end up under one number
     - {action: gitlab.wait_pipeline, for: "tag:^v1\\.1\\.0$", expect: success, timeout: 600}
     - {action: gitlab.branch, name: demo/feature/team-reviews, from: dev}
     - {action: gitlab.commit, branch: demo/feature/team-reviews, patch: team-reviews}
-    - {action: gitlab.merge_request, source: demo/feature/team-reviews, target: dev, title: "feat: review scores overview"}
+    - {action: gitlab.merge_request, source: demo/feature/team-reviews, target: dev, title: "feat: overzicht van de reviewscores"}
     - {action: gitlab.merge, source: demo/feature/team-reviews}
     - {action: gitlab.wait_pipeline, for: "tag:^v1\\.2\\.0$", expect: success, timeout: 900}
   steps:
     - id: takeout
-      title: Build the release without the unfinished team
-      say: "Pick the team that is not ready: its change is taken out of a copy for the release, which is then checked again."
-      button: Build the release
+      title: De release builden zonder het onafgewerkte team
+      say: "Kies het team dat niet klaar is: zijn wijziging wordt uit de kopie voor de release gehaald, die daarna opnieuw gecontroleerd wordt."
+      button: De release builden
       inputs:
         - id: not_ready
           type: choice
-          label: Which team is not ready?
+          label: Welk team is niet klaar?
           default: v1.2.0
           options:
-            - {value: v1.1.0, label: "The payments team"}
-            - {value: v1.2.0, label: "The reviews team"}
-          help: "Pick the team whose change is not finished: that change is taken out. In the story the reviews team (v1.2.0) is not ready; payments is v1.1.0."
+            - {value: v1.1.0, label: "Team payments"}
+            - {value: v1.2.0, label: "Team reviews"}
+          help: "Kies het team waarvan de wijziging niet af is: die wordt eruit gehaald. In het verhaal is team reviews (v1.2.0) niet klaar; payments is v1.1.0."
       do:
         - {action: gitlab.branch, name: release/2026-Q4, from: dev}
         - {action: git.revert_on_release, branch: release/2026-Q4, tag: "{{ inputs.not_ready }}"}
         - {action: gitlab.wait_pipeline, for: "ref:release/2026-Q4", expect: success, timeout: 900}
       show:
-        - {type: result, from_action: git.revert_on_release, title: "What is in the release", caption: "Look at the two lines: one change is taken out, one stays in. The payments team's change is v1.1.0, the reviews team's is v1.2.0."}
-        - {type: pipeline, for: "ref:release/2026-Q4", title: "Complete check of the release", caption: "Every box must be done before the release may go on."}
-        - {type: versions, title: "Version in each environment"}
-      outcome: The release holds the shared work minus the chosen team's change. Development still runs both changes.
+        - {type: result, from_action: git.revert_on_release, title: "Wat er in de release zit", caption: "Kijk naar de twee regels: één wijziging is eruit gehaald, één blijft erin. De wijziging van team payments is v1.1.0, die van team reviews v1.2.0."}
+        - {type: pipeline, for: "ref:release/2026-Q4", title: "Volledige controle van de release", caption: "Elk vakje moet klaar zijn voor de release verder mag."}
+        - {type: versions, title: "Versie in elke omgeving"}
+      outcome: De release bevat het gedeelde werk min de wijziging van het gekozen team. Development draait nog beide wijzigingen.
     - id: golive
-      title: Put the release live
-      say: The checked copy becomes the release and goes live in validation under its own number. Production waits for a person.
-      button: Put it live
+      title: De release live zetten
+      say: De gecontroleerde kopie wordt de release en gaat live in validatie onder een eigen nummer. Productie wacht op een persoon.
+      button: Live zetten
       inputs: []
       do:
         - {action: git.promote_release, branch: release/2026-Q4}
         - {action: gitlab.wait_pipeline, for: "tag:^2026-Q4\\.", expect: success, timeout: 900}
       show:
-        - {type: result, from_action: git.promote_release, title: "What happened", caption: "The checked copy is handed over to go live."}
-        - {type: pipeline, for: "tag:^2026-Q4\\.", title: "Numbering and putting the release live", caption: "Production is never changed automatically: a person has to approve. In this demo nobody does, so it stays Waiting for a person on purpose."}
-        - {type: versions, before_of: takeout, title: "Version in each environment", caption: "Validation now runs 2026-Q4.0, development and production keep their numbers. A release number reads year, quarter, count: 2026-Q4.0 is the first release of the fourth quarter of 2026."}
-      outcome: The release is numbered 2026-Q4.0 and runs in validation. The team that was not ready is not in it.
+        - {type: result, from_action: git.promote_release, title: "Wat er gebeurd is", caption: "De gecontroleerde kopie wordt doorgegeven om live te gaan."}
+        - {type: pipeline, for: "tag:^2026-Q4\\.", title: "De release nummeren en live zetten", caption: "Productie wordt nooit automatisch gewijzigd: een persoon moet goedkeuren. In deze demo doet niemand dat, dus de stap blijft bewust op \"Wacht op een persoon\" staan."}
+        - {type: versions, before_of: takeout, title: "Versie in elke omgeving", caption: "Validatie draait nu 2026-Q4.0, development en productie houden hun nummer. Een releasenummer leest als jaar, kwartaal, teller: 2026-Q4.0 is de eerste release van het vierde kwartaal van 2026."}
+      outcome: De release heeft nummer 2026-Q4.0 en draait in validatie. Het team dat niet klaar was, zit er niet in.

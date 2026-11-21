@@ -24,8 +24,8 @@ const SIZE: Record<EvidenceType, 'sm' | 'md' | 'lg'> = {
 }
 /** Used when a scenario file leaves the title out. */
 const TITLE: Record<EvidenceType, string> = {
-  table: 'The numbers', bars: 'The numbers per day', number: 'The number', tasks: 'The work, step by step', pipeline: 'The automatic checks',
-  mail: 'The mail', versions: 'Version in each environment', result: 'What happened', freshness: 'How fresh is each feed', run_history: 'The latest runs',
+  table: 'De cijfers', bars: 'De cijfers per dag', number: 'Het cijfer', tasks: 'Het werk, stap voor stap', pipeline: 'De automatische checks',
+  mail: 'De mail', versions: 'Versie in elke omgeving', result: 'Wat er gebeurde', freshness: 'Hoe vers is elke feed', run_history: 'De laatste runs',
 }
 
 export function evidencePhase(item: LiveEvidence, stepStatus: StepStatus): EvidencePhase {
@@ -49,7 +49,7 @@ export function EvidenceView({ item, stepStatus, previous, trail, waitingText }:
     const lab = barsModel(d as BarsData).labels
     if (lab.length >= slots.current.length) slots.current = lab
     for (const s of (d as BarsData).series) {
-      const name = s.name || 'Total'
+      const name = s.name || 'Totaal'
       if (!seen.current.some((x) => x.name === name)) seen.current = [...seen.current, { name, state: s.state }]
     }
     // the same order in every chart: what is as it should be first, the problem last
@@ -62,7 +62,7 @@ export function EvidenceView({ item, stepStatus, previous, trail, waitingText }:
       case 'table': body = <TableView item={item} data={d as TableData} title={title} />; break
       case 'bars': {
         const bars = d as BarsData
-        const full: BarsData = { ...bars, series: seen.current.map((x) => bars.series.find((s) => (s.name || 'Total') === x.name) ?? { name: x.name, state: x.state, values: [] }) }
+        const full: BarsData = { ...bars, series: seen.current.map((x) => bars.series.find((s) => (s.name || 'Totaal') === x.name) ?? { name: x.name, state: x.state, values: [] }) }
         const unit = [bars.unit, item.unit].find((u): u is string => typeof u === 'string' && u !== '')
         body = <BarsView data={full} title={title} slots={slots.current} unit={unit} />
         break
@@ -78,7 +78,7 @@ export function EvidenceView({ item, stepStatus, previous, trail, waitingText }:
     }
   }
   return (
-    <EvidenceFrame title={rawTitle} caption={item.caption ?? undefined} phase={phase} updating={stepStatus === 'running' && phase === 'ready'} error={phase === 'error' ? (evidenceError(d) ?? 'What was recorded does not fit this scenario any more.') : null} size={SIZE[item.type]} recordedAt={item.recorded_at} waitingText={waitingText} guide={item.type === 'mail'}>
+    <EvidenceFrame title={rawTitle} caption={item.caption ?? undefined} phase={phase} updating={stepStatus === 'running' && phase === 'ready'} error={phase === 'error' ? (evidenceError(d) ?? 'Wat opgenomen werd, past niet meer bij dit scenario.') : null} size={SIZE[item.type]} recordedAt={item.recorded_at} waitingText={waitingText} guide={item.type === 'mail'}>
       {body}
     </EvidenceFrame>
   )

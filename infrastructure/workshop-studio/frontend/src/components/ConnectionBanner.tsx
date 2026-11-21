@@ -12,7 +12,7 @@ export function ConnectionBanner() {
   const [back, setBack] = useState(false)
   const was = useRef(connected)
 
-  // a green "Back online" for 3 seconds after the connection returns
+  // a green "Weer online" for 3 seconds after the connection returns
   useEffect(() => {
     const returned = connected && !was.current
     was.current = connected
@@ -44,18 +44,18 @@ export function ConnectionBanner() {
         <Callout
           tone="bad"
           role="alert"
-          title="The demo system cannot be reached"
+          title="Het oefensysteem is niet bereikbaar"
           actions={
             <>
-              <span aria-hidden="true">Trying again in {left} s</span>
-              <Button onClick={actions.retryConnection}>Try now</Button>
+              <span aria-hidden="true">Nieuwe poging binnen {left} s</span>
+              <Button onClick={actions.retryConnection}>Nu proberen</Button>
             </>
           }
         >
-          We are trying again every few seconds. What you see may be out of date.
+          We proberen om de paar seconden opnieuw. Wat je ziet, is misschien niet meer actueel.
         </Callout>
       )}
-      {connected && back && <Callout tone="good" role="status" title="Back online" />}
+      {connected && back && <Callout tone="good" role="status" title="Weer online" />}
     </div>
   )
 }

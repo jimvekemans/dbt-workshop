@@ -114,7 +114,7 @@ def test_tasks_shows_friendly_labels_and_states(tmp_path, monkeypatch):
     assert (
         out["run"]["state"] == "failed" and out["run"]["started"] == "2026-03-01T04:00:00+00:00"
     )  # the failed build decides
-    assert out["tasks"][0] == {"label": "Building all the reports", "state": "failed", "state_text": "Failed"}
+    assert out["tasks"][0] == {"label": "Alle rapporten builden", "state": "failed", "state_text": "Mislukt"}
     assert out["tasks"][1]["state"] == "skipped"
 
 
@@ -133,10 +133,10 @@ def test_pipeline_lists_jobs_in_words(tmp_path, monkeypatch):
     monkeypatch.setattr(evidence, "find_pipeline", lambda api, spec, tags: {"id": 1, "status": "manual"})
     out = evidence.pipeline(make_ctx(tmp_path), evidence.PipelineParams.model_validate({"for": "ref:main"}))
     assert out["state"] == "done" and [j["label"] for j in out["jobs"]] == [
-        "Trying the change in a private copy",
-        "Putting the version live in production",
+        "De wijziging uitproberen met echte data en checks",
+        "De versie deployen in productie",
     ]
-    assert out["jobs"][1]["state_text"] == "Waiting for a person"
+    assert out["jobs"][1]["state_text"] == "Wacht op een persoon"
     monkeypatch.setattr(evidence, "find_pipeline", lambda *a: None)
     assert (
         evidence.pipeline(make_ctx(tmp_path), evidence.PipelineParams.model_validate({"for": "ref:main"}))["state"]
@@ -152,7 +152,7 @@ def test_mail_returns_the_newest_matching_message(tmp_path, monkeypatch):
         if path == "search":
             return {"messages": [{"ID": "abc", "Created": "2026-03-01T04:00:00Z"}]}
         return {
-            "Subject": "Nightly load failed",
+            "Subject": "Nachtelijke load mislukt",
             "From": {"Name": "", "Address": "airflow@x"},
             "Date": "2026-03-01T04:01:00Z",
             "HTML": "<p>x</p>",
@@ -160,15 +160,15 @@ def test_mail_returns_the_newest_matching_message(tmp_path, monkeypatch):
         }
 
     monkeypatch.setattr(evidence, "mailpit", fake_mailpit)
-    out = evidence.mail(make_ctx(tmp_path), evidence.MailParams(match="failed"))
+    out = evidence.mail(make_ctx(tmp_path), evidence.MailParams(match="mislukt"))
     assert out == {
         "found": True,
-        "subject": "Nightly load failed",
+        "subject": "Nachtelijke load mislukt",
         "from": "airflow@x",
         "received": "2026-03-01T04:01:00Z",
         "html": "<p>x</p>",
     }
-    assert seen[0] == ("search", {"query": 'subject:"failed"', "limit": "1"}) and seen[1][0] == "message/abc"
+    assert seen[0] == ("search", {"query": 'subject:"mislukt"', "limit": "1"}) and seen[1][0] == "message/abc"
 
 
 def test_mail_falls_back_to_escaped_text_and_handles_no_mail(tmp_path, monkeypatch):
@@ -177,7 +177,7 @@ def test_mail_falls_back_to_escaped_text_and_handles_no_mail(tmp_path, monkeypat
     assert evidence.mail(make_ctx(tmp_path), evidence.MailParams(match="s"))["html"] == "<pre>&lt;b&gt;</pre>"
     assert evidence.mail(make_ctx(tmp_path), evidence.MailParams(match="s")) == {
         "found": False,
-        "empty": "No mail has arrived yet.",
+        "empty": "Er is nog geen mail binnengekomen.",
     }
 
 
@@ -191,8 +191,8 @@ def test_versions_per_environment_with_unknown_when_unreachable(tmp_path, monkey
     out = evidence.versions(make_ctx(tmp_path), evidence.Show())["environments"]
     assert [(e["label"], e["tag"]) for e in out] == [
         ("Development", "v1.1.0"),
-        ("Validation", None),
-        ("Production", "2026-Q1.0"),
+        ("Validatie", None),
+        ("Productie", "2026-Q1.0"),
     ]
 
 
@@ -209,14 +209,14 @@ def test_result_is_the_last_summary(tmp_path):
 
 def test_age_words_and_source_labels():
     assert [evidence.age_words(s) for s in (None, 10, 7200, 3 * 86400, 86400, 600)] == [
-        "never",
-        "just now",
-        "2 hours ago",
-        "3 days ago",
-        "1 day ago",
-        "10 minutes ago",
+        "nooit",
+        "zonet",
+        "2 uur geleden",
+        "3 dagen geleden",
+        "1 dag geleden",
+        "10 minuten geleden",
     ]
-    assert evidence.source_label("source.vdp.olist.raw_olist_orders") == "orders"
+    assert evidence.source_label("source.vdp.olist.raw_olist_orders") == "bestellingen"
 
 
 def test_freshness_reads_the_state_volume(tmp_path):
@@ -246,8 +246,8 @@ def test_freshness_reads_the_state_volume(tmp_path):
     out = evidence.freshness(ctx, evidence.Show())
     assert out["generated_at"] == "2026-03-01T04:00:00Z"
     assert [(s["label"], s["state"], s["last_data"]) for s in out["sources"]] == [
-        ("orders", "fresh", "5 minutes ago"),
-        ("parcel scans", "very_late", "3 days ago"),
+        ("bestellingen", "fresh", "5 minuten geleden"),
+        ("pakketscans", "very_late", "3 dagen geleden"),
     ]
 
 
@@ -262,23 +262,23 @@ def test_run_history_summarises_each_run(tmp_path, monkeypatch):
     out = evidence.run_history(make_ctx(tmp_path, "val"), evidence.RunHistoryParams(limit=2))
     assert "val_vdp_mgmt.dbt_run_results" in seen[0] and "LIMIT 3" in seen[0]   # one more: the run before the oldest
     assert [r["state"] for r in out["runs"]] == ["bad", "good"]
-    assert out["runs"][0]["summary"] == "10 of 12 tables built, 2 tables failed, 1 warning"
-    assert out["runs"][1]["summary"] == "12 of 12 tables built, 40 checks passed"
+    assert out["runs"][0]["summary"] == "10 van 12 tabellen gebuild, 2 tabellen mislukt, 1 check met waarschuwing"
+    assert out["runs"][1]["summary"] == "12 van 12 tabellen gebuild, 40 checks geslaagd"
 
 
 def test_stack_reports_each_service_and_never_raises(tmp_path, monkeypatch):
-    monkeypatch.setattr(evidence, "check_gitlab", lambda ctx: ("starting", "Code storage is still starting"))
+    monkeypatch.setattr(evidence, "check_gitlab", lambda ctx: ("starting", "De codeopslag is nog aan het opstarten"))
     monkeypatch.setattr(evidence, "check_singlestore", lambda ctx: (_ for _ in ()).throw(RuntimeError("refused")))
-    monkeypatch.setattr(evidence, "check_airflow", lambda ctx, env: ("up", "The scheduler is ready"))
+    monkeypatch.setattr(evidence, "check_airflow", lambda ctx, env: ("up", "De scheduler is klaar"))
     monkeypatch.setattr(evidence, "check_mailpit", lambda ctx: ("up", "ok"))
     services = {s["id"]: s for s in evidence.stack(make_ctx(tmp_path), evidence.Show())["services"]}
     assert list(services) == ["gitlab", "singlestore", "airflow-dev", "airflow-val", "airflow-prd", "mailpit", "feeder"]
     assert services["gitlab"]["status"] == "starting" and services["singlestore"]["status"] == "down"
     assert services["feeder"] == {
         "id": "feeder",
-        "label": "Data delivery",
+        "label": "Datalevering",
         "status": "up",
-        "detail": "Delivering data; today is 2026-03-01",
+        "detail": "Levert data; vandaag is het 1 maart 2026",
     }
 
 

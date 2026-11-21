@@ -5,12 +5,13 @@ import { highlightLines } from '../lib/highlight'
 import { plainText } from '../lib/glossary'
 import { baseName, indentOf, segments } from '../lib/code'
 import { RichText } from './Term'
+import { StatusBadge } from './StatusBadge'
 import { ExternalIcon } from './icons'
 import styles from './CodeBlock.module.css'
 
 /**
  * Code with its notes in plain words, each one shown once: right under the line it explains, with the same number badge.
- * A noted line and its note light up together. Long runs of lines without a note are folded behind "Show lines 8-14".
+ * A noted line and its note light up together. Long runs of lines without a note are folded behind "Toon regels 8-14".
  * Wide screens scroll long lines sideways (a fade at the edge says so); narrow ones wrap them.
  */
 export function CodeBlock({ block }: { block: CodeBlockData }) {
@@ -48,7 +49,7 @@ export function CodeBlock({ block }: { block: CodeBlockData }) {
   const range = (start: number, end: number) => {
     const a = block.lines[start]?.n
     const b = block.lines[end - 1]?.n
-    return a === b ? `line ${a}` : `lines ${a}–${b}`
+    return a === b ? `regel ${a}` : `regels ${a}–${b}`
   }
 
   const segs = segments(block.lines, opened)
@@ -60,15 +61,16 @@ export function CodeBlock({ block }: { block: CodeBlockData }) {
           <span className={styles.fileLabel}>{block.file_label ? <RichText text={block.file_label} /> : baseName(block.file)}</span>
           <code className={styles.file}>{block.file}</code>
         </span>
+        {block.status && <StatusBadge status={block.status} />}
         {block.gitlab_url && (
           <a className={styles.open} href={block.gitlab_url} target="_blank" rel="noreferrer">
-            Open in GitLab <ExternalIcon size="0.9em" aria-hidden="true" />
+            Openen in GitLab <ExternalIcon size="0.9em" aria-hidden="true" />
           </a>
         )}
       </figcaption>
 
       <div className={styles.scrollWrap} data-more={more ? '' : undefined}>
-        <div ref={grid} className={styles.grid} role="group" tabIndex={0} aria-label={`Code from ${plainText(block.file_label) || baseName(block.file)}`}>
+        <div ref={grid} className={styles.grid} role="group" tabIndex={0} aria-label={`Code uit ${plainText(block.file_label) || baseName(block.file)}`}>
           {segs.map((s, r) => {
             if (s.kind === 'gap' || s.kind === 'hide') {
               const n = s.end - s.start
@@ -88,7 +90,7 @@ export function CodeBlock({ block }: { block: CodeBlockData }) {
                       })
                     }
                   >
-                    {opening ? `Show ${range(s.start, s.end)} (${n} more)` : `Hide ${range(s.start, s.end)}`}
+                    {opening ? `Toon ${range(s.start, s.end)} (nog ${n})` : `Verberg ${range(s.start, s.end)}`}
                   </button>
                 </div>
               )
@@ -128,7 +130,7 @@ export function CodeBlock({ block }: { block: CodeBlockData }) {
                     <b className={styles.badge} aria-hidden="true">
                       {k}
                     </b>
-                    <span className="sr-only">Note {k}: </span>
+                    <span className="sr-only">Opmerking {k}: </span>
                     <span className={styles.noteText}>
                       <RichText text={l.note} />
                     </span>

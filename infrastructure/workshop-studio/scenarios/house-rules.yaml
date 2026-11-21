@@ -1,103 +1,105 @@
 id: house-rules
 group: changes
-title: Sloppy or risky code is refused before it is saved
-promise: A robot tidies all code and refuses known bad habits, so reviewers can focus on the content.
+title: Slordige of risicovolle code wordt geweigerd bij het opslaan
+promise: Een robot kuist alle code op en weigert gekende slechte gewoontes, zodat reviewers zich op de inhoud richten.
 minutes: 2
+feature: "Huisregels gecontroleerd voor het opslaan"
+status: today
+tech: ["pre-commit", "sqlfmt", "dbt-bouncer"]
 environment: dev
 
 problem:
-  headline: One banned habit slips through reviews and blanks a report
+  headline: Eén verboden gewoonte glipt door de review en laat een rapport leeg
   story: |
-    Every developer writes code in their own layout. Reviewers spend their time arguing about spaces and capital
-    letters, and miss the real problem: one developer used a date function that writes months differently on our
-    database. The monthly report shows blank months, and nobody notices until finance asks why October is
-    missing.
-  cost: Finance works from a monthly report with blank months, and reviewers lose hours on layout instead of content.
+    Elke developer schrijft code in zijn eigen opmaak. Reviewers verliezen tijd met discussies over spaties en
+    hoofdletters en missen het echte probleem: één developer gebruikte een datumfunctie die maanden anders schrijft op
+    onze [[database]]. Het maandrapport toont lege maanden, en niemand merkt het tot finance vraagt waar oktober blijft.
+  cost: Finance werkt met een maandrapport met lege maanden, en reviewers verliezen uren aan opmaak in plaats van inhoud.
   visual:
     type: flow
     nodes:
-      - {id: dev, label: "Developer's code", state: warn, note: "Own layout, own habits"}
-      - {id: review, label: "Human review", state: warn, note: "Busy with layout"}
-      - {id: report, label: "Monthly report", state: bad, note: "Blank months"}
-      - {id: finance, label: "Finance", state: bad, note: "Where is October?"}
+      - {id: dev, label: "Code van de developer", state: warn, note: "Eigen opmaak, eigen gewoontes"}
+      - {id: review, label: "Review door mensen", state: warn, note: "Bezig met opmaak"}
+      - {id: report, label: "Maandrapport", state: bad, note: "Lege maanden"}
+      - {id: finance, label: "Finance", state: bad, note: "Waar is oktober?"}
     links: [[dev, review], [review, report], [report, finance]]
-    caption: The slip is old and well known, but nothing stops it.
+    caption: De fout is oud en gekend, maar niets houdt ze tegen.
 
 idea:
-  headline: A robot checks all code at the moment it is saved
+  headline: Een robot controleert alle code op het moment dat ze opgeslagen wordt
   points:
-    - It rewrites the code into one standard layout, so everybody's work looks the same.
-    - It refuses code that breaks one of the team's rules, and says which rule was broken.
-    - Reviewers see only tidy code that follows the rules, and spend their time on what the code means.
+    - Ze schrijft de code om naar één standaardopmaak, zodat het werk van iedereen er hetzelfde uitziet.
+    - Ze weigert code die een regel van het team overtreedt, en zegt welke regel overtreden werd.
+    - Reviewers zien enkel nette code die de regels volgt, en besteden hun tijd aan wat de code betekent.
   visual:
     type: flow
     nodes:
-      - {id: save, label: Developer saves code, state: ok, note: "On the developer's computer"}
-      - {id: robot, label: The robot, state: fix, note: "Tidies, checks, refuses"}
-      - {id: saved, label: Saved code, state: ok, note: "Only tidy, allowed code"}
+      - {id: save, label: Developer slaat code op, state: ok, note: "Op de computer van de developer"}
+      - {id: robot, label: De robot, state: fix, note: "Kuist op, controleert, weigert"}
+      - {id: saved, label: Opgeslagen code, state: ok, note: "Enkel nette, toegelaten code"}
     links: [[save, robot], [robot, saved]]
-    caption: The rules are written down once and applied to everyone.
+    caption: De regels staan één keer neergeschreven en gelden voor iedereen.
 
 code:
-  - title: The robot that tidies the layout
+  - title: De robot die de opmaak opkuist
     file: .pre-commit-config.yaml
-    file_label: The list of checks that run on every save
+    file_label: De checks die bij elke keer opslaan lopen
     from: "id: sqlfmt"
     to: "require_serial: true"
     max_lines: 12
     notes:
       - line: "id: sqlfmt"
-        says: This check rewrites the code into the standard layout.
+        says: Deze check schrijft de code om naar de standaardopmaak.
       - line: "entry: bash -c 'sqlfmt"
-        says: It tidies the code first, then keeps the tidied version.
-  - title: The robot that refuses banned habits
+        says: Ze kuist de code eerst op en houdt dan de opgekuiste versie.
+  - title: De robot die verboden gewoontes weigert
     file: .pre-commit-config.yaml
-    file_label: The list of checks that run on every save
+    file_label: De checks die bij elke keer opslaan lopen
     from: "id: dbt-bouncer"
     to: "pass_filenames: false"
     max_lines: 12
     notes:
       - line: "id: dbt-bouncer"
-        says: The robot refuses code that breaks the team's rules.
+        says: De robot weigert code die de regels van het team overtreedt.
       - line: "entry: dbt-bouncer"
-        says: It reads the team's rules from one file and checks all the code.
-  - title: The team's list of banned habits
+        says: Ze leest de regels van het team uit één bestand en controleert alle code.
+  - title: De lijst verboden gewoontes van het team
     file: dbt-bouncer.yml
-    file_label: The team's rules, written down once
+    file_label: De regels van het team, één keer neergeschreven
     from: "manifest_checks:"
     to: 'description: "Model uses str_to_date: see the dbt style guide"'
     max_lines: 12
     notes:
       - line: "check_model_has_semi_colon"
-        says: A semicolon at the end of the code is refused.
+        says: Een puntkomma op het einde van de code wordt geweigerd.
       - line: '\bto_char'
-        says: Two date functions are banned; the first writes months differently on our database.
+        says: Twee datumfuncties zijn verboden; de eerste schrijft maanden anders op onze database.
       - line: 'description: "Model uses to_char'
-        says: The message tells the developer which rule was broken.
+        says: De melding vertelt de developer welke regel overtreden werd.
 
 demo:
-  intro: A developer saves new code. The robot tidies it and refuses the first version, then accepts the corrected one.
+  intro: Een developer slaat nieuwe code op. De robot kuist ze op en weigert de eerste versie, en laat daarna de verbeterde door.
   setup: []
   steps:
     - id: refused
-      title: Save sloppy code
+      title: Slordige code opslaan
       say: |
-        The code has a messy layout, a banned date function and a semicolon at the end. The robot tidies the layout
-        by itself and refuses the other two.
-      button: Save the sloppy code
+        De code heeft een rommelige opmaak, een verboden datumfunctie en een puntkomma op het einde. De robot kuist de
+        opmaak zelf op en weigert de andere twee.
+      button: De slordige code opslaan
       inputs: []
       do:
         - {action: precommit.run, patch: house-sloppy-model, expect: refused}
       show:
-        - {type: result, title: "What the robot says", caption: "Each line is a rule of the team that the code broke. The robot also tidied the layout by itself, which needs no action."}
-      outcome: "The robot tidied the layout and refused the change for 2 reasons: a semicolon at the end of the code and a banned date function."
+        - {type: result, title: "Wat de robot zegt", caption: "Elke regel is een regel van het team die de code overtrad. De robot kuiste ook de opmaak zelf op, daar is geen actie voor nodig."}
+      outcome: "De robot kuiste de opmaak op en weigerde de wijziging om 2 redenen: een puntkomma op het einde van de code en een verboden datumfunctie."
     - id: accepted
-      title: Save the corrected code
-      say: The corrected version has the standard layout and uses the approved date function, so the robot has nothing to refuse.
-      button: Save the corrected code
+      title: De verbeterde code opslaan
+      say: De verbeterde versie heeft de standaardopmaak en gebruikt de toegelaten datumfunctie, dus de robot heeft niets te weigeren.
+      button: De verbeterde code opslaan
       inputs: []
       do:
         - {action: precommit.run, patch: house-tidy-model, expect: ok}
       show:
-        - {type: result, before_of: refused, title: "What the robot says", caption: "Nothing is refused: both earlier problems are gone (no semicolon at the end, the approved date function)."}
-      outcome: The robot has nothing to refuse, so the corrected code can be saved.
+        - {type: result, before_of: refused, title: "Wat de robot zegt", caption: "Niets wordt geweigerd: beide eerdere problemen zijn weg (geen puntkomma op het einde, de toegelaten datumfunctie)."}
+      outcome: De robot heeft niets te weigeren, dus de verbeterde code kan opgeslagen worden.

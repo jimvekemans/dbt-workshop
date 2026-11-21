@@ -9,6 +9,7 @@ LABEL org.opencontainers.image.version="${GIT_TAG}" org.opencontainers.image.rev
 COPY --chown=1000:0 . /usr/app/dbt/workspace
 WORKDIR /usr/app/dbt/workspace
 USER dbt:root
-RUN dbt deps
+# a failed download of the packages (network of the moment) is tried twice more
+RUN dbt deps || (sleep 5 && dbt deps) || (sleep 15 && dbt deps)
 
 CMD ["dbt", "--version"]

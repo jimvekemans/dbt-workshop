@@ -19,7 +19,7 @@ class PatchError(StepFailed):
     """The prepared code change cannot be applied; `details` says which file and pattern."""
 
     def __init__(self, details: str):
-        super().__init__("The prepared code change does not fit the current code.", details)
+        super().__init__("De voorbereide codewijziging past niet bij de huidige code.", details)
 
 
 @dataclass

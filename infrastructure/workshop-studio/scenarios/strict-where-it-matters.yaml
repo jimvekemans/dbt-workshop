@@ -1,80 +1,84 @@
 id: strict-where-it-matters
 group: sources
-title: Messy test data is fine in development, never in production
-promise: The same check only warns while we try things out, and stops the load where real customers depend on it.
+title: Rommelige testdata mag in development, nooit in productie
+promise: Dezelfde check waarschuwt enkel tijdens het uitproberen en stopt de load waar echte klanten van afhangen.
 minutes: 4
+feature: "Checks die strenger zijn waar het telt"
+status: next
+why: "Eén strengheid voor alles legt de nachten van de testers stil of laat een ongeldig klantnummer tot in productiefacturen geraken."
+tech: ["test severity", "DBT_SEVERITY_DEV_DATA"]
 environment: dev
 related: []
 
 problem:
-  headline: Either testers are blocked, or bad data reaches production
+  headline: Ofwel zitten de testers geblokkeerd, ofwel geraakt slechte data in productie
   story: |
-    Testers fill the development copy of the shop with made-up orders, and some have invalid customer numbers. If
-    the check on customer numbers is strict everywhere, every night in development stops and nobody can try
-    anything. If it is relaxed everywhere, an invalid number can reach the real shop, and finance invoices a
-    customer who does not exist.
-  cost: Testers lose days to stopped nights, or finance sends an invoice to a customer who does not exist.
+    Testers vullen de webshop in development met verzonnen bestellingen, en sommige hebben ongeldige
+    klantnummers. Is de check op klantnummers overal streng, dan stopt elke nacht in development en kan niemand iets
+    uitproberen. Is hij overal soepel, dan kan een ongeldig nummer tot in de echte webshop geraken, en factureert de
+    boekhouding een klant die niet bestaat.
+  cost: Testers verliezen dagen aan stilgelegde nachten, of de boekhouding stuurt een factuur naar een klant die niet bestaat.
   visual:
     type: compare
     left:
-      title: Strict everywhere
+      title: Overal streng
       state: bad
       items:
-        - Practice orders stop every practice night.
-        - Testers wait, or switch the check off.
+        - Oefenbestellingen leggen elke oefennacht stil.
+        - Testers wachten, of zetten de check uit.
     right:
-      title: Relaxed everywhere
+      title: Overal soepel
       state: bad
       items:
-        - An invalid customer number reaches the real shop.
-        - Finance finds out at invoice time.
-    caption: One strictness for development and production is wrong for at least one of them.
+        - Een ongeldig klantnummer geraakt in de echte webshop.
+        - De boekhouding merkt het pas bij de facturatie.
+    caption: Eén strengheid voor development en productie is fout voor minstens één van de twee.
 
 idea:
-  headline: The same check is relaxed in development and strict in production
+  headline: Dezelfde check is soepel in development en streng in productie
   points:
-    - In development, a failed check is only a warning, so the nightly load goes on.
-    - In validation (the checking [[environment]]) and production (the real shop), the same check stops the nightly load before bad orders spread.
-    - In development only, invalid orders are also set aside, so the reports there stay clean.
+    - In development is een mislukte check enkel een waarschuwing, dus de nachtelijke load gaat door.
+    - In validatie (de [[omgeving]] om na te kijken) en productie (de echte webshop) stopt dezelfde check de load, voor slechte bestellingen zich verspreiden.
+    - Enkel in development worden ongeldige bestellingen ook opzijgezet, zodat de rapporten daar proper blijven.
   visual:
     type: flow
     nodes:
-      - {id: orders, label: Orders arrive, state: ok, note: "Some with invalid customer numbers"}
-      - {id: check, label: Customer number check, state: fix, note: "Same rule, strictness set per place"}
-      - {id: dev, label: In development, state: warn, note: "Warns, the load goes on"}
-      - {id: prod, label: In validation and production, state: ok, note: "Stops the load"}
-      - {id: load, label: The nightly load, state: idle, note: "Goes on in development, stops elsewhere"}
+      - {id: orders, label: Bestellingen komen binnen, state: ok, note: "Sommige met ongeldige klantnummers"}
+      - {id: check, label: Check op klantnummers, state: fix, note: "Dezelfde regel, strengheid per plek"}
+      - {id: dev, label: In development, state: warn, note: "Waarschuwt, de load gaat door"}
+      - {id: prod, label: In validatie en productie, state: ok, note: "Stopt de load"}
+      - {id: load, label: De nachtelijke load, state: idle, note: "Gaat door in development, stopt elders"}
     links: [[orders, check], [check, dev], [check, prod], [dev, load], [prod, load]]
-    caption: One rule, written once, with two behaviours.
+    caption: Eén regel, één keer geschreven, met twee manieren van reageren.
 
 code:
-  - title: One check, two levels of strictness
+  - title: Eén check, twee niveaus van strengheid
     file: models/edw_dv_bdv/sources_olist.yml
-    file_label: The description of the orders feed
+    file_label: De beschrijving van de feed met bestellingen
     from: "# DYNAMIC LOCAL SEVERITY"
     to: "severity: \"{{ env_var('DBT_SEVERITY_DEV_DATA'"
     max_lines: 8
     notes:
       - line: "warn in dev, error in"
-        says: The same check warns in development and stops the nightly load elsewhere.
+        says: Dezelfde check waarschuwt in development en stopt elders de nachtelijke load.
       - line: "# val/prd. DBT_SEVERITY_DEV_DATA overrides"
-        says: An operator can still tighten or loosen it for one run.
+        says: Een operator kan hem voor één run toch strenger of soepeler zetten.
       - line: regexp
-        says: "The rule: a valid customer number is 32 characters, digits and letters a to f."
-  - title: In development, invalid orders are set aside
+        says: "De regel: een geldig klantnummer telt 32 tekens, cijfers en letters van a tot f."
+  - title: In development worden ongeldige bestellingen opzijgezet
     file: models/edw_dv_bdv/dev_only/stg_olist_orders.sql
-    file_label: The development copy of the orders table
+    file_label: De bestellingentabel in development
     from: "from raw_source r"
     to: "quarantine malformed customer ids"
     max_lines: 4
     notes:
       - line: "from raw_source r"
-        says: Every raw order is read here first.
+        says: Elke ruwe bestelling wordt hier eerst gelezen.
       - line: "quarantine malformed customer ids"
-        says: Only orders with a valid customer number go on to the reports.
+        says: Enkel bestellingen met een geldig klantnummer gaan door naar de rapporten.
 
 demo:
-  intro: Development and validation both receive orders with some invalid customer numbers. We run the same nightly load in both.
+  intro: Development en validatie krijgen allebei bestellingen met enkele ongeldige klantnummers. We runnen in beide dezelfde nachtelijke load.
   setup:
     - {action: feed.condition, feed: orders, set: {dirty_pct: 5}}
     - {action: feed.deliver, days: 3}
@@ -82,45 +86,45 @@ demo:
     - {action: feed.deliver, env: val, days: 3}
   steps:
     - id: dev
-      title: In development, the check warns
-      say: The invalid customer numbers are found, and the nightly load carries on.
-      button: Run the nightly load in development
+      title: In development waarschuwt de check
+      say: De ongeldige klantnummers worden gevonden en de nachtelijke load gaat verder.
+      button: Nachtelijke load runnen in development
       inputs: []
       do:
         - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
       show:
         - type: number
-          title: Invalid orders that arrived
+          title: Ongeldige bestellingen die binnenkwamen
           query: "select count(*) from {{ db('landing') }}.raw_olist_orders where customer_id not regexp '^[0-9a-f]{32}$'"
-          unit: orders
+          unit: bestellingen
           compare_to:
             query: "select count(*) from {{ db('edw_dv_bdv') }}.stg_olist_orders where customer_id not regexp '^[0-9a-f]{32}$'"
-            label: Invalid orders in the reports
-        - {type: tasks, dag: dbt_daily_load, title: The nightly load in development}
-        - {type: run_history, limit: 1, title: What the checks found in development, caption: "One check gave a warning that covers all the invalid orders counted above. In development a failed check is only a warning, so the nightly load goes on."}
+            label: Ongeldige bestellingen in de rapporten
+        - {type: tasks, dag: dbt_daily_load, title: De nachtelijke load in development}
+        - {type: run_history, limit: 1, title: Wat de checks vonden in development, caption: "Eén check gaf een waarschuwing die alle ongeldige bestellingen hierboven dekt. In development is een mislukte check enkel een waarschuwing, dus de nachtelijke load gaat door."}
       outcome:
         check: "select count(*) from {{ db('edw_dv_bdv') }}.stg_olist_orders where customer_id not regexp '^[0-9a-f]{32}$'"
         good_when: zero
-        good: The check gave a warning and the nightly load finished. None of the invalid orders reached the reports.
-        not_quite: "{{ value }} invalid orders reached the reports: they were not set aside."
+        good: De check gaf een waarschuwing en de nachtelijke load is afgerond. Geen enkele ongeldige bestelling is in de rapporten geraakt.
+        not_quite: "{{ value }} ongeldige bestellingen zijn in de rapporten geraakt: ze werden niet opzijgezet."
     - id: val
-      title: In validation, the same check stops the load
-      say: The same kind of messy orders arrive, but now the check is strict.
-      button: Run the nightly load in validation
+      title: In validatie stopt dezelfde check de load
+      say: Dezelfde soort rommelige bestellingen komt binnen, maar nu is de check streng.
+      button: Nachtelijke load runnen in validatie
       inputs: []
       do:
         - {action: airflow.run_dag, env: val, dag: dbt_daily_load, expect: failed}
       show:
         - type: number
           env: val
-          title: Invalid orders that arrived
-          caption: The same kind of invalid orders arrived here, and none of them reached the reports, because the night stopped first.
+          title: Ongeldige bestellingen die binnenkwamen
+          caption: Hier kwamen dezelfde soort ongeldige bestellingen binnen, en geen enkele is in de rapporten geraakt, want de nacht stopte eerst.
           query: "select count(*) from {{ db('landing') }}.raw_olist_orders where customer_id not regexp '^[0-9a-f]{32}$'"
-          unit: orders
+          unit: bestellingen
           compare_to:
             query: "select count(*) from {{ db('edw_dv_bdv') }}.stg_olist_orders where customer_id not regexp '^[0-9a-f]{32}$'"
-            label: Invalid orders in the reports
-        - {type: tasks, env: val, dag: dbt_daily_load, title: The nightly load in validation, caption: "The same kind of orders stop the nightly load here: 1 step failed."}
-        - {type: run_history, env: val, limit: 1, title: What the checks found in validation, caption: "In validation the same failed check is a problem that stops the night."}
-        - {type: result, title: What happened}
-      outcome: "The same check that only warned in development stops the nightly load here: 1 step failed."
+            label: Ongeldige bestellingen in de rapporten
+        - {type: tasks, env: val, dag: dbt_daily_load, title: De nachtelijke load in validatie, caption: "Dezelfde soort bestellingen stopt hier de nachtelijke load: 1 stap mislukt."}
+        - {type: run_history, env: val, limit: 1, title: Wat de checks vonden in validatie, caption: "In validatie is dezelfde mislukte check een probleem dat de nacht stopt."}
+        - {type: result, title: Wat er gebeurd is}
+      outcome: "Dezelfde check die in development enkel waarschuwde, stopt hier de nachtelijke load: 1 stap mislukt."

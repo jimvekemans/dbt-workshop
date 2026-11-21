@@ -12,7 +12,7 @@ interface Props {
   label?: string
 }
 
-export function Stepper({ parts, current, onSelect, label = 'Parts of this scenario' }: Props) {
+export function Stepper({ parts, current, onSelect, label = 'Delen van dit scenario' }: Props) {
   const ci = parts.findIndex((p) => p.id === current)
   return (
     <nav aria-label={label} className={styles.nav}>
@@ -31,10 +31,10 @@ export function Stepper({ parts, current, onSelect, label = 'Parts of this scena
                   {state === 'done' ? '✓' : i + 1}
                 </span>
                 <span className={styles.name}>
-                  <span className="sr-only">Part {i + 1}: </span>
+                  <span className="sr-only">Deel {i + 1}: </span>
                   {p.name}
-                  {state === 'done' && <span className="sr-only"> (done)</span>}
-                  {state === 'current' && <span className="sr-only"> (you are here)</span>}
+                  {state === 'done' && <span className="sr-only"> (klaar)</span>}
+                  {state === 'current' && <span className="sr-only"> (je bent hier)</span>}
                 </span>
               </button>
             </li>
@@ -42,10 +42,10 @@ export function Stepper({ parts, current, onSelect, label = 'Parts of this scena
         })}
       </ol>
       <p className={styles.phoneName} aria-hidden="true">
-        Part {ci + 1} of {parts.length} · {parts[ci]?.name}
+        Deel {ci + 1} van {parts.length} · {parts[ci]?.name}
       </p>
       <p className={styles.keys} aria-hidden="true">
-        ← → keys move between parts
+        ← → toetsen wisselen tussen de delen
       </p>
     </nav>
   )

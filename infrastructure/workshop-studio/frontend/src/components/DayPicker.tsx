@@ -26,7 +26,7 @@ export function DayPicker({ label, value, min, max, onChange, help, disabled, ma
   const go = (i: number) => onChange(addDays(min, Math.min(total, Math.max(0, i))))
   // a small tick with the day number for every day (every second one on a long track); today's end says "today"
   const stride = total > 16 ? 2 : 1
-  const ticks = total > 0 ? Array.from({ length: total + 1 }, (_, i) => i).filter((i) => i % stride === 0 || i === total).map((i) => ({ at: i / total, label: i === total ? 'today' : String(Number(addDays(min, i).slice(8, 10))) })) : undefined
+  const ticks = total > 0 ? Array.from({ length: total + 1 }, (_, i) => i).filter((i) => i % stride === 0 || i === total).map((i) => ({ at: i / total, label: i === total ? 'vandaag' : String(Number(addDays(min, i).slice(8, 10))) })) : undefined
   const markAt = mark && total > 0 ? diffDays(min, mark.day) / total : null
   return (
     <div className={styles.picker}>
@@ -36,7 +36,7 @@ export function DayPicker({ label, value, min, max, onChange, help, disabled, ma
         <span className={styles.ago}>{ago}</span>
       </div>
       <div className={styles.row}>
-        <IconButton className={styles.edge} label="One day earlier" disabled={disabled || index <= 0} disabledReason="This is the earliest day you can pick" onClick={() => go(index - 1)}>
+        <IconButton className={styles.edge} label="Een dag vroeger" disabled={disabled || index <= 0} disabledReason="Dit is de vroegste dag die je kan kiezen" onClick={() => go(index - 1)}>
           <ChevronLeftIcon />
         </IconButton>
         <div className={styles.slider}>
@@ -53,7 +53,7 @@ export function DayPicker({ label, value, min, max, onChange, help, disabled, ma
             mark={mark && markAt !== null && markAt >= 0 && markAt <= 1 ? { at: markAt, label: mark.label } : undefined}
           />
         </div>
-        <IconButton className={styles.edge} label="One day later" disabled={disabled || index >= total} disabledReason="This is the latest day you can pick" onClick={() => go(index + 1)}>
+        <IconButton className={styles.edge} label="Een dag later" disabled={disabled || index >= total} disabledReason="Dit is de laatste dag die je kan kiezen" onClick={() => go(index + 1)}>
           <ChevronRightIcon />
         </IconButton>
       </div>

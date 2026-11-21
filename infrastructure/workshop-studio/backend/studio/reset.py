@@ -29,14 +29,14 @@ def ask_app(port: int) -> tuple[int, str]:
                                      headers={"X-Studio": "1", "Host": f"localhost:{port}"})
     try:
         with urllib.request.urlopen(request, timeout=20):
-            return 202, "The saved state is forgotten. The app is checking the practice system again; this takes " \
-                        "about a minute when something has to be rebuilt. Progress shows on the home page."
+            return 202, "De bewaarde toestand is gewist. De app kijkt het oefensysteem opnieuw na; dat duurt ongeveer " \
+                        "een minuut als er iets opnieuw gebuild moet worden. De voortgang zie je op de startpagina."
     except urllib.error.HTTPError as e:
         try:
             detail = json.loads(e.read().decode()).get("detail", "")
         except ValueError:
             detail = ""
-        return e.code, str(detail) or f"The app refused the request ({e.code})."
+        return e.code, str(detail) or f"De app weigerde de aanvraag ({e.code})."
     except (urllib.error.URLError, OSError):
         return 0, ""
 
@@ -50,7 +50,7 @@ def read_baseline(port: int) -> tuple[str, str, bool]:
         baseline = state.get("baseline") or {}
         return str(baseline.get("status", "unknown")), str(baseline.get("detail", "")), bool(state.get("job"))
     except (urllib.error.URLError, OSError, ValueError):
-        return "unknown", "The app does not answer.", False
+        return "unknown", "De app antwoordt niet.", False
 
 
 def wait_until_ready(port: int, timeout: float, interval: float = 5.0) -> int:
@@ -60,16 +60,16 @@ def wait_until_ready(port: int, timeout: float, interval: float = 5.0) -> int:
     while True:
         status, detail, busy = read_baseline(port)
         if status == "ready" and not busy:
-            print("The practice system is ready: every environment has data, a version and built tables.")
+            print("Het oefensysteem is klaar: elke omgeving heeft data, een versie en gebuilde tabellen.")
             return 0
         if status == "failed" and not busy:
-            print(f"The baseline check failed: {detail}")
+            print(f"Het oefensysteem nakijken is mislukt: {detail}")
             return 1
         if detail != last:
             last = detail
             print(f"  ... {detail or status}")
         if time.monotonic() >= deadline:
-            print(f"The practice system was not ready within {int(timeout)} seconds ({detail or status}).")
+            print(f"Het oefensysteem was niet klaar binnen {int(timeout)} seconden ({detail or status}).")
             return 1
         time.sleep(interval)
 
@@ -82,7 +82,7 @@ def main(settings: Settings | None = None, port: int | None = None, wait: float 
     if status == 0:
         for name in SAVED:
             (settings.data_dir / name).unlink(missing_ok=True)
-        sentence = "The app is not running. The saved state is removed; the next start checks the practice system."
+        sentence = "De app draait niet. De bewaarde toestand is verwijderd; bij de volgende start wordt het oefensysteem nagekeken."
         status = 202
     print(sentence)
     if status != 202:

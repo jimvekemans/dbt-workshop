@@ -5,7 +5,7 @@ import { MoonIcon, SunIcon } from './icons'
 export function ThemeToggle() {
   const { theme, toggle } = useTheme()
   return (
-    <IconButton label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'} onClick={toggle}>
+    <IconButton label={theme === 'dark' ? 'Schakel over naar de lichte weergave' : 'Schakel over naar de donkere weergave'} onClick={toggle}>
       {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
     </IconButton>
   )

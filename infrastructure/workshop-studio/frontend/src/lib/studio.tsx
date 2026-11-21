@@ -71,7 +71,7 @@ export function StudioProvider({ backend, children }: { backend: Backend; childr
         dispatch({ type: 'server', server: await fn() })
         return true
       } catch (e) {
-        toast.show(e instanceof ApiError || e instanceof Error ? e.message : 'Something went wrong.', 'bad')
+        toast.show(e instanceof ApiError || e instanceof Error ? e.message : 'Er is iets misgelopen.', 'bad')
         return false
       }
     },

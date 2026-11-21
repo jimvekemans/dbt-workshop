@@ -3,7 +3,7 @@ name: workshop-studio-scenarios
 description: >-
   How to add or change a scenario of the Workshop Studio (infrastructure/workshop-studio): choosing a scenario that
   fits (inside dbt or about the tooling around it: CI, releases, access, documentation, the developer toolbox), the
-  four-part scenario file, the content rules for a non-technical audience, the demo building blocks (actions,
+  four-part scenario file (also as a long "flow" with status labels and the closing page), the content rules for a non-technical audience, the demo building blocks (actions,
   evidence, inputs, honest outcomes, clean-up), patches, adding a backend action or evidence type, and the loop of
   validating, running live, recording, capturing and persona-reviewing. Use it whenever a scenario, demo step,
   scenario text, glossary term, patch or studio action is added, changed, debugged or reviewed, or when someone asks
@@ -34,7 +34,10 @@ Hard requirements:
   the previous demo touched and checks the baseline before "Getting ready". A dependency on another scenario is only
   a `related` link with one plain sentence; the scenario itself stays understandable alone.
 - **Short scope.** If the demo needs more than three steps or a step longer than about 30 seconds, the scenario is
-  two scenarios, or the slow part belongs in `demo.setup` (getting ready, at most about a minute).
+  two scenarios, or the slow part belongs in `demo.setup` (getting ready, at most about a minute). The exception is a
+  **flow** (`kind: flow`): one long walk through several stages of one route (3 to 8 demo steps, 1 to 8 code blocks, up to
+  30 minutes), where every stage says whether it is in place today or a next step. Use a flow only when the stages belong
+  together; an ordinary scenario stays short.
 - **The demo proves the promise.** Every claim in the text must be visible in the evidence on screen. If the stack
   cannot show it, change the claim, not the wording around it.
 
@@ -48,9 +51,10 @@ Scenarios need not be about dbt models. The stack offers at least these subjects
 
 | Area | Where it lives | Existing scenarios |
 |---|---|---|
+| One subject from start to finish (group `flows`, kind `flow`) | several mechanisms of one route, every stage marked "in place today" or "next step" | `rehearsing-a-change`, `developers-toolbox`, `from-change-to-package`, `guards-inside-every-run`, `the-night-steered-from-airflow` |
 | Feeds that change, arrive late or broken | feeder conditions, source freshness, Airflow variables | `switchover-date`, `late-delivery`, `skip-one-table`, `strict-where-it-matters` |
 | Working on code safely | developer image, per-developer prefixes, pre-commit, CI verify | `same-toolbox`, `own-workbench`, `house-rules`, `checked-before-merge`, `only-what-changed` |
-| Releasing | tags, packaged versions, release branch, manual production job, docs sites, drift audit, database roles | `numbered-versions`, `back-in-seconds`, `docs-match-version`, `one-team-not-ready`, `production-waits`, `no-secret-fixes`, `right-keys-only` |
+| Releasing | tags, packaged versions, release branch, manual production job, docs sites, drift audit, database roles | `numbered-versions`, `back-in-seconds`, `docs-match-version`, `docs-front-page`, `one-team-not-ready`, `production-waits`, `no-secret-fixes`, `right-keys-only` |
 | The nightly run | failure mail, retry from failure, blue/green reload, run logbook | `one-clear-mail`, `redo-only-what-failed`, `rebuild-without-downtime`, `every-run-on-record` |
 
 Before writing, check that the mechanism really exists and behaves as you think: read the CI file, the DAG or the
@@ -64,6 +68,7 @@ do (a notification that was never sent, three developers where the demo had two)
 | The scenario | `scenarios/<id>.yaml` (file name = id, lower case with dashes) |
 | Its place on the home page | `scenarios/_groups.yaml`: add the id to one group's ordered `scenarios` list |
 | Words that need explaining | `scenarios/_glossary.yaml`, used as `[[term]]` in body text |
+| The closing page (what is in place today, what comes next) | `scenarios/_roadmap.yaml` (optional), route `#/roadmap` in the frontend |
 | Code a demo commits to GitLab | `patches/<name>/_patch.yaml` (`title`, `message`, `ops` with `path` / `find` / `replace`, or full files) |
 | What the demo showed last time | `recordings/<id>.json`, written by every successful live step |
 | Actions, evidence, cleaners | `backend/studio/actions/*.py`, `backend/studio/evidence.py`, contract in `actions/base.py` |
@@ -79,10 +84,15 @@ tighter than the schema (`backend/studio/models.py`, see the list below the skel
 
 ```yaml
 id: only-what-changed            # = file name
+kind: scenario                   # optional: scenario (default) | flow (a long scenario, see section 1)
 group: changes                   # a group id from _groups.yaml
 title: ...                       # <= 60 characters, no [[term]]
 promise: ...                     # <= 110 characters: the benefit in one sentence
-minutes: 3
+minutes: 3                       # scenario: at most 10, flow: at most 30
+feature: ...                     # optional, with status: the plain name (<= 50 characters) of the one thing it is about
+status: today                    # optional, with feature: today (in place today) | next (a next step)
+why: ...                         # optional, only with feature + status: what goes wrong without it, <= 140 characters (closing page)
+tech: [..., ...]                 # optional, for the presenter: 1 to 8 keywords (<= 40 characters each), the real names behind it
 environment: dev                 # dev | val | prd: where the demo runs unless an action says otherwise
 related:
   - {id: checked-before-merge, why: "One plain sentence, <= 160 characters."}
@@ -98,8 +108,9 @@ idea:
   points: [..., ..., ...]        # exactly three full sentences
   visual: {type: flow, nodes: [...], links: [[a, b], ...]}   # exactly one node with state: fix
 
-code:                            # one to three blocks
+code:                            # one to three blocks (a flow: one to eight)
   - title: ...                   # plain words
+    status: today                # optional badge: today | next
     file: models/.../x.sql       # in the dbt project, or one of the two other roots below
     file_label: ...              # plain words for what the file is
     from: "text of the first line"
@@ -114,6 +125,10 @@ demo:
   steps:
     - id: first
       title: ...
+      feature: ...               # optional, with status; in a flow every step has both, except the last one
+      status: today              # today | next
+      why: ...                   # optional, only with feature + status: what goes wrong without it, <= 140 characters
+      tech: ...                  # optional, for the presenter: one line (<= 60 characters) with the real names behind this step
       say: ...                   # at most two short sentences, no duration (the app shows "Usually about N s")
       button: ...                # says what will happen
       inputs: []                 # day | number | choice | toggle, each with label, default and help
@@ -122,11 +137,24 @@ demo:
       outcome: ...               # a sentence, or {check, good_when, good, not_quite}
 ```
 
-Where the schema is wider than the house rule: a demo takes 2 to 4 steps (house: at most three); `max_lines` is 1 to 80
+Where the schema is wider than the house rule: a demo takes 2 to 4 steps (house: at most three; a flow 3 to 8); `max_lines` is 1 to 80
 (house: 12); a block takes 1 to 4 notes of up to 200 characters (house: 2 to 4 notes of at most 15 words); a headline
 may be up to 90 characters (house: 12 words); `say` up to 300 characters (house: two short sentences); a flow may have
-at most one `fix` node (house: exactly one). Enforced as written: title, promise, the `related` sentence, the story's
-40 to 90 words, exactly three points (each up to 160 characters), one to three code blocks, flow label length.
+at most one `fix` node (house: exactly one). `tech` (a scenario: 1 to 8 keywords of 1 to 40 characters; a step: one line of 1 to 60 characters) is checked in plain
+sentences too. Fill it from what the scenario really uses (its code blocks, actions, patches and the project files): the
+exact names of macros, flags, selectors, jobs, Variables, DAGs and files, and nothing the code does not confirm.
+Enforced as written: title, promise, the `related` sentence, the story's
+40 to 90 words, exactly three points (each up to 160 characters), one to three code blocks (flow: one to eight), flow
+label length, and for `feature` / `status` / `kind` the rules above (the pairing, `feature` up to 50 characters, a flow's
+step limits; `--check` says each violation in a sentence).
+
+The closing overview (the last page of the studio, `#/roadmap`) is `scenarios/_roadmap.yaml`: `title`, `intro`,
+optional `closing`, and `extras: [{area, feature, status, note, why}]` for rows without a demo (an extra may always have
+`why`; a step or scenario only with `feature` and `status`). The page shows a row's `why` as "Without it". Its rows come
+from the `feature` and `status` of flow steps and ordinary scenarios, in the order of `_groups.yaml`; the extras are
+grouped by `area`.
+Write `feature` as a plain noun phrase ("Automatic data checks", never a tool name) and mark honestly: `today` only
+when the demo itself shows it working.
 
 A code block's `file` names one of three roots (`_block_path` in `backend/studio/catalog.py`); anything else fails
 validation:
@@ -159,7 +187,10 @@ one fixed something a reviewer could not follow.
    rehearsal, nightly load, version, release, robot, proposal, package, toolbox. Environments are written
    development, validation, production (never dev, val, prd).
 4. **No technical identifiers in visible text**: no tool, branch, job, file, account or database names. The backend
-   moves them to "Technical details"; scenario text must not bring them back. Words that cannot be avoided go into
+   moves them to "Technical details"; scenario text must not bring them back. The one exception is the field `tech`
+   (scenario keywords and a step's line): it is for the presenter, drawn small and monospace, and can be switched off with
+   "Technical names" in the top bar. It must never carry an explanation the audience needs; the plain text has to work
+   without it. Words that cannot be avoided go into
    the glossary and appear as `[[term]]`, never in a title, promise or headline.
 5. **Part 1** names the harm concretely: who, what they lose, how much. **Part 2** has exactly three sentences that
    do not repeat the headline, and a flow with exactly one `fix` box.
@@ -168,6 +199,8 @@ one fixed something a reviewer could not follow.
 7. **Step text** is for the audience: no "Say:", no stage directions, no durations, no URLs. Captions tell the
    viewer where to look ("Look at the Development row").
 8. **Counts in sentences use the words of the list next to them** ("1 failed, 2 not run", not "three failed").
+9. **Status labels are promises.** A stage or block marked "In place today" must be what the demo really shows; what is
+   only planned is "Next step". The audience reads the two badges as "works now" and "does not work yet".
 
 ## 5. Demo building blocks
 
@@ -177,14 +210,22 @@ Actions (`do:` and `setup:` items; each validates its parameters at load time):
 |---|---|
 | `feed.condition`, `feed.deliver` | make a feed late, paused, dirty, duplicated, or in another format; replay the last n days |
 | `airflow.set_variable`, `airflow.delete_variable`, `airflow.run_dag`, `airflow.retry_failed` | operator settings and runs (`expect: success \| failed`) |
-| `dbt.run` | a dbt command as the environment's robot, the CI robot or a developer |
+| `airflow.wait_for_dag` | wait until the scheduler has read a setting that is read when a job's file is parsed (`dbt_dataset_dependencies`, `dbt_emit_asset_events`): `schedule: assets\|clock`, `has_tasks`, `lacks_tasks` (up to about 30 s; put it in `demo.setup`) |
+| `airflow.unpause_dag` | switch a job on (the notice and the on-demand job are created paused); the cleaner `dag` pauses it again |
+| `airflow.report_feeds` | `feeds: [orders, orders, carrier]` report in one by one (an asset event each, posted through the scheduler's container); `data.reasons` say what the nightly load still waits for |
+| `airflow.wait_for_run` | wait for a run that started by itself (`after: <id of unpause_dag or report_feeds>`), say who started it and after how long |
+| `airflow.announcements` | what the newest nightly run announced: how many tables and whether the named `tables` were among them (read-only) |
+| `dbt.run` | a dbt command as the environment's robot, the CI robot or a developer; `explain: true` adds a line "Built 30 tables and ran 36 checks." for a `result` card |
 | `sql.exec` | one statement as a named account; needs `undo` when it changes something; `expect: refused` for access demos |
-| `gitlab.branch`, `gitlab.commit` (a patch), `gitlab.merge_request`, `gitlab.merge`, `gitlab.wait_pipeline`, `gitlab.play_job` | proposals, rehearsals, numbered versions, the manual production step |
+| `gitlab.branch`, `gitlab.commit` (a patch), `gitlab.merge_request`, `gitlab.merge`, `gitlab.wait_pipeline`, `gitlab.play_job` | proposals, rehearsals, numbered versions, the manual production step. `merge_request` takes `touches: [models:<env>:<model>, ci:copies]` for what the rehearsal may change outside its private copy (say it on the proposal: the harm happens when the pipeline runs, also if the step is never played). `wait_pipeline` returns `rehearsed` (the round with data and checks) and, once the first round has finished, `structure` (the empty round); `report_rehearsed: true` puts both in the summary |
 | `git.revert_on_release`, `git.promote_release` | the release flow |
 | `deploy.set_version` | point an environment at another packaged version |
 | `precommit.run` | the formatter and rule checker on a patch |
 | `docs.read_description` | what the published documentation of each environment says |
+| `docs.read_front_page` | the generated front page of each environment's documentation: the version it names, when, and the counts of tables, checks, feeds and teams; `expect: running` fails when it names another version than the one that runs |
 | `image.versions` | tool versions inside the developer toolbox and the production package |
+| `toolbox.run` | what a developer (`as: developer:pu_devN`) or the development robot (`as: service`) does in the toolbox, in a throwaway container: `commands` with `expect: success \| refused \| failed`, `say` lines with `{facts}`, `must_contain`, `changes`; `auth: password \| file \| vault` for how the password arrives; `use_repository` for project files that are not packaged yet. Development only; the cleaner `toolbox` drops a developer's own copies, a robot run needs a `sql.exec` with `undo` registered first |
+| `storage.versions`, `storage.environment_copy`, `storage.description`, `storage.catalogue_names`, `package.open` | read-only views of what a numbered version leaves behind: the numbers and their changes (`show: numbers \| codes \| stored`), the environment's stored copy and its note, a report's stored description, table names in the stored catalogue file (`compare_with: developer:pu_devN`), the sealed packages (`versions: [baseline, latest]`) |
 | `mail.clear`, `wait` | housekeeping |
 
 Evidence (`show:` items): `bars`, `number` (with `compare_to`), `table`, `tasks`, `pipeline`, `run_history`,
@@ -192,9 +233,13 @@ Evidence (`show:` items): `bars`, `number` (with `compare_to`), `table`, `tasks`
 (up, starting or down per service of the stack, the data of the home page's status row; no scenario uses it and the
 frontend draws no card for it). Any item
 takes `title` and `caption`; `before_of: <step id>` shows the same item of an earlier step as the "Before" picture.
+An action may take `id: <name>`: its result is kept under that name, so a step that runs one action several times
+(`toolbox.run` as two developers, or with and without a guard) shows each run with `result` and
+`from_action: <name>`; `airflow.wait_for_run` finds its `after:` action the same way.
 
-Clean-up is automatic: each action reports what it touched (`variable:dev:...`, `feed:...`, `git`, `version:prd`,
-`models:dev`, `developer:...`, `ci`, `sql`, `mail`, `landing:dev`), and the matching cleaner undoes it before the next
+Clean-up is automatic: each action reports what it touched (`variable:dev:...`, `dag:dev:...`, `feed:...`, `git`,
+`version:prd`, `models:dev` or `models:dev:<table>`, `developer:...`, `toolbox:dev:<user>`, `ci` or `ci:copies`, `sql`,
+`mail`, `landing:dev`), and the matching cleaner undoes it before the next
 scenario. A scenario never contains clean-up steps. Only `sql.exec` needs its own `undo`.
 
 Prefer reusing these. New backend code is justified when the proof needs data the stack has but no action or
@@ -246,8 +291,12 @@ Run everything from the repository root; the stack must be up (`make up`).
 - Two accepted proposals seconds apart make GitLab cancel the first one's numbering, so both changes end up under
   one version number. Wait for the first number (`for: "tag:^v1\\.1\\.0$"`) before the second accept.
 - What the state-aware rehearsal counts as "changed" is not what intuition says: one `.sql` file gives that table
-  and its dependants, a description in a `.yml` file gave nothing, a project-wide `meta` gave 23 of 28 tables and a
-  project-wide post-hook all 28. Measure it with a real proposal before writing a number or a reason into the text.
+  and its dependants, a description in a `.yml` file gave nothing, a project-wide `meta` gave most of the tables and a
+  project-wide post-hook all of them. Measure it with a real proposal before writing a number or a reason into the text.
+- A proposal is rehearsed in two rounds: `verify_structure` (changed tables and their direct dependants, empty, no checks)
+  and then `verify_feature_to_dev` (data and checks, `needs` the first). The rehearsal may build in shared tables or leave
+  copies in the rehearsal database even when the step that waits for it is never played: declare that with `touches` on
+  `gitlab.merge_request`.
 - A job log holds several `Processed:` lines; the one after `Finished 'build'` is the build.
 - The run logbook (`<env>_vdp_mgmt.dbt_run_results`) is only written by Airflow runs. Do not use it to decide
   whether an environment is built.
@@ -269,6 +318,8 @@ Checklist (each line was a real finding at least once):
 - Would someone who has never seen a pipeline understand each word in the title, the buttons and the captions?
 - Does it run after any other scenario and leave nothing behind?
 - Is each step under about 30 seconds and getting ready under about a minute?
+- Every "in place today" mark (stage, block or scenario): which step or card shows it working? Every "next step": is it
+  really not there? Does the closing page still read true?
 
 For a real check, give the YAML, the recording and the captured screens to a reviewer with a persona (some
 technical knowledge, no data background) who must not edit anything and must return findings as

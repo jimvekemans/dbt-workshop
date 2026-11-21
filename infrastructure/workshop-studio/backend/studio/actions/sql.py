@@ -28,6 +28,7 @@ TABLE_DENIED = re.compile(r"(?i)\b(\w+)\s+command denied to user '[^']+'.*?for t
 DB_DENIED = re.compile(r"(?i)access denied for user '[^']+'.*?to database '([^']+)'")
 QUALIFIED = re.compile(r"(?i)\b(?:from|into|update|table|join)\s+`?(\w+)`?\.`?\w+")
 VERBS = {"select": "read", "show": "read"}  # everything else (insert, update, delete, drop, alter, create) is a change
+REFUSED_VERBS = {"read": "lezen", "change": "wijzigen"}   # the two verbs above, as the audience reads them
 ALREADY_UNDONE = {1051, 1091, 1146}   # unknown table, can't drop (column does not exist), table doesn't exist
 _lock = threading.Lock()
 
@@ -71,13 +72,13 @@ def refusal_parts(message: str, statement: str = "") -> tuple[str, str | None]:
 
 
 def describe_refusal(user: str, message: str, statement: str = "") -> str:
-    """'The database refused: the development robot may not change tables in production.' (every database of an
-    environment is just "tables in <environment>"; the exact database is in the technical details)"""
+    """'De database weigerde: de robot van development mag de tabellen in productie niet wijzigen.' (every database
+    of an environment is just "de tabellen in <omgeving>"; the exact database is in the technical details)"""
     verb, database = refusal_parts(message, statement)
     who = names.account_words(user) or user
     if database is None:
-        return f"The database refused: {who} may not run this statement."
-    return f"The database refused: {who} may not {verb} {names.tables_in(database)}."
+        return f"De database weigerde: {who} mag deze opdracht niet uitvoeren."
+    return f"De database weigerde: {who} mag {names.tables_in(database)} niet {REFUSED_VERBS[verb]}."
 
 
 def technical_refusal(user: str, message: str, statement: str = "") -> str:
@@ -90,8 +91,8 @@ def technical_refusal(user: str, message: str, statement: str = "") -> str:
 
 def sql_label(p: SqlExecParams) -> str:
     if p.expect == "refused":
-        return f"Checking whether {names.account_words(p.as_) or p.as_} is allowed to do this"
-    return "Reading from the database" if IS_READ.match(p.statement) else "Changing the database"
+        return f"Nakijken of {names.account_words(p.as_) or p.as_} dit mag doen"
+    return "Uit de database lezen" if IS_READ.match(p.statement) else "De database wijzigen"
 
 
 # --- undo registry --------------------------------------------------------------------------------
@@ -137,11 +138,11 @@ def execute(ctx: Ctx, user: str, statement: str) -> list[tuple]:
 
 
 def answer_words(rows: list) -> str:
-    """"The database answered with 3 rows." (singular for one); a single number is just "The database answered."
+    """"De database antwoordde met 3 rijen." (singular for one); a single number is just "De database antwoordde."
     because the number itself is on the card."""
     if len(rows) == 1 and len(rows[0]) == 1:
-        return "The database answered."
-    return f"The database answered with {len(rows)} row{'' if len(rows) == 1 else 's'}."
+        return "De database antwoordde."
+    return f"De database antwoordde met {len(rows)} {'rij' if len(rows) == 1 else 'rijen'}."
 
 
 @action("sql.exec", SqlExecParams, sql_label)
@@ -160,15 +161,15 @@ def sql_exec(ctx: Ctx, p: SqlExecParams) -> Result:
             raise StepFailed(
                 describe_refusal(p.as_, text, p.statement), f"{technical_refusal(p.as_, text, p.statement)}\n{text}"
             ) from exc
-        raise StepFailed("The database could not run the statement.", text) from exc
+        raise StepFailed("De database kon de opdracht niet uitvoeren.", text) from exc
     if p.expect == "refused":
         who = names.account_words(p.as_) or p.as_
-        raise StepFailed(f"The database allowed {who} to do this, but it should have been refused.",
+        raise StepFailed(f"De database liet {who} dit doen, maar het had geweigerd moeten worden.",
                          f"{p.as_}\n{p.statement}")
     touched = {f"sql:{remember_undo(ctx, p.undo)}"} if p.undo else set()
     if p.rebuild:
         touched.add(f"models:{ctx.env}")
-    summary = answer_words(rows) if IS_READ.match(p.statement) else "The database made the change."
+    summary = answer_words(rows) if IS_READ.match(p.statement) else "De database heeft de wijziging doorgevoerd."
     return Result(summary, details=p.statement, touched=touched, data={"rows": [list(r) for r in rows[:20]]})
 
 
@@ -180,18 +181,18 @@ def undo_sql(ctx: Ctx, resource: str) -> Result:
         entries = _load(ctx)
         entry = entries.get(undo_id)
         if entry is None:
-            return Result("Nothing left to undo in the database.")
+            return Result("Er valt niets meer ongedaan te maken in de database.")
         try:
             execute(ctx, "root", entry["statement"])
         except pymysql.MySQLError as exc:
             if exc.args and exc.args[0] in ALREADY_UNDONE:   # a rebuild or an earlier clean-up got there first
                 del entries[undo_id]
                 _store(ctx, entries)
-                return Result("The change in the database was already gone.", details=entry["statement"])
+                return Result("De wijziging in de database was al weg.", details=entry["statement"])
             raise StepFailed(
-                "A change in the database could not be undone.",
+                "Een wijziging in de database kon niet ongedaan gemaakt worden.",
                 f"{entry['statement']}\n-> {clients.mask(ctx.settings, str(exc))}",
             ) from exc
         del entries[undo_id]
         _store(ctx, entries)
-    return Result("Undid a change in the database.", details=entry["statement"])
+    return Result("Een wijziging in de database is ongedaan gemaakt.", details=entry["statement"])

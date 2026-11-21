@@ -1,0 +1,6 @@
+title: "De privékopieën worden enkel opgekuist als de testrun goed verliep"
+message: 'ci: the rehearsal clears away its private copies only at the end of its own script'
+ops:
+- path: .gitlab-ci.yml
+  find: "  after_script:\n    - |\n      dbt run-operation drop_nodes --vars \"SCHEMA: ${VERIFY_SCHEMA//[\\/-]/_}\" --target ci || true\n"
+  replace: ''

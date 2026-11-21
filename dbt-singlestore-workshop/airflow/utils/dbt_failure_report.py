@@ -350,27 +350,27 @@ def _parse_generated(name: str) -> dict[str, Any] | None:
 
 def describe_test(name: str) -> str | None:
     """A plain description of a test named by dbt's generator, or None for anything else (singular tests, custom
-    names). Example: `source_not_null_raw_olist_raw_olist_orders_order_id` -> `order_id in raw_olist_orders must never
-    be empty`."""
+    names). The sentence is Flemish, as the whole mail. Example: `source_not_null_raw_olist_raw_olist_orders_order_id`
+    -> `order_id in raw_olist_orders mag nooit leeg zijn`."""
     parsed = _parse_generated(name)
     if parsed is None:
         return None
     kind, table, column, extra = parsed["kind"], parsed["table"], parsed["column"], parsed["extra"]
     where = f" in {table}" if table else ""
     if kind == "not_null":
-        return f"{column}{where} must never be empty"
+        return f"{column}{where} mag nooit leeg zijn"
     if kind == "unique":
-        return f"{column}{where} must be unique"
+        return f"{column}{where} moet uniek zijn"
     if kind == "accepted_values":
         values = ", ".join(v.replace("_", " ") for v in extra)
-        return f"{column}{where} must only hold the allowed values" + (f" ({values})" if values else "")
+        return f"{column}{where} mag enkel de toegelaten waarden bevatten" + (f" ({values})" if values else "")
     if kind == "relationships":
-        return f"every {column}{where} must exist in {parsed['parent']}" if parsed["parent"] else None
+        return f"elke {column}{where} moet bestaan in {parsed['parent']}" if parsed["parent"] else None
     if kind == "combination":
-        return f"the combination of {', '.join([column] + extra)}{where} must be unique"
+        return f"de combinatie van {', '.join([column] + extra)}{where} moet uniek zijn"
     if kind == "expression":
         rule = " ".join(extra)
-        return f"{column}{where} must satisfy a rule" + (f" ({rule})" if rule else "")
+        return f"{column}{where} moet aan een regel voldoen" + (f" ({rule})" if rule else "")
     return None
 
 
@@ -381,50 +381,46 @@ def readable_name(name: str) -> str:
 
 
 def describe_failure(finding: Finding) -> str:
-    """The first cell of a failure row, a plain sentence built from test kind, table, column and failed-row count:
-    `3 rows in raw_olist_orders have no order_id`. Without a row count (the check itself broke) it says so."""
+    """The first cell of a failure row, a plain Flemish sentence built from test kind, table, column and failed-row
+    count: `3 rijen in raw_olist_orders hebben geen order_id`. Without a row count (the check itself broke) it says so."""
     n = finding.failures
     parsed = _parse_generated(finding.node) if finding.resource_type == "test" else None
     if finding.resource_type != "test":
         return describe_finding(finding)
     if n is None:
-        return f"The check '{describe_test(finding.node) or readable_name(finding.node)}' did not finish"
+        return f"De check '{describe_test(finding.node) or readable_name(finding.node)}' kon niet afgewerkt worden"
     one = n == 1
-    rows = _plural(n, "row")
+    rows = _count(n, "rij", "rijen")
     if parsed is None:
         text = readable_name(finding.node)
         return f"{text[:1].upper()}{text[1:]}: {rows}"
     kind, table, column, extra = parsed["kind"], parsed["table"], parsed["column"], parsed["extra"]
     in_table = f" in {table}" if table else ""
     if kind == "not_null":
-        return f"{rows}{in_table} {'has' if one else 'have'} no {column}"
+        return f"{rows}{in_table} {'heeft' if one else 'hebben'} geen {column}"
     if kind == "unique":
-        return (f"{_plural(n, 'value')} of {column} {'appears' if one else 'appear'} more than once{in_table}")
+        return f"{_count(n, 'waarde', 'waarden')} van {column} {'komt' if one else 'komen'} meer dan één keer voor{in_table}"
     if kind == "accepted_values":
-        return f"{rows}{in_table} {'has' if one else 'have'} {_article(column)} {column} that is not allowed"
+        return f"{rows}{in_table} {'heeft' if one else 'hebben'} een waarde in {column} die niet toegelaten is"
     if kind == "relationships":
-        parent = parsed["parent"] or "parent table"
-        return f"{rows}{in_table} {'points' if one else 'point'} to a {parent} that does not exist"
+        parent = parsed["parent"] or "de bovenliggende tabel"
+        return f"{rows}{in_table} {'verwijst' if one else 'verwijzen'} naar een rij in {parent} die niet bestaat"
     if kind == "combination":
-        return (f"{_plural(n, 'combination')} of {', '.join([column] + extra)} "
-                f"{'appears' if one else 'appear'} more than once{in_table}")
+        return (f"{_count(n, 'combinatie', 'combinaties')} van {', '.join([column] + extra)} "
+                f"{'komt' if one else 'komen'} meer dan één keer voor{in_table}")
     rule = " ".join(extra)
-    return f"{rows}{in_table} {'breaks' if one else 'break'} a rule on {column}" + (f" ({rule})" if rule else "")
-
-
-def _article(word: str) -> str:
-    return "an" if word[:1].lower() in "aeiou" else "a"
+    return f"{rows}{in_table} {'overtreedt' if one else 'overtreden'} een regel op {column}" + (f" ({rule})" if rule else "")
 
 
 def describe_finding(finding: Finding, warned: bool = False) -> str:
-    """`Check failed: order_id in raw_olist_orders must never be empty (6 rows)`; raw name as the fallback."""
-    rows = "" if finding.failures is None else f" ({finding.failures} row{'' if finding.failures == 1 else 's'})"
+    """`Check mislukt: order_id in raw_olist_orders mag nooit leeg zijn (6 rijen)`; raw name as the fallback."""
+    rows = "" if finding.failures is None else f" ({_count(finding.failures, 'rij', 'rijen')})"
     if finding.resource_type == "test":
         sentence = describe_test(finding.node)
-        return f"Check {'warned' if warned else 'failed'}: {sentence or finding.node}{rows}"
+        return f"Check {'met waarschuwing' if warned else 'mislukt'}: {sentence or finding.node}{rows}"
     if finding.node:
-        return f"{finding.resource_type.capitalize() or 'Node'} failed: {finding.node}"
-    return "dbt reported an error"
+        return f"{finding.resource_type.capitalize() or 'Onderdeel'} mislukt: {finding.node}"
+    return "dbt meldde een fout"
 
 
 # ---------------------------------------------------------------------------
@@ -501,15 +497,22 @@ def _table(headers: list[str], rows: list[list[str]]) -> str:
     return f'<table style="border-collapse:collapse;font-size:13px;margin:8px 0;"><tr>{head}</tr>{body}</table>'
 
 
-def _plural(count: int, word: str) -> str:
-    return f"{count} {word}{'' if count == 1 else 's'}"
+def number_nl(value: float) -> str:
+    """Belgian notation: a point for thousands (3.432), a comma for decimals (92,8)."""
+    text = f"{value:,.0f}" if float(value).is_integer() else f"{value:,.1f}"
+    return text.replace(",", "\x00").replace(".", ",").replace("\x00", ".")
+
+
+def _count(count: int, one: str, many: str) -> str:
+    """`1 rij`, `3 rijen`: the count with the singular or the plural form of the word."""
+    return f"{number_nl(count)} {one if count == 1 else many}"
 
 
 def _load_label(ctx: dict[str, Any]) -> str:
-    return "Nightly load" if ctx.get("dag_id") in (None, "", "dbt_daily_load") else str(ctx["dag_id"])
+    return "Nachtelijke load" if ctx.get("dag_id") in (None, "", "dbt_daily_load") else str(ctx["dag_id"])
 
 
-ENVIRONMENT_NAMES = {"dev": "development", "val": "validation", "prd": "production"}
+ENVIRONMENT_NAMES = {"dev": "development", "val": "validatie", "prd": "productie"}
 
 
 def _environment(ctx: dict[str, Any]) -> str:
@@ -518,26 +521,26 @@ def _environment(ctx: dict[str, Any]) -> str:
 
 
 def render_subject(report: Report, ctx: dict[str, Any]) -> str:
-    """`[development] Nightly load failed: 1 check failed, 6 steps not run`. Keep `Nightly load failed`: the
-    workshop presenter app finds the mail by it."""
+    """`[development] Nachtelijke load mislukt: 1 check mislukt, 6 stappen niet gerund`. Keep `Nachtelijke load
+    mislukt`: the workshop presenter app finds the mail by it."""
     t = tally(report)
     parts = []
     if t.failed_checks:
-        parts.append(f"{_plural(t.failed_checks, 'check')} failed")
+        parts.append(f"{_count(t.failed_checks, 'check', 'checks')} mislukt")
     if t.failed_tables:
-        parts.append(f"{_plural(t.failed_tables, 'table')} failed")
+        parts.append(f"{_count(t.failed_tables, 'tabel', 'tabellen')} mislukt")
     if t.failed_other:
-        parts.append(f"{_plural(t.failed_other, 'error')}")
+        parts.append(_count(t.failed_other, "fout", "fouten"))
     if t.not_run:
-        parts.append(f"{_plural(t.not_run, 'step')} not run")
-    return f"[{_environment(ctx)}] {_load_label(ctx)} failed" + (": " + ", ".join(parts) if parts else "")
+        parts.append(f"{_count(t.not_run, 'stap', 'stappen')} niet gerund")
+    return f"[{_environment(ctx)}] {_load_label(ctx)} mislukt" + (": " + ", ".join(parts) if parts else "")
 
 
 def summary_line(report: Report) -> str:
-    """`42 succeeded, 1 failed, 6 not run` (plain text of the counts in the mail body; `warned` only when > 0)."""
+    """`42 gelukt, 1 mislukt, 6 niet gerund` (plain text of the counts in the mail body; the warnings only when > 0)."""
     t = tally(report)
-    parts = [f"{t.succeeded} succeeded"] + ([f"{t.warned} warned"] if t.warned else [])
-    return ", ".join(parts + [f"{t.failed} failed", f"{t.not_run} not run"])
+    parts = [f"{number_nl(t.succeeded)} gelukt"] + ([f"{number_nl(t.warned)} met waarschuwing"] if t.warned else [])
+    return ", ".join(parts + [f"{number_nl(t.failed)} mislukt", f"{number_nl(t.not_run)} niet gerund"])
 
 
 def count_note(report: Report) -> str:
@@ -546,11 +549,11 @@ def count_note(report: Report) -> str:
         return ""
     extra = report.dbt_success - report.counts["pass"]
     if report.hooks and extra == report.hooks:
-        return (f"dbt's own summary counts {report.dbt_success} succeeded because it also counts "
-                f"{_plural(report.hooks, 'hook')} (a clean-up step after the run). This mail counts only tables and "
-                f"checks, so it shows {report.counts['pass']}.")
-    return (f"dbt's own summary counts {report.dbt_success} succeeded; this mail counts the "
-            f"{report.counts['pass']} tables and checks that its log lists.")
+        return (f"De samenvatting van dbt zelf telt {number_nl(report.dbt_success)} gelukt, omdat ze ook "
+                f"{_count(report.hooks, 'hook', 'hooks')} meetelt (een opkuisstap na de run). Deze mail telt enkel "
+                f"tabellen en checks, daarom staat hier {number_nl(report.counts['pass'])}.")
+    return (f"De samenvatting van dbt zelf telt {number_nl(report.dbt_success)} gelukt; deze mail telt de "
+            f"{number_nl(report.counts['pass'])} tabellen en checks die in de log staan.")
 
 
 def render_html(report: Report, ctx: dict[str, Any]) -> str:
@@ -559,17 +562,17 @@ def render_html(report: Report, ctx: dict[str, Any]) -> str:
     if ctx.get("run_url"):
         run = f'<a href="{_esc(ctx["run_url"])}">{run}</a>'
     header = (
-        f'<h2 style="margin:0 0 8px;color:#b00020;">{_esc(_load_label(ctx))} failed</h2>'
-        f'<div style="font-size:13px;">Environment: <b>{_esc(_environment(ctx))}</b> &middot; '
+        f'<h2 style="margin:0 0 8px;color:#b00020;">{_esc(_load_label(ctx))} mislukt</h2>'
+        f'<div style="font-size:13px;">Omgeving: <b>{_esc(_environment(ctx))}</b> &middot; '
         f'DAG: <b>{_esc(ctx.get("dag_id"))}</b> &middot; Run: {run} &middot; '
-        f'Image tag: <b>{_esc(ctx.get("image_tag") or "unknown")}</b></div>'
+        f'Versie: <b>{_esc(ctx.get("image_tag") or "onbekend")}</b></div>'
     )
     t = tally(report)
     colors = {"pass": "#2e7d32", "warn": "#ed6c02", "error": "#b00020", "skip": "#616161"}
-    shown = [("pass", t.succeeded, "succeeded")] + ([("warn", t.warned, "warned")] if t.warned else []) + [
-        ("error", t.failed, "failed"), ("skip", t.not_run, "not run")]
+    shown = [("pass", t.succeeded, "gelukt")] + ([("warn", t.warned, "met waarschuwing")] if t.warned else []) + [
+        ("error", t.failed, "mislukt"), ("skip", t.not_run, "niet gerund")]
     counts = ('<span style="display:inline-block;margin:8px 0;font-size:14px;">' + ", ".join(
-        f'<span style="color:{colors[k]};"><b>{n}</b> {label}</span>' for k, n, label in shown) + "</span>")
+        f'<span style="color:{colors[k]};"><b>{number_nl(n)}</b> {label}</span>' for k, n, label in shown) + "</span>")
     # explicit background: a dark-mode mail client would otherwise put the dark text on a dark page
     parts = [f'<div style="font-family:Arial,Helvetica,sans-serif;color:#222;background:#ffffff;padding:16px;'
              f'max-width:960px;">{header}<div>{counts}</div>']
@@ -593,23 +596,23 @@ def render_html(report: Report, ctx: dict[str, Any]) -> str:
         with_details = any(f.message for f in report.errors)
         rows = [[f"<b>{_esc(describe_failure(f))}</b>", _esc(f.node), _esc(f.location)]
                 + ([message_cell(f)] if with_details else []) for f in report.errors]
-        parts.append("<h3>What failed</h3>" + _table(
-            ["What happened", "Technical name", "File"] + (["Details"] if with_details else []), rows))
+        parts.append("<h3>Wat mislukte</h3>" + _table(
+            ["Wat er misliep", "Technische naam", "Bestand"] + (["Details"] if with_details else []), rows))
     if report.warnings:
         rows = [[what_cell(f, True), _esc(f.node), _esc(f.location)] for f in report.warnings]
-        parts.append("<h3>Warnings</h3>" + _table(["What warned", "Technical name", "File"], rows))
+        parts.append("<h3>Waarschuwingen</h3>" + _table(["Waarschuwing", "Technische naam", "Bestand"], rows))
     if report.skipped:
         tables = [f.node for f in report.skipped if f.resource_type in TABLE_TYPES]
         shown = ", ".join(tables[:MAX_SKIPPED_LISTED]) + (" ..." if len(tables) > MAX_SKIPPED_LISTED else "")
         parts.append(
-            "<h3>Not run because something earlier failed</h3>"
-            f'<div style="font-size:13px;">{_esc(_plural(t.not_run, "step"))} did not run: '
-            f'{_esc(_plural(t.skipped_tables, "table"))} and {_esc(_plural(t.skipped_checks, "check"))}. '
-            f"Not errors in themselves."
-            + (f"<br>Tables: {_esc(shown)}" if tables else "") + "</div>")
+            "<h3>Niet gerund omdat een eerdere stap mislukte</h3>"
+            f'<div style="font-size:13px;">{_esc(_count(t.not_run, "stap is", "stappen zijn"))} niet gerund: '
+            f'{_esc(_count(t.skipped_tables, "tabel", "tabellen"))} en {_esc(_count(t.skipped_checks, "check", "checks"))}. '
+            f"Dat zijn geen fouten op zich."
+            + (f"<br>Tabellen: {_esc(shown)}" if tables else "") + "</div>")
     if report.tail:
         parts.append(
-            f"<h3>Last {len(report.tail)} log lines</h3>"
+            f"<h3>Laatste {len(report.tail)} regels uit de log</h3>"
             f'<pre style="background:#f6f6f6;color:#222;border:1px solid #ddd;padding:8px;font-size:11px;'
             f'white-space:pre-wrap;">'
             f"{_esc(chr(10).join(report.tail))}</pre>")
@@ -617,13 +620,40 @@ def render_html(report: Report, ctx: dict[str, Any]) -> str:
     return "".join(parts)
 
 
+def _mail_settings(env: dict[str, str]) -> tuple[str, list[str], str]:
+    """(SMTP host, recipients, sender) from the environment; any of them empty means the mail path is not configured."""
+    host = env.get("DBT_REPORT_SMTP_HOST", "").strip()
+    recipients = [r.strip() for r in env.get("DBT_FAILURE_EMAIL_RECIPIENTS", "").split(",") if r.strip()]
+    sender = env.get("DBT_REPORT_MAIL_FROM", "").strip()
+    return host, recipients, sender
+
+
+def send_text_mail(subject: str, text_body: str, env: dict[str, str] | None = None, smtp_factory=smtplib.SMTP) -> bool:
+    """A plain-text mail through the same settings and SMTP server as send_report (Mailpit in the workshop stack).
+    Never raises: returns False and logs."""
+    env = os.environ if env is None else env
+    try:
+        host, recipients, sender = _mail_settings(env)
+        if not (host and recipients and sender):
+            logger.warning("Mail not sent: DBT_REPORT_SMTP_HOST, DBT_REPORT_MAIL_FROM and "
+                           "DBT_FAILURE_EMAIL_RECIPIENTS must all be set.")
+            return False
+        message = MIMEText(text_body, "plain", "utf-8")
+        message["Subject"], message["From"], message["To"] = subject, sender, ", ".join(recipients)
+        with smtp_factory(host, int(env.get("DBT_REPORT_SMTP_PORT", "25")), timeout=30) as smtp:
+            smtp.sendmail(sender, recipients, message.as_string())
+        logger.info("Mail '%s' sent to %s", subject, recipients)
+        return True
+    except Exception as exc:
+        logger.error("Mail could not be sent: %s", exc)
+        return False
+
+
 def send_report(subject: str, html_body: str, env: dict[str, str] | None = None, smtp_factory=smtplib.SMTP) -> bool:
     """Send the mail through DBT_REPORT_SMTP_HOST / _PORT (no auth, no TLS). Never raises: returns False and logs."""
     env = os.environ if env is None else env
     try:
-        host = env.get("DBT_REPORT_SMTP_HOST", "").strip()
-        recipients = [r.strip() for r in env.get("DBT_FAILURE_EMAIL_RECIPIENTS", "").split(",") if r.strip()]
-        sender = env.get("DBT_REPORT_MAIL_FROM", "").strip()
+        host, recipients, sender = _mail_settings(env)
         if not (host and recipients and sender):
             logger.warning("Failure report not sent: DBT_REPORT_SMTP_HOST, DBT_REPORT_MAIL_FROM and "
                            "DBT_FAILURE_EMAIL_RECIPIENTS must all be set.")

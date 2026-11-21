@@ -1,64 +1,73 @@
-"""Plain words for the technical names of dbt checks, for every sentence the UI shows.
+"""Plain words (spoken Flemish) for the technical names of dbt checks, for every sentence the UI shows.
 
-`source_not_null_raw_olist_raw_olist_orders_order_id` becomes "Orders feed: the order number is never empty". The
+`source_not_null_raw_olist_raw_olist_orders_order_id` becomes "Bestellingenfeed: het bestelnummer is nooit leeg". The
 generic kinds (not_null, unique, accepted_values, relationships, freshness) are understood for sources and tables; a
 name that cannot be taken apart still gets readable words (prefixes dropped, underscores turned into spaces).
 Callers keep the technical name for the "technical details".
 
-The same goes for database accounts (`svc_dev_dbt` -> "the development robot", `pu_dev1` -> "developer one") and
-databases (`prd_edw_dv_bdv` -> "the working tables of production"): `plain_words` rewrites any sentence and
+The same goes for database accounts (`svc_dev_dbt` -> "de robot van development", `pu_dev1` -> "developer één") and
+databases (`prd_edw_dv_bdv` -> "de werktabellen van productie"): `plain_words` rewrites any sentence and
 `plain_pair` moves the technical sentence to the details.
+
+Every noun phrase that names a database, a table or a feed carries its own article ("de werktabellen van
+productie"), so a template can put it in a sentence without guessing de or het (`with_article` does it for a bare
+title).
 """
 from __future__ import annotations
 
 import os
 import re
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 KINDS = ("unique_combination_of_columns", "expression_is_true", "not_null", "unique", "accepted_values", "relationships",
          "freshness")
+# `{col}` is the column with its article ("het bestelnummer"), `{each}` with "elk/elke", `{bare}` without article.
 PHRASES = {
-    "not_null": "the {col} is never empty",
-    "unique": "the {col} appears only once",
-    "accepted_values": "the {col} only has allowed values",
-    "relationships": "every {col} belongs to a known record",
-    "freshness": "the data is recent enough",
-    "expression_is_true": "the {col} has the expected format",
-    "unique_combination_of_columns": "each combination of {col} appears only once",
+    "not_null": "{col} is nooit leeg",
+    "unique": "{col} komt maar één keer voor",
+    "accepted_values": "{col} heeft alleen toegelaten waarden",
+    "relationships": "{each} hoort bij een bestaande rij",
+    "freshness": "de data is recent genoeg",
+    "expression_is_true": "{col} heeft het verwachte formaat",
+    "unique_combination_of_columns": "elke combinatie van {bare} komt maar één keer voor",
 }
 CHECK_NAME = re.compile(r"^(?:dbt_utils_)?(source_)?(" + "|".join(KINDS) + r")_[a-z0-9_]+$")
 # The hand-written checks of the project (`tests/*/assert_*.sql`) in the words of what they guard.
 ASSERTS = {
-    "assert_carrier_events_delivered": "Parcel scans feed: new scans arrived in the last 3 days",
-    "assert_carrier_events_readable": "Parcel scans: every scan can be read",
-    "assert_delivery_status_consistent": "Deliveries table: a delivered parcel always shows as delivered",
-    "assert_web_checkouts_attributed": "Website conversion report: nearly every checkout matches an order",
+    "assert_carrier_events_delivered": "Pakketscanfeed: de laatste 3 dagen zijn er nieuwe scans binnengekomen",
+    "assert_carrier_events_readable": "Pakketscans: elke scan is leesbaar",
+    "assert_delivery_status_consistent": "Leveringstabel: een geleverd pakket staat altijd als geleverd",
+    "assert_web_checkouts_attributed": "Websiteconversierapport: bijna elke checkout hoort bij een bestelling",
 }
 
 # The six feeds and the main tables, in the words the audience hears.
 TABLES = {
-    "raw_olist_customers": "Customers feed",
-    "raw_olist_orders": "Orders feed",
-    "raw_olist_order_payments": "Payments feed",
-    "raw_olist_order_reviews": "Reviews feed",
-    "raw_carrier_tracking_events": "Parcel scans feed",
-    "raw_web_events": "Website visits feed",
-    "stg_olist_customers": "Customers (cleaned)",
-    "stg_olist_orders": "Orders (cleaned)",
-    "stg_carrier_events": "Parcel scans (cleaned)",
-    "stg_web_events": "Website visits (cleaned)",
-    "dim_olist_customers": "Customers table",
-    "fct_olist_orders": "Orders table",
-    "fct_olist_deliveries": "Deliveries table",
-    "mart_olist_management_kpi": "Management report",
-    "mart_web_conversion": "Website conversion report",
-    "mart_web_journeys": "Website journeys report",
+    "raw_olist_customers": "Klantenfeed",
+    "raw_olist_orders": "Bestellingenfeed",
+    "raw_olist_order_payments": "Betalingenfeed",
+    "raw_olist_order_reviews": "Reviewfeed",
+    "raw_carrier_tracking_events": "Pakketscanfeed",
+    "raw_web_events": "Websitebezoekfeed",
+    "raw_olist_returns": "Retourenfeed",
+    "stg_olist_customers": "Klanten (opgekuist)",
+    "stg_olist_orders": "Bestellingen (opgekuist)",
+    "stg_carrier_events": "Pakketscans (opgekuist)",
+    "stg_web_events": "Websitebezoeken (opgekuist)",
+    "dim_olist_customers": "Klantentabel",
+    "fct_olist_orders": "Bestellingentabel",
+    "fct_olist_deliveries": "Leveringstabel",
+    "mart_olist_management_kpi": "Managementrapport",
+    "mart_web_conversion": "Websiteconversierapport",
+    "mart_web_journeys": "Websitetrajectenrapport",
 }
-COLUMNS = {"order_id": "order number", "customer_id": "customer number", "customer_unique_id": "customer number",
-           "review_id": "review number", "event_id": "scan number", "payment_type": "payment type",
-           "order_status": "order status", "_ingested_at": "arrival time", "id": "number", "seq": "sequence number",
-           "hkey_record": "record key", "pit_key": "history key", "customer_hkey": "customer key",
-           "order_hkey": "order key", "last_loaded_date": "last load date"}
+COLUMNS = {"order_id": "bestelnummer", "customer_id": "klantnummer", "customer_unique_id": "klantnummer",
+           "review_id": "reviewnummer", "event_id": "scannummer", "payment_type": "betaalmethode",
+           "order_status": "bestelstatus", "_ingested_at": "aankomsttijd", "id": "nummer", "seq": "volgnummer",
+           "hkey_record": "recordsleutel", "pit_key": "historieksleutel", "customer_hkey": "klantsleutel",
+           "order_hkey": "bestelsleutel", "last_loaded_date": "laatste laaddatum",
+           "returned_at": "retourtijd", "return_channel": "retourkanaal", "payment_sequential": "betalingsvolgnummer"}
+# the columns that take "het" (every other column takes "de"); a word ending in "nummer" takes "het" too
+HET_WORDS = {"retourkanaal"}
 _LONGEST_FIRST = sorted(TABLES, key=len, reverse=True)
 _DROPPED_PREFIXES = ("raw_olist_", "raw_carrier_", "raw_web_", "olist_", "raw_", "stg_", "dim_", "fct_", "mart_", "assert_")
 
@@ -68,11 +77,51 @@ def looks_like_check(name: object) -> bool:
     return isinstance(name, str) and (bool(CHECK_NAME.match(name)) or name in ASSERTS)
 
 
+MONTHS = ("januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober",
+          "november", "december")
+SHORT_MONTHS = ("jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec")
+WEEKDAYS = ("maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag")   # Monday first
+
+
+def format_number(value: int | float) -> str:
+    """A number the Belgian way: 3.432 (thousands with a dot), 92,8 (decimals with a comma)."""
+    if isinstance(value, float) and value != int(value):
+        return f"{value:g}".replace(".", ",")
+    return f"{int(value):,}".replace(",", ".")
+
+
+def day_words(day: object) -> str:
+    """An ISO day (`2026-11-15`, also a `date`) as people say it: "15 november"; any other text is returned as it is."""
+    try:
+        when = day if isinstance(day, date) else date.fromisoformat(str(day)[:10])
+    except ValueError:
+        return str(day)
+    return f"{when.day} {MONTHS[when.month - 1]}"
+
+
 def column_words(column: str) -> str:
     if column in COLUMNS:
         return COLUMNS[column]
     words = column.strip("_").replace("_", " ")
-    return words[:-3] + " number" if words.endswith(" id") else words
+    return words[:-3] + " nummer" if words.endswith(" id") else words
+
+
+def _column_article(words: str) -> str:
+    return "het" if words in HET_WORDS or words.endswith("nummer") else "de"
+
+
+def column_with_article(column: str) -> str:
+    """`order_id` -> "het bestelnummer", `order_hkey` -> "de bestelsleutel"."""
+    words = column_words(column)
+    return f"{_column_article(words)} {words}"
+
+
+def with_article(title: str) -> str:
+    """A plain title with its article and in lower case: "Bestellingenfeed" -> "de bestellingenfeed",
+    "Managementrapport" -> "het managementrapport". A plural title ("Klanten (opgekuist)") takes "de"."""
+    words = title[:1].lower() + title[1:]
+    head = words.split(" (")[0]
+    return ("het " if head.endswith(("rapport", "logboek")) else "de ") + words
 
 
 def _everyday(text: str) -> str:
@@ -95,15 +144,23 @@ def _table_title(key: str) -> str:
 
 
 def _columns_words(columns: str, split: bool) -> str:
-    """`order_id__payment_sequential` -> "order number and payment sequential"; one name for a plain column."""
+    """`order_id__payment_sequential` -> "bestelnummer en betalingsvolgnummer"; one name for a plain column."""
     parts = [c for c in (columns.split("__") if split else [columns]) if c]
     words = [column_words(c) for c in parts]
-    return " and ".join(words) if len(words) < 3 else ", ".join(words[:-1]) + " and " + words[-1]
+    return " en ".join(words) if len(words) < 3 else ", ".join(words[:-1]) + " en " + words[-1]
+
+
+def _phrase(kind: str, column: str, split: bool = False) -> str:
+    """The sentence part of a check kind for a column (or, for `unique_combination_of_columns`, several)."""
+    words = column_words(column) if not split else ""
+    article = _column_article(words)
+    return PHRASES[kind].format(col=f"{article} {words}", each=f"{'elk' if article == 'het' else 'elke'} {words}",
+                                bare=_columns_words(column, split))
 
 
 def check_title(name: str) -> str:
     """The plain sentence for a check name; a name that is not a check is only made readable. Every dbt check of the
-    project has a title; a check on an unknown table is "Check on <table>"."""
+    project has a title; a check on an unknown table is "Check op <table>"."""
     if name in ASSERTS:
         return ASSERTS[name]
     found = CHECK_NAME.match(name)
@@ -119,67 +176,68 @@ def check_title(name: str) -> str:
         at = ("_" + head).find("_" + table + "_")
         title = _table_title(table)
         if kind == "freshness" and head.endswith(table) and at < 0:
-            return f"{title}: {PHRASES[kind]}"
+            return f"{title}: {PHRASES[kind].format(col='', each='', bare='')}"
         if at >= 0 and head[at + len(table) + 1:]:
             column = head[at + len(table) + 1:]
             if kind == "unique_combination_of_columns":
                 multi = "__" in rest
                 column = rest.split(table + "_", 1)[1] if multi else column
-                return f"{title}: {PHRASES[kind].format(col=_columns_words(column, multi))}"
-            words = "visit number" if column == "event_id" and "web" in table else column_words(column)
-            return f"{title}: {PHRASES[kind].format(col=words)}"
+                return f"{title}: {_phrase(kind, column, multi)}"
+            if column == "event_id" and "web" in table:
+                return f"{title}: {PHRASES[kind].format(col='het bezoeknummer', each='elk bezoeknummer', bare='bezoeknummer')}"
+            return f"{title}: {_phrase(kind, column)}"
     words = _everyday(head.split("__", 1)[0])
-    return f"Check on {words}" if words else name
+    return f"Check op {words}" if words else name
 
 
 # --- accounts and databases ------------------------------------------------------------------------------------
 
-ENV_WORDS = {"dev": "development", "val": "validation", "prd": "production"}
-NUMBER_WORDS = {"1": "one", "2": "two", "3": "three"}
+ENV_WORDS = {"dev": "development", "val": "validatie", "prd": "productie"}
+NUMBER_WORDS = {"1": "één", "2": "twee", "3": "drie"}
 ACCOUNT = re.compile(r"\b(svc_(?:dev|val|prd|ci)_dbt|pu_dev[123]|pu_admin)\b")
-DATABASE_PARTS = {"landing": "the incoming data of {env}", "edw_dv_rdv": "the working tables of {env}",
-                  "edw_dv_bdv": "the working tables of {env}", "im_dimensional": "the report tables of {env}",
-                  "vdp_mgmt": "the logbook of {env}"}
+DATABASE_PARTS = {"landing": "de binnenkomende data van {env}", "edw_dv_rdv": "de werktabellen van {env}",
+                  "edw_dv_bdv": "de werktabellen van {env}", "im_dimensional": "de rapporttabellen van {env}",
+                  "vdp_mgmt": "het logboek van {env}"}
 DATABASE = re.compile(r"\b(?:(dev|val|prd)_(" + "|".join(DATABASE_PARTS) + r")|(vdp_ci))\b(?:\.`?([a-z][a-z0-9_]*)`?)?")
 _ANY_NAME = re.compile(ACCOUNT.pattern + "|" + DATABASE.pattern)
 
 
 def account_words(name: str) -> str | None:
-    """`svc_dev_dbt` -> "the development robot"; None for a name that is not a known account."""
+    """`svc_dev_dbt` -> "de robot van development"; None for a name that is not a known account."""
     if not ACCOUNT.fullmatch(name):
         return None
     if name == "svc_ci_dbt":
-        return "the checking robot"
+        return "de robot van de testrun"
     if name == "pu_admin":
-        return "the administrator"
+        return "de beheerder"
     if name.startswith("pu_dev"):
         return f"developer {NUMBER_WORDS[name[-1]]}"
-    return f"the {ENV_WORDS[name.split('_')[1]]} robot"
+    return f"de robot van {ENV_WORDS[name.split('_')[1]]}"
 
 
 def tables_in(database: str) -> str:
-    """"tables in production" for every database of an environment; other databases keep their plain name."""
+    """"de tabellen in productie" for every database of an environment; other databases keep their plain name."""
     found = DATABASE.fullmatch(database)
     if found and found.group(1):
-        return f"tables in {ENV_WORDS[found.group(1)]}"
-    return database_words(database) or f"tables in {database}"
+        return f"de tabellen in {ENV_WORDS[found.group(1)]}"
+    return database_words(database) or f"de tabellen in {database}"
 
 
 def database_words(name: str) -> str | None:
-    """`prd_edw_dv_bdv` -> "the working tables of production"; None for a name that is not a known database."""
+    """`prd_edw_dv_bdv` -> "de werktabellen van productie"; None for a name that is not a known database."""
     found = DATABASE.fullmatch(name)
     if not found:
         return None
-    return "the sandbox for checks" if found.group(3) else DATABASE_PARTS[found.group(2)].format(env=ENV_WORDS[found.group(1)])
+    return "de sandbox voor de testrun" if found.group(3) else DATABASE_PARTS[found.group(2)].format(env=ENV_WORDS[found.group(1)])
 
 
 def _table_words(table: str) -> str:
-    return "the " + (TABLES.get(table) or _everyday(table)).lower()
+    return with_article(TABLES.get(table) or _everyday(table))
 
 
 # Phrases of scenario files and actions that say too little, in the words they get on screen.
 REWORDINGS = (
-    (re.compile(r"\bReading the numbers\b"), "Reading which version each environment runs"),
+    (re.compile(r"\b(?:De nummers aflezen|Reading the numbers)\b"), "Nakijken welke versie elke omgeving draait"),
 )
 
 
@@ -190,8 +248,8 @@ def _reworded(text: str) -> str:
 
 
 def plain_words(text: str) -> str:
-    """The text with every account and database name replaced by plain words (a `db.table` becomes "the orders
-    feed in the incoming data of development"). Text without such a name is returned unchanged."""
+    """The text with every account and database name replaced by plain words (a `db.table` becomes "de bestellingenfeed
+    in de binnenkomende data van development"). Text without such a name is returned unchanged."""
     def swap(found: re.Match) -> str:
         whole = found.group(0)
         if ACCOUNT.fullmatch(whole):
@@ -230,43 +288,44 @@ def plain_pair(summary: str, details: str = "") -> tuple[str, str]:
 
 # --- resource types and dbt model names ---------------------------------------------------------------------------
 
-RESOURCE_WORDS = {"model": "table", "test": "check", "unit_test": "check", "source": "feed"}
+RESOURCE_WORDS = {"model": "tabel", "test": "check", "unit_test": "check", "source": "feed"}
 # The project's main models in the words the audience hears (the feeds themselves are in TABLES).
 MODELS = {
-    "stg_olist_customers": "Cleaned customers table",
-    "stg_olist_orders": "Cleaned orders table",
-    "stg_olist_order_payments": "Cleaned payments table",
-    "stg_olist_order_reviews": "Cleaned reviews table",
-    "stg_carrier_events": "Cleaned parcel scans table",
-    "stg_web_events": "Cleaned website visits table",
-    "dim_olist_customers": "Customers table",
-    "fct_olist_orders": "Orders table",
-    "fct_olist_deliveries": "Deliveries table",
-    "fct_olist_order_payments": "Payments table",
-    "fct_olist_order_reviews": "Reviews table",
-    "int_web_top_pages": "Most visited pages table",
-    "mart_olist_management_kpi": "Management report table",
-    "mart_web_conversion": "Website conversion table",
-    "mart_web_journeys": "Website journeys table",
-    "ref_dummy_numbers": "Practice numbers table",
-    "dummy_loading_history": "Practice loading history table",
-    "dummy_reload_date_window": "Practice rebuild table",
-    "dummy_reload_hkey_mod": "Practice rebuild table (by key)",
-    "dummy_reload_pit_with_deps": "Practice rebuild table (with dependencies)",
-    "datum": "Calendar table",
-    "datum_incr": "Calendar table (incremental)",
+    "stg_olist_customers": "Opgekuiste klantentabel",
+    "stg_olist_orders": "Opgekuiste bestellingentabel",
+    "stg_olist_order_payments": "Opgekuiste betalingstabel",
+    "stg_olist_order_reviews": "Opgekuiste reviewtabel",
+    "stg_carrier_events": "Opgekuiste pakketscantabel",
+    "stg_web_events": "Opgekuiste websitebezoektabel",
+    "dim_olist_customers": "Klantentabel",
+    "fct_olist_orders": "Bestellingentabel",
+    "fct_olist_deliveries": "Leveringstabel",
+    "fct_olist_order_payments": "Betalingstabel",
+    "fct_olist_order_reviews": "Reviewtabel",
+    "int_web_top_pages": "Tabel meest bezochte pagina's",
+    "mart_olist_management_kpi": "Managementrapporttabel",
+    "mart_olist_customer_cohorts": "Klantencohortentabel",
+    "mart_web_conversion": "Websiteconversietabel",
+    "mart_web_journeys": "Websitetrajectentabel",
+    "ref_dummy_numbers": "Oefentabel met getallen",
+    "dummy_loading_history": "Oefentabel laadhistoriek",
+    "dummy_reload_date_window": "Oefentabel voor herbouw",
+    "dummy_reload_hkey_mod": "Oefentabel voor herbouw (per sleutel)",
+    "dummy_reload_pit_with_deps": "Oefentabel voor herbouw (met afhankelijkheden)",
+    "datum": "Kalendertabel",
+    "datum_incr": "Kalendertabel (incrementeel)",
     # the platform's own tables (logbooks and overviews of the database), built like every other table
-    "dbt_active_test_failures": "Failing data checks",
-    "dbt_foreign_create_user": "Accounts made outside the code",
-    "dbt_model_info": "Table details",
-    "dbt_models": "List of tables",
-    "dbt_orphaned_objects": "Leftover tables",
-    "dbt_run_results": "Run logbook",
-    "dbt_sources": "List of data feeds",
-    "dbt_table_grants": "Access rights",
-    "dbt_table_performance": "Table speed",
-    "singlestore_column_info": "Column details",
-    "singlestore_table_info": "Database table details",
+    "dbt_active_test_failures": "Mislukte datachecks",
+    "dbt_foreign_create_user": "Accounts die buiten de code zijn aangemaakt",
+    "dbt_model_info": "Tabeldetails",
+    "dbt_models": "Lijst van tabellen",
+    "dbt_orphaned_objects": "Overgebleven tabellen",
+    "dbt_run_results": "Runlogboek",
+    "dbt_sources": "Lijst van feeds",
+    "dbt_table_grants": "Toegangsrechten",
+    "dbt_table_performance": "Snelheid van de tabellen",
+    "singlestore_column_info": "Kolomdetails",
+    "singlestore_table_info": "Tabeldetails van de database",
 }
 _MODEL_PREFIXES = ("stg_", "int_", "dim_", "fct_", "ref_", "mart_")
 _MODEL_DROP = ("stg_", "int_", "dim_", "fct_", "ref_", "mart_", "olist_")
@@ -276,7 +335,7 @@ _BARE_NAME = re.compile(r"^[a-z][a-z0-9_]*$")
 def model_title(name: str) -> str | None:
     """The plain name of a dbt model or feed, or None when `name` does not look like one. Known models come from a
     small table; any other name with a model prefix (`stg_`, `int_`, `dim_`, `fct_`, `ref_`) is made readable
-    ("int_web_top_pages" -> "Web top pages table"). A schema prefix (`demo_orders_calendar_fct_olist_orders`) is ignored."""
+    ("int_web_something" -> "Tabel web something"). A schema prefix (`demo_orders_calendar_fct_olist_orders`) is ignored."""
     if not isinstance(name, str) or not _BARE_NAME.match(name) or looks_like_check(name):
         return None
     if name in TABLES and name.startswith("raw_"):
@@ -292,7 +351,7 @@ def model_title(name: str) -> str | None:
             if words.startswith(prefix):
                 words = words[len(prefix):]
         words = words.replace("_", " ").strip()
-        return (words[:1].upper() + words[1:] + " table") if words else None
+        return ("Tabel " + words) if words else None
     return None
 
 
@@ -337,7 +396,7 @@ LOCAL_ZONE = os.environ.get("STUDIO_TIME_ZONE") or "Europe/Brussels"
 
 
 def local_time_words(stamp: str | None) -> str | None:
-    """An ISO time from GitLab or dbt in local time, as people say it: "15 November, 18:06" (no "UTC"). None when the
+    """An ISO time from GitLab or dbt in local time, as people say it: "15 november, 18:06" (no "UTC"). None when the
     text is no time. Without time-zone data on the machine the time stays in UTC."""
     if not stamp:
         return None
@@ -352,4 +411,4 @@ def local_time_words(stamp: str | None) -> str | None:
         when = when.astimezone(ZoneInfo(LOCAL_ZONE))
     except Exception:  # noqa: BLE001 - no tz database: keep UTC rather than fail a sentence
         when = when.astimezone(timezone.utc)
-    return f"{when.day} {when.strftime('%B')}, {when:%H:%M}"
+    return f"{when.day} {MONTHS[when.month - 1]}, {when:%H:%M}"

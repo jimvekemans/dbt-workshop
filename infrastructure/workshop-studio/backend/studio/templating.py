@@ -11,6 +11,7 @@ from datetime import date, datetime, timedelta, timezone
 from typing import Any, Callable
 
 from .models import Input
+from .names import format_number
 
 DATABASES = ("landing", "edw_dv_rdv", "edw_dv_bdv", "im_dimensional", "vdp_mgmt")
 _BRACES = re.compile(r"\{\{(.*?)\}\}", re.S)
@@ -50,8 +51,8 @@ def _evaluate(expression: str, ctx: TemplateContext) -> Any:
         if ctx.value is None:
             raise TemplateError("'{{ value }}' is only available in the sentences of an outcome check")
         number = ctx.value
-        if isinstance(number, (int, float)) and not isinstance(number, bool) and number == int(number):
-            return f"{int(number):,}"   # a whole number reads as 3,432
+        if isinstance(number, (int, float)) and not isinstance(number, bool):
+            return format_number(number)   # the Belgian way: 3.432 and 92,8
         return number
     if expression == "now()":
         return ctx.clock().isoformat(timespec="seconds")

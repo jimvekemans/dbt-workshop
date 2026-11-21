@@ -10,13 +10,13 @@ const day = (label: string, state: TimelineDay['state'], note: string): Timeline
 const days = [day('Mon', 'ok', '1,200 delivered'), day('Tue', 'ok', '1,100 delivered'), day('Wed', 'bad', '0 delivered'), day('Thu', 'bad', '0 delivered'), day('Fri', 'bad', '0 delivered'), day('Sat', 'warn', '0 delivered')]
 
 describe('groupDays (phone: equal neighbouring days become one row)', () => {
-  it('merges neighbours with the same state and note into "Wed to Fri"', () => {
+  it('merges neighbours with the same state and note into "Wed tot Fri"', () => {
     const g = groupDays(days)
-    expect(g.map((x) => x.label)).toEqual(['Mon', 'Tue', 'Wed to Fri', 'Sat'])
+    expect(g.map((x) => x.label)).toEqual(['Mon', 'Tue', 'Wed tot Fri', 'Sat'])
     expect(g[2]).toMatchObject({ from: 2, to: 4, state: 'bad', note: '0 delivered' })
   })
   it('never merges across the marker', () => {
-    expect(groupDays(days, 3).map((x) => x.label)).toEqual(['Mon', 'Tue', 'Wed to Thu', 'Fri', 'Sat'])
+    expect(groupDays(days, 3).map((x) => x.label)).toEqual(['Mon', 'Tue', 'Wed tot Thu', 'Fri', 'Sat'])
   })
   it('treats an unknown state as idle', () => {
     expect(visualTone('weird')).toBe('idle')
@@ -33,12 +33,12 @@ describe('TimelineVisual', () => {
     expect(screen.getAllByText('The format changes')).toHaveLength(2)
     expect(container.querySelectorAll('[role="note"]')).toHaveLength(2)
     expect(screen.getAllByText('1,200 delivered')).toHaveLength(2)
-    expect(screen.getByText('Wed to Fri')).toBeInTheDocument()
+    expect(screen.getByText('Wed tot Fri')).toBeInTheDocument()
   })
   it('says nothing for a fine day but names a problem', () => {
     render(<TimelineVisual visual={visual} />)
-    expect(screen.queryByText('Fine')).toBeNull()
-    expect(screen.getAllByText('Problem').length).toBeGreaterThan(0)
+    expect(screen.queryByText('In orde')).toBeNull()
+    expect(screen.getAllByText('Probleem').length).toBeGreaterThan(0)
   })
 })
 
@@ -50,11 +50,11 @@ describe('FlowVisual', () => {
     { id: 'd', label: 'Mystery', state: 'sparkly' as unknown as 'ok' },
   ]
   const visual: Flow = { type: 'flow', nodes, links: [['a', 'b'], ['b', 'c'], ['c', 'd']] }
-  it('marks the fix with the words "The fix", a bad box with a status, and an ok box with nothing', () => {
+  it('marks the fix with the words "De oplossing", a bad box with a status, and an ok box with nothing', () => {
     const { container } = render(<FlowVisual visual={visual} />)
-    expect(screen.getByText('The fix')).toBeInTheDocument()
-    expect(screen.getByText('Problem')).toBeInTheDocument()
-    expect(screen.queryByText('Fine')).toBeNull()
+    expect(screen.getByText('De oplossing')).toBeInTheDocument()
+    expect(screen.getByText('Probleem')).toBeInTheDocument()
+    expect(screen.queryByText('In orde')).toBeNull()
     const nodeEls = container.querySelectorAll('[data-state]')
     expect([...nodeEls].map((e) => e.getAttribute('data-state'))).toEqual(['ok', 'fix', 'bad', 'idle'])
   })
@@ -66,12 +66,12 @@ describe('CompareVisual', () => {
     left: { title: 'Nothing checks', items: ['a'], state: 'bad' },
     right: { title: 'A check runs', items: ['b'], state: 'ok' },
   }
-  it('labels the sides "Without the safeguard" and "With the safeguard"; the good side says Better', () => {
+  it('labels the sides "Zonder vangnet" and "Met vangnet"; the good side says Beter', () => {
     render(<CompareVisual visual={visual} />)
-    expect(screen.getByText('Without the safeguard')).toBeInTheDocument()
-    expect(screen.getByText('With the safeguard')).toBeInTheDocument()
-    expect(screen.getByText('Better')).toBeInTheDocument()
-    expect(screen.getByText('Problem')).toBeInTheDocument()
-    expect(screen.queryByText('Fine')).toBeNull()
+    expect(screen.getByText('Zonder vangnet')).toBeInTheDocument()
+    expect(screen.getByText('Met vangnet')).toBeInTheDocument()
+    expect(screen.getByText('Beter')).toBeInTheDocument()
+    expect(screen.getByText('Probleem')).toBeInTheDocument()
+    expect(screen.queryByText('In orde')).toBeNull()
   })
 })

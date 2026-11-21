@@ -27,8 +27,8 @@ def test_skipped_clean_up_in_a_run_without_failure_is_not_needed():
              {"task_id": "cleanup_scratch_table", "state": "skipped"},
              {"task_id": "pause_daily_load", "state": "skipped"}]
     out = {r["label"]: r for r in airflow.describe_tasks(tasks)}
-    assert out["Sending the failure mail"]["not_needed"] and out["Removing the unfinished copy"]["not_needed"]
-    assert "not_needed" not in out["Pausing the nightly load"] and "not_needed" not in out["Building all the reports"]
+    assert out["De foutmail versturen"]["not_needed"] and out["De onafgewerkte kopie verwijderen"]["not_needed"]
+    assert "not_needed" not in out["De nachtelijke load pauzeren"] and "not_needed" not in out["Alle rapporten builden"]
 
 
 def test_in_a_run_with_a_failure_nothing_is_not_needed_and_later_steps_are_not_run():
@@ -39,7 +39,7 @@ def test_in_a_run_with_a_failure_nothing_is_not_needed_and_later_steps_are_not_r
              {"task_id": "send_failure_report", "state": "success"},
              {"task_id": "cleanup_temporary_artifacts", "state": "skipped"}]
     out = airflow.describe_tasks(tasks, run)
-    assert [r["state_text"] for r in out] == ["Failed", "Not run", "Not run", "Done", "Skipped"]
+    assert [r["state_text"] for r in out] == ["Mislukt", "Niet gerund", "Niet gerund", "Klaar", "Overgeslagen"]
     assert not any("not_needed" in r for r in out)
     assert all(r["state"] != "done" for r in out[1:3])
 
@@ -48,7 +48,7 @@ def test_repeated_parts_are_numbered():
     tasks = [{"task_id": f"batch_chunk_{n}", "state": "success"} for n in (2, 1, 3, 4)]
     tasks.append({"task_id": "atomic_swap", "state": "success"})
     out = airflow.describe_tasks(tasks)
-    parts = [(r["part"], r["parts"]) for r in out if r["label"] == "Loading one part of the new copy"]
+    parts = [(r["part"], r["parts"]) for r in out if r["label"] == "Eén deel van de nieuwe kopie laden"]
     assert parts == [(2, 4), (1, 4), (3, 4), (4, 4)]
     assert "part" not in out[-1]
 
@@ -122,7 +122,7 @@ def test_table_returns_footer_and_column_units(tmp_path, monkeypatch):
     assert evidence.table(make_ctx(tmp_path), evidence.TableParams(query="select 1"))["footer"] is None
 
 
-@pytest.mark.parametrize("value, text", [(3432, "3,432"), (3432.0, "3,432"), (12, "12"), (2.5, "2.5"), (1234567, "1,234,567"),
+@pytest.mark.parametrize("value, text", [(3432, "3.432"), (3432.0, "3.432"), (12, "12"), (2.5, "2,5"), (1234567, "1.234.567"),
                                          (0, "0")])
 def test_a_whole_value_has_thousands_separators(value, text):
     ctx = TemplateContext("dev", {}, lambda: TODAY).with_value(value)
@@ -143,28 +143,28 @@ def test_every_dbt_check_of_the_project_has_a_plain_title():
         assert names.looks_like_check(name), name
         assert name not in title and "_" not in title and not title.endswith("..."), (name, title)
     assert names.check_title("dbt_utils_unique_combination_of_columns_dummy_reload_hkey_mod_hkey_record") == \
-        "Practice rebuild table (by key): each combination of record key appears only once"
+        "Oefentabel voor herbouw (per sleutel): elke combinatie van recordsleutel komt maar één keer voor"
     assert names.check_title("dbt_utils_source_unique_combination_of_columns_raw_olist_raw_olist_order_payments_order_id"
                              "__payment_sequential") == \
-        "Payments feed: each combination of order number and payment sequential appears only once"
-    assert names.check_title("not_null_something_odd_col") == "Check on something odd col"
+        "Betalingenfeed: elke combinatie van bestelnummer en betalingsvolgnummer komt maar één keer voor"
+    assert names.check_title("not_null_something_odd_col") == "Check op something odd col"
 
 
 def test_progress_lines_and_results_say_it_plainly():
-    assert names.plain_words("Reading the numbers.") == "Reading which version each environment runs."
-    assert airflow.setting_name("dbt_env_vars") == "a setting of the nightly load"
+    assert names.plain_words("De nummers aflezen.") == "Nakijken welke versie elke omgeving draait."
+    assert airflow.setting_name("dbt_env_vars") == "een instelling van de nachtelijke load"
     from studio.actions import feed, sql
-    assert sql.answer_words([(3432,)]) == "The database answered."
-    assert sql.answer_words([(1, 2)]) == "The database answered with 1 row."
-    assert sql.answer_words([(1, 2), (3, 4)]) == "The database answered with 2 rows."
+    assert sql.answer_words([(3432,)]) == "De database antwoordde."
+    assert sql.answer_words([(1, 2)]) == "De database antwoordde met 1 rij."
+    assert sql.answer_words([(1, 2), (3, 4)]) == "De database antwoordde met 2 rijen."
     from studio.actions.base import ACTIONS
-    assert ACTIONS["feed.deliver"].label(feed.DeliverParams(days=3)) == "Sending the last 3 days of data again"
+    assert ACTIONS["feed.deliver"].label(feed.DeliverParams(days=3)) == "De data van de laatste 3 dagen opnieuw sturen"
 
 
 def test_a_version_pipeline_says_what_happened_to_the_version():
     jobs = [{"name": "tag_dev", "status": "success"}, {"name": "build_image", "status": "success"},
             {"name": "deploy_dev", "status": "success"}]
-    assert gitlab.delivery_words(jobs) == "The version was numbered, packaged and put live in development."
+    assert gitlab.delivery_words(jobs) == "De versie is genummerd, verpakt en gedeployd in development."
     assert gitlab.delivery_words([{"name": "verify_feature_to_dev", "status": "success"}]) is None
     assert gitlab.delivery_words(jobs[:1]) is None
 
@@ -173,12 +173,12 @@ def test_a_version_pipeline_says_what_happened_to_the_version():
 
 
 def test_a_tool_without_a_number_is_the_teams_own_copy():
-    own = "installed"
+    own = "geïnstalleerd"
     assert images.shown("rule_checker", "0.0.0") == own and images.shown("rule_checker", "0.0.0+local") == own
     assert images.shown("rule_checker", images.NO_NUMBER) == own
-    assert images.shown("rule_checker", "0.0.10") == "version 0.0.10"
-    assert images.shown("layout_robot", None) == "not included"
-    assert images.shown("report_builder", "2.0.11") == "version 2.0.11"
+    assert images.shown("rule_checker", "0.0.10") == "versie 0.0.10"
+    assert images.shown("layout_robot", None) == "niet inbegrepen"
+    assert images.shown("report_builder", "2.0.11") == "versie 2.0.11"
     assert images.parse("@@probe report_builder\nsomething without a number\n")["report_builder"] == images.NO_NUMBER
 
 

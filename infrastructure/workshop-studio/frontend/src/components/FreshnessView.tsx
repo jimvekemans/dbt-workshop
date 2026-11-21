@@ -7,7 +7,7 @@ import styles from './FreshnessView.module.css'
 const MAP: Record<FreshnessState, StatusState> = { fresh: 'ok', late: 'warn', very_late: 'bad', unknown: 'idle' }
 
 export function FreshnessView({ data }: { data: FreshnessData }) {
-  if (data.sources.length === 0) return <EmptyNote>{data.empty || 'No delivery has been checked yet.'}</EmptyNote>
+  if (data.sources.length === 0) return <EmptyNote>{data.empty || 'De feeds zijn nog niet nagekeken.'}</EmptyNote>
   return (
     <ul className={styles.list}>
       {data.sources.map((s) => {
@@ -15,7 +15,7 @@ export function FreshnessView({ data }: { data: FreshnessData }) {
         return (
           <li key={s.label} className={styles.item} data-state={state}>
             <span className={styles.label}>{s.label}</span>
-            <span className={styles.age}>{s.last_data ? `last data ${s.last_data}` : ''}</span>
+            <span className={styles.age}>{s.last_data ? `laatste data ${s.last_data}` : ''}</span>
             <Status state={state}>{s.state_text}</Status>
           </li>
         )

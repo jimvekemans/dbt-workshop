@@ -18,29 +18,31 @@ from typing import Any, Literal
 
 from pydantic import ConfigDict, Field, field_validator
 
-from ..names import check_title, column_words, local_time_words, model_title
+from ..names import check_title, column_words, format_number, local_time_words, model_title, with_article
 from ..patches import load_patch, resolve_contents
 from . import clients
 from .base import Ctx, Params, Result, StepFailed, action
 from .clients import GitLabApi
 from .deploy import version_key
 
-BRANCH_WORDS = {"dev": "the shared work in progress", "main": "production"}
+BRANCH_WORDS = {"dev": "het gedeelde werk in opbouw", "main": "productie"}
 
 
 def branch_words(name: str) -> str:
     """A branch in the words of the audience (the exact name goes to the technical details)."""
-    return "the copy for the release" if RELEASE_BRANCH.fullmatch(name) else BRANCH_WORDS.get(name, "a copy of the shared work")
+    return "de kopie voor de release" if RELEASE_BRANCH.fullmatch(name) else BRANCH_WORDS.get(name, "een kopie van het gedeelde werk")
 
 JOB_WORDS = {   # one label per kind of job, the same in progress lines, the card and every summary
-    "verify_feature_to_dev": "Trying the change in a private copy",
-    "verify_release": "Checking the whole release",
-    "tag_dev": "Numbering the version",
-    "tag_main": "Numbering the version",
-    "build_image": "Packaging the version",
-    "deploy_dev": "Putting the version live in development",
-    "deploy_val": "Putting the version live in validation",
-    "deploy_prd": "Putting the version live in production",
+    "verify_structure": "Lege kopieën van de gewijzigde tabellen builden",
+    "verify_feature_to_dev": "De wijziging uitproberen met echte data en checks",
+    "verify_release": "De hele release nakijken",
+    "tag_dev": "De versie nummeren",
+    "tag_main": "De versie nummeren",
+    "build_image": "Het package van de versie maken",
+    "publish_artifacts": "De beschrijving van de versie in storage opslaan",
+    "deploy_dev": "De versie deployen in development",
+    "deploy_val": "De versie deployen in validatie",
+    "deploy_prd": "De versie deployen in productie",
 }
 STAGES = ("verify", "tag", "build", "deploy")   # the order of `stages:` in .gitlab-ci.yml
 KEEP_ALIVE = "studio-baseline/"  # branches that keep the baseline commits reachable after dev / main were rewritten
@@ -49,8 +51,12 @@ RELEASE_BRANCH = re.compile(r"release/\d{4}-Q[1-4]")
 TARGET = re.compile(r"(mr|ref|tag):(.+)")
 
 
+JOB_STATUS = {"created": "klaargezet", "pending": "wacht", "running": "bezig", "manual": "wacht op een persoon",
+              "success": "klaar", "failed": "mislukt", "canceled": "geannuleerd"}   # GitLab's job states in plain words
+
+
 def job_word(name: str) -> str:
-    return JOB_WORDS.get(name, "A step of the automatic checks")
+    return JOB_WORDS.get(name, "Een stap van de automatische checks")
 
 
 def ordered_jobs(jobs: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -78,22 +84,22 @@ _MODEL_ERROR = re.compile(r"Database Error in model (?P<name>\S+)")
 _DUPLICATE_KEY = re.compile(r"Duplicate entry '[^']*' for key '(?P<key>[^']*)'")
 _KEY_COLUMN = re.compile(r"(?:column|key)\s+'?`?(?P<col>[a-z][a-z0-9_]*)`?'?", re.IGNORECASE)
 # The unique key of the main models in the words of the audience, for when the log names no column.
-MODEL_KEYS = {"fct_olist_orders": "order number", "dim_olist_customers": "customer number"}
+MODEL_KEYS = {"fct_olist_orders": "bestelnummer", "dim_olist_customers": "klantnummer"}
 
 
 def plain_reason(error: str, model: str = "") -> str:
-    """The common database errors in plain words (no final full stop)."""
+    """The common database errors in plain words, as a clause that follows "want" (no final full stop)."""
     low = error.lower()
     if "duplicate entry" in low or "error 1062" in low:
         key = _DUPLICATE_KEY.search(error)
         column = key["key"] if key and key["key"].upper() != "PRIMARY" and re.fullmatch(r"[a-z][a-z0-9_]*", key["key"]) else None
         what = column_words(column) if column else next((w for m, w in MODEL_KEYS.items() if model.endswith(m)), None)
-        return f"the same {what} would be stored more than once" if what else "the same row would be stored more than once"
+        return f"eenzelfde {what} zou meer dan één keer opgeslagen worden" if what else "eenzelfde rij zou meer dan één keer opgeslagen worden"
     if re.search(r"error 10(46|49|51|54|146)|doesn't exist|does not exist|unknown column|unknown table|not found", low):
-        return "it needs something that does not exist"
+        return "er ontbreekt iets dat nodig is"
     if re.search(r"error 10(44|45|142|143)|denied|not allowed|permission", low):
-        return "the robot is not allowed to do this"
-    return "the database reported an error"
+        return "de robot mag dit niet doen"
+    return "de database meldde een fout"
 
 
 def failed_checks_in(trace: str) -> list[dict[str, Any]]:
@@ -131,8 +137,9 @@ def failed_checks_in(trace: str) -> list[dict[str, Any]]:
         {"kind": "check", "text": check_title(name), "rows": rows.get(name), "details": name} for name in order]
     for name in tables:
         error = "\n".join(errors.get(name, []))
-        out.append({"kind": "table", "text": f"{model_title(name) or check_title(name)} could not be built: "
-                                             f"{plain_reason(error, name)}.", "rows": None, "details": error or name})
+        table = with_article(model_title(name) or check_title(name))   # "de bestellingentabel", "het managementrapport"
+        out.append({"kind": "table", "text": f"{table[:1].upper() + table[1:]} kon niet gebuild worden, "
+                                             f"want {plain_reason(error, name)}.", "rows": None, "details": error or name})
     return out
 
 
@@ -156,7 +163,8 @@ def failures(api: GitLabApi, jobs: list[dict[str, Any]]) -> list[dict[str, Any]]
 
 # --- what a rehearsal covered ------------------------------------------------------------------------------------
 
-REHEARSAL_JOB = "verify_feature_to_dev"   # the only job that rehearses just the changed tables (state:modified+)
+REHEARSAL_JOB = "verify_feature_to_dev"   # the rehearsal with data and checks on the changed tables (state:modified+)
+STRUCTURE_JOB = "verify_structure"        # the empty rehearsal before it: the changed tables and their direct dependants
 _NODE_LINE = re.compile(
     r"^(?P<status>Succeeded|Passed|Failed|Errored|Warned|Skipped)\b.*?\b(?P<kind>model|test|unit_test|seed|snapshot)\b")
 _TRACES: dict[int, str] = {}   # a finished job's log never changes: read it once
@@ -178,6 +186,21 @@ def job_trace(api: GitLabApi, job: dict[str, Any]) -> str:
 _BUILD_END = re.compile(r"^Finished '(?:build|run|test|seed|snapshot)'")
 _PROCESSED = re.compile(r"^Processed:\s*(?P<parts>.+)$")
 _COUNT = re.compile(r"(?P<n>\d+)\s+(?P<what>models?|seeds?|snapshots?|(?:unit )?tests?)\b")
+
+
+def project_tables_in(trace: str) -> int | None:
+    """How many tables the whole project has, from the `dbt compile` of the rehearsal job itself (`Finished 'compile'
+    ...` then `Processed: 1 hook | 28 models | 21 tests`): the project of the shared work, whatever the nightly load has
+    written to its manifests so far. None when the log has no such line."""
+    after_compile = False
+    for line in trace.splitlines():
+        text = line.strip()
+        if text.startswith("Finished 'compile'"):
+            after_compile = True
+        elif after_compile and (found := _PROCESSED.match(text)):
+            tables = sum(int(c["n"]) for c in _COUNT.finditer(found["parts"]) if c["what"].startswith(("model", "seed", "snapshot")))
+            return tables or None
+    return None
 
 
 def nodes_in(trace: str) -> dict[str, int]:
@@ -246,7 +269,7 @@ def plain_table(alias: str) -> str:
     if title := model_title(alias):
         return title
     own = re.search(r"(?:^|_)((?:stg|int|dim|fct|ref|mart)_.+)$", alias)
-    return (own and model_title(own[1])) or alias.replace("_", " ").capitalize() + " table"
+    return (own and model_title(own[1])) or "Tabel " + alias.replace("_", " ")
 
 
 def names_in(trace: str) -> list[str]:
@@ -261,7 +284,7 @@ def names_in(trace: str) -> list[str]:
             if plain not in found:
                 found.append(plain)
     if len(found) > MAX_NAMES:
-        return found[:MAX_NAMES] + [f"and {len(found) - MAX_NAMES} more"]
+        return found[:MAX_NAMES] + [f"en nog {len(found) - MAX_NAMES}"]
     return found
 
 
@@ -274,24 +297,45 @@ def rehearsed(settings: Any, api: GitLabApi, jobs: list[dict[str, Any]]) -> dict
         return None
     trace = job_trace(api, job)
     counted = nodes_in(trace)
-    total = tables_in_project(settings)
+    total = tables_in_project(settings) or project_tables_in(trace)
     if not counted["tables"] or total is None:
         return None
     return {**counted, "tables_total": total, "seconds": seconds_in(trace), "names": names_in(trace)}
+
+
+def rehearsed_structure(settings: Any, api: GitLabApi, jobs: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """`{tables, tables_total, seconds, names}` of the first rehearsal (the empty build of the changed tables and their
+    direct dependants), read from its log like `rehearsed`; None when that job is absent or has not finished."""
+    job = next((j for j in jobs if j["name"] == STRUCTURE_JOB and j["status"] in ("success", "failed")), None)
+    if job is None:
+        return None
+    trace = job_trace(api, job)
+    counted = nodes_in(trace)
+    total = tables_in_project(settings) or project_tables_in(trace)
+    if not counted["tables"] or total is None:
+        return None
+    return {"tables": counted["tables"], "tables_total": total, "seconds": seconds_in(trace), "names": names_in(trace)}
+
+
+def structure_words(found: dict[str, Any], alone: bool) -> str:
+    """The first round in one sentence: it built 2 of 28 tables (with the data rehearsal after it) or, when there
+    is no rehearsal with data, it rehearsed 3 of 28 tables, without any data check."""
+    tables = f"{format_number(found['tables'])} van de {format_number(found['tables_total'])} {'tabel' if found['tables_total'] == 1 else 'tabellen'}"
+    return f"De testrun heeft {tables} doorlopen, zonder datachecks." if alone else f"De eerste ronde heeft {tables} gebuild."
 
 
 def duration_words(seconds: float) -> str:
     whole = max(1, round(seconds))
     if whole >= 120:
         minutes, rest = divmod(whole, 60)
-        return f"{minutes} minutes" + (f" and {rest} second{'' if rest == 1 else 's'}" if rest else "")
-    return f"{whole} second{'' if whole == 1 else 's'}"
+        return f"{minutes} minuten" + (f" en {rest} seconde{'' if rest == 1 else 'n'}" if rest else "")
+    return f"{whole} seconde{'' if whole == 1 else 'n'}"
 
 
 def rehearsed_words(found: dict[str, Any]) -> str:
     """"1 of 28 tables and 0 data checks in 2 seconds": the same words on the card and in the step's summary."""
     checks = found["checks"]
-    text = f"{found['tables']} of {found['tables_total']} tables and {checks} data check{'' if checks == 1 else 's'}"
+    text = f"{format_number(found['tables'])} van de {format_number(found['tables_total'])} tabellen en {format_number(checks)} datacheck{'' if checks == 1 else 's'}"
     return text + (f" in {duration_words(found['seconds'])}" if found.get("seconds") else "")
 
 
@@ -334,6 +378,17 @@ class MergeRequestParams(Params):
     source: str
     target: str
     title: str
+    # what the rehearsal that starts with this proposal may change outside its private copy, so the clean-up puts it back: `models:<env>:<model>`
+    # (a shared table it was allowed to build) and `ci:copies` (tables it left behind in the rehearsal database)
+    touches: list[str] = []
+
+    @field_validator("touches")
+    @classmethod
+    def known_resources(cls, items: list[str]) -> list[str]:
+        for item in items:
+            if not re.fullmatch(r"models:(dev|val|prd):[a-z][a-z0-9_]*|ci:copies", item):
+                raise ValueError("`touches` lists models:<dev|val|prd>:<model> or ci:copies")
+        return items
 
 
 class MergeParams(Params):
@@ -412,22 +467,22 @@ def connect(ctx: Ctx) -> tuple[GitLabApi, dict[str, Any]]:
 
 
 @action("gitlab.branch", BranchParams,
-        lambda p: "Making a copy for the release" if RELEASE_BRANCH.fullmatch(p.name) else
-        f"Making a copy of {branch_words(p.from_)}")
+        lambda p: "Een kopie maken voor de release" if RELEASE_BRANCH.fullmatch(p.name) else
+        f"Een kopie maken van {branch_words(p.from_)}")
 def branch(ctx: Ctx, p: BranchParams) -> Result:
     api, _ = connect(ctx)
     api.delete_branch(p.name)  # a branch left by an earlier run of the same demo starts over
     api.req("POST", api.p("/repository/branches"), params={"branch": p.name, "ref": p.from_})
     return Result(
-        f"Made a copy for the release, taken from {branch_words(p.from_)}."
+        f"Kopie voor de release gemaakt, gebaseerd op {branch_words(p.from_)}."
         if RELEASE_BRANCH.fullmatch(p.name)
-        else f"Made a copy of {branch_words(p.from_)} to work on.",
+        else f"Kopie gemaakt van {branch_words(p.from_)}, om aan te werken.",
         details=f"branch {p.name} created from {p.from_}",
         touched={"git"},
     )
 
 
-@action("gitlab.commit", CommitParams, lambda p: "Saving the prepared code change")
+@action("gitlab.commit", CommitParams, lambda p: "De voorbereide codewijziging bewaren")
 def commit(ctx: Ctx, p: CommitParams) -> Result:
     api, _ = connect(ctx)
     patch = load_patch(ctx.settings.patches_dir, p.patch)
@@ -446,14 +501,14 @@ def commit(ctx: Ctx, p: CommitParams) -> Result:
         json={"branch": p.branch, "commit_message": patch.message, "actions": actions},
     ).json()
     return Result(
-        f"Saved the change: {patch.title}.",
+        f"Wijziging bewaard: {patch.title}.",
         details=f"{done['short_id']} {patch.message}\n" + "\n".join(contents),
         touched={"git"},
         data={"sha": done["id"]},
     )
 
 
-@action("gitlab.merge_request", MergeRequestParams, lambda p: "Proposing the change for review")
+@action("gitlab.merge_request", MergeRequestParams, lambda p: "De wijziging als voorstel indienen")
 def merge_request(ctx: Ctx, p: MergeRequestParams) -> Result:
     api, _ = connect(ctx)
     open_ones = api.get("/merge_requests", source_branch=p.source, target_branch=p.target, state="opened")
@@ -473,9 +528,9 @@ def merge_request(ctx: Ctx, p: MergeRequestParams) -> Result:
         ).json()
     )
     return Result(
-        f"Proposed the change '{p.title}' for review.",
+        f"Voorstel ingediend: '{p.title}'.",
         details=f"merge request !{mr['iid']}: {p.source} -> {p.target}",
-        touched={"git"},
+        touched={"git", *p.touches},
         data={"iid": mr["iid"]},
     )
 
@@ -519,7 +574,7 @@ def settled(api: GitLabApi, pipeline: dict[str, Any]) -> str:
 
 
 def delivery_words(jobs: list[dict[str, Any]]) -> str | None:
-    """"The version was numbered, packaged and put live in development." for a pipeline that numbers and delivers a
+    """"De versie is genummerd, verpakt en gedeployd in development." for a pipeline that numbers and delivers a
     version (tag, build and deploy jobs, no verify job) and succeeded; None for any other pipeline."""
     names = {j["name"]: j["status"] for j in jobs}
     live = [n.split("_", 1)[1] for n, status in names.items() if n.startswith("deploy_") and status == "success"]
@@ -527,25 +582,25 @@ def delivery_words(jobs: list[dict[str, Any]]) -> str | None:
         return None
     did = []
     if any(n.startswith("tag_") and status == "success" for n, status in names.items()):
-        did.append("numbered")
+        did.append("genummerd")
     if names.get("build_image") == "success":
-        did.append("packaged")
-    did.append("put live in " + clients.ENV_WORDS[live[-1]])
-    return "The version was " + (", ".join(did[:-1]) + " and " + did[-1] if len(did) > 1 else did[0]) + "."
+        did.append("verpakt")
+    did.append("gedeployd in " + clients.ENV_WORDS[live[-1]])
+    return "De versie is " + (", ".join(did[:-1]) + " en " + did[-1] if len(did) > 1 else did[0]) + "."
 
 
 def pipeline_progress(api: GitLabApi, pipeline: dict[str, Any] | None) -> str:
     if pipeline is None:
-        return "Waiting for the automatic checks to start"
+        return "Wachten tot de automatische checks starten"
     running = [j["name"] for j in api.jobs(pipeline["id"]) if j["status"] == "running"]
     return (
-        f"Automatic checks: {job_word(running[0]).lower()}"
+        f"Automatische checks: {job_word(running[0]).lower()}"
         if running
-        else "Automatic checks: waiting for the next step"
+        else "Automatische checks: wachten op de volgende stap"
     )
 
 
-@action("gitlab.wait_pipeline", WaitPipelineParams, lambda p: "Waiting for the automatic checks")
+@action("gitlab.wait_pipeline", WaitPipelineParams, lambda p: "Wachten op de automatische checks")
 def wait_pipeline(ctx: Ctx, p: WaitPipelineParams) -> Result:
     api, base = connect(ctx)
 
@@ -555,31 +610,37 @@ def wait_pipeline(ctx: Ctx, p: WaitPipelineParams) -> Result:
         status = settled(api, pipeline) if pipeline else "none"
         return (status, pipeline) if status in TERMINAL and pipeline else None
 
-    status, pipeline = ctx.wait_until(probe, p.timeout, every=8, waiting="the automatic checks did not finish")
+    status, pipeline = ctx.wait_until(probe, p.timeout, every=8, waiting="de automatische checks zijn niet klaar geraakt")
     outcome = "success" if status in ("success", "skipped") else "failed"
     tail = api.failed_job_tail(pipeline["id"]) if outcome == "failed" else ""
     jobs = ordered_jobs(api.jobs(pipeline["id"]))
     failed_jobs = [job_word(j["name"]) for j in jobs if j["status"] == "failed"]
     found_failures = failures(api, jobs) if outcome == "failed" else []
-    what = "automatic rehearsal" if TARGET.fullmatch(p.for_).group(1) == "mr" else "automatic checks"
+    what = "automatische testrun" if TARGET.fullmatch(p.for_).group(1) == "mr" else "automatische checks"
+    is_ = "zijn" if what.endswith("checks") else "is"   # "de automatische checks zijn", "de automatische testrun is"
     details = f"pipeline {pipeline['id']} on {pipeline['ref']}: {status}\n{tail}".strip()
     if outcome != p.expect:
         if outcome == "failed":
             raise StepFailed(
-                f"The {what} failed" + (f" at: {failed_jobs[0].lower()}." if failed_jobs else "."), details
+                f"De {what} {is_} mislukt" + (f" bij: {failed_jobs[0].lower()}." if failed_jobs else "."), details
             )
-        raise StepFailed(f"The {what} were expected to fail but passed." if what.endswith("checks")
-                         else f"The {what} was expected to fail but passed.", details)
+        raise StepFailed(f"De {what} {'hadden' if is_ == 'zijn' else 'had'} moeten mislukken, maar {is_} geslaagd.", details)
     summary = (
-        (delivery_words(jobs) or f"The {what} passed.")
+        (delivery_words(jobs) or f"De {what} {is_} geslaagd.")
         if outcome == "success"
-        else f"The {what} failed, as expected" + (f": {failed_jobs[0].lower()}." if failed_jobs else ".")
+        else f"De {what} {is_} mislukt, zoals verwacht" + (f": {failed_jobs[0].lower()}." if failed_jobs else ".")
     )
     data: dict[str, Any] = {"status": status, "failures": found_failures}
-    if found := rehearsed(ctx.settings, api, jobs):
+    found = rehearsed(ctx.settings, api, jobs)
+    first = rehearsed_structure(ctx.settings, api, jobs)
+    if found:
         data["rehearsed"] = found
         if p.report_rehearsed:
-            summary += f" It rehearsed {rehearsed_words(found)}."
+            summary += f" De testrun heeft {rehearsed_words(found)} doorlopen."
+    if first:
+        data["structure"] = first
+        if p.report_rehearsed:
+            summary += " " + structure_words(first, alone=not found)
     if job := next((j for j in jobs if j["name"] == REHEARSAL_JOB and j["status"] in ("success", "failed")), None):
         details += "\n--- the last lines of the rehearsal ---\n" + clients.mask(
             ctx.settings, "\n".join(job_trace(api, job).splitlines()[-40:]))
@@ -591,13 +652,13 @@ def versions_touched(target: str) -> set[str]:
     return {"version:dev"} if target == "dev" else {"version:val"} if target == "main" else set()
 
 
-@action("gitlab.merge", MergeParams, lambda p: "Accepting the proposed change")
+@action("gitlab.merge", MergeParams, lambda p: "Het voorstel goedkeuren")
 def merge(ctx: Ctx, p: MergeParams) -> Result:
     api, _ = connect(ctx)
     found = api.get("/merge_requests", source_branch=p.source, state="opened")
     if not found:
         raise StepFailed(
-            "There is no proposed change waiting to be accepted.", f"no open merge request from {p.source}"
+            "Er is geen voorstel dat op goedkeuring wacht.", f"no open merge request from {p.source}"
         )
     mr = found[0]
 
@@ -605,17 +666,17 @@ def merge(ctx: Ctx, p: MergeParams) -> Result:
         current = api.get(f"/merge_requests/{mr['iid']}")
         pipeline = current.get("head_pipeline")
         if pipeline and not is_current(pipeline, current):
-            ctx.progress("Waiting for the automatic checks of the change to start")
+            ctx.progress("Wachten tot de automatische checks van het voorstel starten")
             return False
         if pipeline:   # the change is only accepted once its automatic checks have finished, and passed
             status = settled(api, pipeline)
             if status in ("failed", "canceled"):
                 raise StepFailed(
-                    "The automatic checks of this change failed, so it cannot be accepted.",
+                    "De automatische checks van dit voorstel zijn mislukt, dus het kan niet goedgekeurd worden.",
                     f"merge request !{mr['iid']}: pipeline {pipeline['id']} is {status}",
                 )
             if status not in ("success", "skipped"):
-                ctx.progress("Waiting for the automatic checks of the change to finish")
+                ctx.progress("Wachten tot de automatische checks van het voorstel klaar zijn")
                 return False
         r = api.req(
             "PUT",
@@ -623,17 +684,17 @@ def merge(ctx: Ctx, p: MergeParams) -> Result:
             ok=(200, 405, 406, 422),
             json={"squash": True, "squash_commit_message": mr["title"], "should_remove_source_branch": False},
         )
-        ctx.progress("Waiting until the change may be accepted")
+        ctx.progress("Wachten tot het voorstel goedgekeurd mag worden")
         return r.status_code == 200
 
     target = mr["target_branch"]
     try:
-        ctx.wait_until(accepted, p.timeout, every=8, waiting="the change could not be accepted")
+        ctx.wait_until(accepted, p.timeout, every=8, waiting="het voorstel kon niet goedgekeurd worden")
     except StepFailed as e:   # the change may have gone through before the wait gave up
         e.touched |= {"git", *versions_touched(target)}
         raise
     return Result(
-        f"The change was accepted into {branch_words(target)}.",
+        f"Het voorstel is goedgekeurd en toegevoegd aan {branch_words(target)}.",
         details=f"merge request !{mr['iid']} merged: {p.source} -> {target}",
         touched={"git", *versions_touched(target)},
     )
@@ -654,42 +715,42 @@ def approval_lines(job: dict[str, Any]) -> list[str]:
     local time, the way people say it: "15 November, 18:06"."""
     lines = []
     if name := (job.get("user") or {}).get("name"):
-        lines.append(f"Approved by {name}")
+        lines.append(f"Goedgekeurd door {name}")
     if when := local_time_words(job.get("started_at")):
-        lines.append(f"Approved on {when}")
+        lines.append(f"Goedgekeurd op {when}")
     return lines
 
 
-@action("gitlab.play_job", PlayJobParams, lambda p: f"Starting: {job_word(p.job).lower()}")
+@action("gitlab.play_job", PlayJobParams, lambda p: f"Starten: {job_word(p.job).lower()}")
 def play_job(ctx: Ctx, p: PlayJobParams) -> Result:
     api, base = connect(ctx)
     job = ctx.wait_until(
-        lambda: find_job(api, base, p.for_, p.job), p.timeout, every=8, waiting=f"{p.job} never appeared"
+        lambda: find_job(api, base, p.for_, p.job), p.timeout, every=8, waiting=f"de job {p.job} is nooit verschenen"
     )
     owed = {"git", *job_versions(p.job)}   # from the moment the button may be pressed, the version has to be undone
 
     def finished() -> dict[str, Any] | None:
         current = api.req("GET", api.p(f"/jobs/{job['id']}")).json()
-        ctx.progress(f"{job_word(p.job)}: {current['status']}")
+        ctx.progress(f"{job_word(p.job)}: {JOB_STATUS.get(current['status'], current['status'])}")
         return current if current["status"] in ("success", "failed", "canceled") else None
 
     try:
         if job["status"] in ("manual", "failed"):  # a job that already ran is not played twice; a failed one is retried
             job = api.req("POST", api.p(f"/jobs/{job['id']}/{'play' if job['status'] == 'manual' else 'retry'}")).json()
-        done = ctx.wait_until(finished, p.timeout, every=8, waiting=f"{p.job} did not finish")
+        done = ctx.wait_until(finished, p.timeout, every=8, waiting=f"de job {p.job} is niet klaar geraakt")
     except Exception as e:  # noqa: BLE001 - a failed, timed-out or cancelled wait still leaves the job running or done
         e.touched = set(getattr(e, "touched", ())) | owed
         raise
     if done["status"] != "success":
         trace = api.req("GET", api.p(f"/jobs/{job['id']}/trace"), ok=(200, 404)).text
         raise StepFailed(
-            f"{job_word(p.job)} did not succeed.",
+            f"{job_word(p.job)} is niet gelukt.",
             clients.mask(ctx.settings, "\n".join(trace.splitlines()[-20:])),
             touched={"git", *job_versions(p.job)},
         )
     who = approval_lines(done)
     return Result(
-        f"{job_word(p.job)}: done.",
+        f"{job_word(p.job)}: klaar.",
         details=f"job {p.job} ({job['id']}) {done['status']}",
         touched={"git", *job_versions(p.job)},
         data={"reasons": who, "approved_by": (done.get("user") or {}).get("name"), "approved_at": done.get("started_at")},

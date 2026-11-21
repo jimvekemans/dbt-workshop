@@ -14,7 +14,8 @@
   max-height: 80vh;
   overflow: auto;
   padding: var(--space-5);
-  border-radius: var(--radius-xl);
+  /* never rounder than the padding (less its border): a button in a corner then sits clear of the curve, so no inner radius has to follow it */
+  border-radius: min(var(--radius-xl), calc(var(--space-5) - 2px));
   background: var(--surface);
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--line);

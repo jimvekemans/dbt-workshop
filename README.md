@@ -7,12 +7,14 @@ image and three environments, and how Airflow, tests and a failure e-mail guard 
 - GitLab with a runner and CI for the dbt project (`workshop/dbt-vdp`)
 - one Airflow 3 and one dbt docs site per environment
 - Mailpit, which catches the failure mails of Airflow
+- a local Vault (dev mode) that can hold the developers' database password, so it need not be in a file (see below)
 - the dbt project, run by the dbt Fusion binary with the SingleStore ADBC driver
 
 The stack ships **without data**: the landing tables are empty until the Workshop Studio starts. The Studio
 (`infrastructure/workshop-studio/`, http://localhost:8085) fills them with a small made-up web shop, keeps new data
-arriving, and presents twenty short scenarios for a non-technical audience: what goes wrong, the idea, the code and
-a live demo on this stack. It cleans up after each demo by itself. See its
+arriving, and presents short scenarios and five longer flows for a non-technical audience: what goes wrong, the idea,
+the code and a live demo on this stack. A closing page sorts what is in place today from the next steps. It cleans up
+after each demo by itself. See its
 [README](infrastructure/workshop-studio/README.md).
 
 ## Prerequisites
@@ -22,7 +24,7 @@ a live demo on this stack. It cleans up after each demo by itself. See its
   Docker.
 - about 16 GB of free memory (SingleStore is capped at 6 GB, GitLab at 4 GB) and 40 GB of disk for images and volumes
 - these host ports free: 80 and 2222 (GitLab), 8025 (Mailpit), 8081, 8082, 8086 (dbt docs), 8083 and 23306
-  (SingleStore), 8085 (Studio), 8088 to 8090 (Airflow), 8099 (overview). Most can be moved with the
+  (SingleStore), 8085 (Studio), 8088 to 8090 (Airflow), 8099 (overview), 8200 (Vault). Most can be moved with the
   `WORKSHOP_*_PORT` variables in `infrastructure/compose/docker-compose.yml`; GitLab's port 80 cannot.
 - one line in `/etc/hosts`, because the browser is sent to GitLab under that name when you sign in to Airflow:
   `127.0.0.1 gitlab.local`
@@ -74,10 +76,13 @@ take seconds); the image (3 GB), the cargo registry and the build output (7 GB t
 | Workshop Studio | http://localhost:8085 | the scenarios and live demos; also feeds the practice data |
 | Workshop overview | http://localhost:8099 | every service with its live state, its users (passwords on demand) and a link to its web app |
 | GitLab | http://gitlab.local (or http://localhost) | repo `workshop/dbt-vdp`, CI pipelines, merge requests |
-| Airflow dev / val / prd | http://localhost:8088 / :8089 / :8090 | `dbt_daily_load`, `dbt_release`, `dbt_reload` (and `dbt_housekeeping` in dev) |
-| dbt docs dev / val / prd | http://localhost:8081 / :8082 / :8086 | lineage per environment |
-| Mailpit | http://localhost:8025 | failure e-mails of Airflow |
+| Airflow dev / val / prd | http://localhost:8088 / :8089 / :8090 | `dbt_daily_load`, `dbt_release`, `dbt_reload`, `dbt_on_demand`, `report_refreshed_notice` (and `dbt_housekeeping` in dev); the last two are created paused |
+| dbt docs dev / val / prd | http://localhost:8081 / :8082 / :8086 | lineage per environment; the front page names the version, the time and the size of the project |
+| Mailpit | http://localhost:8025 | failure e-mails and the notice mail of Airflow |
+| Vault | http://localhost:8200 (`/ui`, token `workshop-root-token`) | local secrets vault, dev mode; inside the stack `http://vault:8200` |
 | SingleStore | `localhost:23306`, Studio UI :8083 | inside the stack: `singlestore:3306` |
+
+**Password without a file.** In the devcontainer, `post_create.sh` asks whether to fetch the database password from the Vault. If yes, `.devcontainer/.env` holds only the host, the user and two Vault ids (`KEYVAULT_ROLE_ID`, `KEYVAULT_SECRET_ID`, workshop values in [infrastructure/vault/README.md](infrastructure/vault/README.md)); the toolbox logs in and fetches the password when a command starts. Without those two ids nothing changes: the password in `.env` is used as before, and the stack works with the Vault stopped. `vdp env show` tells where the password comes from, without printing it.
 
 Host ports stay clear of a personal SingleStore on 3306. Every container is named `workshop-<service>`.
 
@@ -85,12 +90,16 @@ Host ports stay clear of a personal SingleStore on 3306. Every container is name
 
 | Step | What happens |
 | :-- | :-- |
-| feature branch, MR to `dev` | `verify_feature_to_dev` builds only the modified models in `vdp_ci` |
-| merge to `dev` | tag `vX.Y.Z`, image `dbt-vdp:<tag>`, deployed to dev |
+| feature branch, MR to `dev` | two rehearsals in `vdp_ci`: `verify_structure` builds the modified models and their direct dependants empty, then `verify_feature_to_dev` builds the modified models and what depends on them with data and checks |
+| merge to `dev` | tag `vX.Y.Z`, image `dbt-vdp:<tag>`, `publish_artifacts` stores the catalogue and documentation files of the version in GitLab, deployed to dev |
 | `release/YYYY-Qx`, merge to `main` | `verify_release`, tag `YYYY-Qx.N`, deployed to val |
 | manual job | the same tag is deployed to prd |
 
-Airflow runs exactly the image tag in its Variable `dbt_image_tag`; rolling back means setting it to an older tag.
+Every deploy also writes the front page of the documentation site and stores a copy of the version's files for the
+environment (`dbt-artifacts-env`, with `deployed.json`). Airflow runs exactly the image tag in its Variable
+`dbt_image_tag`; rolling back means setting it to an older tag. Two optional Variables let the nightly load start when
+its feeds have reported in (`dbt_dataset_dependencies`) and announce the tables it refreshed (`dbt_emit_asset_events`);
+both are off until set.
 Developers work in the devcontainer (`dbt-singlestore-workshop/.devcontainer/`) with a `pu_dev1`..`pu_dev3` account: their
 builds land in the `dev_*` databases with their user name as prefix.
 

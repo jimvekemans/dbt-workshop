@@ -55,15 +55,15 @@ describe('selectors', () => {
   it('explains why a step cannot run', () => {
     const scenario = SCENARIOS['switchover-date']!
     const entry = flatScenarios(catalog)[0]!
-    expect(stepBlockedReason(null, scenario, entry, 0)).toMatch(/Waiting/)
-    expect(stepBlockedReason(server(), scenario, entry, 0)).toMatch(/Prepare this demo/)
+    expect(stepBlockedReason(null, scenario, entry, 0)).toMatch(/Wachten/)
+    expect(stepBlockedReason(server(), scenario, entry, 0)).toMatch(/Zet eerst de demo klaar/)
     const steps = scenario.demo.steps.map((s) => ({ id: s.id, status: 'todo' as const, actions: [], evidence: [] }))
     const open = server({ demo: { scenario: scenario.id, status: 'ready', steps } })
     expect(stepBlockedReason(open, scenario, entry, 0)).toBeNull()
-    expect(stepBlockedReason(open, scenario, entry, 1)).toMatch(/Finish/)
+    expect(stepBlockedReason(open, scenario, entry, 1)).toMatch(/Rond eerst/)
     const busy = server({ ...open, job: { kind: 'step', scenario: scenario.id, step: 'without', label: 'Running the load', started: 0, cancellable: true } })
-    expect(stepBlockedReason(busy, scenario, entry, 0)).toMatch(/Wait: "Running the load" is still running/)
+    expect(stepBlockedReason(busy, scenario, entry, 0)).toMatch(/Wacht: "Running the load" loopt nog/)
     const replay = server({ ...open, mode: 'replay' })
-    expect(stepBlockedReason(replay, scenario, { ...entry, recorded: false }, 0)).toMatch(/No recording for this step/)
+    expect(stepBlockedReason(replay, scenario, { ...entry, recorded: false }, 0)).toMatch(/Geen opname voor deze stap/)
   })
 })

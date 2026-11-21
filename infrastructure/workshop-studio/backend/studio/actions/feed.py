@@ -6,42 +6,48 @@ from typing import Any, Literal
 from pydantic import model_validator
 
 from ..feeder.conditions import FEEDS, validate_feed
+from ..names import day_words, format_number
 from .clients import ENV_WORDS
 from .base import Params, Result, action, cleaner
 
 FeedName = Literal["customers", "orders", "payments", "reviews", "carrier", "web"]
 
 FEED_WORDS = {
-    "customers": "customer records", "orders": "orders", "payments": "payments", "reviews": "reviews",
-    "carrier": "parcel scans", "web": "website visits",
+    "customers": "klantgegevens", "orders": "bestellingen", "payments": "betalingen", "reviews": "reviews",
+    "carrier": "pakketscans", "web": "websitebezoeken",
 }
 
 
 def _list(words: list[str]) -> str:
-    return words[0] if len(words) == 1 else ", ".join(words[:-1]) + " and " + words[-1]
+    return words[0] if len(words) == 1 else ", ".join(words[:-1]) + " en " + words[-1]
+
+
+def _days(n: int) -> str:
+    return "1 dag" if n == 1 else f"{n} dagen"
 
 
 def _describe(feed: str, key: str, value: Any) -> str:
     what = FEED_WORDS[feed]
     if key == "paused":
-        return f"Delivery of {what} is paused: nothing new arrives." if value else f"Delivery of {what} is running again."
+        return f"De levering van {what} is gepauzeerd: er komt niets nieuws binnen." if value \
+            else f"De levering van {what} loopt weer."
     if key == "late_days":
-        return f"{what.capitalize()} now arrive {value} day{'s' if value != 1 else ''} late." if value \
-            else f"{what.capitalize()} arrive on time again."
+        return f"{what.capitalize()} komen nu {_days(value)} te laat binnen." if value \
+            else f"{what.capitalize()} komen weer op tijd binnen."
     if key == "duplicate_pct":
-        return f"{value:g}% of the {what} are now delivered twice."
+        return f"{format_number(value)}% van de {what} wordt nu twee keer geleverd."
     if key == "dirty_pct":
-        return f"{value:g}% of the orders now carry a malformed customer number."
+        return f"{format_number(value)}% van de bestellingen heeft nu een ongeldig klantnummer."
     if key == "bad_rows":
         if feed == "carrier":
-            return f"Every day {value} parcel scans now arrive without a scan number."
-        return f"Every day {value} orders now arrive without an order number."
+            return f"Elke dag komen er nu {format_number(value)} pakketscans binnen zonder scannummer."
+        return f"Elke dag komen er nu {format_number(value)} bestellingen binnen zonder bestelnummer."
     if key == "format":
-        return f"The carrier now sends parcel scans in the {'new' if value == 'v2' else 'old'} format."
+        return f"De vervoerder stuurt de pakketscans nu in het {'nieuwe' if value == 'v2' else 'oude'} formaat."
     if key == "format_from":
-        return f"The carrier sends parcel scans in the new format from {value}." if value \
-            else "The carrier format no longer switches on a date."
-    return f"A crawler now visits the website {value:,} times a day."
+        return f"De vervoerder stuurt de pakketscans in het nieuwe formaat vanaf {day_words(value)}." if value \
+            else "Het formaat van de vervoerder schakelt niet meer om op een datum."
+    return f"Een crawler bezoekt de website nu {format_number(value)} keer per dag."
 
 
 class ConditionParams(Params):
@@ -61,7 +67,7 @@ class ConditionParams(Params):
         return self
 
 
-@action("feed.condition", ConditionParams, label=lambda p: f"Changing how {FEED_WORDS[p.feed]} are delivered")
+@action("feed.condition", ConditionParams, label=lambda p: f"De levering van {FEED_WORDS[p.feed]} aanpassen")
 def feed_condition(ctx, params: ConditionParams) -> Result:
     env = params.env or ctx.env
     clean = validate_feed(params.feed, params.set)
@@ -82,20 +88,22 @@ class DeliverParams(Params):
         return self
 
 
-@action("feed.deliver", DeliverParams, label=lambda p: f"Sending the last {p.days} day{'s' if p.days != 1 else ''} of data again")
+@action("feed.deliver", DeliverParams, label=lambda p: f"De data van de laatste {_days(p.days)} opnieuw sturen" if p.days != 1
+        else "De data van vandaag opnieuw sturen")
 def feed_deliver(ctx, params: DeliverParams) -> Result:
     env = params.env or ctx.env
     feeds = params.feeds
     what = _list([FEED_WORDS[f] for f in (feeds or FEEDS)])
     if feeds is None:
-        what = "every data feed"
+        what = "alle feeds"
     ctx.check_cancel()
-    ctx.progress(f"Sending the last {params.days} day{'s' if params.days != 1 else ''} of data again in {ENV_WORDS[env]}.")
+    ctx.progress(f"De data van {'vandaag' if params.days == 1 else 'de laatste ' + _days(params.days)} wordt opnieuw "
+                 f"gestuurd naar {ENV_WORDS[env]}.")
     by_table = ctx.feeder.deliver(env, days=params.days, feeds=feeds)
     total = sum(by_table.values())
-    period = "today" if params.days == 1 else f"the last {params.days} days"
-    return Result(summary=f"Sent {period} of {what} again in {ENV_WORDS[env]} with the current settings "
-                          f"({total:,} rows arrived).",
+    period = "vandaag" if params.days == 1 else f"de laatste {_days(params.days)}"
+    return Result(summary=f"{what.capitalize()} van {period} opnieuw verstuurd naar {ENV_WORDS[env]} met de huidige "
+                          f"instellingen ({format_number(total)} rijen binnengekomen).",
                   details=f"feed.deliver {env} days={params.days} feeds={feeds or 'all'} rows={by_table}",
                   touched={f"landing:{env}"}, data={"rows": by_table})
 
@@ -104,11 +112,11 @@ def feed_deliver(ctx, params: DeliverParams) -> Result:
 def clean_feed(ctx, resource: str) -> Result:
     _, env, feed = resource.split(":")
     ctx.feeder.reset_conditions(env, feed)
-    return Result(summary=f"The {FEED_WORDS.get(feed, feed)} feed to {ENV_WORDS[env]} is healthy again.")
+    return Result(summary=f"De feed van {FEED_WORDS.get(feed, feed)} naar {ENV_WORDS[env]} is weer in orde.")
 
 
 @cleaner("landing")
 def clean_landing(ctx, resource: str) -> Result:
     _, env = resource.split(":")
     ctx.feeder.seed(env, progress=ctx.progress)
-    return Result(summary=f"The data in {ENV_WORDS[env]} is back to its starting point.")
+    return Result(summary=f"De data in {ENV_WORDS[env]} staat weer op het beginpunt.")

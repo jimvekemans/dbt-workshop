@@ -10,9 +10,9 @@ const W = 720
 const H = 308
 const M = { l: 56, r: 10, t: 34, b: 54 }
 
-/** A day label like 2026-11-04 reads as "4 Nov" on the axis (the readout and the table keep the whole date). */
+/** A day label like 2026-11-04 reads as "4 nov" on the axis (the readout and the table keep the whole date). */
 function axisLabel(l: string): string {
-  l = l.replace(/\s*\(today\)$/i, '')
+  l = l.replace(/\s*\((today|vandaag)\)$/i, '')
   return /^\d{4}-\d{2}-\d{2}$/.test(l) ? formatDay(l, 'short').replace(/^\w+ /, '') : l
 }
 
@@ -28,7 +28,7 @@ export function BarsView({ data, title, slots, unit }: { data: BarsData; title: 
   const [active, setActive] = useState<number | null>(null)
 
   const model = useMemo(() => barsModel(data), [data])
-  if (model.labels.length === 0 || model.series.length === 0) return <EmptyNote>No numbers yet.</EmptyNote>
+  if (model.labels.length === 0 || model.series.length === 0) return <EmptyNote>Nog geen cijfers.</EmptyNote>
 
   const { labels, today } = model
   const isToday = (i: number) => !!today[i]
@@ -57,14 +57,14 @@ export function BarsView({ data, title, slots, unit }: { data: BarsData; title: 
   const describe = (li: number) => {
     const l = labels[li] ?? ''
     const u = unit ? ` ${unit}` : ''
-    return `${l}${isToday(li) ? ' (the day is not over yet)' : ''}: ${series.map((s) => `${s} ${formatNumber(get(l, s))}${u}`).join(', ')}${series.length > 1 ? ` (total ${formatNumber(totals[li] ?? 0)}${u})` : ''}`
+    return `${l}${isToday(li) ? ' (de dag is nog niet voorbij)' : ''}: ${series.map((s) => `${s} ${formatNumber(get(l, s))}${u}`).join(', ')}${series.length > 1 ? ` (totaal ${formatNumber(totals[li] ?? 0)}${u})` : ''}`
   }
-  const readout = active === null ? 'Point at a bar to read its numbers. Every bar also shows its number.' : describe(active)
+  const readout = active === null ? 'Wijs een balk aan om de cijfers te lezen. Elke balk toont ook zijn getal.' : describe(active)
 
   return (
     <div className={styles.wrap}>
-      {unit && <p className={styles.counting}>Each bar counts {unit}.</p>}
-      <ul className={styles.legend} aria-label="What the colours mean">
+      {unit && <p className={styles.counting}>Elke balk telt {unit}.</p>}
+      <ul className={styles.legend} aria-label="Wat de kleuren betekenen">
         {series.map((s, i) => (
           <li key={s}>
             <svg width="22" height="16" aria-hidden="true">
@@ -73,7 +73,7 @@ export function BarsView({ data, title, slots, unit }: { data: BarsData; title: 
             </svg>
             <span>
               {s}
-              {role(s) !== 'other' && <span className={styles.role}> ({role(s) === 'good' ? 'as it should be' : 'a problem'})</span>}
+              {role(s) !== 'other' && <span className={styles.role}> ({role(s) === 'good' ? 'zoals het hoort' : 'een probleem'})</span>}
             </span>
           </li>
         ))}
@@ -82,11 +82,11 @@ export function BarsView({ data, title, slots, unit }: { data: BarsData; title: 
             <svg width="22" height="16" aria-hidden="true">
               <rect x="1" y="1" width="20" height="14" rx="3" fill="var(--chart-good)" fillOpacity="0.6" stroke="var(--ink-2)" strokeWidth="1.5" strokeDasharray="4 3" />
             </svg>
-            <span>dashed: today, not over yet</span>
+            <span>gestippeld: vandaag, nog niet voorbij</span>
           </li>
         )}
       </ul>
-      <svg className={styles.svg} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${title}. ${labels.length} bars. See the table below the chart for every number.`}>
+      <svg className={styles.svg} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${title}. ${labels.length} balken. Onder de grafiek staat een tabel met elk getal.`}>
         <defs>
           <pattern id={`${uid}-hatch`} width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
             <rect width="7" height="7" fill="var(--chart-bad)" />
@@ -162,7 +162,7 @@ export function BarsView({ data, title, slots, unit }: { data: BarsData; title: 
                 <g aria-hidden="true">
                   <line x1={cx} x2={cx} y1={H - M.b + 4} y2={H - M.b + 9} stroke="var(--ink-2)" strokeWidth="1.5" />
                   <text x={cx} y={H - M.b + 33} textAnchor="middle" className={styles.todayTag}>
-                    today
+                    vandaag
                   </text>
                 </g>
               )}

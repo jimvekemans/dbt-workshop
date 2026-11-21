@@ -1,0 +1,399 @@
+id: the-night-steered-from-airflow
+kind: flow
+group: flows
+title: "Een nachtelijke load die regels volgt, niet enkel de klok"
+promise: Een lijst bepaalt wat gebuild wordt, de load start als zijn feeds binnen zijn en verwittigt de lezers.
+minutes: 18
+tech: ["selector daily_load", "tag:on-demand", "dbt_on_demand", "Airflow Assets", "dbt_dataset_dependencies", "dbt_emit_asset_events", "disabled_dbt_models"]
+environment: dev
+related:
+  - id: skip-one-table
+    why: Daar verlaten de bestanden van de feed het project voor een nacht. Hier blijft de tabel in het project en wordt ze enkel niet gebuild.
+  - id: redo-only-what-failed
+    why: De laatste stap van deze flow bouwt voort op de retry die daar getoond wordt en vraagt wat de lezers daarna te horen krijgen.
+  - id: one-clear-mail
+    why: Dat scenario toont de mail voor een mislukte nacht. Hier krijgen de lezers van een tabel een mail wanneer ze klaar is.
+
+problem:
+  headline: Een nacht op de klok is traag, te vroeg en stil
+  story: |
+    Sam beheert de [[nachtelijke load]]. Elke nacht herbouwt ze elk rapport, ook een zwaar rapport dat één analist één
+    keer per maand opent, dus iedereen wacht erop. Op een ochtend was de [[feed]] met pakketscans laat, maar de nacht
+    startte toch op zijn vaste uur en werkte met de data van gisteren. Toen het rapport van het management eindelijk
+    herbouwd was, kreeg niemand die erop steunt een bericht, dus ze bleven in de chat vragen of het klaar was.
+  cost: Het management kan cijfers lezen die op de data van gisteren steunen zonder het te weten, één zelden gebruikt rapport vertraagt elke nacht en lezers blijven vragen of hun rapport klaar is.
+  visual:
+    type: compare
+    left:
+      title: Een nacht op de klok
+      state: bad
+      items:
+        - Elk rapport wordt gebuild, ook de zware
+        - Start op een vast uur, klaar of niet
+        - Zegt niet wat hij ververst heeft
+        - Lezers moeten in de chat vragen
+    right:
+      title: Een gestuurde nacht
+      state: ok
+      items:
+        - Wat een lijst zegt, wordt gebuild
+        - Zware rapporten enkel op aanvraag
+        - Start als elke feed binnen is
+        - Meldt elke ververste tabel
+        - Lezers krijgen één korte mail
+    caption: Elk punt rechts beantwoordt het punt ertegenover, en de laatste twee stappen tonen wat nog ontbreekt.
+
+idea:
+  headline: De nacht volgt eigen regels, niet enkel een klok
+  points:
+    - Een benoemde lijst bepaalt wat er in de nacht gebuild wordt, en een zwaar rapport dat niet op de lijst staat, wordt enkel gebuild als iemand erom vraagt.
+    - De nacht start als elke feed die hij nodig heeft zich gemeld heeft, en stuurt daarna een [[melding]] voor elke [[tabel]] die hij ververst heeft.
+    - Wie van een tabel afhangt, krijgt één korte [[verwittiging]] per mail, en een nacht die misliep meldt niets wat hij niet afwerkte.
+  visual:
+    type: flow
+    nodes:
+      - {id: feeds, label: De feeds, state: ok, note: "Elke feed meldt zich als zijn data binnen is"}
+      - {id: night, label: De nachtelijke load, state: ok, note: "Start als elke feed binnen is"}
+      - {id: news, label: Eén melding per tabel, state: fix, note: "Enkel voor tabellen die ververst werden en slaagden"}
+      - {id: reader, label: De lezer van een rapport, state: ok, note: "Krijgt één korte mail"}
+    links: [[feeds, night], [night, news], [news, reader]]
+    caption: De melding is de schakel waardoor lezers een verversing vernemen zonder te vragen.
+
+code:
+  - title: De lijst die bepaalt wat er in de nacht gebuild wordt
+    status: today
+    file: selectors.yml
+    file_label: De benoemde lijsten van wat gebuild wordt
+    from: "Standard daily production pipeline."
+    to: "default: true"
+    max_lines: 6
+    notes:
+      - line: "Excludes models tagged"
+        says: Tabellen die als op aanvraag of maandelijks gemarkeerd zijn, blijven buiten de nacht.
+      - line: "default: true"
+        says: Dit is de lijst die de nachtelijke load gebruikt als niemand een andere noemt.
+  - title: Het zware rapport is als op aanvraag gemarkeerd
+    status: today
+    file: models/im_dimensional/on_demand/mart_olist_customer_cohorts.sql
+    file_label: Het zware rapport
+    from: 'tags=["on-demand"]'
+    to: 'tags=["on-demand"]'
+    max_lines: 1
+    notes:
+      - line: 'tags=["on-demand"]'
+        says: De markering waardoor de lijst dit rapport uit de nacht laat.
+  - title: Bij een aanvraag wordt enkel gebuild wat gevraagd werd
+    status: today
+    file: airflow/dags/dbt_on_demand.py
+    file_label: De job voor builds op aanvraag
+    from: "cmd = build_on_demand_command("
+    to: "try_number=ti.try_number,"
+    max_lines: 6
+    notes:
+      - line: "select=_conf"
+        says: De aanvraag noemt wat gebuild moet worden en de zware tabellen zijn de standaard.
+      - line: "exclude=_conf"
+        says: Een aanvraag kan ook noemen wat weggelaten moet worden.
+  - title: De nacht wacht op zijn feeds
+    status: today
+    file: airflow/dags/dbt_daily_load.py
+    file_label: De lijst met stappen van de nachtelijke load
+    from: "uris = read_asset_dependencies(get_variable)"
+    to: "return None if _schedule.lower()"
+    max_lines: 6
+    notes:
+      - line: "read_asset_dependencies"
+        says: Een [[instelling]] somt de feeds op waarop de nacht wacht.
+      - line: "return [make_asset(uri) for uri in uris]"
+        says: Met een lijst start de nacht zodra elke feed uit die lijst zich gemeld heeft.
+      - line: "return None if _schedule.lower()"
+        says: Zonder lijst houdt de nacht zijn vaste uur, zoals voorheen.
+  - title: Elke ververste tabel wordt gemeld
+    status: today
+    file: airflow/dags/dbt_daily_load.py
+    file_label: De lijst met stappen van de nachtelijke load
+    from: "for uri, extra in plan:"
+    to: "outlet_events[AssetAlias(REFRESHED_ALIAS)].add(make_asset(uri), extra=extra)"
+    max_lines: 6
+    notes:
+      - line: "for uri, extra in plan:"
+        says: Eén melding voor elke tabel die de nacht ververste.
+      - line: ".add(make_asset(uri), extra=extra)"
+        says: Elke melding draagt het resultaat, zoals het aantal rijen.
+  - title: Een tabel met een mislukte check wordt niet gemeld
+    status: today
+    file: airflow/utils/dbt_state_utils.py
+    file_label: De hulpfuncties die de ververste tabellen kiezen
+    from: 'if unique_id.split(".")[0] in ("test", "unit_test")'
+    to: "held_back.update("
+    max_lines: 4
+    notes:
+      - line: '("fail", "error")'
+        says: Een [[check]] die mislukte, wordt opgemerkt.
+      - line: "held_back.update("
+        says: De tabellen waartoe die check behoort, worden uit de melding gehouden.
+  - title: De verwittiging start op de melding van het rapport
+    status: today
+    file: airflow/dags/report_refreshed_notice.py
+    file_label: De job die de lezers van een rapport verwittigt
+    from: "schedule=[make_asset(get_outlet_path(REPORT_DATABASE, REPORT_TABLE))],"
+    to: "is_paused_upon_creation=True,"
+    max_lines: 6
+    notes:
+      - line: "schedule=[make_asset"
+        says: Deze job start wanneer het managementrapport gemeld wordt, niet op een uur.
+      - line: "is_paused_upon_creation=True,"
+        says: Hij start uitgeschakeld, dus iemand moet kiezen om de mail te ontvangen.
+  - title: De nacht weet enkel op welke feeds hij moet wachten
+    status: next
+    file: airflow/dags/dbt_daily_load.py
+    file_label: De lijst met stappen van de nachtelijke load
+    from: "schedule=_daily_schedule(),"
+    to: "max_active_runs=1,"
+    max_lines: 3
+    notes:
+      - line: "schedule=_daily_schedule(),"
+        says: Het schema somt op waarop de nacht wacht, maar niet hoelang hij mag wachten.
+      - line: "max_active_runs=1,"
+        says: Niets hier waarschuwt iemand als een feed nooit aankomt.
+
+demo:
+  intro: >-
+    In acht stappen volgen we de nachtelijke load, van de lijst die bepaalt wat er gebuild wordt tot de mail die de lezers
+    krijgen. Zes zijn vandaag al in gebruik. De laatste twee tonen een leemte. Die dichten is een volgende stap, want het
+    platform heeft dat nog niet.
+  setup:
+    - {action: mail.clear}
+    - action: sql.exec
+      statement: "drop table if exists {{ db('im_dimensional') }}.mart_olist_customer_cohorts"
+      undo: "drop table if exists {{ db('im_dimensional') }}.mart_olist_customer_cohorts"
+    - action: airflow.set_variable
+      key: dbt_dataset_dependencies
+      value:
+        - "s2://workshop-{{ env }}/{{ db('landing') }}/raw_olist_orders"
+        - "s2://workshop-{{ env }}/{{ db('landing') }}/raw_carrier_tracking_events"
+    - {action: airflow.set_variable, key: dbt_emit_asset_events, value: true}
+    - {action: airflow.wait_for_dag, dag: dbt_daily_load, schedule: assets, has_tasks: [extract_refreshed_tables, emit_asset_events]}
+  steps:
+    - id: list
+      title: Eerst alles builden, dan met de lijst
+      feature: Enkel wat op een lijst staat, wordt gebuild
+      status: today
+      tech: "selector daily_load"
+      say: Eerst wordt alles gebuild, zoals een nacht zonder lijst zou doen, het zware rapport inbegrepen. Daarna loopt de nachtelijke load met zijn lijst.
+      button: Op beide manieren builden
+      inputs: []
+      do:
+        - {id: everything, action: dbt.run, command: "build --select path:models", explain: true}
+        - action: sql.exec
+          statement: "drop table if exists {{ db('im_dimensional') }}.mart_olist_customer_cohorts"
+          undo: "drop table if exists {{ db('im_dimensional') }}.mart_olist_customer_cohorts"
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
+      show:
+        - {type: result, from_action: everything, title: "Gebuild zonder lijst", caption: "Kijk naar de regel: alles werd gebuild, het zware rapport inbegrepen."}
+        - {type: run_history, limit: 1, title: "De nacht met zijn lijst", caption: "Vergelijk met de eerste kaart: de nacht heeft één tabel minder gebuild en minder checks gerund, want het zware rapport bleef buiten."}
+        - type: number
+          title: "Rijen in het zware rapport"
+          caption: "De nacht heeft het niet gebuild, dus er zijn geen rijen."
+          query: "select count(*) from {{ db('im_dimensional') }}.mart_olist_customer_cohorts"
+          unit: rijen
+      outcome:
+        check: "select count(*) from information_schema.tables where table_schema = '{{ db('im_dimensional') }}' and table_name = 'mart_olist_customer_cohorts'"
+        good_when: zero
+        good: De nacht eindigde groen zonder het zware rapport, en enkel zijn lijst bepaalde dat, dus het werk van dat rapport hoort niet meer bij elke nacht.
+        not_quite: De nacht heeft het zware rapport toch gebuild, dus de lijst liet het niet weg.
+    - id: leave_out
+      title: Een kapotte tabel stopt de nacht
+      feature: Een kapotte tabel kan een nacht weggelaten worden
+      status: today
+      tech: "Variable disabled_dbt_models -> --exclude"
+      say: Sommige pakketscans komen binnen zonder scannummer, dus een check stopt de nacht. Een [[operator]] laat de pakketscans, en wat erop steunt, dan weg uit de load van vannacht met één [[instelling]].
+      button: De nacht runnen, dan de tabel weglaten
+      inputs: []
+      do:
+        - {action: feed.condition, feed: carrier, set: {bad_rows: 3}}
+        - {action: feed.deliver, days: 1}
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: failed}
+        - {action: airflow.set_variable, key: disabled_dbt_models, value: ["source:raw_carrier+"]}
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
+        - {action: airflow.delete_variable, key: disabled_dbt_models}
+        - {action: feed.condition, feed: carrier, set: {bad_rows: 0}}
+        - action: sql.exec
+          as: root
+          statement: "delete from {{ db('landing') }}.raw_carrier_tracking_events where event_id is null"
+          expect: ok
+          undo: "select 1"
+      show:
+        - {type: run_history, limit: 2, title: "De twee nachten", caption: "Kijk naar de twee regels. De eerste nacht stopte op een mislukte check. De tweede nacht liet met de instelling de pakketscans en alles wat ervan afhangt bewust weg en liet geen mislukte check lopen."}
+        - {type: tasks, dag: dbt_daily_load, title: "De tweede nacht", caption: "Geen enkele stap mislukte: de nacht heeft alles gebuild wat niet van de kapotte pakketscans afhing."}
+        - type: number
+          title: "Rijen in de leveringstabel"
+          caption: "De weggelaten tabel werd vannacht niet herbouwd, dus ze houdt wat de laatste goede nacht gebuild had."
+          query: "select count(*) from {{ db('im_dimensional') }}.fct_olist_deliveries"
+          unit: rijen
+      outcome:
+        check: "select count(*) from {{ db('im_dimensional') }}.fct_olist_deliveries"
+        good_when: positive
+        good: Eén instelling bracht de nacht erdoor zonder codewijziging of release. De leveringstabel, die van de kapotte scans afhangt, bleef in het project en bevat nog {{ value }} rijen van de laatste goede nacht.
+        not_quite: De nacht kwam erdoor, maar de leveringstabel is leeg.
+    - id: request
+      title: Het zware rapport aanvragen
+      feature: Zware rapporten enkel op aanvraag gebuild
+      status: today
+      tech: "tag:on-demand + DAG dbt_on_demand"
+      say: Iemand vraagt het zware rapport met de hand aan. Enkel dat rapport wordt gebuild, niets anders.
+      button: Het zware rapport aanvragen
+      inputs: []
+      do:
+        - {action: airflow.run_dag, dag: dbt_on_demand, expect: success}
+      show:
+        - {type: tasks, dag: dbt_on_demand, title: "De aanvraag", caption: "De aanvraag liep en haar buildstap is klaar."}
+        - type: number
+          title: "Tabellen gebuild door de aanvraag"
+          caption: "Enkel de gevraagde tabel werd gebuild."
+          query: "select count(*) from {{ db('vdp_mgmt') }}.dbt_run_results where resource_type = 'model' and invocation_id = (select invocation_id from {{ db('vdp_mgmt') }}.dbt_run_results order by run_started_at desc limit 1)"
+          unit: tabellen
+        - type: number
+          before_of: list
+          title: "Rijen in het zware rapport"
+          caption: "Vergelijk met de rijen vóór de aanvraag: het rapport had er geen na de nacht."
+          query: "select count(*) from {{ db('im_dimensional') }}.mart_olist_customer_cohorts"
+          unit: rijen
+        - type: table
+          title: "De eerste rijen van het zware rapport"
+          caption: "Het rapport bestaat nu en heeft rijen."
+          query: "select cohort_maand, maanden_sinds_eerste_order, cohort_klanten, aantal_klanten from {{ db('im_dimensional') }}.mart_olist_customer_cohorts order by cohort_maand desc, maanden_sinds_eerste_order limit 5"
+          columns:
+            - {key: cohort_maand, label: "Maand van de eerste bestelling"}
+            - {key: maanden_sinds_eerste_order, label: "Maanden later"}
+            - {key: cohort_klanten, label: "Klanten in de groep"}
+            - {key: aantal_klanten, label: "Klanten die in die maand bestelden"}
+          empty: Het rapport is nog leeg.
+      outcome:
+        check: "select count(*) from {{ db('im_dimensional') }}.mart_olist_customer_cohorts"
+        good_when: positive
+        good: "Het zware rapport werd gebuild omdat iemand erom vroeg en bevat {{ value }} rijen: de analist die het nodig heeft, krijgt het nog."
+        not_quite: De aanvraag liep, maar het zware rapport is leeg.
+    - id: landed
+      title: De feeds laten melden
+      feature: De nacht start als al zijn data binnen is
+      status: today
+      tech: "Asset schedule (dbt_dataset_dependencies)"
+      say: De nacht wacht op twee feeds. De bestellingenfeed meldt zich twee keer, wat niet volstaat, en daarna meldt de pakketscanfeed zich.
+      button: De feeds laten melden
+      inputs: []
+      do:
+        - {action: airflow.unpause_dag, dag: dbt_daily_load}
+        - {id: feeds, action: airflow.report_feeds, feeds: [orders, orders, carrier]}
+        - {id: started, action: airflow.wait_for_run, dag: dbt_daily_load, after: feeds, expect: success}
+      show:
+        - {type: result, from_action: feeds, title: "De feeds melden zich", caption: "Lees de regels één voor één: de nacht bleef wachten tot de laatste feed binnen was."}
+        - {type: result, from_action: started, title: "Wat de nacht deed starten", caption: 'Kijk naar de derde regel: "Geen persoon en geen klok heeft dit in gang gezet."'}
+        - {type: tasks, dag: dbt_daily_load, title: "De nachtelijke load", caption: "De nacht liep van begin tot einde zonder dat iemand op een knop drukte."}
+      outcome: De nacht startte vanzelf toen de laatste feed zich meldde, en dat de eerste feed zich twee keer meldde, volstond niet. Een nacht op de klok was gestart met de data van gisteren.
+    - id: told
+      title: De lezer van een rapport wordt verwittigd
+      feature: Lezers krijgen een mail als hun rapport klaar is
+      status: today
+      tech: "Asset events + DAG report_refreshed_notice"
+      say: De nacht meldt elke ververste tabel aan de andere jobs. De lezer van het managementrapport zet de [[verwittiging]] aan, zodat er een mail vertrekt wanneer die tabel gemeld wordt.
+      button: Verwittiging aanzetten, nacht runnen
+      inputs: []
+      do:
+        - {action: mail.clear}
+        - {id: switch_on, action: airflow.unpause_dag, dag: report_refreshed_notice}
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: success}
+        - {id: notice, action: airflow.wait_for_run, dag: report_refreshed_notice, after: switch_on, expect: success}
+        - {id: news, action: airflow.announcements, tables: [mart_olist_management_kpi]}
+      show:
+        - {type: result, from_action: news, title: "Wat de nacht meldde", caption: 'Kijk naar de derde regel: "Managementrapport: wel gemeld."'}
+        - {type: result, from_action: notice, title: "Wat de verwittiging deed starten", caption: "De verwittiging startte vanzelf toen het rapport gemeld werd."}
+        - {type: mail, match: "Het managementrapport is ververst", title: "De mail van de lezer", caption: 'De stack schrijft deze mail zelf, in gesproken Vlaams: het onderwerp is "[development] Het managementrapport is ververst". Kijk naar de regel "Rijen in het rapport": dat is het getal op de volgende kaart.'}
+        - type: number
+          title: "Rijen in het managementrapport"
+          caption: "De mail noemt dit getal."
+          query: "select count(*) from {{ db('im_dimensional') }}.mart_olist_management_kpi"
+          unit: rijen
+      outcome:
+        check: "select count(*) from {{ db('im_dimensional') }}.mart_olist_management_kpi"
+        good_when: positive
+        good: Het managementrapport werd ververst en zijn lezer kreeg één mail die de {{ value }} rijen vermeldt.
+        not_quite: De verwittiging werd verstuurd, maar het managementrapport is leeg.
+    - id: failed
+      title: Een nacht die mislukt
+      feature: Een mislukte nacht meldt geen rapport als klaar
+      status: today
+      tech: "events only for status success"
+      say: Sommige bestellingen komen binnen zonder bestelnummer, dus een check stopt de nacht. De lezer van het rapport mag niet horen dat het klaar is.
+      button: Nacht runnen met slechte bestellingen
+      inputs: []
+      do:
+        - {action: mail.clear}
+        - {action: feed.condition, feed: orders, set: {bad_rows: 3}}
+        - {action: feed.deliver, days: 1}
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: failed}
+        - {id: news, action: airflow.announcements, tables: [mart_olist_management_kpi]}
+        - {action: feed.condition, feed: orders, set: {bad_rows: 0}}
+        - action: sql.exec
+          as: root
+          statement: "delete from {{ db('landing') }}.raw_olist_orders where order_id is null or order_id = ''"
+          expect: ok
+          undo: "select 1"
+      show:
+        - {type: tasks, dag: dbt_daily_load, title: "De nachtelijke load", caption: 'De nacht mislukte bij de stap "Alle rapporten builden".'}
+        - {type: result, from_action: news, title: "Wat de nacht meldde", caption: 'Kijk naar de derde regel: "Managementrapport: niet gemeld."'}
+        - {type: mail, match: "Het managementrapport is ververst", title: "De mail van de lezer", caption: "De lezer van het rapport kreeg geen mail."}
+        - {type: mail, match: "Nachtelijke load mislukt", title: "De mail van het team", caption: 'Het team dat de nacht beheert, kreeg een eigen mail over de fout, met als onderwerp "[development] Nachtelijke load mislukt" en daarna wat mislukte. Kijk enkel naar de titel en de eerste regels: één check mislukte en de stappen erna liepen niet.'}
+      outcome: De mislukte nacht meldde enkel de tabellen die hij afwerkte en checkte, dus de lezer van het managementrapport hoorde niets, en het team kreeg de foutmail.
+    - id: silence
+      title: Een feed die nooit aankomt
+      feature: Een waarschuwing als verwachte data niet aankomt
+      status: next
+      why: "Een feed die nooit aankomt, maakt het rapport van het management te laat, en niemand merkt het tot iemand ernaar vraagt."
+      tech: "no deadline on a missing Asset"
+      say: Enkel de bestellingenfeed meldt zich; de pakketscanfeed doet dat nooit. Kijk wat de nacht doet en wie het te horen krijgt.
+      button: Enkel de bestellingenfeed laten melden
+      inputs: []
+      do:
+        - {action: airflow.unpause_dag, dag: dbt_daily_load}
+        - {id: feeds, action: airflow.report_feeds, feeds: [orders]}
+        - {action: wait, seconds: 5, because: "De nachtelijke load de tijd geven om te reageren"}
+      show:
+        - {type: result, from_action: feeds, title: "De feeds melden zich", caption: "Kijk naar de tweede regel: de nachtelijke load wacht nog op de Pakketscanfeed."}
+        - {type: mail, match: "feed has not arrived", title: "Een waarschuwing voor het team", caption: "Niets in de nacht stelt een tijdslimiet voor de ontbrekende feed en er kwam geen waarschuwingsmail binnen: niemand hoort dat de nacht nog wacht."}
+      outcome: De nacht bleef wachten en niemand werd verwittigd. Komt de pakketscanfeed nooit aan, dan is het rapport van het management gewoon te laat en merkt niemand het tot iemand ernaar vraagt. Een deadline die het team een waarschuwingsmail stuurt, is de volgende stap.
+    - id: retry
+      title: Het mislukte deel loopt opnieuw
+      feature: Lezers verwittigd na een retry
+      status: next
+      why: "Na een retry van een mislukte nacht wordt het rapport herbouwd, maar de lezer wordt nooit verwittigd en blijft wachten."
+      tech: "no Asset events after dbt retry"
+      say: De nacht mislukt, de slechte bestellingen worden verwijderd en enkel het mislukte deel loopt opnieuw. Kijk of de lezer iets over het rapport hoort.
+      button: Mislukken, herstellen en retry
+      inputs: []
+      do:
+        - {action: mail.clear}
+        - {action: airflow.unpause_dag, dag: report_refreshed_notice}
+        - {action: feed.condition, feed: orders, set: {bad_rows: 3}}
+        - {action: feed.deliver, days: 1}
+        - {action: airflow.run_dag, dag: dbt_daily_load, expect: failed}
+        - {action: feed.condition, feed: orders, set: {bad_rows: 0}}
+        - action: sql.exec
+          as: root
+          statement: "delete from {{ db('landing') }}.raw_olist_orders where order_id is null or order_id = ''"
+          expect: ok
+          undo: "select 1"
+        - {action: airflow.retry_failed, dag: dbt_daily_load, expect: success}
+        - {id: news, action: airflow.announcements, tables: [mart_olist_management_kpi]}
+      show:
+        - {type: tasks, dag: dbt_daily_load, title: "De nachtelijke load na de retry", caption: 'Kijk naar de twee stappen die de tabellen opsommen en melden: ze staan op "Klaar bij de eerste poging", dus de retry voerde ze niet opnieuw uit.'}
+        - {type: run_history, limit: 2, title: "Wat er liep", caption: "De bovenste regel is de retry: ze heeft enkel de tabellen gebuild die nog niet gerund hadden."}
+        - type: table
+          title: "Tabellen gebuild door de retry"
+          caption: "Zoek de Managementrapporttabel: de retry heeft ze gebuild."
+          query: "select name from {{ db('vdp_mgmt') }}.dbt_run_results where resource_type = 'model' and invocation_id = (select invocation_id from {{ db('vdp_mgmt') }}.dbt_run_results order by run_started_at desc limit 1) order by name"
+          columns: [{key: name, label: Tabel}]
+          empty: Er werd geen tabel gebuild.
+        - {type: result, from_action: news, title: "Wat de nacht meldde", caption: 'Kijk naar de derde regel: het managementrapport is nog altijd niet gemeld ("Managementrapport: niet gemeld.").'}
+        - {type: mail, match: "Het managementrapport is ververst", title: "De mail van de lezer", caption: "De lezer kreeg geen mail, hoewel het rapport klaar is."}
+      outcome: Het mislukte deel liep opnieuw en herbouwde het managementrapport, maar de lezer werd nooit verwittigd en blijft wachten op een mail die niet komt. De lezers verwittigen na een retry van het mislukte deel is de volgende stap.

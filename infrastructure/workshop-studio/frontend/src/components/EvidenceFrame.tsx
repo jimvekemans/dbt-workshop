@@ -17,7 +17,7 @@ interface Props {
   size?: 'sm' | 'md' | 'lg'
   /** Replay: when the recording was made. */
   recordedAt?: string | null
-  /** What the empty frame says: "Appears after you press the button above." or "Appears after step 2." */
+  /** What the empty frame says: "Verschijnt nadat je op de knop hierboven drukt." or "Verschijnt na stap 2." */
   waitingText?: string
   /** A mail's caption is a reading guide: one line per hint, above the mail. */
   guide?: boolean
@@ -36,15 +36,15 @@ export function EvidenceFrame({ title, caption, phase, updating, error, size = '
     <section className={cx(styles.frame, styles[size], phase === 'pending' && styles.pending)} aria-busy={phase === 'loading' || updating || undefined} data-updating={updating ? '' : undefined}>
       <header className={styles.head}>
         <h4 className={styles.title}><RichText text={title} /></h4>
-        {recordedAt && <span className={styles.chip}>Recorded {formatWhen(recordedAt)}</span>}
+        {recordedAt && <span className={styles.chip}>Opgenomen {formatWhen(recordedAt)}</span>}
         {updating && (
           <span className={styles.live}>
-            <StatusMark state="running" size="1em" /> Updating…
+            <StatusMark state="running" size="1em" /> Wordt bijgewerkt…
           </span>
         )}
       </header>
       {shown && lines.length > 1 ? (
-        <ol className={styles.guide} aria-label="How to read this">
+        <ol className={styles.guide} aria-label="Zo lees je dit">
           {lines.map((l, i) => (
             <li key={i}>
               <RichText text={l} />
@@ -59,11 +59,11 @@ export function EvidenceFrame({ title, caption, phase, updating, error, size = '
         )
       )}
       <div className={styles.body}>
-        {phase === 'pending' && <p className={styles.note}>{waitingText ?? 'Appears after you press the button above.'}</p>}
-        {phase === 'loading' && <SkeletonLines lines={4} label="Reading the latest information" />}
+        {phase === 'pending' && <p className={styles.note}>{waitingText ?? 'Verschijnt nadat je op de knop hierboven drukt.'}</p>}
+        {phase === 'loading' && <SkeletonLines lines={4} label="De laatste gegevens worden gelezen" />}
         {phase === 'error' && (
           <p className={styles.error} role="alert">
-            <StatusMark state="bad" /> <span>{error || 'We could not read this just now.'}</span>
+            <StatusMark state="bad" /> <span>{error || 'We konden dit nu niet lezen.'}</span>
           </p>
         )}
         {phase === 'ready' && children}

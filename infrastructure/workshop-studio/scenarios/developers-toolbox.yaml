@@ -1,0 +1,396 @@
+id: developers-toolbox
+kind: flow
+group: flows
+title: "De toolbox van de developer: een vangnet per vergissing"
+promise: Elke developer werkt in één toolbox die veelgemaakte vergissingen stopt op het moment dat ze gebeuren.
+minutes: 14
+tech: ["dbt wrapper (vdp)", "select guard", "profiles.yml env_var", "Vault AppRole", "vdp sources", ".vscode/tasks.json", "dbt-bouncer"]
+environment: dev
+related:
+  - id: same-toolbox
+    why: Dat scenario toont dat elke developer dezelfde tools krijgt. Dit scenario toont de vangnetten die erbij horen.
+  - id: house-rules
+    why: Dat scenario toont de robot die verboden gewoontes weigert. Eén stap hier test of zo'n regel echt werkt.
+
+problem:
+  headline: Kleine, bekende vergissingen kosten het team tijd en vertrouwen
+  story: |
+    Sam heeft haast. Hij vraagt om een build, vergeet te zeggen welke [[tabel]], en alles wordt opnieuw gebuild terwijl hij
+    wacht. Later bewaart hij zijn wachtwoord in een instellingenbestand, en dat bestand zwerft rond op zijn laptop. Er komt
+    een nieuwe [[feed]] binnen en hij beschrijft ze met de hand; één kolomnaam bevat een typefout, waardoor midden in de
+    ochtend een [[check]] mislukt. Elke vergissing is klein, bekend en duur, en niets in zijn manier van werken houdt ze tegen.
+  cost: "Elke vergissing kost iemand tijd of vertrouwen: een lange wachttijd, een wachtwoord dat iedereen kan lezen, of een mislukte check op het slechtste moment."
+  visual:
+    type: flow
+    nodes:
+      - {id: dev, label: Developer met haast, state: warn, note: "Typt het commando uit het hoofd"}
+      - {id: slip, label: Een kleine vergissing, state: warn, note: "Niets houdt ze tegen"}
+      - {id: harm, label: "Wachttijd, lek of mislukking", state: bad, note: "Later gevonden, door iemand anders"}
+      - {id: team, label: Het team, state: bad, note: "Verliest tijd of vertrouwen"}
+    links: [[dev, slip], [slip, harm], [harm, team]]
+    caption: Elke vergissing is snel gemaakt, en de schade zie je pas ver van de plek waar ze ontstond.
+
+idea:
+  headline: Elke veelgemaakte vergissing heeft haar eigen vangnet in de toolbox
+  points:
+    - De toolbox is één verpakte set tools, zodat elke developer dezelfde vangnetten krijgt zonder iets te installeren.
+    - Elk vangnet stopt één bepaalde vergissing op het moment dat ze gebeurt, en zegt in gewone woorden wat er misging.
+    - De vangnetten staan los van elkaar, zodat een team ze één voor één kan invoeren en het voordeel van elk afzonderlijk ziet.
+  visual:
+    type: flow
+    nodes:
+      - {id: dev, label: Developer, state: ok, note: "Werkt zoals altijd"}
+      - {id: toolbox, label: Toolbox met vangnetten, state: fix, note: "Elk let op één vergissing"}
+      - {id: stop, label: De vergissing wordt gestopt, state: ok, note: "Met een duidelijke boodschap"}
+      - {id: work, label: Het werk gaat veilig voort, state: ok, note: "Het team verliest geen tijd"}
+    links: [[dev, toolbox], [toolbox, stop], [stop, work]]
+    caption: Het vangnet staat waar de vergissing gebeurt, niet in een nazicht achteraf.
+
+code:
+  - title: De toolbox zet een guard voor de echte engine
+    status: today
+    file: dev-image/Dockerfile
+    file_label: Het recept van de toolbox van de developer
+    from: "mv /usr/local/bin/dbt /usr/local/libexec/dbt/dbt;"
+    to: "ln -s vdp /usr/local/bin/dbt; fi; \\"
+    max_lines: 12
+    notes:
+      - line: "mv /usr/local/bin/dbt"
+        says: De echte engine wordt aan de kant gezet.
+      - line: "ln -s vdp /usr/local/bin/dbt"
+        says: De naam die iedereen typt, leidt nu naar de guard, die het commando eerst nakijkt.
+  - title: Het verbindingsbestand noemt geen enkele developer
+    status: today
+    file: profiles.yml
+    file_label: Het verbindingsbestand voor alle developers en robots
+    from: "default:"
+    to: "user:"
+    max_lines: 6
+    notes:
+      - line: "host:"
+        says: Naar welke server er verbonden wordt, komt uit de instellingen van wie het commando runt.
+      - line: "user:"
+        says: Wie er verbindt, komt ook uit die instellingen, dus één bestand dient elke developer en [[robot]].
+  - title: Het wachtwoord komt uit een afgesloten kast, niet uit een bestand
+    status: today
+    file: vdp.toml
+    file_label: De toolbox-instellingen van het project
+    from: 'vault_mount = "kv-workshop"'
+    to: "precedence ="
+    max_lines: 6
+    notes:
+      - line: "vault_mount"
+        says: Dit is de plek in de [[vault]] waar de wachtwoorden bewaard worden.
+      - line: "precedence ="
+        says: De toolbox vraagt het eerst aan de vault, en kijkt pas daarna in bestanden.
+  - title: Waar de beschrijving van een nieuwe feed geschreven wordt
+    status: today
+    file: vdp.toml
+    file_label: De toolbox-instellingen van het project
+    from: "[sources]"
+    to: 'databases = ["dev_landing"'
+    max_lines: 6
+    notes:
+      - line: "[sources]"
+        says: Deze sectie vertelt de toolbox welke delen van de [[database]] feeds bevatten.
+      - line: "databases ="
+        says: Het commando leest daar de echte tabellen en schrijft de beschrijving daaruit.
+  - title: De editorknop die feedbeschrijvingen bijwerkt
+    status: today
+    file: .vscode/tasks.json
+    file_label: De knoppen van de editor
+    from: '"label": "vdp: update source files",'
+    to: '"command": "vdp sources rewrite",'
+    max_lines: 6
+    notes:
+      - line: '"label": "vdp: update source files"'
+        says: Dit is de naam van de knop waarop een developer in de editor klikt.
+      - line: '"command": "vdp sources rewrite"'
+        says: De knop runt één commando, hetzelfde dat een developer ook zelf kan typen.
+  - title: De editorknop die enkel buildt wat veranderd is
+    status: today
+    file: .vscode/tasks.json
+    file_label: De knoppen van de editor
+    from: '"label": "Build modified",'
+    to: '"command": "DBT_DEPLOY_TARGET=dev dbt build'
+    max_lines: 6
+    notes:
+      - line: '"label": "Build modified"'
+        says: Een tweede knop, met een naam die zegt wat hij doet.
+      - line: "state:modified"
+        says: Hij buildt enkel de tabellen die afwijken van de gedeelde kopie, en leent de rest.
+  - title: De regel van het team tegen één verboden datumfunctie
+    status: next
+    file: dbt-bouncer.yml
+    file_label: De regels van het team, één keer opgeschreven
+    from: "name: check_model_hard_coded_references"
+    to: 'description: "Model uses str_to_date'
+    max_lines: 12
+    notes:
+      - line: '\bstr_to_date'
+        says: De regel is een tekstpatroon dat de verboden functie en haar openingshaakje vindt.
+      - line: 'description: "Model uses str_to_date'
+        says: De boodschap vertelt de developer welke regel overtreden werd.
+
+demo:
+  intro: >-
+    Zeven vangnetten van de toolbox komen na elkaar aan bod, elk tegen de vergissing die het moet stoppen. Zes zijn
+    vandaag al in gebruik. Het laatste, een test van de regels zelf, is een volgende stap: het liep hier al, maar het platform heeft het nog niet.
+  setup: []
+  steps:
+    - id: guard
+      title: Per vergissing alles laten builden
+      feature: Een guard die een build zonder keuze weigert
+      status: today
+      tech: "dbt wrapper: select enforcement"
+      say: Developer één vraagt om een build en vergeet een tabel te kiezen. Hetzelfde commando loopt eerst zonder guard, en dan via de toolbox.
+      button: Run het commando op beide manieren
+      inputs: []
+      do:
+        - id: unguarded
+          action: toolbox.run
+          as: "developer:pu_dev1"
+          commands:
+            - run: /usr/local/libexec/dbt/dbt build --target default
+              say: Zonder guard werden {tables} gebuild in {time}.
+        - id: guarded
+          action: toolbox.run
+          as: "developer:pu_dev1"
+          commands:
+            - run: dbt build
+              expect: refused
+              say: Met de guard werd het commando meteen geweigerd en werd niets gebuild.
+      show:
+        - {type: result, from_action: unguarded, title: "Zonder de guard", caption: "Kijk naar de eerste regel: alles werd gebuild, hoewel niemand een tabel koos."}
+        - type: number
+          title: "Tabellen in de eigen kopieën van developer één"
+          caption: "Die bleven achter door het eerste commando. Het tweede commando voegde er geen toe."
+          query: "select count(*) from information_schema.tables where table_name like 'pu\\_dev1\\_%'"
+          unit: tabellen
+        - {type: result, from_action: guarded, title: "Met de guard", caption: "Kijk naar de eerste regel: het commando werd geweigerd en er werd niets gebuild."}
+      outcome: Hetzelfde vergeetachtige commando buildde zonder de guard een hele reeks tabellen opnieuw, en de developer moest op allemaal wachten. Met de guard werd het meteen geweigerd en werd niets gebuild.
+    - id: settings
+      title: Twee developers, één verbindingsbestand
+      feature: Eén gedeeld verbindingsbestand voor elke developer
+      status: today
+      tech: "profiles.yml env_var()"
+      say: Developer één en developer twee runnen dezelfde twee commando's in hetzelfde project. Het verbindingsbestand noemt geen developer en bevat geen wachtwoord. Zo lekt de login van een collega niet, en hoeft niemand een persoonlijke kopie bij te houden.
+      button: Run de commando's als beide developers
+      inputs: []
+      do:
+        - id: first
+          action: toolbox.run
+          as: "developer:pu_dev1"
+          commands: &who
+            - run: grep -c -E 'pu_dev|Workshop[P]wd' profiles.yml || true
+              say: "Regels in het verbindingsbestand die een developer noemen of het wachtwoord van een developer bevatten: {last}."
+            - run: |
+                printf 'select current_user() as account;\n' > /tmp/who.sql
+                vdp sql run /tmp/who.sql
+              must_contain: ["{account}"]
+              say: De database zag {user} verbinden.
+        - id: second
+          action: toolbox.run
+          as: "developer:pu_dev2"
+          commands: *who
+      show:
+        - {type: result, from_action: first, title: "Developer één", caption: "Kijk naar de tweede regel: de database zag developer één."}
+        - {type: result, from_action: second, title: "Developer twee", caption: "Kijk naar de tweede regel: hetzelfde bestand, en de database zag developer twee."}
+      outcome: Eén gedeeld bestand volstond voor beide developers, zonder persoonlijke kopie met een wachtwoord, en de database wist toch wie van hen verbonden was.
+    - id: vault
+      title: Hou het wachtwoord uit elk bestand
+      feature: Wachtwoorden in een vault, niet in bestanden
+      status: today
+      tech: "Vault AppRole (KEYVAULT_ROLE_ID, KEYVAULT_SECRET_ID)"
+      say: Developer één verbindt twee keer. Eerst met het wachtwoord in een instellingenbestand, dat leesbaar is voor iedereen die het bestand krijgt, daarna met enkel een verwijzing naar de [[vault]].
+      button: Verbind op beide manieren
+      inputs: []
+      do:
+        - id: infile
+          action: toolbox.run
+          as: "developer:pu_dev1"
+          auth: file
+          commands:
+            - run: grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true
+              say: "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: {last}."
+            - run: vdp env show 2>&1 | grep SINGLESTORE_PASS
+              must_contain: [".devcontainer/.env"]
+              say: De toolbox las het wachtwoord uit dat bestand.
+            - run: |
+                printf 'select current_user() as account;\n' > /tmp/who.sql
+                vdp sql run /tmp/who.sql
+              must_contain: ["{account}"]
+              say: De database aanvaardde de login.
+        - id: invault
+          action: toolbox.run
+          as: "developer:pu_dev1"
+          auth: vault
+          commands:
+            - run: grep -c '^SINGLESTORE_PASS=.' .devcontainer/.env || true
+              say: "Regels in het instellingenbestand die het wachtwoord in leesbare tekst bevatten: {last}."
+            - run: vdp env show 2>&1 | grep SINGLESTORE_PASS
+              must_contain: ["from vault"]
+              say: De toolbox haalde het wachtwoord uit de vault op toen het commando startte.
+            - run: |
+                printf 'select current_user() as account;\n' > /tmp/who.sql
+                vdp sql run /tmp/who.sql
+              must_contain: ["{account}"]
+              say: De database aanvaardde de login.
+      show:
+        - {type: result, from_action: infile, title: "Wachtwoord in een instellingenbestand", caption: "Kijk naar de eerste regel: het wachtwoord staat in leesbare tekst, in een bestand op de laptop."}
+        - {type: result, from_action: invault, title: "Wachtwoord in de vault", caption: "Kijk naar de eerste regel: het bestand bevat geen wachtwoord. De tweede regel zegt waar het vandaan kwam."}
+      outcome: Beide manieren verbonden, maar slechts één liet een leesbaar wachtwoord achter op de laptop.
+    - id: feed
+      title: Een nieuwe feed registreren met één commando
+      feature: Nieuwe feeds automatisch beschreven
+      status: today
+      tech: "vdp sources add"
+      say: Er komt een nieuwe feed binnen, maar haar kolommen staan nergens in het project, dus er kan geen enkele check op draaien. Een developer schrijft die lijst eerst met de hand, en laat ze daarna door de toolbox schrijven.
+      button: Beschrijf de feed op beide manieren
+      inputs: []
+      do:
+        - action: sql.exec
+          statement: "drop table if exists {{ db('landing') }}.raw_olist_returns"
+          undo: "drop table if exists {{ db('landing') }}.raw_olist_returns"
+        - action: sql.exec
+          statement: "create table {{ db('landing') }}.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+          undo: "drop table if exists {{ db('landing') }}.raw_olist_returns"
+        - id: byhand
+          action: toolbox.run
+          as: "developer:pu_dev1"
+          commands:
+            - run: |
+                mkdir -p models/sources
+                cat > models/sources/sources_returns.yml <<'Y'
+                version: 2
+                sources:
+                  - name: returns
+                    database: dev_landing
+                    schema: dev_landing
+                    tables:
+                      - name: raw_olist_returns
+                        columns:
+                          - name: return_id
+                          - name: order_id
+                            data_tests: [not_null]
+                          - name: retrun_id
+                            data_tests: [not_null]
+                Y
+                dbt test -s source:returns
+              expect: failed
+              say:
+                - "Met de hand geschreven stopte de check met {errors}."
+                - Een kolomnaam in de beschrijving is verkeerd gespeld, dus de check erop kan niet draaien.
+        - id: bycommand
+          action: toolbox.run
+          as: "developer:pu_dev1"
+          commands:
+            - run: vdp sources add dev_landing.raw_olist_returns
+              changes: true
+              say: Het commando beschreef {new_feeds} met {columns_added}, gelezen uit de tabel zelf.
+            - run: dbt parse
+              say: Het project leest de nieuwe beschrijving zonder problemen.
+      show:
+        - {type: result, from_action: byhand, title: "Met de hand beschreven", caption: "Kijk naar de tweede regel: één verkeerd gespelde kolomnaam, en de check stopte."}
+        - {type: result, from_action: bycommand, title: "Beschreven door het commando", caption: "Kijk naar de regels onder de eerste: de kolommen komen uit de tabel zelf, dus er kan er geen verkeerd gespeld zijn."}
+      outcome: De met de hand geschreven beschrijving stopte een check door één verkeerd gespelde naam, en dat kan op het slechtste moment gebeuren. Die van het commando klopte met de tabel.
+    - id: update
+      title: Er komt een kolom bij in een feed
+      feature: Feedbeschrijvingen volgen wijzigingen aan de bron
+      status: today
+      tech: "vdp sources rewrite"
+      say: Het team dat de retourenfeed stuurt, voegt een kolom toe, en de beschrijving in het project kent ze nog niet. Eén commando werkt ze bij.
+      button: Voeg de kolom toe en werk bij
+      inputs: []
+      do:
+        - action: sql.exec
+          statement: "drop table if exists {{ db('landing') }}.raw_olist_returns"
+          undo: "drop table if exists {{ db('landing') }}.raw_olist_returns"
+        - action: sql.exec
+          statement: "create table {{ db('landing') }}.raw_olist_returns (return_id varchar(40) not null, order_id varchar(40), return_reason varchar(100), returned_at datetime, _ingested_at datetime default now())"
+          undo: "drop table if exists {{ db('landing') }}.raw_olist_returns"
+        - action: sql.exec
+          statement: "alter table {{ db('landing') }}.raw_olist_returns add column return_channel varchar(20)"
+          undo: "drop table if exists {{ db('landing') }}.raw_olist_returns"
+        - action: toolbox.run
+          as: "developer:pu_dev1"
+          commands:
+            - run: |
+                mkdir -p models/sources
+                cat > models/sources/sources_landing.yml <<'Y'
+                version: 2
+                sources:
+                  - name: landing
+                    database: dev_landing
+                    schema: dev_landing
+                    tables:
+                      - name: raw_olist_returns
+                        columns:
+                          - name: order_id
+                          - name: return_id
+                          - name: return_reason
+                          - name: returned_at
+                          - name: _ingested_at
+                Y
+                printf 'select return_id, order_id from \x7b\x7b source("landing", "raw_olist_returns") \x7d\x7d\n' > models/edw_dv_bdv/stg_olist_returns.sql
+            - run: vdp sources rewrite
+              changes: true
+              say: Voor de update noemde de beschrijving {columns_before}; nu noemt ze {columns_after}.
+      show:
+        - type: table
+          title: "De kolommen die de tabel nu heeft"
+          caption: "De nieuwe kolom van de afzender staat als laatste in de lijst."
+          query: "select ordinal_position as position, case column_name when 'return_id' then 'Retournummer' when 'order_id' then 'Bestelnummer' when 'return_reason' then 'Retourreden' when 'returned_at' then 'Retourtijd' when '_ingested_at' then 'Aankomsttijd' when 'return_channel' then 'Retourkanaal' else column_name end as name from information_schema.columns where table_schema = '{{ db('landing') }}' and table_name = 'raw_olist_returns' order by ordinal_position"
+          columns: [{key: position, label: Positie}, {key: name, label: Kolom}]
+          empty: De tabel bestaat nog niet.
+        - {type: result, title: "Wat de update in de beschrijving veranderd heeft", caption: "Kijk naar de eerste regel: de beschrijving noemt nu evenveel kolommen als de tabel heeft."}
+      outcome: "Eén commando bracht de beschrijving op punt: ze noemt elke kolom van de tabel. Zonder dat wist het project niet dat de nieuwe kolom bestond, en kon geen enkele check ze afdekken."
+    - id: buttons
+      title: Met één klik enkel testen wat veranderd is
+      feature: Enkel testen wat veranderd is, met één klik
+      status: today
+      tech: "VS Code task: Build modified"
+      say: Een developer wijzigt één tabel en klikt op twee knoppen van de editor; de toolbox runt de commando's erachter. Zonder die knoppen kan een vergissing in een getypt commando alles opnieuw laten builden.
+      button: Klik op de twee knoppen
+      inputs: []
+      do:
+        - action: toolbox.run
+          as: "developer:pu_dev2"
+          commands:
+            - run: |
+                dbt compile --no-partial-parse --target run --target-path artifacts
+                printf 'select date_format(order_purchase_timestamp, "%%Y-%%m") as order_month, count(*) as orders from \x7b\x7b ref("fct_olist_orders") \x7d\x7d group by 1\n' > models/im_dimensional/mart_orders_per_month.sql
+            - run: DBT_DEPLOY_TARGET=dev dbt ls -s state:modified --state artifacts --output json --output-keys database name resource_type
+              say: De eerste knop lijstte op wat veranderd was, en vond {listed}.
+            - run: DBT_DEPLOY_TARGET=dev dbt build -s state:modified --defer --state artifacts
+              say: De tweede knop buildde {tables} in de eigen kopieën van developer twee.
+      show:
+        - {type: result, title: "De twee knoppen", caption: "Kijk naar de twee regels: enkel wat veranderd was, werd opgelijst en gebuild, zoals de automatische [[testrun]] doet."}
+        - type: number
+          title: "Tabellen in de eigen kopieën van developer twee"
+          caption: "Vergelijk met de eerste stap: enkel de gewijzigde tabel werd gebuild."
+          query: "select count(*) from information_schema.tables where table_name like 'pu\\_dev2\\_%'"
+          unit: tabellen
+      outcome: Twee klikken volstonden om enkel de gewijzigde tabel te testen; de tabellen die ze leest, werden geleend van de gedeelde kopie.
+    - id: rule
+      title: Test of een huisregel echt weigert
+      feature: Bewijs dat elke huisregel echt weigert
+      status: next
+      why: "Een regel met een spelfout beschermt niemand, dus een verboden gewoonte kan ongemerkt in de rapporten belanden."
+      tech: "check_model_code_does_not_contain_regexp_pattern"
+      say: "De stijlgids van het team verbiedt één manier om datums te schrijven. Dezelfde code, die dat toch doet, wordt twee keer bewaard: eerst met een spelfout in de regel, dan met de regel correct geschreven."
+      button: Bewaar de code met beide regels
+      inputs: []
+      do:
+        - id: typo
+          action: precommit.run
+          patch: toolbox-rule-typo
+          expect: ok
+        - id: right
+          action: precommit.run
+          patch: toolbox-rule-works
+          expect: refused
+      show:
+        - {type: result, from_action: typo, title: "De regel met een spelfout", caption: "Kijk naar de zin: de automatische check laat de code door, hoewel de verboden manier om datums te schrijven gebruikt wordt."}
+        - {type: result, from_action: right, title: "De regel zoals ze hoort", caption: "Kijk naar de regel onder de zin: dezelfde code wordt nu geweigerd, en de regel wordt genoemd."}
+      outcome: Een regel met een spelfout ziet er goed uit maar beschermt niemand, en een verboden gewoonte kan dus nog in de rapporten belanden. De volgende stap is een test die mislukt zodra een regel de code niet weigert die ze moet stoppen.

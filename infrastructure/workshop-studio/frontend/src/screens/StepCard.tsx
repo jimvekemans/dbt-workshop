@@ -7,6 +7,8 @@ import { EvidenceView } from '../components/EvidenceView'
 import { InputField } from '../components/InputField'
 import { RichText } from '../components/Term'
 import { Status, StatusMark } from '../components/Status'
+import { StatusBadge } from '../components/StatusBadge'
+import { TechLine } from '../components/TechLine'
 import { LockIcon, PlayIcon, RefreshIcon } from '../components/icons'
 import { readyData, versionKey } from '../api/adapt'
 import { useStudio } from '../lib/studio'
@@ -38,9 +40,9 @@ const PAIRED = new Set(['versions', 'number', 'result', 'pipeline', 'freshness']
 
 /** The label of a step's button: the same text is used in "press ... to start again". */
 export function buttonLabel(def: StepDef, status: string, replay: boolean): string {
-  if (status === 'done') return replay ? 'Play the recording again' : 'Run again'
-  if (status === 'failed') return 'Try this step again'
-  return replay ? `Play the recording: ${def.button}` : def.button
+  if (status === 'done') return replay ? 'Opname opnieuw afspelen' : 'Opnieuw runnen'
+  if (status === 'failed') return 'Deze stap opnieuw proberen'
+  return replay ? `Opname afspelen: ${def.button}` : def.button
 }
 
 export function StepCard({ scenarioId, index, total, def, state, blocked, values, onValue, onRun, replay = false, beforeFor }: Props) {
@@ -67,7 +69,7 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
       const t = d as TableData
       if (!Array.isArray(t.rows)) return []
       const first = t.columns?.[0]?.key
-      return t.rows.filter((r) => r.details).map((r) => ({ label: `${name || 'Table'}${first && r.cells[first] != null ? `: ${String(r.cells[first])}` : ''}`, details: r.details as string }))
+      return t.rows.filter((r) => r.details).map((r) => ({ label: `${name || 'Tabel'}${first && r.cells[first] != null ? `: ${String(r.cells[first])}` : ''}`, details: r.details as string }))
     }
     if (e.type === 'pipeline') {
       const p = d as PipelineData
@@ -75,7 +77,7 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
     }
     if (e.type === 'result') {
       const r = d as ResultData
-      return typeof r.details === 'string' && r.details ? [{ label: name || 'What happened', details: r.details }] : []
+      return typeof r.details === 'string' && r.details ? [{ label: name || 'Wat er gebeurde', details: r.details }] : []
     }
     return []
   })
@@ -83,8 +85,8 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
   const label = buttonLabel(def, status, replay)
   const locked = blocked !== null && !running
   const outcomeText = state?.outcome || def.outcome
-  const waitsForStep = locked && /^Finish /.test(blocked ?? '')
-  const waitingText = waitsForStep ? `Appears after step ${index}.` : 'Appears after you press the button above.'
+  const waitsForStep = locked && /^Rond eerst /.test(blocked ?? '')
+  const waitingText = waitsForStep ? `Verschijnt na stap ${index}.` : 'Verschijnt nadat je op de knop hierboven drukt.'
 
   // focus follows the work: the heading when a step starts, the result when it ends; the card scrolls into view
   const was = useRef(status)
@@ -107,27 +109,34 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
         </span>
         <div className={styles.titles}>
           <p className="kicker">
-            Step {index + 1} of {total}
+            Stap {index + 1} van {total}
           </p>
           <h3 id={`step-${def.id}`} ref={heading} tabIndex={-1} className={styles.title}>
             <RichText text={def.title} />
           </h3>
+          {def.status && (
+            <p className={styles.feature}>
+              <StatusBadge status={def.status} />
+              {def.feature && <span className={styles.featureName}><RichText text={def.feature} /></span>}
+            </p>
+          )}
+          <TechLine tech={def.tech} />
         </div>
         <span className={styles.stat}>
-          {status === 'todo' && <Status state="idle">{locked ? 'Not yet' : 'Ready'}</Status>}
-          {running && <Status state="running">Happening now</Status>}
+          {status === 'todo' && <Status state="idle">{locked ? 'Nog niet' : 'Kan starten'}</Status>}
+          {running && <Status state="running">Bezig</Status>}
           {running && usual && <span className={styles.usual}>{usual}</span>}
-          {done && <Status state="ok">Done</Status>}
-          {failed && <Status state="bad">Did not work</Status>}
-          {stopped && <Status state="idle">Stopped</Status>}
+          {done && <Status state="ok">Klaar</Status>}
+          {failed && <Status state="bad">Mislukt</Status>}
+          {stopped && <Status state="idle">Gestopt</Status>}
         </span>
       </header>
 
       {def.say && (
         <div className={styles.say}>
-          <p className={styles.label}>What happens</p>
+          <p className={styles.label}>Wat er gebeurt</p>
           <p>
-            <RichText text={def.say.replace(/^\s*say\s*:\s*/i, '')} />
+            <RichText text={def.say.replace(/^\s*(say|zeg)\s*:\s*/i, '')} />
           </p>
         </div>
       )}
@@ -139,7 +148,7 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
           ))}
           {replay && (
             <p className={styles.fixed}>
-              Fixed in the recording: {def.inputs.map((inp) => valueWords(inp, inp.default)).join('; ')}. Switch to Live to choose yourself.
+              Vast in de opname: {def.inputs.map((inp) => valueWords(inp, inp.default)).join('; ')}. Schakel over naar Live om zelf te kiezen.
             </p>
           )}
         </div>
@@ -156,7 +165,7 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
           onClick={onRun}
           aria-describedby={locked ? `why-${def.id}` : undefined}
         >
-          {running ? 'Working…' : label}
+          {running ? 'Bezig…' : label}
         </Button>
         {locked && (
           <p id={`why-${def.id}`} className={styles.why}>
@@ -164,19 +173,19 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
           </p>
         )}
         {!locked && !running && usual && <p className={styles.why}>{usual.charAt(0).toUpperCase() + usual.slice(1)}</p>}
-        {running && replay && <p className={styles.why}>A recording cannot be stopped; it takes a few seconds.</p>}
-        {done && !running && <p className={styles.why}>{replay ? 'Plays the recording again; the results below are replaced.' : 'Runs this step again; the results below are replaced.'}</p>}
+        {running && replay && <p className={styles.why}>Een opname kan niet gestopt worden; ze duurt maar een paar seconden.</p>}
+        {done && !running && <p className={styles.why}>{replay ? 'Speelt de opname opnieuw af; de resultaten hieronder worden vervangen.' : 'Runt deze stap opnieuw; de resultaten hieronder worden vervangen.'}</p>}
       </div>
 
       {stopped && (
         <p className={styles.stopped}>
-          Stopped. Nothing was lost; press “{buttonLabel(def, 'todo', replay)}” to start again.
+          Gestopt. Er ging niets verloren; druk op “{buttonLabel(def, 'todo', replay)}” om opnieuw te starten.
         </p>
       )}
       {status === 'todo' && state?.summary && <p className={styles.why}>{state.summary}</p>}
 
       {(running || (state?.actions.length ?? 0) > 0) && (
-        <ol className={styles.progress} aria-label="What is happening" aria-live="polite">
+        <ol className={styles.progress} aria-label="Wat er gebeurt" aria-live="polite">
           {(state?.actions ?? []).map((a, i) => (
             <li key={i} className={styles.act} data-state={ACTION_STATE[a.status]}>
               <StatusMark state={ACTION_STATE[a.status]} />
@@ -190,13 +199,13 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
       )}
 
       {failed && (
-        <Callout tone="bad" role="alert" title="This step did not work" boxRef={failure}>
-          {state?.summary || failedAction?.summary || 'The step did not finish.'} Nothing is broken: press “{label}”.
+        <Callout tone="bad" role="alert" title="Deze stap is mislukt" boxRef={failure}>
+          {state?.summary || failedAction?.summary || 'De stap is niet afgeraakt.'} Er is niets stuk: druk op “{label}”.
         </Callout>
       )}
 
       {failed ? (
-        <p className={styles.nothing}>Nothing to show yet: the step stopped before it could finish.</p>
+        <p className={styles.nothing}>Nog niets te tonen: de stap stopte voor hij klaar was.</p>
       ) : (
         evidence.length > 0 && (
           <div className={styles.evidence}>
@@ -207,14 +216,14 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
               if (!before) return <div key={i} className={wide(ev.type) ? styles.wide : undefined}>{after}</div>
               return (
                 <div key={i} className={cx(styles.wide, styles.pair)} data-layout={PAIRED.has(ev.type) ? 'side' : 'stack'}>
-                  <div className={styles.beforeSide} role="group" aria-label="Before">
-                    <p className={styles.sideLabel}>Before</p>
+                  <div className={styles.beforeSide} role="group" aria-label="Voor">
+                    <p className={styles.sideLabel}>Voor</p>
                     <div className={styles.old} inert>
                       <EvidenceView item={before} stepStatus="done" />
                     </div>
                   </div>
-                  <div className={styles.afterSide} role="group" aria-label="After">
-                    <p className={cx(styles.sideLabel, styles.afterLabel)}>After</p>
+                  <div className={styles.afterSide} role="group" aria-label="Na">
+                    <p className={cx(styles.sideLabel, styles.afterLabel)}>Na</p>
                     {after}
                   </div>
                 </div>
@@ -225,13 +234,13 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
       )}
 
       {done && outcomeText && (
-        <Callout tone={notQuite ? 'warn' : 'good'} role="status" title={notQuite ? 'Not quite' : 'What just happened'} boxRef={outcome}>
+        <Callout tone={notQuite ? 'warn' : 'good'} role="status" title={notQuite ? 'Net niet' : 'Wat er net gebeurde'} boxRef={outcome}>
           <RichText text={outcomeText} />
         </Callout>
       )}
 
       {(withDetails.length > 0 || rowDetails.length > 0) && (
-        <Disclosure summary="Technical details (for engineers)">
+        <Disclosure summary="Technische details (voor developers)">
           <div className={styles.tech}>
             {withDetails.map((a, i) => (
               <div key={i}>

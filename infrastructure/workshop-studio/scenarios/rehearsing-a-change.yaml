@@ -1,0 +1,307 @@
+id: rehearsing-a-change
+kind: flow
+group: flows
+title: De testrun van een voorstel, vangnet per vangnet
+promise: Zes testruns missen elk één vangnet en tonen de schade; de zevende heeft elk vangnet.
+minutes: 12
+tech: ["vdp_ci", "svc_ci_dbt", "state:modified+", "--empty", "drop_nodes", "CI verify"]
+environment: dev
+related:
+  - id: checked-before-merge
+    why: Dat scenario toont één testrun die één fout vangt. Deze flow toont elk vangnet van de testrun.
+  - id: only-what-changed
+    why: Stap twee van deze flow, enkel opnieuw builden wat veranderd is, wordt daar getoond met drie verschillende wijzigingen.
+
+problem:
+  headline: Een slordige testrun kan zelf schade aanrichten
+  story: |
+    Een developer doet een [[voorstel]] om de rapporten van de webshop te wijzigen, en een machine doet een [[testrun]]
+    voor iemand het goedkeurt. Een slordige testrun kan op meerdere manieren misgaan. Ze werkt in de tabellen die iedereen
+    leest, waardoor collega's de wijziging zien voor ze goedgekeurd is. Ze buildt de hele webshop opnieuw voor één kleine
+    wijziging. Ze laat haar kopieën achter. Of ze meldt dat alles in orde is terwijl een cijfer fout zit.
+  cost: Collega's lezen cijfers die niemand goedkeurde, mensen wachten of kuisen op na elke wijziging, of een fout cijfer wordt vertrouwd omdat de testrun groen was.
+  visual:
+    type: compare
+    left:
+      title: Een slordige testrun
+      state: bad
+      items:
+        - Ze werkt in de tabellen die iedereen leest
+        - Ze buildt elke keer de hele webshop opnieuw
+        - Ze laat haar kopieën achter
+        - Ze meldt dat alles in orde is bij een fout cijfer
+    right:
+      title: Een zorgvuldige testrun
+      state: ok
+      items:
+        - Ze werkt in een eigen testdatabase
+        - Ze buildt enkel opnieuw wat veranderd is
+        - Ze kuist haar kopieën op, ook na een mislukking
+        - Ze kijkt naar echte data en voert elke check uit
+    caption: Elk vangnet rechts is het antwoord op één schade links.
+
+idea:
+  headline: Een zorgvuldige testrun is privé, klein, netjes en grondig
+  points:
+    - De testrun werkt in een eigen [[database]] en buildt enkel de tabellen die de wijziging raakt, plus elke [[tabel]] die erop steunt.
+    - De eerste ronde is leeg, zonder gekopieerde rijen, zodat een wijziging die niet eens gebuild raakt vroeg stopt, voor er data aangeraakt wordt.
+    - Een tweede ronde voegt echte data en elke [[check]] toe, en beide rondes kuisen hun kopieën nadien op, ook als ze mislukken.
+  visual:
+    type: flow
+    nodes:
+      - {id: change, label: Voorstel, state: idle, note: "Nog niet goedgekeurd"}
+      - {id: empty, label: Lege eerste ronde, state: ok, note: "Past alles in elkaar?"}
+      - {id: real, label: Echte data en elke check, state: fix, note: "Klopt elk cijfer?"}
+      - {id: shared, label: Gedeelde tabellen, state: ok, note: "Nooit aangeraakt door een testrun"}
+    links: [[change, empty], [empty, real], [real, shared]]
+    caption: Elke ronde moet slagen voordat de volgende start, en er blijft niets achter.
+
+code:
+  - title: Een eigen testdatabase, met de naam van het voorstel
+    status: today
+    file: .gitlab-ci.yml
+    file_label: De instructies voor de automatische testrun
+    from: "verify_structure:"
+    to: "--exclude-resource-type test"
+    max_lines: 12
+    notes:
+      - line: "VERIFY_SCHEMA: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+        says: Elke tabel van deze testrun draagt de naam van het voorstel.
+      - line: "--target=ci"
+        says: De testrun buildt in een eigen database, met een eigen login, nooit in gedeelde tabellen.
+  - title: Enkel wat veranderd is, komt in de testrun
+    status: today
+    file: .gitlab-ci.yml
+    file_label: De instructies voor de automatische testrun
+    from: "dbt build --select state:modified+ --state"
+    to: "--target ci"
+    max_lines: 12
+    notes:
+      - line: "state:modified+"
+        says: Enkel gewijzigde tabellen en wat erop steunt, wordt opnieuw gebuild; de rest wordt enkel gelezen.
+  - title: De eerste ronde kopieert geen data
+    status: today
+    file: .gitlab-ci.yml
+    file_label: De instructies voor de automatische testrun
+    from: "dbt build --select state:modified+,+state:modified"
+    to: "--exclude-resource-type test"
+    max_lines: 12
+    notes:
+      - line: "--empty"
+        says: De tabellen worden zonder één rij gebuild, dus er wordt geen data gekopieerd.
+  - title: De kopieën worden op het einde opgekuist
+    status: today
+    file: .gitlab-ci.yml
+    file_label: De instructies voor de automatische testrun
+    from: 'drop_nodes --vars "SCHEMA: ${VERIFY_SCHEMA//[\/-]/_}" --target=ci'
+    to: "--target=ci"
+    max_lines: 12
+    notes:
+      - line: "drop_nodes"
+        says: Na een goede testrun wordt elke tabel die ze gebuild heeft weggegooid.
+  - title: De kopieën worden ook na een mislukking opgekuist
+    status: next
+    file: .gitlab-ci.yml
+    file_label: De instructies voor de automatische testrun
+    from: "after_script:"
+    to: "|| true"
+    max_lines: 12
+    notes:
+      - line: "after_script:"
+        says: Dit deel loopt helemaal op het einde, ook als de testrun halverwege stopte.
+      - line: "drop_nodes"
+        says: Het gooit weg wat de mislukte testrun al gebuild had.
+  - title: De tweede ronde gebruikt echte data en elke check
+    status: next
+    file: .gitlab-ci.yml
+    file_label: De instructies voor de automatische testrun
+    from: "needs: [verify_structure]"
+    to: "dbt build --select state:modified+"
+    max_lines: 12
+    notes:
+      - line: "needs: [verify_structure]"
+        says: Deze ronde start pas als de lege eerste ronde geslaagd is.
+      - line: "dbt build --select state:modified+"
+        says: De gewijzigde tabellen en alles wat erop steunt, worden met echte rijen gebuild en gecheckt.
+
+demo:
+  intro: >-
+    Bij het klaarzetten worden zeven voorstellen gemaakt. Zes krijgen een testrun waaraan één vangnet ontbreekt, en elke stap toont de schade;
+    het zevende krijgt de volledige testrun. Wat 'Volgende stap' heet, liep hier al, maar het platform heeft het nog niet. Er wordt niets goedgekeurd.
+  setup:
+    - {action: gitlab.branch, name: demo/in-shared-tables, from: dev}
+    - {action: gitlab.commit, branch: demo/in-shared-tables, patch: rehearsal-in-shared-tables}
+    - {action: gitlab.commit, branch: demo/in-shared-tables, patch: report-more-precise}
+    - {action: gitlab.merge_request, source: demo/in-shared-tables, target: dev, title: "Twee cijfers na de komma in het managementrapport (testrun in de gedeelde tabellen)", touches: ["models:dev:mart_olist_management_kpi"]}
+    - {action: gitlab.branch, name: demo/rebuild-all, from: dev}
+    - {action: gitlab.commit, branch: demo/rebuild-all, patch: rehearsal-of-everything}
+    - {action: gitlab.commit, branch: demo/rebuild-all, patch: report-more-precise}
+    - {action: gitlab.merge_request, source: demo/rebuild-all, target: dev, title: "Twee cijfers na de komma in het managementrapport (elke tabel opnieuw gebuild)"}
+    - {action: gitlab.branch, name: demo/all-the-data, from: dev}
+    - {action: gitlab.commit, branch: demo/all-the-data, patch: rehearsal-with-all-data}
+    - {action: gitlab.commit, branch: demo/all-the-data, patch: customers-lowercase-city}
+    - {action: gitlab.merge_request, source: demo/all-the-data, target: dev, title: "Namen van steden in kleine letters (alle data gekopieerd)"}
+    - {action: gitlab.branch, name: demo/no-cleanup, from: dev}
+    - {action: gitlab.commit, branch: demo/no-cleanup, patch: rehearsal-without-cleanup}
+    - {action: gitlab.commit, branch: demo/no-cleanup, patch: customers-lowercase-city}
+    - {action: gitlab.merge_request, source: demo/no-cleanup, target: dev, title: "Namen van steden in kleine letters (zonder opkuis)", touches: ["ci:copies"]}
+    - {action: gitlab.branch, name: demo/failed-no-cleanup, from: dev}
+    - {action: gitlab.commit, branch: demo/failed-no-cleanup, patch: rehearsal-cleanup-only-at-the-end}
+    - {action: gitlab.commit, branch: demo/failed-no-cleanup, patch: customers-city-renamed}
+    - {action: gitlab.merge_request, source: demo/failed-no-cleanup, target: dev, title: "Een nieuwe naam voor de kolom met de stad (opkuis enkel op het einde)", touches: ["ci:copies"]}
+    - {action: gitlab.branch, name: demo/empty-only, from: dev}
+    - {action: gitlab.commit, branch: demo/empty-only, patch: rehearsal-structure-only}
+    - {action: gitlab.commit, branch: demo/empty-only, patch: orders-triple-count}
+    - {action: gitlab.merge_request, source: demo/empty-only, target: dev, title: "Leveringskalender in de bestellingentabel (enkel een lege testrun)"}
+    - {action: gitlab.branch, name: demo/everything-on, from: dev}
+    - {action: gitlab.commit, branch: demo/everything-on, patch: orders-triple-count}
+    - {action: gitlab.merge_request, source: demo/everything-on, target: dev, title: "Leveringskalender in de bestellingentabel (alles ingeschakeld)", touches: ["ci:copies"]}
+  steps:
+    - id: shared
+      title: Een testrun zonder eigen database
+      feature: Een eigen testdatabase
+      status: today
+      tech: "vdp_ci + svc_ci_dbt (--target ci)"
+      say: Deze testrun heeft geen eigen database en buildt rechtstreeks in de gedeelde tabellen, die elke collega leest. Het voorstel toont enkel het percentage op tijd met twee cijfers na de komma.
+      button: Toon deze testrun
+      inputs: []
+      do:
+        - {action: gitlab.wait_pipeline, for: "mr:demo/in-shared-tables", expect: success, timeout: 900, report_rehearsed: true}
+      show:
+        - {type: pipeline, rehearsed: true, for: "mr:demo/in-shared-tables", title: "De automatische testrun", caption: "Groen: niets in de testrun ziet er fout uit."}
+        - type: table
+          title: Het managementrapport dat collega's lezen
+          caption: "Kijk naar de laatste kolom: twee cijfers na de komma, terwijl het rapport er eerder één toonde. De wijziging is nooit goedgekeurd, en toch toont het rapport dat collega's lezen ze al."
+          query: "select bestel_jaar_maand as month, aantal_orders as orders, pct_op_tijd as pct from {{ db('im_dimensional') }}.mart_olist_management_kpi order by bestel_jaar_maand desc limit 4"
+          columns:
+            - {key: month, label: Bestelmaand}
+            - {key: orders, label: Bestellingen}
+            - {key: pct, label: Op tijd geleverd (%)}
+      outcome:
+        check: "select count(*) from {{ db('im_dimensional') }}.mart_olist_management_kpi where pct_op_tijd * 10 <> floor(pct_op_tijd * 10)"
+        good_when: positive
+        good: "Bij {{ value }} van de maanden toont het gedeelde rapport al een cijfer dat niemand goedkeurde. Een eigen testdatabase houdt niet-goedgekeurde wijzigingen weg uit het rapport dat collega's lezen."
+        not_quite: Het gedeelde rapport toont nog één cijfer na de komma, dus deze demo toonde de schade niet.
+    - id: everything
+      title: Een testrun die alles opnieuw buildt
+      feature: Enkel opnieuw builden wat veranderd is
+      status: today
+      tech: "state:modified+ --defer"
+      say: Deze testrun heeft een eigen testdatabase, maar buildt bijna elke tabel van de webshop opnieuw. Het voorstel is dezelfde kleine wijziging aan één rapport.
+      button: Toon deze testrun
+      inputs: []
+      do:
+        - {action: gitlab.wait_pipeline, for: "mr:demo/rebuild-all", expect: success, timeout: 900, report_rehearsed: true}
+      show:
+        - {type: pipeline, rehearsed: true, for: "mr:demo/rebuild-all", title: "De automatische testrun", caption: "Opnieuw groen."}
+        - {type: result, from_action: gitlab.wait_pipeline, title: "Hoeveel er getest werd", caption: "Kijk naar de zin die begint met 'De testrun heeft': ze telt hoeveel tabellen van de webshop opnieuw gebuild werden, en hoeveel checks liepen, om één wijziging aan één rapport uit te proberen. De laatste zin telt enkel de eerste ronde."}
+      outcome: De testrun buildde bijna elke tabel van de webshop opnieuw, zoals hierboven geteld, om één wijziging aan één rapport uit te proberen. Dat is veilig, maar het meeste werk was niet nodig, en wie op het antwoord wacht, wacht op alles.
+    - id: alldata
+      title: Een testrun die alle data kopieert
+      feature: Een lege eerste ronde, zonder data
+      status: today
+      tech: "--empty · state:modified+,+state:modified state:modified+1"
+      say: Deze testrun kijkt enkel naar wat veranderd is, maar haar eerste ronde kopieert alle rijen in plaats van geen enkele. Het voorstel schrijft de steden van de klanten in kleine letters.
+      button: Toon deze testrun
+      inputs: []
+      do:
+        - {action: gitlab.wait_pipeline, for: "mr:demo/all-the-data", expect: success, timeout: 900, report_rehearsed: true}
+      show:
+        - {type: pipeline, rehearsed: true, for: "mr:demo/all-the-data", title: "De automatische testrun", caption: "Groen, en de eerste ronde deed al het volle werk."}
+        - {type: result, from_action: gitlab.wait_pipeline, title: "Wat de eerste ronde gebuild heeft", caption: "Kijk naar de laatste zin: de eerste ronde buildde evenveel tabellen als de hele testrun, omdat ze alle data kopieerde."}
+        - type: table
+          title: Rijen van deze tabellen in de gedeelde tabellen
+          caption: "Zoveel rijen hebben vier van die tabellen nu in de gedeelde tabellen; de vijfde, de klantencohortentabel, wordt enkel op aanvraag gebuild. Een eerste ronde met alle data kopieert elke rij; een lege eerste ronde kopieert er geen."
+          query: "select 'Klantentabel' as tbl, count(*) as n from {{ db('im_dimensional') }}.dim_olist_customers union all select 'Bestellingentabel', count(*) from {{ db('im_dimensional') }}.fct_olist_orders union all select 'Websiteconversietabel', count(*) from {{ db('im_dimensional') }}.mart_web_conversion union all select 'Managementrapporttabel', count(*) from {{ db('im_dimensional') }}.mart_olist_management_kpi"
+          columns:
+            - {key: tbl, label: Tabel}
+            - {key: n, label: Rijen}
+      outcome: De eerste ronde buildde elke tabel van de wijziging met al haar rijen, niet leeg. Een wijziging die niet gebuild kan worden, zou pas gevonden worden nadat al die data gekopieerd was, en wie op het antwoord wacht, wacht daarop.
+    - id: nocleanup
+      title: Een testrun die nooit opkuist
+      feature: Kopieën van de testrun nadien opgekuist
+      status: today
+      tech: "run-operation drop_nodes"
+      say: Deze testrun werkt in haar eigen testdatabase, maar gooit haar kopieën nooit weg. Het voorstel schrijft opnieuw de steden in kleine letters.
+      button: Toon deze testrun
+      inputs: []
+      do:
+        - {action: gitlab.wait_pipeline, for: "mr:demo/no-cleanup", expect: success, timeout: 900, report_rehearsed: true}
+      show:
+        - {type: pipeline, rehearsed: true, for: "mr:demo/no-cleanup", title: "De automatische testrun", caption: "Groen, en toch blijft er iets achter."}
+        - type: number
+          title: Kopieën die in de testdatabase achterbleven
+          caption: "De testdatabase hoort leeg te zijn als de testrun voorbij is. Deze tabellen horen bij dit ene voorstel en niemand gebruikt ze nog."
+          query: "select count(*) from information_schema.tables where table_schema = 'vdp_ci' and locate('demo_no_cleanup_', table_name) = 1"
+          unit: tabellen
+      outcome:
+        check: "select count(*) from information_schema.tables where table_schema = 'vdp_ci' and locate('demo_no_cleanup_', table_name) = 1"
+        good_when: positive
+        good: "{{ value }} kopieën van dit ene voorstel staan nog in de testdatabase. Elk voorstel zou er meer toevoegen, en iemand moet ze opkuisen."
+        not_quite: De testdatabase is leeg, dus deze demo toonde de schade niet.
+    - id: failed
+      title: Een kapotte wijziging en geen opkuis erna
+      feature: Kopieën ook na een mislukking opgekuist
+      status: next
+      why: "Een wijziging die de testrun laat mislukken, laat half gebuilde kopieën achter, en iemand moet ze met de hand opkuisen."
+      tech: "drop_nodes in after_script"
+      say: Deze testrun kuist haar kopieën enkel op het einde van haar eigen werk op. Het voorstel hernoemt de kolom met de stad in de klantentabel en vergeet de bestellingentabel die ze gebruikt.
+      button: Toon deze testrun
+      inputs: []
+      do:
+        - {action: gitlab.wait_pipeline, for: "mr:demo/failed-no-cleanup", expect: failed, timeout: 900, report_rehearsed: true}
+      show:
+        - {type: pipeline, rehearsed: true, for: "mr:demo/failed-no-cleanup", title: "De automatische testrun", caption: "De testrun stopt, en dat is terecht. De regel eronder zegt wat er stuk ging."}
+        - type: number
+          title: Kopieën die in de testdatabase achterbleven
+          caption: "De klantentabel was al gebuild toen de bestellingentabel de testrun deed mislukken, en niemand kuiste ze op."
+          query: "select count(*) from information_schema.tables where table_schema = 'vdp_ci' and locate('demo_failed_no_cleanup_', table_name) = 1"
+          unit: tabellen
+      outcome:
+        check: "select count(*) from information_schema.tables where table_schema = 'vdp_ci' and locate('demo_failed_no_cleanup_', table_name) = 1"
+        good_when: positive
+        good: "De testrun stopte de wijziging terecht, maar haar kopieën werden niet opgekuist: er staan er nog {{ value }} in de testdatabase. Ook na een mislukking opkuisen is de volgende stap."
+        not_quite: De testdatabase is leeg, dus deze demo toonde de schade niet.
+    - id: wrong
+      title: Een fout cijfer slaagt voor een lege testrun
+      feature: Een tweede ronde met echte data en checks
+      status: next
+      why: "Zonder tweede ronde met echte data blijft de testrun groen bij een fout cijfer, zoals elke bestelling drie keer geteld."
+      tech: "verify_feature_to_dev (data + tests)"
+      say: Deze testrun heeft enkel de lege eerste ronde. Het voorstel voegt een leveringskalender toe aan de bestellingentabel en toont per vergissing elke bestelling drie keer.
+      button: Toon deze testrun
+      inputs: []
+      do:
+        - {action: gitlab.wait_pipeline, for: "mr:demo/empty-only", expect: success, timeout: 900, report_rehearsed: true}
+      show:
+        - {type: pipeline, rehearsed: true, for: "mr:demo/empty-only", title: "De automatische testrun", caption: "Groen, dus deze wijziging mag goedgekeurd worden."}
+        - {type: result, from_action: gitlab.wait_pipeline, title: "Wat de testrun afdekte", caption: "De testrun buildde lege tabellen, dus ze keek nooit naar één bestelling en er liep geen enkele check. Deze wijziging toont elke bestelling drie keer; de laatste stap van deze flow toont hoe ze gevangen wordt."}
+      outcome: De testrun liet een wijziging door die elke bestelling drie keer toont, waardoor elk aantal bestellingen in de rapporten verdrievoudigt, omdat niets in de testrun dat kon merken zonder data en checks. De laatste stap toont hoe ze gestopt wordt.
+    - id: all
+      title: Alle vangnetten aan
+      tech: "verify_structure + verify_feature_to_dev"
+      say: "Hetzelfde voorstel krijgt nu de volledige testrun, met elk vangnet aan. De twee stappen van daarnet die 'Volgende stap' waren, zitten erbij: kopieën ook na een mislukking opkuisen, en een tweede ronde met echte data en elke check."
+      button: Toon de volledige testrun
+      inputs: []
+      do:
+        - {action: gitlab.wait_pipeline, for: "mr:demo/everything-on", expect: failed, timeout: 900, report_rehearsed: true}
+      show:
+        - {type: pipeline, rehearsed: true, for: "mr:demo/everything-on", title: "De automatische testrun", caption: "De lege eerste ronde slaagt, de ronde met echte data stopt de wijziging. De regel eronder zegt waarom."}
+        - type: number
+          title: Bestellingen in de gedeelde tabel
+          caption: "De gedeelde tabel werd nooit aangeraakt: haar aantal bestellingen is gelijk aan haar aantal verschillende bestelnummers, dus elke bestelling staat er één keer in."
+          query: "select count(*) from {{ db('im_dimensional') }}.fct_olist_orders"
+          unit: bestellingen
+          compare_to:
+            query: "select count(distinct order_id) from {{ db('im_dimensional') }}.fct_olist_orders"
+            label: Daarvan verschillende bestelnummers
+        - type: number
+          title: Kopieën die in de testdatabase achterbleven
+          caption: "Er blijft niets achter, ook al mislukte de testrun."
+          query: "select count(*) from information_schema.tables where table_schema = 'vdp_ci' and locate('demo_everything_on_', table_name) = 1"
+          unit: tabellen
+      outcome:
+        check: "select count(*) from information_schema.tables where table_schema = 'vdp_ci' and locate('demo_everything_on_', table_name) = 1"
+        good_when: zero
+        good: De foute wijziging werd gestopt door de ronde met echte data, de gedeelde tabellen zijn ongewijzigd en er blijft niets achter.
+        not_quite: "De wijziging werd gestopt, maar er staan nog {{ value }} kopieën in de testdatabase."

@@ -1,0 +1,2356 @@
+{
+ "scenario": "from-change-to-package",
+ "steps": {
+  "number": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.32,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder nummers",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met nummers",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Versie in elke omgeving",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validatie",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Productie",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.32,
+     "actions": [
+      {
+       "label": "De genummerde versies lezen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder nummers",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met nummers",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Versie in elke omgeving",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validatie",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Productie",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.42,
+     "actions": [
+      {
+       "label": "De genummerde versies lezen",
+       "status": "done",
+       "summary": "Dezelfde 2 wijzigingen, enkel gekend onder hun code.",
+       "details": "v1.0.1 -> b84ff72b Zeg in welke maand een bestelling geteld wordt\nv1.0.0 -> af2763ab De eerste versie"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder nummers",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met nummers",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Versie in elke omgeving",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validatie",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Productie",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.42,
+     "actions": [
+      {
+       "label": "De genummerde versies lezen",
+       "status": "done",
+       "summary": "Dezelfde 2 wijzigingen, enkel gekend onder hun code.",
+       "details": "v1.0.1 -> b84ff72b Zeg in welke maand een bestelling geteld wordt\nv1.0.0 -> af2763ab De eerste versie"
+      },
+      {
+       "label": "De genummerde versies lezen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder nummers",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met nummers",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Versie in elke omgeving",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validatie",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Productie",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.51,
+     "actions": [
+      {
+       "label": "De genummerde versies lezen",
+       "status": "done",
+       "summary": "Dezelfde 2 wijzigingen, enkel gekend onder hun code.",
+       "details": "v1.0.1 -> b84ff72b Zeg in welke maand een bestelling geteld wordt\nv1.0.0 -> af2763ab De eerste versie"
+      },
+      {
+       "label": "De genummerde versies lezen",
+       "status": "done",
+       "summary": "2 wijzigingen hebben een nummer; de nieuwste is v1.0.1.",
+       "details": "v1.0.1 -> b84ff72b Zeg in welke maand een bestelling geteld wordt\nv1.0.0 -> af2763ab De eerste versie"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder nummers",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met nummers",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Versie in elke omgeving",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validatie",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Productie",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.83,
+     "actions": [
+      {
+       "label": "De genummerde versies lezen",
+       "status": "done",
+       "summary": "Dezelfde 2 wijzigingen, enkel gekend onder hun code.",
+       "details": "v1.0.1 -> b84ff72b Zeg in welke maand een bestelling geteld wordt\nv1.0.0 -> af2763ab De eerste versie"
+      },
+      {
+       "label": "De genummerde versies lezen",
+       "status": "done",
+       "summary": "2 wijzigingen hebben een nummer; de nieuwste is v1.0.1.",
+       "details": "v1.0.1 -> b84ff72b Zeg in welke maand een bestelling geteld wordt\nv1.0.0 -> af2763ab De eerste versie"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder nummers",
+       "data": {
+        "summary": "Dezelfde 2 wijzigingen, enkel gekend onder hun code.",
+        "details": "v1.0.1 -> b84ff72b Zeg in welke maand een bestelling geteld wordt\nv1.0.0 -> af2763ab De eerste versie",
+        "data": {
+         "reasons": [
+          "Code af2763ab: De eerste versie",
+          "Code b84ff72b: Zeg in welke maand een bestelling geteld wordt"
+         ],
+         "versions": [
+          {
+           "version": "v1.0.1",
+           "code": "b84ff72b",
+           "title": "Zeg in welke maand een bestelling geteld wordt",
+           "when": "2026-11-21T22:03:44.000+00:00"
+          },
+          {
+           "version": "v1.0.0",
+           "code": "af2763ab",
+           "title": "De eerste versie",
+           "when": "2026-11-21T19:36:45.000+00:00"
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met nummers",
+       "data": {
+        "summary": "2 wijzigingen hebben een nummer; de nieuwste is v1.0.1.",
+        "details": "v1.0.1 -> b84ff72b Zeg in welke maand een bestelling geteld wordt\nv1.0.0 -> af2763ab De eerste versie",
+        "data": {
+         "reasons": [
+          "v1.0.1: Zeg in welke maand een bestelling geteld wordt",
+          "v1.0.0: De eerste versie"
+         ],
+         "versions": [
+          {
+           "version": "v1.0.1",
+           "code": "b84ff72b",
+           "title": "Zeg in welke maand een bestelling geteld wordt",
+           "when": "2026-11-21T22:03:44.000+00:00"
+          },
+          {
+           "version": "v1.0.0",
+           "code": "af2763ab",
+           "title": "De eerste versie",
+           "when": "2026-11-21T19:36:45.000+00:00"
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Versie in elke omgeving",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validatie",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Productie",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.83,
+     "actions": [
+      {
+       "label": "De genummerde versies lezen",
+       "status": "done",
+       "summary": "Dezelfde 2 wijzigingen, enkel gekend onder hun code.",
+       "details": "v1.0.1 -> b84ff72b Zeg in welke maand een bestelling geteld wordt\nv1.0.0 -> af2763ab De eerste versie"
+      },
+      {
+       "label": "De genummerde versies lezen",
+       "status": "done",
+       "summary": "2 wijzigingen hebben een nummer; de nieuwste is v1.0.1.",
+       "details": "v1.0.1 -> b84ff72b Zeg in welke maand een bestelling geteld wordt\nv1.0.0 -> af2763ab De eerste versie"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Zonder nummers",
+       "data": {
+        "summary": "Dezelfde 2 wijzigingen, enkel gekend onder hun code.",
+        "details": "v1.0.1 -> b84ff72b Zeg in welke maand een bestelling geteld wordt\nv1.0.0 -> af2763ab De eerste versie",
+        "data": {
+         "reasons": [
+          "Code af2763ab: De eerste versie",
+          "Code b84ff72b: Zeg in welke maand een bestelling geteld wordt"
+         ],
+         "versions": [
+          {
+           "version": "v1.0.1",
+           "code": "b84ff72b",
+           "title": "Zeg in welke maand een bestelling geteld wordt",
+           "when": "2026-11-21T22:03:44.000+00:00"
+          },
+          {
+           "version": "v1.0.0",
+           "code": "af2763ab",
+           "title": "De eerste versie",
+           "when": "2026-11-21T19:36:45.000+00:00"
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Met nummers",
+       "data": {
+        "summary": "2 wijzigingen hebben een nummer; de nieuwste is v1.0.1.",
+        "details": "v1.0.1 -> b84ff72b Zeg in welke maand een bestelling geteld wordt\nv1.0.0 -> af2763ab De eerste versie",
+        "data": {
+         "reasons": [
+          "v1.0.1: Zeg in welke maand een bestelling geteld wordt",
+          "v1.0.0: De eerste versie"
+         ],
+         "versions": [
+          {
+           "version": "v1.0.1",
+           "code": "b84ff72b",
+           "title": "Zeg in welke maand een bestelling geteld wordt",
+           "when": "2026-11-21T22:03:44.000+00:00"
+          },
+          {
+           "version": "v1.0.0",
+           "code": "af2763ab",
+           "title": "De eerste versie",
+           "when": "2026-11-21T19:36:45.000+00:00"
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Versie in elke omgeving",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validatie",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Productie",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "2 wijzigingen hebben een nummer; de nieuwste is v1.0.1.",
+   "outcome": "Elke goedgekeurde wijziging heeft haar eigen nummer, en het nummer zegt welke wijziging nieuwer is. Zonder nummer kan niemand zeggen welke wijziging een bepaald cijfer maakte.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:04:20+00:00",
+   "durations": [
+    2.8,
+    2.8,
+    2.8,
+    2.8,
+    2.8
+   ],
+   "show": [
+    "result",
+    "result",
+    "versions"
+   ]
+  },
+  "package": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.0,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "In de twee packages",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "De verzegelde packages openen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "In de twee packages",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.98,
+     "actions": [
+      {
+       "label": "De verzegelde packages openen",
+       "status": "done",
+       "summary": "De verzegelde packages van v1.0.0 en v1.0.1 geopend.",
+       "details": "dbt-vdp:v1.0.0: label v1.0.0, builder 2.0.11, connector 74194c79b0fc\ndbt-vdp:v1.0.1: label v1.0.1, builder 2.0.11, connector 74194c79b0fc"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "In de twee packages",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.98,
+     "actions": [
+      {
+       "label": "De verzegelde packages openen",
+       "status": "done",
+       "summary": "De verzegelde packages van v1.0.0 en v1.0.1 geopend.",
+       "details": "dbt-vdp:v1.0.0: label v1.0.0, builder 2.0.11, connector 74194c79b0fc\ndbt-vdp:v1.0.1: label v1.0.1, builder 2.0.11, connector 74194c79b0fc"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "In de twee packages",
+       "data": {
+        "summary": "De verzegelde packages van v1.0.0 en v1.0.1 geopend.",
+        "details": "dbt-vdp:v1.0.0: label v1.0.0, builder 2.0.11, connector 74194c79b0fc\ndbt-vdp:v1.0.1: label v1.0.1, builder 2.0.11, connector 74194c79b0fc",
+        "data": {
+         "reasons": [
+          {
+           "label": "Nummer dat erop gedrukt staat",
+           "left": "v1.0.0",
+           "right": "v1.0.1",
+           "same": false
+          },
+          {
+           "label": "Rapportbouwer",
+           "left": "versie 2.0.11",
+           "right": "versie 2.0.11",
+           "same": true
+          },
+          {
+           "label": "Databaseconnector",
+           "left": "dezelfde build",
+           "right": "dezelfde build",
+           "same": true
+          },
+          {
+           "label": "Beschrijving van het rapport in de code",
+           "left": "Management data product: order volume and delivery performance per order month (carrier scans).",
+           "right": "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans).",
+           "same": false
+          }
+         ],
+         "label_title": "In het package",
+         "left_title": "Package v1.0.0",
+         "tags": [
+          "v1.0.0",
+          "v1.0.1"
+         ],
+         "right_title": "Package v1.0.1"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.98,
+     "actions": [
+      {
+       "label": "De verzegelde packages openen",
+       "status": "done",
+       "summary": "De verzegelde packages van v1.0.0 en v1.0.1 geopend.",
+       "details": "dbt-vdp:v1.0.0: label v1.0.0, builder 2.0.11, connector 74194c79b0fc\ndbt-vdp:v1.0.1: label v1.0.1, builder 2.0.11, connector 74194c79b0fc"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "In de twee packages",
+       "data": {
+        "summary": "De verzegelde packages van v1.0.0 en v1.0.1 geopend.",
+        "details": "dbt-vdp:v1.0.0: label v1.0.0, builder 2.0.11, connector 74194c79b0fc\ndbt-vdp:v1.0.1: label v1.0.1, builder 2.0.11, connector 74194c79b0fc",
+        "data": {
+         "reasons": [
+          {
+           "label": "Nummer dat erop gedrukt staat",
+           "left": "v1.0.0",
+           "right": "v1.0.1",
+           "same": false
+          },
+          {
+           "label": "Rapportbouwer",
+           "left": "versie 2.0.11",
+           "right": "versie 2.0.11",
+           "same": true
+          },
+          {
+           "label": "Databaseconnector",
+           "left": "dezelfde build",
+           "right": "dezelfde build",
+           "same": true
+          },
+          {
+           "label": "Beschrijving van het rapport in de code",
+           "left": "Management data product: order volume and delivery performance per order month (carrier scans).",
+           "right": "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans).",
+           "same": false
+          }
+         ],
+         "label_title": "In het package",
+         "left_title": "Package v1.0.0",
+         "tags": [
+          "v1.0.0",
+          "v1.0.1"
+         ],
+         "right_title": "Package v1.0.1"
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "De verzegelde packages van v1.0.0 en v1.0.1 geopend.",
+   "outcome": "Beide packages openen vandaag precies zoals ze gebuild werden, ook het oudere dat productie nog draait.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:04:22+00:00",
+   "durations": [
+    1.0,
+    1.1,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "show": [
+    "result"
+   ]
+  },
+  "description": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.0,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wat development nu toont",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de eerste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de nieuwste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "De beschrijving van het rapport lezen op de documentatiepagina's van development",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wat development nu toont",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de eerste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de nieuwste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.52,
+     "actions": [
+      {
+       "label": "De beschrijving van het rapport lezen op de documentatiepagina's van development",
+       "status": "done",
+       "summary": "De beschrijving van het rapport gelezen op de documentatiepagina's van development.",
+       "details": "dev: v1.0.1 written 2026-11-21T22:04:08Z, same text as in the package: True"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wat development nu toont",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de eerste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de nieuwste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.52,
+     "actions": [
+      {
+       "label": "De beschrijving van het rapport lezen op de documentatiepagina's van development",
+       "status": "done",
+       "summary": "De beschrijving van het rapport gelezen op de documentatiepagina's van development.",
+       "details": "dev: v1.0.1 written 2026-11-21T22:04:08Z, same text as in the package: True"
+      },
+      {
+       "label": "Een opgeslagen beschrijving lezen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wat development nu toont",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de eerste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de nieuwste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.75,
+     "actions": [
+      {
+       "label": "De beschrijving van het rapport lezen op de documentatiepagina's van development",
+       "status": "done",
+       "summary": "De beschrijving van het rapport gelezen op de documentatiepagina's van development.",
+       "details": "dev: v1.0.1 written 2026-11-21T22:04:08Z, same text as in the package: True"
+      },
+      {
+       "label": "Een opgeslagen beschrijving lezen",
+       "status": "done",
+       "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.0 is opgeslagen.",
+       "details": "dbt-artifacts/v1.0.0/target.tar.gz -> target/dbt-docs/info_schema/v1/dbt.models.parquet, model mart_olist_management_kpi"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wat development nu toont",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de eerste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de nieuwste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.75,
+     "actions": [
+      {
+       "label": "De beschrijving van het rapport lezen op de documentatiepagina's van development",
+       "status": "done",
+       "summary": "De beschrijving van het rapport gelezen op de documentatiepagina's van development.",
+       "details": "dev: v1.0.1 written 2026-11-21T22:04:08Z, same text as in the package: True"
+      },
+      {
+       "label": "Een opgeslagen beschrijving lezen",
+       "status": "done",
+       "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.0 is opgeslagen.",
+       "details": "dbt-artifacts/v1.0.0/target.tar.gz -> target/dbt-docs/info_schema/v1/dbt.models.parquet, model mart_olist_management_kpi"
+      },
+      {
+       "label": "Een opgeslagen beschrijving lezen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wat development nu toont",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de eerste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de nieuwste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.97,
+     "actions": [
+      {
+       "label": "De beschrijving van het rapport lezen op de documentatiepagina's van development",
+       "status": "done",
+       "summary": "De beschrijving van het rapport gelezen op de documentatiepagina's van development.",
+       "details": "dev: v1.0.1 written 2026-11-21T22:04:08Z, same text as in the package: True"
+      },
+      {
+       "label": "Een opgeslagen beschrijving lezen",
+       "status": "done",
+       "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.0 is opgeslagen.",
+       "details": "dbt-artifacts/v1.0.0/target.tar.gz -> target/dbt-docs/info_schema/v1/dbt.models.parquet, model mart_olist_management_kpi"
+      },
+      {
+       "label": "Een opgeslagen beschrijving lezen",
+       "status": "done",
+       "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.1 is opgeslagen.",
+       "details": "dbt-artifacts/v1.0.1/target.tar.gz -> target/dbt-docs/info_schema/v1/dbt.models.parquet, model mart_olist_management_kpi"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wat development nu toont",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de eerste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de nieuwste versie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.97,
+     "actions": [
+      {
+       "label": "De beschrijving van het rapport lezen op de documentatiepagina's van development",
+       "status": "done",
+       "summary": "De beschrijving van het rapport gelezen op de documentatiepagina's van development.",
+       "details": "dev: v1.0.1 written 2026-11-21T22:04:08Z, same text as in the package: True"
+      },
+      {
+       "label": "Een opgeslagen beschrijving lezen",
+       "status": "done",
+       "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.0 is opgeslagen.",
+       "details": "dbt-artifacts/v1.0.0/target.tar.gz -> target/dbt-docs/info_schema/v1/dbt.models.parquet, model mart_olist_management_kpi"
+      },
+      {
+       "label": "Een opgeslagen beschrijving lezen",
+       "status": "done",
+       "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.1 is opgeslagen.",
+       "details": "dbt-artifacts/v1.0.1/target.tar.gz -> target/dbt-docs/info_schema/v1/dbt.models.parquet, model mart_olist_management_kpi"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wat development nu toont",
+       "data": {
+        "summary": "De beschrijving van het rapport gelezen op de documentatiepagina's van development.",
+        "details": "dev: v1.0.1 written 2026-11-21T22:04:08Z, same text as in the package: True",
+        "data": {
+         "reasons": [
+          "Development: versie v1.0.1, documentatiepagina geschreven op 21 november, 23:04",
+          "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans)."
+         ],
+         "sites": [
+          {
+           "env": "dev",
+           "label": "Development",
+           "version": "v1.0.1",
+           "description": "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans).",
+           "written_at": "2026-11-21T22:04:08Z",
+           "matches_package": true
+          }
+         ],
+         "same": true
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de eerste versie",
+       "data": {
+        "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.0 is opgeslagen.",
+        "details": "dbt-artifacts/v1.0.0/target.tar.gz -> target/dbt-docs/info_schema/v1/dbt.models.parquet, model mart_olist_management_kpi",
+        "data": {
+         "reasons": [
+          "Opgeslagen bij versie v1.0.0 op 21 november, 20:36:",
+          "Management data product: order volume and delivery performance per order month (carrier scans)."
+         ],
+         "version": "v1.0.0",
+         "description": "Management data product: order volume and delivery performance per order month (carrier scans).",
+         "stored_at": "2026-11-21T19:36:56.583Z"
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de nieuwste versie",
+       "data": {
+        "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.1 is opgeslagen.",
+        "details": "dbt-artifacts/v1.0.1/target.tar.gz -> target/dbt-docs/info_schema/v1/dbt.models.parquet, model mart_olist_management_kpi",
+        "data": {
+         "reasons": [
+          "Opgeslagen bij versie v1.0.1 op 21 november, 23:04:",
+          "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans)."
+         ],
+         "version": "v1.0.1",
+         "description": "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans).",
+         "stored_at": "2026-11-21T22:04:00.905Z"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.97,
+     "actions": [
+      {
+       "label": "De beschrijving van het rapport lezen op de documentatiepagina's van development",
+       "status": "done",
+       "summary": "De beschrijving van het rapport gelezen op de documentatiepagina's van development.",
+       "details": "dev: v1.0.1 written 2026-11-21T22:04:08Z, same text as in the package: True"
+      },
+      {
+       "label": "Een opgeslagen beschrijving lezen",
+       "status": "done",
+       "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.0 is opgeslagen.",
+       "details": "dbt-artifacts/v1.0.0/target.tar.gz -> target/dbt-docs/info_schema/v1/dbt.models.parquet, model mart_olist_management_kpi"
+      },
+      {
+       "label": "Een opgeslagen beschrijving lezen",
+       "status": "done",
+       "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.1 is opgeslagen.",
+       "details": "dbt-artifacts/v1.0.1/target.tar.gz -> target/dbt-docs/info_schema/v1/dbt.models.parquet, model mart_olist_management_kpi"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Wat development nu toont",
+       "data": {
+        "summary": "De beschrijving van het rapport gelezen op de documentatiepagina's van development.",
+        "details": "dev: v1.0.1 written 2026-11-21T22:04:08Z, same text as in the package: True",
+        "data": {
+         "reasons": [
+          "Development: versie v1.0.1, documentatiepagina geschreven op 21 november, 23:04",
+          "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans)."
+         ],
+         "sites": [
+          {
+           "env": "dev",
+           "label": "Development",
+           "version": "v1.0.1",
+           "description": "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans).",
+           "written_at": "2026-11-21T22:04:08Z",
+           "matches_package": true
+          }
+         ],
+         "same": true
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de eerste versie",
+       "data": {
+        "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.0 is opgeslagen.",
+        "details": "dbt-artifacts/v1.0.0/target.tar.gz -> target/dbt-docs/info_schema/v1/dbt.models.parquet, model mart_olist_management_kpi",
+        "data": {
+         "reasons": [
+          "Opgeslagen bij versie v1.0.0 op 21 november, 20:36:",
+          "Management data product: order volume and delivery performance per order month (carrier scans)."
+         ],
+         "version": "v1.0.0",
+         "description": "Management data product: order volume and delivery performance per order month (carrier scans).",
+         "stored_at": "2026-11-21T19:36:56.583Z"
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "Opgeslagen bij de nieuwste versie",
+       "data": {
+        "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.1 is opgeslagen.",
+        "details": "dbt-artifacts/v1.0.1/target.tar.gz -> target/dbt-docs/info_schema/v1/dbt.models.parquet, model mart_olist_management_kpi",
+        "data": {
+         "reasons": [
+          "Opgeslagen bij versie v1.0.1 op 21 november, 23:04:",
+          "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans)."
+         ],
+         "version": "v1.0.1",
+         "description": "Management data product: orders and delivery performance per month, counted in the month the order was placed. Orders not yet delivered are left out of the on-time percentage (carrier scans).",
+         "stored_at": "2026-11-21T22:04:00.905Z"
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "De beschrijving van het rapport uit de storage gelezen, zoals die bij versie v1.0.1 is opgeslagen.",
+   "outcome": "Nu de nieuwste versie live staat, is de beschrijving van de eerste versie nog te lezen. Zonder storage zou ze weg zijn.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:04:24+00:00",
+   "durations": [
+    1.9,
+    2.1,
+    1.9,
+    2.0,
+    2.0
+   ],
+   "show": [
+    "result",
+    "result",
+    "result"
+   ]
+  },
+  "catalogue": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.0,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Drie tabellen, twee manieren",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "Tabelnamen lezen in het opgeslagen catalogusbestand",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Drie tabellen, twee manieren",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.0,
+     "actions": [
+      {
+       "label": "Tabelnamen lezen in het opgeslagen catalogusbestand",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Drie tabellen, twee manieren",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.18,
+     "actions": [
+      {
+       "label": "Tabelnamen lezen in het opgeslagen catalogusbestand",
+       "status": "done",
+       "summary": "3 tabelnamen gelezen in het opgeslagen catalogusbestand van versie v1.0.1 en in de eigen versie van een developer.",
+       "details": "fct_olist_orders: catalogue fct_olist_orders, compile pu_dev1_fct_olist_orders\ndim_olist_customers: catalogue dim_olist_customers, compile pu_dev1_dim_olist_customers\nmart_olist_management_kpi: catalogue mart_olist_management_kpi, compile pu_dev1_mart_olist_management_kpi"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Drie tabellen, twee manieren",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.18,
+     "actions": [
+      {
+       "label": "Tabelnamen lezen in het opgeslagen catalogusbestand",
+       "status": "done",
+       "summary": "3 tabelnamen gelezen in het opgeslagen catalogusbestand van versie v1.0.1 en in de eigen versie van een developer.",
+       "details": "fct_olist_orders: catalogue fct_olist_orders, compile pu_dev1_fct_olist_orders\ndim_olist_customers: catalogue dim_olist_customers, compile pu_dev1_dim_olist_customers\nmart_olist_management_kpi: catalogue mart_olist_management_kpi, compile pu_dev1_mart_olist_management_kpi"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Drie tabellen, twee manieren",
+       "data": {
+        "summary": "3 tabelnamen gelezen in het opgeslagen catalogusbestand van versie v1.0.1 en in de eigen versie van een developer.",
+        "details": "fct_olist_orders: catalogue fct_olist_orders, compile pu_dev1_fct_olist_orders\ndim_olist_customers: catalogue dim_olist_customers, compile pu_dev1_dim_olist_customers\nmart_olist_management_kpi: catalogue mart_olist_management_kpi, compile pu_dev1_mart_olist_management_kpi",
+        "data": {
+         "reasons": [
+          {
+           "label": "Bestellingentabel",
+           "left": "fct_olist_orders",
+           "right": "pu_dev1_fct_olist_orders",
+           "same": false
+          },
+          {
+           "label": "Klantentabel",
+           "left": "dim_olist_customers",
+           "right": "pu_dev1_dim_olist_customers",
+           "same": false
+          },
+          {
+           "label": "Managementrapporttabel",
+           "left": "mart_olist_management_kpi",
+           "right": "pu_dev1_mart_olist_management_kpi",
+           "same": false
+          }
+         ],
+         "version": "v1.0.1",
+         "label_title": "Tabel",
+         "left_title": "In het opgeslagen catalogusbestand",
+         "right_title": "In de eigen versie van een developer",
+         "stored": {
+          "dim_olist_customers": "dim_olist_customers",
+          "fct_olist_orders": "fct_olist_orders",
+          "mart_olist_management_kpi": "mart_olist_management_kpi"
+         },
+         "compiled": {
+          "dim_olist_customers": "pu_dev1_dim_olist_customers",
+          "fct_olist_orders": "pu_dev1_fct_olist_orders",
+          "mart_olist_management_kpi": "pu_dev1_mart_olist_management_kpi"
+         }
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.18,
+     "actions": [
+      {
+       "label": "Tabelnamen lezen in het opgeslagen catalogusbestand",
+       "status": "done",
+       "summary": "3 tabelnamen gelezen in het opgeslagen catalogusbestand van versie v1.0.1 en in de eigen versie van een developer.",
+       "details": "fct_olist_orders: catalogue fct_olist_orders, compile pu_dev1_fct_olist_orders\ndim_olist_customers: catalogue dim_olist_customers, compile pu_dev1_dim_olist_customers\nmart_olist_management_kpi: catalogue mart_olist_management_kpi, compile pu_dev1_mart_olist_management_kpi"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "Drie tabellen, twee manieren",
+       "data": {
+        "summary": "3 tabelnamen gelezen in het opgeslagen catalogusbestand van versie v1.0.1 en in de eigen versie van een developer.",
+        "details": "fct_olist_orders: catalogue fct_olist_orders, compile pu_dev1_fct_olist_orders\ndim_olist_customers: catalogue dim_olist_customers, compile pu_dev1_dim_olist_customers\nmart_olist_management_kpi: catalogue mart_olist_management_kpi, compile pu_dev1_mart_olist_management_kpi",
+        "data": {
+         "reasons": [
+          {
+           "label": "Bestellingentabel",
+           "left": "fct_olist_orders",
+           "right": "pu_dev1_fct_olist_orders",
+           "same": false
+          },
+          {
+           "label": "Klantentabel",
+           "left": "dim_olist_customers",
+           "right": "pu_dev1_dim_olist_customers",
+           "same": false
+          },
+          {
+           "label": "Managementrapporttabel",
+           "left": "mart_olist_management_kpi",
+           "right": "pu_dev1_mart_olist_management_kpi",
+           "same": false
+          }
+         ],
+         "version": "v1.0.1",
+         "label_title": "Tabel",
+         "left_title": "In het opgeslagen catalogusbestand",
+         "right_title": "In de eigen versie van een developer",
+         "stored": {
+          "dim_olist_customers": "dim_olist_customers",
+          "fct_olist_orders": "fct_olist_orders",
+          "mart_olist_management_kpi": "mart_olist_management_kpi"
+         },
+         "compiled": {
+          "dim_olist_customers": "pu_dev1_dim_olist_customers",
+          "fct_olist_orders": "pu_dev1_fct_olist_orders",
+          "mart_olist_management_kpi": "pu_dev1_mart_olist_management_kpi"
+         }
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "3 tabelnamen gelezen in het opgeslagen catalogusbestand van versie v1.0.1 en in de eigen versie van een developer.",
+   "outcome": "Alle drie de tabellen bestaan in de database onder exact de namen van het catalogusbestand, dus een zoekopdracht in de catalogus leidt naar een tabel die echt bestaat.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:04:26+00:00",
+   "durations": [
+    2.3,
+    2.3,
+    2.3,
+    2.2,
+    2.2
+   ],
+   "show": [
+    "result"
+   ]
+  },
+  "copy": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 0.0,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De kopie zoals ze is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De notitie naast de kopie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De versies in storage",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.0,
+     "actions": [
+      {
+       "label": "De kopie van de omgeving in storage lezen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De kopie zoals ze is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De notitie naast de kopie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De versies in storage",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.12,
+     "actions": [
+      {
+       "label": "De kopie van de omgeving in storage lezen",
+       "status": "done",
+       "summary": "De kopie van development in storage gelezen.",
+       "details": "dbt-artifacts-env/dev/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De kopie zoals ze is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De notitie naast de kopie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De versies in storage",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.12,
+     "actions": [
+      {
+       "label": "De kopie van de omgeving in storage lezen",
+       "status": "done",
+       "summary": "De kopie van development in storage gelezen.",
+       "details": "dbt-artifacts-env/dev/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4"
+      },
+      {
+       "label": "De notitie bij de kopie lezen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De kopie zoals ze is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De notitie naast de kopie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De versies in storage",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.38,
+     "actions": [
+      {
+       "label": "De kopie van de omgeving in storage lezen",
+       "status": "done",
+       "summary": "De kopie van development in storage gelezen.",
+       "details": "dbt-artifacts-env/dev/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4"
+      },
+      {
+       "label": "De notitie bij de kopie lezen",
+       "status": "done",
+       "summary": "De kopie van development is gelijk aan het opgeslagen bestand van v1.0.1, en aan geen enkele andere opgeslagen versie.",
+       "details": "note: {\"version\": \"v1.0.1\", \"commit\": \"b84ff72b94af5b5f4f415f31eaf6f78632fbdd9a\", \"environment\": \"dev\", \"sha256\": \"b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\", \"deployed_at\": \"2026-11-21T22:04:09Z\"}\ncopy sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\nmatching: ['v1.0.1']"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De kopie zoals ze is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De notitie naast de kopie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De versies in storage",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.38,
+     "actions": [
+      {
+       "label": "De kopie van de omgeving in storage lezen",
+       "status": "done",
+       "summary": "De kopie van development in storage gelezen.",
+       "details": "dbt-artifacts-env/dev/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4"
+      },
+      {
+       "label": "De notitie bij de kopie lezen",
+       "status": "done",
+       "summary": "De kopie van development is gelijk aan het opgeslagen bestand van v1.0.1, en aan geen enkele andere opgeslagen versie.",
+       "details": "note: {\"version\": \"v1.0.1\", \"commit\": \"b84ff72b94af5b5f4f415f31eaf6f78632fbdd9a\", \"environment\": \"dev\", \"sha256\": \"b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\", \"deployed_at\": \"2026-11-21T22:04:09Z\"}\ncopy sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\nmatching: ['v1.0.1']"
+      },
+      {
+       "label": "Lezen wat de storage bevat",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De kopie zoals ze is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De notitie naast de kopie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De versies in storage",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.59,
+     "actions": [
+      {
+       "label": "De kopie van de omgeving in storage lezen",
+       "status": "done",
+       "summary": "De kopie van development in storage gelezen.",
+       "details": "dbt-artifacts-env/dev/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4"
+      },
+      {
+       "label": "De notitie bij de kopie lezen",
+       "status": "done",
+       "summary": "De kopie van development is gelijk aan het opgeslagen bestand van v1.0.1, en aan geen enkele andere opgeslagen versie.",
+       "details": "note: {\"version\": \"v1.0.1\", \"commit\": \"b84ff72b94af5b5f4f415f31eaf6f78632fbdd9a\", \"environment\": \"dev\", \"sha256\": \"b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\", \"deployed_at\": \"2026-11-21T22:04:09Z\"}\ncopy sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\nmatching: ['v1.0.1']"
+      },
+      {
+       "label": "Lezen wat de storage bevat",
+       "status": "done",
+       "summary": "De storage bevat 2 versies; de nieuwste is v1.0.1.",
+       "details": "dbt-artifacts/v1.0.1/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\ndbt-artifacts/v1.0.0/target.tar.gz  1856576 bytes  sha256 04e10acfae911d2b657c7b9b9206fe4e7cc1fa52cf899cfd051261882138eb23"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De kopie zoals ze is",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De notitie naast de kopie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "result",
+       "title": "De versies in storage",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.59,
+     "actions": [
+      {
+       "label": "De kopie van de omgeving in storage lezen",
+       "status": "done",
+       "summary": "De kopie van development in storage gelezen.",
+       "details": "dbt-artifacts-env/dev/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4"
+      },
+      {
+       "label": "De notitie bij de kopie lezen",
+       "status": "done",
+       "summary": "De kopie van development is gelijk aan het opgeslagen bestand van v1.0.1, en aan geen enkele andere opgeslagen versie.",
+       "details": "note: {\"version\": \"v1.0.1\", \"commit\": \"b84ff72b94af5b5f4f415f31eaf6f78632fbdd9a\", \"environment\": \"dev\", \"sha256\": \"b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\", \"deployed_at\": \"2026-11-21T22:04:09Z\"}\ncopy sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\nmatching: ['v1.0.1']"
+      },
+      {
+       "label": "Lezen wat de storage bevat",
+       "status": "done",
+       "summary": "De storage bevat 2 versies; de nieuwste is v1.0.1.",
+       "details": "dbt-artifacts/v1.0.1/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\ndbt-artifacts/v1.0.0/target.tar.gz  1856576 bytes  sha256 04e10acfae911d2b657c7b9b9206fe4e7cc1fa52cf899cfd051261882138eb23"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De kopie zoals ze is",
+       "data": {
+        "summary": "De kopie van development in storage gelezen.",
+        "details": "dbt-artifacts-env/dev/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4",
+        "data": {
+         "reasons": [
+          "De kopie van development is opgeslagen op 21 november, 23:04 en is 1,9 MB groot.",
+          "Op de kopie zelf staat enkel de naam van de omgeving, geen versie."
+         ],
+         "stored_at": "2026-11-21T22:04:10.005Z",
+         "size": 1856941
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "De notitie naast de kopie",
+       "data": {
+        "summary": "De kopie van development is gelijk aan het opgeslagen bestand van v1.0.1, en aan geen enkele andere opgeslagen versie.",
+        "details": "note: {\"version\": \"v1.0.1\", \"commit\": \"b84ff72b94af5b5f4f415f31eaf6f78632fbdd9a\", \"environment\": \"dev\", \"sha256\": \"b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\", \"deployed_at\": \"2026-11-21T22:04:09Z\"}\ncopy sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\nmatching: ['v1.0.1']",
+        "data": {
+         "reasons": [
+          "De notitie zegt: versie v1.0.1, gedeployd op 21 november, 23:04.",
+          "Fingerprint van de kopie: b52a1eaa",
+          "Fingerprint van het opgeslagen bestand van v1.0.1: b52a1eaa (dezelfde)",
+          "Fingerprint van het opgeslagen bestand van v1.0.0: 04e10acf"
+         ],
+         "note": {
+          "version": "v1.0.1",
+          "commit": "b84ff72b94af5b5f4f415f31eaf6f78632fbdd9a",
+          "environment": "dev",
+          "sha256": "b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4",
+          "deployed_at": "2026-11-21T22:04:09Z"
+         },
+         "fingerprint": "b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4",
+         "matches": [
+          "v1.0.1"
+         ],
+         "stored": [
+          "v1.0.0",
+          "v1.0.1"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "De versies in storage",
+       "data": {
+        "summary": "De storage bevat 2 versies; de nieuwste is v1.0.1.",
+        "details": "dbt-artifacts/v1.0.1/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\ndbt-artifacts/v1.0.0/target.tar.gz  1856576 bytes  sha256 04e10acfae911d2b657c7b9b9206fe4e7cc1fa52cf899cfd051261882138eb23",
+        "data": {
+         "reasons": [
+          "v1.0.1: opgeslagen op 21 november, 23:04, 1,9 MB",
+          "v1.0.0: opgeslagen op 21 november, 20:36, 1,9 MB"
+         ],
+         "versions": [
+          {
+           "version": "v1.0.1",
+           "package_id": 39,
+           "stored_at": "2026-11-21T22:04:00.905Z",
+           "size": 1856941,
+           "sha256": "b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4",
+           "title": "Zeg in welke maand een bestelling geteld wordt"
+          },
+          {
+           "version": "v1.0.0",
+           "package_id": 1,
+           "stored_at": "2026-11-21T19:36:56.583Z",
+           "size": 1856576,
+           "sha256": "04e10acfae911d2b657c7b9b9206fe4e7cc1fa52cf899cfd051261882138eb23",
+           "title": "De eerste versie"
+          }
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "t": 0.59,
+     "actions": [
+      {
+       "label": "De kopie van de omgeving in storage lezen",
+       "status": "done",
+       "summary": "De kopie van development in storage gelezen.",
+       "details": "dbt-artifacts-env/dev/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4"
+      },
+      {
+       "label": "De notitie bij de kopie lezen",
+       "status": "done",
+       "summary": "De kopie van development is gelijk aan het opgeslagen bestand van v1.0.1, en aan geen enkele andere opgeslagen versie.",
+       "details": "note: {\"version\": \"v1.0.1\", \"commit\": \"b84ff72b94af5b5f4f415f31eaf6f78632fbdd9a\", \"environment\": \"dev\", \"sha256\": \"b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\", \"deployed_at\": \"2026-11-21T22:04:09Z\"}\ncopy sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\nmatching: ['v1.0.1']"
+      },
+      {
+       "label": "Lezen wat de storage bevat",
+       "status": "done",
+       "summary": "De storage bevat 2 versies; de nieuwste is v1.0.1.",
+       "details": "dbt-artifacts/v1.0.1/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\ndbt-artifacts/v1.0.0/target.tar.gz  1856576 bytes  sha256 04e10acfae911d2b657c7b9b9206fe4e7cc1fa52cf899cfd051261882138eb23"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "result",
+       "title": "De kopie zoals ze is",
+       "data": {
+        "summary": "De kopie van development in storage gelezen.",
+        "details": "dbt-artifacts-env/dev/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4",
+        "data": {
+         "reasons": [
+          "De kopie van development is opgeslagen op 21 november, 23:04 en is 1,9 MB groot.",
+          "Op de kopie zelf staat enkel de naam van de omgeving, geen versie."
+         ],
+         "stored_at": "2026-11-21T22:04:10.005Z",
+         "size": 1856941
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "De notitie naast de kopie",
+       "data": {
+        "summary": "De kopie van development is gelijk aan het opgeslagen bestand van v1.0.1, en aan geen enkele andere opgeslagen versie.",
+        "details": "note: {\"version\": \"v1.0.1\", \"commit\": \"b84ff72b94af5b5f4f415f31eaf6f78632fbdd9a\", \"environment\": \"dev\", \"sha256\": \"b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\", \"deployed_at\": \"2026-11-21T22:04:09Z\"}\ncopy sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\nmatching: ['v1.0.1']",
+        "data": {
+         "reasons": [
+          "De notitie zegt: versie v1.0.1, gedeployd op 21 november, 23:04.",
+          "Fingerprint van de kopie: b52a1eaa",
+          "Fingerprint van het opgeslagen bestand van v1.0.1: b52a1eaa (dezelfde)",
+          "Fingerprint van het opgeslagen bestand van v1.0.0: 04e10acf"
+         ],
+         "note": {
+          "version": "v1.0.1",
+          "commit": "b84ff72b94af5b5f4f415f31eaf6f78632fbdd9a",
+          "environment": "dev",
+          "sha256": "b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4",
+          "deployed_at": "2026-11-21T22:04:09Z"
+         },
+         "fingerprint": "b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4",
+         "matches": [
+          "v1.0.1"
+         ],
+         "stored": [
+          "v1.0.0",
+          "v1.0.1"
+         ]
+        }
+       }
+      },
+      {
+       "type": "result",
+       "title": "De versies in storage",
+       "data": {
+        "summary": "De storage bevat 2 versies; de nieuwste is v1.0.1.",
+        "details": "dbt-artifacts/v1.0.1/target.tar.gz  1856941 bytes  sha256 b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4\ndbt-artifacts/v1.0.0/target.tar.gz  1856576 bytes  sha256 04e10acfae911d2b657c7b9b9206fe4e7cc1fa52cf899cfd051261882138eb23",
+        "data": {
+         "reasons": [
+          "v1.0.1: opgeslagen op 21 november, 23:04, 1,9 MB",
+          "v1.0.0: opgeslagen op 21 november, 20:36, 1,9 MB"
+         ],
+         "versions": [
+          {
+           "version": "v1.0.1",
+           "package_id": 39,
+           "stored_at": "2026-11-21T22:04:00.905Z",
+           "size": 1856941,
+           "sha256": "b52a1eaa2746fdb4e2461b07b09bdacd7fa2c4ee0e887b865617d0767271fcc4",
+           "title": "Zeg in welke maand een bestelling geteld wordt"
+          },
+          {
+           "version": "v1.0.0",
+           "package_id": 1,
+           "stored_at": "2026-11-21T19:36:56.583Z",
+           "size": 1856576,
+           "sha256": "04e10acfae911d2b657c7b9b9206fe4e7cc1fa52cf899cfd051261882138eb23",
+           "title": "De eerste versie"
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "De storage bevat 2 versies; de nieuwste is v1.0.1.",
+   "outcome": "De fingerprint in de notitie is gelijk aan het opgeslagen bestand van precies de versie die de notitie noemt, dus ze bewijst welke versie development draait. Zonder notitie kan niemand bewijzen welke versie de cijfers van vandaag maakte.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:04:27+00:00",
+   "durations": [
+    0.6,
+    0.6,
+    0.6,
+    0.6,
+    0.6
+   ],
+   "show": [
+    "result",
+    "result",
+    "result"
+   ]
+  },
+  "all": {
+   "inputs": {},
+   "frames": [
+    {
+     "t": 1.49,
+     "actions": [],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De reis van de goedgekeurde wijziging",
+       "data": {
+        "state": "done",
+        "state_text": "Klaar",
+        "jobs": [
+         {
+          "label": "Het package van de versie maken",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De beschrijving van de versie in storage opslaan",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De versie deployen in development",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "result",
+       "title": "De startpagina van de documentatie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Versie in elke omgeving",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validatie",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Productie",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 1.49,
+     "actions": [
+      {
+       "label": "De startpagina van de documentatie van development lezen",
+       "status": "running",
+       "summary": "",
+       "details": ""
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De reis van de goedgekeurde wijziging",
+       "data": {
+        "state": "done",
+        "state_text": "Klaar",
+        "jobs": [
+         {
+          "label": "Het package van de versie maken",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De beschrijving van de versie in storage opslaan",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De versie deployen in development",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "result",
+       "title": "De startpagina van de documentatie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Versie in elke omgeving",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validatie",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Productie",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 2.69,
+     "actions": [
+      {
+       "label": "De startpagina van de documentatie van development lezen",
+       "status": "done",
+       "summary": "De startpagina van de documentatie van development gelezen.",
+       "details": "dev: version v1.0.1 (runs v1.0.1) written 2026-11-21T22:04:06Z tables 30 checks 36 feeds 14 teams 7"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De reis van de goedgekeurde wijziging",
+       "data": {
+        "state": "done",
+        "state_text": "Klaar",
+        "jobs": [
+         {
+          "label": "Het package van de versie maken",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De beschrijving van de versie in storage opslaan",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De versie deployen in development",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "result",
+       "title": "De startpagina van de documentatie",
+       "data": {
+        "summary": "",
+        "details": "",
+        "data": {}
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Versie in elke omgeving",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validatie",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Productie",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.2,
+     "actions": [
+      {
+       "label": "De startpagina van de documentatie van development lezen",
+       "status": "done",
+       "summary": "De startpagina van de documentatie van development gelezen.",
+       "details": "dev: version v1.0.1 (runs v1.0.1) written 2026-11-21T22:04:06Z tables 30 checks 36 feeds 14 teams 7"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De reis van de goedgekeurde wijziging",
+       "data": {
+        "state": "done",
+        "state_text": "Klaar",
+        "jobs": [
+         {
+          "label": "Het package van de versie maken",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De beschrijving van de versie in storage opslaan",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De versie deployen in development",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "result",
+       "title": "De startpagina van de documentatie",
+       "data": {
+        "summary": "De startpagina van de documentatie van development gelezen.",
+        "details": "dev: version v1.0.1 (runs v1.0.1) written 2026-11-21T22:04:06Z tables 30 checks 36 feeds 14 teams 7",
+        "data": {
+         "reasons": [
+          "Development: de startpagina vermeldt versie v1.0.1, geschreven op 21 november, 23:04:06.",
+          "Ze telt 30 tabellen, 36 checks en 14 feeds en noemt 7 teams."
+         ],
+         "pages": [
+          {
+           "env": "dev",
+           "label": "Development",
+           "running": "v1.0.1",
+           "written": true,
+           "version": "v1.0.1",
+           "written_at": "2026-11-21T22:04:06Z",
+           "with_seconds": true,
+           "tables": 30,
+           "checks": 36,
+           "feeds": 14,
+           "teams": 7
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Versie in elke omgeving",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validatie",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Productie",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": 4.2,
+     "actions": [
+      {
+       "label": "De startpagina van de documentatie van development lezen",
+       "status": "done",
+       "summary": "De startpagina van de documentatie van development gelezen.",
+       "details": "dev: version v1.0.1 (runs v1.0.1) written 2026-11-21T22:04:06Z tables 30 checks 36 feeds 14 teams 7"
+      }
+     ],
+     "evidence": [
+      {
+       "type": "pipeline",
+       "title": "De reis van de goedgekeurde wijziging",
+       "data": {
+        "state": "done",
+        "state_text": "Klaar",
+        "jobs": [
+         {
+          "label": "Het package van de versie maken",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De beschrijving van de versie in storage opslaan",
+          "state": "done",
+          "state_text": "Klaar"
+         },
+         {
+          "label": "De versie deployen in development",
+          "state": "done",
+          "state_text": "Klaar"
+         }
+        ],
+        "failures": []
+       }
+      },
+      {
+       "type": "result",
+       "title": "De startpagina van de documentatie",
+       "data": {
+        "summary": "De startpagina van de documentatie van development gelezen.",
+        "details": "dev: version v1.0.1 (runs v1.0.1) written 2026-11-21T22:04:06Z tables 30 checks 36 feeds 14 teams 7",
+        "data": {
+         "reasons": [
+          "Development: de startpagina vermeldt versie v1.0.1, geschreven op 21 november, 23:04:06.",
+          "Ze telt 30 tabellen, 36 checks en 14 feeds en noemt 7 teams."
+         ],
+         "pages": [
+          {
+           "env": "dev",
+           "label": "Development",
+           "running": "v1.0.1",
+           "written": true,
+           "version": "v1.0.1",
+           "written_at": "2026-11-21T22:04:06Z",
+           "with_seconds": true,
+           "tables": 30,
+           "checks": 36,
+           "feeds": 14,
+           "teams": 7
+          }
+         ]
+        }
+       }
+      },
+      {
+       "type": "versions",
+       "title": "Versie in elke omgeving",
+       "data": {
+        "environments": [
+         {
+          "env": "dev",
+          "label": "Development",
+          "tag": "v1.0.1"
+         },
+         {
+          "env": "val",
+          "label": "Validatie",
+          "tag": "v1.0.0"
+         },
+         {
+          "env": "prd",
+          "label": "Productie",
+          "tag": "v1.0.0"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "summary": "De startpagina van de documentatie van development gelezen.",
+   "outcome": "Eén goedgekeurde wijziging werd genummerd, verpakt, opgeslagen en gedeployd zonder dat iemand iets met de hand deed. De startpagina schreef zich hier ook vanzelf, maar die schakel is, net als de notitie naast de kopie, een volgende stap.",
+   "outcome_kind": "good",
+   "recorded_at": "2026-11-21T22:04:31+00:00",
+   "durations": [
+    4.2,
+    4.5,
+    4.2,
+    4.1,
+    4.2
+   ],
+   "show": [
+    "pipeline",
+    "result",
+    "versions"
+   ]
+  }
+ },
+ "prepare": {
+  "durations": [
+   42.1,
+   50.4,
+   52.2,
+   51.7,
+   52.0
+  ]
+ },
+ "recorded_at": "2026-11-21T22:04:31+00:00"
+}
