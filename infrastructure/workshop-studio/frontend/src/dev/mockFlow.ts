@@ -1,7 +1,7 @@
 // A sample FLOW (a long scenario) and a sample closing overview for the mock: six stages with mixed statuses (the last
 // one, "everything switched on", has none), five code blocks with badges, and a `_roadmap.yaml` with two extra rows.
 // The mock adds the flow to its own group and the roadmap to the catalog (see mockContent.withFlowAndRoadmap).
-import type { Catalog, CatalogScenario, CodeBlockData, EvidenceItem, Roadmap, Scenario, StepDef } from '../api/types'
+import type { Catalog, CatalogScenario, CodeBlockData, EvidenceItem, Quiz, Roadmap, Scenario, StepDef } from '../api/types'
 
 const codeBlock = (n: number, title: string, label: string, status?: 'today' | 'next'): CodeBlockData => ({
   title,
@@ -153,5 +153,80 @@ export function withFlowAndRoadmap(c: Catalog, recorded: (id: string) => boolean
   for (const s of out.groups.flatMap((g) => g.scenarios)) if (MOCK_TECH[s.id]) s.tech = MOCK_TECH[s.id]
   out.groups.push({ id: 'flows', title: 'The whole route', blurb: 'One long walk through every stage, with what is in place today and what is next.', scenarios: [entry] })
   out.roadmap = structuredClone(ROADMAP)
+  return out
+}
+
+// Sample questions for the room (the quiz): one on two ordinary scenarios and one on three stages of the sample flow.
+export const MOCK_QUIZ: Record<string, Quiz> = {
+  'skip-one-table': {
+    situation: 'Het is nacht. De feed van de pakjesdienst komt aan met 3 scans zonder scannummer, en de pakjesdienst heeft een dag nodig om dat te herstellen. Morgenvroeg opent het management zijn rapport.',
+    question: 'Wat doe je vannacht met de load?',
+    options: [
+      { label: 'Alles laten wachten tot de feed hersteld is', impact: 'Geen enkel fout cijfer, maar elk rapport blijft een dag oud. Ook de rapporten die niets met de pakjesdienst te maken hebben.', tone: 'bad' },
+      { label: 'De check uitzetten en alles laten doorlopen', impact: 'Elk rapport is op tijd, maar de 3 foute scans zitten erin. Niemand weet nog welke cijfers te vertrouwen zijn.', tone: 'bad' },
+      { label: 'Enkel de pakjesdienst en wat ervan afhangt een nacht overslaan', impact: 'Alle andere rapporten zijn op tijd en gecheckt. Wat van de pakjesdienst afhangt, wacht een nacht, zonder nieuwe [[release]].', tone: 'good', platform: true },
+    ],
+    takeaway: 'Sla het kapotte deel over, niet de hele nacht.',
+    minutes: 2,
+  },
+  'late-delivery': {
+    situation: 'De feed met bestellingen is vannacht niet aangekomen. De andere feeds zijn er wel.',
+    question: 'Wat doet de nachtelijke load?',
+    options: [
+      { label: 'De late feed melden en de rest gewoon laden', impact: 'Elk ander rapport is op tijd, en iedereen ziet welke feed ontbreekt.', tone: 'good', platform: true },
+      { label: 'Wachten tot alles binnen is', impact: 'Geen enkel rapport is klaar tegen de ochtend.', tone: 'bad' },
+    ],
+    takeaway: 'Eén late feed houdt de rest niet tegen.',
+    minutes: 1,
+  },
+  'flow-test/check': {
+    situation: 'Een feed komt binnen met rijen die niet kloppen. Niemand heeft er al naar gekeken.',
+    question: 'Wanneer kijk je de data na?',
+    options: [
+      { label: 'Pas als iemand een fout cijfer meldt', impact: 'Het foute cijfer stond al in een rapport voor iemand het zag.', tone: 'bad' },
+      { label: 'Bij aankomst, voor iemand ze gebruikt', impact: 'Een kapotte feed stopt aan de deur. Dat kost een paar minuten per load.', tone: 'good', platform: true },
+    ],
+    takeaway: 'Nakijken bij aankomst is goedkoper dan herstellen achteraf.',
+    minutes: 2,
+  },
+  'flow-test/try': {
+    situation: 'Een developer wil een berekening aanpassen. De tabel wordt elke dag door collega\'s gelezen.',
+    question: 'Waar probeer je de wijziging uit?',
+    options: [
+      { label: 'In de gedeelde tabel, buiten de kantooruren', impact: 'Het werkt meestal, maar wie vroeg begint, leest een half aangepaste tabel.', tone: 'warn' },
+      { label: 'Op een privékopie', impact: 'Niemand merkt iets tot de wijziging goedgekeurd is. Het platform heeft dit nog niet.', tone: 'good', platform: true },
+      { label: 'Rechtstreeks in productie, met een collega erbij', impact: 'Een fout staat meteen in de rapporten van iedereen.', tone: 'bad' },
+    ],
+    takeaway: 'Uitproberen hoort op een plek waar niemand anders leest.',
+    minutes: 3,
+  },
+  'flow-test/release': {
+    situation: 'De wijziging is goedgekeurd. Ze moet nu naar de mensen die de rapporten lezen.',
+    question: 'Hoe breng je ze naar productie?',
+    options: [
+      { label: 'Stap per stap, in een vaste volgorde', impact: 'Een fout valt op in development of validatie, voor productie ze ziet.', tone: 'good', platform: true },
+      { label: 'Meteen overal tegelijk', impact: 'Het gaat snel, en een fout is meteen overal.', tone: 'bad' },
+    ],
+    minutes: 2,
+  },
+}
+
+/** Adds the sample questions to a catalog (dev mock and tests only; the real ones come from the scenario files). */
+/** Sample "Bij ons gebeurd" lines: what really happened, next to the question of a scenario or a stage. */
+export const MOCK_REALITY: Record<string, string> = {
+  'skip-one-table': 'De lijst om kapotte tabellen een nacht over te slaan bestaat al van de eerste nachtelijke load. Ze moest één keer hersteld worden: na een verhuis van de load werkte ze niet meer zoals bedoeld.',
+  'flow-test/try': 'Eén wijziging werd in zeven dagen vijf keer goedgekeurd en op releasedag vier keer teruggedraaid.',
+}
+
+export function withQuiz(c: Catalog): Catalog {
+  const out = structuredClone(c)
+  for (const s of out.groups.flatMap((g) => g.scenarios)) {
+    if (MOCK_QUIZ[s.id]) s.quiz = MOCK_QUIZ[s.id]
+    if (MOCK_REALITY[s.id]) s.reality = MOCK_REALITY[s.id]
+    for (const st of s.steps ?? []) {
+      if (MOCK_QUIZ[`${s.id}/${st.id}`]) st.quiz = MOCK_QUIZ[`${s.id}/${st.id}`]
+      if (MOCK_REALITY[`${s.id}/${st.id}`]) st.reality = MOCK_REALITY[`${s.id}/${st.id}`]
+    }
+  }
   return out
 }

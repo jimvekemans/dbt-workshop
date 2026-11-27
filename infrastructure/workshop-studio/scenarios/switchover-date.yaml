@@ -11,6 +11,24 @@ environment: dev
 related:
   - id: skip-one-table
     why: De omschakeldag is een instelling die een operator zonder nieuwe release kan wijzigen, net als de lijst met overgeslagen tabellen in dat scenario.
+reality: "Negen feeds hebben zo'n omschakeldag, meestal één per omgeving, en die dag staat in de code. Voor één feed stond de dag van productie er twee weken te vroeg in. Dat ging zo mee in een release en werd drie weken later rechtgezet."
+
+quiz:
+  situation: De pakjesdienst verandert op één dag van scanformaat. Ons rapport begrijpt enkel het oude formaat. Er crasht niets, maar de klantendienst ziet scans niet meer.
+  question: Hoe gaan we met het nieuwe formaat om?
+  options:
+    - label: Oude en nieuwe scans elk op hun eigen manier lezen, vanaf een dag
+      impact: Elke scan wordt gelezen in het formaat waarin hij kwam. De dag is een instelling die een operator in een minuut wijzigt, maar hij moet wel juist zijn.
+      tone: good
+      platform: true
+    - label: Het rapport aanpassen naar enkel het nieuwe formaat
+      impact: De scans in het nieuwe formaat zijn leesbaar, maar de scans van vóór de wijziging zijn dat niet meer.
+      tone: bad
+    - label: Aan de pakjesdienst vragen om het oude formaat te blijven sturen
+      impact: Het rapport blijft werken zolang de pakjesdienst meewerkt. Het hangt van een andere partij en haar planning af.
+      tone: warn
+  takeaway: Laat elk formaat gelezen worden op zijn eigen dag, zodat geen enkele scan verloren gaat.
+  minutes: 2
 
 problem:
   headline: Pakketscans in het nieuwe formaat van de pakjesdienst verdwijnen uit het rapport

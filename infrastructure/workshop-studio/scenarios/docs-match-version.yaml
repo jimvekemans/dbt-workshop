@@ -12,6 +12,23 @@ related:
   - id: numbered-versions
     why: Elke omgeving draait één genummerde versie. Hier volgt de documentatie dat nummer.
 
+quiz:
+  situation: Het managementrapport werd twee keer gewijzigd sinds iemand de beschrijving ervan met de hand schreef. Maandag bouwt een nieuwe analiste haar presentatie op die beschrijving.
+  question: Hoe blijft de beschrijving van een rapport juist?
+  options:
+    - label: De pagina bij elke versie die live gaat opnieuw laten schrijven
+      impact: Elke omgeving toont de beschrijving van haar eigen versie. Validatie toont dus nog de oude tekst terwijl development al de nieuwe toont, en beide kloppen.
+      tone: good
+      platform: true
+    - label: Afspreken dat developers de pagina aanpassen bij elke wijziging
+      impact: "Zo gaat het vandaag: het gaat goed tot iemand het vergeet. De pagina zegt dan iets anders dan het rapport, en dat blijkt pas in een meeting."
+      tone: warn
+    - label: Een collega alle pagina's laten nalezen op vaste momenten
+      impact: Tussen twee nalezingen kan een pagina fout zijn. Wie ze dan leest, vertrouwt op een betekenis die niet meer klopt.
+      tone: warn
+  takeaway: Een beschrijving die bij het live gaan geschreven wordt, kan niet uit de pas lopen met de versie.
+  minutes: 2
+
 problem:
   headline: Mensen lezen een beschrijving die niet meer zegt wat het rapport doet
   story: |

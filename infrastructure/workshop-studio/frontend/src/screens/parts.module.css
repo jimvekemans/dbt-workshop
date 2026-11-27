@@ -25,7 +25,7 @@
 .twoCol[data-part='idea'] { grid-template-areas: 'head' 'text' 'visual'; }
 .areaHead { grid-area: head; display: grid; gap: var(--space-2); }
 .areaText { grid-area: text; }
-.areaCost { grid-area: cost; max-width: var(--measure); }
+.areaCost { grid-area: cost; max-width: var(--measure); display: grid; gap: var(--space-4); }
 .areaVisual { grid-area: visual; }
 .twoCol .h2 { font-size: clamp(1.8rem, 1.4vw + 1rem, 2.9rem); max-width: 20ch; }
 @media (min-width: 62rem) {

@@ -7,6 +7,21 @@ feature: "Eigen kopieën voor elke developer"
 status: today
 tech: ["generate_alias_name", "username prefix", "cleanup_user_models", "dbt_housekeeping"]
 environment: dev
+reality: "Elke developer buildt van bij de start onder zijn eigen naam. De opkuis kwam er stap voor stap bij: eerst voor de eigen kopieën, later een zoektocht naar tabellen die bij geen enkel stuk code meer horen."
+
+quiz:
+  situation: Dana en Sam verbeteren allebei de klantentabel in development. Dana kijkt een uur lang haar cijfers na, terwijl Sam zijn versie klaar heeft om te builden.
+  question: Hoe werken twee developers tegelijk aan dezelfde tabel?
+  options:
+    - label: Elke developer op een eigen kopie laten builden
+      impact: Allebei builden ze dezelfde tabel naast elkaar en de gedeelde tabel blijft zoals ze is. Een wekelijkse taak kuist kopieën van meer dan een week oud op.
+      tone: good
+      platform: true
+    - label: Om beurten laten builden, met een bericht aan de rest
+      impact: Niemand overschrijft iemand zolang iedereen het onthoudt, maar de tweede developer wacht. Vergeet één persoon het, dan is het werk van de ander weg.
+      tone: warn
+  takeaway: Wie een eigen kopie heeft, kan het werk van een ander niet meer overschrijven.
+  minutes: 2
 
 problem:
   headline: Twee developers builden dezelfde tabel en één wist het werk van de ander

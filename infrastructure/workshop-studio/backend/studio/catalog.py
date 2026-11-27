@@ -20,8 +20,8 @@ from pydantic import ValidationError
 from . import names
 from .actions import base
 from .config import Settings
-from .models import (ENVIRONMENTS, OUTCOME_MAX, GlossaryFile, Group, GroupsFile, OutcomeCheck, RoadmapFile, Scenario,
-                     Step)
+from .models import (ENVIRONMENTS, OUTCOME_MAX, GlossaryFile, Group, GroupsFile, OutcomeCheck, Quiz, RoadmapFile,
+                     Scenario, Step)
 from .templating import TemplateContext, TemplateError, render, render_input, render_item
 
 FEEDS = ("customers", "orders", "payments", "reviews", "carrier", "web")
@@ -71,8 +71,9 @@ class Catalog:
                     {"id": s.id, "kind": s.kind, "title": s.title, "promise": s.promise, "minutes": s.minutes,
                      "environment": s.environment, "related": [r.model_dump() for r in s.related],
                      "feature": s.feature, "status": s.status, "why": s.why, "tech": s.tech,
+                     "reality": s.reality, "quiz": _quiz(s.quiz),
                      "steps": [{"id": st.id, "title": st.title, "feature": st.feature, "status": st.status,
-                                "why": st.why, "tech": st.tech}
+                                "why": st.why, "tech": st.tech, "reality": st.reality, "quiz": _quiz(st.quiz)}
                                for st in s.demo.steps],
                      "idea": _idea_preview(s),
                      "recorded": recorded(s)} for s in members]})
@@ -106,14 +107,23 @@ class Catalog:
                           "outcome": step.outcome if isinstance(step.outcome, str) else None,
                           "usual_seconds": usual_seconds(step.id),
                           **({"feature": step.feature, "status": step.status} if step.status else {}),
-                          **({"tech": step.tech} if step.tech else {})})
+                          **({"tech": step.tech} if step.tech else {}),
+                          **({"reality": step.reality} if step.reality else {}),
+                          **({"quiz": _quiz(step.quiz)} if step.quiz else {})})
         return {"id": sc.id, "kind": sc.kind, "group": sc.group, "title": sc.title, "promise": sc.promise,
-                "feature": sc.feature, "status": sc.status, "tech": sc.tech, "minutes": sc.minutes,
+                "feature": sc.feature, "status": sc.status, "tech": sc.tech, "reality": sc.reality,
+                "quiz": _quiz(sc.quiz),
+                "minutes": sc.minutes,
                 "environment": sc.environment, "related": [r.model_dump() for r in sc.related],
                 "problem": sc.problem.model_dump(by_alias=True), "idea": sc.idea.model_dump(by_alias=True),
                 "code": self.blocks[scenario_id],
                 "demo": {"intro": sc.demo.intro, "steps": steps},
                 "prepare_usual_seconds": prepare_usual_seconds}
+
+
+def _quiz(quiz: Quiz | None) -> dict[str, Any] | None:
+    """A question for the room as the UI gets it (the catalog carries every question, for the quiz page)."""
+    return quiz.model_dump() if quiz else None
 
 
 def _idea_preview(sc: Scenario) -> dict[str, Any]:

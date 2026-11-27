@@ -1,5 +1,5 @@
 import { plainText } from '../lib/glossary'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { InputValue, InputValues, Scenario } from '../api/types'
 import { useStudio } from '../lib/studio'
 import { demoFor, demoIsOpen, stepBlockedReason, stepState } from '../lib/store'
@@ -15,7 +15,7 @@ import { partTitle } from '../lib/router'
 import styles from './parts.module.css'
 import demo from './DemoPart.module.css'
 
-export function DemoPart({ scenario }: { scenario: Scenario }) {
+export function DemoPart({ scenario, focusStep }: { scenario: Scenario; focusStep?: string }) {
   const { server, catalog, actions } = useStudio()
   const d = demoFor(server, scenario.id)
   const open = demoIsOpen(d)
@@ -36,6 +36,22 @@ export function DemoPart({ scenario }: { scenario: Scenario }) {
   const tryStep = [...steps].reverse().find((s) => s.inputs.length > 0)
   const left = server?.leftovers ?? []
   const cleaning = server?.job?.kind === 'cleanup'
+
+  // a link from a question names the step it is about: once the steps are on the page, go there (once). After the
+  // page's own "start at the top" has run, so this is where the page ends up.
+  const jumped = useRef<string | null>(null)
+  useEffect(() => {
+    if (!open || !focusStep || jumped.current === focusStep) return
+    const timer = setTimeout(() => {
+      const el = document.getElementById(`step-${focusStep}`)
+      if (!el) return
+      jumped.current = focusStep
+      const card = el.closest('article') ?? el
+      card.scrollIntoView?.({ behavior: 'auto', block: 'start' })
+      el.focus?.({ preventScroll: true })
+    }, 0)
+    return () => clearTimeout(timer)
+  }, [open, focusStep])
 
   return (
     <>

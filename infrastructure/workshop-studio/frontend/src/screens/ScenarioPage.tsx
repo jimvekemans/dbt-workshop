@@ -4,6 +4,8 @@ import { useScenario, useStudio } from '../lib/studio'
 import { useUi } from '../lib/ui'
 import { demoFor, demoIsPreparing, findCatalogScenario, neighbours } from '../lib/store'
 import { PARTS, navigate, partIndex, partTitle } from '../lib/router'
+import { isWaiting, itemKey, questionHref, quizItems, useQuiz } from '../lib/quiz'
+import { QuizStrip } from '../components/QuizStrip'
 import { plainText } from '../lib/glossary'
 import { RichText } from '../components/Term'
 import { TechLine } from '../components/TechLine'
@@ -26,7 +28,7 @@ const NEXT_HINT: Partial<Record<PartId, string>> = { idea: 'hoe je het voorkomt'
 
 const BAR_PX = 60
 
-export function ScenarioPage({ id, part, from }: { id: string; part: PartId; from?: string }) {
+export function ScenarioPage({ id, part, from, step }: { id: string; part: PartId; from?: string; step?: string }) {
   const { scenario, error, notFound } = useScenario(id)
   const { catalog, server, actions } = useStudio()
   const { openSwitcher } = useUi()
@@ -37,6 +39,13 @@ export function ScenarioPage({ id, part, from }: { id: string; part: PartId; fro
   const first = useRef(true)
   const dir = idx < prevIdx.current ? 'back' : 'forward'
   const ready = !!scenario
+  // a scenario with a question for the room opens with that question (unless it was asked, skipped or switched off)
+  const quiz = useQuiz()
+  const opener = quizItems(catalog).find((i) => i.key === itemKey(id)) ?? null
+  const askFirst = part === 'problem' && !from && !!opener && quiz.opening && isWaiting(quiz, opener.key)
+  useEffect(() => {
+    if (askFirst && opener) window.location.replace(questionHref(opener))
+  }, [askFirst, opener])
 
   useEffect(() => {
     prevIdx.current = idx
@@ -129,7 +138,7 @@ export function ScenarioPage({ id, part, from }: { id: string; part: PartId; fro
       </>
     )
   }
-  if (!scenario) {
+  if (!scenario || askFirst) {
     return (
       <div className={styles.loading}>
         <SkeletonLines lines={6} label="Scenario wordt geopend" />
@@ -160,10 +169,11 @@ export function ScenarioPage({ id, part, from }: { id: string; part: PartId; fro
       </header>
       <Stepper parts={PARTS} current={part} onSelect={go} />
       <div className={parts.part} data-dir={dir} key={part}>
+        {part === 'problem' && <QuizStrip scenarioId={id} />}
         {part === 'problem' && <ProblemPart scenario={scenario} />}
         {part === 'idea' && <IdeaPart scenario={scenario} />}
         {part === 'code' && <CodePart scenario={scenario} />}
-        {part === 'demo' && <DemoPart scenario={scenario} />}
+        {part === 'demo' && <DemoPart scenario={scenario} focusStep={step} />}
       </div>
       {(part === 'idea' || part === 'demo') && !gettingReady && <Related items={scenario.related} fromId={id} />}
       <footer ref={footerRef} className={styles.footer}>

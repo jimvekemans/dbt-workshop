@@ -9,7 +9,7 @@ extras:
   - area: De tools eronder
     feature: De hulptool van de developer, herbouwd
     status: next
-    note: Het platform heeft de guard, de vault-login en de feed-commando's vandaag in een oudere tool. De herbouwde die je zag, vervangt die.
+    note: Het platform heeft de guard en de feed-commando's vandaag in een oudere tool. De herbouwde die je zag, vervangt die.
   - area: Releasen
     feature: Oude tabellen enkel bij een release verwijderen
     status: next
@@ -18,3 +18,7 @@ extras:
     feature: Eén scherm om een release voor te bereiden
     status: next
     note: Eén scherm om een release samen te stellen en na te kijken voor er iets verandert. Het bestaat, maar zit nog niet in dit oefensysteem.
+  - area: Releasen
+    feature: De startpagina telt ook tabellen, checks en feeds
+    status: next
+    note: Vandaag noemt de startpagina de release, het moment van de build en de wijziging. De grootte komt er nog bij.

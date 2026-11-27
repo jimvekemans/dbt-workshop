@@ -6,7 +6,8 @@ Bootstrap of the dbt x SingleStore workshop stack (runs in the manager container
    (singlestore/init_env.sql.tmpl), then the global part (singlestore/init_global.sql): vdp_ci, CI user, developers, admin.
 2. GitLab: root token, the Airflow OAuth application (credentials written to compose/.env), group/project 'workshop/dbt-vdp',
    one maintainer and three developers (pu_dev1..3), protected branches dev and main.
-3. Images: checks that dbt-singlestore-base:1.11.11 and dbt-singlestore-dev:1.11.11 exist (the Makefile builds them);
+3. Images: checks that dbt-singlestore-base:1.11.11 and dbt-singlestore-dev:1.11.11 exist (`make bootstrap` builds both
+   on the host first);
    registers the GitLab runner (docker executor, docker socket).
 4. The dbt project (../../dbt-singlestore-workshop) is pushed with branches dev and main plus the first tag v1.0.0;
    the tag pipeline builds the dbt-vdp image and deploys it to dev. Bootstrap waits for that pipeline and reports it.
@@ -431,9 +432,12 @@ def build_images():
     # (RUN --mount), which the docker CLI in the manager container does not have.
     if subprocess.run(["docker", "image", "inspect", BASE_IMAGE_NAME], capture_output=True).returncode != 0:
         raise SystemExit(f"{BASE_IMAGE_NAME} not found: run `make images` (or `make bootstrap`) on the host first.")
-    # The dev image is only needed for the devcontainer; `make images` builds it from its own folder.
+    # The dev image is what the devcontainer opens and what the Workshop Studio starts for every developer step (the
+    # toolbox demos, a developer's own dbt run). `make bootstrap` and `make images` build it on the host; without it
+    # the stack works, but those demo steps fail.
     if subprocess.run(["docker", "image", "inspect", DEV_IMAGE_NAME], capture_output=True).returncode != 0:
-        print(f"  -> {DEV_IMAGE_NAME} not found: run `make images` before opening the devcontainer.")
+        print(f"  -> {DEV_IMAGE_NAME} not found: run `make images` on the host. The devcontainer and the developer "
+              f"steps of the Workshop Studio (the toolbox demos) need it.")
 
 
 def register_runner(runner_token):

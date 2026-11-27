@@ -7,6 +7,24 @@ feature: "Een aparte robot voor elke omgeving"
 status: today
 tech: ["service users svc_<env>_dbt", "RBAC", "init_env.sql.tmpl"]
 environment: prd
+reality: "De nachtelijke load zocht zelf uit in welke omgeving ze draaide. Herkende ze de plek niet, dan ging ze uit van development. Die werkwijze werd de dag voor een release aangepast."
+
+quiz:
+  situation: Op een namiddag wordt een instelling van een testopstelling per vergissing naar de echte opstelling gekopieerd. 's Nachts doet de robot die buildt wat hem gezegd wordt.
+  question: Welke toegang krijgt de robot die in development buildt?
+  options:
+    - label: Eén login die overal werkt, zodat niets vastloopt
+      impact: "De vergissing treft productie meteen: de echte klantentabel wordt opnieuw opgebouwd uit testdata en de klantendienst ziet een lege lijst."
+      tone: bad
+    - label: Eén login voor alles en elke gekopieerde instelling dubbel nakijken
+      impact: Dat werkt tot iemand een keer niet oplet. De veiligheid hangt dan af van mensen die eraan denken.
+      tone: warn
+    - label: Een eigen robot per omgeving, met enkel daar toegang
+      impact: Een vergissing wordt een duidelijke weigering in productie. Er wordt niets aangeraakt en niemand moet iets herstellen.
+      tone: good
+      platform: true
+  takeaway: Veiligheid die niet afhangt van voorzichtigheid, is veiligheid die blijft werken.
+  minutes: 2
 
 problem:
   headline: Een testrobot gericht op productie maakt de echte klantenlijst leeg

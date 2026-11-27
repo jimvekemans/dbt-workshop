@@ -10,6 +10,24 @@ environment: dev
 related:
   - id: own-workbench
     why: Elke developer krijgt ook een privékopie van de tabellen om wijzigingen in uit te proberen. De toolbox is de set tools die daar gebruikt wordt.
+reality: "Elke developer opent het project van bij de start in dezelfde toolbox. Na enkele maanden kregen de tools daarin een vaste versie. Bij een upgrade van de engine kreeg iedereen de boodschap zijn toolbox te vernieuwen."
+
+quiz:
+  situation: Een nieuwe collega start op maandag en zet de tools voor het rapporteren op haar laptop. Haar eerste voorstel werkt bij haar, maar de automatische testrun weigert het.
+  question: Hoe krijgt elke developer dezelfde tools?
+  options:
+    - label: Een lijst met installatiestappen en versies rondsturen
+      impact: Elke collega installeert zelf, dus elke laptop blijft een beetje anders. Een nieuwere tool op één laptop merkt niemand op tot een wijziging mislukt.
+      tone: warn
+    - label: Het project openen in één kant-en-klare set tools
+      impact: Een nieuwe collega installeert niets. Elke tool heeft één versie, en de testrun en productie starten van dezelfde basis, dus de rapportbouwer komt overeen.
+      tone: good
+      platform: true
+    - label: Iedereen de nieuwste versie van elke tool laten nemen
+      impact: Nieuwer is niet gelijk. Een laptop kan nieuwer zijn dan de testrun, en dan weigert die een wijziging die bij de developer wel werkt.
+      tone: bad
+  takeaway: Als iedereen met dezelfde tools werkt, kan een verschil in tools niet meer de oorzaak van een fout zijn.
+  minutes: 2
 
 problem:
   headline: Een rapport werkt bij één developer en loopt mis bij alle anderen

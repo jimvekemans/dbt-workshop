@@ -10,6 +10,24 @@ environment: dev
 related:
   - id: one-clear-mail
     why: De mail zegt het team wat mislukte, zodat het weet wat het moet herstellen vóór de retry.
+reality: "Sinds de eerste zomer doet een retry enkel opnieuw wat mislukte. Een persoon moet die retry wel zelf starten: de load probeert het nooit vanzelf opnieuw."
+
+quiz:
+  situation: De nachtelijke load stopte om 03:10 omdat drie bestellingen geen bestelnummer hebben. De oorzaak is in tien minuten hersteld. Het managementrapport moet klaar zijn voor het ochtendoverleg.
+  question: Wat doe je nadat de oorzaak hersteld is?
+  options:
+    - label: De hele nacht van nul opnieuw starten
+      impact: Alles wordt opnieuw gebuild en gecheckt, ook de tabellen die al in orde waren. Het managementrapport is daardoor te laat voor het ochtendoverleg.
+      tone: warn
+    - label: Enkel opnieuw doen wat mislukte en wat erop wacht
+      impact: De tabellen die al gelukt waren, blijven staan. Enkel het mislukte deel en wat erop wacht loopt opnieuw, dus het rapport is op tijd.
+      tone: good
+      platform: true
+    - label: Wachten tot de nachtelijke load van morgen
+      impact: Geen extra werk, maar het ochtendoverleg draait op oude cijfers, terwijl de fout al hersteld was.
+      tone: bad
+  takeaway: Na een herstel hoef je enkel opnieuw te doen wat niet lukte, en wat erop wacht.
+  minutes: 2
 
 problem:
   headline: Drie slechte bestellingen herstellen betekent alles van nul opnieuw builden

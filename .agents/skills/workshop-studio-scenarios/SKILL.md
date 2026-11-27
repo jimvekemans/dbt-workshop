@@ -68,6 +68,8 @@ do (a notification that was never sent, three developers where the demo had two)
 | The scenario | `scenarios/<id>.yaml` (file name = id, lower case with dashes) |
 | Its place on the home page | `scenarios/_groups.yaml`: add the id to one group's ordered `scenarios` list |
 | Words that need explaining | `scenarios/_glossary.yaml`, used as `[[term]]` in body text |
+| The question for the room | the `quiz` block in the scenario file (scenario or step), pages `#/quiz` and `#/quiz/<id>[/<step>]` |
+| What really happened at the client | the `reality` line in the scenario file (scenario or step), shown as "Bij ons gebeurd"; facts in `client-history-report.md` |
 | The closing page (what is in place today, what comes next) | `scenarios/_roadmap.yaml` (optional), route `#/roadmap` in the frontend |
 | Code a demo commits to GitLab | `patches/<name>/_patch.yaml` (`title`, `message`, `ops` with `path` / `find` / `replace`, or full files) |
 | What the demo showed last time | `recordings/<id>.json`, written by every successful live step |
@@ -93,9 +95,19 @@ feature: ...                     # optional, with status: the plain name (<= 50 
 status: today                    # optional, with feature: today (in place today) | next (a next step)
 why: ...                         # optional, only with feature + status: what goes wrong without it, <= 140 characters (closing page)
 tech: [..., ...]                 # optional, for the presenter: 1 to 8 keywords (<= 40 characters each), the real names behind it
+reality: ...                     # optional: what really happened at the client, <= 260 characters ("Bij ons gebeurd", section 4b)
 environment: dev                 # dev | val | prd: where the demo runs unless an action says otherwise
 related:
   - {id: checked-before-merge, why: "One plain sentence, <= 160 characters."}
+
+quiz:                            # optional: the question for the room before the scenario starts (section 4a)
+  situation: ...                 # the possible issue, <= 320 characters, without giving the answer away
+  question: ...                  # what the room decides, <= 90 characters
+  options:                       # 2 or 3
+    - {label: ..., impact: ..., tone: bad}                   # label <= 90, impact <= 220, tone: good | warn | bad
+    - {label: ..., impact: ..., tone: good, platform: true}  # exactly one: the choice the scenario stands for
+  takeaway: ...                  # optional, <= 180 characters: the sentence to remember
+  minutes: 2                     # talking time, 1 to 5 (default 2)
 
 problem:
   headline: ...                  # the harm, <= 12 words
@@ -129,6 +141,8 @@ demo:
       status: today              # today | next
       why: ...                   # optional, only with feature + status: what goes wrong without it, <= 140 characters
       tech: ...                  # optional, for the presenter: one line (<= 60 characters) with the real names behind this step
+      reality: ...               # optional: what really happened at the client around this stage (section 4b)
+      quiz: {...}                # optional: the question for the room before this stage (same fields as above)
       say: ...                   # at most two short sentences, no duration (the app shows "Usually about N s")
       button: ...                # says what will happen
       inputs: []                 # day | number | choice | toggle, each with label, default and help
@@ -201,6 +215,57 @@ one fixed something a reviewer could not follow.
 8. **Counts in sentences use the words of the list next to them** ("1 failed, 2 not run", not "three failed").
 9. **Status labels are promises.** A stage or block marked "In place today" must be what the demo really shows; what is
    only planned is "Next step". The audience reads the two badges as "works now" and "does not work yet".
+
+## 4a. The quiz
+
+Every ordinary scenario has one question for the room (top level, before `problem:`) and every stage of a flow that has
+a `feature` has one (in the step, before `say:`); a flow has none at the top level and its last, "everything on" stage
+has none. The presenter shows the situation and the choices, counts raised hands, then reveals what each choice leads
+to, and the demo proves it. The studio README, section "The quiz", says how the screens work. The rules:
+
+1. **Only what the scenario supports.** Read `problem`, `idea`, the step's `say`, captions and `outcome` first. A number,
+   name or cost comes from that text or is left out.
+2. **The situation does not give the answer away.** It sets the scene (who, when, what is about to go wrong) and never
+   names the mechanism. For a stage it is readable without the other stages.
+3. **One concrete decision** as the question ("Wat doe je vannacht met de load?"), never "what is best?".
+4. **Real choices.** Each option is something a reasonable team would do: no strawman, no joke. Labels have the same
+   form (infinitive phrases) and about the same length, so wording never betrays the answer. Two options when there are
+   two routes; a third only when it is a tempting, different one. Vary where the `platform: true` option stands.
+5. **`platform: true`** is the choice the scenario or stage stands for (its `feature`, what the demo shows). For
+   `status: next` that is the step the platform does not have yet; another option is then how it goes today and its
+   impact may begin with "Zo gaat het vandaag:". Without a `status`, do not claim how it goes today.
+6. **Honest impacts.** Say what happens to whom, also the price of the platform's own choice. `tone: good` works out,
+   `warn` works at a real price or with a risk left, `bad` is the harm of the story. A defensible trade-off is `warn`.
+7. **Language** as everywhere (section 4 and `references/vlaams.md`): no technical identifiers; `[[term]]` at most once,
+   only in `situation`, `impact` or `takeaway`.
+
+The quiz page adds up `minutes` plus the scenario's (or the stage's share of the flow's) time, so keep `minutes` honest:
+1 for an obvious one, 3 for a real discussion.
+
+## 4b. "Bij ons gebeurd": what really happened
+
+The stories and the demos are about a practice webshop. The optional `reality` line (on a scenario, or on a stage of a
+flow) says in one or two sentences what really happened on the client's own platform around the same idea. The app
+shows it under the heading "Bij ons gebeurd": after the answer of the question is revealed (never before), in part 1
+under "Wat het kost", and in the step card of a stage (once that stage's question was asked or skipped). The rules:
+
+1. **Only what the history proves.** Every line comes from `client-history-report.md` (repository root; details in
+   `client-history/`). No line without an occurrence there: leave the field out. When the report says "inferred" or
+   "about", the line does not state it as a fact.
+2. **Numbers, no dates.** Counts and durations are wanted ("15 van de 20 wijzigingen", "97 dagen"). No dates, release
+   numbers, ticket numbers, table, tool or file names, and no person or team: the room must recognise the situation
+   without anyone being pointed at. (The owner's choice of 2026-11-26.)
+3. **It is not the practice story.** Rule 1 of section 4 (only claim what the screen shows) holds for everything
+   else; this line is the one place that talks about something the demo does not show, and its heading says so. It
+   never repeats or corrects the webshop story, and it never contradicts the status label next to it: a `next` stage
+   does not get a line that says the thing exists.
+4. **It adds to the question it follows**: the real price of the platform's own choice ("wat eruit gaat, moet er bij
+   de volgende release opnieuw uit") is worth more than a confirmation that the idea is right.
+5. **Language** as everywhere (`references/vlaams.md`): plain spoken Flemish, past tense for what happened, at most
+   260 characters, readable aloud in one go.
+
+After a new export of the client repository, redo the analysis before trusting these lines: several are about a
+state that changes (what is in the newest release, how many checks can stop a load).
 
 ## 5. Demo building blocks
 
@@ -320,6 +385,10 @@ Checklist (each line was a real finding at least once):
 - Is each step under about 30 seconds and getting ready under about a minute?
 - Every "in place today" mark (stage, block or scenario): which step or card shows it working? Every "next step": is it
   really not there? Does the closing page still read true?
+- The quiz: after a change to the story, a step or a status, does the question still fit? Does each impact still say
+  what the demo shows, and does "Zo gaat het vandaag" only stand next to a `status: next`?
+- "Bij ons gebeurd": is every number in the line in `client-history-report.md`, without a date or a name, and does it
+  still agree with the status label next to it?
 
 For a real check, give the YAML, the recording and the captured screens to a reviewer with a persona (some
 technical knowledge, no data background) who must not edit anything and must return findings as

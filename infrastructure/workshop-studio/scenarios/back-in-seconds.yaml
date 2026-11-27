@@ -11,6 +11,24 @@ environment: dev
 related:
   - id: numbered-versions
     why: Daar worden genummerde versies uitgelegd. Hier komt er een tweede versie bij, zodat er iets is om naar terug te gaan.
+reality: "Van de 18 releases kregen er 12 achteraf nog minstens één herstelling, samen 16. Toen één tabel er in productie acht uur over deed, kwam de herstelling vijf dagen na de release."
+
+quiz:
+  situation: Om 8:00 gaat een nieuwe versie live. Om 9:00 ziet het salesteam foute totalen en niemand weet al waar de fout zit.
+  question: Wat doe je om 9:00 met de foute versie?
+  options:
+    - label: De oorzaak zoeken en de nieuwe code herstellen terwijl ze live blijft
+      impact: "Zo gaat het vandaag: sales werkt tot de haastige reparatie live gaat met foute totalen, in dit verhaal 6 uur. Die reparatie kan nieuwe fouten veroorzaken."
+      tone: bad
+    - label: De toestand van gisteren met de hand uit de oude bestanden terugzetten
+      impact: Dat kost tijd en kan misgaan, want de toestand van gisteren bestaat nergens als één geheel. Sales wacht intussen op juiste totalen.
+      tone: warn
+    - label: De omgeving weer de vorige genummerde versie laten draaien, en dan zoeken
+      impact: Sales ziet weer juiste totalen. De oorzaak zoek je zonder tijdsdruk, en de herstelde versie gaat opnieuw live onder een nieuw nummer.
+      tone: good
+      platform: true
+  takeaway: Eerst weer in orde brengen, dan pas uitzoeken wat er misliep.
+  minutes: 2
 
 problem:
   headline: Een foute versie die om 8:00 live gaat, geeft foute totalen tot 14:00

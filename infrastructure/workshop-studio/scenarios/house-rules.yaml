@@ -7,6 +7,24 @@ feature: "Huisregels gecontroleerd voor het opslaan"
 status: today
 tech: ["pre-commit", "sqlfmt", "dbt-bouncer"]
 environment: dev
+reality: "Eén huisregel bevatte 97 dagen een tikfout en hield niets tegen. De huisregels worden nagekeken op de laptop van de developer, niet centraal. Twee keer werd alle code in één keer opgekuist, telkens meer dan 800 bestanden."
+
+quiz:
+  situation: Reviewers bekijken een nieuwe wijziging en letten op spaties en hoofdletters. Niemand ziet dat één datumfunctie maanden anders schrijft op onze database. Het maandrapport zal lege maanden tonen.
+  question: Hoe vang je verboden gewoontes op voor het rapport fout is?
+  options:
+    - label: De reviewers strenger laten nakijken
+      impact: Mensen kunnen de fout zien, maar ze besteden hun tijd aan opmaak en missen het echte probleem. Zo glipte ze ook nu door.
+      tone: warn
+    - label: De verboden gewoontes in een lijst rondsturen
+      impact: De regels staan er, maar niets houdt iemand tegen. De fout is oud en gekend en glipt toch door, tot finance vraagt waar oktober blijft.
+      tone: bad
+    - label: Elke wijziging bij het opslaan automatisch laten nakijken
+      impact: Een robot kuist de opmaak op en weigert de verboden gewoonte, met de regel erbij. Reviewers zien enkel nette code en richten zich op wat ze betekent.
+      tone: good
+      platform: true
+  takeaway: Schrijf de regels één keer neer en laat een robot ze toepassen, dan kijken mensen naar de inhoud.
+  minutes: 2
 
 problem:
   headline: Eén verboden gewoonte glipt door de review en laat een rapport leeg

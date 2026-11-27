@@ -93,6 +93,15 @@ wijziging, fout, mail, bestand, instelling, stap, nacht.
 | a line on a card, a line of a code block | regel (een rij is een rij van een tabel of van het logboek) |
 | depends on / built on | hangt af van / steunt op (niet "gebouwd op") |
 | to report a late feed | een late feed melden (niet "noemen") |
+| the quiz / a question for the audience | de quiz / een vraag aan de zaal (het publiek in de quiz heet "de zaal") |
+| a raised hand, the count | hand / handen ("9 handen geteld"), nooit "stemmen" |
+| what a choice leads to | de impact van een keuze |
+| works out / works at a price / goes wrong | Loopt goed / Heeft een prijs / Loopt mis |
+| the presenter's picked questions | de route |
+| how it goes today (a choice the platform still makes) | "Zo gaat het vandaag:" aan het begin van de impact |
+| what really happened at the client (the `reality` line) | "Bij ons gebeurd" (de kop boven de regel; in de regel zelf: verleden tijd, aantallen wel, datums en namen niet) |
+| a repair after a release went out | herstelling |
+| the shared branch all work is merged into | het gedeelde werk |
 
 ## Glossarium: de sleutels
 

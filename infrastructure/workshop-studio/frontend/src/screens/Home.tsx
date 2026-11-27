@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import { useStudio } from '../lib/studio'
 import { flatScenarios } from '../lib/store'
+import { quizItems } from '../lib/quiz'
 import { StatusRow } from '../components/StatusRow'
 import { ScenarioCard } from '../components/ScenarioCard'
 import { SkeletonLines } from '../components/Skeleton'
@@ -27,6 +28,7 @@ export function Home() {
   // the order is the API's; the "good first pick" is the API's choice, or else the first scenario of the first group
   const pick = (catalog?.first_pick && flat.find((e) => e.id === catalog.first_pick)?.id) || flat.find((e) => e.first_pick)?.id || flat[0]?.id
   const pickNumber = flat.findIndex((e) => e.id === pick) + 1
+  const questions = quizItems(catalog).length
   let n = 0
   return (
     <div className={styles.page}>
@@ -44,6 +46,23 @@ export function Home() {
       </header>
 
       <StatusRow />
+
+      {questions > 0 && (
+        <section className={styles.quiz} aria-labelledby="quiz-h" data-quiz-card="">
+          <div className={styles.quizText}>
+            <p className="kicker">Samen met de zaal</p>
+            <h2 id="quiz-h" className={styles.quizTitle}>
+              Quiz: wat zou jij doen?
+            </h2>
+            <p>
+              {questions} vragen, één bij elk scenario en bij elke stap van een flow. Eerst kiest de zaal, daarna toont de demo wat er echt gebeurt.
+            </p>
+          </div>
+          <LinkButton variant="primary" size="lg" href="#/quiz" icon={<ArrowRightIcon />}>
+            Open de quiz
+          </LinkButton>
+        </section>
+      )}
 
       {!catalog && !catalogError && (
         <div className={styles.loading}>

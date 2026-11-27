@@ -11,9 +11,30 @@ export type VisualState = 'ok' | 'bad' | 'warn' | 'idle' | 'fix'
 export type FeatureStatus = 'today' | 'next'
 /** `scenario` is a short story; `flow` is a long one with 3 to 8 stages (steps). Absent means `scenario`. */
 export type ScenarioKind = 'scenario' | 'flow'
+/** How a choice of a quiz question turns out: it works, it works at a price, or the harm happens. */
+export type QuizTone = 'good' | 'warn' | 'bad'
+export interface QuizOption {
+  label: string
+  /** What happens after this choice; shown at the reveal. */
+  impact: string
+  tone: QuizTone
+  /** The choice the scenario or stage stands for (what the demo shows). One per question. */
+  platform?: boolean
+}
+/** A question for the room, asked before a scenario or a stage: the presenter counts hands, then reveals every impact. */
+export interface Quiz {
+  situation: string
+  question: string
+  options: QuizOption[]
+  takeaway?: string | null
+  /** Talking time for the question, in minutes (2 when absent). */
+  minutes?: number | null
+}
 export interface CatalogStage {
   id: string
   title: string
+  /** Optional: a question for the room before this stage. */
+  quiz?: Quiz | null
   /** The plain name of what this stage is about; only with `status`. */
   feature?: string | null
   status?: FeatureStatus | null
@@ -21,6 +42,8 @@ export interface CatalogStage {
   why?: string | null
   /** Optional: one technical line for the presenter (real names of macros, flags, jobs); never needed to follow the story. */
   tech?: string | null
+  /** Optional: what really happened at the client, shown as "Bij ons gebeurd" once the question is revealed. */
+  reality?: string | null
 }
 export interface RelatedLink {
   id: string
@@ -48,8 +71,12 @@ export interface CatalogScenario {
   why?: string | null
   /** Optional: technical keywords for the presenter (1 to 8). */
   tech?: string[] | null
+  /** Optional: what really happened at the client, shown as "Bij ons gebeurd" (question reveal and part 1). */
+  reality?: string | null
   /** Optional: the demo steps in order (a flow's stages, for the closing overview). */
   steps?: CatalogStage[]
+  /** Optional: a question for the room before the scenario starts. */
+  quiz?: Quiz | null
   /** Optional: the backend may mark the scenario it recommends to start with. */
   first_pick?: boolean
   /** Optional: the idea part in short, for the preview on the home page. Without it the tile has no preview. */
@@ -210,6 +237,10 @@ export interface StepDef {
   status?: FeatureStatus | null
   /** Optional: one technical line for the presenter. */
   tech?: string | null
+  /** Optional: what really happened at the client, shown as "Bij ons gebeurd" in the step. */
+  reality?: string | null
+  /** Optional: a question for the room before this step. */
+  quiz?: Quiz | null
   inputs: StepInput[]
   show: EvidenceItem[]
   outcome?: string | null
@@ -226,6 +257,10 @@ export interface Scenario {
   status?: FeatureStatus | null
   /** Optional: technical keywords for the presenter (1 to 8). */
   tech?: string[] | null
+  /** Optional: what really happened at the client, shown as "Bij ons gebeurd" in part 1. */
+  reality?: string | null
+  /** Optional: a question for the room before the scenario starts. */
+  quiz?: Quiz | null
   group: string
   title: string
   promise: string

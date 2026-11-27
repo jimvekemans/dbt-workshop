@@ -4,7 +4,27 @@
     {
       "name": "studio-frontend-mock",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "infrastructure/workshop-studio/frontend", "run", "dev", "--", "--host", "127.0.0.1", "--port", "5199", "--strictPort"],
+      "runtimeArgs": [
+        "--prefix",
+        "infrastructure/workshop-studio/frontend",
+        "run",
+        "dev",
+        "--",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "5199",
+        "--strictPort"
+      ],
+      "port": 5199
+    },
+    {
+      "name": "studio-frontend-mock-docker",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "exec docker run --rm --init --name studio-frontend-mock -p 127.0.0.1:5199:5199 --user \"$(id -u):$(id -g)\" -e HOME=/tmp -v \"$PWD/infrastructure/workshop-studio/frontend:/web\" -w /web node:24-alpine npm run dev -- --host 0.0.0.0 --port 5199 --strictPort"
+      ],
       "port": 5199
     }
   ]

@@ -8,6 +8,24 @@ environment: dev
 related:
   - id: one-clear-mail
     why: De mail meldt de mislukking van vannacht; het logboek bewaart de historiek van elke nacht.
+reality: "Elke run komt al meer dan een jaar in een tabel terecht. In productie deed één tabel er acht uur over: drie kleine tussenstappen werden telkens opnieuw berekend. De herstelling was vijftien regels."
+
+quiz:
+  situation: Op een ochtend is het managementrapport te laat. De manager vraagt of de nachtelijke load gelopen is, hoe lang ze duurde en of een check mislukte. Niemand kan het zeggen.
+  question: Waar vindt het team de antwoorden over vorige nachten?
+  options:
+    - label: In het log, zolang het bewaard blijft
+      impact: Het log wordt na enkele dagen weggegooid, en het team moet voor elk antwoord gaan zoeken. Een tabel die elke week trager wordt, valt niet op.
+      tone: bad
+    - label: In een tabel waar elke stap en check na de nacht in terechtkomt
+      impact: Naam, resultaat, tijd en rijen staan in een gewone tabel. Wie de rapporten mag lezen, kan er vragen aan stellen, en een tabel die trager wordt valt op.
+      tone: good
+      platform: true
+    - label: In het log, dat veel langer bewaard blijft
+      impact: Het verleden blijft bestaan, maar voor elk antwoord moet het team nog altijd zoeken in tekst. Een trage tabel valt zo moeilijk op.
+      tone: warn
+  takeaway: Wat je niet bewaart, kun je achteraf enkel gissen. Een tabel met het verleden geeft een getal.
+  minutes: 2
 
 problem:
   headline: Niemand kan zeggen wat er vannacht liep of hoe lang het duurde

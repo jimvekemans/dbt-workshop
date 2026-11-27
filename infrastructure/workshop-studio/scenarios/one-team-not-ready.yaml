@@ -10,6 +10,24 @@ environment: val
 related:
   - id: numbered-versions
     why: Elke goedgekeurde wijziging kreeg een nummer toen ze in het gedeelde werk kwam. Hier dient dat nummer om de wijziging te vinden die eruit moet.
+reality: "In één release gingen 15 van de 20 nieuwe wijzigingen er op releasedag weer uit. Wat eruit gaat, blijft in het gedeelde werk zitten en moet er bij elke volgende release opnieuw uit: twee wijzigingen werden er zo vier keer uitgehaald."
+
+quiz:
+  situation: Twee teams hebben hun werk afgerond en beide wijzigingen zitten in de release van morgen. Vandaag blijkt dat de reviewcijfers van team reviews nog niet kloppen. Team payments is in orde.
+  question: Wat doe je met de release van morgen?
+  options:
+    - label: Enkel de wijziging van team reviews eruit halen en de rest leveren
+      impact: Het betalingenoverzicht komt in de release, die opnieuw als geheel gecontroleerd wordt. Team reviews sluit aan bij de volgende release.
+      tone: good
+      platform: true
+    - label: De hele release uitstellen tot beide teams klaar zijn
+      impact: Niets onafgewerkts gaat live, maar finance wacht een hele releasecyclus op een overzicht dat klaar was.
+      tone: warn
+    - label: Beide wijzigingen leveren en de reviewcijfers later rechtzetten
+      impact: De release is op tijd, maar marketing krijgt reviewcijfers die niemand vertrouwt.
+      tone: bad
+  takeaway: Een release is een lijst wijzigingen, en één punt kan doorgehaald worden zonder de rest te vertragen.
+  minutes: 2
 
 problem:
   headline: De onafgewerkte wijziging van het ene team houdt de afgewerkte van het andere tegen

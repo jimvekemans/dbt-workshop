@@ -5,6 +5,24 @@ promise: "De vraag 'welke versie van onze code draait er in het live systeem?' h
 minutes: 3
 tech: ["git tag", "tag_dev", "build_image", "dbt_image_tag"]
 environment: dev
+reality: "In 18 maanden kregen ongeveer 1.090 goedgekeurde wijzigingen een nummer, in de drukste maand 116. De manier van nummeren veranderde onderweg twee keer."
+
+quiz:
+  situation: Dinsdagochtend toont het salesrapport vreemde cijfers. Support vraagt welke versie van de code live draait, en niemand kan dat met zekerheid zeggen.
+  question: Hoe weet je altijd welke versie live draait?
+  options:
+    - label: Een lijst bijhouden waarin developers noteren wat ze live zetten
+      impact: Werkt zolang iedereen eraan denkt. Vergeet één developer een regel, dan klopt de lijst niet meer en zoeken weer meerdere mensen uit wat er draait.
+      tone: warn
+    - label: Elke goedgekeurde wijziging een vast nummer geven dat elke omgeving draait
+      impact: Eén blik geeft het exacte nummer per omgeving, en het package met dat nummer wordt achteraf nooit meer aangepast.
+      tone: good
+      platform: true
+    - label: De bestanden vergelijken telkens iemand de vraag stelt
+      impact: "Drie mensen vergelijken een hele ochtend bestanden voor ze de oorzaak zelfs kunnen zoeken."
+      tone: bad
+  takeaway: Eén vast nummer per omgeving, en niemand moet nog gokken welke code draait.
+  minutes: 2
 
 problem:
   headline: Niemand kan zeggen welke versie van de code live draait

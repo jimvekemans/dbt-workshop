@@ -8,6 +8,24 @@ environment: dev
 related:
   - id: own-workbench
     why: Elke testrun werkt in zijn eigen privékopie, hetzelfde idee als de eigen tabellen van een developer daar.
+reality: "In twee weken tijd moesten dubbele rijen hersteld worden in drie tabellen die andere teams lezen. Een wijziging aan 333 bestanden werd goedgekeurd, de dag erna teruggedraaid, een week later opnieuw goedgekeurd en opnieuw teruggedraaid."
+
+quiz:
+  situation: Een developer verbetert de bestellingentabel. De wijziging lijkt klein en onschuldig, maar per ongeluk staat elke bestelling er nu drie keer in. Het managementrapport leest die tabel.
+  question: Wat gebeurt er met de wijziging voor ze goedgekeurd wordt?
+  options:
+    - label: Eerst automatisch laten testen in een privékopie
+      impact: De testrun vindt de fout en blokkeert de wijziging. De gedeelde tabellen blijven ongewijzigd en de privékopie wordt achteraf weggegooid.
+      tone: good
+      platform: true
+    - label: Laten nakijken door een collega, want ze lijkt klein
+      impact: Een wijziging die klein lijkt, wordt niet echt nagekeken. De fout bereikt het managementrapport, dat drie keer te veel bestellingen toont.
+      tone: bad
+    - label: Goedkeuren en achteraf de cijfers laten nakijken
+      impact: Het rapport is meteen fout. Finance stuurt de raad van bestuur een aantal dat drie keer te hoog is, en de developers zoeken een dag naar de oorzaak.
+      tone: bad
+  takeaway: Een fout kost weinig zolang ze in een privékopie zit, en veel zodra het rapport ze toont.
+  minutes: 2
 
 problem:
   headline: Eén kleine wijziging doet elke bestelling drie keer meetellen

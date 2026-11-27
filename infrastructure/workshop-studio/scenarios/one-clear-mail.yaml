@@ -10,6 +10,24 @@ environment: dev
 related:
   - id: redo-only-what-failed
     why: Na het lezen van de mail en het herstellen van de oorzaak wordt enkel het mislukte deel opnieuw gerund.
+reality: "De foutmail bestaat van in de eerste maanden. Later kwam er één verfijning bij: runs die iemand met de hand start om iets te testen, sturen geen mail meer, zodat de mailbox leesbaar blijft."
+
+quiz:
+  situation: Om 03:10 stopt de nachtelijke load door een fout. De persoon van wacht moet 's morgens snel weten wat er misliep, terwijl collega's in de chat al vragen wat er gebeurd is.
+  question: Hoe komt de persoon van wacht aan de oorzaak?
+  options:
+    - label: Eén korte mail met de mislukte check bovenaan laten sturen
+      impact: De mail noemt de mislukte check, telt wat geslaagd, mislukt en niet gerund is, en komt één keer per nacht. De logregels staan eronder, voor wie ze wil nalezen.
+      tone: good
+      platform: true
+    - label: Een mail met het volledige log erin laten sturen
+      impact: De mail is er meteen, maar de ene regel die telt zit nog altijd tussen honderden andere. Het zoekwerk verhuist van het log naar de mail.
+      tone: warn
+    - label: Het log laten openen en de juiste regel laten zoeken
+      impact: Elke fout kost de persoon van wacht ongeveer 20 minuten lezen voor het herstel kan beginnen. Ondertussen zijn de rapporten al uren fout.
+      tone: bad
+  takeaway: Een goede foutmail zegt wat er misliep, niet alles wat er gebeurd is.
+  minutes: 2
 
 problem:
   headline: De nacht mislukt en de oorzaak zit begraven in honderden regels

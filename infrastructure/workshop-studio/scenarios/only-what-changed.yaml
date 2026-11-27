@@ -8,6 +8,24 @@ environment: dev
 related:
   - id: checked-before-merge
     why: Dat scenario toont wat een testrun opvangt. Dit scenario toont hoeveel tabellen een testrun moet dekken.
+reality: "De testrun bekijkt al van de eerste versie enkel wat gewijzigd is. Eén keer veranderde iemand de naam van het project in het centrale instellingenbestand, en plots telde alles als gewijzigd. De naam ging dezelfde dag terug."
+
+quiz:
+  situation: Een developer wijzigt één regel in één rapport. Het team wil zeker zijn dat er niets misloopt voor de wijziging goedgekeurd wordt, maar niemand wil er een dag op wachten.
+  question: Hoeveel van de webshop controleer je voor deze wijziging?
+  options:
+    - label: Alle tabellen opnieuw laten builden en checken
+      impact: Alles is gecontroleerd, maar elke kleine wijziging wacht op een volledige herbouw. Mensen gaan wijzigingen bundelen of de testrun overslaan.
+      tone: warn
+    - label: Enkel de gewijzigde tabellen en wat ervan afhangt laten checken
+      impact: Een kleine wijziging krijgt snel antwoord. De rest wordt enkel gelezen, nooit aangepast. Een grotere wijziging krijgt een grotere testrun.
+      tone: good
+      platform: true
+    - label: De wijziging goedkeuren zonder testrun, het is maar één regel
+      impact: De wijziging gaat rechtstreeks naar de gedeelde tabellen. Is er een fout, dan bereikt die elk rapport tegelijk.
+      tone: bad
+  takeaway: "Een kleine wijziging verdient een kleine testrun: genoeg om veilig te zijn, snel genoeg om niet overgeslagen te worden."
+  minutes: 2
 
 problem:
   headline: Ofwel bereiken fouten iedereen, ofwel duurt elke kleine wijziging eeuwig

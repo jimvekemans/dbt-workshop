@@ -12,6 +12,21 @@ related:
     why: Daar wordt het genummerde package uitgelegd dat validatie en productie draaien.
   - id: one-team-not-ready
     why: Dat scenario stelt de release samen. Hier kijken we naar de laatste stap, de goedkeuring voor productie.
+reality: "Development krijgt elke nieuwe versie vanzelf. Voor de laatste testomgeving en voor productie start een persoon de release."
+
+quiz:
+  situation: Donderdagnamiddag, laat, is een release klaar. Het team dat ze maakte, is pas maandag terug. Vrijdagochtend openen alle klanten hun cijfers.
+  question: Wanneer gaat deze release live in productie?
+  options:
+    - label: Productie laten wachten tot een persoon de release goedkeurt
+      impact: Validatie draait de release vanzelf, zodat iedereen er eerst naar kan kijken. Productie houdt haar oude versie tot iemand goedkeurt, en die goedkeuring wordt vastgelegd.
+      tone: good
+      platform: true
+    - label: Alles vanzelf laten doorlopen, van validatie tot productie
+      impact: Niemand bekeek de release in validatie. Zit er een fout in, dan zien alle klanten het hele weekend foute cijfers.
+      tone: bad
+  takeaway: Validatie mag vanzelf, productie vraagt één persoon die ja zegt.
+  minutes: 2
 
 problem:
   headline: Een release die niemand goedkeurde, gaat live voor alle klanten

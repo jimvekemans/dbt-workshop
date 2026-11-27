@@ -162,6 +162,23 @@ demo:
       feature: Een eigen testdatabase
       status: today
       tech: "vdp_ci + svc_ci_dbt (--target ci)"
+      reality: "Sinds de eerste zomer buildt de testrun op een eigen plek per voorstel, los van wat collega's lezen."
+      quiz:
+        situation: Een developer doet een voorstel om het managementrapport te wijzigen. Voor iemand het goedkeurt, probeert een machine het uit met een testrun. Collega's lezen dat rapport de hele dag.
+        question: Waar laat je de testrun haar tabellen builden?
+        options:
+          - label: In de tabellen die iedereen leest builden, want daar staat de echte data
+            impact: De testrun ziet de echte data, maar collega's lezen de wijziging al voor iemand ze goedkeurde.
+            tone: bad
+          - label: In een eigen testdatabase builden, los van de tabellen die iedereen leest
+            impact: Collega's zien niets voor de goedkeuring. De testrun werkt met een eigen login en haar eigen kopieën.
+            tone: good
+            platform: true
+          - label: In de tabellen die iedereen leest builden en collega's op voorhand verwittigen
+            impact: Wie de verwittiging mist, leest toch een cijfer dat niemand goedkeurde. Dat kan bij elke testrun opnieuw gebeuren.
+            tone: warn
+        takeaway: Een testrun hoort nooit te werken waar collega's lezen.
+        minutes: 2
       say: Deze testrun heeft geen eigen database en buildt rechtstreeks in de gedeelde tabellen, die elke collega leest. Het voorstel toont enkel het percentage op tijd met twee cijfers na de komma.
       button: Toon deze testrun
       inputs: []
@@ -187,6 +204,23 @@ demo:
       feature: Enkel opnieuw builden wat veranderd is
       status: today
       tech: "state:modified+ --defer"
+      reality: "De allereerste testrun keek al enkel naar wat gewijzigd was."
+      quiz:
+        situation: Een voorstel verandert één klein rapport van de webshop. De testrun moet het uitproberen, en de developer wacht op het antwoord voor het voorstel verder kan.
+        question: Wat laat je de testrun builden?
+        options:
+          - label: De hele webshop opnieuw builden, zo is zeker niets vergeten
+            impact: Veilig, maar het meeste werk was niet nodig. Wie op het antwoord wacht, wacht op alles.
+            tone: warn
+          - label: Enkel het gewijzigde rapport builden, zonder wat erop steunt
+            impact: Sneller klaar, maar een tabel die op het rapport steunt, kan stuk gaan zonder dat de testrun het merkt.
+            tone: warn
+          - label: Het gewijzigde rapport en alles wat erop steunt builden
+            impact: Enkel wat de wijziging raakt wordt gebuild, de rest wordt enkel gelezen. Het antwoord komt sneller en niets wat erop steunt wordt overgeslagen.
+            tone: good
+            platform: true
+        takeaway: Probeer enkel uit wat de wijziging raakt, niet de hele webshop.
+        minutes: 2
       say: Deze testrun heeft een eigen testdatabase, maar buildt bijna elke tabel van de webshop opnieuw. Het voorstel is dezelfde kleine wijziging aan één rapport.
       button: Toon deze testrun
       inputs: []
@@ -201,6 +235,20 @@ demo:
       feature: Een lege eerste ronde, zonder data
       status: today
       tech: "--empty · state:modified+,+state:modified state:modified+1"
+      reality: "De lege eerste ronde werd in drie weken tijd uitgezet, weer aangezet en opnieuw uitgezet, telkens door een fout in een tool. Vandaag staat ze weer aan."
+      quiz:
+        situation: Een voorstel schrijft de steden van de klanten in kleine letters. De testrun begint met een eerste ronde, en een wijziging kan zo stuk zijn dat ze niet eens gebuild raakt.
+        question: Hoe begint de testrun haar eerste ronde?
+        options:
+          - label: Builden zonder één rij te kopiëren, om te zien of alles in elkaar past
+            impact: Een wijziging die niet gebuild raakt, stopt vroeg, voor er data aangeraakt wordt. Of de cijfers kloppen, komt pas in een volgende ronde.
+            tone: good
+            platform: true
+          - label: Builden met alle rijen, zodat de testrun meteen met echte data werkt
+            impact: Eén ronde doet alles, maar een wijziging die niet gebuild raakt, wordt pas gevonden nadat al die data gekopieerd is. Wie wacht, wacht daarop.
+            tone: warn
+        takeaway: Kijk eerst of het past, voor je data verplaatst.
+        minutes: 2
       say: Deze testrun kijkt enkel naar wat veranderd is, maar haar eerste ronde kopieert alle rijen in plaats van geen enkele. Het voorstel schrijft de steden van de klanten in kleine letters.
       button: Toon deze testrun
       inputs: []
@@ -222,6 +270,22 @@ demo:
       feature: Kopieën van de testrun nadien opgekuist
       status: today
       tech: "run-operation drop_nodes"
+      quiz:
+        situation: Een testrun bouwt voor elk voorstel kopieën van de tabellen die het raakt, in haar eigen testdatabase. Deze testrun slaagde. Elk nieuw voorstel krijgt zijn eigen testrun.
+        question: Wat gebeurt er met die kopieën na een geslaagde testrun?
+        options:
+          - label: Laten staan en af en toe met de hand opkuisen
+            impact: De testdatabase groeit met elk voorstel, met kopieën die niemand nog gebruikt. Iemand moet ze opkuisen.
+            tone: warn
+          - label: Meteen weggooien, op het einde van de testrun
+            impact: De testdatabase is leeg zodra de testrun voorbij is en niemand moet opkuisen. Bij een mislukte testrun is dat nog niet gedekt.
+            tone: good
+            platform: true
+          - label: Bewaren tot het voorstel goedgekeurd is en ze dan weggooien
+            impact: Zolang een voorstel openstaat, blijven zijn kopieën staan. Iemand moet eraan denken ze daarna op te kuisen.
+            tone: warn
+        takeaway: Wie iets bouwt, kuist het ook op.
+        minutes: 2
       say: Deze testrun werkt in haar eigen testdatabase, maar gooit haar kopieën nooit weg. Het voorstel schrijft opnieuw de steden in kleine letters.
       button: Toon deze testrun
       inputs: []
@@ -245,6 +309,19 @@ demo:
       status: next
       why: "Een wijziging die de testrun laat mislukken, laat half gebuilde kopieën achter, en iemand moet ze met de hand opkuisen."
       tech: "drop_nodes in after_script"
+      quiz:
+        situation: Een voorstel hernoemt de kolom met de stad in de klantentabel en vergeet de bestellingentabel die ze gebruikt. De testrun stopt halverwege, en de klantentabel was dan al gebuild.
+        question: Wat gebeurt er met de kopieën van een mislukte testrun?
+        options:
+          - label: Ze blijven staan tot iemand ze met de hand opkuist
+            impact: "Zo gaat het vandaag: de testrun stopt de wijziging terecht, maar haar half gebuilde kopieën blijven in de testdatabase staan."
+            tone: bad
+          - label: Ze worden ook na een mislukking opgekuist, helemaal op het einde
+            impact: Ook als de testrun halverwege stopt, gooit een laatste stap weg wat al gebuild was. Niemand moet iets opkuisen.
+            tone: good
+            platform: true
+        takeaway: Opkuisen moet ook gebeuren als het misloopt.
+        minutes: 2
       say: Deze testrun kuist haar kopieën enkel op het einde van haar eigen werk op. Het voorstel hernoemt de kolom met de stad in de klantentabel en vergeet de bestellingentabel die ze gebruikt.
       button: Toon deze testrun
       inputs: []
@@ -268,6 +345,23 @@ demo:
       status: next
       why: "Zonder tweede ronde met echte data blijft de testrun groen bij een fout cijfer, zoals elke bestelling drie keer geteld."
       tech: "verify_feature_to_dev (data + tests)"
+      reality: "De testrun buildt de gewijzigde tabellen, maar de datachecks draaien er niet in mee. In één najaar moesten dubbele rijen hersteld worden in drie tabellen die andere teams lezen."
+      quiz:
+        situation: Een voorstel voegt een leveringskalender toe aan de bestellingentabel. De testrun is groen en een developer wil het voorstel goedkeuren.
+        question: Wat moet de testrun doen voor je het voorstel goedkeurt?
+        options:
+          - label: Enkel de lege ronde laten slagen, zonder data of checks
+            impact: "Zo gaat het vandaag: een fout cijfer glipt door, bijvoorbeeld elke bestelling drie keer geteld. Elk aantal in de rapporten verdrievoudigt en niets merkt het."
+            tone: bad
+          - label: Na de lege ronde ook builden met echte data en elke check uitvoeren
+            impact: De fout wordt gestopt voor het voorstel goedgekeurd wordt, en de gedeelde tabellen blijven ongewijzigd.
+            tone: good
+            platform: true
+          - label: Na de lege ronde de cijfers door een developer laten nakijken
+            impact: Het werk blijft bij mensen liggen, bij elke wijziging opnieuw. Een fout die niemand ziet, glipt toch door.
+            tone: warn
+        takeaway: Een groene testrun zegt enkel iets over wat ze effectief bekeken heeft.
+        minutes: 2
       say: Deze testrun heeft enkel de lege eerste ronde. Het voorstel voegt een leveringskalender toe aan de bestellingentabel en toont per vergissing elke bestelling drie keer.
       button: Toon deze testrun
       inputs: []

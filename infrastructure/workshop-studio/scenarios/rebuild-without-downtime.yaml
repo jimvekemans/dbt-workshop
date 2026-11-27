@@ -9,6 +9,24 @@ why: "Tijdens de herbouw van een grote tabel zien lezers een lege of half gevuld
 tech: ["dbt_reload", "meta.reload_strategy", "blue/green", "reload_helpers.sql"]
 environment: dev
 related: []
+reality: "Eén grote historiektabel liep zeven maanden lang telkens opnieuw vast op te weinig geheugen. Bij een release werd een andere tabel in zeven stukken herbouwd. Herbouwen naast de oude tabel en dan inwisselen is in de maak."
+
+quiz:
+  situation: De factuurtabel telt 100.000 rijen en moet na een correctie herbouwd worden. Dat duurt negentig minuten. De boekhouding blijft ondertussen haar rapport openen.
+  question: Hoe herbouw je de factuurtabel?
+  options:
+    - label: De tabel leegmaken en opnieuw vullen
+      impact: "Zo gaat het vandaag: de boekhouding ziet negentig minuten lang 0 rijen, dan 33.000, dan 66.000. Een half totaal kan al naar de bank vertrekken."
+      tone: bad
+    - label: De herbouw laten starten buiten de kantooruren
+      impact: Minder lezers zien het, maar de tabel is nog altijd leeg of half gevuld tijdens de herbouw. Wie dan leest, ziet een fout cijfer.
+      tone: warn
+    - label: Een nieuwe kopie naast de oude opbouwen en inwisselen
+      impact: Lezers zien tot het inwisselen enkel de oude, volledige tabel. De kopie wordt eerst gecheckt. Meer delen betekent kleinere stappen en een iets tragere herbouw.
+      tone: good
+      platform: true
+  takeaway: Bouw naast de oude tabel en wissel in één keer in, zodat lezers nooit een tussenstand zien.
+  minutes: 3
 
 problem:
   headline: Tijdens de herbouw ziet de boekhouding een lege tabel, dan een half gevulde

@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { useStudio } from '../lib/studio'
 import { buildRoadmap } from '../lib/roadmap'
+import { quizItems, score, useQuiz } from '../lib/quiz'
 import type { RoadmapRow, RoadmapSection } from '../lib/roadmap'
 import { plainText } from '../lib/glossary'
 import { RichText } from '../components/Term'
@@ -87,6 +88,8 @@ export function Roadmap() {
   const { catalog, catalogError, connected, actions } = useStudio()
   const roadmap = catalog?.roadmap ?? null
   const view = useMemo(() => buildRoadmap(catalog), [catalog])
+  const quiz = useQuiz()
+  const room = useMemo(() => score(quizItems(catalog), quiz), [catalog, quiz])
 
   useEffect(() => {
     document.title = roadmap ? `${plainText(roadmap.title)} · Workshop Studio` : 'Workshop Studio'
@@ -150,6 +153,12 @@ export function Roadmap() {
         </p>
       ) : (
         view.sections.map((section) => <Section key={section.status} section={section} />)
+      )}
+
+      {room.counted > 0 && (
+        <p className={styles.room} data-room-score="">
+          <b>De zaal koos {room.agreed} van de {room.counted} keer wat het platform doet.</b> <a href="#/quiz">Bekijk de vragen</a>
+        </p>
       )}
 
       {roadmap.closing && (

@@ -4,13 +4,28 @@ title: De startpagina van de documentatie schrijft zichzelf
 promise: De startpagina van elke omgeving noemt de live versie, wanneer ze geschreven werd en hoe groot ze is.
 minutes: 3
 feature: Een documentatiestartpagina die zichzelf schrijft
-status: next
+status: today
 why: "Een met de hand getypte startpagina veroudert, dus nieuwe collega's vertrouwen oude groottes en zoeken tabellen die niet meer bestaan."
 tech: ["__overview__.md", "docs_overview.sh"]
 environment: dev
 related:
   - id: docs-match-version
     why: De documentatie volgt de versie die draait. Hier volgt ook haar startpagina die versie, zonder dat iemand ze schrijft.
+reality: "Sinds kort schrijft de startpagina zichzelf: ze noemt de release, het moment van de build en de exacte wijziging waaruit ze gemaakt is. Hoeveel tabellen, checks en feeds er zijn, staat er nog niet op."
+
+quiz:
+  situation: De startpagina van de documentatie zegt hoeveel tabellen de webshop heeft en welke versie draait. Ze werd vorig voorjaar getypt, en sindsdien kwamen er tabellen bij.
+  question: Wie zorgt dat de startpagina klopt?
+  options:
+    - label: Een collega de pagina laten bijwerken bij elke nieuwe versie
+      impact: "Het werkt tot iemand het vergeet. Dan zoekt een nieuwe collega tabellen die verdwenen zijn en citeert een manager een oude grootte."
+      tone: warn
+    - label: De pagina bij het live gaan zelf laten tellen en schrijven
+      impact: De pagina noemt de versie, het moment en de grootte, geteld uit die versie zelf. Niemand moet nog aan haar denken.
+      tone: good
+      platform: true
+  takeaway: Wat geteld kan worden, laat je niet typen.
+  minutes: 1
 
 problem:
   headline: De startpagina van de documentatie is verouderd
@@ -61,7 +76,7 @@ code:
       - line: 'feeds="$(count source)"'
         says: Hetzelfde geldt voor de feeds en de checks.
   - title: De pagina noemt de versie, het moment en de grootte
-    status: next
+    status: today
     file: scripts/docs_overview.sh
     file_label: Het script dat de startpagina schrijft
     from: "# Data platform"
@@ -75,7 +90,7 @@ code:
       - line: "**Tables:**"
         says: Ze vermeldt de grootte die net geteld werd.
   - title: De pagina wordt geschreven vóór de rest van de documentatie
-    status: next
+    status: today
     file: .gitlab-ci.yml
     file_label: De instructies om een versie live te zetten
     from: "mkdir -p /state/docs"

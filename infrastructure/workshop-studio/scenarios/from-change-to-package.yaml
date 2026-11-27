@@ -141,6 +141,23 @@ demo:
       feature: Een nummer voor elke goedgekeurde wijziging
       status: today
       tech: "tag_dev / tag_main"
+      reality: "Elke goedgekeurde wijziging krijgt een nummer: ongeveer 1.090 nummers in 18 maanden."
+      quiz:
+        situation: Op maandag wordt de wijziging van een developer goedgekeurd. Op vrijdag vraagt een analist welke wijziging een bepaald cijfer in het managementrapport maakte.
+        question: Hoe herken je een goedgekeurde wijziging later?
+        options:
+          - label: Met een nummer dat automatisch het volgende wordt
+            impact: Een groter nummer is een nieuwere wijziging, en elk nummer zegt wat het bevat. Niemand moet iets bijhouden.
+            tone: good
+            platform: true
+          - label: Met de referentiecode die het systeem er zelf aan geeft
+            impact: Niets zegt welke wijziging nieuwer is of welke versie development draait. Niemand kan zeggen welke wijziging een cijfer maakte.
+            tone: bad
+          - label: Met een naam die de developer zelf kiest
+            impact: Elke developer kiest anders, en een naam zegt niet welke wijziging nieuwer is.
+            tone: warn
+        takeaway: Een nummer dat vanzelf groeit, zegt later welke wijziging nieuwer is.
+        minutes: 2
       say: De versies die tot nu toe gemaakt zijn, worden twee keer getoond. Eerst zoals ze zonder nummer gekend zijn, dan met nummer.
       button: Toon beide lijsten
       inputs: []
@@ -157,6 +174,23 @@ demo:
       feature: Elke versie verzegeld in één package
       status: today
       tech: "build_image (dbt-vdp:<tag>)"
+      reality: "Het recept om het package te maken werd 37 keer aangepast en meteen uitgeprobeerd, waarvan 13 keer op één dag. 23 versienummers zijn enkel zulke probeersels."
+      quiz:
+        situation: Een analist wil een cijfer van lang geleden narekenen met de code van toen. Sindsdien zijn er nieuwe versies live gegaan.
+        question: Wat bewaar je van elke versie?
+        options:
+          - label: Enkel de code van elke versie bewaren
+            impact: De code is er nog, maar wie een oude versie wil openen, moet eerst de juiste tools terugzoeken.
+            tone: warn
+          - label: Enkel de nieuwste versie bewaren
+            impact: Er is altijd maar één versie om te beheren, maar een oude versie kan niet meer geopend worden.
+            tone: bad
+          - label: De code en de tools van elke versie samen verzegelen
+            impact: Elke oude versie opent precies zoals ze gebuild werd, ook de versie die productie nog draait.
+            tone: good
+            platform: true
+        takeaway: Een versie die je niet meer kan openen, kan je ook niet meer narekenen.
+        minutes: 2
       say: Een package bevat de code van één versie en de tools om ze te runnen, zodat een oude versie altijd te openen blijft. Hier openen we het eerste en het nieuwste naast elkaar.
       button: Open beide packages
       inputs: []
@@ -170,6 +204,22 @@ demo:
       feature: Beschrijving van elke versie bewaard in storage
       status: today
       tech: "publish_artifacts (target.tar.gz)"
+      quiz:
+        situation: Het managementrapport kreeg een nieuwe beschrijving. Development toont enkel de nieuwste, en een analist wil lezen wat er in de vorige versie stond.
+        question: Wat doe je met de beschrijving van een oudere versie?
+        options:
+          - label: Laten verdwijnen zodra een nieuwere versie live gaat
+            impact: De live pagina is altijd actueel, maar de beschrijving van een oudere versie is weg.
+            tone: bad
+          - label: Bij elke versie bewaren in storage, onder haar nummer
+            impact: De live pagina toont de nieuwste, en elke oudere beschrijving blijft te lezen.
+            tone: good
+            platform: true
+          - label: Telkens met de hand kopiëren naar een document
+            impact: Het werkt zolang iemand eraan denkt. Vergeet iemand het, dan is die beschrijving weg.
+            tone: warn
+        takeaway: Bewaar de beschrijving op het moment dat de versie ontstaat, niet achteraf.
+        minutes: 2
       say: Development toont de nieuwste beschrijving van het managementrapport. De beschrijving van de eerste versie wordt gelezen uit [[storage]], waar elke versie de hare bewaart.
       button: Lees alle drie
       inputs: []
@@ -187,6 +237,23 @@ demo:
       feature: Catalogusitems met de echte tabelnamen
       status: today
       tech: "dbt compile --target collibra"
+      reality: "De instelling voor de catalogus verdween ongemerkt toen twee lijnen van werk samengevoegd werden, en kwam 19 dagen later terug."
+      quiz:
+        situation: Een analist zoekt het managementrapport op in de catalogus en kopieert de tabelnaam. Een developer werkt intussen met eigen kopieën van de tabellen, die een andere naam dragen.
+        question: Welke tabelnamen zet je in de catalogus?
+        options:
+          - label: De echte namen, zoals de tabellen in de database staan
+            impact: Een zoekopdracht in de catalogus leidt naar een tabel die echt bestaat.
+            tone: good
+            platform: true
+          - label: De namen van de eigen kopieën, zoals de developer ze ziet
+            impact: De catalogus noemt tabellen die enkel op de laptop van een developer bestaan, dus de analist zoekt iets wat niet bestaat.
+            tone: bad
+          - label: De echte namen in een lijst die iemand met de hand bijhoudt
+            impact: De lijst klopt zolang iemand ze bijwerkt. Een nieuwe of hernoemde tabel kan er vergeten worden.
+            tone: warn
+        takeaway: Een catalogus is enkel bruikbaar als de namen erin bestaan.
+        minutes: 2
       say: De catalogus is de lijst van tabellen waarin mensen zoeken. Drie tabellen worden opgezocht in het opgeslagen catalogusbestand en in de versie die een developer op de eigen computer klaarmaakt.
       button: Vergelijk de namen
       inputs: []
@@ -205,6 +272,23 @@ demo:
       status: next
       why: "Niemand kan bewijzen welke versie de cijfers van vandaag maakte, want de kopie die een omgeving draait, draagt geen versie."
       tech: "dbt-artifacts-env + deployed.json"
+      reality: "Het package krijgt de naam van de omgeving mee, niet het nummer van de versie. De omgeving zelf zegt dus niet welk nummer ze draait."
+      quiz:
+        situation: Telkens een versie live gaat, vervangt haar opgeslagen bestand de vorige kopie van de omgeving. Iemand vraagt welke versie de cijfers van vandaag in development maakte.
+        question: Hoe weet je welke versie een omgeving draait?
+        options:
+          - label: Vertrouwen op de versie die als laatste live ging
+            impact: "Zo gaat het vandaag: de kopie draagt geen versie, dus niemand kan bewijzen welke versie de cijfers van vandaag maakte."
+            tone: bad
+          - label: Een developer de versie met de hand laten noteren
+            impact: De notitie klopt zolang iemand eraan denkt, maar niets bewijst dat ze bij de kopie hoort.
+            tone: warn
+          - label: Bij elke deploy een notitie met versie en fingerprint laten schrijven
+            impact: De fingerprint is gelijk aan het opgeslagen bestand van die versie, dus de notitie bewijst welke versie de kopie is. Niemand moet raden.
+            tone: good
+            platform: true
+        takeaway: Wie het kan bewijzen, moet niet raden wat er draait.
+        minutes: 2
       say: Telkens een versie live gaat, vervangt haar opgeslagen bestand de vorige kopie van de omgeving, en niets op de kopie zegt welke versie het is. Een notitie met een [[fingerprint]] ernaast doet dat wel.
       button: Lees de kopie en haar notitie
       inputs: []

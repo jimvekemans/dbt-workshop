@@ -1,6 +1,7 @@
 import type { Scenario } from '../api/types'
 import { Prose, RichText } from '../components/Term'
 import { Callout } from '../components/Callout'
+import { Reality } from '../components/Reality'
 import { VisualView } from '../components/VisualView'
 import { partTitle } from '../lib/router'
 import styles from './parts.module.css'
@@ -20,6 +21,7 @@ export function ProblemPart({ scenario }: { scenario: Scenario }) {
         <Callout tone="bad" title="Wat het kost">
           <RichText text={p.cost} />
         </Callout>
+        <Reality text={scenario.reality} />
       </div>
       <div className={`${styles.visual} ${styles.areaVisual}`}>
         <VisualView visual={p.visual} />

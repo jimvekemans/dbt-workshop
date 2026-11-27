@@ -9,9 +9,12 @@ import { RichText } from '../components/Term'
 import { Status, StatusMark } from '../components/Status'
 import { StatusBadge } from '../components/StatusBadge'
 import { TechLine } from '../components/TechLine'
+import { QuizStrip } from '../components/QuizStrip'
+import { Reality } from '../components/Reality'
 import { LockIcon, PlayIcon, RefreshIcon } from '../components/icons'
 import { readyData, versionKey } from '../api/adapt'
 import { useStudio } from '../lib/studio'
+import { isWaiting, itemKey, useQuiz } from '../lib/quiz'
 import { valueWords } from '../lib/inputs'
 import { usualText } from '../lib/format'
 import { cx } from '../lib/cx'
@@ -51,6 +54,9 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
   const outcome = useRef<HTMLDivElement>(null)
   const failure = useRef<HTMLDivElement>(null)
   const { versionBaselines, numberTrails } = useStudio()
+  const quiz = useQuiz()
+  // what really happened would give the answer away: it waits until the question of this step was asked or skipped
+  const holdReality = !!def.quiz && quiz.opening && isWaiting(quiz, itemKey(scenarioId, def.id))
   const status = state?.status ?? 'todo'
   const running = status === 'running'
   const done = status === 'done'
@@ -132,6 +138,8 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
         </span>
       </header>
 
+      <QuizStrip scenarioId={scenarioId} stepId={def.id} />
+
       {def.say && (
         <div className={styles.say}>
           <p className={styles.label}>Wat er gebeurt</p>
@@ -140,6 +148,8 @@ export function StepCard({ scenarioId, index, total, def, state, blocked, values
           </p>
         </div>
       )}
+
+      {!holdReality && <Reality size="sm" text={def.reality} />}
 
       {def.inputs.length > 0 && (
         <div className={styles.inputs}>

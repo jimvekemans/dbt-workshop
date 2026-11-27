@@ -20,6 +20,8 @@ WHY_MAX = 140          # `why`: what goes wrong as long as a feature is not ther
 TECH_ITEMS_MAX = 8     # `tech` of a scenario: how many technical keywords
 TECH_ITEM_MAX = 40     # ... and how long one is
 STEP_TECH_MAX = 60     # `tech` of a step: one short technical line
+REALITY_MAX = 260      # `reality`: what really happened at the client, shown as "Bij ons gebeurd" (two short sentences)
+QuizTone = Literal["good", "warn", "bad"]                    # how a choice of a quiz question turns out
 NodeState = Literal["ok", "bad", "warn", "idle", "fix"]    # `fix`: the box that is the safeguard (flow only)
 OUTCOME_MAX = 300
 VALUE_PLACEHOLDER = re.compile(r"\{\{\s*value\s*\}\}")
@@ -277,6 +279,34 @@ def _check_tech_line(value: str | None) -> str | None:
     return value
 
 
+class QuizOption(Strict):
+    """One choice of a quiz question and what happens to whoever takes it."""
+    label: str = Field(min_length=1, max_length=90)       # the choice, as the room would say it
+    impact: str = Field(min_length=1, max_length=220)     # what happens after this choice (shown at the reveal)
+    tone: QuizTone                                        # how that turns out: good, warn (it works, at a price) or bad
+    platform: bool = False                                # the choice the scenario or stage stands for (what the demo shows)
+
+
+class Quiz(Strict):
+    """A question for the room, asked before a scenario or a stage: a situation, two or three choices and what each
+    one leads to. The presenter counts hands, then reveals the impact of every choice."""
+    situation: str = Field(min_length=1, max_length=320)  # the possible issue, without giving the answer away
+    question: str = Field(min_length=1, max_length=90)    # what the room decides
+    options: list[QuizOption] = Field(min_length=2, max_length=3)
+    takeaway: str | None = Field(default=None, min_length=1, max_length=180)   # one closing sentence after the reveal
+    minutes: int = Field(default=2, ge=1, le=5)           # talking time for this question (the planner adds it up)
+
+    @model_validator(mode="after")
+    def one_choice_is_the_platforms(self) -> "Quiz":
+        chosen = sum(o.platform for o in self.options)
+        if chosen != 1:
+            raise ValueError(f"a quiz marks exactly one option with 'platform: true' (the choice the demo shows), "
+                             f"this one marks {chosen}")
+        if len({o.label.strip().lower() for o in self.options}) != len(self.options):
+            raise ValueError("the options of a quiz need different labels")
+        return self
+
+
 class Step(Strict):
     id: str = Field(pattern=IDENT)
     title: str = Field(min_length=1, max_length=60)
@@ -284,6 +314,8 @@ class Step(Strict):
     status: Status | None = None
     why: str | None = Field(default=None, min_length=1, max_length=WHY_MAX)   # what goes wrong without it (closing page)
     tech: str | None = None        # for the presenter only: the real names behind this step (1-60 characters)
+    reality: str | None = Field(default=None, min_length=1, max_length=REALITY_MAX)   # what really happened ("Bij ons gebeurd")
+    quiz: Quiz | None = None       # a question for the room before this step (see Quiz)
     say: str | None = Field(default=None, max_length=300)
     button: str = Field(min_length=1, max_length=40)
     inputs: list[Input] = []
@@ -331,6 +363,8 @@ class Scenario(Strict):
     status: Status | None = None
     why: str | None = Field(default=None, min_length=1, max_length=WHY_MAX)   # what goes wrong without it (closing page)
     tech: list[str] | None = None  # for the presenter only: 1 to 8 keywords naming what the scenario really uses
+    reality: str | None = Field(default=None, min_length=1, max_length=REALITY_MAX)   # what really happened ("Bij ons gebeurd")
+    quiz: Quiz | None = None       # a question for the room before the scenario starts (see Quiz)
     minutes: int = Field(ge=1, le=30)
     environment: Literal["dev", "val", "prd"] = "dev"
     related: list[Related] = []

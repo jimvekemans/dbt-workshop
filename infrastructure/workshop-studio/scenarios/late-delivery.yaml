@@ -11,6 +11,24 @@ environment: dev
 related:
   - id: skip-one-table
     why: Is een feed niet enkel laat maar stuk, dan kan een operator hem uit de nachtelijke load halen.
+reality: "De feeds zijn beschreven in 14 bestanden, goed voor meer dan 650 brontabellen. Voor geen enkele brontabel staat ingesteld hoe oud de data mag zijn. Blijft een feed stil, dan meldt de load dat niet."
+
+quiz:
+  situation: Elke avond stuurt de pakjesdienst de pakketscans van de dag. Vandaag blijven ze uit. Er verschijnt geen fout en de nacht toont dezelfde oude cijfers.
+  question: Wat doet de nacht met een feed die niet aankomt?
+  options:
+    - label: Alles laten wachten tot de feed aankomt
+      impact: Niemand leest oude cijfers, maar elk rapport blijft liggen, ook de rapporten die niets met de pakjesdienst te maken hebben.
+      tone: bad
+    - label: Elke nacht nakijken welke feed laat is, en de rest laten laden
+      impact: Het team ziet welke feed laat is en kan de afzender aanspreken. De andere rapporten zijn op tijd. Dit kan het platform nog niet.
+      tone: good
+      platform: true
+    - label: Niets melden en laden met wat er is
+      impact: "Zo gaat het vandaag: de klantendienst belooft leverdata op basis van oude cijfers, tot een manager het na twee dagen merkt."
+      tone: bad
+  takeaway: Een late feed is een gesprek met de afzender, geen reden om alles stil te leggen.
+  minutes: 2
 
 problem:
   headline: De pakjesdienst valt stil en twee dagen lang merkt niemand het

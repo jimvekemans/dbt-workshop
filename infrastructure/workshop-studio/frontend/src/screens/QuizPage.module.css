@@ -1,0 +1,49 @@
+.page { display: grid; gap: var(--space-5); max-width: 72rem; }
+.head { display: grid; gap: var(--space-3); padding: var(--space-6) 0 var(--space-2); }
+.h1 { font-size: clamp(2rem, 3.4vw + 0.6rem, 3.8rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.04; max-width: 20ch; }
+.h1:focus { outline: none; }
+.lead { font-size: var(--text-lg); color: var(--ink-2); max-width: 58ch; line-height: 1.5; }
+
+/* the route and the time it takes */
+.panel { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4) var(--space-6); align-items: center; padding: var(--space-5) var(--space-6); border-radius: var(--radius-xl); background: var(--surface-2); border: 3px solid var(--ink); }
+@media (min-width: 60rem) { .panel { grid-template-columns: minmax(0, 1fr) auto; } }
+.now { display: grid; gap: var(--space-2); min-width: 0; }
+.panelTitle { font-size: var(--text-2xl); line-height: 1.1; letter-spacing: -0.02em; }
+.sum { font-size: var(--text-lg); line-height: 1.45; font-variant-numeric: tabular-nums; max-width: 60ch; }
+.slack { font-weight: 700; color: var(--good); }
+.over { color: var(--warn); }
+.meter { display: block; height: 0.6rem; border-radius: 999px; background: var(--line); overflow: hidden; max-width: 36rem; }
+.meterFill { display: block; height: 100%; border-radius: 999px; background: var(--good); transition: width var(--dur-med) var(--ease-out); }
+.meterOver { background: var(--warn); }
+.score { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.controls { display: flex; flex-direction: column; align-items: stretch; gap: var(--space-3); }
+.budget { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; white-space: nowrap; }
+.budget input { width: 5.2rem; min-height: var(--tap); padding: 0 var(--space-2); border-radius: var(--radius-md); border: 1.5px solid var(--line-strong); background: var(--surface); color: var(--ink); font: inherit; font-variant-numeric: tabular-nums; text-align: right; }
+
+/* the list */
+.group { display: grid; gap: var(--space-4); margin-top: var(--space-4); }
+.groupTitle { font-size: var(--text-2xl); padding-bottom: var(--space-2); border-bottom: 3px solid var(--ink); }
+.block { display: grid; gap: var(--space-2); }
+.blockHead { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-1) var(--space-4); }
+.blockTitle { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-1) var(--space-3); font-size: var(--text-lg); line-height: 1.2; }
+.scenario { color: var(--ink); text-decoration: none; }
+@media (hover: hover) and (pointer: fine) { .scenario:hover { text-decoration: underline; } }
+.flow { font-size: var(--text-sm); font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.rows { list-style: none; display: grid; gap: var(--space-2); }
+.row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: var(--space-2) var(--space-4); padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2); border-radius: var(--radius-md); background: var(--surface); border: 1px solid var(--line); }
+.picked { border-color: var(--accent); background: var(--accent-soft); }
+.check { display: grid; place-items: center; width: var(--tap); height: var(--tap); cursor: pointer; }
+.check input { width: 1.4rem; height: 1.4rem; accent-color: var(--accent); cursor: pointer; }
+.what { display: grid; gap: 0.1em; min-width: 0; }
+.link { font-size: var(--text-lg); font-weight: 600; color: var(--accent-text); overflow-wrap: anywhere; }
+.played .link { color: var(--ink-2); }
+.stage { font-size: var(--text-sm); color: var(--ink-2); }
+.state { display: inline-flex; align-items: center; gap: 0.4em; color: var(--good); font-size: var(--text-sm); font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.state svg { --mark-ink: var(--surface); }
+.min { min-width: 5.4em; text-align: right; color: var(--ink-2); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 560px) { .row { grid-template-columns: auto minmax(0, 1fr) auto; } .state { grid-column: 2 / -1; } }
+
+.settings { display: grid; gap: var(--space-3); margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--line-strong); }
+.settingsTitle { font-size: var(--text-xl); }
+.settingsActions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.note { color: var(--ink-2); font-size: var(--text-sm); }

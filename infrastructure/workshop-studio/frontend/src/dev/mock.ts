@@ -9,7 +9,7 @@
 import { ApiError } from '../api/types'
 import type { ActionResult, Backend, Catalog, DemoStep, InputValues, LiveEvidence, Mode, ProgressStatus, Scenario, ServerState, StepDef, Subscription } from '../api/types'
 import { CATALOG, RECORDINGS, SCENARIOS, fakeEvidence, genericActions, isRecorded, withIdeas } from './mockContent'
-import { withFlowAndRoadmap } from './mockFlow'
+import { MOCK_REALITY, withFlowAndRoadmap, withQuiz } from './mockFlow'
 import type { Frame } from './mockContent'
 
 /** When the replayed frames were "recorded" (the mock invents a date; the real backend sends the real one). */
@@ -281,13 +281,17 @@ export function createMockBackend(params: URLSearchParams): Backend {
       if (rel) extra.forEach((x) => rel.scenarios.push({ id: x.id, title: x.title, promise: x.promise, minutes: x.minutes, environment: x.environment, related: x.related, recorded: false }))
       c.groups.forEach((g) => g.scenarios.forEach((s) => (s.recorded = isRecorded(s.id))))
       // the sample flow, a few status labels and the closing overview (see mockFlow.ts)
-      return withIdeas(withFlowAndRoadmap(c, isRecorded))
+      return withQuiz(withIdeas(withFlowAndRoadmap(c, isRecorded)))
     },
     async getScenario(id) {
       await sleep(200)
       const s = SCENARIOS[id]
       if (!s) throw new ApiError('There is no such scenario.', 404)
-      return structuredClone(s)
+      const out = structuredClone(s)
+      // the sample "Bij ons gebeurd" lines, as the backend sends them: on the scenario and on a step
+      if (MOCK_REALITY[id]) out.reality = MOCK_REALITY[id]
+      for (const st of out.demo.steps) if (MOCK_REALITY[`${id}/${st.id}`]) st.reality = MOCK_REALITY[`${id}/${st.id}`]
+      return out
     },
     async getState() {
       await guard()

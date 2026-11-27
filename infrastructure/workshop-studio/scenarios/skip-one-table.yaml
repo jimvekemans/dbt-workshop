@@ -10,6 +10,24 @@ environment: dev
 related:
   - id: switchover-date
     why: De lijst met overgeslagen tabellen is nog een instelling die een operator in een minuut kan wijzigen, zonder nieuwe release.
+reality: "De lijst om kapotte tabellen een nacht over te slaan bestaat al van de eerste nachtelijke load. Ze moest één keer hersteld worden: nadat de load verhuisd was, werkte de lijst niet meer zoals bedoeld."
+
+quiz:
+  situation: Het is nacht. De feed van de pakjesdienst komt aan met 3 scans zonder scannummer, en de pakjesdienst heeft een dag nodig om dat te herstellen. Morgenvroeg opent het management zijn rapport.
+  question: Wat doe je vannacht met de load?
+  options:
+    - label: Alles laten wachten tot de feed hersteld is
+      impact: Geen enkel fout cijfer, maar elk rapport blijft een dag oud. Ook de rapporten die niets met de pakjesdienst te maken hebben.
+      tone: bad
+    - label: De check uitzetten en alles laten doorlopen
+      impact: Elk rapport is op tijd, maar de 3 foute scans zitten erin. Niemand weet nog welke cijfers te vertrouwen zijn.
+      tone: bad
+    - label: Enkel de pakjesdienst en wat ervan afhangt een nacht overslaan
+      impact: Alle andere rapporten zijn op tijd en gecheckt. Wat van de pakjesdienst afhangt, wacht een nacht, zonder nieuwe release.
+      tone: good
+      platform: true
+  takeaway: Sla het kapotte deel over, niet de hele nacht.
+  minutes: 2
 
 problem:
   headline: Eén kapotte feed laat het management met de cijfers van gisteren zitten

@@ -42,8 +42,9 @@ images: ## build the base, dev, Airflow and manager images
 	docker build -t dbt-singlestore-dev:1.11.11 $(INFRA)/dbt-singlestore-dev-image
 	$(COMPOSE) --profile manager build airflow-dev manager
 
-bootstrap: ## first time: start the stack, then provision everything in the manager container
+bootstrap: ## first time: build the base and dev images, start the stack, then provision everything in the manager container
 	docker build -t dbt-singlestore-base:1.11.11 $(INFRA)/dbt-singlestore-base-image
+	docker build -t dbt-singlestore-dev:1.11.11 $(INFRA)/dbt-singlestore-dev-image
 	$(COMPOSE) up -d --build
 	$(MANAGER) bootstrap $(S)
 

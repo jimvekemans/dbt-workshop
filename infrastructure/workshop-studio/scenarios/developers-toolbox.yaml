@@ -72,7 +72,7 @@ code:
       - line: "user:"
         says: Wie er verbindt, komt ook uit die instellingen, dus één bestand dient elke developer en [[robot]].
   - title: Het wachtwoord komt uit een afgesloten kast, niet uit een bestand
-    status: today
+    status: next
     file: vdp.toml
     file_label: De toolbox-instellingen van het project
     from: 'vault_mount = "kv-workshop"'
@@ -143,6 +143,19 @@ demo:
       feature: Een guard die een build zonder keuze weigert
       status: today
       tech: "dbt wrapper: select enforcement"
+      quiz:
+        situation: "Een developer heeft haast en vraagt om een build, maar vergeet te zeggen welke tabel. Het project telt een hele reeks tabellen, en de developer zit te wachten op het resultaat."
+        question: "Wat doe je met een build zonder gekozen tabel?"
+        options:
+          - label: "Alles builden, want het commando was duidelijk genoeg"
+            impact: "De build slaagt altijd, maar de developer wacht op een hele reeks tabellen die niemand wilde."
+            tone: bad
+          - label: "De build weigeren tot de developer een tabel kiest"
+            impact: "Het commando stopt meteen en er wordt niets gebuild. De developer typt het opnieuw, nu met een tabel."
+            tone: good
+            platform: true
+        takeaway: "Een vergeten keuze mag niets kosten: het vangnet stopt het commando voor het begint."
+        minutes: 1
       say: Developer één vraagt om een build en vergeet een tabel te kiezen. Hetzelfde commando loopt eerst zonder guard, en dan via de toolbox.
       button: Run het commando op beide manieren
       inputs: []
@@ -174,6 +187,22 @@ demo:
       feature: Eén gedeeld verbindingsbestand voor elke developer
       status: today
       tech: "profiles.yml env_var()"
+      quiz:
+        situation: "Twee developers werken in hetzelfde project en verbinden met dezelfde database. Elk heeft een eigen login, en de database moet kunnen zien wie van de twee bezig is."
+        question: "Hoe krijgt elke developer zijn verbinding?"
+        options:
+          - label: "Eén gedeeld bestand dat de login pas bij de developer zelf ophaalt"
+            impact: "Eén bestand volstaat voor iedereen, niemand houdt een kopie met wachtwoord bij, en de database weet toch wie verbonden is."
+            tone: good
+            platform: true
+          - label: "Elke developer houdt een eigen kopie van het bestand bij"
+            impact: "Het werkt, maar elke kopie bevat een wachtwoord en moet bijgehouden worden. Zo kan de login van een collega lekken."
+            tone: warn
+          - label: "Eén gedeeld bestand met één gezamenlijke login voor het team"
+            impact: "Niemand houdt een kopie bij, maar de database ziet enkel nog de gezamenlijke login en niet meer wie ervan bezig is."
+            tone: warn
+        takeaway: "Eén bestand voor iedereen kan, zolang de login van elke developer apart blijft."
+        minutes: 2
       say: Developer één en developer twee runnen dezelfde twee commando's in hetzelfde project. Het verbindingsbestand noemt geen developer en bevat geen wachtwoord. Zo lekt de login van een collega niet, en hoeft niemand een persoonlijke kopie bij te houden.
       button: Run de commando's als beide developers
       inputs: []
@@ -200,8 +229,26 @@ demo:
     - id: vault
       title: Hou het wachtwoord uit elk bestand
       feature: Wachtwoorden in een vault, niet in bestanden
-      status: today
+      status: next
+      why: "Zonder vault staat het wachtwoord van elke developer als leesbare tekst in een bestand op zijn laptop."
       tech: "Vault AppRole (KEYVAULT_ROLE_ID, KEYVAULT_SECRET_ID)"
+      reality: "Vandaag typt elke developer zijn wachtwoord één keer in bij het opstarten van de toolbox. Het wordt bewaard in een bestand op de eigen laptop, dat niet bij de gedeelde code terechtkomt."
+      quiz:
+        situation: "Een developer verbindt met de database en heeft daarvoor een wachtwoord nodig. Het bestand met de verbindingsinstellingen staat op zijn laptop, en dat bestand zwerft rond."
+        question: "Waar bewaar je het wachtwoord van de developer?"
+        options:
+          - label: "In het instellingenbestand zelf, zodat verbinden altijd werkt"
+            impact: "Verbinden werkt, maar het wachtwoord staat leesbaar in een bestand dat iedereen kan lezen die het krijgt."
+            tone: bad
+          - label: "In de vault, met enkel een verwijzing in het bestand"
+            impact: "Het bestand bevat geen wachtwoord meer en blijft veilig rondzwerven. Het wachtwoord wordt opgehaald op het moment van verbinden. Dit heeft het platform nog niet."
+            tone: good
+            platform: true
+          - label: "In het bestand, maar enkel leesbaar voor de developer zelf"
+            impact: "Zo gaat het vandaag: het wachtwoord gaat niet mee de code in, maar blijft leesbare tekst op de laptop, en elke kopie van het bestand neemt het mee."
+            tone: warn
+        takeaway: "Een wachtwoord hoort in een afgesloten kast, niet in een bestand dat kan rondzwerven."
+        minutes: 2
       say: Developer één verbindt twee keer. Eerst met het wachtwoord in een instellingenbestand, dat leesbaar is voor iedereen die het bestand krijgt, daarna met enkel een verwijzing naar de [[vault]].
       button: Verbind op beide manieren
       inputs: []
@@ -245,6 +292,23 @@ demo:
       feature: Nieuwe feeds automatisch beschreven
       status: today
       tech: "vdp sources add"
+      reality: "Het bestand dat de feeds beschrijft, is de plek waar het vaakst iets hersteld moest worden: 26 keer. Eén vergeten regel is genoeg om een run te laten mislukken."
+      quiz:
+        situation: "Er komt een nieuwe feed binnen. Haar kolommen staan nergens in het project, dus er kan geen enkele check op draaien zolang niemand ze beschrijft."
+        question: "Hoe komt de beschrijving van de kolommen in het project?"
+        options:
+          - label: "Een developer typt de lijst met de hand"
+            impact: "Het werkt, maar één verkeerd gespelde kolomnaam stopt later een check, mogelijk midden in de ochtend."
+            tone: warn
+          - label: "Wachten met beschrijven tot er een check nodig is"
+            impact: "Tot dan draait er geen enkele check op de feed, dus een fout in de feed valt niemand op."
+            tone: warn
+          - label: "De lijst laten schrijven door een commando dat de tabel zelf uitleest"
+            impact: "De kolommen komen uit de tabel zelf, dus er kan er geen verkeerd gespeld zijn."
+            tone: good
+            platform: true
+        takeaway: "Laat de tabel haar eigen kolommen opsommen: een machine typt geen spelfouten."
+        minutes: 2
       say: Er komt een nieuwe feed binnen, maar haar kolommen staan nergens in het project, dus er kan geen enkele check op draaien. Een developer schrijft die lijst eerst met de hand, en laat ze daarna door de toolbox schrijven.
       button: Beschrijf de feed op beide manieren
       inputs: []
@@ -299,6 +363,22 @@ demo:
       feature: Feedbeschrijvingen volgen wijzigingen aan de bron
       status: today
       tech: "vdp sources rewrite"
+      quiz:
+        situation: "Het team dat de retourenfeed stuurt, voegt een kolom toe. De beschrijving van die feed in het project kent de nieuwe kolom nog niet."
+        question: "Wat doe je met de beschrijving van de feed?"
+        options:
+          - label: "Ze laten bijwerken door een commando dat de bron nakijkt"
+            impact: "Eén commando brengt ze op punt: ze noemt elke kolom van de tabel, dus de checks kunnen de nieuwe kolom afdekken."
+            tone: good
+            platform: true
+          - label: "Ze aanpassen wanneer iemand merkt dat er een kolom bij is"
+            impact: "Zolang weet het project niet dat de kolom bestaat, dus geen enkele check dekt ze af."
+            tone: warn
+          - label: "Alle kolommen van de feed opnieuw met de hand beschrijven"
+            impact: "De beschrijving kan kloppen, maar het is veel werk en bij elke kolomnaam is er kans op een spelfout."
+            tone: warn
+        takeaway: "Een beschrijving die de bron niet volgt, laat nieuwe kolommen ongecontroleerd."
+        minutes: 2
       say: Het team dat de retourenfeed stuurt, voegt een kolom toe, en de beschrijving in het project kent ze nog niet. Eén commando werkt ze bij.
       button: Voeg de kolom toe en werk bij
       inputs: []
@@ -350,6 +430,23 @@ demo:
       feature: Enkel testen wat veranderd is, met één klik
       status: today
       tech: "VS Code task: Build modified"
+      reality: "Elke developer heeft knoppen om te zien wat gewijzigd is, om dat te builden en om de testrun op de eigen laptop na te spelen."
+      quiz:
+        situation: "Een developer wijzigt één tabel en wil enkel die wijziging testen. Een vergissing in een getypt commando kan alles opnieuw laten builden."
+        question: "Hoe test de developer enkel zijn wijziging?"
+        options:
+          - label: "Het commando met de hand typen en de juiste tabel kiezen"
+            impact: "Het kan lukken, maar bij een vergissing in het commando wordt alles opnieuw gebuild en moet de developer wachten."
+            tone: warn
+          - label: "Twee knoppen in de editor, die enkel testen wat veranderd is"
+            impact: "Twee klikken volstaan: enkel de gewijzigde tabel wordt gebuild, en de tabellen die ze leest worden geleend van de gedeelde kopie."
+            tone: good
+            platform: true
+          - label: "Altijd alles builden om zeker te zijn dat niets gemist wordt"
+            impact: "Er wordt niets gemist, maar de developer wacht op alle tabellen om één wijziging te testen."
+            tone: warn
+        takeaway: "Wat veranderd is, kan een knop opsommen: niemand moet het commando uit het hoofd typen."
+        minutes: 2
       say: Een developer wijzigt één tabel en klikt op twee knoppen van de editor; de toolbox runt de commando's erachter. Zonder die knoppen kan een vergissing in een getypt commando alles opnieuw laten builden.
       button: Klik op de twee knoppen
       inputs: []
@@ -378,6 +475,23 @@ demo:
       status: next
       why: "Een regel met een spelfout beschermt niemand, dus een verboden gewoonte kan ongemerkt in de rapporten belanden."
       tech: "check_model_code_does_not_contain_regexp_pattern"
+      reality: "Het verbod op één datumfunctie stond 97 dagen met een tikfout in de huisregels, dus het weigerde niets. Toen de fout hersteld werd, gebruikten drie tabellen die functie nog."
+      quiz:
+        situation: "De stijlgids van het team verbiedt één manier om datums te schrijven, en een automatische check moet code met die gewoonte weigeren. Iemand schrijft die regel met een spelfout."
+        question: "Hoe weet het team dat een huisregel echt weigert?"
+        options:
+          - label: "Erop vertrouwen dat de regel er goed uitziet"
+            impact: "Zo gaat het vandaag: een regel met een spelfout ziet er goed uit maar beschermt niemand, dus de verboden gewoonte kan in de rapporten belanden."
+            tone: bad
+          - label: "Een collega laten nalezen bij elke wijziging aan de regels"
+            impact: "Een nalezer kan een spelfout zien, maar niemand bewijst dat de regel echt weigert, en het blijft werk van mensen."
+            tone: warn
+          - label: "Een test die mislukt zodra een regel de code niet weigert"
+            impact: "Een regel met een spelfout laat de test mislukken, dus elke regel beschermt echt. Dit heeft het platform nog niet: het is de volgende stap."
+            tone: good
+            platform: true
+        takeaway: "Een regel die nooit weigert, voelt veilig en beschermt niemand: bewijs dat ze werkt."
+        minutes: 3
       say: "De stijlgids van het team verbiedt één manier om datums te schrijven. Dezelfde code, die dat toch doet, wordt twee keer bewaard: eerst met een spelfout in de regel, dan met de regel correct geschreven."
       button: Bewaar de code met beide regels
       inputs: []

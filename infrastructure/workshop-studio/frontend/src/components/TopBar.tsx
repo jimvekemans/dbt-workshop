@@ -3,6 +3,7 @@ import type { Route } from '../lib/router'
 import { useStudio } from '../lib/studio'
 import { useUi } from '../lib/ui'
 import { neighbours } from '../lib/store'
+import { quizItems } from '../lib/quiz'
 import { ModeBadge } from './ModeBadge'
 import { ThemeToggle } from './ThemeToggle'
 import { TextSize } from './TextSize'
@@ -17,6 +18,8 @@ export function TopBar({ route }: { route: Route }) {
   const { openSwitcher } = useUi()
   const nb = route.name === 'scenario' ? neighbours(catalog, route.id) : null
   const here = nb && nb.index >= 0 ? nb : null
+  const hasQuiz = quizItems(catalog).length > 0
+  const inQuiz = route.name === 'quiz' || route.name === 'question'
   const go = (id: string) => {
     window.location.hash = `#/s/${encodeURIComponent(id)}/problem`
   }
@@ -34,6 +37,11 @@ export function TopBar({ route }: { route: Route }) {
             <span className={styles.short}>Scenario's</span>
             <kbd className="hint-key" aria-hidden="true">/</kbd>
           </button>
+          {hasQuiz && (
+            <a className={styles.quiz} href="#/quiz" aria-current={inQuiz ? 'page' : undefined} title="De quiz: alle vragen aan de zaal">
+              Quiz
+            </a>
+          )}
         </div>
         <div className={styles.mid}>
           {here && (

@@ -20,8 +20,12 @@ export type Route =
   | { name: 'roadmap' }
   /** A hash that is no page of this app: the app shows the start page and says so. */
   | { name: 'unknown' }
-  /** `repair`: the part in the link was missing or wrong, so the address should be replaced by the part-1 address. `from`: the scenario the visitor came from (a related link). */
-  | { name: 'scenario'; id: string; part: PartId; repair?: true; from?: string }
+  /** The quiz: every question for the room, the route the presenter picked and the time it takes. */
+  | { name: 'quiz' }
+  /** One question for the room: of a scenario, or of one step of it. */
+  | { name: 'question'; id: string; step?: string }
+  /** `repair`: the part in the link was missing or wrong, so the address should be replaced by the part-1 address. `from`: the scenario the visitor came from (a related link). `step`: the demo step to scroll to (a link from a question). */
+  | { name: 'scenario'; id: string; part: PartId; repair?: true; from?: string; step?: string }
 
 export function isPart(x: string | undefined): x is PartId {
   return x === 'problem' || x === 'idea' || x === 'code' || x === 'demo'
@@ -32,15 +36,22 @@ export function parseHash(hash: string): Route {
   const seg = path.split('/').filter(Boolean)
   if (seg.length === 0) return { name: 'home' }
   if (seg[0] === 'roadmap' && seg.length === 1) return { name: 'roadmap' }
+  if (seg[0] === 'quiz' && seg.length === 1) return { name: 'quiz' }
+  if (seg[0] === 'quiz' && seg[1] && seg.length <= 3) {
+    return { name: 'question', id: decodeURIComponent(seg[1]), ...(seg[2] ? { step: decodeURIComponent(seg[2]) } : {}) }
+  }
   if (seg[0] === 's' && seg[1]) {
     const part = seg[2]
-    const from = new URLSearchParams(query).get('from')
+    const params = new URLSearchParams(query)
+    const from = params.get('from')
+    const step = params.get('step')
     return {
       name: 'scenario',
       id: decodeURIComponent(seg[1]),
       part: isPart(part) ? part : 'problem',
       ...(isPart(part) ? {} : { repair: true as const }),
       ...(from ? { from } : {}),
+      ...(step ? { step } : {}),
     }
   }
   return { name: 'unknown' }
@@ -48,8 +59,10 @@ export function parseHash(hash: string): Route {
 
 export function toHash(route: Route): string {
   if (route.name === 'roadmap') return '#/roadmap'
+  if (route.name === 'quiz') return '#/quiz'
+  if (route.name === 'question') return `#/quiz/${encodeURIComponent(route.id)}${route.step ? `/${encodeURIComponent(route.step)}` : ''}`
   if (route.name !== 'scenario') return '#/'
-  return `#/s/${encodeURIComponent(route.id)}/${route.part}`
+  return `#/s/${encodeURIComponent(route.id)}/${route.part}${route.step ? `?step=${encodeURIComponent(route.step)}` : ''}`
 }
 
 export function navigate(route: Route): void {

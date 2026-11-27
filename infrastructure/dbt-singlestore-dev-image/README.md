@@ -58,7 +58,7 @@ removes them). A host `cargo` works as well; each workspace's README lists the c
 
     docker build -t dbt-singlestore-dev:1.11.11 .
 
-`--build-arg BASE_IMAGE=...` picks another base image. `make images` at the repository root builds this image.
+`--build-arg BASE_IMAGE=...` picks another base image. `make bootstrap` and `make images` at the repository root build this image.
 
 ## Skills and docs
 

@@ -180,6 +180,23 @@ demo:
       feature: Enkel wat op een lijst staat, wordt gebuild
       status: today
       tech: "selector daily_load"
+      reality: "De lijst van wat elke nacht gebuild wordt, moest na een release twee keer hersteld worden: de nacht buildde nog alles."
+      quiz:
+        situation: Elke nacht wordt elk rapport herbouwd, ook een zwaar rapport dat één analist één keer per maand opent. Elke ochtend wachten alle andere lezers mee op dat zware rapport.
+        question: Wat gaat er elke nacht in de load?
+        options:
+          - label: Alle rapporten builden, zodat er niets ontbreekt
+            impact: Elk rapport is vers, ook het zware. Maar elke nacht doet werk dat bijna niemand nodig heeft, en iedereen wacht daarop.
+            tone: warn
+          - label: Enkel builden wat vooraf benoemd is, de rest op aanvraag
+            impact: De nacht doet minder werk. Wie het zware rapport nodig heeft, vraagt het aan en krijgt het op dat moment.
+            tone: good
+            platform: true
+          - label: Het zware rapport helemaal uit de load schrappen
+            impact: De nacht is lichter, maar de analist die het zware rapport nodig heeft, krijgt het niet meer.
+            tone: bad
+        takeaway: Niet elk rapport hoort in elke nacht.
+        minutes: 2
       say: Eerst wordt alles gebuild, zoals een nacht zonder lijst zou doen, het zware rapport inbegrepen. Daarna loopt de nachtelijke load met zijn lijst.
       button: Op beide manieren builden
       inputs: []
@@ -207,6 +224,22 @@ demo:
       feature: Een kapotte tabel kan een nacht weggelaten worden
       status: today
       tech: "Variable disabled_dbt_models -> --exclude"
+      quiz:
+        situation: Sommige pakketscans komen binnen zonder scannummer en een check stopt de nacht. Een deel van de rapporten steunt op die scans, de andere rapporten niet.
+        question: Wat doe je vannacht met de load?
+        options:
+          - label: Alles laten wachten tot de scans hersteld zijn
+            impact: Geen fout cijfer, maar elk rapport blijft een dag oud, ook de rapporten die niets met de scans te maken hebben.
+            tone: bad
+          - label: De check uitzetten en alles laten doorlopen
+            impact: Elk rapport is op tijd, maar de scans zonder nummer zitten erin. Niemand weet nog welke cijfers te vertrouwen zijn.
+            tone: bad
+          - label: Enkel de pakketscans en wat erop steunt vannacht weglaten
+            impact: De andere rapporten zijn op tijd en gecheckt. De weggelaten tabellen houden de cijfers van de laatste goede nacht, zonder nieuwe release.
+            tone: good
+            platform: true
+        takeaway: Laat weg wat kapot is, en laat de rest gewoon draaien.
+        minutes: 2
       say: Sommige pakketscans komen binnen zonder scannummer, dus een check stopt de nacht. Een [[operator]] laat de pakketscans, en wat erop steunt, dan weg uit de load van vannacht met één [[instelling]].
       button: De nacht runnen, dan de tabel weglaten
       inputs: []
@@ -241,6 +274,23 @@ demo:
       feature: Zware rapporten enkel op aanvraag gebuild
       status: today
       tech: "tag:on-demand + DAG dbt_on_demand"
+      reality: "Vier zware tabellen draaien enkel op aanvraag, niet in de nacht."
+      quiz:
+        situation: Het zware rapport zit niet in de nacht. Midden op de dag heeft een analist het toch nodig, met verse cijfers.
+        question: Hoe krijgt de analist dat rapport?
+        options:
+          - label: Enkel dat rapport laten builden op aanvraag
+            impact: De analist heeft het rapport kort daarna, met verse cijfers. Verder verandert er niets aan de andere tabellen.
+            tone: good
+            platform: true
+          - label: De volledige nachtelijke load opnieuw laten lopen
+            impact: De analist krijgt het rapport, maar alle andere tabellen worden ook herbouwd. Dat is veel werk voor één rapport.
+            tone: warn
+          - label: Het rapport voortaan in elke nacht opnemen
+            impact: De analist heeft het morgen, maar elke nacht doet opnieuw dat zware werk en iedereen wacht erop.
+            tone: warn
+        takeaway: Wat zelden nodig is, bouw je enkel wanneer iemand erom vraagt.
+        minutes: 1
       say: Iemand vraagt het zware rapport met de hand aan. Enkel dat rapport wordt gebuild, niets anders.
       button: Het zware rapport aanvragen
       inputs: []
@@ -279,6 +329,23 @@ demo:
       feature: De nacht start als al zijn data binnen is
       status: today
       tech: "Asset schedule (dbt_dataset_dependencies)"
+      reality: "De nacht start wanneer de data binnen is, niet meer op de klok. Die ombouw werd de dag voor een release nog aan die release toegevoegd en had dezelfde dag twee herstellingen nodig."
+      quiz:
+        situation: De nacht heeft twee feeds nodig. Het vaste uur is aangebroken, de bestellingenfeed is binnen en de pakketscanfeed nog niet.
+        question: Wanneer start de nacht?
+        options:
+          - label: Op het vaste uur, met wat er dan binnen is
+            impact: De nacht start, maar met de pakketscans van gisteren. Het rapport lijkt vers en niemand heeft het door.
+            tone: bad
+          - label: Pas als elke feed zich gemeld heeft
+            impact: De nacht werkt met de juiste data en niemand moet iets doen. Komt een feed nooit aan, dan blijft de nacht wachten.
+            tone: good
+            platform: true
+          - label: Een operator de start met de hand laten geven
+            impact: De data is juist, maar iemand moet de feeds in de gaten houden en de nacht zelf starten.
+            tone: warn
+        takeaway: Laat de nacht starten wanneer zijn data er is, niet wanneer de klok het zegt.
+        minutes: 2
       say: De nacht wacht op twee feeds. De bestellingenfeed meldt zich twee keer, wat niet volstaat, en daarna meldt de pakketscanfeed zich.
       button: De feeds laten melden
       inputs: []
@@ -296,6 +363,23 @@ demo:
       feature: Lezers krijgen een mail als hun rapport klaar is
       status: today
       tech: "Asset events + DAG report_refreshed_notice"
+      reality: "Wie een tabel gebruikt, hoeft niet te vragen of ze klaar is: de runs van andere teams starten vanzelf zodra hun tabellen ververst zijn."
+      quiz:
+        situation: Het managementrapport is vannacht herbouwd. Wie erop steunt, weet dat niet en vraagt 's ochtends in de chat of het klaar is.
+        question: Hoe weten de lezers dat het rapport klaar is?
+        options:
+          - label: Hen in de chat laten vragen tot iemand antwoordt
+            impact: Elke lezer wacht tot een collega toevallig antwoordt, en sommigen lezen intussen de oude cijfers.
+            tone: bad
+          - label: Een vast uur afspreken waarna ze mogen kijken
+            impact: Op een goede nacht werkt dat. Loopt de nacht uit of mislukt hij, dan lezen ze toch oude cijfers zonder het te weten.
+            tone: warn
+          - label: Elke lezer een korte mail sturen zodra het rapport klaar is
+            impact: Lezers horen het meteen. Iemand moet die verwittiging wel eerst aanzetten, anders vertrekt er geen mail.
+            tone: good
+            platform: true
+        takeaway: Laat het rapport zelf zeggen wanneer het klaar is.
+        minutes: 2
       say: De nacht meldt elke ververste tabel aan de andere jobs. De lezer van het managementrapport zet de [[verwittiging]] aan, zodat er een mail vertrekt wanneer die tabel gemeld wordt.
       button: Verwittiging aanzetten, nacht runnen
       inputs: []
@@ -324,6 +408,22 @@ demo:
       feature: Een mislukte nacht meldt geen rapport als klaar
       status: today
       tech: "events only for status success"
+      quiz:
+        situation: Sommige bestellingen komen binnen zonder bestelnummer en een check stopt de nacht. Het managementrapport is niet herbouwd, en zijn lezers wachten op nieuws.
+        question: Wat horen de lezers van het rapport?
+        options:
+          - label: De lezers niets laten horen, enkel het team verwittigen
+            impact: Er komt geen mail die ten onrechte zegt dat het rapport klaar is. Het team krijgt wel een foutmail om het op te lossen.
+            tone: good
+            platform: true
+          - label: De lezers toch een mail sturen dat de nacht gelopen heeft
+            impact: De lezers openen het rapport in de verwachting van verse cijfers en lezen de cijfers van gisteren.
+            tone: bad
+          - label: De lezers een mail sturen dat het rapport later komt
+            impact: De lezers weten waarom ze wachten, maar iemand moet bij elke fout beslissen wat die mail zegt.
+            tone: warn
+        takeaway: Meld enkel wat echt klaar is.
+        minutes: 2
       say: Sommige bestellingen komen binnen zonder bestelnummer, dus een check stopt de nacht. De lezer van het rapport mag niet horen dat het klaar is.
       button: Nacht runnen met slechte bestellingen
       inputs: []
@@ -351,6 +451,22 @@ demo:
       status: next
       why: "Een feed die nooit aankomt, maakt het rapport van het management te laat, en niemand merkt het tot iemand ernaar vraagt."
       tech: "no deadline on a missing Asset"
+      quiz:
+        situation: De nacht wacht op twee feeds. Enkel de bestellingenfeed heeft zich gemeld, de pakketscanfeed komt niet. Het rapport van het management hangt erop.
+        question: Wat gebeurt er met een nacht die blijft wachten?
+        options:
+          - label: Hem blijven laten wachten tot de feed komt
+            impact: "Zo gaat het vandaag: niemand krijgt een bericht. Het rapport is te laat en dat merkt niemand tot iemand ernaar vraagt."
+            tone: bad
+          - label: Het team een mail sturen als de feed na een afgesproken tijd niet komt
+            impact: "Het team hoort dat de feed ontbreekt en kan de afzender aanspreken. Dit kan het platform nog niet: dat is de volgende stap."
+            tone: good
+            platform: true
+          - label: Hem toch laten starten met de data van gisteren
+            impact: Het rapport is op tijd, maar met oude cijfers van de pakketscans, zonder dat iemand het weet.
+            tone: bad
+        takeaway: Een nacht die wacht, moet iemand verwittigen die er iets aan kan doen.
+        minutes: 2
       say: Enkel de bestellingenfeed meldt zich; de pakketscanfeed doet dat nooit. Kijk wat de nacht doet en wie het te horen krijgt.
       button: Enkel de bestellingenfeed laten melden
       inputs: []
@@ -368,6 +484,22 @@ demo:
       status: next
       why: "Na een retry van een mislukte nacht wordt het rapport herbouwd, maar de lezer wordt nooit verwittigd en blijft wachten."
       tech: "no Asset events after dbt retry"
+      quiz:
+        situation: De nacht mislukte. De slechte bestellingen zijn opgekuist en enkel het mislukte deel loopt opnieuw. Daarbij wordt het managementrapport alsnog herbouwd.
+        question: Wat horen de lezers na die retry?
+        options:
+          - label: De lezers niets laten horen
+            impact: "Zo gaat het vandaag: het rapport is klaar, maar de lezer blijft wachten op een mail die niet komt."
+            tone: bad
+          - label: De lezers met de hand laten verwittigen
+            impact: De lezers horen het, maar iemand moet er na elke retry aan denken om dat te doen.
+            tone: warn
+          - label: De lezers vanzelf een mail laten krijgen na de retry
+            impact: "Lezers horen dat het rapport klaar is zonder dat iemand eraan moet denken. Dit kan het platform nog niet: dat is de volgende stap."
+            tone: good
+            platform: true
+        takeaway: Ook na een herstel horen de lezers dat hun rapport klaar is.
+        minutes: 2
       say: De nacht mislukt, de slechte bestellingen worden verwijderd en enkel het mislukte deel loopt opnieuw. Kijk of de lezer iets over het rapport hoort.
       button: Mislukken, herstellen en retry
       inputs: []

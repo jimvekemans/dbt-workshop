@@ -172,6 +172,22 @@ demo:
       feature: Elke tabel belandt op een eigen plaats
       status: today
       tech: "generate_database_name / schema / alias"
+      quiz:
+        situation: "Dezelfde tabel wordt gebuild door een developer, door drie robots en door een testrun, allemaal op hetzelfde systeem. De tabel heeft overal dezelfde gewone naam."
+        question: "Waar zet elke run zijn tabel neer?"
+        options:
+          - label: "Een regel in het project laat elke run een eigen plaats kiezen"
+            impact: "Vijf runs, vijf plaatsen: niemand typt een plaats en geen enkele run overschrijft een andere."
+            tone: good
+            platform: true
+          - label: "Op de gewone plek, de laatste run wint"
+            impact: "Elke run overschrijft de vorige, dus collega's lezen de proeftabel van een developer."
+            tone: bad
+          - label: "Een afspraak dat elke developer zijn eigen plaats typt"
+            impact: "Het werkt zolang iedereen eraan denkt. Wie het vergeet, overschrijft de tabel die collega's lezen."
+            tone: warn
+        takeaway: "Laat de run zelf zijn plaats kiezen: een afspraak vergeet iemand ooit."
+        minutes: 2
       say: "Dezelfde tabel wordt vijf keer opgevraagd: door een developer, door drie robots en door een testrun. Eerst wordt de naamregel weggehaald, daarna staat ze weer op haar plaats."
       button: De tabel op vijf plaatsen opvragen
       inputs: []
@@ -241,6 +257,23 @@ demo:
       feature: Laadhistoriek enkel door echte runs geschreven
       status: today
       tech: "should_execute()"
+      reality: "Tabellen met een eigen boekhouding gingen stuk bij een dry run, tot het vangnet leerde dat een dry run niets mag schrijven."
+      quiz:
+        situation: "Developer twee doet een dry run van twee tabellen: er wordt niets geladen. Het project houdt in de laadhistoriek bij wanneer tabellen voor het laatst ververst zijn."
+        question: "Wat schrijft een dry run in de laadhistoriek?"
+        options:
+          - label: "Een notitie dat de load goed liep, zoals bij elke run"
+            impact: "De historiek zegt dat de tabel ververst is terwijl ze geen rij bevat. Een rapport lijkt vers terwijl de tabel leeg is."
+            tone: bad
+          - label: "Niets: enkel een echte run laat een notitie na"
+            impact: "De historiek vertelt enkel waar echt iets geladen werd, dus een leeg rapport lijkt niet langer vers."
+            tone: good
+            platform: true
+          - label: "Een notitie met de vermelding dat het een dry run was"
+            impact: "Eerlijk, maar de historiek bevat nu ook runs die niets laadden, en elke lezer moet die uit elkaar houden."
+            tone: warn
+        takeaway: "Een run die niets laadt, mag niet beweren dat een tabel vers is."
+        minutes: 2
       say: "Developer twee doet een [[dry run]] van twee tabellen, die zonder één rij gebuild worden. Dat gebeurt twee keer: eerst zonder het vangnet, dan zoals het project het heeft."
       button: De dry run twee keer doen
       inputs: []
@@ -303,6 +336,23 @@ demo:
       feature: Oude tabellen worden automatisch verwijderd
       status: today
       tech: "perform_database_maintenance"
+      reality: "Het zoeken naar tabellen die bij geen enkel stuk code meer horen, kwam er in stappen: eerst enkel tonen, dan ook verwijderen. Het loopt nu als eerste stap van een release."
+      quiz:
+        situation: "De robot buildt een tabel. Later verdwijnt die tabel uit het project, maar in de database staat ze nog en collega's lezen ze nog."
+        question: "Wat gebeurt er met een tabel die het project niet meer heeft?"
+        options:
+          - label: "Iemand kijkt de tabellen met de hand na en kuist op"
+            impact: "Het kan, maar het is werk dat iemand moet blijven doen, en wat gemist wordt, blijft gewoon gelezen."
+            tone: warn
+          - label: "Ze blijft staan tot iemand ze opmerkt"
+            impact: "Niemand ververst ze nog, maar ze wordt nog gelezen: collega's werken met vergeten cijfers."
+            tone: bad
+          - label: "Een opkuisstap zoekt tabellen die niet meer in het project staan en verwijdert ze"
+            impact: "De oude tabel is weg, dus niemand leest nog een tabel die niemand ververst."
+            tone: good
+            platform: true
+        takeaway: "Wat uit het project verdwijnt, moet ook uit de database verdwijnen."
+        minutes: 2
       say: De robot buildt een oude tabel. Daarna verdwijnt die uit het project, en we kijken wat er voor en na de [[opkuisstap]] overblijft.
       button: De tabel verwijderen, dan opkuisen
       inputs: []
@@ -359,6 +409,23 @@ demo:
       feature: Een rij in het logboek voor elke echte run
       status: today
       tech: "log_dbt_results (LOG_RUN_RESULTS)"
+      reality: "Elke echte run komt al meer dan een jaar in een tabel. Het kostte vijf wijzigingen in één week om te beslissen waar die tabel staat en wie ze aanmaakt."
+      quiz:
+        situation: "De robot runt één kleine tabel echt, zoals de nachtelijke load dat doet. Een tijdje later vraagt iemand wat er gebuild werd en wanneer dat klaar was."
+        question: "Wat blijft er na de run bewaard?"
+        options:
+          - label: "Een rij in het logboek met wat gebuild werd, het resultaat en het tijdstip"
+            impact: "Wie het later wil weten, leest het na: wat gebuild werd, hoe het afliep en wanneer het klaar was."
+            tone: good
+            platform: true
+          - label: "Enkel een foutmail wanneer iets misloopt"
+            impact: "Een fout komt aan, maar wie wil weten wat er goed liep en wanneer, vindt nergens iets terug."
+            tone: warn
+          - label: "Niets: de tabel bestaat, en dat bewijst dat de run liep"
+            impact: "Je ziet dat de tabel er is, maar niemand kan later zeggen wat er gebuild werd of wanneer."
+            tone: bad
+        takeaway: "Een run zonder spoor is later niet te verklaren: elke echte run schrijft een rij."
+        minutes: 2
       say: De robot runt één kleine tabel echt, zoals de [[nachtelijke load]] dat doet. Zonder logboek zou niemand later kunnen zeggen wat er gebuild werd of wanneer, dus we lezen wat het [[logboek]] erover zegt.
       button: Runnen en het logboek lezen
       inputs: []
@@ -399,6 +466,22 @@ demo:
       status: next
       why: "Dry runs laten rijen in het logboek na die beweren dat een tabel gebuild is terwijl er niets geladen werd, dus het is niet te vertrouwen."
       tech: "should_log_results()"
+      quiz:
+        situation: "Het logboek noteert elke run van de robot. De robot doet een dry run van één tabel, waarbij er niets geladen wordt. Later leest iemand het logboek."
+        question: "Wat doet het logboek met een dry run?"
+        options:
+          - label: "De dry run noteren zoals elke andere run"
+            impact: "Zo gaat het vandaag: het logboek zegt dat de tabel gebuild is terwijl ze geen rij bevat, dus het is niet te vertrouwen."
+            tone: bad
+          - label: "Dry runs buiten het logboek houden"
+            impact: "Het logboek bevat enkel echte runs. Dit heeft het platform nog niet: het is de volgende stap."
+            tone: good
+            platform: true
+          - label: "De dry run noteren met een markering"
+            impact: "Eerlijker, maar elke lezer moet de markering kennen, en wie ze mist, ziet een lege tabel als gebuild."
+            tone: warn
+        takeaway: "Een logboek is enkel iets waard als je kunt geloven wat erin staat."
+        minutes: 2
       say: Dezelfde schade kan het logboek bereiken. De robot doet twee keer een [[dry run]] van één tabel, eerst zonder de schakelaar die dry runs uit het logboek houdt, daarna met.
       button: De dry run twee keer doen
       inputs: []
@@ -469,6 +552,23 @@ demo:
       status: next
       why: "Eén commando om alles te herbouwen wist de laadhistoriek van eerdere loads, dus niemand weet wanneer een tabel voor het laatst ververst is."
       tech: "should_full_refresh · full_refresh_models"
+      reality: "Voor elk van zes grote tabellen kwam er een eigen schakelaar bij om enkel die tabel te herbouwen. In de jongste release zit één lijst die zulke schakelaars overbodig moet maken."
+      quiz:
+        situation: "Developer twee herbouwt alle tabellen van nul met één commando. Het project bewaart in de laadhistoriek voor elke tabel wanneer ze voor het laatst ververst is."
+        question: "Wat gebeurt er met die historiek bij een herbouw?"
+        options:
+          - label: "Ze wordt mee gewist, want alles begint opnieuw"
+            impact: "Zo gaat het vandaag: één routineherbouw wist de historiek, en niemand weet nog wanneer een tabel voor het laatst ververst is."
+            tone: bad
+          - label: "Een herbouw weigeren zolang er historiek is"
+            impact: "De historiek is veilig, maar een herbouw is dan niet meer mogelijk, ook niet wanneer ze echt nodig is."
+            tone: warn
+          - label: "De herbouw enkel laten raken wat je opsomt"
+            impact: "De historiek blijft staan, tenzij haar eigen tabel in de lijst staat. Dit heeft het platform nog niet: het is de volgende stap."
+            tone: good
+            platform: true
+        takeaway: "Een herbouw mag enkel raken wat je noemt: de rest van de historiek blijft staan."
+        minutes: 3
       say: Developer twee doet twee echte runs en herbouwt dan alles van nul met één commando. De regel die de [[laadhistoriek]] beschermt, wordt eerst weggehaald en daarna teruggezet.
       button: Alles herbouwen, op beide manieren
       inputs: []

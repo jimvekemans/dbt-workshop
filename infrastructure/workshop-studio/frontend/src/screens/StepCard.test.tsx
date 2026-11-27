@@ -5,6 +5,7 @@ import { StepCard, buttonLabel, finalEvidence } from './StepCard'
 import { DemoPart } from './DemoPart'
 import { baseServer, mount } from '../test/harness'
 import { SCENARIOS } from '../dev/mockContent'
+import { itemKey, quizActions } from '../lib/quiz'
 import type { DemoStep, InputValues, LiveEvidence, StepDef } from '../api/types'
 
 const sc = SCENARIOS['switchover-date']!
@@ -25,6 +26,29 @@ describe('StepCard outcomes', () => {
     expect(screen.getByText('Net niet')).toBeInTheDocument()
     expect(screen.queryByText('Wat er net gebeurde')).toBeNull()
     expect(screen.getByText('Two days are still unreadable.')).toBeInTheDocument()
+  })
+})
+
+describe('StepCard "Bij ons gebeurd"', () => {
+  const quiz = { situation: 'S', question: 'Q?', options: [{ label: 'A', impact: 'a', tone: 'bad' as const }, { label: 'B', impact: 'b', tone: 'good' as const, platform: true }] }
+  it('shows what really happened in a step without a question, and nothing without a line', () => {
+    mount(card(step(), { def: { ...def, reality: 'Negen feeds hebben zo een dag.' } }), null)
+    expect(screen.getByRole('complementary', { name: 'Bij ons gebeurd' })).toHaveTextContent('Negen feeds')
+  })
+  it('draws no block without a line', () => {
+    mount(card(step()), null)
+    expect(screen.queryByText('Bij ons gebeurd')).toBeNull()
+  })
+  it('holds it back while the question of the step is still waiting, and shows it once the answer was revealed', () => {
+    localStorage.clear()
+    const withQuestion = { def: { ...def, quiz, reality: 'Negen feeds hebben zo een dag.' } }
+    const first = mount(card(step(), withQuestion), null)
+    expect(screen.queryByText('Bij ons gebeurd')).toBeNull()
+    first.unmount()
+    act(() => quizActions.reveal(itemKey(sc.id, def.id)))
+    mount(card(step(), withQuestion), null)
+    expect(screen.getByRole('complementary', { name: 'Bij ons gebeurd' })).toBeInTheDocument()
+    localStorage.clear()
   })
 })
 

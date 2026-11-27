@@ -9,6 +9,24 @@ why: "Eén strengheid voor alles legt de nachten van de testers stil of laat een
 tech: ["test severity", "DBT_SEVERITY_DEV_DATA"]
 environment: dev
 related: []
+reality: "Van de ruim 5.000 checks kan ongeveer één op drie een load stoppen; de rest waarschuwt enkel. Toen vier checks enkel in productie mislukten, werden ze uitgezet zodat de load weer slaagde."
+
+quiz:
+  situation: Testers vullen de webshop in development met verzonnen bestellingen, sommige met een ongeldig klantnummer. In productie komen enkel echte bestellingen binnen.
+  question: Hoe streng is de check op klantnummers?
+  options:
+    - label: Overal streng maken, ook in development
+      impact: Een ongeldig nummer geraakt nooit in productie. Maar elke nacht in development stopt en de testers kunnen niets uitproberen.
+      tone: warn
+    - label: Overal soepel maken, enkel met een waarschuwing
+      impact: De testers kunnen verder, maar een ongeldig nummer kan tot in de echte webshop geraken en de boekhouding factureert een klant die niet bestaat.
+      tone: bad
+    - label: In development soepel en in validatie en productie streng maken
+      impact: De testers kunnen verder en een slecht nummer stopt de load waar echte klanten van afhangen. Dezelfde check, op twee plaatsen anders ingesteld.
+      tone: good
+      platform: true
+  takeaway: Streng waar echte klanten van afhangen, soepel waar mensen oefenen.
+  minutes: 2
 
 problem:
   headline: Ofwel zitten de testers geblokkeerd, ofwel geraakt slechte data in productie

@@ -18,7 +18,7 @@ developers' database password. The stack ships without data. The participant-fac
 - `.agents/skills/`: the workshop skills (see below), symlinked into `.claude/skills/` so Claude Code loads them.
   `.claude/skills/dbt-base-image` lives there directly; the three Rust skills live in their workspaces.
 - `.claude/launch.json`: the dev server `studio-frontend-mock` (Workshop Studio frontend on port 5199; open `/?mock`
-  for a fake API).
+  for a fake API) and `studio-frontend-mock-docker`, the same server in a Node container for a host without Node.
 - `requirements.md`: the owner's own minimum requirements for the stack. The stack exceeds them: three environments
   (dev, val, prd), not two.
 
@@ -39,7 +39,8 @@ developers' database password. The stack ships without data. The participant-fac
   (`make rust-clean` removes them). A host `cargo` (rustup picks up the pinned toolchain) works as well, but its
   `target/` folders are large; neither is part of `make test` or `make bootstrap`.
 - `infrastructure/workshop-studio/` is the presenter's app (26 scenarios in five groups, among them five long "flows",
-  a closing page, live demos, data feeder). Its scenario files are validated by `docker exec workshop-studio python -m studio.catalog --check`; read its README before changing it.
+  a quiz with a question for the room per scenario and flow stage, a "Bij ons gebeurd" line of what really happened at the
+  client (facts: `client-history-report.md`), a closing page, live demos, data feeder). Its scenario files are validated by `docker exec workshop-studio python -m studio.catalog --check`; read its README before changing it.
 
 ## Skills: read the matching one before starting work in its area
 

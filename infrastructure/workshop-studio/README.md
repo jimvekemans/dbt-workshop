@@ -5,7 +5,8 @@ what goes wrong, the idea, the code, a live demo; there are 26 today in five gro
 the first group holds five longer "flows") and ends with a closing overview of what is in place today and what comes
 next. The live demo drives the real stack: it feeds data, triggers
 Airflow, commits to GitLab, changes settings and shows what happens. Every scenario can be started alone, in any
-order; whatever an earlier demo left behind is cleaned up first.
+order; whatever an earlier demo left behind is cleaned up first. A quiz goes with it: every scenario and every stage of
+a flow has a question for the room (a situation, two or three choices, what each choice leads to), see "The quiz".
 
 ## Start it
 
@@ -37,6 +38,41 @@ Next to them sits the switch "Technical names" (on at the start; `localStorage`,
 hides the small technical lines that the presenter, who owns the platform, can read at a glance: the real names of macros,
 flags, jobs and files behind a scenario (see `tech` under "Add a scenario"). The scenario search matches those keywords
 whether or not the lines are shown.
+
+## The quiz
+
+A question for the room belongs to a scenario (asked before it starts) or to one step of a demo (a stage of a flow). It
+is the `quiz` block of the scenario file (see "Add a scenario"); today all 21 ordinary scenarios have one and so has
+every stage of the five flows that has a `feature` (53 questions).
+
+- **The question** (`#/quiz/<scenario>` or `#/quiz/<scenario>/<step>`) shows the situation, the question and the
+  choices A, B (and C). People raise a hand; the presenter taps a choice once per hand, or presses A, B or C (Shift +
+  the letter, or the minus button, takes one off). "Toon de impact van elke keuze" (or Enter) reveals what every choice
+  leads to, with a mark (works out, has a price, goes wrong), which choice the room took, and the badge "In place
+  today" or "Next step" with the feature's name on the choice the scenario stands for. Before the reveal nothing on the
+  page names the scenario or the feature. Then "Bekijk het scenario" opens part 1, or "Bekijk het live" opens the demo
+  at that step (`#/s/<id>/demo?step=<step>`); "Volgende vraag" goes to the next question of the route. Under the
+  question a line for the presenter says whether the scenario's demo is ready and can get it ready while the room
+  thinks (the same "getting ready" as the demo part).
+- **"Bij ons gebeurd"** (the `reality` line of a scenario or a stage, see "Add a scenario"): what really happened at
+  the client, next to the practice story of the webshop. It appears under the choices once the answer is revealed,
+  never before, and also in part 1 of the scenario (under "Wat het kost") and in the step card of a stage (there it
+  waits until the question of that step was asked or skipped, unless questions are switched off). Today 20
+  ordinary scenarios and 20 flow stages have one; the facts come from `client-history-report.md` in the repository
+  root.
+- **Opening a scenario** that has a question, at part 1, shows that question first, until it was asked or skipped
+  ("Overslaan"). "Direct naar de demo", a related link and the other parts open as before. Part 1 and each step card
+  keep the question as one line: a button to ask it, or what the room chose. The switch for this is on the quiz page.
+- **The quiz page** (`#/quiz`, linked from the top bar and from a card on the home page) lists every question per
+  scenario with its minutes ("2 + 4 min": the question plus the demo; a stage gets an even share of its flow's time).
+  Tick questions to make a route; the page adds the route up against the time of the session (120 minutes unless
+  changed) and, once "Klok starten" is pressed, against what is left. The steps of a demo run in order, so a question
+  about step 5 also counts the demo of steps 1 to 4. It also says how many questions were played and how often the room
+  clearly chose what the platform does; the closing page repeats that sentence.
+- **Where it is kept:** the route, the hands, the switch and the clock live in the browser only (`localStorage`, key
+  `studio-quiz-v1`), like the text size. The backend serves the questions (in `GET /api/catalog` as `quiz` on a scenario
+  and on its `steps`, and in `GET /api/scenarios/<id>`) and never the answers. "Nieuwe sessie: antwoorden en klok
+  wissen" on the quiz page clears a rehearsal before the real session; the route stays.
 
 ## The data
 
@@ -229,8 +265,18 @@ script are in the skill `.agents/skills/workshop-studio-scenarios/`. The field-l
      card of the demo, and on the closing page under a row (a flow stage shows its own line, an ordinary scenario its
      keywords), unless the switch "Technical names" is off. Use the real names (`state:modified+`, `drop_nodes`,
      `dbt_dataset_dependencies`), checked against the code the scenario shows; an item the code does not confirm is left out.
+   - `reality` (what really happened at the client, shown under the heading "Bij ons gebeurd"): optional on a scenario
+     and on a step, 1 to 260 characters, independent of `feature`, `status` and `quiz`. Served as `reality` in
+     `GET /api/catalog` (scenario and `steps`, null without it) and in `GET /api/scenarios/<id>` (scenario; on a step
+     only when it has one). The frontend draws it at the reveal of the question, in part 1 and in the step card (see
+     "The quiz"). `[[term]]` works in it. How to write one: the skill, section "Bij ons gebeurd".
    - a flow node may have `state: fix` (the safeguard; at most one per flow); a code block may have `file_label`
      (plain words, up to 60 characters, shown instead of the path).
+   - `quiz` (a question for the room, see "The quiz"): on a scenario (asked before it starts) or on a step (asked before
+     that stage). `situation` (up to 320 characters), `question` (up to 90), `options` (2 or 3, each with `label` up to
+     90, `impact` up to 220, `tone: good|warn|bad` and, on exactly one of them, `platform: true`: the choice the
+     scenario or stage stands for), optional `takeaway` (up to 180) and `minutes` (1 to 5, default 2: the talking time
+     the quiz page adds up). The labels of one question must differ. How to write one: the skill, section "The quiz".
    - **Flow (a long scenario):** `kind: flow` (default `scenario`). A scenario has 2-4 demo steps, 1-3 code blocks and
      at most 10 minutes; a flow has 3-8 steps, 1-8 code blocks and at most 30 minutes. The home card of a flow says
      "Flow · 6 stages"; with more than 4 steps the demo part gets a small map of buttons that jump to a step, and with

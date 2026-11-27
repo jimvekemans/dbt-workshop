@@ -63,7 +63,7 @@ dbt-workshop/
 | `up` | `docker compose up -d --build` (the manager has the profile `manager` and is not started) |
 | `down` / `stop` / `ps` / `logs` | the plain compose commands; `S=<service>` limits them, e.g. `make logs S=airflow-dev` |
 | `images` | builds `dbt-singlestore-base:1.11.11`, `dbt-singlestore-dev:1.11.11` and the Airflow and manager images |
-| `bootstrap` | builds the base image on the host, then `up`, then `bootstrap_stack.py` in the manager |
+| `bootstrap` | builds the base image and the dev image on the host, then `up`, then `bootstrap_stack.py` in the manager |
 | `reset` | `reset_workshop.py` in the manager, then `docker exec workshop-studio python -m studio.reset` (only a warning when the studio is not running or busy) |
 | `shell` | bash in the manager |
 | `test` | `pytest -q tests` in `dbt-singlestore-workshop/airflow` on the host, then `docker compose config -q` (also with the profile `manager`) |
@@ -76,11 +76,15 @@ dbt-workshop/
 then `init_global.sql`; create the GitLab root token, the Airflow OAuth application and the group `workshop` (subgroups
 `admins`, `maintainers`, `users`; root owns all three), the project `workshop/dbt-vdp`, one maintainer and the users `pu_dev1..3`; check that the base
 image exists (it must: the Makefile builds it, the manager's docker CLI has no BuildKit) and note when the dev image is
-missing (`make images` builds it); register the runner; recreate the three Airflows and the docs server; push
+missing (`make bootstrap` and `make images` build it; without it the stack works, but the devcontainer does not open and
+every developer step of the Workshop Studio fails, such as the toolbox demos); register the runner; recreate the three Airflows and the docs server; push
 the dbt project (branches `dev` and `main`, tag `v1.0.0`) and wait for the pipeline of that tag, which builds
 `dbt-vdp:v1.0.0` and deploys it to dev. Bootstrap ends by resetting the Workshop Studio (`studio.reset --wait`) and
 waiting for its baseline: the studio starts with `up`, before the tables and the image exist, so its first check fails
-(a failure here is only a warning with the manual command).
+(a failure here is only a warning with the manual command). Right after a first bootstrap the three Airflows list no DAGs
+yet: the DAG files are deployed after the schedulers started, and on 2026-11-26 it took about five minutes before
+`airflow dags list` showed them. Until then a step that starts the nightly load fails with "Dag id dbt_daily_load not
+found in DagModel"; wait and run it again.
 **Reset** (`reset_workshop.py`): drop and re-create the environment databases and `vdp_ci`, reset the GitLab repository
 to the baseline (which starts the first pipeline again), delete the Airflow runtime-override Variables
 (`disabled_dbt_models`, `dbt_daily_load_dbtignore`, `dbt_env_vars`, `dbt_dataset_dependencies`, `dbt_emit_asset_events`).

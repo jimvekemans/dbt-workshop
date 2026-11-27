@@ -14,6 +14,8 @@ import { UiContext } from './lib/ui'
 import { Home } from './screens/Home'
 import { ScenarioPage } from './screens/ScenarioPage'
 import { Roadmap } from './screens/Roadmap'
+import { QuizPage } from './screens/QuizPage'
+import { Question } from './screens/Question'
 
 function typingTarget(t: EventTarget | null): boolean {
   if (!(t instanceof HTMLElement)) return false
@@ -85,7 +87,17 @@ export function App() {
             </Callout>
           </div>
         )}
-        {route.name === 'scenario' ? <ScenarioPage key={route.id} id={route.id} part={route.part} from={route.from} /> : route.name === 'roadmap' ? <Roadmap /> : <Home />}
+        {route.name === 'scenario' ? (
+          <ScenarioPage key={route.id} id={route.id} part={route.part} from={route.from} step={route.step} />
+        ) : route.name === 'roadmap' ? (
+          <Roadmap />
+        ) : route.name === 'quiz' ? (
+          <QuizPage />
+        ) : route.name === 'question' ? (
+          <Question key={`${route.id}/${route.step ?? ''}`} id={route.id} step={route.step} />
+        ) : (
+          <Home />
+        )}
       </main>
       <JobIndicator />
       <Switcher open={switcher} onClose={() => setSwitcher(false)} currentId={route.name === 'scenario' ? route.id : null} />

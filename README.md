@@ -37,8 +37,8 @@ after each demo by itself. See its
 git clone --recurse-submodules git@github.com:jimvekemans/dbt-workshop.git
 cd dbt-workshop
 echo "127.0.0.1 gitlab.local" | sudo tee -a /etc/hosts   # once per machine
-make images                   # base, dev, Airflow and manager images
-make bootstrap                # start the stack and provision everything (SingleStore, GitLab, runner, first pipeline)
+make bootstrap                # build the images, start the stack and provision everything (SingleStore, GitLab, runner, first pipeline)
+make images                   # only rebuild the base, dev, Airflow and manager images (after changing one of them)
 make help                     # all targets: up, down, stop, ps, logs, images, bootstrap, reset, shell, test, rust-*
 ```
 
@@ -46,7 +46,7 @@ Then open the Workshop Studio at http://localhost:8085. It fills the practice da
 by itself (about a minute the first time); the home page shows when everything is ready. The recorded demos in
 `infrastructure/workshop-studio/recordings/` come with the repository, so replay mode works straight away.
 
-**The first `make images` on a new machine compiles the dbt engine and the database driver from the two git submodules**
+**The first `make bootstrap` (or `make images`) on a new machine compiles the dbt engine and the database driver from the two git submodules**
 (`infrastructure/dbt-singlestore-base-image/src/`), because the prebuilt binaries are too large for the repository.
 That took 8 minutes on a 20-core machine; allow up to an hour on a small laptop (later builds reuse the result).
 If you cloned without `--recurse-submodules`, run `git submodule update --init` first. To skip the
